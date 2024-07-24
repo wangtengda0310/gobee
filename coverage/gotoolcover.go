@@ -2,6 +2,7 @@ package main
 
 import (
 	"bufio"
+	"flag"
 	"fmt"
 	"regexp"
 	"strconv"
@@ -49,13 +50,15 @@ func analyseGoToolsCover() *JSONData {
 
 	return &JSONData{
 		AtAll:   false,
-		Title:   "新提交代码测试覆盖率统计",
+		Title:   *title,
 		Content: c,
 		Secret:  *secret,
 		Token:   *token,
 	}
 
 }
+
+var title = flag.String("dingding", "", "新提交代码测试覆盖率统计")
 
 type goToolsCoverFunc struct {
 }
