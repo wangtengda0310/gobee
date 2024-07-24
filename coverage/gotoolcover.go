@@ -58,7 +58,7 @@ func analyseGoToolsCover() *JSONData {
 
 }
 
-var title = flag.String("title", "", "新提交代码测试覆盖率统计")
+var title = flag.String("title", "新提交代码测试覆盖率统计", "消息标题")
 
 type goToolsCoverFunc struct {
 }
