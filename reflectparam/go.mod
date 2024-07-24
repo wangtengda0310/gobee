@@ -1,4 +1,4 @@
-module github.com/wangtengda0310/reflectparam
+module github.com/wangtengda0310/gobee/reflectparam
 
 go 1.22
 

@@ -1,4 +1,4 @@
-module github.com/wangtengda0310/realm
+module github.com/wangtengda0310/gobee/realm
 
 go 1.22
 
