@@ -1,4 +1,4 @@
-module wangtengda/cache
+module github.com/wangtengda0310/cache
 
 go 1.22
 

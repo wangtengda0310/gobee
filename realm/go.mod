@@ -1,4 +1,4 @@
-module realm
+module github.com/wangtengda0310/realm
 
 go 1.22
 
