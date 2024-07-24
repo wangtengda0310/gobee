@@ -1,6 +1,6 @@
 package cache
 
-import "wangtengda/cache/internal"
+import "github.com/wangtengda0310/gobee/cache/internal"
 
 type Cache internal.Cache
 
