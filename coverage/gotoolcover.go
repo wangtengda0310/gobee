@@ -10,6 +10,9 @@ import (
 
 var coverFunc = &goToolsCoverFunc{}
 
+func totalCoverage(c *CoverageData, file string, coverage float64) {
+	c.TotalCoverage = coverage
+}
 func count100PercentCoverageFiles(c *CoverageData, file string, coverage float64) {
 	if coverage == 100 {
 		c.Total100PercentFiles++
@@ -34,10 +37,11 @@ func collect100PercentCoverageFiles(c *CoverageData, file string, coverage float
 }
 
 func analyseGoToolsCover() *JSONData {
-	totalCoverage, m := coverFunc.collectFilesCoverage()
-	fmt.Println("Total Coverage: ", totalCoverage)
-
 	c := &CoverageData{}
+
+	totalCoverageNumber, m := coverFunc.collectFilesCoverage()
+
+	totalCoverage(c, "", totalCoverageNumber)
 
 	for file, coverage := range m {
 		count100PercentCoverageFiles(c, file, coverage)
