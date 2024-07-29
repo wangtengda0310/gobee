@@ -16,7 +16,7 @@ var title = flag.String("title", "新提交代码测试覆盖率统计", "消息
 var alarmUrl = flag.String("alarmUrl", "http://alarm.iwgame.com/alarm/dingtalk/sendTemplate", "报警url")
 
 func main() {
-	if "sumPackage" == os.Args[1] {
+	if len(os.Args) > 1 && "sumPackage" == os.Args[1] {
 		lines, parentDirs := scanStdin(os.Stdin)
 		for _, line := range lines {
 			fmt.Println("-	", line)

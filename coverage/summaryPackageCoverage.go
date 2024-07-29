@@ -62,12 +62,15 @@ func sumSubPackageCoverage(coverage []parsedLine, ss ...string) []parsedLine {
 			line = &parsedLine{s, 0}
 			m[s] = line
 		}
+		var count float64
 		for _, c := range coverage {
 
 			if strings.HasPrefix(c.packagePath, s) {
 				line.coverage += c.coverage
 			}
+			count++
 		}
+		line.coverage = line.coverage / count
 	}
 	var result []parsedLine
 	for _, line := range m {
