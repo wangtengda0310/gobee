@@ -1,10 +1,8 @@
-github.com/beego/beego/v2 v2.2.0 h1:x2yCNL9x74vqAXRdFBw5HCzB8AwownALpBWEOitivow=
-github.com/beego/beego/v2 v2.2.0/go.mod h1:kqiwel3TqpZHYtI08GWnleCtBc0LqtawsmfFDxY9POY=
 github.com/opencoff/go-srp v0.6.2 h1:34sbghbYnW797UIavlB0o9upwJ1BsGHL94JogsPHeCk=
 github.com/opencoff/go-srp v0.6.2/go.mod h1:L4TT85QJjgznSOX4BWIBfnRsP8bNbvb7ZpEVlA/m470=
 github.com/voynic/srp v0.0.0-20180612223949-a4db619523f0 h1:ST+aK20xuOH7sQP51OaUbRzyDqpduDoeyKAaR6Ym1qc=
 github.com/voynic/srp v0.0.0-20180612223949-a4db619523f0/go.mod h1:tj9EFeaJJ+KPvzUUadK1HK+AMsMH8qjIvZqcO2TwP+8=
-golang.org/x/crypto v0.21.0 h1:X31++rzVUdKhX5sWmSOFZxx8UW/ldWx55cbf08iNAMA=
-golang.org/x/crypto v0.21.0/go.mod h1:0BP7YvVV9gBbVKyeTG0Gyn+gZm94bibOW5BjDEYAOMs=
-golang.org/x/sys v0.18.0 h1:DBdB3niSjOA/O0blCZBqDefyWNYveAYMNF1Wum0DYQ4=
-golang.org/x/sys v0.18.0/go.mod h1:/VUhepiaJMQUp4+oa/7Zr1D23ma6VTLIYjOOTFZPUcA=
+golang.org/x/crypto v0.22.0 h1:g1v0xeRhjcugydODzvb3mEM9SQ0HGp9s/nh3COQ/C30=
+golang.org/x/crypto v0.22.0/go.mod h1:vr6Su+7cTlO45qkww3VDJlzDn0ctJvRgYbC2NvXHt+M=
+golang.org/x/sys v0.19.0 h1:q5f1RH2jigJ1MoAWp2KTp3gm5zAGFUTarQZ5U386+4o=
+golang.org/x/sys v0.19.0/go.mod h1:/VUhepiaJMQUp4+oa/7Zr1D23ma6VTLIYjOOTFZPUcA=
