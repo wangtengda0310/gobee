@@ -13,6 +13,7 @@ type CoverageData struct {
 	New100PercentFiles   []string `json:"新达到100%覆盖率的文件"`
 	NonTestFiles         int      `json:"缺少测试的文件数"`
 	Non100PercentFiles   int      `json:"未达到100%覆盖率的文件数"`
+	More                 string   `json:"其他信息"`
 }
 
 type Storage interface {
