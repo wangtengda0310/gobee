@@ -51,6 +51,10 @@ func analyseGoToolsCover() *JSONData {
 
 	}
 
+	if *moreContent != "" {
+		c.More = *moreContent
+	}
+
 	return &JSONData{
 		AtAll:   false,
 		Title:   *title,

@@ -15,6 +15,7 @@ var showVerbose = flag.Bool("v", false, "显示详细信息")
 
 var title = flag.String("title", "新提交代码测试覆盖率统计", "消息标题")
 var alarmUrl = flag.String("alarmUrl", "http://alarm.iwgame.com/alarm/dingtalk/sendTemplate", "报警url")
+var moreContent = flag.String("moreContent", "", "向json.content追加内容")
 
 func main() {
 	if len(os.Args) > 1 && "sumPackage" == os.Args[1] {
