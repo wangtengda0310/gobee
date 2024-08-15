@@ -105,8 +105,10 @@ func (s *goToolsCoverFunc) collectFilesCoverage() (float64, map[string]float64) 
 		return totalCoverage, m
 	}
 
-	for file, coverage := range m {
-		fmt.Printf("File: %s, Coverage: %.2f%%\n", file, coverage)
+	if *showVerbose {
+		for file, coverage := range m {
+			fmt.Printf("File: %s, Coverage: %.2f%%\n", file, coverage)
+		}
 	}
 
 	if len(m) > 0 {

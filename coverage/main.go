@@ -11,8 +11,9 @@ var secret = flag.String("secret", "SECbdc49e29fba225a5c4ba50e4786e81664e5058d88
 
 var dingding = flag.Bool("dingding", false, "是否发送钉钉消息")
 
-var title = flag.String("title", "新提交代码测试覆盖率统计", "消息标题")
+var showVerbose = flag.Bool("v", false, "显示详细信息")
 
+var title = flag.String("title", "新提交代码测试覆盖率统计", "消息标题")
 var alarmUrl = flag.String("alarmUrl", "http://alarm.iwgame.com/alarm/dingtalk/sendTemplate", "报警url")
 
 func main() {
