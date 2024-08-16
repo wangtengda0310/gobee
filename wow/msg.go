@@ -65,6 +65,20 @@ type LoginChallengeResponse struct {
 	SecurityFlags    byte // token const '4' add from 2.4.3
 }
 
+func (resp *LoginChallengeResponse) Marshal(data []byte) error {
+	data[0] = resp.Cmd
+	data[1] = resp.Error
+	data[2] = resp.FailEnum
+	copy(data[3:35], resp.B[:])
+	data[35] = resp.GLen
+	data[36] = resp.G
+	data[37] = resp.NLen
+	copy(data[38:70], resp.N[:])
+	copy(data[70:102], resp.S[:])
+	copy(data[102:118], resp.VersionChallenge[:])
+	data[118] = resp.SecurityFlags
+	return nil
+}
 func (resp *LoginChallengeResponse) UnMarshal(data []byte) error {
 	resp.Cmd = data[0]
 	resp.Error = data[1]
@@ -169,4 +183,74 @@ func (m *LoginChallengeMsg) UnMarshal(data []byte) error {
 	m.I = string(data[34 : 34+m.ILen])
 	var r error = nil
 	return r
+}
+
+type LoginProofRequest struct {
+	Cmd           uint8
+	A             [32]byte
+	M1            [20]byte
+	CRC1          [20]byte
+	NumberOfKeys  uint8
+	SecurityFlags uint8
+}
+
+func (r *LoginProofRequest) Marshal(data []byte) error {
+	data[0] = r.Cmd
+	copy(data[1:33], r.A[:])
+	copy(data[33:53], r.M1[:])
+	copy(data[53:73], r.CRC1[:])
+	data[73] = r.NumberOfKeys
+	data[74] = r.SecurityFlags
+
+	return nil
+
+}
+
+func (r *LoginProofRequest) UnMarshal(data []byte) error {
+	r.Cmd = data[0]
+	copy(r.A[:], data[1:33])
+	copy(r.M1[:], data[33:53])
+	copy(r.CRC1[:], data[53:73])
+	r.NumberOfKeys = data[73]
+	r.SecurityFlags = data[74]
+
+	return nil
+}
+
+type LoginProofResponse struct {
+	Cmd          uint8
+	Error        uint8
+	M2           [20]byte
+	accountFlags uint32
+	surveyId     uint32
+	unkFlags     uint16
+}
+
+func (r *LoginProofResponse) Marshal(data []byte) error {
+	data[0] = r.Cmd
+	data[1] = r.Error
+	copy(data[2:22], r.M2[:])
+	var buf bytes.Buffer
+	_ = binary.Write(&buf, binary.LittleEndian, r.accountFlags)
+	copy(data[22:23], buf.Bytes())
+	buf.Reset()
+	_ = binary.Write(&buf, binary.LittleEndian, r.surveyId)
+	copy(data[23:24], buf.Bytes())
+	buf.Reset()
+	_ = binary.Write(&buf, binary.LittleEndian, r.unkFlags)
+	copy(data[24:25], buf.Bytes())
+	return nil
+}
+
+func (r *LoginProofResponse) UnMarshal(data []byte) error {
+	r.Cmd = data[0]
+	r.Error = data[1]
+	copy(r.M2[:], data[2:22])
+	reader := bytes.NewReader(data[22:23])
+	_ = binary.Read(reader, binary.LittleEndian, &r.accountFlags)
+	reader = bytes.NewReader(data[23:24])
+	_ = binary.Read(reader, binary.LittleEndian, &r.surveyId)
+	reader = bytes.NewReader(data[24:25])
+	_ = binary.Read(reader, binary.LittleEndian, &r.unkFlags)
+	return nil
 }

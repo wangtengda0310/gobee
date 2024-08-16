@@ -1,6 +1,8 @@
 package main
 
 import (
+	"encoding/base64"
+	"fmt"
 	"github.com/stretchr/testify/assert"
 	"net"
 	"testing"
@@ -79,5 +81,36 @@ func Test5aWow(t *testing.T) {
 	err = response.Marshal(buf1)
 	assert.NoError(t, err)
 	assert.Equal(t, buf[:n], buf1[:n])
+
+}
+func TestProof(t *testing.T) {
+	// AuthSocket:537
+	decodeString, err := base64.StdEncoding.DecodeString("ATVbRJzQnPq4TG/GQCJIBbdx77doLxYRm/hYm+GnaBU+WmF4IuCl1J+Hf0q3KpL6n/HKXgnxRMihngC9r4mcX8bpB4koNi1KzAAA")
+	assert.NoError(t, err)
+	fmt.Println(decodeString)
+
+	request := &wow.LoginProofRequest{}
+	err = request.UnMarshal(decodeString)
+	assert.NoError(t, err)
+	t.Log(request)
+
+	var buf = make([]byte, len(decodeString))
+	err = request.Marshal(buf)
+	assert.NoError(t, err)
+	assert.Equal(t, decodeString, buf)
+
+	decodeString, err = base64.StdEncoding.DecodeString("AQBq8Y6xHumkx5wb2q7Tn0bc5yvk/AAAAAA=")
+	assert.NoError(t, err)
+	fmt.Println(decodeString)
+
+	response := &wow.LoginProofResponse{}
+	err = response.UnMarshal(decodeString)
+	assert.NoError(t, err)
+	t.Log(response)
+
+	buf = make([]byte, len(decodeString))
+	err = response.Marshal(buf)
+	assert.NoError(t, err)
+	assert.Equal(t, decodeString, buf)
 
 }
