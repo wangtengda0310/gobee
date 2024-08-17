@@ -3,13 +3,16 @@
 package main
 
 import (
+	"context"
 	"encoding/base64"
 	"fmt"
 	"io"
 	"log"
 	"net"
 	"os"
+	"os/signal"
 	"sync"
+	"syscall"
 	"time"
 )
 
@@ -27,13 +30,21 @@ func main() {
 	}
 	fmt.Println("Listening on :3724")
 
+	ctx, cancelApplication := context.WithCancel(context.Background())
+	sigChan := make(chan os.Signal, 1)
+	signal.Notify(sigChan, syscall.SIGILL, syscall.SIGINT, syscall.SIGTERM)
+	go func() {
+		<-sigChan
+		listener.Close()
+		cancelApplication()
+	}()
 	for {
 		clientConn, err := listener.Accept()
 		if err != nil {
 			log.Fatal(err)
 		}
 
-		go handleConnection(clientConn)
+		go handleConnection(ctx, clientConn)
 	}
 }
 func closeConnection(clientConn net.Conn) {
@@ -42,27 +53,33 @@ func closeConnection(clientConn net.Conn) {
 		log.Fatal(err)
 	}
 }
-func handleConnection(clientConn net.Conn) {
+func handleConnection(ctx context.Context, clientConn net.Conn) {
 	defer closeConnection(clientConn)
 
 	serverConn, err := net.Dial("tcp", loginServer)
-	fmt.Println("Connected to logon.5awow.com:3724")
 	if err != nil {
 		log.Fatal(err)
 	}
 	defer closeConnection(serverConn)
-	for {
-		go copyAndPrint(serverConn, clientConn, "src")
-		copyAndPrint(clientConn, serverConn, "dst")
-	}
+
+	fmt.Println("Connected to logon.5awow.com:3724")
+	var wg sync.WaitGroup
+	wg.Add(2)
+	go func() { wg.Done(); copyAndPrint(ctx, serverConn, clientConn, "src") }()
+	go func() { wg.Done(); copyAndPrint(ctx, clientConn, serverConn, "dst") }()
+	wg.Wait()
 }
 
 var timestamp = time.Now().Format("20060102150405")
 
-func copyAndPrint(dst net.Conn, src net.Conn, prefix string) {
+func copyAndPrint(ctx context.Context, dst net.Conn, src net.Conn, prefix string) {
 	log.Println("\n\n\nCopying from", src.RemoteAddr(), "to", dst.RemoteAddr())
 	buf := make([]byte, 1024)
 	for {
+		select {
+		case <-ctx.Done():
+			break
+		}
 		log.Println("Reading from", src.RemoteAddr())
 		n, err := src.Read(buf)
 		log.Println("Read", n, "bytes")
@@ -91,6 +108,7 @@ func copyAndPrint(dst net.Conn, src net.Conn, prefix string) {
 		if err != nil {
 			log.Fatal(err)
 		}
+		file.Close()
 
 		_, err = dst.Write(data)
 		if err != nil {
