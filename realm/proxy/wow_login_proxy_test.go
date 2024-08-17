@@ -50,12 +50,7 @@ func Test5aWow(t *testing.T) {
 		t.Fatal(err)
 
 	}
-	defer func(dial net.Conn) {
-		err := dial.Close()
-		if err != nil {
-			t.Error(err)
-		}
-	}(dial)
+	defer closeConnection(dial)
 
 	n, err := dial.Write(requestBytes)
 	if err != nil {

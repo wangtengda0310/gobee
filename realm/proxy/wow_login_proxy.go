@@ -22,10 +22,10 @@ var (
 
 func main() {
 	listener, err := net.Listen("tcp", ":3724")
-	fmt.Println("Listening on :3724")
 	if err != nil {
 		log.Fatal(err)
 	}
+	fmt.Println("Listening on :3724")
 
 	for {
 		clientConn, err := listener.Accept()
@@ -36,25 +36,21 @@ func main() {
 		go handleConnection(clientConn)
 	}
 }
+func closeConnection(clientConn net.Conn) {
+	err := clientConn.Close()
+	if err != nil {
+		log.Fatal(err)
+	}
+}
 func handleConnection(clientConn net.Conn) {
-	defer func(clientConn net.Conn) {
-		err := clientConn.Close()
-		if err != nil {
-			log.Fatal(err)
-		}
-	}(clientConn)
+	defer closeConnection(clientConn)
 
 	serverConn, err := net.Dial("tcp", loginServer)
 	fmt.Println("Connected to logon.5awow.com:3724")
 	if err != nil {
 		log.Fatal(err)
 	}
-	defer func(serverConn net.Conn) {
-		err := serverConn.Close()
-		if err != nil {
-			log.Fatal(err)
-		}
-	}(serverConn)
+	defer closeConnection(serverConn)
 	for {
 		go copyAndPrint(serverConn, clientConn, "src")
 		copyAndPrint(clientConn, serverConn, "dst")
