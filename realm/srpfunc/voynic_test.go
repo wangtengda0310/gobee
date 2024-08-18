@@ -3,13 +3,12 @@ package srpfunc
 import (
 	"crypto/subtle"
 	"github.com/voynic/srp"
-	"testing"
 )
 
-func TestName(t *testing.T) {
+func srpfunc_voynic(i string, password string) bool {
 	// A client chooses an identifier and passphrase
-	identifier := []byte("user123@example.com")
-	passphrase := []byte("Password123!")
+	identifier := []byte(i)
+	passphrase := []byte(password)
 
 	// SRP creates a salt and verifier based on the client's identifier and passphrase
 	s, v, err := srp.NewClient(identifier, passphrase)
@@ -66,8 +65,7 @@ func TestName(t *testing.T) {
 
 	// The client received the server's proof, and assigns it to the variable below:
 
-	if subtle.ConstantTimeCompare(serverProof, srp.Hash(s, K)) != 1 {
-		panic("Client does not accept server's proof!")
-	}
+	b := subtle.ConstantTimeCompare(serverProof, srp.Hash(s, K)) == 1
+	return b
 
 }

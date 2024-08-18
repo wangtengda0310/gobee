@@ -1,11 +1,18 @@
 package srpfunc
 
-import "github.com/voynic/srp"
+import (
+	"wow"
+)
 
 type myStruct struct {
 }
 
-func (m *myStruct) test(param1 int, param2 string) string {
-	srp.Hash()
-	return ""
+func (m *myStruct) Challenge(request wow.LoginChallengeRequest) wow.LoginChallengeResponse {
+	//TODO implement me
+	panic("implement me")
+}
+
+func (m *myStruct) Proof(request wow.LoginProofRequest) wow.LoginProofResponse {
+	//TODO implement me
+	panic("implement me")
 }

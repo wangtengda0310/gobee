@@ -4,6 +4,7 @@ import (
 	"encoding/base64"
 	"fmt"
 	"github.com/stretchr/testify/assert"
+	"github.com/wangtengda0310/gobee/realm/srpfunc"
 	"net"
 	"testing"
 	"wow"
@@ -11,7 +12,7 @@ import (
 
 func Test5aWow(t *testing.T) {
 	requestBytes := []byte{0, 3, 44, 0, 87, 111, 87, 0, 1, 12, 1, 243, 22, 54, 56, 120, 0, 110, 105, 87, 0, 78, 67, 104, 122, 224, 1, 0, 0, 127, 0, 0, 1, 14, 87, 65, 78, 71, 84, 69, 78, 71, 68, 65, 48, 51, 49, 48}
-	request := wow.LoginChallengeMsg{}
+	request := wow.LoginChallengeRequest{}
 
 	err := request.UnMarshal(requestBytes)
 	assert.NoError(t, err)
@@ -76,7 +77,11 @@ func Test5aWow(t *testing.T) {
 	err = response.Marshal(buf1)
 	assert.NoError(t, err)
 	assert.Equal(t, buf[:n], buf1[:n])
-
+	// 1. n g s
+	// 2. B =(v + g ^ b) mod n, u = H(A, B)
+	// 3. S = (A - v^u)^b, K = H(S), M1 =H(A, B, K) if M1 = M' then success M2 = H(A, M1, K)
+	//
+	//
 }
 func TestProof(t *testing.T) {
 	// AuthSocket:537
@@ -108,4 +113,41 @@ func TestProof(t *testing.T) {
 	assert.NoError(t, err)
 	assert.Equal(t, decodeString, buf)
 
+}
+
+func TestLogin(t *testing.T) {
+	challengeRequest := wow.LoginChallengeRequest{
+		Cmd:          0,
+		Error:        0,
+		Size:         0,
+		GameName:     [4]byte{},
+		Version1:     0,
+		Version2:     0,
+		Version3:     0,
+		Build:        0,
+		Platform:     [4]uint8{},
+		Os:           [4]uint8{},
+		Country:      [4]uint8{},
+		TimeZoneBias: 0,
+		Ip:           [4]uint8{},
+		ILen:         0,
+		I:            "",
+	}
+
+	var srp wow.WoWAuth
+	srp = &srpfunc.MyStruct1{}
+	challengeResponse := srp.Challenge(challengeRequest)
+	assert.NotNil(t, challengeResponse)
+
+	proofRequest := wow.LoginProofRequest{
+		Cmd:           0,
+		A:             [32]byte{},
+		M1:            [20]byte{},
+		CRC1:          [20]byte{},
+		NumberOfKeys:  0,
+		SecurityFlags: 0,
+	}
+
+	proofResponse := srp.Proof(proofRequest)
+	assert.NotNil(t, proofResponse)
 }

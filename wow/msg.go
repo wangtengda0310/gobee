@@ -109,7 +109,7 @@ type LoginChallengeResponse_2_4_3 struct {
 	Authenticator [0]byte
 }
 
-type LoginChallengeMsg struct {
+type LoginChallengeRequest struct {
 	Cmd          uint8
 	Error        uint8
 	Size         uint16
@@ -127,7 +127,7 @@ type LoginChallengeMsg struct {
 	I            string
 }
 
-func (m *LoginChallengeMsg) Marshal(data []byte) error {
+func (m *LoginChallengeRequest) Marshal(data []byte) error {
 	data[0] = m.Cmd
 	data[1] = m.Error
 	var buf bytes.Buffer
@@ -162,7 +162,7 @@ func (m *LoginChallengeMsg) Marshal(data []byte) error {
 	return r
 }
 
-func (m *LoginChallengeMsg) UnMarshal(data []byte) error {
+func (m *LoginChallengeRequest) UnMarshal(data []byte) error {
 	m.Cmd = data[0]
 	m.Error = data[1]
 	reader := bytes.NewReader(data[2:4])
@@ -253,4 +253,9 @@ func (r *LoginProofResponse) UnMarshal(data []byte) error {
 	reader = bytes.NewReader(data[24:25])
 	_ = binary.Read(reader, binary.LittleEndian, &r.unkFlags)
 	return nil
+}
+
+type WoWAuth interface {
+	Challenge(request LoginChallengeRequest) LoginChallengeResponse
+	Proof(request LoginProofRequest) LoginProofResponse
 }

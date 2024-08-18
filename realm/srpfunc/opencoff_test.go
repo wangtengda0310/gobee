@@ -4,40 +4,12 @@ import (
 	"crypto/subtle"
 	"fmt"
 	"github.com/opencoff/go-srp"
-	"testing"
 )
 
-func Test_myStruct1_test(t *testing.T) {
-	type args struct {
-		username string
-		password string
-	}
-	tests := []struct {
-		name string
-		args args
-		want string
-	}{
-		// name: "test"
-		// args: {"wangtengda0310", "123456"}
-		// want: ""
-		{
-			name: "测试opencoff的srp功能",
-			args: args{"wangtengda0310", "123456"},
-			want: "",
-		},
-	}
-	for _, tt := range tests {
-		t.Run(tt.name, func(t *testing.T) {
-			m := &myStruct1{}
-			if got := m.test(tt.args.username, tt.args.username); got != tt.want {
-				t.Errorf("test() = %v, want %v", got, tt.want)
-			}
-		})
-	}
-
+func srpfunc_opencoff(iden, password string) bool {
 	bits := 1024
-	pass := []byte("password string that's too long")
-	i := []byte("foouser")
+	pass := []byte(password)
+	i := []byte(iden)
 
 	s, err := srp.New(bits)
 	if err != nil {
@@ -119,9 +91,7 @@ func Test_myStruct1_test(t *testing.T) {
 	kc := c.RawKey()
 	ks := srv.RawKey()
 
-	if 1 != subtle.ConstantTimeCompare(kc, ks) {
-		panic("Keys are different!")
-	}
-
 	fmt.Printf("Client Key: %x\nServer Key: %x\n", kc, ks)
+
+	return subtle.ConstantTimeCompare(kc, ks) == 1
 }

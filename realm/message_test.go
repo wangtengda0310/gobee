@@ -14,7 +14,7 @@ func TestMessage(t *testing.T) {
 
 	msgByte := []byte{0, 3, 44, 0, 87, 111, 87, 0, 1, 12, 1, 243, 22, 54, 56, 120, 0, 110, 105, 87, 0, 78, 67, 104, 122, 224, 1, 0, 0, 127, 0, 0, 1, 14, 87, 65, 78, 71, 84, 69, 78, 71, 68, 65, 48, 51, 49, 48}
 
-	msg := &wow.LoginChallengeMsg{}
+	msg := &wow.LoginChallengeRequest{}
 	err := msg.UnMarshal(msgByte)
 	t.Log(msg)
 	assert.NoError(t, err)
@@ -55,7 +55,7 @@ func TestMessage2(t *testing.T) {
 		return int(size) + 4, data[:int(size)+4], nil
 	})
 	for scanner.Scan() {
-		msg := &wow.LoginChallengeMsg{}
+		msg := &wow.LoginChallengeRequest{}
 		err := msg.UnMarshal(scanner.Bytes())
 		t.Log(msg)
 		assert.NoError(t, err)
