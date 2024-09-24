@@ -1,0 +1,13 @@
+syntax = "proto3";
+package protoreflect;
+option go_package = "github.com/protocolbuffers/protobuf-go/protoreflect";
+
+message Sample {
+  string name = 1;
+  int32 age = 2;
+  AnotherSample msg = 3;
+}
+message AnotherSample {
+  string name = 1;
+  int32 age = 2;
+}
