@@ -1,0 +1,9 @@
+我需要使用go.ast对一个golang源文件分析,并生成mock类和测试用例 一下是初期设想:
+假设我的命令是mytool -mock 则生成当前目录中所有接口的mock类
+假设我的命令是mytool -mock interface 则只对当前目录指定的interface生成mock类
+假设我的命令是mytool -test file method|func 则对文件中的method或者func生成单元测试脚手架,命令行中method和func二选一
+生成的单元测试脚手架需要达到分支覆盖级别,并对每个分支准备mock数据,以及断言
+生成的测试脚手架会追加到已经存在的测试文件中,避免已经存在的测试内容丢失
+
+
+https://juejin.cn/post/6844903982683389960
