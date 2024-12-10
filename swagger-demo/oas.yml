@@ -1,0 +1,198 @@
+components:
+  schemas:
+    Article:
+      type: object
+  securitySchemes:
+    AuthorizationHeader:
+      description: Input your token
+      scheme: bearer
+      type: http
+info:
+  contact:
+    email: abce@email.com
+    name: Parvez
+  description: API usually works as expected. But sometimes its not true.
+  license:
+    name: MIT
+    url: https://en.wikipedia.org/wiki/MIT_License
+  termsOfService: http://someurl.oxox
+  title: Backend API
+  version: 1.0.0
+openapi: 3.0.0
+paths:
+  /api/v1/articles:
+    get:
+      parameters:
+      - description: 文章名称
+        in: query
+        name: name
+        schema:
+          description: 文章名称
+          format: string
+          type: string
+      - description: 标签ID
+        in: query
+        name: tag_id
+        schema:
+          description: 标签ID
+          format: int64
+          type: integer
+      - description: 状态
+        in: query
+        name: state
+        schema:
+          description: 状态
+          format: int64
+          type: integer
+      - description: 页码
+        in: query
+        name: page
+        schema:
+          description: 页码
+          format: int64
+          type: integer
+      - description: 每页数量
+        in: query
+        name: page_size
+        schema:
+          description: 每页数量
+          format: int64
+          type: integer
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Article'
+          description: 成功
+        "400":
+          content:
+            text/plain:
+              schema:
+                type: string
+          description: 请求错误
+        "500":
+          content:
+            text/plain:
+              schema:
+                type: string
+          description: 内部错误
+    post:
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: string
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Article'
+          description: 成功
+        "400":
+          content:
+            text/plain:
+              schema:
+                type: string
+          description: 请求错误
+        "500":
+          content:
+            text/plain:
+              schema:
+                type: string
+          description: 内部错误
+  /api/v1/articles/{id}:
+    delete:
+      parameters:
+      - description: 文章ID
+        in: path
+        name: id
+        required: true
+        schema:
+          description: 文章ID
+          format: int64
+          type: integer
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                type: string
+          description: 成功
+        "400":
+          content:
+            text/plain:
+              schema:
+                type: string
+          description: 请求错误
+        "500":
+          content:
+            text/plain:
+              schema:
+                type: string
+          description: 内部错误
+    get:
+      parameters:
+      - description: 文章ID
+        in: path
+        name: id
+        required: true
+        schema:
+          description: 文章ID
+          format: int64
+          type: integer
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Article'
+          description: 成功
+        "400":
+          content:
+            text/plain:
+              schema:
+                type: string
+          description: 请求错误
+        "500":
+          content:
+            text/plain:
+              schema:
+                type: string
+          description: 内部错误
+    put:
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: string
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Article'
+          description: 成功
+        "400":
+          content:
+            text/plain:
+              schema:
+                type: string
+          description: 请求错误
+        "500":
+          content:
+            text/plain:
+              schema:
+                type: string
+          description: 内部错误
+security:
+- AuthorizationHeader:
+  - read
+  - write
+servers:
+- description: ' Server-1'
+  url: http://www.fake.com
+- description: ' Server-2'
+  url: http://www.fake2.com
