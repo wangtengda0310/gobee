@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"math"
 	"testing"
 )
@@ -66,7 +67,7 @@ func Test_args_transform(t *testing.T) {
 				segmentsName: tt.fields.segmentsName,
 				segmentsBits: tt.fields.segmentsbit,
 			}
-			if got := a.transform(tt.args.id); got != tt.want {
+			if got := a.transform(fmt.Sprintf("%d", tt.args.id)); got != tt.want {
 				t.Errorf("transform() = %v, want %v", got, tt.want)
 			}
 		})

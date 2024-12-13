@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"os"
 	"strconv"
+	"strings"
 )
 
 var docs = `
@@ -14,53 +15,80 @@ usage:
   sftm [[segment bits]...] -f file
 `
 
+func main() {
+	if len(os.Args) == 0 {
+		_, _ = os.Stdout.WriteString(docs)
+		return
+	}
+
+	file, args := parse(os.Args)
+	args.scan(file, args.transform, printId)
+
+}
+
 type ParsingArgs struct {
 	segmentsName []string
 	segmentsBits []uint8
 }
 
-func (a ParsingArgs) transform(id uint32) (s string) {
+func (a ParsingArgs) transform(idstr string) string {
+	id, err := strconv.Atoi(idstr)
+	if err != nil {
+		return idstr
+	}
+	var segment []string
 	var left uint8 = 32
-	for i, bits := range a.segmentsBits {
-		left = left - bits
-		mask := mask(bits, int(left))
-		segment := (id & mask) >> left
-		s += fmt.Sprintf("%d", segment)
-		if i < len(a.segmentsBits)-1 {
-			s += "/"
+	cuts := a.segmentsBits
+	for {
+		if left <= 0 {
+			break
 		}
+		var bits uint8
+		if len(cuts) <= 0 {
+			bits = left
+		} else {
+			bits = cuts[0]
+			cuts = cuts[1:]
+		}
+		left = left - bits
+		sprintf := cut(id, bits, int(left))
+		segment = append(segment, sprintf)
 	}
-	if left > 0 {
-		s += "/"
+	return strings.Join(segment, "/")
+}
 
-		mask := mask(left, 0)
-		fmt.Println(left, 0, mask)
-		segment := id & mask
-		fmt.Println(segment)
-		s += fmt.Sprintf("%d", segment)
-	}
-	return s
+func cut(id int, bits uint8, rightOffset int) string {
+	mask := mask(bits, rightOffset)
+	segmentNum := uint32(id) & mask >> rightOffset
+	sprintf := fmt.Sprintf("%d", segmentNum)
+	return sprintf
 }
 
 func mask(bits uint8, offset int) uint32 {
 	return (uint32(1)<<bits - 1) << offset
 }
 
-func main() {
-	if len(os.Args) == 0 {
-		_, _ = os.Stdout.WriteString(docs)
-		return
+// scan callback each lines
+func (a ParsingArgs) scan(file string, callback ...func(id string) string) {
+	var stdin = fileOrStdin(file)
+	defer func(f *os.File) {
+		_ = f.Close()
+	}(stdin)
+	scanner := bufio.NewScanner(stdin)
+	for scanner.Scan() {
+		line := scanner.Text()
+		for _, f := range callback {
+			line = f(line)
+		}
 	}
-	// determine segment and segment bits
-	// the last arg with -f is file
-	// if no -f, read from stdin
+}
 
-	fmt.Println(os.Args[0])
+// determine segment and segment bits
+// the last arg with -f is file
+// if no -f, read from stdin
+func parse(argstr []string) (file string, args ParsingArgs) {
 
-	var file string
-	var segmentsName []string
-	var segmentsbit []uint8
-	for i := 1; i < len(os.Args); i = i + 2 {
+	for i := 1; i < len(argstr); i = i + 2 {
 		if os.Args[i] == "-f" {
 			// read from file
 			file = os.Args[i+1]
@@ -71,50 +99,33 @@ func main() {
 				fmt.Println(err)
 				os.Exit(1)
 			}
-			segmentsName = append(segmentsName, os.Args[i])
-			segmentsbit = append(segmentsbit, uint8(atoi))
+			args.segmentsName = append(args.segmentsName, os.Args[i])
+			args.segmentsBits = append(args.segmentsBits, uint8(atoi))
 		}
 	}
+	return
+}
+
+func fileOrStdin(file string) *os.File {
 
 	if file != "" {
-		// scan all lines from file
-		f, err := os.Open(file)
-		if err != nil {
-			fmt.Println(err)
-			os.Exit(1)
-		}
-		defer func(f *os.File) {
-			_ = f.Close()
-		}(f)
-		scanner := bufio.NewScanner(f)
-		for scanner.Scan() {
-			line := scanner.Text()
-			id, err := strconv.Atoi(line)
-			if err != nil {
-				fmt.Println(err)
-				os.Exit(1)
-			}
-			fmt.Println(ParsingArgs{
-				segmentsName: segmentsName,
-				segmentsBits: segmentsbit,
-			}.transform(uint32(id)))
-		}
-		return
+		return openFile(file)
+	} else {
+		return os.Stdin
 	}
+}
 
-	// scan lines from stdin
-	scanner := bufio.NewScanner(os.Stdin)
-	for scanner.Scan() {
-		line := scanner.Text()
-		id, err := strconv.Atoi(line)
-		if err != nil {
-			fmt.Println(err)
-			os.Exit(1)
-		}
-		fmt.Println(ParsingArgs{
-			segmentsName: segmentsName,
-			segmentsBits: segmentsbit,
-		}.transform(uint32(id)))
+var printId = func(id string) string {
+	fmt.Println(id)
+	return id
+}
+
+func openFile(file string) *os.File {
+	// scan all lines from file
+	f, err := os.Open(file)
+	if err != nil {
+		fmt.Println(err)
+		os.Exit(1)
 	}
-
+	return f
 }
