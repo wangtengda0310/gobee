@@ -10,62 +10,44 @@ import (
 
 var coverFunc = &goToolsCoverFunc{}
 
-func totalCoverage(c *CoverageData, file string, coverage float64) {
-	c.TotalCoverage = coverage
-}
-func count100PercentCoverageFiles(c *CoverageData, file string, coverage float64) {
-	if coverage == 100 {
-		c.Total100PercentFiles++
-
-	}
-}
-func countNonTestFiles(c *CoverageData, file string, coverage float64) {
-	if coverage == 0 {
-		c.NonTestFiles++
-	}
-}
-func countNon100PercentCoverageFiles(c *CoverageData, file string, coverage float64) {
-	if coverage > 0 && coverage < 100 {
-		c.Non100PercentFiles++
-	}
-}
-func collect100PercentCoverageFiles(c *CoverageData, file string, coverage float64) {
-	if coverage == 100 {
-		c.New100PercentFiles = append(c.New100PercentFiles, file)
-
-	}
-}
+type goToolsCoverFunc struct{}
 
 func analyseGoToolsCover() *JSONData {
-	c := &CoverageData{}
+	coverageData := make(map[string]interface{})
 
 	totalCoverageNumber, m := coverFunc.collectFilesCoverage()
 
-	totalCoverage(c, "", totalCoverageNumber)
+	coverageData["总覆盖率"] = totalCoverageNumber
+	coverageData["覆盖率达到100%的文件数"] = 0
+	coverageData["新达到100%覆盖率的文件"] = make([]string, 0)
+	coverageData["缺少测试的文件数"] = 0
+	coverageData["未达到100%覆盖率的文件数"] = 0
 
 	for file, coverage := range m {
-		count100PercentCoverageFiles(c, file, coverage)
-		collect100PercentCoverageFiles(c, file, coverage)
-		countNonTestFiles(c, file, coverage)
-		countNon100PercentCoverageFiles(c, file, coverage)
-
+		if coverage == 100 {
+			coverageData["覆盖率达到100%的文件数"] = coverageData["覆盖率达到100%的文件数"].(int) + 1
+			files := coverageData["新达到100%覆盖率的文件"].([]string)
+			coverageData["新达到100%覆盖率的文件"] = append(files, file)
+		}
+		if coverage == 0 {
+			coverageData["缺少测试的文件数"] = coverageData["缺少测试的文件数"].(int) + 1
+		}
+		if coverage > 0 && coverage < 100 {
+			coverageData["未达到100%覆盖率的文件数"] = coverageData["未达到100%覆盖率的文件数"].(int) + 1
+		}
 	}
 
 	if *moreContent != "" {
-		c.More = *moreContent
+		coverageData["其他信息"] = *moreContent
 	}
 
 	return &JSONData{
 		AtAll:   false,
 		Title:   *title,
-		Content: c,
+		Content: coverageData,
 		Secret:  *secret,
 		Token:   *token,
 	}
-
-}
-
-type goToolsCoverFunc struct {
 }
 
 func (s *goToolsCoverFunc) collectFilesCoverage() (float64, map[string]float64) {
@@ -123,7 +105,6 @@ func (s *goToolsCoverFunc) collectFilesCoverage() (float64, map[string]float64) 
 	return totalCoverage, m
 }
 
-// go tool cover -func=coverage.out
 func funcCoverage(matches []string) (fileName string, funcName string, funcCoverageValue float64) {
 	fileAndLine := matches[1]
 	fileName = strings.Split(fileAndLine, ":")[0]

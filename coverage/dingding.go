@@ -10,8 +10,8 @@ import (
 
 func alarmJson(data *JSONData) {
 	// limit alarm message count to 10
-	if len(data.Content.New100PercentFiles) > 10 {
-		data.Content.New100PercentFiles = data.Content.New100PercentFiles[:10]
+	if files, ok := data.Content["新达到100%覆盖率的文件"].([]string); ok && len(files) > 10 {
+		data.Content["新达到100%覆盖率的文件"] = files[:10]
 	}
 
 	payload, err := json.Marshal(data)
@@ -22,7 +22,6 @@ func alarmJson(data *JSONData) {
 	if *dingding {
 		alarm(payload)
 	} else {
-
 		fmt.Println(string(payload))
 	}
 }

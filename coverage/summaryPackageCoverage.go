@@ -33,25 +33,19 @@ func parseLine(s string) parsedLine {
 	fields := strings.Fields(strings.TrimSpace(s))
 	if len(fields) < 1 {
 		return parsedLine{"", 0}
-
-	}
-	if len(fields) < 2 {
-		return parsedLine{fields[0], 0}
-
-	}
-	hasQuestionPrefix := strings.HasPrefix(s, "?")
-	if hasQuestionPrefix {
-		return parsedLine{fields[1], coverage}
-	}
-	hasOKPrefix := strings.HasPrefix(s, "ok")
-	if hasOKPrefix {
-		return parsedLine{fields[1], coverage}
-	}
-	if !hasQuestionPrefix && !hasOKPrefix {
-		return parsedLine{fields[0], coverage}
 	}
 
-	return parsedLine{fields[1], 0}
+	// Handle different line formats
+	var packagePath string
+	if strings.HasPrefix(s, "?") || strings.HasPrefix(s, "ok") {
+		if len(fields) >= 2 {
+			packagePath = fields[1]
+		}
+	} else {
+		packagePath = fields[0]
+	}
+
+	return parsedLine{packagePath, coverage}
 }
 
 func sumSubPackageCoverage(coverage []parsedLine, ss ...string) []parsedLine {
@@ -62,15 +56,17 @@ func sumSubPackageCoverage(coverage []parsedLine, ss ...string) []parsedLine {
 			line = &parsedLine{s, 0}
 			m[s] = line
 		}
+		var sum float64
 		var count float64
 		for _, c := range coverage {
-
-			if strings.HasPrefix(c.packagePath, s) {
-				line.coverage += c.coverage
+			if strings.HasPrefix(c.packagePath, s+"/") && c.coverage > 0 {
+				sum += c.coverage
+				count++
 			}
-			count++
 		}
-		line.coverage = line.coverage / count
+		if count > 0 {
+			line.coverage = sum / count
+		}
 	}
 	var result []parsedLine
 	for _, line := range m {
@@ -82,28 +78,22 @@ func sumSubPackageCoverage(coverage []parsedLine, ss ...string) []parsedLine {
 func scanStdin(reader io.Reader) ([]parsedLine, []parsedLine) {
 	scanner := bufio.NewScanner(reader)
 	var coverage []parsedLine
-	var parentDir = make(map[string]string)
+	var parentDir = make(map[string]bool)
 	for scanner.Scan() {
 		line := scanner.Text()
 		p := parseLine(line)
 		if "" == p.packagePath {
 			continue
-
 		}
 		coverage = append(coverage, p)
 		split := strings.Split(p.packagePath, "/")
-		var s string
 		if len(split) > 1 {
-			s = split[0] + "/" + split[1]
-		} else {
-			s = split[0]
+			parentDir[split[0]+"/"+split[1]] = true
 		}
-		parentDir[s] = "true"
 	}
 	var parentDirs []string
-	for k := range parentDir {
-		parentDirs = append(parentDirs, k)
-
+	for dir := range parentDir {
+		parentDirs = append(parentDirs, dir)
 	}
 	packageCoverage := sumSubPackageCoverage(coverage, parentDirs...)
 	return coverage, packageCoverage
