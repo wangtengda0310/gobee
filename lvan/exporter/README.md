@@ -26,6 +26,10 @@
 
 ### `http://host:port/cmd?body=${request_body_type}&sse=true&onlyid=true`
     调用命令行工具 重要 必须
+#### get请求
+```bash
+curl http://host:port/cmd/ping/google.com
+```
 #### post请求
 - query param: body
 支持json和yaml, 通过`?body=${request_body_type}`控制,默认yaml

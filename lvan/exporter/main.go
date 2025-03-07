@@ -31,13 +31,13 @@ type CommandRequest struct {
 
 // 任务信息
 type Task struct {
-	ID        string          `json:"id"`
-	StartTime time.Time       `json:"start_time"`
-	EndTime   *time.Time      `json:"end_time,omitempty"`
-	Request   CommandRequest  `json:"request"`
-	Output    string          `json:"output"`
-	Status    string          `json:"status"` // running, completed, failed
-	Mutex     *sync.Mutex     `json:"-"`
+	ID        string                 `json:"id"`
+	StartTime time.Time              `json:"start_time"`
+	EndTime   *time.Time             `json:"end_time,omitempty"`
+	Request   CommandRequest         `json:"request"`
+	Output    string                 `json:"output"`
+	Status    string                 `json:"status"` // running, completed, failed
+	Mutex     *sync.Mutex            `json:"-"`
 	Clients   map[string]chan string `json:"-"`
 }
 
@@ -136,6 +136,96 @@ func (t *Task) RemoveClient(clientID string) {
 
 // 处理命令请求
 func handleCommandRequest(w http.ResponseWriter, r *http.Request) {
+	// 处理GET请求，格式为/cmd/command/param1/param2...
+	if r.Method == http.MethodGet {
+		// 解析URL路径
+		pathParts := strings.Split(r.URL.Path, "/")
+
+		// 检查路径格式是否正确
+		if len(pathParts) < 3 {
+			http.Error(w, "Invalid request path", http.StatusBadRequest)
+			return
+		}
+
+		// 获取命令和参数
+		cmd := pathParts[2]
+		args := []string{}
+		if len(pathParts) > 3 {
+			args = pathParts[3:]
+		}
+
+		// 创建命令请求
+		req := CommandRequest{
+			Cmd:     cmd,
+			Version: Version,
+			Args:    args,
+		}
+
+		// 创建任务并处理
+		task := taskManager.CreateTask(req)
+
+		// 检查是否只返回ID
+		onlyID := r.URL.Query().Get("onlyid") == "true"
+		if onlyID {
+			w.Header().Set("Content-Type", "text/plain")
+			w.Write([]byte(task.ID))
+
+			// 异步执行命令
+			go executeCommand(task)
+			return
+		}
+
+		// 检查是否使用SSE
+		useSSE := r.URL.Query().Get("sse") == "true"
+		if useSSE {
+			// 设置SSE头
+			w.Header().Set("Content-Type", "text/event-stream")
+			w.Header().Set("Cache-Control", "no-cache")
+			w.Header().Set("Connection", "keep-alive")
+			w.Header().Set("Access-Control-Allow-Origin", "*")
+
+			// 创建客户端ID
+			clientID := uuid.New().String()
+			outputChan := task.AddClient(clientID)
+
+			// 清理函数
+			cleanup := func() {
+				task.RemoveClient(clientID)
+			}
+
+			// 设置连接关闭时的清理
+			notifier, ok := w.(http.CloseNotifier)
+			if ok {
+				go func() {
+					<-notifier.CloseNotify()
+					cleanup()
+				}()
+			}
+
+			// 异步执行命令
+			go executeCommand(task)
+
+			// 发送任务ID
+			fmt.Fprintf(w, "data: {\"id\": \"%s\"}\n\n", task.ID)
+			w.(http.Flusher).Flush()
+
+			// 发送输出流
+			for output := range outputChan {
+				fmt.Fprintf(w, "data: %s\n\n", output)
+				w.(http.Flusher).Flush()
+			}
+		} else {
+			// 同步执行命令
+			executeCommand(task)
+
+			// 返回结果
+			w.Header().Set("Content-Type", "text/plain")
+			w.Write([]byte(task.Output))
+		}
+		return
+	}
+
+	// 处理POST请求
 	if r.Method != http.MethodPost {
 		http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
 		return
@@ -181,7 +271,7 @@ func handleCommandRequest(w http.ResponseWriter, r *http.Request) {
 	if onlyID {
 		w.Header().Set("Content-Type", "text/plain")
 		w.Write([]byte(task.ID))
-		
+
 		// 异步执行命令
 		go executeCommand(task)
 		return
@@ -242,10 +332,10 @@ func executeCommand(task *Task) {
 	task.AddOutput(fmt.Sprintf("Starting command: %s\n", task.Request.Cmd))
 	task.AddOutput(fmt.Sprintf("Version: %s\n", task.Request.Version))
 	task.AddOutput(fmt.Sprintf("Arguments: %s\n", strings.Join(task.Request.Args, ", ")))
-	
+
 	// 调用系统命令
 	cmd := exec.Command(task.Request.Cmd, task.Request.Args...)
-	
+
 	// 创建管道获取命令输出
 	stdout, err := cmd.StdoutPipe()
 	if err != nil {
@@ -253,21 +343,21 @@ func executeCommand(task *Task) {
 		task.Complete("failed")
 		return
 	}
-	
+
 	stderr, err := cmd.StderrPipe()
 	if err != nil {
 		task.AddOutput(fmt.Sprintf("Error creating stderr pipe: %s\n", err.Error()))
 		task.Complete("failed")
 		return
 	}
-	
+
 	// 启动命令
 	if err := cmd.Start(); err != nil {
 		task.AddOutput(fmt.Sprintf("Error starting command: %s\n", err.Error()))
 		task.Complete("failed")
 		return
 	}
-	
+
 	// 读取标准输出
 	go func() {
 		scanner := bufio.NewScanner(stdout)
@@ -275,7 +365,7 @@ func executeCommand(task *Task) {
 			task.AddOutput(scanner.Text() + "\n")
 		}
 	}()
-	
+
 	// 读取标准错误
 	go func() {
 		scanner := bufio.NewScanner(stderr)
@@ -283,7 +373,7 @@ func executeCommand(task *Task) {
 			task.AddOutput("ERROR: " + scanner.Text() + "\n")
 		}
 	}()
-	
+
 	// 等待命令完成
 	err = cmd.Wait()
 	if err != nil {
@@ -421,6 +511,7 @@ func main() {
 
 	// 设置HTTP路由
 	http.HandleFunc("/cmd", handleCommandRequest)
+	http.HandleFunc("/cmd/", handleCommandRequest)
 	http.HandleFunc("/result/", handleResultRequest)
 
 	// 启动HTTP服务器
