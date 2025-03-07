@@ -36,7 +36,8 @@ type Task struct {
 	EndTime   *time.Time             `json:"end_time,omitempty"`
 	Request   CommandRequest         `json:"request"`
 	Output    string                 `json:"output"`
-	Status    string                 `json:"status"` // running, completed, failed
+	Status    string                 `json:"status"`    // running, completed, failed
+	ExitCode  int                    `json:"exit_code"` // 命令退出码
 	Mutex     *sync.Mutex            `json:"-"`
 	Clients   map[string]chan string `json:"-"`
 }
@@ -98,11 +99,12 @@ func (t *Task) AddOutput(output string) {
 }
 
 // 完成任务
-func (t *Task) Complete(status string) {
+func (t *Task) Complete(status string, exitCode int) {
 	t.Mutex.Lock()
 	defer t.Mutex.Unlock()
 
 	t.Status = status
+	t.ExitCode = exitCode
 	now := time.Now()
 	t.EndTime = &now
 
@@ -151,7 +153,16 @@ func handleCommandRequest(w http.ResponseWriter, r *http.Request) {
 		cmd := pathParts[2]
 		args := []string{}
 		if len(pathParts) > 3 {
-			args = pathParts[3:]
+			// 处理URL路径中的参数，支持/和-引导的参数
+			for _, arg := range pathParts[3:] {
+				if arg != "" {
+					// 处理特殊前缀，将__slash__转换为/开头的参数
+					if strings.HasPrefix(arg, "__slash__") {
+						arg = "/" + strings.TrimPrefix(arg, "__slash__")
+					}
+					args = append(args, arg)
+				}
+			}
 		}
 
 		// 创建命令请求
@@ -193,14 +204,11 @@ func handleCommandRequest(w http.ResponseWriter, r *http.Request) {
 				task.RemoveClient(clientID)
 			}
 
-			// 设置连接关闭时的清理
-			notifier, ok := w.(http.CloseNotifier)
-			if ok {
-				go func() {
-					<-notifier.CloseNotify()
-					cleanup()
-				}()
-			}
+			// 设置连接关闭时的清理（使用更现代的方式替代已弃用的http.CloseNotifier）
+			go func() {
+				<-r.Context().Done()
+				cleanup()
+			}()
 
 			// 异步执行命令
 			go executeCommand(task)
@@ -211,12 +219,27 @@ func handleCommandRequest(w http.ResponseWriter, r *http.Request) {
 
 			// 发送输出流
 			for output := range outputChan {
-				fmt.Fprintf(w, "data: %s\n\n", output)
-				w.(http.Flusher).Flush()
+				// 确保每行输出都有正确的SSE格式
+				lines := strings.Split(output, "\n")
+				for _, line := range lines {
+					if line != "" {
+						fmt.Fprintf(w, "data: %s\n\n", line)
+						w.(http.Flusher).Flush()
+					}
+				}
 			}
 		} else {
 			// 同步执行命令
 			executeCommand(task)
+
+			// 根据任务状态设置HTTP状态码
+			if task.Status == "failed" {
+				w.WriteHeader(http.StatusInternalServerError) // 500
+				w.Header().Set("X-Exit-Code", fmt.Sprintf("%d", task.ExitCode))
+			} else {
+				w.WriteHeader(http.StatusOK) // 200
+				w.Header().Set("X-Exit-Code", "0")
+			}
 
 			// 返回结果
 			w.Header().Set("Content-Type", "text/plain")
@@ -320,6 +343,15 @@ func handleCommandRequest(w http.ResponseWriter, r *http.Request) {
 		// 同步执行命令
 		executeCommand(task)
 
+		// 根据任务状态设置HTTP状态码
+		if task.Status == "failed" {
+			w.WriteHeader(http.StatusInternalServerError) // 500
+			w.Header().Set("X-Exit-Code", fmt.Sprintf("%d", task.ExitCode))
+		} else {
+			w.WriteHeader(http.StatusOK) // 200
+			w.Header().Set("X-Exit-Code", "0")
+		}
+
 		// 返回结果
 		w.Header().Set("Content-Type", "text/plain")
 		w.Write([]byte(task.Output))
@@ -340,21 +372,21 @@ func executeCommand(task *Task) {
 	stdout, err := cmd.StdoutPipe()
 	if err != nil {
 		task.AddOutput(fmt.Sprintf("Error creating stdout pipe: %s\n", err.Error()))
-		task.Complete("failed")
+		task.Complete("failed", 1)
 		return
 	}
 
 	stderr, err := cmd.StderrPipe()
 	if err != nil {
 		task.AddOutput(fmt.Sprintf("Error creating stderr pipe: %s\n", err.Error()))
-		task.Complete("failed")
+		task.Complete("failed", 1)
 		return
 	}
 
 	// 启动命令
 	if err := cmd.Start(); err != nil {
 		task.AddOutput(fmt.Sprintf("Error starting command: %s\n", err.Error()))
-		task.Complete("failed")
+		task.Complete("failed", 1)
 		return
 	}
 
@@ -376,12 +408,19 @@ func executeCommand(task *Task) {
 
 	// 等待命令完成
 	err = cmd.Wait()
+	exitCode := 0
 	if err != nil {
-		task.AddOutput(fmt.Sprintf("Command failed: %s\n", err.Error()))
-		task.Complete("failed")
+		// 尝试获取退出码
+		if exitErr, ok := err.(*exec.ExitError); ok {
+			exitCode = exitErr.ExitCode()
+		} else {
+			exitCode = 1 // 默认错误码
+		}
+		task.AddOutput(fmt.Sprintf("Command failed with exit code %d: %s\n", exitCode, err.Error()))
+		task.Complete("failed", exitCode)
 	} else {
-		task.AddOutput("Command completed successfully!\n")
-		task.Complete("completed")
+		task.AddOutput("Command completed successfully with exit code 0!\n")
+		task.Complete("completed", 0)
 	}
 }
 
@@ -459,19 +498,36 @@ func handleResultRequest(w http.ResponseWriter, r *http.Request) {
 
 		// 发送新输出
 		for output := range outputChan {
-			fmt.Fprintf(w, "data: %s\n\n", output)
-			w.(http.Flusher).Flush()
+			// 确保每行输出都有正确的SSE格式
+			lines := strings.Split(output, "\n")
+			for _, line := range lines {
+				if line != "" {
+					fmt.Fprintf(w, "data: %s\n\n", line)
+					w.(http.Flusher).Flush()
+				}
+			}
 		}
 	} else {
 		// 检查任务是否仍在运行
 		task.Mutex.Lock()
 		isRunning := task.Status == "running"
 		output := task.Output
+		status := task.Status
+		exitCode := task.ExitCode
 		task.Mutex.Unlock()
 
 		if isRunning {
 			w.WriteHeader(http.StatusAccepted) // 202
 			return
+		}
+
+		// 根据任务状态设置HTTP状态码
+		if status == "failed" {
+			w.WriteHeader(http.StatusInternalServerError) // 500
+			w.Header().Set("X-Exit-Code", fmt.Sprintf("%d", exitCode))
+		} else {
+			w.WriteHeader(http.StatusOK) // 200
+			w.Header().Set("X-Exit-Code", "0")
 		}
 
 		// 返回结果
