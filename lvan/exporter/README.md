@@ -35,6 +35,7 @@
         "cmd": "cmd",
         "version": "0.1",
         "args": ["arg1", "arg2"]
+        "env": {"foo":"bar"}
     }
     ```
     yaml格式 body
@@ -42,6 +43,8 @@
         cmd: cmd
         version: 0.1
         args: [arg1, arg2]
+        env:
+          -foo:bar
     ```
     `cmd`
     需要执行的自定义工具链
@@ -55,6 +58,8 @@
 任务id后面详细设计 必要
 - query param: sse 不重要 不必要
 是否开启http2 server send event, 通过?sse=true控制,默认false
+_ query param: toolchain
+工具链模板，通过`?toolchain=export-job`指定模板文件
 #### 返回结果
 - 如果使用`sse=true`参数 则启用http2 `server send event`将调用自定义工具链的输出流返回给客户端
 - 如果使用`onlyid=true`参数 则返回任务id
@@ -76,18 +81,61 @@
 ## 如何使用本程序
 ```bash
 go run exporter -p 8080
+go run exporter cmd toolchain=exportjob
+go run exporter result 20250201111203-41
 ```
 
 ## 其他优化
-- 自定义工作任务链工作留模板
+- 任务管理
+  每个任务设计临时目录隔离运行环境。
+  超时 重试
+  sse模式支持任务持久化。
+- 自定义工作任务链工作流模板
+```yml
+toolchain:
+  - game-meta:
+      cmd: game-meta
+      version: latest
+      args: ["d01"]
+      env:
+        - foo: bar
+  - unity-export:
+      cmd: uexp
+      version: 0.1.0
+      args: ["d:\exp", "push" ,"report"]
+      env:
+        - foo: bar
+```
+注意文件路径如何保证安全
+1. 使用.当前目录而不是绝对路径
+2. 实现一个沙箱机制
 - 良好的帮助文档
 1 命令行工具的使用说明
 2 http接口文档
 - 记录历史任务
 - 分布式支持
-- 日志持久化
+  Udp和HTTP
+  使用sse模式可激活后台分布式任务窃取。
+- 日志管理
+  持久化 
+  集群汇总 任务窃取时执行结果原机器与工作机器各保留一份
+  按时间排序。
+  命令可以指定参数确定以json格式还是普通文本格式存储日志文件。
 - 命令行工具的版本控制和自动更新
-- 支持linux环境
-### 任务ID
-- 格式：UUID v4
-- 示例：`550e8400-e29b-41d4-a716-446655440000`
+- 第1版在windows运行后续支持linux环境
+- 涉及到的配置文件
+  任务链模板
+  分布式集群节点
+- 涉及到的工作目录
+  任务沙箱
+  日志落地
+  配置文件
+- 监控
+  钉钉任务推送
+  普罗米修斯指标
+- wasm
+- 任务ID
+  1. 格式：时间戳配合序列号。
+     示例：20250208123359-1
+  2. 格式：UUID v4
+     示例：`550e8400-e29b-41d4-a716-446655440000`

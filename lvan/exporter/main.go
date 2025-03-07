@@ -1,12 +1,14 @@
 package main
 
 import (
+	"bufio"
 	"encoding/json"
 	"flag"
 	"fmt"
 	"io"
 	"log"
 	"net/http"
+	"os/exec"
 	"strings"
 	"sync"
 	"time"
@@ -236,21 +238,61 @@ func handleCommandRequest(w http.ResponseWriter, r *http.Request) {
 
 // 执行命令
 func executeCommand(task *Task) {
-	// 这里应该实现实际的命令执行逻辑
-	// 为了演示，我们只是模拟一些输出
-	
+	// 记录开始执行
 	task.AddOutput(fmt.Sprintf("Starting command: %s\n", task.Request.Cmd))
 	task.AddOutput(fmt.Sprintf("Version: %s\n", task.Request.Version))
 	task.AddOutput(fmt.Sprintf("Arguments: %s\n", strings.Join(task.Request.Args, ", ")))
 	
-	// 模拟命令执行
-	for i := 0; i < 5; i++ {
-		time.Sleep(500 * time.Millisecond)
-		task.AddOutput(fmt.Sprintf("Processing step %d...\n", i+1))
+	// 调用系统命令
+	cmd := exec.Command(task.Request.Cmd, task.Request.Args...)
+	
+	// 创建管道获取命令输出
+	stdout, err := cmd.StdoutPipe()
+	if err != nil {
+		task.AddOutput(fmt.Sprintf("Error creating stdout pipe: %s\n", err.Error()))
+		task.Complete("failed")
+		return
 	}
 	
-	task.AddOutput("Command completed successfully!\n")
-	task.Complete("completed")
+	stderr, err := cmd.StderrPipe()
+	if err != nil {
+		task.AddOutput(fmt.Sprintf("Error creating stderr pipe: %s\n", err.Error()))
+		task.Complete("failed")
+		return
+	}
+	
+	// 启动命令
+	if err := cmd.Start(); err != nil {
+		task.AddOutput(fmt.Sprintf("Error starting command: %s\n", err.Error()))
+		task.Complete("failed")
+		return
+	}
+	
+	// 读取标准输出
+	go func() {
+		scanner := bufio.NewScanner(stdout)
+		for scanner.Scan() {
+			task.AddOutput(scanner.Text() + "\n")
+		}
+	}()
+	
+	// 读取标准错误
+	go func() {
+		scanner := bufio.NewScanner(stderr)
+		for scanner.Scan() {
+			task.AddOutput("ERROR: " + scanner.Text() + "\n")
+		}
+	}()
+	
+	// 等待命令完成
+	err = cmd.Wait()
+	if err != nil {
+		task.AddOutput(fmt.Sprintf("Command failed: %s\n", err.Error()))
+		task.Complete("failed")
+	} else {
+		task.AddOutput("Command completed successfully!\n")
+		task.Complete("completed")
+	}
 }
 
 // 处理结果请求
