@@ -6,7 +6,6 @@ import (
 	"flag"
 	"fmt"
 	"io"
-	"log"
 	"net/http"
 	"os/exec"
 	"strings"
@@ -15,6 +14,8 @@ import (
 
 	"github.com/google/uuid"
 	"gopkg.in/yaml.v3"
+
+	"github.com/wangtengda/gobee/lvan/exporter/logger"
 )
 
 // 版本信息
@@ -365,12 +366,16 @@ func executeCommand(task *Task) {
 	task.AddOutput(fmt.Sprintf("Version: %s\n", task.Request.Version))
 	task.AddOutput(fmt.Sprintf("Arguments: %s\n", strings.Join(task.Request.Args, ", ")))
 
+	// 记录日志
+	logger.Info("执行命令: %s, 参数: %s", task.Request.Cmd, strings.Join(task.Request.Args, ", "))
+
 	// 调用系统命令
 	cmd := exec.Command(task.Request.Cmd, task.Request.Args...)
 
 	// 创建管道获取命令输出
 	stdout, err := cmd.StdoutPipe()
 	if err != nil {
+		logger.Error("创建stdout管道失败: %s", err.Error())
 		task.AddOutput(fmt.Sprintf("Error creating stdout pipe: %s\n", err.Error()))
 		task.Complete("failed", 1)
 		return
@@ -378,6 +383,7 @@ func executeCommand(task *Task) {
 
 	stderr, err := cmd.StderrPipe()
 	if err != nil {
+		logger.Error("创建stderr管道失败: %s", err.Error())
 		task.AddOutput(fmt.Sprintf("Error creating stderr pipe: %s\n", err.Error()))
 		task.Complete("failed", 1)
 		return
@@ -385,16 +391,20 @@ func executeCommand(task *Task) {
 
 	// 启动命令
 	if err := cmd.Start(); err != nil {
+		logger.Error("启动命令失败: %s", err.Error())
 		task.AddOutput(fmt.Sprintf("Error starting command: %s\n", err.Error()))
 		task.Complete("failed", 1)
 		return
 	}
 
 	// 读取标准输出
+	// 读取标准输出
 	go func() {
 		scanner := bufio.NewScanner(stdout)
 		for scanner.Scan() {
-			task.AddOutput(scanner.Text() + "\n")
+			output := scanner.Text()
+			task.AddOutput(output + "\n")
+			logger.Info("命令输出: %s", output)
 		}
 	}()
 
@@ -402,7 +412,9 @@ func executeCommand(task *Task) {
 	go func() {
 		scanner := bufio.NewScanner(stderr)
 		for scanner.Scan() {
-			task.AddOutput("ERROR: " + scanner.Text() + "\n")
+			error := scanner.Text()
+			task.AddOutput("ERROR: " + error + "\n")
+			logger.Warn("命令错误输出: %s", error)
 		}
 	}()
 
@@ -416,9 +428,11 @@ func executeCommand(task *Task) {
 		} else {
 			exitCode = 1 // 默认错误码
 		}
+		logger.Warn("命令执行失败，退出码 %d: %s", exitCode, err.Error())
 		task.AddOutput(fmt.Sprintf("Command failed with exit code %d: %s\n", exitCode, err.Error()))
 		task.Complete("failed", exitCode)
 	} else {
+		logger.Info("命令执行成功，退出码 0")
 		task.AddOutput("Command completed successfully with exit code 0!\n")
 		task.Complete("completed", 0)
 	}
@@ -544,8 +558,25 @@ func main() {
 	showVersionLong := flag.Bool("version", false, "Show version")
 	showHelp := flag.Bool("h", false, "Show help")
 	showHelpLong := flag.Bool("help", false, "Show help")
+	logLevel := flag.String("log-level", "info", "Log level (debug, info, warn, error, fatal)")
 
 	flag.Parse()
+
+	// 设置日志级别
+	switch strings.ToLower(*logLevel) {
+	case "debug":
+		logger.SetLevel(logger.DEBUG)
+	case "info":
+		logger.SetLevel(logger.INFO)
+	case "warn":
+		logger.SetLevel(logger.WARN)
+	case "error":
+		logger.SetLevel(logger.ERROR)
+	case "fatal":
+		logger.SetLevel(logger.FATAL)
+	default:
+		logger.SetLevel(logger.INFO)
+	}
 
 	// 处理版本信息
 	if *showVersion || *showVersionLong {
@@ -572,6 +603,6 @@ func main() {
 
 	// 启动HTTP服务器
 	serverAddr := fmt.Sprintf(":%d", listenPort)
-	fmt.Printf("Starting exporter server on port %d...\n", listenPort)
-	log.Fatal(http.ListenAndServe(serverAddr, nil))
+	logger.Info("启动exporter服务器，监听端口 %d...", listenPort)
+	logger.Fatal("服务器停止: %v", http.ListenAndServe(serverAddr, nil))
 }
