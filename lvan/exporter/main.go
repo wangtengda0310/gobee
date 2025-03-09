@@ -7,6 +7,7 @@ import (
 	"fmt"
 	"io"
 	"net/http"
+	"os"
 	"os/exec"
 	"strings"
 	"sync"
@@ -15,6 +16,7 @@ import (
 	"github.com/google/uuid"
 	"gopkg.in/yaml.v3"
 
+	"github.com/wangtengda/gobee/lvan/exporter/config"
 	"github.com/wangtengda/gobee/lvan/exporter/logger"
 )
 
@@ -25,9 +27,10 @@ const (
 
 // 命令请求结构
 type CommandRequest struct {
-	Cmd     string   `json:"cmd" yaml:"cmd"`
-	Version string   `json:"version" yaml:"version"`
-	Args    []string `json:"args" yaml:"args"`
+	Cmd     string            `json:"cmd" yaml:"cmd"`
+	Version string            `json:"version" yaml:"version"`
+	Args    []string          `json:"args" yaml:"args"`
+	Env     map[string]string `json:"env" yaml:"env"`
 }
 
 // 任务信息
@@ -166,12 +169,16 @@ func handleCommandRequest(w http.ResponseWriter, r *http.Request) {
 			}
 		}
 
-		// 创建命令请求
+		// 创建命令请求，GET请求默认使用latest版本
 		req := CommandRequest{
 			Cmd:     cmd,
-			Version: Version,
+			Version: "latest", // GET请求默认使用latest版本
 			Args:    args,
+			Env:     make(map[string]string),
 		}
+
+		// 记录日志
+		logger.Info("GET请求使用latest版本执行命令: %s", cmd)
 
 		// 创建任务并处理
 		task := taskManager.CreateTask(req)
@@ -287,6 +294,17 @@ func handleCommandRequest(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	// 如果未指定版本，使用latest
+	if req.Version == "" {
+		req.Version = "latest"
+		logger.Info("POST请求未指定版本，使用latest版本: %s", req.Cmd)
+	}
+
+	// 确保环境变量字段已初始化
+	if req.Env == nil {
+		req.Env = make(map[string]string)
+	}
+
 	// 创建任务
 	task := taskManager.CreateTask(req)
 
@@ -367,10 +385,43 @@ func executeCommand(task *Task) {
 	task.AddOutput(fmt.Sprintf("Arguments: %s\n", strings.Join(task.Request.Args, ", ")))
 
 	// 记录日志
-	logger.Info("执行命令: %s, 参数: %s", task.Request.Cmd, strings.Join(task.Request.Args, ", "))
+	logger.Info("执行命令: %s, 版本: %s, 参数: %s", task.Request.Cmd, task.Request.Version, strings.Join(task.Request.Args, ", "))
+
+	// 获取命令路径
+	version := task.Request.Version
+	if version == "" {
+		version = "latest"
+		logger.Info("未指定版本，使用latest版本: %s", task.Request.Cmd)
+	}
+
+	// 使用版本管理获取可执行文件路径
+	cmdPath, found, err := config.GetCommandPath(task.Request.Cmd, version)
+	if err != nil || !found {
+		errMsg := fmt.Sprintf("找不到命令 %s 版本 %s: %v\n", task.Request.Cmd, version, err)
+		logger.Error(errMsg)
+		task.AddOutput(errMsg)
+		task.Complete("failed", 1)
+		return
+	}
+
+	// 记录使用的可执行文件路径
+	logger.Info("使用可执行文件: %s", cmdPath)
+	task.AddOutput(fmt.Sprintf("Using executable: %s\n", cmdPath))
 
 	// 调用系统命令
-	cmd := exec.Command(task.Request.Cmd, task.Request.Args...)
+	cmd := exec.Command(cmdPath, task.Request.Args...)
+
+	// 设置环境变量
+	if len(task.Request.Env) > 0 {
+		// 获取当前环境变量
+		cmd.Env = os.Environ()
+
+		// 添加自定义环境变量
+		for key, value := range task.Request.Env {
+			cmd.Env = append(cmd.Env, fmt.Sprintf("%s=%s", key, value))
+			logger.Debug("设置环境变量: %s=%s", key, value)
+		}
+	}
 
 	// 创建管道获取命令输出
 	stdout, err := cmd.StdoutPipe()
