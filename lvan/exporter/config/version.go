@@ -2,7 +2,6 @@ package config
 
 import (
 	"fmt"
-	"io/fs"
 	"os"
 	"path/filepath"
 	"runtime"
@@ -48,8 +47,11 @@ func GetCommandPath(cmdName, version string) (string, bool, error) {
 	// 构建版本目录路径
 	versionDir := filepath.Join(cmdDir, version)
 	if _, err := os.Stat(versionDir); os.IsNotExist(err) {
+		logger.Info("命令 %s 的版本 %s 不存在", cmdName, version)
 		return "", false, fmt.Errorf("命令 %s 的版本 %s 不存在", cmdName, version)
 	}
+
+	logger.Info("使用命令 %s 的版本 %s 目录 %s", cmdName, version, versionDir)
 
 	// 查找可执行文件
 	executable, found, err := findExecutable(versionDir, cmdName)
@@ -114,25 +116,17 @@ func findExecutable(dir, cmdName string) (string, bool, error) {
 
 	// Windows 平台下，检查是否需要添加 .exe 后缀
 	if runtime.GOOS == "windows" {
+		logger.Info("当前windows环境")
 		// 检查是否已有扩展名
 		if !strings.Contains(filepath.Base(cmdName), ".") {
 			// 检查 .exe 版本是否存在
-			exePath := cmdName + ".exe"
-			if _, err := os.Stat(exePath); err == nil {
-				possibleNames = append(possibleNames, exePath)
-			}
+			possibleNames = append(possibleNames, cmdName+ ".exe")
 
 			// 检查 .bat 版本是否存在
-			batPath := cmdName + ".bat"
-			if _, err := os.Stat(batPath); err == nil {
-				possibleNames = append(possibleNames, batPath)
-			}
+			possibleNames = append(possibleNames, cmdName+ ".bat")
 
 			// 检查 .cmd 版本是否存在
-			cmdFilePath := cmdName + ".cmd"
-			if _, err := os.Stat(cmdFilePath); err == nil {
-				possibleNames = append(possibleNames, cmdFilePath)
-			}
+			possibleNames = append(possibleNames, cmdName+ ".cmd")
 		}
 	}
 
@@ -143,31 +137,7 @@ func findExecutable(dir, cmdName string) (string, bool, error) {
 		}
 	}
 
-	// 如果没有找到与命令名相同的可执行文件，查找目录中的任何可执行文件
-	var executablePath string
-	found := false
-
-	err := filepath.WalkDir(dir, func(path string, d fs.DirEntry, err error) error {
-		if err != nil {
-			return err
-		}
-
-		// 跳过目录
-		if d.IsDir() {
-			return nil
-		}
-
-		// 检查是否是可执行文件
-		if isExecutable(path) {
-			executablePath = path
-			found = true
-			return filepath.SkipAll // 找到一个可执行文件就停止
-		}
-
-		return nil
-	})
-
-	return executablePath, found, err
+	return "", false, fmt.Errorf("没有找到与命令名相同的可执行文件 %v", possibleNames)
 }
 
 // isExecutable 检查文件是否可执行
@@ -175,6 +145,7 @@ func isExecutable(path string) bool {
 	// 检查文件是否存在
 	info, err := os.Stat(path)
 	if err != nil {
+		logger.Info("没找到文件 %v", path)
 		return false
 	}
 
@@ -183,8 +154,14 @@ func isExecutable(path string) bool {
 		return true
 	}
 
+	executable := info.Mode()&0111 != 0
+
+	if !executable {
+		logger.Info("文件 %v 没有执行权限", path)
+		return false
+	}
 	// 在类Unix系统上，检查文件是否有执行权限
-	return info.Mode()&0111 != 0
+	return executable
 }
 
 // ListCommands 列出所有可用的命令及其版本
