@@ -72,51 +72,51 @@ func init() {
 
 // NewLogger 创建新的日志记录器
 func NewLogger(logDir, logFileName string, level int, maxSize int64) (*Logger, error) {
-	// 确保日志目录存在
-	if err := os.MkdirAll(logDir, 0755); err != nil {
-		return nil, fmt.Errorf("创建日志目录失败: %v", err)
-	}
+    // 确保日志目录存在
+    if err := os.MkdirAll(logDir, 0755); err != nil {
+        return nil, fmt.Errorf("创建日志目录失败: %v", err)
+    }
 
-	// 构建日志文件路径
-	filePath := filepath.Join(logDir, logFileName)
+    // 构建日志文件路径
+    filePath := filepath.Join(logDir, logFileName)
 
-	// 打开日志文件
-	file, err := os.OpenFile(filePath, os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0644)
-	if err != nil {
-		return nil, fmt.Errorf("打开日志文件失败: %v", err)
-	}
+    // 打开日志文件
+    file, err := os.OpenFile(filePath, os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0644)
+    if err != nil {
+        return nil, fmt.Errorf("打开日志文件失败: %v", err)
+    }
 
-	// 获取当前文件大小
-	fileInfo, err := file.Stat()
-	if err != nil {
-		file.Close()
-		return nil, fmt.Errorf("获取文件信息失败: %v", err)
-	}
+    // 获取当前文件大小
+    fileInfo, err := file.Stat()
+    if err != nil {
+        file.Close()
+        return nil, fmt.Errorf("获取文件信息失败: %v", err)
+    }
 
 	// 创建多输出writer
 	multiWriter := io.MultiWriter(os.Stdout, file)
 
-	// 创建日志记录器
-	logger := &Logger{
-		level:      level,
-		logFile:    file,
-		logWriter:  multiWriter,
-		consoleLog: log.New(os.Stdout, "", 0),
-		fileLog:    log.New(file, "", 0),
-		filePath:   filePath,
-		maxSize:    maxSize,
-		curSize:    fileInfo.Size(),
-		logChan:    make(chan logEntry, 10000), // 缓冲大小可调整
-		closeChan:  make(chan struct{}),
-		batchSize:  100,                        // 每批处理100条日志
-		flushInterval: 100 * time.Millisecond,  // 100ms刷新一次
-	}
+    // 创建日志记录器
+    logger := &Logger{
+        level:      level,
+        logFile:    file,
+        logWriter:  multiWriter,
+        consoleLog: log.New(os.Stdout, "", 0),
+        fileLog:    log.New(file, "", 0),
+        filePath:   filePath,
+        maxSize:    maxSize,
+        curSize:    fileInfo.Size(),
+        logChan:    make(chan logEntry, 10000), // 缓冲大小可调整
+        closeChan:  make(chan struct{}),
+        batchSize:  100,                        // 每批处理100条日志
+        flushInterval: 100 * time.Millisecond,  // 100ms刷新一次
+    }
 
-	// 启动异步日志处理
-	logger.wg.Add(1)
-	go logger.processLogs()
+    // 启动异步日志处理
+    logger.wg.Add(1)
+    go logger.processLogs()
 
-	return logger, nil
+    return logger, nil
 }
 
 // 异步处理日志
@@ -164,28 +164,32 @@ func (l *Logger) processLogs() {
 
 // 批量写入日志
 func (l *Logger) writeBatch(entries []logEntry) {
-	if len(entries) == 0 {
-		return
-	}
+    if len(entries) == 0 {
+        return
+    }
 
-	l.mutex.Lock()
-	defer l.mutex.Unlock()
+    l.mutex.Lock()
+    defer l.mutex.Unlock()
 
-	var totalBytes int64
-	
-	// 一次性构建所有日志消息
-	for _, entry := range entries {
-		msg := formatLogMessage(entry.level, entry.message)
-		n, err := fmt.Fprintln(l.logWriter, msg)
-		if err != nil {
-			fmt.Printf("写入日志失败: %v\n", err)
-			continue
-		}
-		totalBytes += int64(n)
-	}
-	
-	// 更新文件大小
-	l.curSize += totalBytes
+    var totalBytes int64
+    
+    // 一次性构建所有日志消息
+    for _, entry := range entries {
+        msg := formatLogMessage(entry.level, entry.message)
+        n, err := fmt.Fprintln(l.logWriter, msg)
+        if err != nil {
+            // 处理编码错误，直接尝试写入原始消息
+            n, err = fmt.Fprintln(l.logWriter, entry.message)
+            if err != nil {
+                fmt.Printf("写入日志失败: %v\n", err)
+                continue
+            }
+        }
+        totalBytes += int64(n)
+    }
+    
+    // 更新文件大小
+    l.curSize += totalBytes
 }
 
 // 检查并轮转日志文件

@@ -20,6 +20,8 @@ import (
 
 	"github.com/wangtengda/gobee/lvan/exporter/config"
 	"github.com/wangtengda/gobee/lvan/exporter/logger"
+
+	"golang.org/x/text/encoding/simplifiedchinese"
 )
 
 // 版本信息
@@ -376,6 +378,32 @@ func handleCommandRequest(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
+type charset string  
+  
+const (  
+	UTF8    charset = "UTF-8"  
+	GB18030 charset = "GB18030"  
+)  
+  
+// ByteToString 将字节切片转换为指定编码的字符串  
+func ByteToString(byte []byte, charset charset) string {  
+	var str string  
+	switch charset {  
+	case GB18030:  
+		decoder := simplifiedchinese.GB18030.NewDecoder()  
+		var err error  
+		str, err = decoder.String(string(byte))  
+		if err != nil {  
+			fmt.Println("解码错误:", err)  
+			return ""  
+		}  
+	case UTF8:  
+		str = string(byte)  
+	default:  
+		str = string(byte)  
+	}  
+	return str  
+}  
 // 执行命令
 func executeCommand(task *Task) {
 	// 记录开始执行
@@ -472,9 +500,10 @@ func executeCommand(task *Task) {
 	go func() {
 		scanner := bufio.NewScanner(stdout)
 		for scanner.Scan() {
-			output := scanner.Text()
-			task.AddOutput(output + "\n")
-			logger.Info("命令输出: %s", output)
+			output := scanner.Bytes()
+			convertGbToUtf8 := ByteToString(output, GB18030)
+			task.AddOutput(convertGbToUtf8 + "\n")
+			logger.Info("命令输出: %s", convertGbToUtf8)
 		}
 	}()
 
@@ -482,9 +511,10 @@ func executeCommand(task *Task) {
 	go func() {
 		scanner := bufio.NewScanner(stderr)
 		for scanner.Scan() {
-			error := scanner.Text()
-			task.AddOutput("ERROR: " + error + "\n")
-			logger.Warn("命令错误输出: %s", error)
+			error := scanner.Bytes()
+			convertGbToUtf8 := ByteToString(error, GB18030)
+			task.AddOutput("ERROR: " + convertGbToUtf8 + "\n")
+			logger.Warn("命令错误输出: %s", convertGbToUtf8)
 		}
 	}()
 
