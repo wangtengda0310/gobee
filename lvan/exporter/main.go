@@ -144,20 +144,88 @@ func (t *Task) RemoveClient(clientID string) {
 	}
 }
 
+// 处理只返回ID的请求
+func handleOnlyIDRequest(w http.ResponseWriter, task *Task) {
+	w.Header().Set("Content-Type", "text/plain")
+	w.Write([]byte(task.ID))
+
+	// 异步执行命令
+	go executeCommand(task)
+}
+
+// 处理SSE请求
+func handleSSERequest(w http.ResponseWriter, r *http.Request, task *Task) {
+	// 设置SSE头
+	w.Header().Set("Content-Type", "text/event-stream")
+	w.Header().Set("Cache-Control", "no-cache")
+	w.Header().Set("Connection", "keep-alive")
+	w.Header().Set("Access-Control-Allow-Origin", "*")
+
+	// 创建客户端ID
+	clientID := uuid.New().String()
+	outputChan := task.AddClient(clientID)
+
+	// 清理函数
+	cleanup := func() {
+		task.RemoveClient(clientID)
+	}
+
+	// 设置连接关闭时的清理
+	go func() {
+		<-r.Context().Done()
+		cleanup()
+	}()
+
+	// 异步执行命令
+	go executeCommand(task)
+
+	// 发送任务ID
+	fmt.Fprintf(w, "data: {\"id\": \"%s\"}\n\n", task.ID)
+	w.(http.Flusher).Flush()
+
+	// 发送输出流
+	for output := range outputChan {
+		// 确保每行输出都有正确的SSE格式
+		lines := strings.Split(output, "\n")
+		for _, line := range lines {
+			if line != "" {
+				fmt.Fprintf(w, "data: %s\n\n", line)
+				w.(http.Flusher).Flush()
+			}
+		}
+	}
+}
+
+// 处理同步执行命令请求
+func handleSyncRequest(w http.ResponseWriter, task *Task) {
+	// 同步执行命令
+	executeCommand(task)
+
+	// 根据任务状态设置HTTP状态码
+	if task.Status == "failed" {
+		w.WriteHeader(http.StatusInternalServerError) // 500
+		w.Header().Set("X-Exit-Code", fmt.Sprintf("%d", task.ExitCode))
+	} else {
+		w.WriteHeader(http.StatusOK) // 200
+		w.Header().Set("X-Exit-Code", "0")
+	}
+
+	// 返回结果
+	w.Header().Set("Content-Type", "text/plain")
+	w.Write([]byte(task.Output))
+}
+
 // 处理命令请求
 func handleCommandRequest(w http.ResponseWriter, r *http.Request) {
+	var task *Task
+	switch r.Method {
 	// 处理GET请求，格式为/cmd/command/param1/param2...
-	if r.Method == http.MethodGet {
-		// 解析URL路径
+	case http.MethodGet:
 		pathParts := strings.Split(r.URL.Path, "/")
-
-		// 检查路径格式是否正确
 		if len(pathParts) < 3 {
 			http.Error(w, "Invalid request path", http.StatusBadRequest)
 			return
 		}
-
-		// 获取命令和参数
 		cmd := pathParts[2]
 		args := []string{}
 		if len(pathParts) > 3 {
@@ -173,237 +241,113 @@ func handleCommandRequest(w http.ResponseWriter, r *http.Request) {
 			}
 		}
 
-		// 创建命令请求，GET请求默认使用latest版本
 		req := CommandRequest{
 			Cmd:     cmd,
-			Version: "latest", // GET请求默认使用latest版本
+			Version: "latest",
 			Args:    args,
 			Env:     make(map[string]string),
 		}
 
-		// 记录日志
 		logger.Info("GET请求使用latest版本执行命令: %s", cmd)
 
-		// 创建任务并处理
-		task := taskManager.CreateTask(req)
+		task = taskManager.CreateTask(req)
 
-		// 检查是否只返回ID
-		onlyID := r.URL.Query().Get("onlyid") == "true"
-		if onlyID {
-			w.Header().Set("Content-Type", "text/plain")
-			w.Write([]byte(task.ID))
+	// 处理POST请求
+	case http.MethodPost:
+		// 解析请求体格式
+		bodyType := r.URL.Query().Get("body")
+		if bodyType == "" {
+			bodyType = "yaml" // 默认YAML
+		}
 
-			// 异步执行命令
-			go executeCommand(task)
+		// 读取请求体
+		body, err := io.ReadAll(r.Body)
+		if err != nil {
+			http.Error(w, "Failed to read request body", http.StatusBadRequest)
 			return
 		}
 
-		// 检查是否使用SSE
-		useSSE := r.URL.Query().Get("sse") == "true"
-		if useSSE {
-			// 设置SSE头
-			w.Header().Set("Content-Type", "text/event-stream")
-			w.Header().Set("Cache-Control", "no-cache")
-			w.Header().Set("Connection", "keep-alive")
-			w.Header().Set("Access-Control-Allow-Origin", "*")
-
-			// 创建客户端ID
-			clientID := uuid.New().String()
-			outputChan := task.AddClient(clientID)
-
-			// 清理函数
-			cleanup := func() {
-				task.RemoveClient(clientID)
-			}
-
-			// 设置连接关闭时的清理（使用更现代的方式替代已弃用的http.CloseNotifier）
-			go func() {
-				<-r.Context().Done()
-				cleanup()
-			}()
-
-			// 异步执行命令
-			go executeCommand(task)
-
-			// 发送任务ID
-			fmt.Fprintf(w, "data: {\"id\": \"%s\"}\n\n", task.ID)
-			w.(http.Flusher).Flush()
-
-			// 发送输出流
-			for output := range outputChan {
-				// 确保每行输出都有正确的SSE格式
-				lines := strings.Split(output, "\n")
-				for _, line := range lines {
-					if line != "" {
-						fmt.Fprintf(w, "data: %s\n\n", line)
-						w.(http.Flusher).Flush()
-					}
-				}
-			}
+		// 解析请求体
+		var req CommandRequest
+		if bodyType == "json" {
+			err = json.Unmarshal(body, &req)
 		} else {
-			// 同步执行命令
-			executeCommand(task)
-
-			// 根据任务状态设置HTTP状态码
-			if task.Status == "failed" {
-				w.WriteHeader(http.StatusInternalServerError) // 500
-				w.Header().Set("X-Exit-Code", fmt.Sprintf("%d", task.ExitCode))
-			} else {
-				w.WriteHeader(http.StatusOK) // 200
-				w.Header().Set("X-Exit-Code", "0")
-			}
-
-			// 返回结果
-			w.Header().Set("Content-Type", "text/plain")
-			w.Write([]byte(task.Output))
+			err = yaml.Unmarshal(body, &req)
 		}
-		return
-	}
 
-	// 处理POST请求
-	if r.Method != http.MethodPost {
+		if err != nil {
+			http.Error(w, "Failed to parse request body: "+err.Error(), http.StatusBadRequest)
+			return
+		}
+
+		// 验证请求
+		if req.Cmd == "" {
+			http.Error(w, "Command is required", http.StatusBadRequest)
+			return
+		}
+
+		// 如果未指定版本，使用latest
+		if req.Version == "" {
+			req.Version = "latest"
+			logger.Info("POST请求未指定版本，使用latest版本: %s", req.Cmd)
+		}
+
+		// 确保环境变量字段已初始化
+		if req.Env == nil {
+			req.Env = make(map[string]string)
+		}
+
+		// 创建任务
+		task = taskManager.CreateTask(req)
+
+	default:
 		http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
 		return
 	}
 
-	// 解析请求体格式
-	bodyType := r.URL.Query().Get("body")
-	if bodyType == "" {
-		bodyType = "yaml" // 默认YAML
-	}
-
-	// 读取请求体
-	body, err := io.ReadAll(r.Body)
-	if err != nil {
-		http.Error(w, "Failed to read request body", http.StatusBadRequest)
-		return
-	}
-
-	// 解析请求体
-	var req CommandRequest
-	if bodyType == "json" {
-		err = json.Unmarshal(body, &req)
-	} else {
-		err = yaml.Unmarshal(body, &req)
-	}
-
-	if err != nil {
-		http.Error(w, "Failed to parse request body: "+err.Error(), http.StatusBadRequest)
-		return
-	}
-
-	// 验证请求
-	if req.Cmd == "" {
-		http.Error(w, "Command is required", http.StatusBadRequest)
-		return
-	}
-
-	// 如果未指定版本，使用latest
-	if req.Version == "" {
-		req.Version = "latest"
-		logger.Info("POST请求未指定版本，使用latest版本: %s", req.Cmd)
-	}
-
-	// 确保环境变量字段已初始化
-	if req.Env == nil {
-		req.Env = make(map[string]string)
-	}
-
-	// 创建任务
-	task := taskManager.CreateTask(req)
-
 	// 检查是否只返回ID
 	onlyID := r.URL.Query().Get("onlyid") == "true"
 	if onlyID {
-		w.Header().Set("Content-Type", "text/plain")
-		w.Write([]byte(task.ID))
-
-		// 异步执行命令
-		go executeCommand(task)
+		handleOnlyIDRequest(w, task)
 		return
 	}
 
 	// 检查是否使用SSE
 	useSSE := r.URL.Query().Get("sse") == "true"
 	if useSSE {
-		// 设置SSE头
-		w.Header().Set("Content-Type", "text/event-stream")
-		w.Header().Set("Cache-Control", "no-cache")
-		w.Header().Set("Connection", "keep-alive")
-		w.Header().Set("Access-Control-Allow-Origin", "*")
-
-		// 创建客户端ID
-		clientID := uuid.New().String()
-		outputChan := task.AddClient(clientID)
-
-		// 清理函数
-		cleanup := func() {
-			task.RemoveClient(clientID)
-		}
-
-		// 设置连接关闭时的清理（使用context替代已弃用的http.CloseNotifier）
-		go func() {
-			<-r.Context().Done()
-			cleanup()
-		}()
-
-		// 异步执行命令
-		go executeCommand(task)
-
-		// 发送任务ID
-		fmt.Fprintf(w, "data: {\"id\": \"%s\"}\n\n", task.ID)
-		w.(http.Flusher).Flush()
-
-		// 发送输出流
-		for output := range outputChan {
-			fmt.Fprintf(w, "data: %s\n\n", output)
-			w.(http.Flusher).Flush()
-		}
+		handleSSERequest(w, r, task)
 	} else {
-		// 同步执行命令
-		executeCommand(task)
-
-		// 根据任务状态设置HTTP状态码
-		if task.Status == "failed" {
-			w.WriteHeader(http.StatusInternalServerError) // 500
-			w.Header().Set("X-Exit-Code", fmt.Sprintf("%d", task.ExitCode))
-		} else {
-			w.WriteHeader(http.StatusOK) // 200
-			w.Header().Set("X-Exit-Code", "0")
-		}
-
-		// 返回结果
-		w.Header().Set("Content-Type", "text/plain")
-		w.Write([]byte(task.Output))
+		handleSyncRequest(w, task)
 	}
 }
 
-type charset string  
-  
-const (  
-	UTF8    charset = "UTF-8"  
-	GB18030 charset = "GB18030"  
-)  
-  
-// ByteToString 将字节切片转换为指定编码的字符串  
-func ByteToString(byte []byte, charset charset) string {  
-	var str string  
-	switch charset {  
-	case GB18030:  
-		decoder := simplifiedchinese.GB18030.NewDecoder()  
-		var err error  
-		str, err = decoder.String(string(byte))  
-		if err != nil {  
-			fmt.Println("解码错误:", err)  
-			return ""  
-		}  
-	case UTF8:  
-		str = string(byte)  
-	default:  
-		str = string(byte)  
-	}  
-	return str  
-}  
+type charset string
+
+const (
+	UTF8    charset = "UTF-8"
+	GB18030 charset = "GB18030"
+)
+
+// ByteToString 将字节切片转换为指定编码的字符串
+func ByteToString(byte []byte, charset charset) string {
+	var str string
+	switch charset {
+	case GB18030:
+		decoder := simplifiedchinese.GB18030.NewDecoder()
+		var err error
+		str, err = decoder.String(string(byte))
+		if err != nil {
+			fmt.Println("解码错误:", err)
+			return ""
+		}
+	case UTF8:
+		str = string(byte)
+	default:
+		str = string(byte)
+	}
+	return str
+}
+
 // 执行命令
 func executeCommand(task *Task) {
 	// 记录开始执行
@@ -452,7 +396,7 @@ func executeCommand(task *Task) {
 		// 非 Windows 平台直接执行命令
 		cmd = exec.Command(cmdPath, task.Request.Args...)
 	}
-	
+
 	// 获取当前环境变量
 	cmd.Env = os.Environ()
 
