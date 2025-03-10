@@ -42,7 +42,7 @@ func main() {
 
 	// 确保服务已启动
 	if !checkServiceAvailable() {
-		fmt.Println("错误: Exporter 服务未启动或无法访问，请确保服务在 localhost:8080 运行")
+		fmt.Printf("错误: Exporter 服务未启动或无法访问，请确保服务在 %s 运行\n", baseURL)
 		return
 	}
 
