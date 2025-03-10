@@ -157,7 +157,7 @@ func handleOnlyIDRequest(w http.ResponseWriter, task *Task) {
 // 处理SSE请求
 func handleSSERequest(w http.ResponseWriter, r *http.Request, task *Task) {
 	// 设置SSE头
-	w.Header().Set("Content-Type", "text/event-stream")
+	w.Header().Set("Content-Type", "text/event-stream; charset=utf-8")
 	w.Header().Set("Cache-Control", "no-cache")
 	w.Header().Set("Connection", "keep-alive")
 	w.Header().Set("Access-Control-Allow-Origin", "*")
@@ -520,7 +520,7 @@ func handleResultRequest(w http.ResponseWriter, r *http.Request) {
 	useSSE := r.URL.Query().Get("sse") == "true"
 	if useSSE {
 		// 设置SSE头
-		w.Header().Set("Content-Type", "text/event-stream")
+		w.Header().Set("Content-Type", "text/event-stream; charset=utf-8")
 		w.Header().Set("Cache-Control", "no-cache")
 		w.Header().Set("Connection", "keep-alive")
 		w.Header().Set("Access-Control-Allow-Origin", "*")
