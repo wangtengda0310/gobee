@@ -34,8 +34,8 @@ func GetCommandPath(cmdName, version string) (string, bool, error) {
 		return "", false, fmt.Errorf("命令 %s 不存在", cmdName)
 	}
 
-	// 如果请求latest版本，查找最新版本
-	if version == "latest" {
+	// 如果请求未指定版本，查找最新版本
+	if version == "" {
 		latestVersion, found, err := findLatestVersion(cmdName)
 		if err != nil || !found {
 			return "", false, fmt.Errorf("找不到命令 %s 的最新版本: %v", cmdName, err)
@@ -62,16 +62,39 @@ func GetCommandPath(cmdName, version string) (string, bool, error) {
 	return executable, true, nil
 }
 
-// findLatestVersion 查找命令的最新版本
+// findLatestVersion 查找命令的最新版本 跟目录 > latest目录 > sort max 目录
 // 返回值: 最新版本号, 是否找到, 错误信息
 func findLatestVersion(cmdName string) (string, bool, error) {
 	cmdDir := filepath.Join(CommandDir, cmdName)
+
+	// 检查命令目录下是否有可执行文件
+	execPath := filepath.Join(cmdDir, cmdName)
+	if isExecutable(execPath) {
+		return "", true, nil
+	}
+	if isExecutable(execPath + ".exe") {
+		return "", true, nil
+	}
+	if isExecutable(execPath + ".bat") {
+		return "", true, nil
+	}
+	if isExecutable(execPath + ".cmd") {
+		return "", true, nil
+	}
+
+	// 检查是否有latest目录并包含可执行文件
+	latestDir := filepath.Join(cmdDir, "latest")
+	if _, err := os.Stat(latestDir); !os.IsNotExist(err) {
+		if _, found, err := findExecutable(latestDir, cmdName); found && err == nil {
+			return "latest", true, nil
+		}
+	}
+
 	// 读取版本目录
 	entries, err := os.ReadDir(cmdDir)
 	if err != nil {
 		return "", false, err
 	}
-
 	// 收集有效的版本号
 	var versions []string
 	for _, entry := range entries {
@@ -120,13 +143,13 @@ func findExecutable(dir, cmdName string) (string, bool, error) {
 		// 检查是否已有扩展名
 		if !strings.Contains(filepath.Base(cmdName), ".") {
 			// 检查 .exe 版本是否存在
-			possibleNames = append(possibleNames, cmdName+ ".exe")
+			possibleNames = append(possibleNames, cmdName+".exe")
 
 			// 检查 .bat 版本是否存在
-			possibleNames = append(possibleNames, cmdName+ ".bat")
+			possibleNames = append(possibleNames, cmdName+".bat")
 
 			// 检查 .cmd 版本是否存在
-			possibleNames = append(possibleNames, cmdName+ ".cmd")
+			possibleNames = append(possibleNames, cmdName+".cmd")
 		}
 	}
 

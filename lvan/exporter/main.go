@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"flag"
 	"fmt"
+	"github.com/wangtengda/gobee/lvan/exporter/config"
 	"io"
 	"net/http"
 	"os"
@@ -18,7 +19,6 @@ import (
 	"github.com/google/uuid"
 	"gopkg.in/yaml.v3"
 
-	"github.com/wangtengda/gobee/lvan/exporter/config"
 	"github.com/wangtengda/gobee/lvan/exporter/logger"
 
 	"golang.org/x/text/encoding/simplifiedchinese"
@@ -46,6 +46,7 @@ type Task struct {
 	Output    string                 `json:"output"`
 	Status    string                 `json:"status"`    // running, completed, failed
 	ExitCode  int                    `json:"exit_code"` // 命令退出码
+	CmdPath   string                 `json:"cmd_path"`
 	Mutex     *sync.Mutex            `json:"-"`
 	Clients   map[string]chan string `json:"-"`
 }
@@ -243,12 +244,12 @@ func handleCommandRequest(w http.ResponseWriter, r *http.Request) {
 
 		req := CommandRequest{
 			Cmd:     cmd,
-			Version: "latest",
+			Version: "",
 			Args:    args,
 			Env:     make(map[string]string),
 		}
 
-		logger.Info("GET请求使用latest版本执行命令: %s", cmd)
+		logger.Info("GET请求需要适配可用版本执行命令")
 
 		task = taskManager.CreateTask(req)
 
@@ -316,9 +317,10 @@ func handleCommandRequest(w http.ResponseWriter, r *http.Request) {
 	useSSE := r.URL.Query().Get("sse") == "true"
 	if useSSE {
 		handleSSERequest(w, r, task)
-	} else {
-		handleSyncRequest(w, task)
+		return
 	}
+
+	handleSyncRequest(w, task)
 }
 
 type charset string
@@ -358,22 +360,17 @@ func executeCommand(task *Task) {
 	// 记录日志
 	logger.Info("执行命令: %s, 版本: %s, 参数: %s", task.Request.Cmd, task.Request.Version, strings.Join(task.Request.Args, ", "))
 
-	// 获取命令路径
-	version := task.Request.Version
-	if version == "" {
-		version = "latest"
-		logger.Info("未指定版本，使用latest版本: %s", task.Request.Cmd)
-	}
-
 	// 使用版本管理获取可执行文件路径
-	cmdPath, found, err := config.GetCommandPath(task.Request.Cmd, version)
+	cmdPath, found, err := config.GetCommandPath(task.Request.Cmd, task.Request.Version)
 	if err != nil || !found {
-		errMsg := fmt.Sprintf("找不到命令 %s 版本 %s: %v\n", task.Request.Cmd, version, err)
+		errMsg := fmt.Sprintf("找不到命令 %s 版本 %s: %v\n", task.Request.Cmd, task.Request.Version, err)
 		logger.Error(errMsg)
 		task.AddOutput(errMsg)
 		task.Complete("failed", 1)
 		return
 	}
+
+	task.CmdPath = cmdPath
 
 	// 记录使用的可执行文件路径
 	logger.Info("使用可执行文件: %s", cmdPath)
@@ -383,18 +380,18 @@ func executeCommand(task *Task) {
 	// 检查是否是 Windows 平台
 	if runtime.GOOS == "windows" {
 		// 检查文件扩展名是否为批处理文件
-		ext := strings.ToLower(filepath.Ext(cmdPath))
+		ext := strings.ToLower(filepath.Ext(task.CmdPath))
 		if ext == ".bat" || ext == ".cmd" {
 			// 使用 cmd /c 执行批处理文件
-			newArgs := append([]string{"/c", cmdPath}, task.Request.Args...)
+			newArgs := append([]string{"/c", task.CmdPath}, task.Request.Args...)
 			cmd = exec.Command("cmd", newArgs...)
 		} else {
 			// 非批处理文件直接执行
-			cmd = exec.Command(cmdPath, task.Request.Args...)
+			cmd = exec.Command(task.CmdPath, task.Request.Args...)
 		}
 	} else {
 		// 非 Windows 平台直接执行命令
-		cmd = exec.Command(cmdPath, task.Request.Args...)
+		cmd = exec.Command(task.CmdPath, task.Request.Args...)
 	}
 
 	// 获取当前环境变量
