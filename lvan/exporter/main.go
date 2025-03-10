@@ -2,7 +2,9 @@ package main
 
 import (
 	"bufio"
+	"context"
 	"encoding/json"
+	"errors"
 	"flag"
 	"fmt"
 	"github.com/wangtengda/gobee/lvan/exporter/config"
@@ -376,6 +378,10 @@ func executeCommand(task *Task) {
 	logger.Info("使用可执行文件: %s", cmdPath)
 	task.AddOutput(fmt.Sprintf("Using executable: %s\n", cmdPath))
 
+	var timeout = 30 * time.Minute
+	ctx, cancel := context.WithTimeout(context.Background(), timeout)
+	defer cancel()
+
 	var cmd *exec.Cmd
 	// 检查是否是 Windows 平台
 	if runtime.GOOS == "windows" {
@@ -384,14 +390,14 @@ func executeCommand(task *Task) {
 		if ext == ".bat" || ext == ".cmd" {
 			// 使用 cmd /c 执行批处理文件
 			newArgs := append([]string{"/c", task.CmdPath}, task.Request.Args...)
-			cmd = exec.Command("cmd", newArgs...)
+			cmd = exec.CommandContext(ctx, "cmd", newArgs...)
 		} else {
 			// 非批处理文件直接执行
-			cmd = exec.Command(task.CmdPath, task.Request.Args...)
+			cmd = exec.CommandContext(ctx, task.CmdPath, task.Request.Args...)
 		}
 	} else {
 		// 非 Windows 平台直接执行命令
-		cmd = exec.Command(task.CmdPath, task.Request.Args...)
+		cmd = exec.CommandContext(ctx, task.CmdPath, task.Request.Args...)
 	}
 
 	// 获取当前环境变量
@@ -463,8 +469,11 @@ func executeCommand(task *Task) {
 	err = cmd.Wait()
 	exitCode := 0
 	if err != nil {
-		// 尝试获取退出码
-		if exitErr, ok := err.(*exec.ExitError); ok {
+		// 处理超时错误
+		if errors.Is(ctx.Err(), context.DeadlineExceeded) {
+			task.AddOutput(fmt.Sprintf("命令执行超时 %v\n", timeout))
+			exitCode = 124 // 通常用 124 表示超时退出码
+		} else if exitErr, ok := err.(*exec.ExitError); ok { // 尝试获取退出码
 			exitCode = exitErr.ExitCode()
 		} else {
 			exitCode = 1 // 默认错误码
