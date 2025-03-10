@@ -9,6 +9,8 @@ import (
 	"net/http"
 	"os"
 	"os/exec"
+	"path/filepath"
+	"runtime"
 	"strings"
 	"sync"
 	"time"
@@ -337,14 +339,11 @@ func handleCommandRequest(w http.ResponseWriter, r *http.Request) {
 			task.RemoveClient(clientID)
 		}
 
-		// 设置连接关闭时的清理
-		notifier, ok := w.(http.CloseNotifier)
-		if ok {
-			go func() {
-				<-notifier.CloseNotify()
-				cleanup()
-			}()
-		}
+		// 设置连接关闭时的清理（使用context替代已弃用的http.CloseNotifier）
+		go func() {
+			<-r.Context().Done()
+			cleanup()
+		}()
 
 		// 异步执行命令
 		go executeCommand(task)
@@ -408,13 +407,29 @@ func executeCommand(task *Task) {
 	logger.Info("使用可执行文件: %s", cmdPath)
 	task.AddOutput(fmt.Sprintf("Using executable: %s\n", cmdPath))
 
-	// 调用系统命令
-	cmd := exec.Command(cmdPath, task.Request.Args...)
+	var cmd *exec.Cmd
+	// 检查是否是 Windows 平台
+	if runtime.GOOS == "windows" {
+		// 检查文件扩展名是否为批处理文件
+		ext := strings.ToLower(filepath.Ext(cmdPath))
+		if ext == ".bat" || ext == ".cmd" {
+			// 使用 cmd /c 执行批处理文件
+			newArgs := append([]string{"/c", cmdPath}, task.Request.Args...)
+			cmd = exec.Command("cmd", newArgs...)
+		} else {
+			// 非批处理文件直接执行
+			cmd = exec.Command(cmdPath, task.Request.Args...)
+		}
+	} else {
+		// 非 Windows 平台直接执行命令
+		cmd = exec.Command(cmdPath, task.Request.Args...)
+	}
+	
+	// 获取当前环境变量
+	cmd.Env = os.Environ()
 
 	// 设置环境变量
 	if len(task.Request.Env) > 0 {
-		// 获取当前环境变量
-		cmd.Env = os.Environ()
 
 		// 添加自定义环境变量
 		for key, value := range task.Request.Env {
@@ -422,6 +437,10 @@ func executeCommand(task *Task) {
 			logger.Debug("设置环境变量: %s=%s", key, value)
 		}
 	}
+
+	// 设置工作目录（任务沙箱）
+	taskDir := getTaskDirectory(task.ID)
+	cmd.Dir = taskDir
 
 	// 创建管道获取命令输出
 	stdout, err := cmd.StdoutPipe()
@@ -489,6 +508,18 @@ func executeCommand(task *Task) {
 	}
 }
 
+// getTaskDirectory 获取任务的工作目录
+func getTaskDirectory(taskID string) string {
+	// 示例实现，根据实际项目调整
+	tasksDir := "tasks"
+	taskDir := filepath.Join(tasksDir, taskID)
+
+	// 确保目录存在
+	os.MkdirAll(taskDir, 0755)
+
+	return taskDir
+}
+
 // 处理结果请求
 func handleResultRequest(w http.ResponseWriter, r *http.Request) {
 	// 解析路径中的任务ID
@@ -532,14 +563,11 @@ func handleResultRequest(w http.ResponseWriter, r *http.Request) {
 			task.RemoveClient(clientID)
 		}
 
-		// 设置连接关闭时的清理
-		notifier, ok := w.(http.CloseNotifier)
-		if ok {
-			go func() {
-				<-notifier.CloseNotify()
-				cleanup()
-			}()
-		}
+		// 设置连接关闭时的清理（使用context替代已弃用的http.CloseNotifier）
+		go func() {
+			<-r.Context().Done()
+			cleanup()
+		}()
 
 		// 发送现有输出
 		task.Mutex.Lock()

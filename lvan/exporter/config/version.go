@@ -5,19 +5,20 @@ import (
 	"io/fs"
 	"os"
 	"path/filepath"
+	"runtime"
 	"sort"
 	"strings"
 
-	"golang.org/x/mod/semver"
 	"github.com/wangtengda/gobee/lvan/exporter/logger"
+	"golang.org/x/mod/semver"
 )
 
 // CommandInfo 存储命令的信息
 type CommandInfo struct {
-	Name         string // 命令名称
-	Version      string // 版本号
-	Executable   string // 可执行文件路径
-	IsLatest     bool   // 是否是最新版本
+	Name       string // 命令名称
+	Version    string // 版本号
+	Executable string // 可执行文件路径
+	IsLatest   bool   // 是否是最新版本
 }
 
 // GetCommandPath 获取命令的可执行文件路径
@@ -63,7 +64,6 @@ func GetCommandPath(cmdName, version string) (string, bool, error) {
 // 返回值: 最新版本号, 是否找到, 错误信息
 func findLatestVersion(cmdName string) (string, bool, error) {
 	cmdDir := filepath.Join(CommandDir, cmdName)
-
 	// 读取版本目录
 	entries, err := os.ReadDir(cmdDir)
 	if err != nil {
@@ -109,8 +109,31 @@ func findLatestVersion(cmdName string) (string, bool, error) {
 func findExecutable(dir, cmdName string) (string, bool, error) {
 	// 首先尝试查找与命令名相同的可执行文件
 	possibleNames := []string{
-		cmdName,           // Linux/macOS
-		cmdName + ".exe", // Windows
+		cmdName, // Linux/macOS
+	}
+
+	// Windows 平台下，检查是否需要添加 .exe 后缀
+	if runtime.GOOS == "windows" {
+		// 检查是否已有扩展名
+		if !strings.Contains(filepath.Base(cmdName), ".") {
+			// 检查 .exe 版本是否存在
+			exePath := cmdName + ".exe"
+			if _, err := os.Stat(exePath); err == nil {
+				possibleNames = append(possibleNames, exePath)
+			}
+
+			// 检查 .bat 版本是否存在
+			batPath := cmdName + ".bat"
+			if _, err := os.Stat(batPath); err == nil {
+				possibleNames = append(possibleNames, batPath)
+			}
+
+			// 检查 .cmd 版本是否存在
+			cmdFilePath := cmdName + ".cmd"
+			if _, err := os.Stat(cmdFilePath); err == nil {
+				possibleNames = append(possibleNames, cmdFilePath)
+			}
+		}
 	}
 
 	for _, name := range possibleNames {
@@ -156,7 +179,7 @@ func isExecutable(path string) bool {
 	}
 
 	// 在Windows上，检查文件扩展名是否为.exe
-	if strings.HasSuffix(strings.ToLower(path), ".exe") {
+	if strings.HasSuffix(strings.ToLower(path), ".exe") || strings.HasSuffix(strings.ToLower(path), ".bat") || strings.HasSuffix(strings.ToLower(path), ".cmd") {
 		return true
 	}
 
