@@ -68,7 +68,9 @@ type Task struct {
 	Status    string                 `json:"status"`    // running, completed, failed
 	ExitCode  int                    `json:"exit_code"` // 命令退出码
 	CmdPath   string                 `json:"cmd_path"`
+	WorkDir   string                 `json:"workdir"`
 	Mutex     *sync.Mutex            `json:"-"`
+	Logger    *logger.Logger         `json:"-"`
 	Clients   map[string]chan string `json:"-"`
 	ClientMgr *ClientManager         `json:"-"`
 }
@@ -222,12 +224,16 @@ func (tm *TaskManager) CreateTask(req CommandRequest) *Task {
 	defer tm.Mutex.Unlock()
 
 	taskID := uuid.New().String()
+	workdir := getTaskDirectory(taskID)
+	logInstance, _ := logger.NewLogger(workdir, "output.log", logger.INFO, 10*1024*1024)
 	task := &Task{
 		ID:        taskID,
 		StartTime: time.Now(),
 		Request:   req,
 		Status:    "running",
+		WorkDir:   workdir,
 		Mutex:     &sync.Mutex{},
+		Logger:    logInstance,
 		ClientMgr: NewClientManager(1000, 30*time.Minute), // 设置最大1000个客户端，30分钟超时
 	}
 
@@ -250,6 +256,10 @@ func (t *Task) AddOutput(output string) {
 	defer t.Mutex.Unlock()
 
 	t.Output += output
+
+	if t.Logger != nil {
+		t.Logger.Info("TASK OUTPUT: %s", output)
+	}
 
 	// 使用ClientManager广播消息给所有客户端
 	if t.ClientMgr != nil {
@@ -597,8 +607,7 @@ func executeCommand(task *Task) {
 	}
 
 	// 设置工作目录（任务沙箱）
-	taskDir := getTaskDirectory(task.ID)
-	cmd.Dir = taskDir
+	cmd.Dir = task.WorkDir
 
 	// 创建管道获取命令输出
 	stdout, err := cmd.StdoutPipe()
