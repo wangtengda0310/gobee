@@ -7,7 +7,6 @@ import (
 	"errors"
 	"flag"
 	"fmt"
-	"github.com/wangtengda/gobee/lvan/exporter/config"
 	"io"
 	"net/http"
 	"os"
@@ -17,6 +16,8 @@ import (
 	"strings"
 	"sync"
 	"time"
+
+	"github.com/wangtengda/gobee/lvan/exporter/config"
 
 	"github.com/google/uuid"
 	"gopkg.in/yaml.v3"
@@ -39,6 +40,24 @@ type CommandRequest struct {
 	Env     map[string]string `json:"env" yaml:"env"`
 }
 
+// 客户端信息
+type Client struct {
+	ID           string      // 客户端唯一标识
+	OutputChan   chan string // 输出通道
+	LastActivity time.Time   // 最后活动时间
+	Active       bool        // 客户端是否活跃
+}
+
+// 客户端管理器，使用分片锁减少锁竞争
+type ClientManager struct {
+	Clients     map[string]*Client // 客户端映射
+	Mutex       sync.RWMutex       // 读写锁
+	BroadcastCh chan string        // 广播通道
+	MaxClients  int                // 最大客户端数量
+	IdleTimeout time.Duration      // 客户端空闲超时时间
+	shutdown    chan struct{}      // 关闭信号
+}
+
 // 任务信息
 type Task struct {
 	ID        string                 `json:"id"`
@@ -51,6 +70,7 @@ type Task struct {
 	CmdPath   string                 `json:"cmd_path"`
 	Mutex     *sync.Mutex            `json:"-"`
 	Clients   map[string]chan string `json:"-"`
+	ClientMgr *ClientManager         `json:"-"`
 }
 
 // 任务管理器
@@ -62,6 +82,138 @@ type TaskManager struct {
 // 全局任务管理器
 var taskManager = TaskManager{
 	Tasks: make(map[string]*Task),
+}
+
+// 创建新的客户端管理器
+func NewClientManager(maxClients int, idleTimeout time.Duration) *ClientManager {
+	cm := &ClientManager{
+		Clients:     make(map[string]*Client),
+		BroadcastCh: make(chan string, 100),
+		MaxClients:  maxClients,
+		IdleTimeout: idleTimeout,
+		shutdown:    make(chan struct{}),
+	}
+
+	// 启动广播处理协程
+	go cm.broadcastWorker()
+	// 启动空闲客户端清理协程
+	go cm.cleanupWorker()
+
+	return cm
+}
+
+// 广播工作协程
+func (cm *ClientManager) broadcastWorker() {
+	for {
+		select {
+		case msg := <-cm.BroadcastCh:
+			// 读锁保护，允许并发读取
+			cm.Mutex.RLock()
+			for _, client := range cm.Clients {
+				if client.Active {
+					select {
+					case client.OutputChan <- msg:
+						// 消息发送成功
+					default:
+						// 通道已满，跳过
+					}
+				}
+			}
+			cm.Mutex.RUnlock()
+		case <-cm.shutdown:
+			return
+		}
+	}
+}
+
+// 清理空闲客户端
+func (cm *ClientManager) cleanupWorker() {
+	ticker := time.NewTicker(time.Minute)
+	defer ticker.Stop()
+
+	for {
+		select {
+		case <-ticker.C:
+			cm.Mutex.Lock()
+			now := time.Now()
+			for id, client := range cm.Clients {
+				if now.Sub(client.LastActivity) > cm.IdleTimeout {
+					// 关闭通道
+					close(client.OutputChan)
+					// 从映射中删除
+					delete(cm.Clients, id)
+					logger.Info("客户端 %s 因空闲超时被清理", id)
+				}
+			}
+			cm.Mutex.Unlock()
+		case <-cm.shutdown:
+			return
+		}
+	}
+}
+
+// 添加客户端
+func (cm *ClientManager) AddClient(clientID string) chan string {
+	cm.Mutex.Lock()
+	defer cm.Mutex.Unlock()
+
+	// 检查是否达到最大客户端数量限制
+	if cm.MaxClients > 0 && len(cm.Clients) >= cm.MaxClients {
+		logger.Warn("达到最大客户端数量限制 %d，拒绝新客户端 %s", cm.MaxClients, clientID)
+		return nil
+	}
+
+	// 创建新客户端
+	client := &Client{
+		ID:           clientID,
+		OutputChan:   make(chan string, 100),
+		LastActivity: time.Now(),
+		Active:       true,
+	}
+
+	cm.Clients[clientID] = client
+	logger.Info("添加新客户端 %s，当前客户端数量: %d", clientID, len(cm.Clients))
+	return client.OutputChan
+}
+
+// 移除客户端
+func (cm *ClientManager) RemoveClient(clientID string) {
+	cm.Mutex.Lock()
+	defer cm.Mutex.Unlock()
+
+	if client, exists := cm.Clients[clientID]; exists {
+		close(client.OutputChan)
+		delete(cm.Clients, clientID)
+		logger.Info("移除客户端 %s，当前客户端数量: %d", clientID, len(cm.Clients))
+	}
+}
+
+// 广播消息给所有客户端
+func (cm *ClientManager) Broadcast(msg string) {
+	select {
+	case cm.BroadcastCh <- msg:
+		// 消息已放入广播通道
+	default:
+		// 广播通道已满，记录警告
+		logger.Warn("广播通道已满，消息丢弃")
+	}
+}
+
+// 关闭客户端管理器
+func (cm *ClientManager) Close() {
+	// 发送关闭信号
+	close(cm.shutdown)
+
+	// 关闭所有客户端连接
+	cm.Mutex.Lock()
+	defer cm.Mutex.Unlock()
+
+	for id, client := range cm.Clients {
+		close(client.OutputChan)
+		delete(cm.Clients, id)
+	}
+
+	logger.Info("客户端管理器已关闭")
 }
 
 // 创建新任务
@@ -76,7 +228,7 @@ func (tm *TaskManager) CreateTask(req CommandRequest) *Task {
 		Request:   req,
 		Status:    "running",
 		Mutex:     &sync.Mutex{},
-		Clients:   make(map[string]chan string),
+		ClientMgr: NewClientManager(1000, 30*time.Minute), // 设置最大1000个客户端，30分钟超时
 	}
 
 	tm.Tasks[taskID] = task
@@ -99,13 +251,9 @@ func (t *Task) AddOutput(output string) {
 
 	t.Output += output
 
-	// 向所有监听的客户端发送输出
-	for _, ch := range t.Clients {
-		select {
-		case ch <- output:
-		default:
-			// 如果客户端没有准备好接收，跳过
-		}
+	// 使用ClientManager广播消息给所有客户端
+	if t.ClientMgr != nil {
+		t.ClientMgr.Broadcast(output)
 	}
 }
 
@@ -119,11 +267,14 @@ func (t *Task) Complete(status string, exitCode int) {
 	now := time.Now()
 	t.EndTime = &now
 
-	// 关闭所有客户端通道
-	for clientID, ch := range t.Clients {
-		close(ch)
-		delete(t.Clients, clientID)
+	// 关闭客户端管理器，会自动关闭所有客户端连接
+	if t.ClientMgr != nil {
+		t.ClientMgr.Close()
 	}
+
+	// 发送任务完成的最终消息
+	completionMsg := fmt.Sprintf("\nTask completed with status: %s, exit code: %d\n", status, exitCode)
+	t.Output += completionMsg
 }
 
 // 添加SSE客户端
@@ -131,19 +282,39 @@ func (t *Task) AddClient(clientID string) chan string {
 	t.Mutex.Lock()
 	defer t.Mutex.Unlock()
 
-	ch := make(chan string, 100)
-	t.Clients[clientID] = ch
-	return ch
+	// 如果任务已完成，返回nil
+	if t.Status == "completed" || t.Status == "failed" {
+		logger.Warn("尝试为已完成的任务 %s 添加客户端 %s", t.ID, clientID)
+		return nil
+	}
+
+	// 使用ClientManager添加客户端
+	if t.ClientMgr != nil {
+		ch := t.ClientMgr.AddClient(clientID)
+
+		// 如果是新客户端，发送已有的输出历史
+		if ch != nil && t.Output != "" {
+			select {
+			case ch <- t.Output:
+				// 发送成功
+			default:
+				// 通道已满，跳过历史输出
+				logger.Warn("客户端 %s 通道已满，跳过历史输出", clientID)
+			}
+		}
+		return ch
+	}
+
+	// 如果ClientManager不存在，创建一个
+	t.ClientMgr = NewClientManager(1000, 30*time.Minute)
+	return t.ClientMgr.AddClient(clientID)
 }
 
 // 移除SSE客户端
 func (t *Task) RemoveClient(clientID string) {
-	t.Mutex.Lock()
-	defer t.Mutex.Unlock()
-
-	if ch, exists := t.Clients[clientID]; exists {
-		close(ch)
-		delete(t.Clients, clientID)
+	// 不需要锁定Task，ClientManager有自己的锁
+	if t.ClientMgr != nil {
+		t.ClientMgr.RemoveClient(clientID)
 	}
 }
 
@@ -168,22 +339,26 @@ func handleSSERequest(w http.ResponseWriter, r *http.Request, task *Task) {
 	clientID := uuid.New().String()
 	outputChan := task.AddClient(clientID)
 
-	// 清理函数
-	cleanup := func() {
-		task.RemoveClient(clientID)
+	// 如果无法添加客户端（例如任务已完成或达到最大连接数）
+	if outputChan == nil {
+		http.Error(w, "Cannot connect to task: either completed or connection limit reached", http.StatusServiceUnavailable)
+		return
 	}
 
 	// 设置连接关闭时的清理
 	go func() {
 		<-r.Context().Done()
-		cleanup()
+		task.RemoveClient(clientID)
+		logger.Info("SSE客户端 %s 连接已关闭", clientID)
 	}()
 
-	// 异步执行命令
-	go executeCommand(task)
+	// 异步执行命令（如果尚未执行）
+	if task.Status == "running" && task.CmdPath == "" {
+		go executeCommand(task)
+	}
 
 	// 发送任务ID
-	fmt.Fprintf(w, "data: {\"id\": \"%s\"}\n\n", task.ID)
+	fmt.Fprintf(w, "data: {\"id\": \"%s\", \"status\": \"%s\"}\n\n", task.ID, task.Status)
 	w.(http.Flusher).Flush()
 
 	// 发送输出流
@@ -197,6 +372,14 @@ func handleSSERequest(w http.ResponseWriter, r *http.Request, task *Task) {
 			}
 		}
 	}
+
+	// 如果输出通道关闭但任务仍在运行，发送最终状态
+	task.Mutex.Lock()
+	if task.Status != "running" {
+		fmt.Fprintf(w, "data: {\"status\": \"%s\", \"exitCode\": %d}\n\n", task.Status, task.ExitCode)
+		w.(http.Flusher).Flush()
+	}
+	task.Mutex.Unlock()
 }
 
 // 处理同步执行命令请求
@@ -538,15 +721,34 @@ func handleResultRequest(w http.ResponseWriter, r *http.Request) {
 		clientID := uuid.New().String()
 		outputChan := task.AddClient(clientID)
 
-		// 清理函数
-		cleanup := func() {
-			task.RemoveClient(clientID)
+		// 如果无法添加客户端（例如任务已完成或达到最大连接数）
+		if outputChan == nil {
+			http.Error(w, "Cannot connect to task: either completed or connection limit reached", http.StatusServiceUnavailable)
+			return
 		}
 
-		// 设置连接关闭时的清理（使用context替代已弃用的http.CloseNotifier）
+		// 设置连接关闭时的清理
 		go func() {
 			<-r.Context().Done()
-			cleanup()
+			task.RemoveClient(clientID)
+			logger.Info("结果SSE客户端 %s 连接已关闭", clientID)
+		}()
+
+		// 添加健康检查ping
+		go func() {
+			ticker := time.NewTicker(30 * time.Second)
+			defer ticker.Stop()
+
+			for {
+				select {
+				case <-ticker.C:
+					// 发送ping消息
+					fmt.Fprintf(w, "event: ping\ndata: %d\n\n", time.Now().Unix())
+					w.(http.Flusher).Flush()
+				case <-r.Context().Done():
+					return
+				}
+			}
 		}()
 
 		// 发送现有输出
@@ -565,7 +767,6 @@ func handleResultRequest(w http.ResponseWriter, r *http.Request) {
 		task.Mutex.Unlock()
 
 		if isCompleted {
-			cleanup()
 			return
 		}
 
