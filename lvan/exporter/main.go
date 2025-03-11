@@ -5,7 +5,6 @@ import (
 	"context"
 	"encoding/json"
 	"errors"
-	"flag"
 	"fmt"
 	"io"
 	"net/http"
@@ -18,7 +17,7 @@ import (
 	"time"
 
 	_ "embed"
-
+"github.com/spf13/pflag"
 	"github.com/wangtengda/gobee/lvan/exporter/config"
 
 	"github.com/google/uuid"
@@ -41,7 +40,7 @@ var cliDoc string
 
 // 版本信息
 const (
-	Version = "0.1.0"
+	Version = "0.0.0"
 )
 
 // 命令请求结构
@@ -857,18 +856,37 @@ func cleanGeneratedFiles(tasksDir string) {
 }
 
 func main() {
-	// 解析命令行参数
-	port := flag.Int("p", 80, "Port to listen on")
-	portLong := flag.Int("port", 80, "Port to listen on")
-	showVersion := flag.Bool("v", false, "Show version")
-	showVersionLong := flag.Bool("version", false, "Show version")
-	showHelp := flag.Bool("h", false, "Show help")
-	showHelpLong := flag.Bool("help", false, "Show help")
-	showMoreHelp := flag.Bool("morehelp", false, "Show more detailed help about command directory structure")
-	logLevel := flag.String("log-level", "info", "Log level (debug, info, warn, error, fatal)")
-	cleanFlag := flag.Bool("clean", false, "clean task results")
+    // 设置程序说明
+    pflag.Usage = func() {
+        fmt.Fprintf(os.Stderr, "Exporter 服务程序 v%s\n\n", Version)
+        fmt.Fprintf(os.Stderr, "用法:\n")
+        fmt.Fprintf(os.Stderr, "  exporter [选项]\n\n")
+        fmt.Fprintf(os.Stderr, "选项:\n")
+        pflag.PrintDefaults()
+    }
 
-	flag.Parse()
+	// 解析命令行参数
+    port := pflag.IntP("port", "p", 80, "指定服务监听的TCP端口默认 80")
+    showVersion := pflag.BoolP("version", "v", false, "显示版本号")
+    showHelp := pflag.BoolP("help", "h", false, "本说明文档")
+    showMoreHelp := pflag.Bool("morehelp", false, "展示更详细的文档")
+    logLevel := pflag.String("log-level", "info", "Log level (debug, info, warn, error, fatal)")
+    cleanFlag := pflag.Bool("clean", false, "清除任务的工作目录")
+
+    // 为参数添加长格式说明
+    pflag.Lookup("port").Usage = "指定服务监听的TCP端口默认 80\n" +
+        "  示例:\n" +
+        "    --port 8080     监听8080端口\n" +
+        "    -p 8080        使用短格式指定端口"
+        
+    pflag.Lookup("log-level").Usage = "设置日志输出级别\n" +
+        "  可选值:\n" +
+        "    debug   调试信息\n" +
+        "    info    一般信息\n" +
+        "    warn    警告信息\n" +
+        "    error   错误信息\n" +
+        "    fatal   致命错误"
+	pflag.Parse()
 
     if *cleanFlag {
         cleanGeneratedFiles(tasksDir)
@@ -892,14 +910,14 @@ func main() {
 	}
 
 	// 处理版本信息
-	if *showVersion || *showVersionLong {
+	if *showVersion {
 		fmt.Printf("Exporter version %s\n", Version)
 		return
 	}
 
 	// 处理帮助信息
-	if *showHelp || *showHelpLong {
-		flag.Usage()
+	if *showHelp {
+		pflag.Usage()
 		return
 	}
 
@@ -909,12 +927,6 @@ func main() {
 		return
 	}
 
-	// 确定使用哪个端口
-	listenPort := *port
-	if *portLong != 80 {
-		listenPort = *portLong
-	}
-
 	// 设置HTTP路由
 	http.HandleFunc("/", handleRootRequest)
 	http.HandleFunc("/cmd", handleCommandRequest)
@@ -922,7 +934,7 @@ func main() {
 	http.HandleFunc("/result/", handleResultRequest)
 
 	// 启动HTTP服务器
-	serverAddr := fmt.Sprintf(":%d", listenPort)
-	logger.Info("启动exporter服务器，监听端口 %d...", listenPort)
+	serverAddr := fmt.Sprintf(":%d", *port)
+	logger.Info("启动exporter服务器，监听端口 %d...", *port)
 	logger.Fatal("服务器停止: %v", http.ListenAndServe(serverAddr, nil))
 }
