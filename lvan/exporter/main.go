@@ -17,6 +17,8 @@ import (
 	"sync"
 	"time"
 
+	_ "embed"
+
 	"github.com/wangtengda/gobee/lvan/exporter/config"
 
 	"github.com/google/uuid"
@@ -26,6 +28,16 @@ import (
 
 	"golang.org/x/text/encoding/simplifiedchinese"
 )
+
+// 嵌入HTTP文档
+//
+//go:embed http-doc.txt
+var httpDoc string
+
+// 嵌入CLI文档
+//
+//go:embed cli-doc.txt
+var cliDoc string
 
 // 版本信息
 const (
@@ -409,6 +421,21 @@ func handleSyncRequest(w http.ResponseWriter, task *Task) {
 	// 返回结果
 	w.Header().Set("Content-Type", "text/plain")
 	w.Write([]byte(task.Output))
+}
+
+// 处理根路径请求
+func handleRootRequest(w http.ResponseWriter, r *http.Request) {
+	// 只处理根路径请求
+	if r.URL.Path != "/" {
+		http.NotFound(w, r)
+		return
+	}
+
+	// 设置响应头
+	w.Header().Set("Content-Type", "text/plain; charset=utf-8")
+
+	// 使用嵌入的HTTP文档内容
+	w.Write([]byte(httpDoc))
 }
 
 // 处理命令请求
@@ -827,6 +854,7 @@ func main() {
 	showVersionLong := flag.Bool("version", false, "Show version")
 	showHelp := flag.Bool("h", false, "Show help")
 	showHelpLong := flag.Bool("help", false, "Show help")
+	showMoreHelp := flag.Bool("morehelp", false, "Show more detailed help about command directory structure")
 	logLevel := flag.String("log-level", "info", "Log level (debug, info, warn, error, fatal)")
 
 	flag.Parse()
@@ -859,6 +887,12 @@ func main() {
 		return
 	}
 
+	// 处理更多帮助信息
+	if *showMoreHelp {
+		fmt.Println(cliDoc)
+		return
+	}
+
 	// 确定使用哪个端口
 	listenPort := *port
 	if *portLong != 80 {
@@ -866,6 +900,7 @@ func main() {
 	}
 
 	// 设置HTTP路由
+	http.HandleFunc("/", handleRootRequest)
 	http.HandleFunc("/cmd", handleCommandRequest)
 	http.HandleFunc("/cmd/", handleCommandRequest)
 	http.HandleFunc("/result/", handleResultRequest)

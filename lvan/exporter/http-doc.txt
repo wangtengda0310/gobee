@@ -1,0 +1,15 @@
+GET /cmd/需要调用的工具/工具参数?sse=true&onlyid=true
+  如果指定了onlyid=true则只返回任务id
+  如果指定了sse=true则web页面实时推送命令执行结果
+
+POST /cmd?sse=true&onlyid=true&body=json
+  如果指定了onlyid=true则只返回任务id
+  如果指定了sse=true则web页面实时推送命令执行结果
+  如果指定了body=json则request body为json格式
+{
+    "cmd":"需要调用的工具",
+    "version":"工具版本",
+    "args":"工具参数"
+}
+
+GET /result/任务id
