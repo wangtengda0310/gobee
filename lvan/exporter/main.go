@@ -12,12 +12,14 @@ import (
 	"os/exec"
 	"path/filepath"
 	"runtime"
+	"strconv"
 	"strings"
 	"sync"
 	"time"
 
 	_ "embed"
-"github.com/spf13/pflag"
+
+	"github.com/spf13/pflag"
 	"github.com/wangtengda/gobee/lvan/exporter/config"
 
 	"github.com/google/uuid"
@@ -855,6 +857,29 @@ func cleanGeneratedFiles(tasksDir string) {
     
 }
 
+// 新增环境变量辅助函数
+func getEnvString(key string, defaultVal string) string {
+    if value, exists := os.LookupEnv(key); exists {
+        return value
+    }
+    return defaultVal
+}
+
+func getEnvInt(key string, defaultVal int) int {
+    if value, exists := os.LookupEnv(key); exists {
+        if intValue, err := strconv.Atoi(value); err == nil {
+            return intValue
+        }
+    }
+    return defaultVal
+}
+
+func getEnvBool(key string, defaultVal bool) bool {
+    if value, exists := os.LookupEnv(key); exists {
+        return strings.EqualFold(value, "true") || value == "1"
+    }
+    return defaultVal
+}
 func main() {
     // 设置程序说明
     pflag.Usage = func() {
@@ -864,9 +889,9 @@ func main() {
         fmt.Fprintf(os.Stderr, "选项:\n")
         pflag.PrintDefaults()
     }
-
+	
 	// 解析命令行参数
-    port := pflag.IntP("port", "p", 80, "指定服务监听的TCP端口默认 80")
+    port := pflag.IntP("port", "p", getEnvInt("EXPORTER_PORT", 80), "指定服务监听的TCP端口默认 80 支持环境变量 EXPORTER_PORT")
     showVersion := pflag.BoolP("version", "v", false, "显示版本号")
     showHelp := pflag.BoolP("help", "h", false, "本说明文档")
     showMoreHelp := pflag.Bool("morehelp", false, "展示更详细的文档")
@@ -874,10 +899,11 @@ func main() {
     cleanFlag := pflag.Bool("clean", false, "清除任务的工作目录")
 
     // 为参数添加长格式说明
-    pflag.Lookup("port").Usage = "指定服务监听的TCP端口默认 80\n" +
+    pflag.Lookup("port").Usage = "指定服务监听的TCP端口默认 80 支持环境变量 EXPORTER_PORT\n" +
         "  示例:\n" +
-        "    --port 8080     监听8080端口\n" +
-        "    -p 8080        使用短格式指定端口"
+        "    EXPORTER_PORT=8080	通过环境变量指定端口\n" +
+        "    --port 8080     		监听8080端口\n" +
+        "    -p 8080        		使用短格式指定端口"
         
     pflag.Lookup("log-level").Usage = "设置日志输出级别\n" +
         "  可选值:\n" +
