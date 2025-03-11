@@ -710,7 +710,6 @@ func executeCommand(task *Task) {
 // getTaskDirectory 获取任务的工作目录
 func getTaskDirectory(taskID string) string {
 	// 示例实现，根据实际项目调整
-	tasksDir := "tasks"
 	taskDir := filepath.Join(tasksDir, taskID)
 
 	// 确保目录存在
@@ -845,6 +844,17 @@ func handleResultRequest(w http.ResponseWriter, r *http.Request) {
 		w.Write([]byte(output))
 	}
 }
+const tasksDir = "tasks"
+// 新增清理方法
+func cleanGeneratedFiles(tasksDir string) {
+    // 删除任务目录
+    if err := os.RemoveAll(tasksDir); err != nil {
+        logger.Error("清理失败: %v", err)
+    } else {
+        logger.Info("已清理所有任务数据")
+    }
+    
+}
 
 func main() {
 	// 解析命令行参数
@@ -856,9 +866,15 @@ func main() {
 	showHelpLong := flag.Bool("help", false, "Show help")
 	showMoreHelp := flag.Bool("morehelp", false, "Show more detailed help about command directory structure")
 	logLevel := flag.String("log-level", "info", "Log level (debug, info, warn, error, fatal)")
+	cleanFlag := flag.Bool("clean", false, "clean task results")
 
 	flag.Parse()
 
+    if *cleanFlag {
+        cleanGeneratedFiles(tasksDir)
+        return // 清理后直接退出
+    }
+    
 	// 设置日志级别
 	switch strings.ToLower(*logLevel) {
 	case "debug":
