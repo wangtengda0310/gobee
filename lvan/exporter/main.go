@@ -565,8 +565,6 @@ func handleCommandRequest(w http.ResponseWriter, r *http.Request) {
 			Env:     make(map[string]string),
 		}
 
-		logger.Info("GET请求需要适配可用版本执行命令")
-
 		task = taskManager.CreateTask(req)
 
 	// 处理POST请求
@@ -907,7 +905,12 @@ func handleResultRequest(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-const tasksDir = "tasks"
+// 全局工作目录变量
+var (
+	workDir  string // 工作目录
+	tasksDir string // 任务目录
+	logsDir  string // 日志目录
+)
 
 // 新增清理方法
 func cleanGeneratedFiles(tasksDir string) {
@@ -960,6 +963,7 @@ func main() {
 	showMoreHelp := pflag.Bool("morehelp", false, "展示更详细的文档")
 	logLevel := pflag.String("log-level", "info", "Log level (debug, info, warn, error, fatal)")
 	cleanFlag := pflag.Bool("clean", false, "清除任务的工作目录")
+	workDirFlag := pflag.StringP("workdir", "w", getEnvString("EXPORTER_WORKDIR", ""), "指定工作目录，默认为程序所在目录，支持环境变量 EXPORTER_WORKDIR")
 
 	// 为参数添加长格式说明
 	pflag.Lookup("port").Usage = "指定服务监听的TCP端口默认 80 支持环境变量 EXPORTER_PORT\n" +
@@ -975,7 +979,58 @@ func main() {
 		"    warn    警告信息\n" +
 		"    error   错误信息\n" +
 		"    fatal   致命错误"
+
+	pflag.Lookup("workdir").Usage = "指定工作目录，默认为程序所在目录\n" +
+		"  示例:\n" +
+		"    EXPORTER_WORKDIR=/path/to/dir  通过环境变量指定工作目录\n" +
+		"    --workdir /path/to/dir         使用长格式指定工作目录\n" +
+		"    -w /path/to/dir                使用短格式指定工作目录"
 	pflag.Parse()
+
+	// 初始化工作目录
+	if *workDirFlag != "" {
+		// 使用命令行参数指定的工作目录
+		workDir = *workDirFlag
+	} else {
+		// 默认使用可执行文件所在目录
+		execPath, err := os.Getwd()
+		if err != nil {
+			fmt.Printf("无法获取程序路径: %v\n", err)
+			os.Exit(1)
+		}
+		workDir = filepath.Dir(execPath)
+	}
+
+	// 确保工作目录存在
+	if err := os.MkdirAll(workDir, 0755); err != nil {
+		fmt.Printf("无法创建工作目录: %v\n", err)
+		os.Exit(1)
+	}
+
+	// 设置相关目录
+	tasksDir = filepath.Join(workDir, "tasks")
+	logsDir = filepath.Join(workDir, "logs")
+
+	// 确保相关目录存在
+	if err := os.MkdirAll(tasksDir, 0755); err != nil {
+		fmt.Printf("无法创建任务目录: %v\n", err)
+		os.Exit(1)
+	}
+	if err := os.MkdirAll(logsDir, 0755); err != nil {
+		fmt.Printf("无法创建日志目录: %v\n", err)
+		os.Exit(1)
+	}
+
+	// 先初始化日志系统，使用新的日志目录
+	loggerInstance, err := logger.NewLogger(logsDir, "exporter.log", logger.INFO, 10*1024*1024)
+	if err != nil {
+		fmt.Printf("初始化日志失败: %v\n", err)
+		os.Exit(1)
+	}
+	logger.SetDefaultLogger(loggerInstance)
+
+	// 初始化配置，传递工作目录
+	config.Init(workDir)
 
 	if *cleanFlag {
 		cleanGeneratedFiles(tasksDir)

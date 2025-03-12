@@ -45,78 +45,66 @@ type Logger struct {
 	filePath   string
 	maxSize    int64 // 日志文件最大大小（字节）
 	curSize    int64 // 当前日志文件大小
-	
+
 	// 异步日志相关
-	logChan    chan logEntry // 日志消息通道
-	closeChan  chan struct{} // 关闭信号通道
-	wg         sync.WaitGroup // 等待组，确保安全关闭
-	batchSize  int           // 批量写入大小
-	flushInterval time.Duration // 定时刷新间隔
+	logChan       chan logEntry  // 日志消息通道
+	closeChan     chan struct{}  // 关闭信号通道
+	wg            sync.WaitGroup // 等待组，确保安全关闭
+	batchSize     int            // 批量写入大小
+	flushInterval time.Duration  // 定时刷新间隔
 }
 
 // 全局日志实例
 var defaultLogger *Logger
 var once sync.Once
 
-// 初始化默认日志实例
-func init() {
-	once.Do(func() {
-		var err error
-		defaultLogger, err = NewLogger("logs", "exporter.log", INFO, 10*1024*1024) // 默认10MB
-		if err != nil {
-			fmt.Printf("初始化日志失败: %v\n", err)
-			os.Exit(1)
-		}
-	})
-}
-
 // NewLogger 创建新的日志记录器
 func NewLogger(logDir, logFileName string, level int, maxSize int64) (*Logger, error) {
-    // 确保日志目录存在
-    if err := os.MkdirAll(logDir, 0755); err != nil {
-        return nil, fmt.Errorf("创建日志目录失败: %v", err)
-    }
+	// 确保日志目录存在
+	if err := os.MkdirAll(logDir, 0755); err != nil {
+		return nil, fmt.Errorf("创建日志目录失败: %v", err)
+	}
 
-    // 构建日志文件路径
-    filePath := filepath.Join(logDir, logFileName)
+	// 构建日志文件路径
+	filePath := filepath.Join(logDir, logFileName)
 
-    // 打开日志文件
-    file, err := os.OpenFile(filePath, os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0644)
-    if err != nil {
-        return nil, fmt.Errorf("打开日志文件失败: %v", err)
-    }
+	// 打开日志文件
+	file, err := os.OpenFile(filePath, os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0644)
+	if err != nil {
+		return nil, fmt.Errorf("打开日志文件失败: %v", err)
+	}
 
-    // 获取当前文件大小
-    fileInfo, err := file.Stat()
-    if err != nil {
-        file.Close()
-        return nil, fmt.Errorf("获取文件信息失败: %v", err)
-    }
+	// 获取当前文件大小
+	fileInfo, err := file.Stat()
+	if err != nil {
+		file.Close()
+		return nil, fmt.Errorf("获取文件信息失败: %v", err)
+	}
 
 	// 创建多输出writer
 	multiWriter := io.MultiWriter(os.Stdout, file)
 
-    // 创建日志记录器
-    logger := &Logger{
-        level:      level,
-        logFile:    file,
-        logWriter:  multiWriter,
-        consoleLog: log.New(os.Stdout, "", 0),
-        fileLog:    log.New(file, "", 0),
-        filePath:   filePath,
-        maxSize:    maxSize,
-        curSize:    fileInfo.Size(),
-        logChan:    make(chan logEntry, 10000), // 缓冲大小可调整
-        closeChan:  make(chan struct{}),
-        batchSize:  100,                        // 每批处理100条日志
-        flushInterval: 100 * time.Millisecond,  // 100ms刷新一次
-    }
+	// 创建日志记录器
+	logger := &Logger{
+		level:         level,
+		logFile:       file,
+		logWriter:     multiWriter,
+		consoleLog:    log.New(os.Stdout, "", 0),
+		fileLog:       log.New(file, "", 0),
+		filePath:      filePath,
+		maxSize:       maxSize,
+		curSize:       fileInfo.Size(),
+		logChan:       make(chan logEntry, 10000), // 缓冲大小可调整
+		closeChan:     make(chan struct{}),
+		batchSize:     100,                    // 每批处理100条日志
+		flushInterval: 100 * time.Millisecond, // 100ms刷新一次
+	}
 
-    // 启动异步日志处理
-    logger.wg.Add(1)
-    go logger.processLogs()
+	// 启动异步日志处理
+	logger.wg.Add(1)
+	go logger.processLogs()
 
-    return logger, nil
+	return logger, nil
 }
 
 // 异步处理日志
@@ -129,29 +117,29 @@ func (l *Logger) processLogs() {
 
 	// 批量日志缓冲
 	buffer := make([]logEntry, 0, l.batchSize)
-	
+
 	for {
 		select {
 		case entry := <-l.logChan:
 			// 添加到缓冲
 			buffer = append(buffer, entry)
-			
+
 			// 如果达到批处理大小，立即写入
 			if len(buffer) >= l.batchSize {
 				l.writeBatch(buffer)
 				buffer = buffer[:0] // 清空缓冲区但保留容量
 			}
-			
+
 		case <-ticker.C:
 			// 定时刷新，即使未达到批处理大小
 			if len(buffer) > 0 {
 				l.writeBatch(buffer)
 				buffer = buffer[:0]
 			}
-			
+
 			// 检查是否需要轮转日志文件
 			l.checkRotate(0)
-			
+
 		case <-l.closeChan:
 			// 关闭前写入剩余日志
 			if len(buffer) > 0 {
@@ -164,32 +152,32 @@ func (l *Logger) processLogs() {
 
 // 批量写入日志
 func (l *Logger) writeBatch(entries []logEntry) {
-    if len(entries) == 0 {
-        return
-    }
+	if len(entries) == 0 {
+		return
+	}
 
-    l.mutex.Lock()
-    defer l.mutex.Unlock()
+	l.mutex.Lock()
+	defer l.mutex.Unlock()
 
-    var totalBytes int64
-    
-    // 一次性构建所有日志消息
-    for _, entry := range entries {
-        msg := formatLogMessage(entry.level, entry.message)
-        n, err := fmt.Fprintln(l.logWriter, msg)
-        if err != nil {
-            // 处理编码错误，直接尝试写入原始消息
-            n, err = fmt.Fprintln(l.logWriter, entry.message)
-            if err != nil {
-                fmt.Printf("写入日志失败: %v\n", err)
-                continue
-            }
-        }
-        totalBytes += int64(n)
-    }
-    
-    // 更新文件大小
-    l.curSize += totalBytes
+	var totalBytes int64
+
+	// 一次性构建所有日志消息
+	for _, entry := range entries {
+		msg := formatLogMessage(entry.level, entry.message)
+		n, err := fmt.Fprintln(l.logWriter, msg)
+		if err != nil {
+			// 处理编码错误，直接尝试写入原始消息
+			n, err = fmt.Fprintln(l.logWriter, entry.message)
+			if err != nil {
+				fmt.Printf("写入日志失败: %v\n", err)
+				continue
+			}
+		}
+		totalBytes += int64(n)
+	}
+
+	// 更新文件大小
+	l.curSize += totalBytes
 }
 
 // 检查并轮转日志文件
@@ -256,7 +244,7 @@ func (l *Logger) addLog(level int, format string, args ...interface{}) {
 
 	// 格式化消息
 	msg := fmt.Sprintf(format, args...)
-	
+
 	// 如果是致命错误，直接写入并退出
 	if level == FATAL {
 		l.mutex.Lock()
@@ -310,14 +298,14 @@ func (l *Logger) SetLevel(level int) {
 func (l *Logger) Close() {
 	// 发送关闭信号
 	close(l.closeChan)
-	
+
 	// 等待日志处理完成
 	l.wg.Wait()
-	
+
 	// 关闭文件
 	l.mutex.Lock()
 	defer l.mutex.Unlock()
-	
+
 	if l.logFile != nil {
 		l.logFile.Close()
 		l.logFile = nil
@@ -354,6 +342,11 @@ func Fatal(format string, args ...interface{}) {
 // SetLevel 设置默认日志记录器的日志级别
 func SetLevel(level int) {
 	defaultLogger.SetLevel(level)
+}
+
+// SetDefaultLogger 设置默认日志记录器
+func SetDefaultLogger(logger *Logger) {
+	defaultLogger = logger
 }
 
 // Close 关闭默认日志记录器

@@ -26,7 +26,7 @@ type CommandInfo struct {
 // 返回值: 可执行文件路径, 是否找到, 错误信息
 func GetCommandPath(cmdName, version string) (string, bool, error) {
 	// 确保配置已初始化
-	Init()
+	// 不需要传递参数，因为在main.go中已经初始化了配置
 
 	// 检查命令目录是否存在
 	cmdDir := filepath.Join(CommandDir, cmdName)
@@ -190,7 +190,7 @@ func isExecutable(path string) bool {
 // ListCommands 列出所有可用的命令及其版本
 func ListCommands() ([]CommandInfo, error) {
 	// 确保配置已初始化
-	Init()
+	// 不需要传递参数，因为在main.go中已经初始化了配置
 
 	var commands []CommandInfo
 
