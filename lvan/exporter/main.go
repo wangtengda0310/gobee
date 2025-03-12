@@ -50,7 +50,7 @@ type CommandRequest struct {
 	Cmd     string            `json:"cmd" yaml:"cmd"`
 	Version string            `json:"version" yaml:"version"`
 	Args    []string          `json:"args" yaml:"args"`
-	Env     map[string]string `json:"env" yaml:"env"`
+	Env     map[string]string `json:"-" yaml:"env,omitempty"`
 }
 
 // 客户端信息
@@ -405,23 +405,116 @@ func handleSSERequest(w http.ResponseWriter, r *http.Request, task *Task) {
 	task.Mutex.Unlock()
 }
 
+type CmdResponse struct {
+	Code int    `json:"code"`
+	Msg  string `json:"msg"`
+	Id   string `json:"id"`
+}
+type ResultResponse struct {
+	Code int            `json:"code"`
+	Msg  string         `json:"msg"`
+	Id   string         `json:"id"`
+	Job  CommandRequest `json:"job"`
+}
+
 // 处理同步执行命令请求
 func handleSyncRequest(w http.ResponseWriter, task *Task) {
-	// 同步执行命令
-	executeCommand(task)
+	// 检查任务是否仍在运行
+	task.Mutex.Lock()
+	isRunning := task.Status
+	task.Mutex.Unlock()
 
+	var res *CmdResponse
 	// 根据任务状态设置HTTP状态码
-	if task.Status == "failed" {
-		w.WriteHeader(http.StatusInternalServerError) // 500
+	if isRunning == "failed" {
 		w.Header().Set("X-Exit-Code", fmt.Sprintf("%d", task.ExitCode))
+		res = &CmdResponse{
+			Code: 1,
+			Msg:  "任务执行失败",
+			Id:   task.ID,
+		}
+	} else if isRunning == "running" {
+		w.WriteHeader(http.StatusAccepted) // 202
+		w.Header().Set("X-Exit-Code", fmt.Sprintf("%d", task.ExitCode))
+		res = &CmdResponse{
+			Code: 1,
+			Msg:  "任务处理中",
+			Id:   task.ID,
+		}
 	} else {
-		w.WriteHeader(http.StatusOK) // 200
 		w.Header().Set("X-Exit-Code", "0")
+		res = &CmdResponse{
+			Code: 0,
+			Msg:  "任务执行成功",
+			Id:   task.ID,
+		}
 	}
 
 	// 返回结果
-	w.Header().Set("Content-Type", "text/plain")
-	w.Write([]byte(task.Output))
+	//w.Header().Set("Content-Type", "text/plain")
+	//w.Write([]byte(task.Output))
+	w.Header().Set("Content-Type", "application/json")
+	marshal, err := json.Marshal(res)
+	if err != nil {
+		w.WriteHeader(http.StatusInternalServerError) // 500
+		w.Write([]byte(fmt.Sprintf("{\"code\":1,\"msg\":\"序列化错误\",\"id\":\"%s\"}", task.ID)))
+		return
+	}
+	w.Write(marshal)
+}
+
+// 处理同步执行命令请求 // todo 跟新见任务的方法合并
+func handleSyncResultRequest(w http.ResponseWriter, task *Task) {
+	// 检查任务是否仍在运行
+	task.Mutex.Lock()
+	isRunning := task.Status
+	task.Mutex.Unlock()
+
+	var res *ResultResponse
+	// 根据任务状态设置HTTP状态码
+	if isRunning == "failed" {
+		w.Header().Set("X-Exit-Code", fmt.Sprintf("%d", task.ExitCode))
+		res = &ResultResponse{
+			Code: 1,
+			Msg:  "任务执行失败",
+			Id:   task.ID,
+			Job:  task.Request,
+		}
+	} else if isRunning == "running" {
+		w.WriteHeader(http.StatusAccepted) // 202
+		w.Header().Set("X-Exit-Code", fmt.Sprintf("%d", task.ExitCode))
+		res = &ResultResponse{
+			Code: 1,
+			Msg:  "任务处理中",
+			Id:   task.ID,
+			Job:  task.Request,
+		}
+	} else {
+		w.Header().Set("X-Exit-Code", "0")
+		res = &ResultResponse{
+			Code: 0,
+			Msg:  "任务执行成功",
+			Id:   task.ID,
+			Job:  task.Request,
+		}
+	}
+
+	// 返回结果
+	//w.Header().Set("Content-Type", "text/plain")
+	//w.Write([]byte(task.Output))
+	w.Header().Set("Content-Type", "application/json")
+	marshal, err := json.Marshal(res)
+	if err != nil {
+		w.WriteHeader(http.StatusInternalServerError) // 500
+		bytes, err := json.Marshal(task.Request)
+		var job string
+		if err == nil {
+			job = string(bytes)
+		}
+		w.Write([]byte(fmt.Sprintf("{\"code\":1,\"msg\":\"序列化错误\",\"id\":\"%s\",\"job\":\"%s\"}", task.ID, job)))
+		return
+	}
+	w.Write(marshal)
 }
 
 // 处理根路径请求
@@ -532,6 +625,10 @@ func handleCommandRequest(w http.ResponseWriter, r *http.Request) {
 	}
 
 	handleSyncRequest(w, task)
+	w.(http.Flusher).Flush()
+
+	// 同步执行命令
+	go executeCommand(task)
 }
 
 type charset string
@@ -806,31 +903,7 @@ func handleResultRequest(w http.ResponseWriter, r *http.Request) {
 			}
 		}
 	} else {
-		// 检查任务是否仍在运行
-		task.Mutex.Lock()
-		isRunning := task.Status == "running"
-		output := task.Output
-		status := task.Status
-		exitCode := task.ExitCode
-		task.Mutex.Unlock()
-
-		if isRunning {
-			w.WriteHeader(http.StatusAccepted) // 202
-			return
-		}
-
-		// 根据任务状态设置HTTP状态码
-		if status == "failed" {
-			w.WriteHeader(http.StatusInternalServerError) // 500
-			w.Header().Set("X-Exit-Code", fmt.Sprintf("%d", exitCode))
-		} else {
-			w.WriteHeader(http.StatusOK) // 200
-			w.Header().Set("X-Exit-Code", "0")
-		}
-
-		// 返回结果
-		w.Header().Set("Content-Type", "text/plain")
-		w.Write([]byte(output))
+		handleSyncResultRequest(w, task)
 	}
 }
 

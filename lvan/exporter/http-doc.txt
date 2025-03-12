@@ -6,10 +6,21 @@ POST /cmd?sse=true&onlyid=true&body=json
   如果指定了onlyid=true则只返回任务id
   如果指定了sse=true则web页面实时推送命令执行结果
   如果指定了body=json则request body为json格式
-{
+request body {
     "cmd":"需要调用的工具",
     "version":"工具版本",
     "args":"工具参数"
 }
+response body {
+    "code" : "命令执行状态 0 成功 1 失败 2 进行中",
+    "msg" : "提示信息",
+    "id" : "任务id"
+}
 
 GET /result/任务id
+response body {
+    "code" : "命令执行状态 0 成功 1 失败 2 进行中",
+    "msg" : "提示信息",
+    "id" : "任务id",
+    "job" : "任务参数"
+}
