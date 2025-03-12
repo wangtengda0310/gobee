@@ -1,14 +1,14 @@
-package config
+package pkg
 
 import (
 	"fmt"
+	"github.com/wangtengda/gobee/lvan/exporter/pkg/logger"
 	"os"
 	"path/filepath"
 	"runtime"
 	"sort"
 	"strings"
 
-	"github.com/wangtengda/gobee/lvan/exporter/logger"
 	"golang.org/x/mod/semver"
 )
 
@@ -28,7 +28,6 @@ type CommandInfo struct {
 // 返回值: 可执行文件路径, 是否找到, 错误信息
 func GetCommandPath(cmdName, version string) (string, bool, error) {
 	// 确保配置已初始化
-	// 不需要传递参数，因为在main.go中已经初始化了配置
 
 	// 检查命令目录是否存在
 	cmdDir := filepath.Join(CommandDir, cmdName)

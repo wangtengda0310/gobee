@@ -1,4 +1,4 @@
-# 需求 [见此链接pdf](./客户端转表服务.pdf)
+# 需求 [见此链接pdf](doc/客户端转表服务.pdf)
 - 支持http接口
     1 代理调用自定义工具
     2 查询运行结果(客户端轮询)
@@ -80,7 +80,7 @@ _ query param: toolchain
 如果不使用`sse=true`且任务仍在执行返回202
 ### `http://host:port/result/help`
 返回接口使用说明,使用说明如何维护后面单独设计 不重要 todo
-使用内嵌静态web资源展示[接口使用说明](http-doc.txt)
+使用内嵌静态web资源展示[接口使用说明](api/http-doc.txt)
 
 ## 如何使用本程序
 ```bash
