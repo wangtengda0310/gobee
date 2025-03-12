@@ -12,6 +12,7 @@ import (
 	"os/exec"
 	"path/filepath"
 	"runtime"
+	"runtime/debug"
 	"strconv"
 	"strings"
 	"sync"
@@ -1071,14 +1072,31 @@ func main() {
 		return
 	}
 
-	// 设置HTTP路由
-	http.HandleFunc("/", handleRootRequest)
-	http.HandleFunc("/cmd", handleCommandRequest)
-	http.HandleFunc("/cmd/", handleCommandRequest)
-	http.HandleFunc("/result/", handleResultRequest)
+	// 创建路由器并应用中间件
+	router := http.NewServeMux()
+	router.HandleFunc("/", handleRootRequest)
+	router.HandleFunc("/cmd", handleCommandRequest)
+	router.HandleFunc("/cmd/", handleCommandRequest)
+	router.HandleFunc("/result/", handleResultRequest)
+
+	// 使用中间件包装路由
+	protectedRouter := recoveryMiddleware(router)
 
 	// 启动HTTP服务器
 	serverAddr := fmt.Sprintf(":%d", *port)
 	logger.Info("启动exporter服务器，监听端口 %d...", *port)
-	logger.Fatal("服务器停止: %v", http.ListenAndServe(serverAddr, nil))
+	logger.Fatal("服务器停止: %v", http.ListenAndServe(serverAddr, protectedRouter))
+}
+
+// 新增恢复中间件
+func recoveryMiddleware(next http.Handler) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		defer func() {
+			if err := recover(); err != nil {
+				logger.Error("HTTP处理崩溃恢复: %v\n%s", err, debug.Stack())
+				http.Error(w, "内部服务器错误", http.StatusInternalServerError)
+			}
+		}()
+		next.ServeHTTP(w, r)
+	})
 }
