@@ -1030,9 +1030,6 @@ func main() {
 	}
 	logger.SetDefaultLogger(loggerInstance)
 
-	// 初始化配置，传递工作目录
-	config.Init(workDir)
-
 	if *cleanFlag {
 		cleanGeneratedFiles(tasksDir)
 		return // 清理后直接退出

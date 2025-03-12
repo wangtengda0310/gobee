@@ -12,6 +12,8 @@ import (
 	"golang.org/x/mod/semver"
 )
 
+var CommandDir string
+
 // CommandInfo 存储命令的信息
 type CommandInfo struct {
 	Name       string // 命令名称
