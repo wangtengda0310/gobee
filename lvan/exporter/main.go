@@ -504,18 +504,6 @@ func handleCommandRequest(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 
-		// 验证请求
-		if req.Cmd == "" {
-			http.Error(w, "Command is required", http.StatusBadRequest)
-			return
-		}
-
-		// 如果未指定版本，使用latest
-		if req.Version == "" {
-			req.Version = "latest"
-			logger.Info("POST请求未指定版本，使用latest版本: %s", req.Cmd)
-		}
-
 		// 确保环境变量字段已初始化
 		if req.Env == nil {
 			req.Env = make(map[string]string)
@@ -845,80 +833,82 @@ func handleResultRequest(w http.ResponseWriter, r *http.Request) {
 		w.Write([]byte(output))
 	}
 }
+
 const tasksDir = "tasks"
+
 // 新增清理方法
 func cleanGeneratedFiles(tasksDir string) {
-    // 删除任务目录
-    if err := os.RemoveAll(tasksDir); err != nil {
-        logger.Error("清理失败: %v", err)
-    } else {
-        logger.Info("已清理所有任务数据")
-    }
-    
+	// 删除任务目录
+	if err := os.RemoveAll(tasksDir); err != nil {
+		logger.Error("清理失败: %v", err)
+	} else {
+		logger.Info("已清理所有任务数据")
+	}
+
 }
 
 // 新增环境变量辅助函数
 func getEnvString(key string, defaultVal string) string {
-    if value, exists := os.LookupEnv(key); exists {
-        return value
-    }
-    return defaultVal
+	if value, exists := os.LookupEnv(key); exists {
+		return value
+	}
+	return defaultVal
 }
 
 func getEnvInt(key string, defaultVal int) int {
-    if value, exists := os.LookupEnv(key); exists {
-        if intValue, err := strconv.Atoi(value); err == nil {
-            return intValue
-        }
-    }
-    return defaultVal
+	if value, exists := os.LookupEnv(key); exists {
+		if intValue, err := strconv.Atoi(value); err == nil {
+			return intValue
+		}
+	}
+	return defaultVal
 }
 
 func getEnvBool(key string, defaultVal bool) bool {
-    if value, exists := os.LookupEnv(key); exists {
-        return strings.EqualFold(value, "true") || value == "1"
-    }
-    return defaultVal
+	if value, exists := os.LookupEnv(key); exists {
+		return strings.EqualFold(value, "true") || value == "1"
+	}
+	return defaultVal
 }
 func main() {
-    // 设置程序说明
-    pflag.Usage = func() {
-        fmt.Fprintf(os.Stderr, "Exporter 服务程序 v%s\n\n", Version)
-        fmt.Fprintf(os.Stderr, "用法:\n")
-        fmt.Fprintf(os.Stderr, "  exporter [选项]\n\n")
-        fmt.Fprintf(os.Stderr, "选项:\n")
-        pflag.PrintDefaults()
-    }
-	
-	// 解析命令行参数
-    port := pflag.IntP("port", "p", getEnvInt("EXPORTER_PORT", 80), "指定服务监听的TCP端口默认 80 支持环境变量 EXPORTER_PORT")
-    showVersion := pflag.BoolP("version", "v", false, "显示版本号")
-    showHelp := pflag.BoolP("help", "h", false, "本说明文档")
-    showMoreHelp := pflag.Bool("morehelp", false, "展示更详细的文档")
-    logLevel := pflag.String("log-level", "info", "Log level (debug, info, warn, error, fatal)")
-    cleanFlag := pflag.Bool("clean", false, "清除任务的工作目录")
+	// 设置程序说明
+	pflag.Usage = func() {
+		fmt.Fprintf(os.Stderr, "Exporter 服务程序 v%s\n\n", Version)
+		fmt.Fprintf(os.Stderr, "用法:\n")
+		fmt.Fprintf(os.Stderr, "  exporter [选项]\n\n")
+		fmt.Fprintf(os.Stderr, "选项:\n")
+		pflag.PrintDefaults()
+	}
 
-    // 为参数添加长格式说明
-    pflag.Lookup("port").Usage = "指定服务监听的TCP端口默认 80 支持环境变量 EXPORTER_PORT\n" +
-        "  示例:\n" +
-        "    EXPORTER_PORT=8080	通过环境变量指定端口\n" +
-        "    --port 8080     		监听8080端口\n" +
-        "    -p 8080        		使用短格式指定端口"
-        
-    pflag.Lookup("log-level").Usage = "设置日志输出级别\n" +
-        "  可选值:\n" +
-        "    debug   调试信息\n" +
-        "    info    一般信息\n" +
-        "    warn    警告信息\n" +
-        "    error   错误信息\n" +
-        "    fatal   致命错误"
+	// 解析命令行参数
+	port := pflag.IntP("port", "p", getEnvInt("EXPORTER_PORT", 80), "指定服务监听的TCP端口默认 80 支持环境变量 EXPORTER_PORT")
+	showVersion := pflag.BoolP("version", "v", false, "显示版本号")
+	showHelp := pflag.BoolP("help", "h", false, "本说明文档")
+	showMoreHelp := pflag.Bool("morehelp", false, "展示更详细的文档")
+	logLevel := pflag.String("log-level", "info", "Log level (debug, info, warn, error, fatal)")
+	cleanFlag := pflag.Bool("clean", false, "清除任务的工作目录")
+
+	// 为参数添加长格式说明
+	pflag.Lookup("port").Usage = "指定服务监听的TCP端口默认 80 支持环境变量 EXPORTER_PORT\n" +
+		"  示例:\n" +
+		"    EXPORTER_PORT=8080	通过环境变量指定端口\n" +
+		"    --port 8080     		监听8080端口\n" +
+		"    -p 8080        		使用短格式指定端口"
+
+	pflag.Lookup("log-level").Usage = "设置日志输出级别\n" +
+		"  可选值:\n" +
+		"    debug   调试信息\n" +
+		"    info    一般信息\n" +
+		"    warn    警告信息\n" +
+		"    error   错误信息\n" +
+		"    fatal   致命错误"
 	pflag.Parse()
 
-    if *cleanFlag {
-        cleanGeneratedFiles(tasksDir)
-        return // 清理后直接退出
-    }
-    
+	if *cleanFlag {
+		cleanGeneratedFiles(tasksDir)
+		return // 清理后直接退出
+	}
+
 	// 设置日志级别
 	switch strings.ToLower(*logLevel) {
 	case "debug":
