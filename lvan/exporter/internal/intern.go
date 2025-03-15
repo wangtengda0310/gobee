@@ -11,12 +11,12 @@ type CommandRequest struct {
 type CmdResponse struct {
 	Code int    `json:"code"`
 	Msg  string `json:"msg"`
-	Id   string `json:"id"`
+	Id   string `json:"id"` // 0 成功 1 失败
 }
 type ResultResponse struct {
 	Code int            `json:"code"`
 	Msg  string         `json:"msg"`
-	Id   string         `json:"id"`
+	Id   string         `json:"id"` // 0 成功 1 排队 2 处理 3 失败
 	Job  CommandRequest `json:"job"`
 }
 

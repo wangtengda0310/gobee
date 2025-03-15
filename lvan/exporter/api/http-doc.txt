@@ -12,14 +12,14 @@ request body {
     "args":"工具参数"
 }
 response body {
-    "code" : "命令执行状态 0 成功 1 失败 2 进行中",
+    "code" : "命令执行状态 0 成功 1 失败",
     "msg" : "提示信息",
     "id" : "任务id"
 }
 
 GET /result/任务id
 response body {
-    "code" : "命令执行状态 0 成功 1 失败 2 进行中",
+    "code" : "命令执行状态 0 成功 1 排队中 2 进行中 3 失败",
     "msg" : "提示信息",
     "id" : "任务id",
     "job" : "任务参数"

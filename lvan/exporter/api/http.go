@@ -295,19 +295,12 @@ func handleSyncRequest(w http.ResponseWriter, task *pkg.Task) {
 			Msg:  "任务执行失败",
 			Id:   task.ID,
 		}
-	} else if isRunning == "running" {
+	} else {
 		w.WriteHeader(http.StatusAccepted) // 202
 		w.Header().Set("X-Exit-Code", fmt.Sprintf("%d", task.ExitCode))
 		res = &internal.CmdResponse{
-			Code: 1,
-			Msg:  "任务处理中",
-			Id:   task.ID,
-		}
-	} else {
-		w.Header().Set("X-Exit-Code", "0")
-		res = &internal.CmdResponse{
 			Code: 0,
-			Msg:  "任务执行成功",
+			Msg:  "任务处理中",
 			Id:   task.ID,
 		}
 	}
@@ -337,7 +330,7 @@ func HandleSyncResultRequest(w http.ResponseWriter, task *pkg.Task) {
 	if isRunning == "failed" {
 		w.Header().Set("X-Exit-Code", fmt.Sprintf("%d", task.ExitCode))
 		res = &internal.ResultResponse{
-			Code: task.ExitCode,
+			Code: 3,
 			Msg:  "任务执行失败",
 			Id:   task.ID,
 			Job:  task.Request,
@@ -346,7 +339,7 @@ func HandleSyncResultRequest(w http.ResponseWriter, task *pkg.Task) {
 		w.WriteHeader(http.StatusAccepted) // 202
 		w.Header().Set("X-Exit-Code", fmt.Sprintf("%d", task.ExitCode))
 		res = &internal.ResultResponse{
-			Code: task.ExitCode,
+			Code: 2,
 			Msg:  "任务处理中",
 			Id:   task.ID,
 			Job:  task.Request,
@@ -355,7 +348,7 @@ func HandleSyncResultRequest(w http.ResponseWriter, task *pkg.Task) {
 		w.WriteHeader(http.StatusAccepted) // 202 todo 是否需要新的状态码
 		w.Header().Set("X-Exit-Code", fmt.Sprintf("%d", task.ExitCode))
 		res = &internal.ResultResponse{
-			Code: task.ExitCode,
+			Code: 1,
 			Msg:  "任务等待处理",
 			Id:   task.ID,
 			Job:  task.Request,
