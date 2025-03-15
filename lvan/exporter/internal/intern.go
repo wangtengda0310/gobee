@@ -19,3 +19,9 @@ type ResultResponse struct {
 	Id   string         `json:"id"`
 	Job  CommandRequest `json:"job"`
 }
+
+type CommandMeta struct {
+	Encoding  string   `yaml:"encoding"`
+	Shell     string   `yaml:"shell"`
+	Resources []string `yaml:"resources"`
+}

@@ -5,10 +5,6 @@ import (
 	"context"
 	"errors"
 	"fmt"
-	"github.com/google/uuid"
-	intern "github.com/wangtengda/gobee/lvan/exporter/internal"
-	"github.com/wangtengda/gobee/lvan/exporter/pkg/logger"
-	"golang.org/x/text/encoding/simplifiedchinese"
 	"os"
 	"os/exec"
 	"path/filepath"
@@ -16,6 +12,11 @@ import (
 	"strings"
 	"sync"
 	"time"
+
+	"github.com/google/uuid"
+	intern "github.com/wangtengda/gobee/lvan/exporter/internal"
+	"github.com/wangtengda/gobee/lvan/exporter/pkg/logger"
+	"golang.org/x/text/encoding/simplifiedchinese"
 )
 
 // 执行命令
@@ -29,27 +30,38 @@ func ExecuteCommand(task *Task) {
 	logger.Info("执行命令: %s, 版本: %s, 参数: %s", task.Request.Cmd, task.Request.Version, strings.Join(task.Request.Args, ", "))
 
 	// 使用版本管理获取可执行文件路径
-	cmdPath, found, err := GetCommandPath(task.Request.Cmd, task.Request.Version)
+	versionDir, found, err := GetCommandVersionPath(task.Request.Cmd, task.Request.Version)
 	if err != nil || !found {
 		errMsg := fmt.Sprintf("找不到命令 %s 版本 %s: %v\n", task.Request.Cmd, task.Request.Version, err)
 		logger.Error(errMsg)
 		task.AddOutput(errMsg)
-		task.Complete("failed", 1)
+		task.Complete("failed", 2)
+		return
+	}
+	task.CmdMeta = intern.TryMeta(filepath.Join(versionDir, "meta.yaml"))
+
+	// 查找可执行文件
+	executable, found, err := findExecutable(versionDir, task.Request.Cmd)
+	if err != nil || !found {
+		errMsg := fmt.Sprintf("找不到命令 %s 版本 %s: %v\n", task.Request.Cmd, task.Request.Version, err)
+		logger.Error(errMsg)
+		task.AddOutput(errMsg)
+		task.Complete("failed", 2)
 		return
 	}
 
-	task.CmdPath = cmdPath
+	task.CmdPath = executable
 
 	// 记录使用的可执行文件路径
-	logger.Info("使用可执行文件: %s", cmdPath)
-	task.AddOutput(fmt.Sprintf("Using executable: %s\n", cmdPath))
+	logger.Info("使用可执行文件: %s", executable)
+	task.AddOutput(fmt.Sprintf("Using executable: %s\n", executable))
 
 	var timeout = 30 * time.Minute
 	ctx, cancel := context.WithTimeout(context.Background(), timeout)
 	defer cancel()
 
 	var cmd *exec.Cmd
-	// 检查是否是 Windows 平台
+	// 检查是否是 Windows 平台 todo 追加 cmd /c 的逻辑移到meta中
 	if runtime.GOOS == "windows" {
 		// 检查文件扩展名是否为批处理文件
 		ext := strings.ToLower(filepath.Ext(task.CmdPath))
@@ -68,6 +80,19 @@ func ExecuteCommand(task *Task) {
 
 	// 获取当前环境变量
 	cmd.Env = os.Environ()
+	var resource string
+	if task.CmdMeta != nil && len(task.CmdMeta.Resources) > 0 {
+		resource, err = intern.ExclusiveOneResource(task.CmdMeta.Resources, TasksDir)
+		if err != nil {
+			// 无法获取资源，记录错误并继续执行
+			logger.Warn("无法获取资源锁: %v，任务将继续执行但可能影响性能", err)
+			task.AddOutput("超时获取资源锁\n")
+			task.Complete("blocking", 3)
+			return
+		}
+		// 添加自定义环境变量
+		cmd.Env = append(cmd.Env, fmt.Sprintf("exporter_cmd_%s_resource=%s", task.Request.Cmd, resource))
+	}
 
 	// 设置环境变量
 	if len(task.Request.Env) > 0 {
@@ -87,7 +112,7 @@ func ExecuteCommand(task *Task) {
 	if err != nil {
 		logger.Error("创建stdout管道失败: %s", err.Error())
 		task.AddOutput(fmt.Sprintf("Error creating stdout pipe: %s\n", err.Error()))
-		task.Complete("failed", 1)
+		task.Complete("failed", 2)
 		return
 	}
 
@@ -95,7 +120,7 @@ func ExecuteCommand(task *Task) {
 	if err != nil {
 		logger.Error("创建stderr管道失败: %s", err.Error())
 		task.AddOutput(fmt.Sprintf("Error creating stderr pipe: %s\n", err.Error()))
-		task.Complete("failed", 1)
+		task.Complete("failed", 2)
 		return
 	}
 
@@ -103,7 +128,7 @@ func ExecuteCommand(task *Task) {
 	if err := cmd.Start(); err != nil {
 		logger.Error("启动命令失败: %s", err.Error())
 		task.AddOutput(fmt.Sprintf("Error starting command: %s\n", err.Error()))
-		task.Complete("failed", 1)
+		task.Complete("failed", 2)
 		return
 	}
 
@@ -151,6 +176,18 @@ func ExecuteCommand(task *Task) {
 		task.AddOutput("Command completed successfully with exit code 0!\n")
 		task.Complete("completed", 0)
 	}
+
+	// 释放资源锁
+	if task.CmdMeta != nil && task.Request.Cmd != "" {
+		if resource != "" {
+			if err := intern.ReleaseResource(resource); err != nil {
+				logger.Error("释放资源锁失败: %s, %v", resource, err)
+			} else {
+				logger.Info("成功释放资源锁: %s", resource)
+			}
+		}
+	}
+
 }
 
 // 任务信息
@@ -168,6 +205,7 @@ type Task struct {
 	Logger    *logger.Logger         `json:"-"`
 	Clients   map[string]chan string `json:"-"`
 	ClientMgr *ClientManager         `json:"-"`
+	CmdMeta   *intern.CommandMeta    `json:"-"`
 }
 
 // 任务管理器
@@ -316,6 +354,7 @@ func (tm *TaskManager) CreateTask(req intern.CommandRequest) *Task {
 		StartTime: time.Now(),
 		Request:   req,
 		Status:    "running",
+		ExitCode:  2,
 		WorkDir:   workdir,
 		Mutex:     &sync.Mutex{},
 		Logger:    logInstance,

@@ -17,12 +17,14 @@
     -v --version 版本
     -u --upgrade 升级
 ## 提供http接口
-### 错误码
+### http错误码
 | 状态码 | 描述 |
 |--------|------|
 | 202    | 任务进行中 |
 | 400    | 请求参数错误 |
 | 404    | 任务不存在 |
+### json code
+code 0 成功 1 失败 2 处理中
 
 ### `http://host:port/cmd?body=${request_body_type}&sse=true&onlyid=true`
     调用命令行工具 重要 必须
@@ -38,7 +40,7 @@ curl http://host:port/cmd/ping/google.com
     {
         "cmd": "cmd",
         "version": "0.1",
-        "args": ["arg1", "arg2"]
+        "args": ["arg1", "arg2"],
         "env": {"foo":"bar"}
     }
     ```
@@ -67,16 +69,23 @@ _ query param: toolchain
 #### 返回结果
 - 如果使用`sse=true`参数 则启用http2 `server send event`将调用自定义工具链的输出流返回给客户端
 - 如果使用`onlyid=true`参数 则返回任务id
-- 如果使用`sse=false`参数 则返回调用自定义工具链的输出流
+- 默认返回json
+```json
+{"code":0,"msg":"任务执行成功","id":"10ef7b85-b7d9-4466-abcf-408995954a5f"}
+```
 #### 支持多个用户多任务访问
 需要保存日志,包括任务id,时间,请求参数,任务结果
 #### TODO
-- [ ] 日志落地设计
+- [ ] 日志落地设计 task目录下存储命令输出 程序日志汇总命令输出
 - [ ] 接口使用说明维护
 
 ### `http://host:port/result/${id}?sse=true`
 - 带有任务id
 查询运行结果,返回工具链输出流
+- 默认返回json
+```json
+{"code":1,"msg":"任务执行失败","id":"10ef7b85-b7d9-4466-abcf-408995954a5f","Job":{"cmd":"clientjob","args":["d02","1520177094"],"version":""}}
+```
 如果不使用`sse=true`且任务仍在执行返回202
 ### `http://host:port/result/help`
 返回接口使用说明,使用说明如何维护后面单独设计 不重要 todo
@@ -89,6 +98,26 @@ go run exporter cmd toolchain=exportjob
 go run exporter result 20250201111203-41
 ```
 
+## 特殊需求
+- 调用的命令因使用相对路径无法很好的实现并行任务
+  好的方式
+```bash
+echo 并行任务可以分配至workdir1和workdir2同时执行
+cmd
+  ├── workdir1
+  │     └── output
+  └── workdir2
+        └── output
+```
+  不好的方式
+```bash
+echo 并行任务只能分配至workdir相互竞争
+workdir
+  ├── cmd
+  └── output
+```
+  因workdir内容太多,不方便临时创建.针对这种不好的方式考虑预先生成一组workdir,在外部实现一个cmd wrapper负责将任务分配至不同workdir并调用其中的cmd
+### 使用meta.yaml配置resource实现简单的锁机制
 ## 其他优化
 - 任务管理
   每个任务设计临时目录隔离运行环境。

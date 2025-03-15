@@ -1,4 +1,4 @@
-http /cmd 接口调用的命令需要再本程序统计目录的cmd目录下存放,可带有版本号子文件夹,如:
+http /cmd 接口调用的命令需要再本程序统计目录的cmd目录下存放,可带有版本号子文件夹,windows环境下如:
 exporter.exe
 cmd
  ├── 工具1
@@ -13,3 +13,12 @@ cmd
       └── v1.0.1
       │     └── 工具2.exe
       └── 工具2.exe
+工具目录下支持meta.yaml配置文件
+```yaml
+resources:
+  - "file_resource_lock_1"
+  - "file_resource_lock_1"
+```
+resources字段是一个字符串数组,代表需要竞争的资源.
+多个客户端请求过来后会竞争一个可用资源,如果资源被其他客户端占用，则会阻塞等待其他客户端释放资源.
+竞争到的资源会通过环境变量`exporter_{cmd}_now_resource`传递给被调用的工具,{}代表工具的名字如`工具1` `工具2`,也就是http请求 `/cmd` 的`cmd`参数
