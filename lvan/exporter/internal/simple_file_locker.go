@@ -38,7 +38,7 @@ var ResourceLockDir string
 
 // ExclusiveOneResource 从CommandMeta中获取资源列表并尝试独占一个资源
 // 如果没有可用资源则阻塞等待其他任务释放资源
-func ExclusiveOneResource(resources []string, lockDir string) (string, error) {
+func ExclusiveOneResource(resources []string, lockDir string, maxRetries int) (string, error) {
 	// 如果meta为空或没有配置资源，直接返回空字符串，表示不需要资源锁
 	if len(resources) == 0 {
 		return "", nil
@@ -49,12 +49,9 @@ func ExclusiveOneResource(resources []string, lockDir string) (string, error) {
 	cmdLockDir := lockDir
 	os.MkdirAll(cmdLockDir, 0755)
 
-	// 最大重试次数和重试间隔
-	maxRetries := 10
-	retryInterval := 3 * time.Second
-
 	// 尝试获取资源锁
 	for retry := 0; retry < maxRetries; retry++ {
+		retryInterval := time.Duration(retry) * time.Minute
 		// 遍历资源列表，尝试获取一个可用资源
 		for _, lockfile := range resources {
 

@@ -9,6 +9,7 @@ import (
 	"os/exec"
 	"path/filepath"
 	"runtime"
+	"strconv"
 	"strings"
 	"sync"
 	"time"
@@ -87,7 +88,16 @@ func ExecuteCommand(task *Task) {
 	cmd.Env = os.Environ()
 	var resource string
 	if task.CmdMeta != nil && len(task.CmdMeta.Resources) > 0 {
-		resource, err = intern.ExclusiveOneResource(task.CmdMeta.Resources, TasksDir)
+		retries := 3
+		logger.Info("默认重试次数为 %d 可以通过环境变量 exporter_retry_times 设置", retries)
+		if os.Getenv("exporter_retry_times") != "" {
+			retry, err := strconv.Atoi(os.Getenv("exporter_retry_times"))
+			if err == nil {
+				logger.Info("使用环境变量 exporter_retry_times 设置重试次数为 %d", retry)
+				retries = retry
+			}
+		}
+		resource, err = intern.ExclusiveOneResource(task.CmdMeta.Resources, TasksDir, retries)
 		if err != nil {
 			// 无法获取资源，记录错误并继续执行
 			logger.Warn("无法获取资源锁: %v，任务将继续执行但可能影响性能", err)
