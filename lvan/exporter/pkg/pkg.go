@@ -395,6 +395,10 @@ func (tm *TaskManager) CreateTask(req intern.CommandRequest) *Task {
 		ClientMgr: NewClientManager(1000, 30*time.Minute), // 设置最大1000个客户端，30分钟超时
 	}
 
+	// 构建日志文件路径
+	filePath := filepath.Join(workdir, "createtimestamp")
+	intern.Create(filePath)
+
 	tm.Tasks[taskID] = task
 	return task
 }

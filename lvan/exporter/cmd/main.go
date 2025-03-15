@@ -3,15 +3,18 @@ package main
 import (
 	_ "embed"
 	"fmt"
-	"github.com/wangtengda/gobee/lvan/exporter/api"
-	"github.com/wangtengda/gobee/lvan/exporter/pkg"
-	"github.com/wangtengda/gobee/lvan/exporter/pkg/logger"
 	"net/http"
 	"os"
 	"path/filepath"
 	"runtime/debug"
 	"strconv"
 	"strings"
+	"time"
+
+	"github.com/wangtengda/gobee/lvan/exporter/api"
+	"github.com/wangtengda/gobee/lvan/exporter/internal"
+	"github.com/wangtengda/gobee/lvan/exporter/pkg"
+	"github.com/wangtengda/gobee/lvan/exporter/pkg/logger"
 
 	"github.com/spf13/pflag"
 )
@@ -156,6 +159,7 @@ func main() {
 		cleanGeneratedFiles(pkg.TasksDir)
 		return // 清理后直接退出
 	}
+	go internal.ScheduleCleaner(pkg.TasksDir, time.Hour*24)
 
 	// 设置日志级别
 	switch strings.ToLower(*logLevel) {
