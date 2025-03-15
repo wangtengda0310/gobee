@@ -21,7 +21,9 @@ type ResultResponse struct {
 }
 
 type CommandMeta struct {
-	Encoding  string   `yaml:"encoding"`
+	Encoding  Charset  `yaml:"encoding"`
 	Shell     string   `yaml:"shell"`
 	Resources []string `yaml:"resources"`
 }
+
+type Charset string

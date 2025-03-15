@@ -15,10 +15,12 @@ cmd
       └── 工具2.exe
 工具目录下支持meta.yaml配置文件
 ```yaml
+charset: GB18030
 resources:
   - "file_resource_lock_1"
   - "file_resource_lock_1"
 ```
+charset字段支持utf-8、gb18030和gbk
 resources字段是一个字符串数组,代表需要竞争的资源.
 多个客户端请求过来后会竞争一个可用资源,如果资源被其他客户端占用，则会阻塞等待其他客户端释放资源.
 竞争到的资源会通过环境变量`exporter_{cmd}_now_resource`传递给被调用的工具,{}代表工具的名字如`工具1` `工具2`,也就是http请求 `/cmd` 的`cmd`参数

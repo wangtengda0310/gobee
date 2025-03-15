@@ -137,8 +137,11 @@ func ExecuteCommand(task *Task) {
 	go func() {
 		scanner := bufio.NewScanner(stdout)
 		for scanner.Scan() {
-			output := scanner.Bytes()
-			convertGbToUtf8 := ByteToString(output, GB18030)
+			var encoding intern.Charset
+			if task.CmdMeta != nil && task.CmdMeta.Encoding != "" {
+				encoding = task.CmdMeta.Encoding
+			}
+			convertGbToUtf8 := ByteToString(scanner.Bytes(), encoding)
 			task.AddOutput(convertGbToUtf8 + "\n")
 			logger.Info("命令输出: %s", convertGbToUtf8)
 		}
@@ -148,8 +151,11 @@ func ExecuteCommand(task *Task) {
 	go func() {
 		scanner := bufio.NewScanner(stderr)
 		for scanner.Scan() {
-			error := scanner.Bytes()
-			convertGbToUtf8 := ByteToString(error, GB18030)
+			var encoding intern.Charset
+			if task.CmdMeta != nil && task.CmdMeta.Encoding != "" {
+				encoding = task.CmdMeta.Encoding
+			}
+			convertGbToUtf8 := ByteToString(scanner.Bytes(), encoding)
 			task.AddOutput("ERROR: " + convertGbToUtf8 + "\n")
 			logger.Warn("命令错误输出: %s", convertGbToUtf8)
 		}
@@ -297,26 +303,39 @@ func (t *Task) RemoveClient(clientID string) {
 	}
 }
 
-type charset string
-
 const (
-	UTF8    charset = "UTF-8"
-	GB18030 charset = "GB18030"
+	UTF8    intern.Charset = "UTF-8"
+	utf8    intern.Charset = "utf-8"
+	GB18030 intern.Charset = "GB18030"
+	gb18030 intern.Charset = "gb18030"
+	GBK     intern.Charset = "GBK"
+	gbk     intern.Charset = "gbk"
 )
 
 // ByteToString 将字节切片转换为指定编码的字符串
-func ByteToString(byte []byte, charset charset) string {
+func ByteToString(byte []byte, charset intern.Charset) string {
+	defer func() {
+		if err := recover(); err != nil {
+			logger.Warn("解码错误:%v", err)
+		}
+	}()
 	var str string
 	switch charset {
-	case GB18030:
+	case GB18030, gb18030:
 		decoder := simplifiedchinese.GB18030.NewDecoder()
 		var err error
 		str, err = decoder.String(string(byte))
 		if err != nil {
-			fmt.Println("解码错误:", err)
 			return ""
 		}
-	case UTF8:
+	case GBK, gbk:
+		decoder := simplifiedchinese.GBK.NewDecoder()
+		var err error
+		str, err = decoder.String(string(byte))
+		if err != nil {
+			panic(err)
+		}
+	case UTF8, utf8:
 		str = string(byte)
 	default:
 		str = string(byte)
