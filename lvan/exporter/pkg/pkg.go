@@ -61,8 +61,13 @@ func ExecuteCommand(task *Task) {
 	defer cancel()
 
 	var cmd *exec.Cmd
-	// 检查是否是 Windows 平台 todo 追加 cmd /c 的逻辑移到meta中
-	if runtime.GOOS == "windows" {
+	if task.CmdMeta != nil && task.CmdMeta.Shell != nil {
+		newArgs := append(task.CmdMeta.Shell[1:], task.CmdPath)
+		newArgs = append(newArgs, task.Request.Args...)
+		cmd = exec.CommandContext(ctx, task.CmdMeta.Shell[0], newArgs...)
+
+	} else if runtime.GOOS == "windows" {
+		// 检查是否是 Windows 平台 尝试使用cmd执行.bat和.cmd
 		// 检查文件扩展名是否为批处理文件
 		ext := strings.ToLower(filepath.Ext(task.CmdPath))
 		if ext == ".bat" || ext == ".cmd" {
