@@ -36,7 +36,7 @@ func ExecuteCommand(task *Task) {
 		errMsg := fmt.Sprintf("找不到命令 %s 版本 %s: %v\n", task.Request.Cmd, task.Request.Version, err)
 		logger.Error(errMsg)
 		task.AddOutput(errMsg)
-		task.Complete("failed", 2)
+		task.Complete(failed)
 		return
 	}
 	task.CmdMeta = intern.TryMeta(filepath.Join(versionDir, "meta.yaml"))
@@ -47,7 +47,7 @@ func ExecuteCommand(task *Task) {
 		errMsg := fmt.Sprintf("找不到命令 %s 版本 %s: %v\n", task.Request.Cmd, task.Request.Version, err)
 		logger.Error(errMsg)
 		task.AddOutput(errMsg)
-		task.Complete("failed", 2)
+		task.Complete(failed)
 		return
 	}
 
@@ -102,7 +102,7 @@ func ExecuteCommand(task *Task) {
 			// 无法获取资源，记录错误并继续执行
 			logger.Warn("无法获取资源锁: %v，任务将继续执行但可能影响性能", err)
 			task.AddOutput("超时获取资源锁\n")
-			task.Complete("blocking", 3)
+			task.Complete(failed)
 			return
 		}
 		// 添加自定义环境变量
@@ -127,7 +127,7 @@ func ExecuteCommand(task *Task) {
 	if err != nil {
 		logger.Error("创建stdout管道失败: %s", err.Error())
 		task.AddOutput(fmt.Sprintf("Error creating stdout pipe: %s\n", err.Error()))
-		task.Complete("failed", 2)
+		task.Complete(failed)
 		return
 	}
 
@@ -135,7 +135,7 @@ func ExecuteCommand(task *Task) {
 	if err != nil {
 		logger.Error("创建stderr管道失败: %s", err.Error())
 		task.AddOutput(fmt.Sprintf("Error creating stderr pipe: %s\n", err.Error()))
-		task.Complete("failed", 2)
+		task.Complete(failed)
 		return
 	}
 
@@ -143,7 +143,7 @@ func ExecuteCommand(task *Task) {
 	if err := cmd.Start(); err != nil {
 		logger.Error("启动命令失败: %s", err.Error())
 		task.AddOutput(fmt.Sprintf("Error starting command: %s\n", err.Error()))
-		task.Complete("failed", 2)
+		task.Complete(running)
 		return
 	}
 
@@ -178,24 +178,34 @@ func ExecuteCommand(task *Task) {
 
 	// 等待命令完成
 	err = cmd.Wait()
-	exitCode := 0
 	if err != nil {
+		var status TaskStatus
+		exitCode := 0
 		// 处理超时错误
 		if errors.Is(ctx.Err(), context.DeadlineExceeded) {
 			task.AddOutput(fmt.Sprintf("命令执行超时 %v\n", timeout))
 			exitCode = 124 // 通常用 124 表示超时退出码
+			status = TaskStatus{
+				Status:   "命令执行超时",
+				ExitCode: exitCode,
+			}
 		} else if exitErr, ok := err.(*exec.ExitError); ok { // 尝试获取退出码
 			exitCode = exitErr.ExitCode()
+			status = TaskStatus{
+				Status:   "命令执行失败",
+				ExitCode: exitCode,
+			}
 		} else {
 			exitCode = 1 // 默认错误码
+			status = failed
 		}
 		logger.Warn("命令执行失败，退出码 %d: %s", exitCode, err.Error())
 		task.AddOutput(fmt.Sprintf("Command failed with exit code %d: %s\n", exitCode, err.Error()))
-		task.Complete("failed", exitCode)
+		task.Complete(status)
 	} else {
 		logger.Info("命令执行成功，退出码 0")
 		task.AddOutput("Command completed successfully with exit code 0!\n")
-		task.Complete("completed", 0)
+		task.Complete(completed)
 	}
 
 	// 释放资源锁
@@ -211,6 +221,18 @@ func ExecuteCommand(task *Task) {
 
 }
 
+type TaskStatus struct {
+	Status   string `json:"status"`    // running, completed, failed
+	ExitCode int    `json:"exit_code"` // 命令退出码
+}
+
+var (
+	completed = TaskStatus{Status: "", ExitCode: 0}
+	failed    = TaskStatus{Status: "", ExitCode: 1}
+	running   = TaskStatus{Status: "", ExitCode: 2}
+	blocking  = TaskStatus{Status: "", ExitCode: 3}
+)
+
 // 任务信息
 type Task struct {
 	ID        string                 `json:"id"`
@@ -218,8 +240,7 @@ type Task struct {
 	EndTime   *time.Time             `json:"end_time,omitempty"`
 	Request   intern.CommandRequest  `json:"request"`
 	Output    string                 `json:"output"`
-	Status    string                 `json:"status"`    // running, completed, failed
-	ExitCode  int                    `json:"exit_code"` // 命令退出码
+	Status    TaskStatus             `json:"status"` // completed, failed, running, blocking
 	CmdPath   string                 `json:"cmd_path"`
 	WorkDir   string                 `json:"workdir"`
 	Mutex     *sync.Mutex            `json:"-"`
@@ -258,12 +279,11 @@ func (t *Task) AddOutput(output string) {
 }
 
 // 完成任务
-func (t *Task) Complete(status string, exitCode int) {
+func (t *Task) Complete(status TaskStatus) {
 	t.Mutex.Lock()
 	defer t.Mutex.Unlock()
 
 	t.Status = status
-	t.ExitCode = exitCode
 	now := time.Now()
 	t.EndTime = &now
 
@@ -273,7 +293,7 @@ func (t *Task) Complete(status string, exitCode int) {
 	}
 
 	// 发送任务完成的最终消息
-	completionMsg := fmt.Sprintf("\nTask completed with status: %s, exit code: %d\n", status, exitCode)
+	completionMsg := fmt.Sprintf("\nTask completed with status: %s, exit code: %d\n", status, status.ExitCode)
 	t.Output += completionMsg
 }
 
@@ -283,7 +303,7 @@ func (t *Task) AddClient(clientID string) chan string {
 	defer t.Mutex.Unlock()
 
 	// 如果任务已完成，返回nil
-	if t.Status == "completed" || t.Status == "failed" {
+	if t.Status.Status == "completed" || t.Status.Status == "failed" {
 		logger.Warn("尝试为已完成的任务 %s 添加客户端 %s", t.ID, clientID)
 		return nil
 	}
@@ -387,8 +407,7 @@ func (tm *TaskManager) CreateTask(req intern.CommandRequest) *Task {
 		ID:        taskID,
 		StartTime: time.Now(),
 		Request:   req,
-		Status:    "running",
-		ExitCode:  2,
+		Status:    blocking,
 		WorkDir:   workdir,
 		Mutex:     &sync.Mutex{},
 		Logger:    logInstance,
