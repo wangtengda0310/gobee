@@ -12,6 +12,7 @@ package internal
 
 import (
 	"errors"
+	"github.com/gofrs/flock"
 	"github.com/wangtengda/gobee/lvan/exporter/pkg/logger"
 	"gopkg.in/yaml.v3"
 	"os"
@@ -51,15 +52,26 @@ func ExclusiveOneResource(resources []string, lockDir string, maxRetries int) (s
 
 	// 尝试获取资源锁
 	for retry := 0; retry < maxRetries; retry++ {
-		retryInterval := time.Duration(retry) * time.Minute
 		// 遍历资源列表，尝试获取一个可用资源
 		for _, lockfile := range resources {
 
 			// 构建资源锁文件路径
 			lockFilePath := filepath.Join(cmdLockDir, lockfile)
 
+			// 临界区代码（保证互斥）
 			// 检查资源锁文件是否存在
 			if _, err := os.Stat(lockFilePath); os.IsNotExist(err) {
+				lock := flock.New("lockFilePath")
+				ok, err := lock.TryLock()
+				if err != nil {
+					return "", err
+				}
+				if !ok {
+					// 其他进程持有锁
+					return "", errors.New("其他进程持有锁")
+				}
+				defer lock.Unlock()
+
 				// create file
 				file, err := os.Create(lockFilePath)
 				if err != nil {
@@ -75,6 +87,7 @@ func ExclusiveOneResource(resources []string, lockDir string, maxRetries int) (s
 			logger.Debug("资源 %s 已被占用，尝试下一个资源", lockfile)
 		}
 
+		retryInterval := 5 * time.Second
 		// 所有资源都被占用，等待一段时间后重试
 		logger.Info("所有资源都被占用，等待 %v 后重试 (尝试 %d/%d)", retryInterval, retry+1, maxRetries)
 		time.Sleep(retryInterval)

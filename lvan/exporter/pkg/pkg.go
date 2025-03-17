@@ -57,7 +57,7 @@ func ExecuteCommand(task *Task) {
 	logger.Info("使用可执行文件: %s", executable)
 	task.AddOutput(fmt.Sprintf("Using executable: %s\n", executable))
 
-	var timeout = 30 * time.Minute
+	var timeout = 5 * time.Minute
 	ctx, cancel := context.WithTimeout(context.Background(), timeout)
 	defer cancel()
 
@@ -88,7 +88,7 @@ func ExecuteCommand(task *Task) {
 	cmd.Env = os.Environ()
 	var resource string
 	if task.CmdMeta != nil && len(task.CmdMeta.Resources) > 0 {
-		retries := 3
+		retries := 40
 		logger.Info("默认重试次数为 %d 可以通过环境变量 exporter_retry_times 设置", retries)
 		if os.Getenv("exporter_retry_times") != "" {
 			retry, err := strconv.Atoi(os.Getenv("exporter_retry_times"))
