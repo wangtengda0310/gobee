@@ -168,7 +168,7 @@ func Cmd(ctx context.Context, cmd *exec.Cmd, args []string, workdir string, env 
 
 	// 启动命令
 	if err := cmd.Start(); err != nil {
-		return running, fmt.Errorf("启动命令失败: %s", err.Error())
+		return failed, fmt.Errorf("启动命令失败: %s", err.Error())
 	}
 
 	// 读取标准输出
@@ -225,7 +225,7 @@ func Cmd(ctx context.Context, cmd *exec.Cmd, args []string, workdir string, env 
 
 		return status, fmt.Errorf("命令执行失败，退出码 %d: %s", exitCode, err.Error())
 	} else {
-		return completed, fmt.Errorf("命令执行成功，退出码 0")
+		return completed, nil
 	}
 
 }
