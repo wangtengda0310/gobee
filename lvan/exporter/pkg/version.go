@@ -80,7 +80,7 @@ func findLatestVersion(cmdName string) (string, bool, error, string) {
 	// 检查是否有latest目录并包含可执行文件
 	latestDir := filepath.Join(cmdDir, "latest")
 	if _, err := os.Stat(latestDir); !os.IsNotExist(err) {
-		if _, found, err := findExecutable(latestDir, cmdName); found && err == nil {
+		if _, found, err := FindExecutable(latestDir, cmdName); found && err == nil {
 			return "latest", true, nil, ""
 		}
 	}
@@ -124,9 +124,9 @@ func findLatestVersion(cmdName string) (string, bool, error, string) {
 	return strings.TrimPrefix(versions[0], "v"), true, nil, ""
 }
 
-// findExecutable 在指定目录中查找可执行文件
+// FindExecutable 在指定目录中查找可执行文件
 // 返回值: 可执行文件路径, 是否找到, 错误信息
-func findExecutable(dir, cmdName string) (string, bool, error) {
+func FindExecutable(dir, cmdName string) (string, bool, error) {
 	// 首先尝试查找与命令名相同的可执行文件
 	possibleNames := []string{
 		cmdName, // Linux/macOS
@@ -223,7 +223,7 @@ func ListCommands() ([]CommandInfo, error) {
 			versionDir := filepath.Join(cmdDir, version)
 
 			// 查找可执行文件
-			executable, found, _ := findExecutable(versionDir, cmdName)
+			executable, found, _ := FindExecutable(versionDir, cmdName)
 			if !found {
 				continue
 			}

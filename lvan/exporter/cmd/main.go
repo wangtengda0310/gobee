@@ -1,10 +1,12 @@
 package main
 
 import (
+	"context"
 	_ "embed"
 	"fmt"
 	"net/http"
 	"os"
+	"os/exec"
 	"path/filepath"
 	"runtime/debug"
 	"strconv"
@@ -192,6 +194,70 @@ func main() {
 	// 处理更多帮助信息
 	if *showMoreHelp {
 		fmt.Println(cliDoc)
+		return
+	}
+
+	// 获取非标志参数（即不带--或-的参数）
+	args := pflag.Args()
+	if len(args) != 0 {
+		// 根据第一个参数判断子命令
+		switch args[0] {
+		case "cmd", "command":
+			var cmd = args[1]
+			args := args[2:]
+			logger.Info("执行命令: %s, %s", cmd, args)
+
+			flags := pflag.NewFlagSet("cmd", pflag.ExitOnError)
+			version := flags.StringP("version", "v", "", "被调用的版本号")
+			flags.Parse(args)
+			//
+			//// 必要参数检查
+			//if *message == "" {
+			//	fmt.Println("必须提供提交信息（-m）")
+			//	cmd.PrintDefaults()
+			//	os.Exit(1)
+			//}
+
+			var req = internal.CommandRequest{
+				Cmd:     cmd,
+				Version: *version,
+				Args:    args,
+			}
+			var task = pkg.CreateTask(req)
+			pkg.ExecuteCommand(task)
+		case "exec", "run":
+			var cmd = args[1]
+			args := args[2:]
+			logger.Info("执行命令: %s, %s", cmd, args)
+
+			flags := pflag.NewFlagSet("cmd", pflag.ExitOnError)
+			encoding := flags.String("encoding", "", "被调用的版本号")
+			flags.Parse(args)
+
+			var encodingFunc func([]byte) string
+			if *encoding != "" {
+				encodingFunc = func(s []byte) string {
+					return pkg.ByteToString(s, internal.Charset(*encoding))
+				}
+			}
+
+			c := exec.Command(cmd, args...)
+			dir, err := os.Getwd()
+			if err != nil {
+				logger.Warn("获取当前工作目录失败: %v", err)
+			}
+
+			status, err := pkg.Cmd(context.Background(), c, args, dir, []string{}, encodingFunc, func(s string) {
+				logger.Info(s)
+			})
+			if err != nil {
+				logger.Warn("命令执行失败: %v", err)
+			}
+			logger.Info("命令执行完成: %v", status)
+		default:
+			fmt.Printf("未知子命令: %s\n", args[0])
+			os.Exit(1)
+		}
 		return
 	}
 
