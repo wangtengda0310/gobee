@@ -41,7 +41,7 @@ func handleSSERequest(w http.ResponseWriter, r *http.Request, task *pkg.Task) {
 	}()
 
 	// 异步执行命令（如果尚未执行）
-	if task.Status == "running" && task.CmdPath == "" {
+	if task.Status.Status == "blocking" && task.CmdPath == "" {
 		go pkg.ExecuteCommand(task)
 	}
 
@@ -63,8 +63,8 @@ func handleSSERequest(w http.ResponseWriter, r *http.Request, task *pkg.Task) {
 
 	// 如果输出通道关闭但任务仍在运行，发送最终状态
 	task.Mutex.Lock()
-	if task.Status != "running" {
-		fmt.Fprintf(w, "data: {\"status\": \"%s\", \"exitCode\": %d}\n\n", task.Status, task.ExitCode)
+	if task.Status.Status != "running" {
+		fmt.Fprintf(w, "data: {\"status\": \"%s\", \"exitCode\": %d}\n\n", task.Status.Status, task.Status.ExitCode)
 		w.(http.Flusher).Flush()
 	}
 	task.Mutex.Unlock()
@@ -129,10 +129,13 @@ func HandleCommandRequest(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 
+		logger.Warn("header: %s", r.Header.Get("Content-Type"))
+		logger.Warn("body: %s", string(body))
 		// 解析请求体
 		var req internal.CommandRequest
-		if bodyType == "json" {
+		if r.Header.Get("Content-Type") == "application/json" || bodyType == "json" {
 			err = json.Unmarshal(body, &req)
+			w.Write(body)
 		} else {
 			err = yaml.Unmarshal(body, &req)
 		}
@@ -256,7 +259,7 @@ func HandleResultRequest(w http.ResponseWriter, r *http.Request) {
 
 		// 如果任务已完成，关闭连接
 		task.Mutex.Lock()
-		isCompleted := task.Status != "running"
+		isCompleted := task.Status.Status == "completed"
 		task.Mutex.Unlock()
 
 		if isCompleted {
@@ -283,13 +286,13 @@ func HandleResultRequest(w http.ResponseWriter, r *http.Request) {
 func handleSyncRequest(w http.ResponseWriter, task *pkg.Task) {
 	// 检查任务是否仍在运行
 	task.Mutex.Lock()
-	isRunning := task.Status
+	status := task.Status.Status
 	task.Mutex.Unlock()
 
 	var res *internal.CmdResponse
 	// 根据任务状态设置HTTP状态码
-	if isRunning == "failed" {
-		w.Header().Set("X-Exit-Code", fmt.Sprintf("%d", task.ExitCode))
+	if status == "failed" {
+		w.Header().Set("X-Exit-Code", fmt.Sprintf("%d", task.Status.ExitCode))
 		res = &internal.CmdResponse{
 			Code: 1,
 			Msg:  "任务执行失败",
@@ -297,7 +300,7 @@ func handleSyncRequest(w http.ResponseWriter, task *pkg.Task) {
 		}
 	} else {
 		w.WriteHeader(http.StatusAccepted) // 202
-		w.Header().Set("X-Exit-Code", fmt.Sprintf("%d", task.ExitCode))
+		w.Header().Set("X-Exit-Code", fmt.Sprintf("%d", task.Status.ExitCode))
 		res = &internal.CmdResponse{
 			Code: 0,
 			Msg:  "任务处理中",
@@ -322,13 +325,13 @@ func handleSyncRequest(w http.ResponseWriter, task *pkg.Task) {
 func HandleSyncResultRequest(w http.ResponseWriter, task *pkg.Task) {
 	// 检查任务是否仍在运行
 	task.Mutex.Lock()
-	isRunning := task.Status
+	isRunning := task.Status.Status
 	task.Mutex.Unlock()
 
 	var res *internal.ResultResponse
 	// 根据任务状态设置HTTP状态码
 	if isRunning == "failed" {
-		w.Header().Set("X-Exit-Code", fmt.Sprintf("%d", task.ExitCode))
+		w.Header().Set("X-Exit-Code", fmt.Sprintf("%d", task.Status.ExitCode))
 		res = &internal.ResultResponse{
 			Code: 3,
 			Msg:  "任务执行失败",
@@ -337,7 +340,7 @@ func HandleSyncResultRequest(w http.ResponseWriter, task *pkg.Task) {
 		}
 	} else if isRunning == "running" {
 		w.WriteHeader(http.StatusAccepted) // 202
-		w.Header().Set("X-Exit-Code", fmt.Sprintf("%d", task.ExitCode))
+		w.Header().Set("X-Exit-Code", fmt.Sprintf("%d", task.Status.ExitCode))
 		res = &internal.ResultResponse{
 			Code: 2,
 			Msg:  "任务处理中",
@@ -346,7 +349,7 @@ func HandleSyncResultRequest(w http.ResponseWriter, task *pkg.Task) {
 		}
 	} else if isRunning == "blocking" {
 		w.WriteHeader(http.StatusAccepted) // 202 todo 是否需要新的状态码
-		w.Header().Set("X-Exit-Code", fmt.Sprintf("%d", task.ExitCode))
+		w.Header().Set("X-Exit-Code", fmt.Sprintf("%d", task.Status.ExitCode))
 		res = &internal.ResultResponse{
 			Code: 1,
 			Msg:  "任务等待处理",

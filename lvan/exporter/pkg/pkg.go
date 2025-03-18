@@ -5,6 +5,7 @@ import (
 	"context"
 	"errors"
 	"fmt"
+	flock2 "github.com/gofrs/flock"
 	"os"
 	"os/exec"
 	"path/filepath"
@@ -54,10 +55,9 @@ func ExecuteCommand(task *Task) {
 	task.CmdPath = executable
 
 	// 记录使用的可执行文件路径
-	logger.Info("使用可执行文件: %s", executable)
-	task.AddOutput(fmt.Sprintf("Using executable: %s\n", executable))
+	task.AddOutput(fmt.Sprintf("使用可执行文件: %s\n", executable))
 
-	var timeout = 5 * time.Minute
+	var timeout = 3 * time.Minute
 	ctx, cancel := context.WithTimeout(context.Background(), timeout)
 	defer cancel()
 
@@ -87,6 +87,7 @@ func ExecuteCommand(task *Task) {
 	// 获取当前环境变量
 	cmd.Env = os.Environ()
 	var resource string
+	var lock *flock2.Flock
 	if task.CmdMeta != nil && len(task.CmdMeta.Resources) > 0 {
 		retries := 40
 		logger.Info("默认重试次数为 %d 可以通过环境变量 exporter_retry_times 设置", retries)
@@ -97,7 +98,7 @@ func ExecuteCommand(task *Task) {
 				retries = retry
 			}
 		}
-		resource, err = intern.ExclusiveOneResource(task.CmdMeta.Resources, TasksDir, retries)
+		resource, err, lock = intern.ExclusiveOneResource(task.CmdMeta.Resources, TasksDir, retries)
 		if err != nil {
 			// 无法获取资源，记录错误并继续执行
 			logger.Warn("无法获取资源锁: %v，任务将继续执行但可能影响性能", err)
@@ -148,7 +149,6 @@ func ExecuteCommand(task *Task) {
 	}
 
 	// 读取标准输出
-	// 读取标准输出
 	go func() {
 		scanner := bufio.NewScanner(stdout)
 		for scanner.Scan() {
@@ -158,7 +158,7 @@ func ExecuteCommand(task *Task) {
 			}
 			convertGbToUtf8 := ByteToString(scanner.Bytes(), encoding)
 			task.AddOutput(convertGbToUtf8 + "\n")
-			logger.Info("命令输出: %s", convertGbToUtf8)
+			logger.Info("[%s] 命令输出: : %s", task.ID, convertGbToUtf8)
 		}
 	}()
 
@@ -172,11 +172,11 @@ func ExecuteCommand(task *Task) {
 			}
 			convertGbToUtf8 := ByteToString(scanner.Bytes(), encoding)
 			task.AddOutput("ERROR: " + convertGbToUtf8 + "\n")
-			logger.Warn("命令错误输出: %s", convertGbToUtf8)
+			logger.Warn("[%s] 命令错误输出: %s", task.ID, convertGbToUtf8)
 		}
 	}()
 
-	// 等待命令完成
+	logger.Info("等待命令完成")
 	err = cmd.Wait()
 	if err != nil {
 		var status TaskStatus
@@ -208,14 +208,13 @@ func ExecuteCommand(task *Task) {
 		task.Complete(completed)
 	}
 
+	task.AddOutput("done\n")
 	// 释放资源锁
-	if task.CmdMeta != nil && task.Request.Cmd != "" {
-		if resource != "" {
-			if err := intern.ReleaseResource(resource); err != nil {
-				logger.Error("释放资源锁失败: %s, %v", resource, err)
-			} else {
-				logger.Info("成功释放资源锁: %s", resource)
-			}
+	if resource != "" {
+		if err := intern.ReleaseResource(resource, lock); err != nil {
+			logger.Error("释放资源锁失败: %s, %v", resource, err)
+		} else {
+			logger.Info("成功释放资源锁: %s", resource)
 		}
 	}
 
@@ -227,10 +226,10 @@ type TaskStatus struct {
 }
 
 var (
-	completed = TaskStatus{Status: "", ExitCode: 0}
-	failed    = TaskStatus{Status: "", ExitCode: 1}
-	running   = TaskStatus{Status: "", ExitCode: 2}
-	blocking  = TaskStatus{Status: "", ExitCode: 3}
+	completed = TaskStatus{Status: "completed", ExitCode: 0}
+	failed    = TaskStatus{Status: "failed", ExitCode: 1}
+	running   = TaskStatus{Status: "running", ExitCode: 2}
+	blocking  = TaskStatus{Status: "blocking", ExitCode: 3}
 )
 
 // 任务信息
@@ -269,7 +268,7 @@ func (t *Task) AddOutput(output string) {
 	t.Output += output
 
 	if t.Logger != nil {
-		t.Logger.Info("TASK OUTPUT: %s", output)
+		t.Logger.Info("[%s]: %s", t.ID, output)
 	}
 
 	// 使用ClientManager广播消息给所有客户端

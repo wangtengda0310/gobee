@@ -39,10 +39,11 @@ var ResourceLockDir string
 
 // ExclusiveOneResource 从CommandMeta中获取资源列表并尝试独占一个资源
 // 如果没有可用资源则阻塞等待其他任务释放资源
-func ExclusiveOneResource(resources []string, lockDir string, maxRetries int) (string, error) {
+func ExclusiveOneResource(resources []string, lockDir string, maxRetries int) (string, error, *flock.Flock) {
+	logger.Info("随机选择资源 %v", resources)
 	// 如果meta为空或没有配置资源，直接返回空字符串，表示不需要资源锁
 	if len(resources) == 0 {
-		return "", nil
+		return "", nil, nil
 	}
 	ResourceLockDir = lockDir
 
@@ -58,29 +59,31 @@ func ExclusiveOneResource(resources []string, lockDir string, maxRetries int) (s
 			// 构建资源锁文件路径
 			lockFilePath := filepath.Join(cmdLockDir, lockfile)
 
+			logger.Info("尝试获取资源锁: %s", lockfile)
+
 			// 临界区代码（保证互斥）
 			// 检查资源锁文件是否存在
 			if _, err := os.Stat(lockFilePath); os.IsNotExist(err) {
-				lock := flock.New("lockFilePath")
+				lock := flock.New(lockFilePath)
 				ok, err := lock.TryLock()
 				if err != nil {
-					return "", err
+					return "", err, nil
 				}
 				if !ok {
 					// 其他进程持有锁
-					return "", errors.New("其他进程持有锁")
+					return "", errors.New("其他进程持有锁"), nil
 				}
-				defer lock.Unlock()
+				//defer lock.Unlock()
 
 				// create file
 				file, err := os.Create(lockFilePath)
 				if err != nil {
-					return "", err
+					return "", err, nil
 				}
 				file.Close()
 
 				logger.Info("成功获取资源锁: %s", lockfile)
-				return lockfile, nil
+				return lockfile, nil, lock
 			}
 
 			// 资源已被占用，尝试下一个资源
@@ -93,11 +96,14 @@ func ExclusiveOneResource(resources []string, lockDir string, maxRetries int) (s
 		time.Sleep(retryInterval)
 	}
 
-	return "", errors.New("无法获取资源锁，所有资源都被占用且超过最大重试次数")
+	return "", errors.New("无法获取资源锁，所有资源都被占用且超过最大重试次数"), nil
 }
 
 // ReleaseResource 释放指定的资源锁
-func ReleaseResource(resource string) error {
+func ReleaseResource(resource string, lock *flock.Flock) error {
+	if lock != nil {
+		lock.Unlock()
+	}
 	if resource == "" {
 		return nil // 没有资源需要释放
 	}
