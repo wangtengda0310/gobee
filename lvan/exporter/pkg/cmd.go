@@ -110,6 +110,18 @@ func ExecuteCommand(task *Task) {
 		env = append(env, fmt.Sprintf("exporter_cmd_%s_resource=%s", cmdName, resource))
 	}
 
+	defer func(resource string) {
+
+		// 释放资源锁
+		if resource != "" {
+			if err := internal.ReleaseResource(resource, lock); err != nil {
+				logger.Error("释放资源锁失败: %s, %v", resource, err)
+			} else {
+				logger.Info("成功释放资源锁: %s", resource)
+			}
+		}
+	}(resource)
+
 	// 设置环境变量
 	if len(task.Request.Env) > 0 {
 
@@ -128,28 +140,37 @@ func ExecuteCommand(task *Task) {
 			return ByteToString(s, encoding)
 		}
 	}
-	status, err := Cmd(ctx, cmd, cmdArgs, task.WorkDir, env, encodingf, func(s string) {
+	status, err := Cmd(cmd, cmdArgs, task.WorkDir, env, encodingf, func(s string) {
 		task.AddOutput(s)
 	})
-	// 释放资源锁
-	if resource != "" {
-		if err := internal.ReleaseResource(resource, lock); err != nil {
-			logger.Error("释放资源锁失败: %s, %v", resource, err)
-		} else {
-			logger.Info("成功释放资源锁: %s", resource)
-		}
-	}
+	task.Status = status
 	if err != nil {
-		logger.Error("执行命令失败: %s", err.Error())
-		task.AddOutput(fmt.Sprintf("Error executing command: %s\n", err.Error()))
-		task.Complete(failed)
 		return
 	}
-	task.Status = status
+
+	logger.Info("等待命令完成")
+	err = cmd.Wait()
+	if err != nil {
+		// 处理超时错误
+		if errors.Is(ctx.Err(), context.DeadlineExceeded) {
+			task.AddOutput(fmt.Sprintf("命令执行超时"))
+			exitCode := 124 // 通常用 124 表示超时退出码
+			task.AddOutput(fmt.Sprintf("命令执行超时，退出码 %d: %s", exitCode, err.Error()))
+		} else if exitErr, ok := err.(*exec.ExitError); ok { // 尝试获取退出码
+			exitCode := exitErr.ExitCode()
+			task.AddOutput(fmt.Sprintf("命令执行失败，退出码 %d: %s", exitCode, err.Error()))
+		} else {
+			exitCode := 1 // 默认错误码
+			task.AddOutput(fmt.Sprintf("命令执行未知错误，退出码 %d: %s", exitCode, err.Error()))
+		}
+		task.Complete(failed)
+	} else {
+		task.Complete(completed)
+	}
 
 }
 
-func Cmd(ctx context.Context, cmd *exec.Cmd, args []string, workdir string, env []string, encodingFunc func([]byte) string, log func(string)) (TaskStatus, error) {
+func Cmd(cmd *exec.Cmd, args []string, workdir string, env []string, encodingFunc func([]byte) string, log func(string)) (TaskStatus, error) {
 	cmd.Env = env
 
 	// 设置工作目录（任务沙箱）
@@ -174,6 +195,9 @@ func Cmd(ctx context.Context, cmd *exec.Cmd, args []string, workdir string, env 
 	// 读取标准输出
 	go func() {
 		scanner := bufio.NewScanner(stdout)
+		buf := make([]byte, 1024*1024)
+		scanner.Buffer(buf, cap(buf))
+
 		for scanner.Scan() {
 			var s string
 			if encodingFunc != nil {
@@ -182,12 +206,21 @@ func Cmd(ctx context.Context, cmd *exec.Cmd, args []string, workdir string, env 
 				s = scanner.Text()
 			}
 			log(s)
+		}
+
+		// 处理扫描错误
+		if err := scanner.Err(); err != nil {
+			logger.Error("标准输出扫描错误: %v", err)
+			log(fmt.Sprintf("\n[SYSTEM ERROR] stdout扫描失败: %v\n", err))
 		}
 	}()
 
 	// 读取标准错误
 	go func() {
 		scanner := bufio.NewScanner(stderr)
+		buf := make([]byte, 1024*1024)
+		scanner.Buffer(buf, cap(buf))
+
 		for scanner.Scan() {
 			var s string
 			if encodingFunc != nil {
@@ -197,35 +230,12 @@ func Cmd(ctx context.Context, cmd *exec.Cmd, args []string, workdir string, env 
 			}
 			log(s)
 		}
+
+		if err := scanner.Err(); err != nil {
+			logger.Error("标准错误扫描错误: %v", err)
+			log(fmt.Sprintf("\n[SYSTEM ERROR] stderr扫描失败: %v\n", err))
+		}
 	}()
 
-	logger.Info("等待命令完成")
-	err = cmd.Wait()
-	if err != nil {
-		var status TaskStatus
-		exitCode := 0
-		// 处理超时错误
-		if errors.Is(ctx.Err(), context.DeadlineExceeded) {
-			log(fmt.Sprintf("命令执行超时"))
-			exitCode = 124 // 通常用 124 表示超时退出码
-			status = TaskStatus{
-				Status:   "命令执行超时",
-				ExitCode: exitCode,
-			}
-		} else if exitErr, ok := err.(*exec.ExitError); ok { // 尝试获取退出码
-			exitCode = exitErr.ExitCode()
-			status = TaskStatus{
-				Status:   "命令执行失败",
-				ExitCode: exitCode,
-			}
-		} else {
-			exitCode = 1 // 默认错误码
-			status = failed
-		}
-
-		return status, fmt.Errorf("命令执行失败，退出码 %d: %s", exitCode, err.Error())
-	} else {
-		return completed, nil
-	}
-
+	return running, nil
 }

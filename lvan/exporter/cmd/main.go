@@ -1,7 +1,6 @@
 package main
 
 import (
-	"context"
 	_ "embed"
 	"fmt"
 	"net/http"
@@ -247,7 +246,7 @@ func main() {
 				logger.Warn("获取当前工作目录失败: %v", err)
 			}
 
-			status, err := pkg.Cmd(context.Background(), c, args, dir, []string{}, encodingFunc, func(s string) {
+			status, err := pkg.Cmd(c, args, dir, []string{}, encodingFunc, func(s string) {
 				logger.Info(s)
 			})
 			if err != nil {
