@@ -6,13 +6,6 @@ import (
 	"golang.org/x/text/encoding/simplifiedchinese"
 )
 
-var (
-	completed = TaskStatus{Status: "completed", ExitCode: 0}
-	failed    = TaskStatus{Status: "failed", ExitCode: 1}
-	running   = TaskStatus{Status: "running", ExitCode: 2}
-	blocking  = TaskStatus{Status: "blocking", ExitCode: 3}
-)
-
 const (
 	UTF8    intern.Charset = "UTF-8"
 	utf8    intern.Charset = "utf-8"
