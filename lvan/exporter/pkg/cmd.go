@@ -32,8 +32,8 @@ func ExecuteCommand(task *Task) {
 	logger.Info("执行命令: %s, 版本: %s, 参数: %s", cmdName, cmdVersion, strings.Join(cmdArgs, ", "))
 
 	// 使用版本管理获取可执行文件路径
-	versionDir, found, err := GetCommandVersionPath(cmdName, cmdVersion)
-	if err != nil || !found {
+	versionDir, err := GetCommandVersionPath(cmdName, cmdVersion)
+	if err != nil {
 		errMsg := fmt.Sprintf("找不到命令 %s 版本 %s: %v\n", cmdName, cmdVersion, err)
 		logger.Error(errMsg)
 		task.AddOutput(errMsg)
@@ -43,8 +43,8 @@ func ExecuteCommand(task *Task) {
 	task.CmdMeta = internal.TryMeta(filepath.Join(versionDir, "meta.yaml"))
 
 	// 查找可执行文件
-	executable, found, err := FindExecutable(versionDir, cmdName)
-	if err != nil || !found {
+	executable, err := FindExecutable(versionDir, cmdName)
+	if err != nil {
 		errMsg := fmt.Sprintf("找不到命令 %s 版本 %s: %v\n", cmdName, cmdVersion, err)
 		logger.Error(errMsg)
 		task.AddOutput(errMsg)
@@ -57,7 +57,7 @@ func ExecuteCommand(task *Task) {
 	// 记录使用的可执行文件路径
 	task.AddOutput(fmt.Sprintf("使用可执行文件: %s\n", executable))
 
-	var timeout = 3 * time.Minute
+	var timeout = 10 * time.Minute
 	ctx, cancel := context.WithTimeout(context.Background(), timeout)
 	defer cancel()
 
@@ -85,8 +85,7 @@ func ExecuteCommand(task *Task) {
 	}
 
 	// 获取当前环境变量
-	cmd.Env = os.Environ()
-	var env []string = os.Environ()
+	var env = os.Environ()
 	var resource string
 	var lock *flock.Flock
 	if task.CmdMeta != nil && len(task.CmdMeta.Resources) > 0 {

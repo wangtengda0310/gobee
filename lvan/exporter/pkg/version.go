@@ -26,20 +26,20 @@ type CommandInfo struct {
 // cmdName: 命令名称
 // version: 版本号，如果为"latest"则返回最新版本
 // 返回值: 可执行文件路径, 是否找到, 错误信息
-func GetCommandVersionPath(cmdName, version string) (string, bool, error) {
+func GetCommandVersionPath(cmdName, version string) (string, error) {
 	// 确保配置已初始化
 
 	// 检查命令目录是否存在
 	cmdDir := filepath.Join(CommandDir, cmdName)
 	if _, err := os.Stat(cmdDir); os.IsNotExist(err) {
-		return "", false, fmt.Errorf("命令 %s 不存在", cmdName)
+		return "", fmt.Errorf("命令 %s 不存在", cmdName)
 	}
 
 	// 如果请求未指定版本，查找最新版本
 	if version == "" {
-		latestVersion, found, err, _ := findLatestVersion(cmdName)
-		if err != nil || !found {
-			return "", false, fmt.Errorf("找不到命令 %s 的最新版本: %v", cmdName, err)
+		latestVersion, err := findLatestVersion(cmdName)
+		if err != nil {
+			return "", fmt.Errorf("找不到命令 %s 的最新版本: %v", cmdName, err)
 		}
 		version = latestVersion
 		logger.Info("使用命令 %s 的最新版本: %s", cmdName, version)
@@ -49,46 +49,46 @@ func GetCommandVersionPath(cmdName, version string) (string, bool, error) {
 	versionDir := filepath.Join(cmdDir, version)
 	if _, err := os.Stat(versionDir); os.IsNotExist(err) {
 		logger.Info("命令 %s 的版本 %s 不存在", cmdName, version)
-		return "", false, fmt.Errorf("命令 %s 的版本 %s 不存在", cmdName, version)
+		return "", fmt.Errorf("命令 %s 的版本 %s 不存在", cmdName, version)
 	}
 
 	logger.Info("使用命令 %s 的版本 %s 目录 %s", cmdName, version, versionDir)
 
-	return versionDir, true, nil
+	return versionDir, nil
 }
 
 // findLatestVersion 查找命令的最新版本 跟目录 > latest目录 > sort max 目录
 // 返回值: 最新版本号, 是否找到, 错误信息
-func findLatestVersion(cmdName string) (string, bool, error, string) {
+func findLatestVersion(cmdName string) (string, error) {
 	cmdDir := filepath.Join(CommandDir, cmdName)
 
 	// 检查命令目录下是否有可执行文件
 	execPath := filepath.Join(cmdDir, cmdName)
 	if isExecutable(execPath) {
-		return "", true, nil, ""
+		return "", nil
 	}
 	if isExecutable(execPath + ".exe") {
-		return "", true, nil, ""
+		return "", nil
 	}
 	if isExecutable(execPath + ".bat") {
-		return "", true, nil, ""
+		return "", nil
 	}
 	if isExecutable(execPath + ".cmd") {
-		return "", true, nil, ""
+		return "", nil
 	}
 
 	// 检查是否有latest目录并包含可执行文件
 	latestDir := filepath.Join(cmdDir, "latest")
 	if _, err := os.Stat(latestDir); !os.IsNotExist(err) {
-		if _, found, err := FindExecutable(latestDir, cmdName); found && err == nil {
-			return "latest", true, nil, ""
+		if _, err := FindExecutable(latestDir, cmdName); err == nil {
+			return "latest", nil
 		}
 	}
 
 	// 读取版本目录
 	entries, err := os.ReadDir(cmdDir)
 	if err != nil {
-		return "", false, err, ""
+		return "", err
 	}
 	// 收集有效的版本号
 	var versions []string
@@ -111,7 +111,7 @@ func findLatestVersion(cmdName string) (string, bool, error, string) {
 	}
 
 	if len(versions) == 0 {
-		return "", false, fmt.Errorf("命令 %s 没有有效的版本", cmdName), ""
+		return "", fmt.Errorf("命令 %s 没有有效的版本", cmdName)
 	}
 
 	// 按版本号排序
@@ -121,12 +121,12 @@ func findLatestVersion(cmdName string) (string, bool, error, string) {
 	})
 
 	// 返回最高版本
-	return strings.TrimPrefix(versions[0], "v"), true, nil, ""
+	return strings.TrimPrefix(versions[0], "v"), nil
 }
 
 // FindExecutable 在指定目录中查找可执行文件
 // 返回值: 可执行文件路径, 是否找到, 错误信息
-func FindExecutable(dir, cmdName string) (string, bool, error) {
+func FindExecutable(dir, cmdName string) (string, error) {
 	// 首先尝试查找与命令名相同的可执行文件
 	possibleNames := []string{
 		cmdName, // Linux/macOS
@@ -151,11 +151,11 @@ func FindExecutable(dir, cmdName string) (string, bool, error) {
 	for _, name := range possibleNames {
 		path := filepath.Join(dir, name)
 		if isExecutable(path) {
-			return path, true, nil
+			return path, nil
 		}
 	}
 
-	return "", false, fmt.Errorf("没有找到与命令名相同的可执行文件 %v", possibleNames)
+	return "", fmt.Errorf("没有找到与命令名相同的可执行文件 %v", possibleNames)
 }
 
 // isExecutable 检查文件是否可执行
@@ -205,7 +205,7 @@ func ListCommands() ([]CommandInfo, error) {
 		cmdDir := filepath.Join(CommandDir, cmdName)
 
 		// 获取最新版本
-		latestVersion, latestFound, _, _ := findLatestVersion(cmdName)
+		latestVersion, err := findLatestVersion(cmdName)
 
 		// 读取版本目录
 		versionEntries, err := os.ReadDir(cmdDir)
@@ -223,8 +223,8 @@ func ListCommands() ([]CommandInfo, error) {
 			versionDir := filepath.Join(cmdDir, version)
 
 			// 查找可执行文件
-			executable, found, _ := FindExecutable(versionDir, cmdName)
-			if !found {
+			executable, err := FindExecutable(versionDir, cmdName)
+			if err != nil {
 				continue
 			}
 
@@ -233,7 +233,7 @@ func ListCommands() ([]CommandInfo, error) {
 				Name:       cmdName,
 				Version:    version,
 				Executable: executable,
-				IsLatest:   latestFound && version == latestVersion,
+				IsLatest:   version == latestVersion,
 			})
 		}
 	}
