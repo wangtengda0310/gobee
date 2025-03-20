@@ -1,0 +1,2 @@
+encoding: "gbk"
+shell: ["cmd", "/C"]

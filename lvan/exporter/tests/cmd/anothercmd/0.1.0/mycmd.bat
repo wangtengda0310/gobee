@@ -1,0 +1,3 @@
+@echo off
+echo This is mycmd version 0.1.0
+echo Arguments: %*
