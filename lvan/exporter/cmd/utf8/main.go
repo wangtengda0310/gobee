@@ -3,15 +3,21 @@ package main
 import (
 	"bufio"
 	"fmt"
+	"github.com/spf13/pflag"
 	"github.com/wangtengda/gobee/lvan/exporter/internal"
 	"github.com/wangtengda/gobee/lvan/exporter/pkg"
+	"io"
 	"os"
 	"os/exec"
 )
 
 func main() {
-	args := os.Args
-	command := exec.Command(args[2], args[3:]...)
+	from := pflag.String("from", "", "from charset")
+	to := pflag.String("to", "", "to charset")
+	pflag.Parse()
+
+	args := pflag.Args()
+	command := exec.Command(args[0], args[1:]...)
 
 	command.Dir, _ = os.Getwd()
 
@@ -26,24 +32,24 @@ func main() {
 		panic(err)
 	}
 
-	encoding := args[1]
-	// 读取标准输出
-	go func() {
+	pipe := func(stdout io.ReadCloser) {
 		scanner := bufio.NewScanner(stdout)
 		for scanner.Scan() {
-			toString := pkg.ByteToString(scanner.Bytes(), internal.Charset(encoding))
+			var toString string
+			if *from != "" {
+				toString = pkg.UtfFrom(scanner.Bytes(), internal.Charset(*from))
+			} else {
+				toString = scanner.Text()
+			}
+			if *to != "" {
+				toString = pkg.UtfTo([]byte(toString), internal.Charset(*to))
+			}
 			fmt.Fprintln(os.Stdout, toString)
 		}
-	}()
+	}
 
-	// 读取标准错误
-	go func() {
-		scanner := bufio.NewScanner(stderr)
-		for scanner.Scan() {
-			toString := pkg.ByteToString(scanner.Bytes(), internal.Charset(encoding))
-			fmt.Fprintln(os.Stderr, toString)
-		}
-	}()
+	go pipe(stdout)
+	go pipe(stderr)
 
 	err = command.Run()
 	// 检查命令执行是否出错
