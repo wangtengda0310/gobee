@@ -20,7 +20,7 @@ response body {
 GET /result/任务id
 response body {
     "code" : "命令执行状态 0 成功 1 排队中 2 进行中 3 失败",
-    "msg" : "提示信息",
+    "msg" : "提示信息,发生错误时会携带stderr输出",
     "id" : "任务id",
     "job" : "任务参数"
 }

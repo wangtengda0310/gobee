@@ -17,8 +17,8 @@ type Task struct {
 	StartTime time.Time              `json:"start_time"`
 	EndTime   *time.Time             `json:"end_time,omitempty"`
 	Request   intern.CommandRequest  `json:"request"`
-	Output    string                 `json:"output"`
-	Status    TaskStatus             `json:"status"` // completed, failed, running, blocking
+	Status    TaskStatus             `json:"status"` // running, completed, failed
+	Result    *TaskResult            `json:"result"` // completed, failed, running, blocking
 	CmdPath   string                 `json:"cmd_path"`
 	WorkDir   string                 `json:"workdir"`
 	Mutex     *sync.Mutex            `json:"-"`
@@ -33,7 +33,7 @@ func (t *Task) AddOutput(output string) {
 	t.Mutex.Lock()
 	defer t.Mutex.Unlock()
 
-	t.Output += output
+	t.Result.Output += output
 
 	if t.Logger != nil {
 		t.Logger.Info("[%s]: %s", t.ID, output)
@@ -46,11 +46,12 @@ func (t *Task) AddOutput(output string) {
 }
 
 // 完成任务
-func (t *Task) Complete(status TaskStatus) {
+func (t *Task) Complete(status TaskStatus, exitCode int) {
 	t.Mutex.Lock()
 	defer t.Mutex.Unlock()
 
 	t.Status = status
+	t.Result.ExitCode = int(exitCode)
 	now := time.Now()
 	t.EndTime = &now
 
@@ -60,8 +61,8 @@ func (t *Task) Complete(status TaskStatus) {
 	}
 
 	// 发送任务完成的最终消息
-	completionMsg := fmt.Sprintf("\nTask completed with status: %s, exit code: %d\n", status, status.ExitCode)
-	t.Output += completionMsg
+	completionMsg := fmt.Sprintf("\nTask completed with status: %s, exit code: %d\n", status, t.Result.ExitCode)
+	t.Result.Output += completionMsg
 	t.Logger.Close()
 }
 
@@ -71,7 +72,7 @@ func (t *Task) AddClient(clientID string) chan string {
 	defer t.Mutex.Unlock()
 
 	// 如果任务已完成，返回nil
-	if t.Status.Status == "completed" || t.Status.Status == "failed" {
+	if t.Status == Completed || t.Status == Failed {
 		logger.Warn("尝试为已完成的任务 %s 添加客户端 %s", t.ID, clientID)
 		return nil
 	}
@@ -81,9 +82,9 @@ func (t *Task) AddClient(clientID string) chan string {
 		ch := t.ClientMgr.AddClient(clientID)
 
 		// 如果是新客户端，发送已有的输出历史
-		if ch != nil && t.Output != "" {
+		if ch != nil && t.Result.Output != "" {
 			select {
-			case ch <- t.Output:
+			case ch <- t.Result.Output:
 				// 发送成功
 			default:
 				// 通道已满，跳过历史输出
@@ -118,10 +119,25 @@ func GetTaskDirectory(taskID string) string {
 }
 
 var TasksDir string // 任务目录
+type TaskStatus int
 
-type TaskStatus struct {
-	Status   string `json:"status"`    // running, completed, failed
-	ExitCode int    `json:"exit_code"` // 命令退出码
+const (
+	Completed TaskStatus = 0
+	Failed    TaskStatus = 1
+	Running   TaskStatus = 2
+	Blocking  TaskStatus = 3
+)
+
+const (
+	cmdNotExit = 400
+	exclusive  = 401
+	success    = 0
+)
+
+type TaskResult struct {
+	ExitCode int      `json:"exit_code"` // 命令退出码
+	Stderr   []string `json:"stderr"`    // new stderr
+	Output   string   `json:"output"`    // stdout + stderr
 }
 
 // 任务管理器
@@ -151,7 +167,12 @@ func (tm *TaskManager) CreateTask(req intern.CommandRequest) *Task {
 		ID:        taskID,
 		StartTime: time.Now(),
 		Request:   req,
-		Status:    blocking,
+		Status:    Blocking,
+		Result: &TaskResult{
+			ExitCode: -1,
+			Stderr:   []string{},
+			Output:   "",
+		},
 		WorkDir:   workdir,
 		Mutex:     &sync.Mutex{},
 		Logger:    logInstance,

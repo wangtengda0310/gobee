@@ -41,12 +41,13 @@ func handleSSERequest(w http.ResponseWriter, r *http.Request, task *pkg.Task) {
 	}()
 
 	// 异步执行命令（如果尚未执行）
-	if task.Status.Status == "blocking" && task.CmdPath == "" {
+	taskResult := task.Result
+	if task.Status == pkg.Blocking && task.CmdPath == "" {
 		go pkg.ExecuteCommand(task)
 	}
 
 	// 发送任务ID
-	fmt.Fprintf(w, "data: {\"id\": \"%s\", \"status\": \"%s\"}\n\n", task.ID, task.Status)
+	fmt.Fprintf(w, "data: {\"id\": \"%s\", \"status\": \"%s\"}\n\n", task.ID, taskResult)
 	w.(http.Flusher).Flush()
 
 	// 发送输出流
@@ -63,8 +64,8 @@ func handleSSERequest(w http.ResponseWriter, r *http.Request, task *pkg.Task) {
 
 	// 如果输出通道关闭但任务仍在运行，发送最终状态
 	task.Mutex.Lock()
-	if task.Status.Status != "running" {
-		fmt.Fprintf(w, "data: {\"status\": \"%s\", \"exitCode\": %d}\n\n", task.Status.Status, task.Status.ExitCode)
+	if task.Status != pkg.Running {
+		fmt.Fprintf(w, "data: {\"status\": \"%s\", \"exitCode\": %d}\n\n", task.Status, taskResult.ExitCode)
 		w.(http.Flusher).Flush()
 	}
 	task.Mutex.Unlock()
@@ -207,92 +208,99 @@ func HandleResultRequest(w http.ResponseWriter, r *http.Request) {
 	// 检查是否使用SSE
 	useSSE := r.URL.Query().Get("sse") == "true"
 	if useSSE {
-		// 设置SSE头
-		w.Header().Set("Content-Type", "text/event-stream; charset=utf-8")
-		w.Header().Set("Cache-Control", "no-cache")
-		w.Header().Set("Connection", "keep-alive")
-		w.Header().Set("Access-Control-Allow-Origin", "*")
-
-		// 创建客户端ID
-		clientID := uuid.New().String()
-		outputChan := task.AddClient(clientID)
-
-		// 如果无法添加客户端（例如任务已完成或达到最大连接数）
-		if outputChan == nil {
-			http.Error(w, "Cannot connect to task: either completed or connection limit reached", http.StatusServiceUnavailable)
+		if resultSSE(w, r, task) {
 			return
-		}
-
-		// 设置连接关闭时的清理
-		go func() {
-			<-r.Context().Done()
-			task.RemoveClient(clientID)
-			logger.Info("结果SSE客户端 %s 连接已关闭", clientID)
-		}()
-
-		// 添加健康检查ping
-		go func() {
-			ticker := time.NewTicker(30 * time.Second)
-			defer ticker.Stop()
-
-			for {
-				select {
-				case <-ticker.C:
-					// 发送ping消息
-					fmt.Fprintf(w, "event: ping\ndata: %d\n\n", time.Now().Unix())
-					w.(http.Flusher).Flush()
-				case <-r.Context().Done():
-					return
-				}
-			}
-		}()
-
-		// 发送现有输出
-		task.Mutex.Lock()
-		existingOutput := task.Output
-		task.Mutex.Unlock()
-
-		if existingOutput != "" {
-			fmt.Fprintf(w, "data: %s\n\n", existingOutput)
-			w.(http.Flusher).Flush()
-		}
-
-		// 如果任务已完成，关闭连接
-		task.Mutex.Lock()
-		isCompleted := task.Status.Status == "completed"
-		task.Mutex.Unlock()
-
-		if isCompleted {
-			return
-		}
-
-		// 发送新输出
-		for output := range outputChan {
-			// 确保每行输出都有正确的SSE格式
-			lines := strings.Split(output, "\n")
-			for _, line := range lines {
-				if line != "" {
-					fmt.Fprintf(w, "data: %s\n\n", line)
-					w.(http.Flusher).Flush()
-				}
-			}
 		}
 	} else {
 		HandleSyncResultRequest(w, task)
 	}
 }
 
+func resultSSE(w http.ResponseWriter, r *http.Request, task *pkg.Task) bool {
+	// 设置SSE头
+	w.Header().Set("Content-Type", "text/event-stream; charset=utf-8")
+	w.Header().Set("Cache-Control", "no-cache")
+	w.Header().Set("Connection", "keep-alive")
+	w.Header().Set("Access-Control-Allow-Origin", "*")
+
+	// 创建客户端ID
+	clientID := uuid.New().String()
+	outputChan := task.AddClient(clientID)
+
+	// 如果无法添加客户端（例如任务已完成或达到最大连接数）
+	if outputChan == nil {
+		http.Error(w, "Cannot connect to task: either completed or connection limit reached", http.StatusServiceUnavailable)
+		return true
+	}
+
+	// 设置连接关闭时的清理
+	go func() {
+		<-r.Context().Done()
+		task.RemoveClient(clientID)
+		logger.Info("结果SSE客户端 %s 连接已关闭", clientID)
+	}()
+
+	// 添加健康检查ping
+	go func() {
+		ticker := time.NewTicker(30 * time.Second)
+		defer ticker.Stop()
+
+		for {
+			select {
+			case <-ticker.C:
+				// 发送ping消息
+				fmt.Fprintf(w, "event: ping\ndata: %d\n\n", time.Now().Unix())
+				w.(http.Flusher).Flush()
+			case <-r.Context().Done():
+				return
+			}
+		}
+	}()
+
+	// 发送现有输出
+	task.Mutex.Lock()
+	existingOutput := task.Result.Output
+	task.Mutex.Unlock()
+
+	if existingOutput != "" {
+		fmt.Fprintf(w, "data: %s\n\n", existingOutput)
+		w.(http.Flusher).Flush()
+	}
+
+	// 如果任务已完成，关闭连接
+	task.Mutex.Lock()
+	isCompleted := task.Status == pkg.Completed
+	task.Mutex.Unlock()
+
+	if isCompleted {
+		return true
+	}
+
+	// 发送新输出
+	for output := range outputChan {
+		// 确保每行输出都有正确的SSE格式
+		lines := strings.Split(output, "\n")
+		for _, line := range lines {
+			if line != "" {
+				fmt.Fprintf(w, "data: %s\n\n", line)
+				w.(http.Flusher).Flush()
+			}
+		}
+	}
+	return false
+}
+
 // 处理同步执行命令请求
 func handleSyncRequest(w http.ResponseWriter, task *pkg.Task) {
 	// 检查任务是否仍在运行
 	task.Mutex.Lock()
-	status := task.Status.Status
+	status := task.Status
 	task.Mutex.Unlock()
 
 	var res *internal.CmdResponse
 	// 根据任务状态设置HTTP状态码
-	if status == "failed" {
-		w.Header().Set("X-Exit-Code", fmt.Sprintf("%d", task.Status.ExitCode))
+	if status == pkg.Failed {
+		w.Header().Set("X-Exit-Code", fmt.Sprintf("%d", task.Result.ExitCode))
 		res = &internal.CmdResponse{
 			Code: 1,
 			Msg:  "任务执行失败",
@@ -300,7 +308,7 @@ func handleSyncRequest(w http.ResponseWriter, task *pkg.Task) {
 		}
 	} else {
 		w.WriteHeader(http.StatusAccepted) // 202
-		w.Header().Set("X-Exit-Code", fmt.Sprintf("%d", task.Status.ExitCode))
+		w.Header().Set("X-Exit-Code", fmt.Sprintf("%d", task.Result.ExitCode))
 		res = &internal.CmdResponse{
 			Code: 0,
 			Msg:  "任务处理中",
@@ -325,31 +333,31 @@ func handleSyncRequest(w http.ResponseWriter, task *pkg.Task) {
 func HandleSyncResultRequest(w http.ResponseWriter, task *pkg.Task) {
 	// 检查任务是否仍在运行
 	task.Mutex.Lock()
-	isRunning := task.Status.Status
+	isRunning := task.Status
 	task.Mutex.Unlock()
 
 	var res *internal.ResultResponse
 	// 根据任务状态设置HTTP状态码
-	if isRunning == "failed" {
-		w.Header().Set("X-Exit-Code", fmt.Sprintf("%d", task.Status.ExitCode))
+	if isRunning == pkg.Failed {
+		w.Header().Set("X-Exit-Code", fmt.Sprintf("%d", task.Result.ExitCode))
 		res = &internal.ResultResponse{
 			Code: 3,
-			Msg:  "任务执行失败",
+			Msg:  strings.Join(task.Result.Stderr, "\n"),
 			Id:   task.ID,
 			Job:  task.Request,
 		}
-	} else if isRunning == "running" {
+	} else if isRunning == pkg.Running {
 		w.WriteHeader(http.StatusAccepted) // 202
-		w.Header().Set("X-Exit-Code", fmt.Sprintf("%d", task.Status.ExitCode))
+		w.Header().Set("X-Exit-Code", fmt.Sprintf("%d", task.Result.ExitCode))
 		res = &internal.ResultResponse{
 			Code: 2,
 			Msg:  "任务处理中",
 			Id:   task.ID,
 			Job:  task.Request,
 		}
-	} else if isRunning == "blocking" {
+	} else if isRunning == pkg.Blocking {
 		w.WriteHeader(http.StatusAccepted) // 202 todo 是否需要新的状态码
-		w.Header().Set("X-Exit-Code", fmt.Sprintf("%d", task.Status.ExitCode))
+		w.Header().Set("X-Exit-Code", fmt.Sprintf("%d", task.Result.ExitCode))
 		res = &internal.ResultResponse{
 			Code: 1,
 			Msg:  "任务等待处理",
