@@ -246,12 +246,18 @@ func main() {
 				logger.Warn("获取当前工作目录失败: %v", err)
 			}
 
-			status, err := pkg.Cmd(c, args, dir, []string{}, encodingFunc, func(s string) {
+			log := func(s string) {
 				logger.Info(s)
-			})
+			}
+			status, err, stdout, stderr := pkg.Cmd(c, args, dir, []string{})
 			if err != nil {
 				logger.Warn("命令执行失败: %v", err)
 			}
+
+			pkg.CacthStdout(stdout, encodingFunc, log)
+
+			pkg.CacthStderr(stderr, encodingFunc, log)
+
 			logger.Info("命令执行完成: %v", status)
 		default:
 			fmt.Printf("未知子命令: %s\n", args[0])

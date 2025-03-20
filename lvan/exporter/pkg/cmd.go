@@ -8,6 +8,7 @@ import (
 	"github.com/gofrs/flock"
 	"github.com/wangtengda/gobee/lvan/exporter/internal"
 	"github.com/wangtengda/gobee/lvan/exporter/pkg/logger"
+	"io"
 	"os"
 	"os/exec"
 	"path/filepath"
@@ -36,7 +37,7 @@ func ExecuteCommand(task *Task) {
 		errMsg := fmt.Sprintf("找不到命令 %s 版本 %s: %v\n", cmdName, cmdVersion, err)
 		logger.Error(errMsg)
 		task.AddOutput(errMsg)
-		task.Complete(failed)
+		task.Complete(Failed, cmdNotExit)
 		return
 	}
 	task.CmdMeta = internal.TryMeta(filepath.Join(versionDir, "meta.yaml"))
@@ -47,7 +48,7 @@ func ExecuteCommand(task *Task) {
 		errMsg := fmt.Sprintf("找不到命令 %s 版本 %s: %v\n", cmdName, cmdVersion, err)
 		logger.Error(errMsg)
 		task.AddOutput(errMsg)
-		task.Complete(failed)
+		task.Complete(Failed, cmdNotExit)
 		return
 	}
 
@@ -103,7 +104,7 @@ func ExecuteCommand(task *Task) {
 			// 无法获取资源，记录错误并继续执行
 			logger.Warn("无法获取资源锁: %v，任务将继续执行但可能影响性能", err)
 			task.AddOutput("超时获取资源锁\n")
-			task.Complete(failed)
+			task.Complete(Failed, exclusive)
 			return
 		}
 		// 添加自定义环境变量
@@ -140,37 +141,44 @@ func ExecuteCommand(task *Task) {
 			return ByteToString(s, encoding)
 		}
 	}
-	status, err := Cmd(cmd, cmdArgs, task.WorkDir, env, encodingf, func(s string) {
+	log := func(s string) {
 		task.AddOutput(s)
-	})
+		task.Result.Stderr = append(task.Result.Stderr, s)
+	}
+	status, err, stdout, stderr := Cmd(cmd, cmdArgs, task.WorkDir, env)
 	task.Status = status
 	if err != nil {
 		return
 	}
 
+	CacthStdout(stdout, encodingf, task.AddOutput)
+
+	CacthStderr(stderr, encodingf, log)
+
 	logger.Info("等待命令完成")
 	err = cmd.Wait()
 	if err != nil {
+		var exitCode int
 		// 处理超时错误
 		if errors.Is(ctx.Err(), context.DeadlineExceeded) {
 			task.AddOutput(fmt.Sprintf("命令执行超时"))
-			exitCode := 124 // 通常用 124 表示超时退出码
+			exitCode = 124 // 通常用 124 表示超时退出码
 			task.AddOutput(fmt.Sprintf("命令执行超时，退出码 %d: %s", exitCode, err.Error()))
 		} else if exitErr, ok := err.(*exec.ExitError); ok { // 尝试获取退出码
-			exitCode := exitErr.ExitCode()
+			exitCode = exitErr.ExitCode()
 			task.AddOutput(fmt.Sprintf("命令执行失败，退出码 %d: %s", exitCode, err.Error()))
 		} else {
-			exitCode := 1 // 默认错误码
+			exitCode = 1 // 默认错误码
 			task.AddOutput(fmt.Sprintf("命令执行未知错误，退出码 %d: %s", exitCode, err.Error()))
 		}
-		task.Complete(failed)
+		task.Complete(Failed, exitCode)
 	} else {
-		task.Complete(completed)
+		task.Complete(Completed, success)
 	}
 
 }
 
-func Cmd(cmd *exec.Cmd, args []string, workdir string, env []string, encodingFunc func([]byte) string, log func(string)) (TaskStatus, error) {
+func Cmd(cmd *exec.Cmd, args []string, workdir string, env []string) (TaskStatus, error, io.ReadCloser, io.ReadCloser) {
 	cmd.Env = env
 
 	// 设置工作目录（任务沙箱）
@@ -179,19 +187,47 @@ func Cmd(cmd *exec.Cmd, args []string, workdir string, env []string, encodingFun
 	// 创建管道获取命令输出
 	stdout, err := cmd.StdoutPipe()
 	if err != nil {
-		return failed, fmt.Errorf("创建stdout管道失败: %s\n", err.Error())
+		return Failed, fmt.Errorf("创建stdout管道失败: %s\n", err.Error()), nil, nil
 	}
 
 	stderr, err := cmd.StderrPipe()
 	if err != nil {
-		return failed, fmt.Errorf("创建stderr管道失败: %s", err.Error())
+		return Failed, fmt.Errorf("创建stderr管道失败: %s", err.Error()), nil, nil
 	}
 
 	// 启动命令
 	if err := cmd.Start(); err != nil {
-		return failed, fmt.Errorf("启动命令失败: %s", err.Error())
+		return Failed, fmt.Errorf("启动命令失败: %s", err.Error()), nil, nil
 	}
 
+	return Running, nil, stdout, stderr
+}
+
+func CacthStderr(stderr io.ReadCloser, encodingFunc func([]byte) string, log func(string)) {
+	// 读取标准错误
+	go func() {
+		scanner := bufio.NewScanner(stderr)
+		buf := make([]byte, 1024*1024)
+		scanner.Buffer(buf, cap(buf))
+
+		for scanner.Scan() {
+			var s string
+			if encodingFunc != nil {
+				s = encodingFunc(scanner.Bytes())
+			} else {
+				s = scanner.Text()
+			}
+			log(s)
+		}
+
+		if err := scanner.Err(); err != nil {
+			logger.Error("标准错误扫描错误: %v", err)
+			log(fmt.Sprintf("\n[SYSTEM ERROR] stderr扫描失败: %v\n", err))
+		}
+	}()
+}
+
+func CacthStdout(stdout io.ReadCloser, encodingFunc func([]byte) string, log func(string)) {
 	// 读取标准输出
 	go func() {
 		scanner := bufio.NewScanner(stdout)
@@ -214,28 +250,4 @@ func Cmd(cmd *exec.Cmd, args []string, workdir string, env []string, encodingFun
 			log(fmt.Sprintf("\n[SYSTEM ERROR] stdout扫描失败: %v\n", err))
 		}
 	}()
-
-	// 读取标准错误
-	go func() {
-		scanner := bufio.NewScanner(stderr)
-		buf := make([]byte, 1024*1024)
-		scanner.Buffer(buf, cap(buf))
-
-		for scanner.Scan() {
-			var s string
-			if encodingFunc != nil {
-				s = encodingFunc(scanner.Bytes())
-			} else {
-				s = scanner.Text()
-			}
-			log(s)
-		}
-
-		if err := scanner.Err(); err != nil {
-			logger.Error("标准错误扫描错误: %v", err)
-			log(fmt.Sprintf("\n[SYSTEM ERROR] stderr扫描失败: %v\n", err))
-		}
-	}()
-
-	return running, nil
 }
