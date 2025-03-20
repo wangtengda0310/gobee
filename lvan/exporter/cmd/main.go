@@ -236,7 +236,7 @@ func main() {
 			var encodingFunc func([]byte) string
 			if *encoding != "" {
 				encodingFunc = func(s []byte) string {
-					return pkg.ByteToString(s, internal.Charset(*encoding))
+					return pkg.UtfFrom(s, internal.Charset(*encoding))
 				}
 			}
 

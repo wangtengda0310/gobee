@@ -15,33 +15,64 @@ const (
 	gbk     intern.Charset = "gbk"
 )
 
-// ByteToString 将字节切片转换为指定编码的字符串
-func ByteToString(byte []byte, charset intern.Charset) string {
+// UtfFrom 将指定编码的字节切片转换为utf8字符串
+func UtfFrom(other []byte, charset intern.Charset) string {
 	defer func() {
 		if err := recover(); err != nil {
 			logger.Warn("解码错误:%v", err)
 		}
 	}()
-	var str string
+	var s []byte
 	switch charset {
 	case GB18030, gb18030:
 		decoder := simplifiedchinese.GB18030.NewDecoder()
 		var err error
-		str, err = decoder.String(string(byte))
+		s, err = decoder.Bytes(other)
 		if err != nil {
 			return ""
 		}
 	case GBK, gbk:
 		decoder := simplifiedchinese.GBK.NewDecoder()
 		var err error
-		str, err = decoder.String(string(byte))
+		s, err = decoder.Bytes(other)
 		if err != nil {
 			panic(err)
 		}
 	case UTF8, utf8:
-		str = string(byte)
+		s = other
 	default:
-		str = string(byte)
+		s = other
 	}
-	return str
+	return string(s)
+}
+
+// UtfTo 将utf8字节切片转换为指定编码的字符串
+func UtfTo(utf []byte, charset intern.Charset) string {
+	defer func() {
+		if err := recover(); err != nil {
+			logger.Warn("解码错误:%v", err)
+		}
+	}()
+	var s []byte
+	switch charset {
+	case GB18030, gb18030:
+		encoder := simplifiedchinese.GB18030.NewEncoder()
+		var err error
+		s, err = encoder.Bytes(utf)
+		if err != nil {
+			s = utf
+		}
+	case GBK, gbk:
+		encoder := simplifiedchinese.GBK.NewEncoder()
+		var err error
+		s, err = encoder.Bytes(utf)
+		if err != nil {
+			s = utf
+		}
+	case UTF8, utf8:
+		s = utf
+	default:
+		s = utf
+	}
+	return string(s)
 }

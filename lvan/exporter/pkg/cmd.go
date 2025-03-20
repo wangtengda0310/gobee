@@ -137,7 +137,7 @@ func ExecuteCommand(task *Task) {
 	if task.CmdMeta != nil && task.CmdMeta.Encoding != "" {
 		encoding = task.CmdMeta.Encoding
 		encodingf = func(s []byte) string {
-			return ByteToString(s, encoding)
+			return UtfFrom(s, encoding)
 		}
 	}
 	log := func(s string) {
