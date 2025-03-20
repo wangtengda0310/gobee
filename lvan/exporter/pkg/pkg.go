@@ -87,6 +87,7 @@ func (t *Task) Complete(status TaskStatus) {
 	// 发送任务完成的最终消息
 	completionMsg := fmt.Sprintf("\nTask completed with status: %s, exit code: %d\n", status, status.ExitCode)
 	t.Output += completionMsg
+	t.Logger.Close()
 }
 
 // 添加SSE客户端
