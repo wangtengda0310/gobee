@@ -14,8 +14,11 @@ import (
 	"runtime"
 	"strconv"
 	"strings"
+	"sync/atomic"
 	"time"
 )
+
+var a atomic.Int32
 
 // 执行命令
 func ExecuteCommand(task *Task) {
@@ -95,11 +98,15 @@ func ExecuteCommand(task *Task) {
 				retries = retry
 			}
 		}
+		a.Add(1)
+		defer a.Add(-1)
 		resource, err, lock := internal.ExclusiveOneResource(task.CmdMeta.Resources, TasksDir, retries)
 		if err != nil {
 			// 无法获取资源，记录错误并继续执行
 			logger.Warn("无法获取资源锁: %v，任务将继续执行但可能影响性能", err)
-			task.AddOutput("超时获取资源锁\n")
+			message := fmt.Sprintf("排队超时 当前排队人数 %d\n", a.Load())
+			task.Result.Stderr = append(task.Result.Stderr, message)
+			task.AddOutput(message)
 			task.Complete(Failed, exclusive)
 			return
 		}

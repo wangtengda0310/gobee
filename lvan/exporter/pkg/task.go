@@ -13,19 +13,18 @@ import (
 
 // 任务信息
 type Task struct {
-	ID        string                 `json:"id"`
-	StartTime time.Time              `json:"start_time"`
-	EndTime   *time.Time             `json:"end_time,omitempty"`
-	Request   intern.CommandRequest  `json:"request"`
-	Status    TaskStatus             `json:"status"` // running, completed, failed
-	Result    *TaskResult            `json:"result"` // completed, failed, running, blocking
-	CmdPath   string                 `json:"cmd_path"`
-	WorkDir   string                 `json:"workdir"`
-	Mutex     *sync.Mutex            `json:"-"`
-	Logger    *logger.Logger         `json:"-"`
-	Clients   map[string]chan string `json:"-"`
-	ClientMgr *ClientManager         `json:"-"`
-	CmdMeta   *intern.CommandMeta    `json:"-"`
+	ID         string                `json:"id"`
+	StartTime  time.Time             `json:"start_time"`
+	EndTime    *time.Time            `json:"end_time,omitempty"`
+	Request    intern.CommandRequest `json:"request"`
+	Status     TaskStatus            `json:"status"` // running, completed, failed
+	Result     *TaskResult           `json:"result"` // completed, failed, running, blocking
+	CmdPath    string                `json:"cmd_path"`
+	WorkDir    string                `json:"workdir"`
+	Mutex      *sync.Mutex           `json:"-"`
+	Logger     *logger.Logger        `json:"-"`
+	sseClients *ClientManager
+	CmdMeta    *intern.CommandMeta `json:"-"`
 }
 
 // 添加输出到任务
@@ -40,8 +39,8 @@ func (t *Task) AddOutput(output string) {
 	}
 
 	// 使用ClientManager广播消息给所有客户端
-	if t.ClientMgr != nil {
-		t.ClientMgr.Broadcast(output)
+	if t.sseClients != nil {
+		t.sseClients.Broadcast(output)
 	}
 }
 
@@ -56,8 +55,8 @@ func (t *Task) Complete(status TaskStatus, exitCode int) {
 	t.EndTime = &now
 
 	// 关闭客户端管理器，会自动关闭所有客户端连接
-	if t.ClientMgr != nil {
-		t.ClientMgr.Close()
+	if t.sseClients != nil {
+		t.sseClients.Close()
 	}
 
 	// 发送任务完成的最终消息
@@ -78,8 +77,8 @@ func (t *Task) AddClient(clientID string) chan string {
 	}
 
 	// 使用ClientManager添加客户端
-	if t.ClientMgr != nil {
-		ch := t.ClientMgr.AddClient(clientID)
+	if t.sseClients != nil {
+		ch := t.sseClients.AddClient(clientID)
 
 		// 如果是新客户端，发送已有的输出历史
 		if ch != nil && t.Result.Output != "" {
@@ -95,15 +94,15 @@ func (t *Task) AddClient(clientID string) chan string {
 	}
 
 	// 如果ClientManager不存在，创建一个
-	t.ClientMgr = NewClientManager(1000, 30*time.Minute)
-	return t.ClientMgr.AddClient(clientID)
+	t.sseClients = NewClientManager(1000, 30*time.Minute)
+	return t.sseClients.AddClient(clientID)
 }
 
 // 移除SSE客户端
 func (t *Task) RemoveClient(clientID string) {
 	// 不需要锁定Task，ClientManager有自己的锁
-	if t.ClientMgr != nil {
-		t.ClientMgr.RemoveClient(clientID)
+	if t.sseClients != nil {
+		t.sseClients.RemoveClient(clientID)
 	}
 }
 
@@ -173,10 +172,10 @@ func (tm *TaskManager) CreateTask(req intern.CommandRequest) *Task {
 			Stderr:   []string{},
 			Output:   "",
 		},
-		WorkDir:   workdir,
-		Mutex:     &sync.Mutex{},
-		Logger:    logInstance,
-		ClientMgr: NewClientManager(1000, 30*time.Minute), // 设置最大1000个客户端，30分钟超时
+		WorkDir:    workdir,
+		Mutex:      &sync.Mutex{},
+		Logger:     logInstance,
+		sseClients: NewClientManager(1000, 30*time.Minute), // 设置最大1000个客户端，30分钟超时
 	}
 
 	// 构建日志文件路径
