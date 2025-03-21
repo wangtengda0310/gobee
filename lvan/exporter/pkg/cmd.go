@@ -5,7 +5,6 @@ import (
 	"context"
 	"errors"
 	"fmt"
-	"github.com/gofrs/flock"
 	"github.com/wangtengda/gobee/lvan/exporter/internal"
 	"github.com/wangtengda/gobee/lvan/exporter/pkg/logger"
 	"io"
@@ -86,8 +85,6 @@ func ExecuteCommand(task *Task) {
 
 	// 获取当前环境变量
 	var env = os.Environ()
-	var resource string
-	var lock *flock.Flock
 	if task.CmdMeta != nil && len(task.CmdMeta.Resources) > 0 {
 		retries := 40
 		logger.Info("默认重试次数为 %d 可以通过环境变量 exporter_retry_times 设置", retries)
@@ -98,7 +95,7 @@ func ExecuteCommand(task *Task) {
 				retries = retry
 			}
 		}
-		resource, err, lock = internal.ExclusiveOneResource(task.CmdMeta.Resources, TasksDir, retries)
+		resource, err, lock := internal.ExclusiveOneResource(task.CmdMeta.Resources, TasksDir, retries)
 		if err != nil {
 			// 无法获取资源，记录错误并继续执行
 			logger.Warn("无法获取资源锁: %v，任务将继续执行但可能影响性能", err)
@@ -106,21 +103,24 @@ func ExecuteCommand(task *Task) {
 			task.Complete(Failed, exclusive)
 			return
 		}
+		defer func(resource string) {
+			if lock != nil {
+				lock.Unlock()
+			}
+
+			// 释放资源锁
+			if resource != "" {
+				if err := internal.ReleaseResource(resource, lock); err != nil {
+					logger.Error("释放资源锁失败: %s, %v", resource, err)
+				} else {
+					logger.Info("成功释放资源锁: %s", resource)
+				}
+			}
+		}(resource)
+
 		// 添加自定义环境变量
 		env = append(env, fmt.Sprintf("exporter_cmd_%s_resource=%s", cmdName, resource))
 	}
-
-	defer func(resource string) {
-
-		// 释放资源锁
-		if resource != "" {
-			if err := internal.ReleaseResource(resource, lock); err != nil {
-				logger.Error("释放资源锁失败: %s, %v", resource, err)
-			} else {
-				logger.Info("成功释放资源锁: %s", resource)
-			}
-		}
-	}(resource)
 
 	// 设置环境变量
 	if len(task.Request.Env) > 0 {
