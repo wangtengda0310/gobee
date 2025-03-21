@@ -110,16 +110,13 @@ func ReleaseResource(resource string, lock *flock.Flock) error {
 
 	// 检查资源锁文件是否存在
 	if _, err := os.Stat(lockFilePath); os.IsNotExist(err) {
-		logger.Warn("尝试释放不存在的资源锁: %s", lockFilePath)
 		return nil // 文件不存在，可能已被释放
 	}
 
 	// 删除资源锁文件
 	if err := os.Remove(lockFilePath); err != nil {
-		logger.Error("释放资源锁失败: %s, %v", lockFilePath, err)
 		return err
 	}
 
-	logger.Info("成功释放资源锁: %s", resource)
 	return nil
 }
