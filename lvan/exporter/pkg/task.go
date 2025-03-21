@@ -5,6 +5,7 @@ import (
 	"github.com/google/uuid"
 	intern "github.com/wangtengda/gobee/lvan/exporter/internal"
 	"github.com/wangtengda/gobee/lvan/exporter/pkg/logger"
+	"io"
 	"os"
 	"path/filepath"
 	"sync"
@@ -151,17 +152,17 @@ var taskManager = TaskManager{
 }
 
 // 创建新任务
-func CreateTask(req intern.CommandRequest) *Task {
-	return taskManager.CreateTask(req)
+func CreateTask(req intern.CommandRequest, w io.Writer) *Task {
+	return taskManager.CreateTask(req, w)
 }
 
-func (tm *TaskManager) CreateTask(req intern.CommandRequest) *Task {
+func (tm *TaskManager) CreateTask(req intern.CommandRequest, w io.Writer) *Task {
 	tm.Mutex.Lock()
 	defer tm.Mutex.Unlock()
 
 	taskID := uuid.New().String()
 	workdir := GetTaskDirectory(taskID)
-	logInstance, _ := logger.NewLogger(workdir, "output.log", logger.INFO, 10*1024*1024)
+	logInstance, _ := logger.NewLogger(workdir, "output.log", logger.INFO, 10*1024*1024, w)
 	task := &Task{
 		ID:        taskID,
 		StartTime: time.Now(),

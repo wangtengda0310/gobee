@@ -111,7 +111,7 @@ func HandleCommandRequest(w http.ResponseWriter, r *http.Request) {
 			Env:     make(map[string]string),
 		}
 
-		task = pkg.CreateTask(req)
+		task = pkg.CreateTask(req, w)
 
 	// 处理POST请求
 	case http.MethodPost:
@@ -150,7 +150,7 @@ func HandleCommandRequest(w http.ResponseWriter, r *http.Request) {
 		}
 
 		// 创建任务
-		task = pkg.CreateTask(req)
+		task = pkg.CreateTask(req, w)
 
 	default:
 		http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)

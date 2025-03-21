@@ -145,7 +145,7 @@ func main() {
 	}
 
 	// 先初始化日志系统，使用新的日志目录
-	loggerInstance, err := logger.NewLogger(logsDir, "exporter.log", logger.INFO, 10*1024*1024)
+	loggerInstance, err := logger.NewLogger(logsDir, "exporter.log", logger.INFO, 10*1024*1024, os.Stdout)
 	if err != nil {
 		fmt.Printf("初始化日志失败: %v\n", err)
 		os.Exit(1)
@@ -220,7 +220,7 @@ func main() {
 				Version: *version,
 				Args:    args,
 			}
-			var task = pkg.CreateTask(req)
+			var task = pkg.CreateTask(req, os.Stdout)
 			pkg.ExecuteCommand(task)
 		case "exec", "run":
 			var cmd = args[1]
