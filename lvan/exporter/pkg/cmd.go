@@ -147,10 +147,6 @@ func ExecuteCommand(task *Task) {
 			return UtfFrom(s, encoding)
 		}
 	}
-	log := func(s string) {
-		task.AddOutput(s)
-		task.Result.Stderr = append(task.Result.Stderr, s)
-	}
 	status, err, stdout, stderr := Cmd(cmd, cmdArgs, task.WorkDir, env)
 	task.Status = status
 	if err != nil {
@@ -159,6 +155,10 @@ func ExecuteCommand(task *Task) {
 
 	CacthStdout(stdout, encodingf, task.AddOutput)
 
+	log := func(s string) {
+		task.AddOutput(s)
+		task.Result.Stderr = append(task.Result.Stderr, s)
+	}
 	CacthStderr(stderr, encodingf, log)
 
 	logger.Info("等待命令完成")

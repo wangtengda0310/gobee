@@ -59,7 +59,7 @@ var defaultLogger *Logger
 var once sync.Once
 
 // NewLogger 创建新的日志记录器
-func NewLogger(logDir, logFileName string, level int, maxSize int64) (*Logger, error) {
+func NewLogger(logDir, logFileName string, level int, maxSize int64, w io.Writer) (*Logger, error) {
 	// 确保日志目录存在
 	if err := os.MkdirAll(logDir, 0755); err != nil {
 		return nil, fmt.Errorf("创建日志目录失败: %v", err)
@@ -82,7 +82,7 @@ func NewLogger(logDir, logFileName string, level int, maxSize int64) (*Logger, e
 	}
 
 	// 创建多输出writer
-	multiWriter := io.MultiWriter(os.Stdout, file)
+	multiWriter := io.MultiWriter(w, file)
 
 	// 创建日志记录器
 	logger := &Logger{
@@ -203,19 +203,20 @@ func (l *Logger) checkRotate(additionalBytes int64) error {
 
 	// 生成新的文件名（添加时间戳）
 	timeStr := time.Now().Format("20060102-150405")
-	dir := filepath.Dir(l.filePath)
-	base := filepath.Base(l.filePath)
+	filePath := l.filePath
+	dir := filepath.Dir(filePath)
+	base := filepath.Base(filePath)
 	ext := filepath.Ext(base)
 	name := base[:len(base)-len(ext)]
 	newPath := filepath.Join(dir, fmt.Sprintf("%s-%s%s", name, timeStr, ext))
 
 	// 重命名当前日志文件
-	if err := os.Rename(l.filePath, newPath); err != nil {
+	if err := os.Rename(filePath, newPath); err != nil {
 		return fmt.Errorf("重命名日志文件失败: %v", err)
 	}
 
 	// 创建新的日志文件
-	file, err := os.OpenFile(l.filePath, os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0644)
+	file, err := os.OpenFile(filePath, os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0644)
 	if err != nil {
 		return fmt.Errorf("创建新日志文件失败: %v", err)
 	}
