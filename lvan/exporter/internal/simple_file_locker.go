@@ -101,9 +101,6 @@ func ExclusiveOneResource(resources []string, lockDir string, maxRetries int) (s
 
 // ReleaseResource 释放指定的资源锁
 func ReleaseResource(resource string, lock *flock.Flock) error {
-	if lock != nil {
-		lock.Unlock()
-	}
 	if resource == "" {
 		return nil // 没有资源需要释放
 	}
