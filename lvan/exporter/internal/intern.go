@@ -27,3 +27,7 @@ type CommandMeta struct {
 }
 
 type Charset string
+
+var (
+	WorkDir string // 工作目录
+)

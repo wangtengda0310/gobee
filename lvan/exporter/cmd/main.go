@@ -32,8 +32,6 @@ const (
 
 // 全局工作目录变量
 var (
-	WorkDir string // 工作目录
-
 	logsDir string // 日志目录
 )
 
@@ -115,7 +113,7 @@ func main() {
 	// 初始化工作目录
 	if *workDirFlag != "" {
 		// 使用命令行参数指定的工作目录
-		WorkDir = *workDirFlag
+		internal.WorkDir = *workDirFlag
 	} else {
 		// 默认使用可执行文件所在目录
 		execPath, err := os.Getwd()
@@ -123,18 +121,18 @@ func main() {
 			fmt.Printf("无法获取程序路径: %v\n", err)
 			os.Exit(1)
 		}
-		WorkDir = execPath
+		internal.WorkDir = execPath
 	}
 
 	// 确保工作目录存在
-	if err := os.MkdirAll(WorkDir, 0755); err != nil {
+	if err := os.MkdirAll(internal.WorkDir, 0755); err != nil {
 		fmt.Printf("无法创建工作目录: %v\n", err)
 		os.Exit(1)
 	}
 
 	// 设置相关目录
-	pkg.TasksDir = filepath.Join(WorkDir, "tasks")
-	logsDir = filepath.Join(WorkDir, "logs")
+	pkg.TasksDir = filepath.Join(internal.WorkDir, "tasks")
+	logsDir = filepath.Join(internal.WorkDir, "logs")
 
 	// 确保相关目录存在
 	if err := os.MkdirAll(pkg.TasksDir, 0755); err != nil {
@@ -154,7 +152,7 @@ func main() {
 	}
 	logger.SetDefaultLogger(loggerInstance)
 
-	pkg.CommandDir = filepath.Join(WorkDir, "cmd")
+	pkg.CommandDir = filepath.Join(internal.WorkDir, "cmd")
 
 	if *cleanFlag {
 		cleanGeneratedFiles(pkg.TasksDir)
@@ -272,6 +270,7 @@ func main() {
 	router.HandleFunc("/cmd", api.HandleCommandRequest)
 	router.HandleFunc("/cmd/", api.HandleCommandRequest)
 	router.HandleFunc("/result/", api.HandleResultRequest)
+	router.HandleFunc("/backup/", api.HandleBackupRequest)
 
 	// 使用中间件包装路由
 	protectedRouter := recoveryMiddleware(router)
