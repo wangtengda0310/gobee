@@ -63,8 +63,7 @@ func (t *Task) Complete(status TaskStatus, exitCode int) {
 	}
 
 	// 发送任务完成的最终消息
-	completionMsg := fmt.Sprintf("\nTask completed with status: %s, exit code: %d\n", status, t.Result.ExitCode)
-	t.Result.Output += completionMsg
+	t.Result.Output += fmt.Sprintf("\nTask completed with status: %v, exit code: %d\n", status, t.Result.ExitCode)
 	t.Logger.Close()
 }
 
@@ -115,7 +114,7 @@ func GetTaskDirectory(taskID string) string {
 	TaskDir := filepath.Join(TasksDir, taskID)
 
 	// 确保目录存在
-	os.MkdirAll(TaskDir, 0755)
+	_ = os.MkdirAll(TaskDir, 0755)
 
 	return TaskDir
 }
