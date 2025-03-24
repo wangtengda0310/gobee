@@ -44,6 +44,9 @@ func handleSSERequest(w http.ResponseWriter, r *http.Request, task *pkg.Task) {
 		go pkg.ExecuteCommand(task)
 	}
 
+	jsonw := json.NewEncoder(w)
+	jsonw.Encode(map[string]any{"id": task.ID, "status": taskResult})
+
 	// 发送任务ID
 	fmt.Fprintf(w, "data: {\"id\": \"%s\", \"status\": \"%s\"}\n\n", task.ID, taskResult)
 	w.(http.Flusher).Flush()
@@ -54,7 +57,7 @@ func handleSSERequest(w http.ResponseWriter, r *http.Request, task *pkg.Task) {
 		lines := strings.Split(output, "\n")
 		for _, line := range lines {
 			if line != "" {
-				fmt.Fprintf(w, "data: %s\n\n", line)
+				_, _ = fmt.Fprintf(w, "data: %s\n\n", line)
 				w.(http.Flusher).Flush()
 			}
 		}
@@ -63,7 +66,9 @@ func handleSSERequest(w http.ResponseWriter, r *http.Request, task *pkg.Task) {
 	// 如果输出通道关闭但任务仍在运行，发送最终状态
 	task.Mutex.Lock()
 	if task.Status != pkg.Running {
-		fmt.Fprintf(w, "data: {\"status\": \"%s\", \"exitCode\": %d}\n\n", task.Status, taskResult.ExitCode)
+		jsonw.Encode(map[string]any{"status": task.Status, "exitCode": taskResult.ExitCode})
+		_, _ = fmt.Fprint(w, "\n")
+		_, _ = fmt.Fprintf(w, "data: {\"status\": \"%s\", \"exitCode\": %d}\n\n", task.Status, taskResult.ExitCode)
 		w.(http.Flusher).Flush()
 	}
 	task.Mutex.Unlock()
@@ -72,7 +77,7 @@ func handleSSERequest(w http.ResponseWriter, r *http.Request, task *pkg.Task) {
 // 处理只返回ID的请求
 func handleOnlyIDRequest(w http.ResponseWriter, task *pkg.Task) {
 	w.Header().Set("Content-Type", "text/plain")
-	w.Write([]byte(task.ID))
+	_, _ = w.Write([]byte(task.ID))
 
 	// 异步执行命令
 	go pkg.ExecuteCommand(task)
@@ -134,7 +139,7 @@ func HandleCommandRequest(w http.ResponseWriter, r *http.Request) {
 		var req internal.CommandRequest
 		if r.Header.Get("Content-Type") == "application/json" || bodyType == "json" {
 			err = json.Unmarshal(body, &req)
-			w.Write(body)
+			_, _ = w.Write(body)
 		} else {
 			err = yaml.Unmarshal(body, &req)
 		}
