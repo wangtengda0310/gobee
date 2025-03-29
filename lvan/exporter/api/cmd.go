@@ -10,6 +10,7 @@ import (
 	"gopkg.in/yaml.v3"
 	"io"
 	"net/http"
+	"os"
 	"strings"
 )
 
@@ -116,7 +117,7 @@ func HandleCommandRequest(w http.ResponseWriter, r *http.Request) {
 			Env:     make(map[string]string),
 		}
 
-		task = pkg.CreateTask(req, w)
+		task = pkg.CreateTask(req, w, os.Stdout)
 
 	// 处理POST请求
 	case http.MethodPost:
@@ -155,7 +156,7 @@ func HandleCommandRequest(w http.ResponseWriter, r *http.Request) {
 		}
 
 		// 创建任务
-		task = pkg.CreateTask(req, w)
+		task = pkg.CreateTask(req, w, os.Stdout)
 
 	default:
 		http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
