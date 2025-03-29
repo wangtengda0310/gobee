@@ -6,7 +6,6 @@ import (
 	"log"
 	"os"
 	"path/filepath"
-	"strings"
 	"sync"
 	"time"
 )
@@ -35,35 +34,11 @@ type logEntry struct {
 	message string
 }
 
-// 安全写入器，忽略HTTP连接关闭错误
-type safeWriter struct {
-	writer io.Writer
-}
-
-// Write 实现io.Writer接口，忽略HTTP连接关闭错误
-func (sw *safeWriter) Write(p []byte) (n int, err error) {
-	n, err = sw.writer.Write(p)
-	if err != nil {
-		// 检查是否是HTTP连接关闭错误
-		if strings.Contains(err.Error(), "broken pipe") ||
-			strings.Contains(err.Error(), "connection reset by peer") ||
-			strings.Contains(err.Error(), "client disconnected") ||
-			strings.Contains(err.Error(), "connection was aborted") {
-			// 忽略HTTP连接关闭错误，但记录到标准输出
-			fmt.Printf("HTTP连接已关闭，忽略写入错误: %v\n", err)
-			return len(p), nil // 假装写入成功
-		}
-	}
-	return n, err
-}
-
 // Logger 结构体定义
 type Logger struct {
 	level      int
 	logFile    *os.File
 	logWriter  io.Writer
-	httpWriter io.Writer   // 原始HTTP Writer
-	safeWriter *safeWriter // 安全写入器
 	consoleLog *log.Logger
 	fileLog    *log.Logger
 	mutex      sync.Mutex
@@ -84,7 +59,7 @@ var defaultLogger *Logger
 var once sync.Once
 
 // NewLogger 创建新的日志记录器
-func NewLogger(logDir, logFileName string, level int, maxSize int64, w io.Writer) (*Logger, error) {
+func NewLogger(logDir, logFileName string, level int, maxSize int64, w ...io.Writer) (*Logger, error) {
 	// 确保日志目录存在
 	if err := os.MkdirAll(logDir, 0755); err != nil {
 		return nil, fmt.Errorf("创建日志目录失败: %v", err)
@@ -106,18 +81,19 @@ func NewLogger(logDir, logFileName string, level int, maxSize int64, w io.Writer
 		return nil, fmt.Errorf("获取文件信息失败: %v", err)
 	}
 
-	// 创建安全写入器，包装HTTP响应写入器
-	sw := &safeWriter{writer: w}
+	var writers []io.Writer
+	for _, writer := range w {
+		writers = append(writers, NewSilentWriter(writer))
+	}
+	writers = append(writers, NewSilentWriter(file))
 
-	// 创建多输出writer，使用安全写入器替代原始HTTP写入器
-	multiWriter := io.MultiWriter(sw, file)
+	// 创建多输出writer
+	multiWriter := io.MultiWriter(writers...)
 
 	// 创建日志记录器
 	logger := &Logger{
 		level:         level,
 		logFile:       file,
-		httpWriter:    w,  // 保存原始HTTP写入器
-		safeWriter:    sw, // 保存安全写入器
 		logWriter:     multiWriter,
 		consoleLog:    log.New(os.Stdout, "", 0),
 		fileLog:       log.New(file, "", 0),
@@ -253,8 +229,7 @@ func (l *Logger) checkRotate(additionalBytes int64) error {
 
 	// 更新日志记录器
 	l.logFile = file
-	// 使用安全写入器创建新的多输出writer
-	l.logWriter = io.MultiWriter(l.safeWriter, file)
+	l.logWriter = io.MultiWriter(os.Stdout, NewSilentWriter(file))
 	l.fileLog = log.New(file, "", 0)
 	l.curSize = 0
 

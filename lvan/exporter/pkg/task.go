@@ -153,17 +153,17 @@ var taskManager = TaskManager{
 }
 
 // 创建新任务
-func CreateTask(req intern.CommandRequest, w io.Writer) *Task {
-	return taskManager.CreateTask(req, w)
+func CreateTask(req intern.CommandRequest, w ...io.Writer) *Task {
+	return taskManager.CreateTask(req, w...)
 }
 
-func (tm *TaskManager) CreateTask(req intern.CommandRequest, w io.Writer) *Task {
+func (tm *TaskManager) CreateTask(req intern.CommandRequest, w ...io.Writer) *Task {
 	tm.Mutex.Lock()
 	defer tm.Mutex.Unlock()
 
 	taskID := uuid.New().String()
 	workdir := GetTaskDirectory(taskID)
-	logInstance, _ := logger.NewLogger(workdir, "output.log", logger.INFO, 10*1024*1024, w)
+	logInstance, _ := logger.NewLogger(workdir, "output.log", logger.INFO, 10*1024*1024, w...)
 	task := &Task{
 		ID:        taskID,
 		StartTime: time.Now(),
