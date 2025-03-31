@@ -1,0 +1,22 @@
+<module name="">
+    <bean name="SceneNcProperty">
+        <var name="name" type="string"/>
+        <var name="value" type="string"/>
+    </bean>
+    <bean name="SceneNc">
+        <var name="name" type="string"/>
+        <var name="properties" type="(list#sep=,),SceneNcProperty"/>
+    </bean>
+    <bean name="Scene">
+        <var name="id" type="UInt32"/>
+        <var name="name" type="string"/>
+        <var name="nc" type="(list#sep=,),SceneNc"/>
+        <var name="nodeType" type="string"/>
+        <var name="worldId" type="UInt32"/>
+    </bean>
+
+
+    <table name="Scene_10018data" mode="list" value="Scene" input="*@Scene_10018.json"/>
+
+
+</module>

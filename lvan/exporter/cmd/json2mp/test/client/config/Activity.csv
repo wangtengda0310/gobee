@@ -1,0 +1,5 @@
+id,name,activityPackage,takeEffect,activityType,gmControl,repeatedActivityCreation,matchingChannel,configureActivityStartAndEnd,activityStartTime,activityStartCondition,activityEndTime,activityDuration,isLoop,cycleInterval,activityLoopCount,activityDescription,displayName,activityPageId,order,gridRatio,displayMode,componentStyle,uiArtEffect,iconStyle,funcNode,redDotNode,defaultIcon,selectedIcon,disabledIcon,componentStyleParam,openName,closeName
+uint32,string,uint32,uint32,uint32,uint32,uint32,uint32,uint32,string,string,string,uint32,uint32,string,uint32,string,string,uint32,uint32,uint32,uint32[][],string,uint32,uint32,uint32[],uint32[],string[],string[],string[],string,string,string
+key,,,,,,,,,,,,,,,,client,client,client,client,client,client,client,client,client,client,client,client,client,client,client,client,client
+活动ID,活动名称,所属活动包ID,是否生效,活动类型,是否由Gm平台控制,能否重复创建活动,是否匹配通道,活动起止类型,活动开始时间,活动开始条件,活动结束时间,活动时长（秒数）,是否循环,循环间隔,活动循环次数,活动描述,显示名称,活动页,排序,占位比例,展示模式,组件样式,UI动效表现,ICON样式,UI功能ID,红点节点ID,默认ICON,选中ICON,禁用ICON,组件样式参数,开启显示名,关闭显示名
+10001,七日目标,10002,1,2,0,0,0,4,,10039|1,,604800,0,,,,七日目标,10061,,,,clBtnPic1,,2,,,,,,,,

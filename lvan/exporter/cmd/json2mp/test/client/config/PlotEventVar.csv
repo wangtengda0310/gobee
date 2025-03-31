@@ -1,0 +1,5 @@
+id,name,desc,type,operator,lifeTime,defaultValue
+uint32,string,string,uint8,uint8,uint8,int64
+key,,,,,,
+事件变量id,名称,描述,类型,算子类型,生命周期,默认值
+10008,选择选项,,1,6,1,

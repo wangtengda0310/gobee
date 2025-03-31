@@ -1,0 +1,1 @@
+{"uiId":1,"maxUid":2,"adapt":{},"props":{"height":913,"maskType":1,"name":"物品获取途径","type":1,"width":614},"components":[{"uiId":2,"name":"物品获得途径","label":"物品获得途径","type":"getItemPopUpV1View","package":"getItemPopUpV1_fui.bytes","comu":"","dataSource":[],"pos":["287","217"],"props":{"height":913,"width":614,"x":0,"y":0}}]}

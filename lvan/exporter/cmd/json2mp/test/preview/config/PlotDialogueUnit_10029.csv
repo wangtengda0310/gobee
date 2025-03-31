@@ -1,0 +1,5 @@
+id,name,desc,plotDialogue,plotDialogueSet,order,text
+uint32,string,string,uint32,uint32,uint32,string
+key,,,,,,
+对话单元id,名称,描述,所属对话,所属对话集,序号,文本
+10118,对话段落1,,10108,10029,,<p>你在海边悬崖上发现了不少石刻，上面记载着隐世高手的武功。<p>

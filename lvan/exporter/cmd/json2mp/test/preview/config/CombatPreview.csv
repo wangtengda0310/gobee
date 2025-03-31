@@ -1,0 +1,7 @@
+id,name,combatClassId,sceneRes,hpBarShow,buffIconShow,roundShow
+uint32,string,uint32,string,uint8,uint8,uint8
+key,,,,,,
+战斗预览id,名称,战斗系统,场景资源,血条显示,buff显示,回合数显示
+10006,回合制测试-闪电,10004,62,1,1,1
+10013,回合制测试-飞刀,10004,62,1,1,1
+10014,回合制测试-闪电&飞刀,10004,62,1,1,1

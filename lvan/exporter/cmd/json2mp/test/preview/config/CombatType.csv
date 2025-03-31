@@ -1,0 +1,4 @@
+id,name,damageDisplay
+uint32,string,uint32[][]
+key,,client
+战斗行为ID,类型名称,伤害显示

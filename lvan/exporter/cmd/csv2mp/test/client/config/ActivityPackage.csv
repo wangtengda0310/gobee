@@ -1,0 +1,5 @@
+id,name,activityPackageGroupId,chooseActivityId,displayName,activityPackageUi,order,gridRatio,displayMode,componentStyle,uiArtEffect,iconStyle,funcNode,redDotNode,defaultIcon,selectedIcon,disabledIcon,componentStyleParam
+uint32,string,uint32,uint32[],string,uint32,uint32,uint32,uint32[][],string,uint32,uint32,uint32[],uint32[],string[],string[],string[],string
+key,,,client,client,client,client,client,client,client,client,client,client,client,client,client,client,client
+活动包ID,活动包名称,所属活动包组ID,包含活动,显示名称,活动包UI,排序,占位比例,展示模式,组件样式,UI动效表现,ICON样式,UI功能ID,红点节点ID,默认ICON,选中ICON,禁用ICON,组件样式参数
+10002,七日目标,10003,10001,,,,,,,,,,,,,,

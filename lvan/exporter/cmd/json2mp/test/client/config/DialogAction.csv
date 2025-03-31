@@ -1,0 +1,4 @@
+id,name,dialogId,order,type,typeParam
+uint32,string,uint32,uint32,uint32,string
+key,,,,,
+ID,名称,对话ID,行为序号,行为类型,行为参数

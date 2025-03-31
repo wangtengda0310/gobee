@@ -1,0 +1,5 @@
+id,name,type,param
+uint32,string,uint32,string
+key,,,
+id,动效名称,功能类型,动效参数
+10001,场景动效,1,1|1|1|1|

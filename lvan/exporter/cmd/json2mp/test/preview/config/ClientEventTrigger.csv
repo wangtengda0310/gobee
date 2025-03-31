@@ -1,0 +1,5 @@
+id,tag,eventType,matchParam
+uint32,string,uint32,uint32[][]
+key,,,
+积木块id,标识,事件类型,事件匹配参数
+10006,,,

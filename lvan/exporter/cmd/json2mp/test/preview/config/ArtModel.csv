@@ -1,0 +1,12 @@
+id,name,des,resId,modelConfig,size,loop,offset,angle,mode,interval,action
+uint32,string,string,uint32,string,int32[],uint8,int32[],uint16,string,uint32,string
+key,,,,client,client,client,client,client,client,client,client
+模型ID,名称,描述,资源ID,模型参数配置,缩放值,循环模式,偏移量,角度,播放模式,播放速率,动作名
+10009,测试主角_小乔,,19,scale|10000;width|100;height|100,10000|10000,0,0|0|0,0,add,10000,idl
+10010,测试怪物01,,16,scale|10000;width|100;height|100,10000|10000,0,0|0|0,0,add,10000,idl
+10028,测试怪物02,,17,scale|10000;width|100;height|100,10000|10000,0,0|0|0,0,add,10000,idl
+10030,测试宠物01,,18,scale|10000;width|100;height|100,10000|10000,0,0|0|0,0,add,10000,idl
+10031,测试宠物02,,20,scale|10000;width|100;height|100,10000|10000,0,0|0|0,0,add,10000,idl
+10032,测试主角_蔡文姬,,33,scale|10000;width|100;height|100,10000|10000,0,0|0|0,0,add,10000,idl
+10038,测试主角_男,,44,scale|3000;width|100;height|100,10000|10000,0,0|0|0,0,add,10000,idl
+10039,测试船,,45,scale|3000;width|100;height|100,10000|10000,0,0|0|0,0,add,10000,idl

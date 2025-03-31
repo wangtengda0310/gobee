@@ -1,0 +1,8 @@
+id,name,class,desc,hitEffect,durationEffect,endEffect,discontinueEffect,duration,protectedTime,clearRule,replaceRule,stackRule,priority,displayOrder,clientShow,icon,hitArtConfig,continueArtConfig,endArtConfig,tag,tagClass
+uint32,string,uint32,string,uint32[],uint32[],uint32[],uint32[],uint32,uint32,uint32[],uint32[],uint32[],uint32,uint32,uint8,string,uint32[],uint32[],uint32[],uint32[],uint32[]
+key,,,,,,,,,,,,,,client,client,client,client,client,client,,
+BuffId,名称,Buff类,描述,命中效果,持续效果,结束效果,中断执行效果,持续时间,免疫净化时间,消失规则,替换规则,叠加规则,优先级,显示排序,客户端是否显示,图标,命中效果表现,持续效果表现,结束效果表现,标签,标签类
+10001,飞刀伤害递增,,,,10081,,,1,,1|3|4,0,2|99|1,,,,,,10041,,,
+10002,飞刀命中增加暴击率,,,,10083,,,99,,1|3|4,0,2|10|1,,,,,,10041,,,
+10003,飞刀计数化为天使,,,,10099,,,2,,1|3|4,0,0,,,,,,10041,,,
+10004,宠物无法被选中和伤害,,,,10102,,,99,,1|3|4,0,0,,,,,,10041,,,

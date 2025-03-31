@@ -1,0 +1,5 @@
+id,name,type,maxIndex,autoSpawnMode
+uint32,string,uint32,uint32,uint32[]
+key,client,,,client
+怪物集id,怪物集名称,类型,最大波次,自动刷新模式
+10006,关卡怪物集1,1,60,1

@@ -1,0 +1,22 @@
+<module name="">
+    <bean name="SceneBoxNcProperty">
+        <var name="name" type="string"/>
+        <var name="value" type="string"/>
+    </bean>
+    <bean name="SceneBoxNc">
+        <var name="name" type="string"/>
+        <var name="properties" type="(list#sep=,),SceneBoxNcProperty"/>
+    </bean>
+    <bean name="SceneBox">
+        <var name="id" type="UInt32"/>
+        <var name="name" type="string"/>
+        <var name="nc" type="(list#sep=,),SceneBoxNc"/>
+        <var name="nodeType" type="string"/>
+        <var name="type" type="UInt32"/>
+    </bean>
+
+
+    <table name="SceneBox_10011data" mode="list" value="SceneBox" input="*@SceneBox_10011.json"/>
+
+
+</module>

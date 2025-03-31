@@ -1,0 +1,5 @@
+id,name,desc,source,objectType,filterRule
+uint32,string,string,uint32,uint32,string
+key,,,,,
+选择器ID,名称,描述,数据源,目标对象类型,筛选规则
+10004,测试装备选择器,,1,2000,2002|10041|1

@@ -1,0 +1,1 @@
+{"uiId":1,"maxUid":2,"adapt":{},"props":{"name":"冒险者升级","type":0},"components":[{"uiId":2,"name":"皮肤升级升星弹窗","label":"皮肤升级升星弹窗","type":"skinV3EnhanceView","package":"skinV3_fui.bytes","comu":"","dataSource":[{"id":"10012","type":0,"name":"","key":"undefined"}],"pos":["218","305"],"props":{"height":1560,"width":720,"x":0,"y":0}}]}

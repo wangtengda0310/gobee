@@ -1,0 +1,4 @@
+id,monsterSet,monsterDropWeight,monsterDropCount,monsterDropMode,monsterNum,startSpawnTime,monsterInterval,startIndex,indexInterval,endIndex,attrTrend,dropBox,dropSettleRule
+uint32,uint32,uint32[][],uint32,uint32,uint32,uint32,uint32,uint32,uint32,uint32,int64[][],uint32[],uint32
+key,,client,client,client,client,client,client,client,client,client,client,,
+标识id,所属怪物集,怪物随机权重,怪物随机次数,怪物随机模式,怪物总数量,怪物开始刷新时间,怪物刷新时间间隔（ms）,开始波次,波次间隔,结束波次,属性趋势,掉落包,掉落校验规则

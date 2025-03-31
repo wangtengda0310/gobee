@@ -1,0 +1,9 @@
+id,name,type,categoryId,owner,propSyncMode,levelClass,uniqueRule,openCondition,openConditionDesc,funcLabel,funcLabelClass
+uint32,string,uint16,uint32,uint32,uint8,uint32[][],uint32,string,string,uint32[],uint32[]
+key,,,,,,,,,,,
+养成线id,养成线名称,养成线类型,类别id,所属对象,属性同步模式,品级类,装备唯一规则,开启条件,开启条件描述,标签,标签类
+10003,装备穿戴,2,,1,0,,0,,,,
+10012,冒险者穿戴,2,,1,0,,0,,,,
+10015,猪猪勇士祝福穿戴,2,,1,0,,0,,,,
+10019,熊猫勇士祝福穿戴,2,,1,0,,0,,,,
+10020,水豚勇士祝福穿戴,2,,1,0,,0,,,,

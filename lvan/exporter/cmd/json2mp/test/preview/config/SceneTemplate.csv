@@ -1,0 +1,5 @@
+id,name,specType,resource,sceneRes,cameraPos,standardCameraSize,standardCameraPos
+uint32,string,uint8,uint32,uint32[],uint32[],uint32[],int64[]
+key,,,,client,client,,
+场景模板id,名称,规格类型,地图资源,场景模型资源,摄像机位置,摄像机标准尺寸,摄像机标准位置
+10011,龙江港,1,,,,,

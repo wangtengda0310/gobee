@@ -1,0 +1,6 @@
+id,name,growth,bag,openCost,openCostDesc,openCondition,openConditionDesc
+uint32,string,uint32[],uint32[],uint32[][],string,string,string
+key,,,,,client,,client
+id,名称,养成线,宠物的背包,开启消耗,开启消耗描述,开启条件,开启条件描述
+10001,测试宠物,,,,,,
+10003,英雄系统,,,,,,

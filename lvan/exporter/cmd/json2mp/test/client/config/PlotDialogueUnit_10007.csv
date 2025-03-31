@@ -1,0 +1,5 @@
+id,name,desc,plotDialogue,plotDialogueSet,order,text
+uint32,string,string,uint32,uint32,uint32,string
+key,,,,,,
+对话单元id,名称,描述,所属对话,所属对话集,序号,文本
+10015,选择恶魔剧情1,,10013,10007,,<p>你选择成为恶魔</p>

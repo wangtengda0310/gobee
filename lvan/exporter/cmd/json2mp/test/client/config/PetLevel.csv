@@ -1,0 +1,4 @@
+id,name,class,level
+uint32,string,uint32,uint32
+key,,,
+id,名称,等级类,等级

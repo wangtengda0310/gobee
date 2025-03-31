@@ -1,0 +1,5 @@
+id,name,desc,combatClassId,nextStage,turnNum,isCombatTurn,campQueueSort,entityQueueSort
+uint32,string,string,uint32,uint32,uint32,uint8,uint32[][],uint32[][]
+key,,,,,,,,
+战斗阶段id,名称,描述,所属战斗系统,下一阶段,回合数,是否计入战斗回合,阵营行动排序规则,单位行动排序规则
+10006,战斗阶段,,10004,,30,1,,2|1

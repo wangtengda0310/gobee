@@ -1,0 +1,22 @@
+<module name="">
+    <bean name="ScenePrefabNcProperty">
+        <var name="name" type="string"/>
+        <var name="value" type="string"/>
+    </bean>
+    <bean name="ScenePrefabNc">
+        <var name="name" type="string"/>
+        <var name="properties" type="(list#sep=,),ScenePrefabNcProperty"/>
+    </bean>
+    <bean name="ScenePrefab">
+        <var name="id" type="UInt32"/>
+        <var name="name" type="string"/>
+        <var name="nc" type="(list#sep=,),ScenePrefabNc"/>
+        <var name="nodeType" type="string"/>
+        <var name="scene" type="UInt32"/>
+    </bean>
+
+
+    <table name="ScenePrefab_10018data" mode="list" value="ScenePrefab" input="*@ScenePrefab_10018.json"/>
+
+
+</module>

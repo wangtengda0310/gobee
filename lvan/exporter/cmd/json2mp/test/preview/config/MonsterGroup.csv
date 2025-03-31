@@ -1,0 +1,7 @@
+id,name,type,monsters,tag,tagClass
+uint32,string,uint8,uint32[][],uint32[],uint32[]
+key,,,,,
+怪物组id,怪物组名称,类型,怪物配置,标签,标签类
+10003,NPC1数据,1,10028|1,,
+10004,场景1数据,1,,,
+10009,两只怪阵型,2,,,

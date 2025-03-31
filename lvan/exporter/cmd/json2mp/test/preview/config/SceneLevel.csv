@@ -1,0 +1,5 @@
+id,name,worldId,scene,monsterSet
+uint32,string,uint32,uint32,uint32
+key,,,,
+关卡id,名称,玩法,场景,关卡怪物集
+10009,第1关,10009,10018,10006

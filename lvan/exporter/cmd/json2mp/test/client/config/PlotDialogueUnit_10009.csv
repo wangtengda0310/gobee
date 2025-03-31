@@ -1,0 +1,6 @@
+id,name,desc,plotDialogue,plotDialogueSet,order,text
+uint32,string,string,uint32,uint32,uint32,string
+key,,,,,,
+对话单元id,名称,描述,所属对话,所属对话集,序号,文本
+10022,1,,10018,10009,,"<p><span style='color: rgb(188, 120, 120);'>明朝永乐年间，</span>由郑和下西洋的壮举，开启了大明王朝的航海时代。</p>"
+10023,2,,10018,10009,,<p>此刻，繁忙的龙江港口，船队缓缓移动，你即将开启未知的航海之旅，请做好一切准备。</p>

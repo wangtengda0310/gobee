@@ -1,0 +1,1 @@
+{"uiId":1,"maxUid":2,"adapt":{},"props":{"height":1039,"maskType":1,"name":"冒险者被动弹窗","type":1,"width":640},"components":[{"uiId":2,"name":"皮肤被动技能弹窗","label":"皮肤被动技能弹窗","type":"skinV3SkillTipsView","package":"skinV3_fui.bytes","comu":"","dataSource":[],"pos":["215","342"],"props":{"height":1039,"width":640,"x":0,"y":0}}]}

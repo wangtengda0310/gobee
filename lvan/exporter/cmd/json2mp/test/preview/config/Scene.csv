@@ -1,0 +1,5 @@
+id,name,specType,sceneTemplate,resource,block,entryCondition,entryConditionDesc,entryCost,entryCostDesc,entryCD,entryCDDesc,maxPlayerLimit,lanes,crossServer,attackMode,defaultCampRelation,respawnMode,pickupMode,level,sceneTemplateId,sceneSettleRule
+uint32,string,uint8,uint32,string,string,string,string,uint32:uint32,string,uint32,string,uint32,uint32[],uint8,uint8[],uint32,uint32[],uint32,uint32,uint32,uint32
+key,,,,,,,,,,,,,,,,,,,,,
+场景id,名称,规格类型,场景模板,地图资源文件,阻挡点文件,进入条件,进入条件描述,进入消耗,进入消耗描述,进入CD,进入CD描述,最大玩家人数,分线策略,是否跨服,攻击模式,默认阵营关系,复活模式,拾取方式（1：不掉落自动拾取；2：场景掉落；3：场景不掉落且不自动拾取）,关卡序号,场景模版ID,校验规则
+10018,龙江港-场景,,,,,,,,,,,,,,,,,,,,

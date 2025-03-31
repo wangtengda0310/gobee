@@ -1,0 +1,45 @@
+{
+	"world":{
+		"path":"/preview/config-json/scene/World.json",
+		"fileName":"config-json/scene/World.json"
+	},
+	"scenePrefab":{
+		"path":"/preview/config-json/scene/ScenePrefab.json",
+		"fileName":"config-json/scene/ScenePrefab.json"
+	},
+	"damageControllerScript":{
+		"path":"/preview/damage-js/DamageController.js",
+		"fileName":"damage-js/DamageController.js"
+	},
+	"uiGroup":[
+	    
+	],
+	"sceneLevel":{
+		"path":"/preview/config-json/scene/SceneLevel.json",
+		"fileName":"config-json/scene/SceneLevel.json"
+	},
+	"sceneBox":{
+		"path":"/preview/config-json/scene/SceneBox.json",
+		"fileName":"config-json/scene/SceneBox.json"
+	},
+	"clientEventTriggerScript":{
+		"path":"/preview/script/client_event_trigger.js",
+		"fileName":"script/client_event_trigger.js"
+	},
+	"sceneTemplate":{
+		"path":"/preview/config-json/scene/SceneTemplate.json",
+		"fileName":"config-json/scene/SceneTemplate.json"
+	},
+	"sceneBoxUnit":{
+		"path":"/preview/config-json/scene/SceneBoxUnit.json",
+		"fileName":"config-json/scene/SceneBoxUnit.json"
+	},
+	"scene":{
+		"path":"/preview/config-json/scene/Scene.json",
+		"fileName":"config-json/scene/Scene.json"
+	},
+	"clientEventTrigger":{
+		"path":"/preview/config-json/scene/ClientEventTrigger.json",
+		"fileName":"config-json/scene/ClientEventTrigger.json"
+	}
+}

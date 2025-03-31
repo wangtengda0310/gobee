@@ -1,0 +1,4 @@
+id,name,type,castNum,castNumProb,barCD,openCondition,openConditionDesc,isHide
+uint32,string,uint32,int32,uint32,uint32,string,string,uint8
+key,,,,,,,,
+技能栏id,技能栏名称,技能栏类型,释放次数,消耗次数概率,技能栏CD,开启条件,开启条件描述,是否隐藏
