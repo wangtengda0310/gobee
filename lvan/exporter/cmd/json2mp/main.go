@@ -1,0 +1,420 @@
+package main
+
+import (
+	"bytes"
+	"encoding/csv"
+	"encoding/hex"
+	"fmt"
+	"github.com/vmihailenco/msgpack/v5"
+	"log"
+	"os"
+	"path"
+	"strconv"
+	"strings"
+)
+
+// 自动推断字符串类型，转换为 interface{}
+func inferType(vtype string, s string) (interface{}, bool) {
+	switch vtype {
+	case "string":
+		if s == "0" {
+			return "", false // 是""不是"0"
+		} else {
+			return s, false
+		}
+	case "byte":
+		if s == "" {
+			return 0, false
+		}
+		// 尝试转换为整数
+		if intVal, err := strconv.Atoi(s); err == nil {
+			return byte(intVal), false
+		} else {
+			panic(err)
+		}
+	case "int8":
+		if s == "" {
+			return 0, false
+		}
+		// 尝试转换为整数
+		if intVal, err := strconv.Atoi(s); err == nil {
+			return int8(intVal), false
+		} else {
+			panic(err)
+		}
+	case "uint8":
+		if s == "" {
+			return 0, false
+		}
+		// 尝试转换为整数
+		if intVal, err := strconv.Atoi(s); err == nil {
+			return uint8(intVal), false
+		} else {
+			panic(err)
+		}
+	case "int16":
+		if s == "" {
+			return 0, false
+		}
+		// 尝试转换为整数
+		if intVal, err := strconv.Atoi(s); err == nil {
+			return int16(intVal), false
+		} else {
+			panic(err)
+		}
+	case "uint16", "short":
+		if s == "" {
+			return 0, false
+		}
+		if intVal, err := strconv.Atoi(s); err == nil {
+			return int16(intVal), false
+		} else {
+			panic(err)
+		}
+	case "int":
+		if s == "" {
+			return 0, false
+		}
+		if intVal, err := strconv.Atoi(s); err == nil {
+			return intVal, false
+		} else {
+			panic(err)
+		}
+	case "int32":
+		if s == "" {
+			return 0, false
+		}
+		if intVal, err := strconv.Atoi(s); err == nil {
+			return int32(intVal), false
+		} else {
+			panic(err)
+		}
+	case "uint32":
+		if s == "" {
+			return 0, false
+		}
+		if intVal, err := strconv.Atoi(s); err == nil {
+			return uint32(intVal), false
+		} else {
+			panic(err)
+		}
+	case "uint64", "long":
+		if s == "" {
+			return 0, false
+		}
+		if intVal, err := strconv.Atoi(s); err == nil {
+			return uint64(intVal), false
+		} else {
+			panic(err)
+		}
+	case "int8[]", "uint8[]":
+		var r = make([]int8, 0)
+		if s == "" {
+			return r, false
+		}
+		split := strings.Split(s, "|")
+		for _, v := range split {
+			if intVal, err := strconv.Atoi(v); err == nil {
+				r = append(r, int8(intVal))
+			} else {
+				panic(err)
+			}
+		}
+		return r, false
+	//case "uint8[]": // 使用 github.com/shamaton/msgpack/v2 会序列化成字符串
+	//	var r = make([]byte, 0)
+	//	if s == "" {
+	//		return []byte{}
+	//	}
+	//	split := strings.Split(s, "|")
+	//	for _, v := range split {
+	//		if intVal, err := strconv.Atoi(v); err == nil {
+	//			r = append(r, byte(intVal))
+	//		} else {
+	//			panic(err)
+	//		}
+	//	}
+	//	return r
+	//case "int32[]":
+	//	var r = make([]int32, 0)
+	//	if s == "" {
+	//		return r
+	//	}
+	//	split := strings.Split(s, "|")
+	//	for _, v := range split {
+	//		if intVal, err := strconv.Atoi(v); err == nil {
+	//			r = append(r, int32(intVal))
+	//		} else {
+	//			panic(err)
+	//		}
+	//	}
+	//	return r
+	case "int32[]":
+		var r = make([]int32, 0)
+		if s == "" {
+			return r, false
+		}
+		split := strings.Split(s, "|")
+		for _, v := range split {
+			if intVal, err := strconv.Atoi(v); err == nil {
+				r = append(r, int32(intVal))
+			} else {
+				panic(err)
+			}
+		}
+		return r, false
+	case "uint32[]":
+		var r = make([]uint32, 0)
+		if s == "" {
+			return r, false
+		}
+		split := strings.Split(s, "|")
+		for _, v := range split {
+			if intVal, err := strconv.Atoi(v); err == nil {
+				r = append(r, uint32(intVal))
+			} else {
+				panic(err)
+			}
+		}
+		return r, false
+	case "int64[]":
+		var r = make([]int64, 0)
+		if s == "" {
+			return r, false
+		}
+		split := strings.Split(s, "|")
+		for _, v := range split {
+			if intVal, err := strconv.Atoi(v); err == nil {
+				r = append(r, int64(intVal))
+			} else {
+				panic(err)
+			}
+		}
+		return r, false
+	case "bool":
+	case "int32[][]", "int32:int32":
+		var r = make([][]int32, 0)
+		if s == "" {
+			return r, false
+		}
+		splitOut := strings.Split(s, ";")
+		for _, sinner := range splitOut {
+			split := strings.Split(sinner, "|")
+			var rinner []int32
+			for _, v := range split {
+				if intVal, err := strconv.Atoi(v); err == nil {
+					rinner = append(rinner, int32(intVal))
+				} else {
+					panic(err)
+				}
+			}
+			r = append(r, rinner)
+		}
+		return r, false
+	case "uint32[][]", "uint32:uint32":
+		var r = make([][]uint32, 0)
+		if s == "" {
+			return r, false
+		}
+		splitOut := strings.Split(s, ";")
+		for _, sinner := range splitOut {
+			split := strings.Split(sinner, "|")
+			var rinner []uint32
+			for _, v := range split {
+				if intVal, err := strconv.Atoi(v); err == nil {
+					rinner = append(rinner, uint32(intVal))
+				} else {
+					panic(err)
+				}
+			}
+			r = append(r, rinner)
+		}
+		return r, false
+	case "int64[][]", "int64:int64":
+		var r = make([][]int64, 0)
+		if s == "" {
+			return r, false
+		}
+		splitOut := strings.Split(s, ";")
+		for _, sinner := range splitOut {
+			split := strings.Split(sinner, "|")
+			var rinner []int64
+			for _, v := range split {
+				if intVal, err := strconv.Atoi(v); err == nil {
+					rinner = append(rinner, int64(intVal))
+				} else {
+					panic(err)
+				}
+			}
+			r = append(r, rinner)
+		}
+		return r, false
+	case "uint64[][]", "uint64:uint64":
+		var r = make([][]uint64, 0)
+		if s == "" {
+			return r, false
+		}
+		splitOut := strings.Split(s, ";")
+		for _, sinner := range splitOut {
+			split := strings.Split(sinner, "|")
+			var rinner []uint64
+			for _, v := range split {
+				if intVal, err := strconv.Atoi(v); err == nil {
+					rinner = append(rinner, uint64(intVal))
+				} else {
+					panic(err)
+				}
+			}
+			r = append(r, rinner)
+		}
+		return r, false
+	case "string[][]":
+		var r = make([][]string, 0)
+		if s == "" {
+			return r, false
+		}
+		splitOut := strings.Split(s, ";")
+		for _, sinner := range splitOut {
+			split := strings.Split(sinner, "|")
+			var rinner []string
+			for _, v := range split {
+				rinner = append(rinner, v)
+			}
+			r = append(r, rinner)
+		}
+		return r, false
+	}
+
+	// 默认返回字符串
+	return s, true
+}
+
+func main() {
+	// 1. 读取 CSV 文件
+	csvdir := os.Args[1]
+	// 遍历目录
+	entries, err := os.ReadDir(csvdir) // 替换为目标目录
+	if err != nil {
+		panic(err)
+	}
+	for _, entry := range entries {
+		file := entry.Name()
+		fmt.Println(file) // 仅文件名，不包含路径
+		if strings.HasSuffix(file, ".csv") {
+			manifest, packed := parsefile(path.Join(csvdir, file))
+			var name = strings.ToLower(file[:len(file)-4])
+			// 5. 保存文件
+			os.MkdirAll("output", 0755)
+			if err := os.WriteFile(fmt.Sprintf("%s/%smanifest.bytes", os.Args[2], name), manifest, 0644); err != nil {
+				log.Fatal("写入文件失败:", err)
+			}
+
+			if err := os.WriteFile(fmt.Sprintf("%s/%s.bytes", os.Args[2], name), packed, 0644); err != nil {
+				log.Fatal("写入文件失败:", err)
+			}
+
+		}
+	}
+
+	log.Println("转换成功！")
+}
+
+func parsefile(name string) (m, d []byte) {
+	file, err := os.Open(name)
+	if err != nil {
+		log.Fatal("打开文件失败:", err)
+	}
+	defer file.Close()
+
+	reader := csv.NewReader(file)
+	records, err := reader.ReadAll()
+	if err != nil {
+		log.Fatal("读取 CSV 失败:", err)
+	}
+
+	if len(records) < 1 {
+		log.Fatal("CSV 文件无数据")
+	}
+
+	// 获取表头和类型
+	headers := records[0]
+	types := records[1]
+
+	// 确定id列的索引
+	idindex := -1
+	for i, t := range headers {
+		if t == "id" {
+			idindex = i
+			break
+		}
+	}
+	if idindex == -1 {
+		log.Fatal("CSV文件中未找到id列")
+	}
+
+	var rows [][]string
+	for _, row := range records[4:] {
+		rows = append(rows, row)
+	}
+
+	// 按idindex排序rows（字典序）
+	//slices.SortFunc(rows, func(a, b []string) int {
+	//	aID := a[idindex]
+	//	bID := b[idindex]
+	//	return cmp.Compare(aID, bID) // 直接比较字符串
+	//})
+
+	buffer := bytes.Buffer{}
+	msgpacker := msgpack.NewEncoder(&buffer)
+
+	err = msgpacker.EncodeArrayLen(len(rows))
+	if err != nil {
+		log.Fatal("序列化失败:", err)
+	}
+
+	// 解析数据
+	var manifest []interface{}
+	for _, row := range rows {
+		var item []interface{}
+		var id uint32
+		for i, val := range row {
+			if i >= len(headers) {
+				continue // 忽略多余列
+			}
+			v, skip := inferType(types[i], val)
+			if skip {
+				continue
+			}
+			item = append(item, v)
+			if i == idindex {
+				idu, ok := v.(int32)
+				if !ok {
+					idstr, err := strconv.Atoi(val)
+					if err != nil {
+						panic("无法解析id")
+					}
+					id = uint32(idstr)
+				} else {
+					id = uint32(idu)
+				}
+			}
+		}
+
+		l := buffer.Len()
+		// 序列化为 MessagePack
+		err := msgpacker.Encode(item)
+		if err != nil {
+			log.Fatal("序列化失败:", err)
+		}
+
+		manifest = append(manifest, []interface{}{id, l, buffer.Len() - l})
+	}
+
+	// 序列化为 MessagePack
+	packedmanifest, err := msgpack.Marshal(manifest)
+	if err != nil {
+		log.Fatal("序列化manifest失败:", err)
+	}
+	fmt.Println(hex.Dump(buffer.Bytes()))
+	return packedmanifest, buffer.Bytes()
+}
