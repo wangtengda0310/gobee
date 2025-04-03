@@ -301,7 +301,7 @@ func main() {
 		file := entry.Name()
 		fmt.Println(file) // 仅文件名，不包含路径
 		if strings.HasSuffix(file, ".csv") {
-			manifest, packed := parsefile(path.Join(csvdir, file))
+			manifest, packed := parsecsvfile(path.Join(csvdir, file))
 			var name = strings.ToLower(file[:len(file)-4])
 			// 5. 保存文件
 			os.MkdirAll("output", 0755)
@@ -316,24 +316,24 @@ func main() {
 		}
 	}
 
-	log.Println("转换成功！")
+	log.Println("csv2mspack 转换成功！")
 }
 
-func parsefile(name string) (m, d []byte) {
-	file, err := os.Open(name)
+func parsecsvfile(filepath string) (m, d []byte) {
+	file, err := os.Open(filepath)
 	if err != nil {
-		log.Fatal("打开文件失败:", err)
+		panic(err)
 	}
 	defer file.Close()
 
 	reader := csv.NewReader(file)
 	records, err := reader.ReadAll()
 	if err != nil {
-		log.Fatal("读取 CSV 失败:", err)
+		panic(err)
 	}
 
 	if len(records) < 1 {
-		log.Fatal("CSV 文件无数据")
+		panic(fmt.Errorf("CSV 文件无数据"))
 	}
 
 	// 获取表头和类型
@@ -349,7 +349,7 @@ func parsefile(name string) (m, d []byte) {
 		}
 	}
 	if idindex == -1 {
-		log.Fatal("CSV文件中未找到id列")
+		panic(fmt.Errorf("CSV文件中未找到id列"))
 	}
 
 	var rows [][]string
@@ -369,7 +369,7 @@ func parsefile(name string) (m, d []byte) {
 
 	err = msgpacker.EncodeArrayLen(len(rows))
 	if err != nil {
-		log.Fatal("序列化失败:", err)
+		panic(err)
 	}
 
 	// 解析数据
@@ -404,7 +404,7 @@ func parsefile(name string) (m, d []byte) {
 		// 序列化为 MessagePack
 		err := msgpacker.Encode(item)
 		if err != nil {
-			log.Fatal("序列化失败:", err)
+			panic(fmt.Errorf("序列化失败: %v", err))
 		}
 
 		manifest = append(manifest, []interface{}{id, l, buffer.Len() - l})
@@ -413,7 +413,7 @@ func parsefile(name string) (m, d []byte) {
 	// 序列化为 MessagePack
 	packedmanifest, err := msgpack.Marshal(manifest)
 	if err != nil {
-		log.Fatal("序列化manifest失败:", err)
+		panic(fmt.Errorf("序列化失败: %v", err))
 	}
 	fmt.Println(hex.Dump(buffer.Bytes()))
 	return packedmanifest, buffer.Bytes()
