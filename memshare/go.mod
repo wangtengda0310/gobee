@@ -2,4 +2,7 @@ module memshare
 
 go 1.22
 
-require golang.org/x/sys v0.30.0 // indirect
+require (
+	github.com/atotto/clipboard v0.1.4
+	golang.org/x/sys v0.30.0
+)
