@@ -1,0 +1,9 @@
+id,name,type,openCondition,openConditionDesc,composeMode,cumCostRecord
+uint32,string,uint16,string,string,uint32,uint8
+key,,,,,,
+合成系统id,名称,合成系统类型,开启条件,开启条件描述,合成方式(1:指定;2:批量),累积消耗记录
+10001,装备合成,1,,,1,1
+10006,测试物品合成,1,,,1,
+10007,装备降品,1,,,1,
+10008,道具背包功能测试配方,1,,,1,
+10009,冒险者,1,,,1,

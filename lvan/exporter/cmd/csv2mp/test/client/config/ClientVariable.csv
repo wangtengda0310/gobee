@@ -1,0 +1,4 @@
+id,name,ownerType,ownerId,valueType,operator,defaultValue,resetRule,resetRuleContent
+uint32,string,uint32,uint32,uint32,uint32,string,uint32,string
+key,,,,,,,,
+变量id,变量名称,宿主类型,宿主id,变量类型,算子,默认值,重置规则,定时重置规则

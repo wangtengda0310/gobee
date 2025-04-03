@@ -1,0 +1,5 @@
+id,name,displayName,label,labelClass,icon,navItem,params
+uint32,string,string,uint32[],uint32[],string,uint32[][],uint32[][]
+key,,client,client,client,client,client,
+id,名称,显示名提示语,标签,标签类,图标,导航项,扩展参数
+10001,测试来源1,,,,,10001|10001,

@@ -1,0 +1,4 @@
+id,name,playerGroupCondition
+uint32,string,string
+key,,
+玩家分群ID,类型名称,玩家分群条件

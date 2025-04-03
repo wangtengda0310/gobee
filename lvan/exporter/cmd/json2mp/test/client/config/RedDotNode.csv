@@ -1,0 +1,7 @@
+id,name,type,fatherId,functions,showRule,showRuleParam,disappearRule,disappearRuleParam,style,styleParams,resource,location,followPriority,styleResposeRule,disappearResponseRule,selfChildPriority,desc
+uint32,string,uint32,uint32,uint32[],string,uint32[][],uint32,uint32[][],uint32,string,string,uint32,uint32,uint32,uint32,uint32,uint32
+key,,,,,,,,,,,,,,,,,
+红点节点id,红点节点名称,类型,父节点,关联功能,展示规则,展示规则参数,消失规则,消失规则参数,样式类型,样式参数,样式美术资产,位置,父节点跟随优先级,样式响应规则,消失响应规则,自身与子节点优先级,描述提示语
+10004,日/周常任务_任务入口红点,2,,,10,10016|10017|10018|10019,1,,1,,,1,,2,1,2,
+10005,日常页签红点,2,10004,,10,10016|10017,1,,1,,,1,1,1,,,
+10006,周常页签红点,,10004,,10,10018|10019,1,,1,,,1,2,1,,,

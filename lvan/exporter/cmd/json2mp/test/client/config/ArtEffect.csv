@@ -1,0 +1,8 @@
+id,name,desc,resId,frame,pos,loop,offset,size,angle,mode,interval,sound,action,delayTime,isZoom
+uint32,string,string,uint32,uint8,uint8,uint8,int32[],int64[],uint16,string,uint32,uint32,string,uint16,uint16
+key,,,,,,,,,,,,,,,
+美术预制体id,名称,描述,特效资源ID,层级,位置,循环模式,偏移量,缩放值,角度,播放模式,播放速率,音效,动作名,延迟出现时间,是否适配全屏进行缩放
+10014,刀光,,29,0,2,0,0|0|0,10000|10000,0,无,10000,,zhangjiao_skill_1_zishen,0,
+10024,闪电,,22,1,2,2,0|0|0,10000|10000,0,无,10000,,skill_1,,
+10033,飞刀,,28,1,2,2,0|0|0,3000|3000,0,无,10000,,skill_1,,
+10035,雷暴,,30,1,2,2,0|0|0,10000|10000,0,无,10000,,skill_2_diancichang,,

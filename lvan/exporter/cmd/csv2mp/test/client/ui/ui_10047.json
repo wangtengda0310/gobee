@@ -1,0 +1,1 @@
+{"uiId":1,"maxUid":2,"adapt":{},"props":{"height":1280,"maskType":1,"name":"[系统]_背包_背包14-合成礼包弹窗","type":1,"width":720},"components":[{"uiId":2,"name":"X-详情弹窗","label":"X-详情弹窗","type":"gforge.complib.composePopUpV1View","package":"composePopUpV1.fui","comu":"","dataSource":[],"pos":["191","98"],"props":{"btnStyle":1,"height":913,"width":614,"x":52,"y":147}}]}

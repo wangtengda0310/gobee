@@ -1,0 +1,6 @@
+id,name,shopType,shopActivationCondition,productList,resetRule,resetRuleParam
+uint32,string,uint32,string,uint32[],uint32,string
+key,,,,,,
+商城ID,商城名称,商城类型,商城开启条件,商品列表,重置规则,重置规则参数
+10006,七日目标商城,2,,10006,,
+10007,冒险者,2,,10007|10008,,

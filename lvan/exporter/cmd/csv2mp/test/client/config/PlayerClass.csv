@@ -1,0 +1,5 @@
+id,className,world,isDefault,skillBar,growthLinear,growthEquip,attr,skill,item,model,prefab,modelConfig,ai,reactionTime,icon,portrait,portraitConfig,shadow,shadowConfig,collisionBox,hit,hitAction,hitCoolDown,deadAnimation,tombstone,label,labelClass
+uint32,string,uint32,uint32,uint32[],uint32:uint32,uint32[][],int32[][],uint32:uint32,uint32:uint32,string,uint32,string,uint32,uint32,string,string,string,string,string,int32[],int32[],string,uint32,uint32,string,uint32[],uint32[]
+key,,,,,,,,,,client,client,,,,client,client,client,client,client,client,client,client,client,client,client,,
+id,职业名称,默认玩法,是否默认角色,技能栏,初始线性养成等级,初始装备养成线,初始属性,初始技能,初始道具,角色模型,角色预制体,模型参数,AI,反应时间(毫秒),头像,立绘,立绘配置,阴影,阴影配置,碰撞盒,受击表现,受击动作,受击表现冷却,死亡动画,死亡墓碑,标签,标签类
+10001,主角01,10003,1,,,10012|10007|10076,10008|1000;10007|10;10009|5;10055|10;10064|1;10068|1;10067|1;10069|1;10066|1,10014|1;10015|1;10016|1;10018|1;10013|1,,,10009,,,,,,,,,1|0|0|-70|50|0|100,,,,,,,

@@ -1,0 +1,1 @@
+{"uiId":1,"maxUid":3,"adapt":{},"props":{"name":"冒险者预览弹窗"},"components":[{"uiId":2,"name":"皮肤预览弹窗","label":"皮肤预览弹窗","type":"skinV3TipsView","package":"skinV3_fui.bytes","comu":"","dataSource":[],"pos":["211","294"],"props":{"height":948,"width":640,"x":39,"y":94}}]}
