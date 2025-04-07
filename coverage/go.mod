@@ -1,6 +1,6 @@
 module github.com/wangtengda0310/gobee/coverage
 
-go 1.22
+go 1.24.2
 
 require github.com/stretchr/testify v1.9.0
 

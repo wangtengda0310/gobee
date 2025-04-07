@@ -1,6 +1,6 @@
 module github.com/wangtengda0310/gobee/realm
 
-go 1.22
+go 1.24.2
 
 require (
 	github.com/opencoff/go-srp v0.6.2
