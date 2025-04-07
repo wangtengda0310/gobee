@@ -1,6 +1,6 @@
 module github.com/wangtengda0310/gobee/reflectparam
 
-go 1.22
+go 1.24.2
 
 require (
 	github.com/foolin/gocsv v0.0.0-20170222012819-d1cfc1a54940
