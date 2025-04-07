@@ -1,6 +1,6 @@
 module github.com/wangtengda0310/gobee/cache
 
-go 1.22
+go 1.24.2
 
 require github.com/allegro/bigcache v1.2.1
 
