@@ -247,7 +247,7 @@ func main() {
 			log := func(s string) {
 				logger.Info(s)
 			}
-			status, err, stdout, stderr := pkg.Cmd(c, args, dir, []string{})
+			status, err, stdout, stderr := pkg.Cmd(c, dir, []string{})
 			if err != nil {
 				logger.Warn("命令执行失败: %v", err)
 			}
