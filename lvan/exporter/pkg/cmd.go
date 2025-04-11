@@ -129,6 +129,8 @@ func ExecuteCommand(task *Task) {
 		env = append(env, fmt.Sprintf("exporter_cmd_%s_resource=%s", cmdName, resource))
 	}
 
+	env = append(env, fmt.Sprintf("exporter_cmd_%s_id=%s", cmdName, task.ID))
+
 	// 设置环境变量
 	if len(task.Request.Env) > 0 {
 
@@ -147,7 +149,7 @@ func ExecuteCommand(task *Task) {
 			return UtfFrom(s, encoding)
 		}
 	}
-	status, err, stdout, stderr := Cmd(cmd, cmdArgs, task.WorkDir, env)
+	status, err, stdout, stderr := Cmd(cmd, task.WorkDir, env)
 	task.Status = status
 	if err != nil {
 		return
@@ -184,11 +186,11 @@ func ExecuteCommand(task *Task) {
 
 }
 
-func Cmd(cmd *exec.Cmd, args []string, workdir string, env []string) (TaskStatus, error, io.ReadCloser, io.ReadCloser) {
+func Cmd(cmd *exec.Cmd, workdir string, env []string) (TaskStatus, error, io.ReadCloser, io.ReadCloser) {
 	cmd.Env = env
 
 	// 设置工作目录（任务沙箱）
-	//cmd.Dir = workdir
+	cmd.Dir = workdir
 
 	// 创建管道获取命令输出
 	stdout, err := cmd.StdoutPipe()
