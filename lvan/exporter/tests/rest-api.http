@@ -1,0 +1,37 @@
+# curl -X POST localhost/cmd --data '{"cmd":"clientjob","args":["d02","1520177094"]}'
+POST localhost/cmd
+Content-Type: application/json
+
+{"cmd":"clientjob","args":["test","test_default", "http://192.168.30.84:8071/api/art/unity/version/deploy/complete/callback"]}
+
+###
+
+# curl -X POST localhost/cmd?sse=true --data '{"cmd":"clientjob","args":["d02","1520177094"]}'
+POST localhost/cmd?sse=true
+Content-Type: application/json
+
+{"cmd":"now"}
+
+###
+
+# curl -X POST localhost/cmd?onlyid=true --data '{"cmd":"clientjob","args":["d02","1520177094"]}'
+POST localhost/cmd?onlyid=true
+Content-Type: application/json
+
+{"cmd":"now","args":["d02","1520177094"]}
+
+###
+
+
+# curl -X POST localhost/result/038f15a5-6c8b-4ede-af69-a3663c43570a
+GET localhost/result/bcc1ea2a-06b8-448d-8e89-2a239a5594dd
+
+###
+
+
+
+# curl -X POST localhost/result/038f15a5-6c8b-4ede-af69-a3663c43570a
+GET localhost/cancel/bcc1ea2a-06b8-448d-8e89-2a239a5594dd
+
+###
+

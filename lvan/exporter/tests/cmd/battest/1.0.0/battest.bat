@@ -1,0 +1,1 @@
+echo "this is a bat test 1.0.0"

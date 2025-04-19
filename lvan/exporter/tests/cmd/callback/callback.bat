@@ -1,0 +1,1 @@
+curl "http://192.168.30.84:8071/api/art/unity/version/deploy/complete/callback?libCode=%~1&libVersionCode=%~2&status=1"

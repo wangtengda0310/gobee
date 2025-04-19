@@ -36,9 +36,8 @@ func ExecuteCommand(task *Task) {
 	// 使用版本管理获取可执行文件路径
 	versionDir, err := GetCommandVersionPath(cmdName, cmdVersion)
 	if err != nil {
-		errMsg := fmt.Sprintf("找不到命令 %s 版本 %s: %v\n", cmdName, cmdVersion, err)
-		logger.Error(errMsg)
-		task.AddOutput(errMsg)
+		logger.Error("找不到命令 %s 版本 %s: %v\n", cmdName, cmdVersion, err)
+		task.AddOutput(fmt.Sprintf("找不到命令 %s 版本 %s: %v\n", cmdName, cmdVersion, err))
 		task.Complete(Failed, cmdNotExit)
 		return
 	}
@@ -47,9 +46,8 @@ func ExecuteCommand(task *Task) {
 	// 查找可执行文件
 	executable, err := FindExecutable(versionDir, cmdName)
 	if err != nil {
-		errMsg := fmt.Sprintf("找不到命令 %s 版本 %s: %v\n", cmdName, cmdVersion, err)
-		logger.Error(errMsg)
-		task.AddOutput(errMsg)
+		logger.Error("找不到命令 %s 版本 %s: %v\n", cmdName, cmdVersion, err)
+		task.AddOutput(fmt.Sprintf("找不到命令 %s 版本 %s: %v\n", cmdName, cmdVersion, err))
 		task.Complete(Failed, cmdNotExit)
 		return
 	}
