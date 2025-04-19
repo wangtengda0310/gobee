@@ -1,6 +1,7 @@
 package pkg
 
 import (
+	"context"
 	"fmt"
 	"github.com/google/uuid"
 	intern "github.com/wangtengda/gobee/lvan/exporter/internal"
@@ -26,6 +27,7 @@ type Task struct {
 	Logger     *logger.Logger        `json:"-"`
 	sseClients *ClientManager
 	CmdMeta    *intern.CommandMeta `json:"-"`
+	Cancel     context.CancelFunc  `json:"-"`
 }
 
 // 添加输出到任务

@@ -61,7 +61,7 @@ func ExecuteCommand(task *Task) {
 
 	var timeout = 10 * time.Minute
 	ctx, cancel := context.WithTimeout(context.Background(), timeout)
-	defer cancel()
+	task.Cancel = cancel
 
 	var cmd *exec.Cmd
 	if task.CmdMeta != nil && task.CmdMeta.Shell != nil {

@@ -268,6 +268,7 @@ func main() {
 	router := http.NewServeMux()
 	router.HandleFunc("/", api.HandleRootRequest)
 	router.HandleFunc("/cmd", api.HandleCommandRequest)
+	router.HandleFunc("/cancel/", api.HandleCancelRequest)
 	router.HandleFunc("/cmd/", api.HandleCommandRequest)
 	router.HandleFunc("/result/", api.HandleResultRequest)
 	router.HandleFunc("/backup/", api.HandleBackupRequest)

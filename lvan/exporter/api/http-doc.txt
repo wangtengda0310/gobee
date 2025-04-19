@@ -24,3 +24,10 @@ response body {
     "id" : "任务id",
     "job" : "任务参数"
 }
+
+GET /cancel/任务id
+response body {
+    "code" : "命令执行状态 0 成功 1 任务不存在",
+    "msg" : "提示信息",
+    "id" : "任务id",
+}
