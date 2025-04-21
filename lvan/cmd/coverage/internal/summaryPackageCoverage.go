@@ -1,4 +1,4 @@
-package main
+package internal
 
 import (
 	"bufio"
@@ -75,7 +75,7 @@ func sumSubPackageCoverage(coverage []parsedLine, ss ...string) []parsedLine {
 	return result
 }
 
-func scanStdin(reader io.Reader) ([]parsedLine, []parsedLine) {
+func ScanStdin(reader io.Reader) ([]parsedLine, []parsedLine) {
 	scanner := bufio.NewScanner(reader)
 	var coverage []parsedLine
 	var parentDir = make(map[string]bool)

@@ -1,4 +1,4 @@
-package main
+package internal
 
 // 重构Content字段修改为map[string]interface{} 并修改相关文件
 type JSONData struct {

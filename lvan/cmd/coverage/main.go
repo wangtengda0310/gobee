@@ -3,19 +3,9 @@ package main
 import (
 	"flag"
 	"fmt"
+	"github.com/wangtengda/gobee/lvan/cmd/coverage/internal"
 	"os"
 )
-
-var token = flag.String("token", "c1be2fb9af823da8a1d5d5b7a616a6cad3646b39b86ce0c170fbd387936689a7", "机器人token")
-var secret = flag.String("secret", "SECbdc49e29fba225a5c4ba50e4786e81664e5058d88765c8fba3ed54779a04d6b1", "机器人secret")
-
-var dingding = flag.Bool("dingding", false, "是否发送钉钉消息")
-
-var showVerbose = flag.Bool("v", false, "显示详细信息")
-
-var title = flag.String("title", "新提交代码测试覆盖率统计", "消息标题")
-var alarmUrl = flag.String("alarmUrl", "http://alarm.iwgame.com/alarm/dingtalk/sendTemplate", "报警url")
-var moreContent = flag.String("moreContent", "", "向json.content追加内容")
 
 type StringList []string
 
@@ -39,7 +29,7 @@ func (m *StringMap) Set(value string) error {
 
 func main() {
 	if len(os.Args) > 1 && "sumPackage" == os.Args[1] {
-		lines, parentDirs := scanStdin(os.Stdin)
+		lines, parentDirs := internal.ScanStdin(os.Stdin)
 		for _, line := range lines {
 			fmt.Println("-	", line)
 		}
@@ -57,7 +47,7 @@ func main() {
 	fmt.Println("values", maps)
 	var analyser = gotoolcover{}
 	j := analyser.analyseCoverage()
-	alarmJson(j)
+	internal.AlarmJson(j)
 
 }
 
@@ -90,7 +80,7 @@ func customFlagMap(argNames ...string) *StringMap {
 
 type gotoolcover struct{}
 
-func (gotoolcover) analyseCoverage() *JSONData {
+func (gotoolcover) analyseCoverage() *internal.JSONData {
 
-	return analyseGoToolsCover()
+	return internal.AnalyseGoToolsCover()
 }

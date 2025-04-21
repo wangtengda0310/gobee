@@ -1,4 +1,4 @@
-package main
+package internal
 
 import (
 	"bytes"
@@ -8,7 +8,7 @@ import (
 	"net/http"
 )
 
-func alarmJson(data *JSONData) {
+func AlarmJson(data *JSONData) {
 	// limit alarm message count to 10
 	if files, ok := data.Content["新达到100%覆盖率的文件"].([]string); ok && len(files) > 10 {
 		data.Content["新达到100%覆盖率的文件"] = files[:10]

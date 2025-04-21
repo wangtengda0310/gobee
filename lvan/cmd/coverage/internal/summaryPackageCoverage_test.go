@@ -1,4 +1,4 @@
-package main
+package internal
 
 import (
 	"github.com/stretchr/testify/assert"
@@ -54,7 +54,7 @@ ok      gforge/another/util      (cached)        coverage: 42.0% of statements
     `
 	// scan the input
 	reader := strings.NewReader(input)
-	coverage, packageCoverage := scanStdin(reader)
+	coverage, packageCoverage := ScanStdin(reader)
 	assert.True(t, slices.Contains(coverage, parsedLine{"gforge/common/util", 41.1}))
 	assert.True(t, slices.Contains(coverage, parsedLine{"gforge/another/util", 42}))
 

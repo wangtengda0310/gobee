@@ -1,4 +1,4 @@
-package main
+package internal
 
 import (
 	"bufio"
@@ -12,7 +12,7 @@ var coverFunc = &goToolsCoverFunc{}
 
 type goToolsCoverFunc struct{}
 
-func analyseGoToolsCover() *JSONData {
+func AnalyseGoToolsCover() *JSONData {
 	coverageData := make(map[string]interface{})
 
 	totalCoverageNumber, m := coverFunc.collectFilesCoverage()
