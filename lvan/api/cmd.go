@@ -42,7 +42,7 @@ func handleSSERequest(w http.ResponseWriter, r *http.Request, task *pkg.Task) {
 	// 异步执行命令（如果尚未执行）
 	taskResult := task.Result
 	if task.Status == pkg.Blocking && task.CmdPath == "" {
-		go pkg.ExecuteCommand(task)
+		go pkg.ExecuteTask(task)
 	}
 
 	jsonw := json.NewEncoder(w)
@@ -81,7 +81,7 @@ func handleOnlyIDRequest(w http.ResponseWriter, task *pkg.Task) {
 	_, _ = w.Write([]byte(task.ID))
 
 	// 异步执行命令
-	go pkg.ExecuteCommand(task)
+	go pkg.ExecuteTask(task)
 }
 
 // 处理命令请求
@@ -181,7 +181,7 @@ func HandleCommandRequest(w http.ResponseWriter, r *http.Request) {
 	w.(http.Flusher).Flush()
 
 	// 同步执行命令
-	go pkg.ExecuteCommand(task)
+	go pkg.ExecuteTask(task)
 }
 
 // 处理同步执行命令请求

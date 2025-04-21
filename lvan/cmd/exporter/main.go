@@ -3,6 +3,7 @@ package main
 import (
 	_ "embed"
 	"fmt"
+	"github.com/wangtengda/gobee/lvan/pkg/cron"
 	"net/http"
 	"os"
 	"os/exec"
@@ -158,6 +159,9 @@ func main() {
 		cleanGeneratedFiles(pkg.TasksDir)
 		return // 清理后直接退出
 	}
+
+	go cron.WorkDir(filepath.Join(internal.WorkDir, "cron"))
+
 	go internal.ScheduleCleaner(pkg.TasksDir, time.Hour*24)
 
 	// 设置日志级别
@@ -221,7 +225,7 @@ func main() {
 				Args:    args,
 			}
 			var task = pkg.CreateTask(req, os.Stdout)
-			pkg.ExecuteCommand(task)
+			pkg.ExecuteTask(task)
 		case "exec", "run":
 			var cmd = args[1]
 			args := args[2:]

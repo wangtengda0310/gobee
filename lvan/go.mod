@@ -5,6 +5,7 @@ go 1.24.2
 require (
 	github.com/gofrs/flock v0.12.1
 	github.com/google/uuid v1.6.0
+	github.com/robfig/cron v1.2.0
 	github.com/vmihailenco/msgpack/v5 v5.4.1
 	golang.org/x/mod v0.24.0
 	golang.org/x/text v0.24.0
