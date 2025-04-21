@@ -1,5 +1,0 @@
-encoding: "utf-8"
-shell: ["cmd", "/c"]
-resources:
-  - "now"
-  - "now1"

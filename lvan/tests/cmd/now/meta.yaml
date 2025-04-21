@@ -1,0 +1,5 @@
+encoding: "gbk"
+shell: ["cmd", "/c"]
+resources:
+  - "now"
+  - "now1"
