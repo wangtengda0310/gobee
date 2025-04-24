@@ -1,7 +1,7 @@
 package main
 
 import (
-	"github.com/wangtengda/gobee/lvan/internal/mp"
+	"github.com/wangtengda0310/gobee/lvan/internal/mp"
 	"os"
 )
 

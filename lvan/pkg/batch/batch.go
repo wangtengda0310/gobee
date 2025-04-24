@@ -2,8 +2,8 @@ package batch
 
 import (
 	"cmp"
-	"github.com/wangtengda/gobee/lvan/pkg"
-	"github.com/wangtengda/gobee/lvan/pkg/logger"
+	"github.com/wangtengda0310/gobee/lvan/pkg"
+	"github.com/wangtengda0310/gobee/lvan/pkg/logger"
 	"os"
 	"os/exec"
 	"path/filepath"

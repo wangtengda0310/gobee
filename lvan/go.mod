@@ -1,4 +1,4 @@
-module github.com/wangtengda/gobee/lvan
+module github.com/wangtengda0310/gobee/lvan
 
 go 1.24.2
 

@@ -3,7 +3,6 @@ package main
 import (
 	_ "embed"
 	"fmt"
-	"github.com/wangtengda/gobee/lvan/pkg/cron"
 	"net/http"
 	"os"
 	"os/exec"
@@ -13,10 +12,11 @@ import (
 	"strings"
 	"time"
 
-	"github.com/wangtengda/gobee/lvan/api"
-	"github.com/wangtengda/gobee/lvan/internal"
-	"github.com/wangtengda/gobee/lvan/pkg"
-	"github.com/wangtengda/gobee/lvan/pkg/logger"
+	"github.com/wangtengda0310/gobee/lvan/api"
+	"github.com/wangtengda0310/gobee/lvan/internal"
+	"github.com/wangtengda0310/gobee/lvan/pkg"
+	"github.com/wangtengda0310/gobee/lvan/pkg/cron"
+	"github.com/wangtengda0310/gobee/lvan/pkg/logger"
 
 	"github.com/spf13/pflag"
 )

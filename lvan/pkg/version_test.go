@@ -2,7 +2,7 @@ package pkg
 
 import (
 	"fmt"
-	"github.com/wangtengda/gobee/lvan/pkg/logger"
+	"github.com/wangtengda0310/gobee/lvan/pkg/logger"
 	"os"
 	"path/filepath"
 	"runtime"

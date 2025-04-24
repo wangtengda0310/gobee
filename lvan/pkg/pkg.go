@@ -1,8 +1,8 @@
 package pkg
 
 import (
-	intern "github.com/wangtengda/gobee/lvan/internal"
-	"github.com/wangtengda/gobee/lvan/pkg/logger"
+	intern "github.com/wangtengda0310/gobee/lvan/internal"
+	"github.com/wangtengda0310/gobee/lvan/pkg/logger"
 	"golang.org/x/text/encoding/simplifiedchinese"
 )
 

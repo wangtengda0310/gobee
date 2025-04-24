@@ -3,7 +3,7 @@ package main
 import (
 	"flag"
 	"fmt"
-	"github.com/wangtengda/gobee/lvan/cmd/coverage/internal"
+	"github.com/wangtengda0310/gobee/lvan/cmd/coverage/internal"
 	"os"
 )
 

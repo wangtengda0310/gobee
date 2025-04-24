@@ -13,7 +13,7 @@ package internal
 import (
 	"errors"
 	"github.com/gofrs/flock"
-	"github.com/wangtengda/gobee/lvan/pkg/logger"
+	"github.com/wangtengda0310/gobee/lvan/pkg/logger"
 	"gopkg.in/yaml.v3"
 	"os"
 	"path/filepath"
