@@ -2,12 +2,13 @@ package batch
 
 import (
 	"cmp"
-	"github.com/wangtengda0310/gobee/lvan/pkg"
-	"github.com/wangtengda0310/gobee/lvan/pkg/logger"
 	"os"
 	"os/exec"
 	"path/filepath"
 	"slices"
+
+	"github.com/wangtengda0310/gobee/lvan/pkg"
+	"github.com/wangtengda0310/gobee/lvan/pkg/logger"
 )
 
 func WithSort(workdir string) error {
@@ -51,7 +52,7 @@ func WithSort(workdir string) error {
 }
 
 func canSort(name string) bool {
-	return name[0] >= '0' && name[0] <= '9'
+	return len(name) > 0 && name[0] >= '0' && name[0] <= '9'
 }
 func File(file string) error {
 	logger.Debug("执行 %s", file)
@@ -73,11 +74,11 @@ func File(file string) error {
 	}
 
 	log := func(s string) {
-		logger.Info(s)
+		logger.Info("%s", s)
 	}
-	pkg.CacthStdout(stdout, nil, log)
+	pkg.CatchStdout(stdout, nil, log)
 
-	pkg.CacthStderr(stderr, nil, log)
+	pkg.CatchStderr(stderr, nil, log)
 
 	logger.Info("等待命令完成")
 	return command.Wait()

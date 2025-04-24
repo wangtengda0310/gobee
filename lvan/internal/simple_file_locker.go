@@ -49,7 +49,10 @@ func ExclusiveOneResource(resources []string, lockDir string, maxRetries int) (s
 
 	// 创建命令资源锁目录
 	cmdLockDir := lockDir
-	os.MkdirAll(cmdLockDir, 0755)
+	err := os.MkdirAll(cmdLockDir, 0755)
+	if err != nil {
+		return "", err, nil
+	}
 
 	// 尝试获取资源锁
 	for retry := 0; retry < maxRetries; retry++ {

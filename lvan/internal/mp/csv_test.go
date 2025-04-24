@@ -3,9 +3,6 @@ package mp
 import "testing"
 
 func Test_adaptContent(t *testing.T) {
-	type args struct {
-		csv string
-	}
 	tests := []struct {
 		name string
 		args string

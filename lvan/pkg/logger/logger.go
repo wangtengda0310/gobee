@@ -56,7 +56,6 @@ type Logger struct {
 
 // 全局日志实例
 var defaultLogger *Logger
-var once sync.Once
 
 // NewLogger 创建新的日志记录器
 func NewLogger(logDir, logFileName string, level int, maxSize int64, w ...io.Writer) (*Logger, error) {
@@ -144,7 +143,14 @@ func (l *Logger) processLogs() {
 			}
 
 			// 检查是否需要轮转日志文件
-			l.checkRotate(0)
+			err := l.checkRotate(0)
+			if err != nil {
+				_, err := fmt.Fprintf(os.Stderr, "<UNK>: %v", err)
+				if err != nil {
+					continue
+				}
+				continue
+			}
 
 		case <-l.closeChan:
 			// 关闭前写入剩余日志

@@ -3,10 +3,11 @@ package pkg
 import (
 	"bufio"
 	"fmt"
-	"github.com/wangtengda0310/gobee/lvan/pkg/logger"
 	"io"
 	"os/exec"
 	"sync/atomic"
+
+	"github.com/wangtengda0310/gobee/lvan/pkg/logger"
 )
 
 var a atomic.Int32
@@ -36,7 +37,7 @@ func Cmd(cmd *exec.Cmd, workdir string, env []string) (TaskStatus, error, io.Rea
 	return Running, nil, stdout, stderr
 }
 
-func CacthStderr(stderr io.ReadCloser, encodingFunc func([]byte) string, log func(string)) {
+func CatchStderr(stderr io.ReadCloser, encodingFunc func([]byte) string, log func(string)) {
 	// 读取标准错误
 	go func() {
 		scanner := bufio.NewScanner(stderr)
@@ -60,7 +61,7 @@ func CacthStderr(stderr io.ReadCloser, encodingFunc func([]byte) string, log fun
 	}()
 }
 
-func CacthStdout(stdout io.ReadCloser, encodingFunc func([]byte) string, log func(string)) {
+func CatchStdout(stdout io.ReadCloser, encodingFunc func([]byte) string, log func(string)) {
 	// 读取标准输出
 	go func() {
 		scanner := bufio.NewScanner(stdout)

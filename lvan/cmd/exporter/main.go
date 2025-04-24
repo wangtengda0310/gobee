@@ -86,7 +86,7 @@ func main() {
 	showHelp := pflag.BoolP("help", "h", false, "本说明文档")
 	showMoreHelp := pflag.Bool("morehelp", false, "展示更详细的文档")
 	logLevel := pflag.String("log-level", "info", "Log level (debug, info, warn, error, fatal)")
-	cleanFlag := pflag.Bool("clean", false, "清除任务的工作目录")
+	cleanFlag := pflag.Bool("clean", getEnvBool("EXPORTER_CLEAN", false), "清除任务的工作目录，支持环境变量 EXPORTER_CLEAN")
 	workDirFlag := pflag.StringP("workdir", "w", getEnvString("EXPORTER_WORKDIR", ""), "指定工作目录，默认为程序所在目录，支持环境变量 EXPORTER_WORKDIR")
 
 	// 为参数添加长格式说明
@@ -205,12 +205,16 @@ func main() {
 		switch args[0] {
 		case "cmd", "command":
 			var cmd = args[1]
-			args := args[2:]
-			logger.Info("执行命令: %s, %s", cmd, args)
+			cmdArgs := args[2:]
+			logger.Info("执行命令: %s, %s", cmd, cmdArgs)
 
 			flags := pflag.NewFlagSet("cmd", pflag.ExitOnError)
 			version := flags.StringP("version", "v", "", "被调用的版本号")
-			flags.Parse(args)
+			err := flags.Parse(cmdArgs)
+			if err != nil {
+				logger.Warn("%v", err)
+				return
+			}
 			//
 			//// 必要参数检查
 			//if *message == "" {
@@ -222,18 +226,22 @@ func main() {
 			var req = internal.CommandRequest{
 				Cmd:     cmd,
 				Version: *version,
-				Args:    args,
+				Args:    cmdArgs,
 			}
 			var task = pkg.CreateTask(req, os.Stdout)
 			pkg.ExecuteTask(task)
 		case "exec", "run":
 			var cmd = args[1]
-			args := args[2:]
-			logger.Info("执行命令: %s, %s", cmd, args)
+			cmdArgs := args[2:]
+			logger.Info("执行命令: %s, %s", cmd, cmdArgs)
 
 			flags := pflag.NewFlagSet("cmd", pflag.ExitOnError)
 			encoding := flags.String("encoding", "", "被调用的版本号")
-			flags.Parse(args)
+			err := flags.Parse(cmdArgs)
+			if err != nil {
+				logger.Warn("parse flags error %v %v", cmdArgs, err)
+				return
+			}
 
 			var encodingFunc func([]byte) string
 			if *encoding != "" {
@@ -242,23 +250,23 @@ func main() {
 				}
 			}
 
-			c := exec.Command(cmd, args...)
+			c := exec.Command(cmd, cmdArgs...)
 			dir, err := os.Getwd()
 			if err != nil {
 				logger.Warn("获取当前工作目录失败: %v", err)
 			}
 
 			log := func(s string) {
-				logger.Info(s)
+				logger.Info("%s", s)
 			}
 			status, err, stdout, stderr := pkg.Cmd(c, dir, []string{})
 			if err != nil {
 				logger.Warn("命令执行失败: %v", err)
 			}
 
-			pkg.CacthStdout(stdout, encodingFunc, log)
+			pkg.CatchStdout(stdout, encodingFunc, log)
 
-			pkg.CacthStderr(stderr, encodingFunc, log)
+			pkg.CatchStderr(stderr, encodingFunc, log)
 
 			logger.Info("命令执行完成: %v", status)
 		default:

@@ -3,13 +3,14 @@ package api
 import (
 	"encoding/json"
 	"fmt"
+	"net/http"
+	"strings"
+	"time"
+
 	"github.com/google/uuid"
 	"github.com/wangtengda0310/gobee/lvan/internal"
 	"github.com/wangtengda0310/gobee/lvan/pkg"
 	"github.com/wangtengda0310/gobee/lvan/pkg/logger"
-	"net/http"
-	"strings"
-	"time"
 )
 
 // 处理结果请求
@@ -26,7 +27,7 @@ func HandleResultRequest(w http.ResponseWriter, r *http.Request) {
 	// 处理帮助请求
 	if taskID == "help" {
 		w.Header().Set("Content-Type", "text/html")
-		w.Write([]byte("<html><body><h1>API Documentation</h1><p>This is the API documentation for the exporter service.</p></body></html>"))
+		_, _ = w.Write([]byte("<html><body><h1>API Documentation</h1><p>This is the API documentation for the exporter service.</p></body></html>"))
 		return
 	}
 
@@ -179,8 +180,11 @@ func HandleSyncResultRequest(w http.ResponseWriter, task *pkg.Task) {
 		if err == nil {
 			job = string(bytes)
 		}
-		w.Write([]byte(fmt.Sprintf("{\"code\":1,\"msg\":\"序列化错误\",\"id\":\"%s\",\"job\":\"%s\"}", task.ID, job)))
+		_, err = w.Write([]byte(fmt.Sprintf("{\"code\":1,\"msg\":\"序列化错误\",\"id\":\"%s\",\"job\":\"%s\"}", task.ID, job)))
+		if err != nil {
+			logger.Error("写入响应失败: %v", err)
+		}
 		return
 	}
-	w.Write(marshal)
+	_, _ = w.Write(marshal)
 }

@@ -46,10 +46,10 @@ func handleSSERequest(w http.ResponseWriter, r *http.Request, task *pkg.Task) {
 	}
 
 	jsonw := json.NewEncoder(w)
-	jsonw.Encode(map[string]any{"id": task.ID, "status": taskResult})
+	_ = jsonw.Encode(map[string]any{"id": task.ID, "status": taskResult})
 
 	// 发送任务ID
-	fmt.Fprintf(w, "data: {\"id\": \"%s\", \"status\": \"%v\"}\n\n", task.ID, taskResult)
+	_, _ = fmt.Fprintf(w, "data: {\"id\": \"%s\", \"status\": \"%v\"}\n\n", task.ID, taskResult)
 	w.(http.Flusher).Flush()
 
 	// 发送输出流
@@ -67,7 +67,7 @@ func handleSSERequest(w http.ResponseWriter, r *http.Request, task *pkg.Task) {
 	// 如果输出通道关闭但任务仍在运行，发送最终状态
 	task.Mutex.Lock()
 	if task.Status != pkg.Running {
-		jsonw.Encode(map[string]any{"status": task.Status, "exitCode": taskResult.ExitCode})
+		_ = jsonw.Encode(map[string]any{"status": task.Status, "exitCode": taskResult.ExitCode})
 		_, _ = fmt.Fprint(w, "\n")
 		_, _ = fmt.Fprintf(w, "data: {\"status\": \"%v\", \"exitCode\": %d}\n\n", task.Status, taskResult.ExitCode)
 		w.(http.Flusher).Flush()
@@ -217,8 +217,8 @@ func handleSyncRequest(w http.ResponseWriter, task *pkg.Task) {
 	marshal, err := json.Marshal(res)
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError) // 500
-		w.Write([]byte(fmt.Sprintf("{\"code\":1,\"msg\":\"序列化错误\",\"id\":\"%s\"}", task.ID)))
+		_, _ = w.Write([]byte(fmt.Sprintf("{\"code\":1,\"msg\":\"序列化错误\",\"id\":\"%s\"}", task.ID)))
 		return
 	}
-	w.Write(marshal)
+	_, _ = w.Write(marshal)
 }

@@ -1,10 +1,11 @@
 package internal
 
 import (
-	"github.com/wangtengda0310/gobee/lvan/pkg/logger"
 	"os"
 	"path/filepath"
 	"time"
+
+	"github.com/wangtengda0310/gobee/lvan/pkg/logger"
 )
 
 func Create(f string) {
@@ -13,14 +14,18 @@ func Create(f string) {
 	file, err := os.Create(f)
 	if err != nil {
 		logger.Warn("create file %s failed: %v", f, err)
+		return
 	}
+
+	// 确保文件被关闭
+	defer file.Close()
 
 	// 向文件写入当前时间戳 人类友好的格式
 	timeStr := time.Now().Format("2006-01-02 15:04:05")
-	file.WriteString(timeStr)
-
-	file.Close()
-
+	_, err = file.WriteString(timeStr)
+	if err != nil {
+		logger.Warn("write file %s failed: %v", file.Name(), err)
+	}
 }
 
 func durationAfterCreate(f string) time.Duration {
@@ -44,12 +49,9 @@ func ScheduleCleaner(dir string, duration time.Duration) {
 	ticker := time.NewTicker(duration)
 	defer ticker.Stop()
 
-	for {
-		select {
-		case <-ticker.C:
-			// 执行清理任务
-			markCleaner(dir, duration)
-		}
+	for range ticker.C {
+		// 执行清理任务
+		markCleaner(dir, duration)
 	}
 
 }
@@ -72,7 +74,7 @@ func markCleaner(dir string, duration time.Duration) {
 		}
 
 		subDir := filepath.Join(dir, file.Name())
-		timestampFile := filepath.Join(subDir, "/createtimestamp")
+		timestampFile := filepath.Join(subDir, "createtimestamp")
 
 		// 检查createtimestamp文件是否存在
 		if _, err := os.Stat(timestampFile); os.IsNotExist(err) {

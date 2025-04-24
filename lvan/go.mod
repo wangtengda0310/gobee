@@ -1,6 +1,6 @@
 module github.com/wangtengda0310/gobee/lvan
 
-go 1.24.2
+go 1.23.0
 
 require (
 	github.com/gofrs/flock v0.12.1

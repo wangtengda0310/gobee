@@ -4,7 +4,6 @@ import (
 	"archive/zip"
 	"fmt"
 	"github.com/wangtengda0310/gobee/lvan/internal"
-	"github.com/wangtengda0310/gobee/lvan/pkg"
 	"github.com/wangtengda0310/gobee/lvan/pkg/logger"
 	"io"
 	"net/http"
@@ -123,7 +122,10 @@ func HandleBackupRequest(w http.ResponseWriter, r *http.Request) {
 	zipWriter.Close()
 
 	// 将文件指针移到文件开头
-	tmpFile.Seek(0, 0)
+	_, err = tmpFile.Seek(0, 0)
+	if err != nil {
+		return
+	}
 
 	// 设置响应头
 	w.Header().Set("Content-Type", "application/zip")
@@ -138,12 +140,4 @@ func HandleBackupRequest(w http.ResponseWriter, r *http.Request) {
 	}
 
 	logger.Info("Successfully created backup for subdirectory: %s", subDir)
-}
-
-// getWorkDir 获取工作目录
-func getWorkDir() string {
-	// 这里需要访问main包中的WorkDir变量
-	// 由于变量在不同包中，我们需要通过环境变量或其他方式获取
-	// 这里假设WorkDir已经通过某种方式设置在pkg包中
-	return filepath.Dir(filepath.Dir(pkg.TasksDir))
 }

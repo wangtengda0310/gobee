@@ -206,6 +206,9 @@ func ListCommands() ([]CommandInfo, error) {
 
 		// 获取最新版本
 		latestVersion, err := findLatestVersion(cmdName)
+		if err != nil {
+			continue
+		}
 
 		// 读取版本目录
 		versionEntries, err := os.ReadDir(cmdDir)

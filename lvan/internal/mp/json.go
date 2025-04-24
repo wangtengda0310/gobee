@@ -6,7 +6,6 @@ import (
 	"encoding/json"
 	"encoding/xml"
 	"fmt"
-	"github.com/vmihailenco/msgpack/v5"
 	"io"
 	"log"
 	"os"
@@ -14,6 +13,8 @@ import (
 	"path/filepath"
 	"strconv"
 	"strings"
+
+	"github.com/vmihailenco/msgpack/v5"
 )
 
 // https://sugendran.github.io/msgpack-visualizer/
@@ -82,13 +83,13 @@ func (b *MonoType) pack(msgpacker *msgpack.Encoder, fval interface{}, mod *Modul
 
 	switch b.Type {
 	case "byte", "Byte", "BYTE":
-		switch fval.(type) {
+		switch fvalTyped := fval.(type) {
 		case float64:
-			if err := msgpacker.EncodeUint8(byte(fval.(float64))); err != nil {
+			if err := msgpacker.EncodeUint8(byte(fvalTyped)); err != nil {
 				return err
 			}
 		case string:
-			v := fval.(string)
+			v := fvalTyped
 			atoi, err := strconv.Atoi(v)
 			if err != nil {
 				return err
@@ -100,9 +101,9 @@ func (b *MonoType) pack(msgpacker *msgpack.Encoder, fval interface{}, mod *Modul
 			return fmt.Errorf("不支持的数据类型 byte:%v", fval)
 		}
 	case "sbyte", "SByte", "sByte", "Sbyte":
-		switch fval.(type) {
+		switch fvalTyped := fval.(type) {
 		case float64:
-			if err := msgpacker.EncodeInt8(int8(fval.(float64))); err != nil {
+			if err := msgpacker.EncodeInt8(int8(fvalTyped)); err != nil {
 				return err
 			}
 		case string:
@@ -118,13 +119,13 @@ func (b *MonoType) pack(msgpacker *msgpack.Encoder, fval interface{}, mod *Modul
 			return fmt.Errorf("不支持的数据类型 sbyte:%v", fval)
 		}
 	case "UInt16", "uint16":
-		switch fval.(type) {
+		switch fvalTyped := fval.(type) {
 		case float64:
-			if err := msgpacker.EncodeUint16(uint16(fval.(float64))); err != nil {
+			if err := msgpacker.EncodeUint16(uint16(fvalTyped)); err != nil {
 				return err
 			}
 		case string:
-			v := fval.(string)
+			v := fvalTyped
 			atoi, err := strconv.Atoi(v)
 			if err != nil {
 				return err
@@ -134,13 +135,13 @@ func (b *MonoType) pack(msgpacker *msgpack.Encoder, fval interface{}, mod *Modul
 			}
 		}
 	case "short", "Short", "SHORT":
-		switch fval.(type) {
+		switch fvalTyped := fval.(type) {
 		case float64:
-			if err := msgpacker.EncodeInt16(int16(fval.(float64))); err != nil {
+			if err := msgpacker.EncodeInt16(int16(fvalTyped)); err != nil {
 				return err
 			}
 		case string:
-			v := fval.(string)
+			v := fvalTyped
 			atoi, err := strconv.Atoi(v)
 			if err != nil {
 				return err
@@ -152,13 +153,13 @@ func (b *MonoType) pack(msgpacker *msgpack.Encoder, fval interface{}, mod *Modul
 			return fmt.Errorf("不支持的数据类型 short:%v", fval)
 		}
 	case "UInt32", "uint32":
-		switch fval.(type) {
+		switch fvalTyped := fval.(type) {
 		case float64:
-			if err := msgpacker.EncodeUint32(uint32(fval.(float64))); err != nil {
+			if err := msgpacker.EncodeUint32(uint32(fvalTyped)); err != nil {
 				return err
 			}
 		case string:
-			v := fval.(string)
+			v := fvalTyped
 			atoi, err := strconv.Atoi(v)
 			if err != nil {
 				return err
@@ -170,13 +171,13 @@ func (b *MonoType) pack(msgpacker *msgpack.Encoder, fval interface{}, mod *Modul
 			return fmt.Errorf("不支持的数据类型 uint32:%v", fval)
 		}
 	case "int", "Int", "INT":
-		switch fval.(type) {
+		switch fvalTyped := fval.(type) {
 		case float64:
-			if err := msgpacker.EncodeInt32(int32(fval.(float64))); err != nil {
+			if err := msgpacker.EncodeInt32(int32(fvalTyped)); err != nil {
 				return err
 			}
 		case string:
-			v := fval.(string)
+			v := fvalTyped
 			atoi, err := strconv.Atoi(v)
 			if err != nil {
 				return err
@@ -188,13 +189,13 @@ func (b *MonoType) pack(msgpacker *msgpack.Encoder, fval interface{}, mod *Modul
 			return fmt.Errorf("不支持的数据类型 int:%v", fval)
 		}
 	case "UInt64", "uint64":
-		switch fval.(type) {
+		switch fvalTyped := fval.(type) {
 		case float64:
-			if err := msgpacker.EncodeUint64(uint64(fval.(float64))); err != nil {
+			if err := msgpacker.EncodeUint64(uint64(fvalTyped)); err != nil {
 				return err
 			}
 		case string:
-			v := fval.(string)
+			v := fvalTyped
 			atoi, err := strconv.Atoi(v)
 			if err != nil {
 				return err
@@ -206,13 +207,13 @@ func (b *MonoType) pack(msgpacker *msgpack.Encoder, fval interface{}, mod *Modul
 			return fmt.Errorf("不支持的数据类型 uint64:%v", fval)
 		}
 	case "long", "Long", "LONG":
-		switch fval.(type) {
+		switch fvalTyped := fval.(type) {
 		case float64:
-			if err := msgpacker.EncodeInt64(int64(fval.(float64))); err != nil {
+			if err := msgpacker.EncodeInt64(int64(fvalTyped)); err != nil {
 				return err
 			}
 		case string:
-			v := fval.(string)
+			v := fvalTyped
 			atoi, err := strconv.Atoi(v)
 			if err != nil {
 				return err
@@ -224,13 +225,13 @@ func (b *MonoType) pack(msgpacker *msgpack.Encoder, fval interface{}, mod *Modul
 			return fmt.Errorf("不支持的数据类型 long:%v", fval)
 		}
 	case "bool", "boolean", "Bool", "Boolean", "BOOL", "BOOLEAN":
-		switch fval.(type) {
+		switch fvalTyped := fval.(type) {
 		case float64:
-			if err := msgpacker.EncodeBool(fval.(float64) != 0); err != nil {
+			if err := msgpacker.EncodeBool(fvalTyped != 0); err != nil {
 				return err
 			}
 		case bool:
-			if err := msgpacker.EncodeBool(fval.(bool)); err != nil {
+			if err := msgpacker.EncodeBool(fvalTyped); err != nil {
 				return err
 			}
 		case string:
@@ -241,8 +242,12 @@ func (b *MonoType) pack(msgpacker *msgpack.Encoder, fval interface{}, mod *Modul
 			return fmt.Errorf("不支持的数据类型 bool:%v", fval)
 		}
 	case "string":
-		if err := msgpacker.EncodeString(fval.(string)); err != nil {
-			return err
+		if strVal, ok := fval.(string); ok {
+			if err := msgpacker.EncodeString(strVal); err != nil {
+				return err
+			}
+		} else {
+			return fmt.Errorf("不支持的数据类型 string:%v", fval)
 		}
 	default:
 		return fmt.Errorf("不支持的数据类型:%s", b.Type)
@@ -258,12 +263,9 @@ type KvType struct {
 
 func (k KvType) pack(msgpacker *msgpack.Encoder, fval interface{}, mod *Module) error {
 
-	switch fval.(type) {
+	switch fvalTyped := fval.(type) {
 	case string:
-		m, ok := fval.(string)
-		if !ok {
-			return fmt.Errorf("不支持的数据类型:%v", fval)
-		}
+		m := fvalTyped
 		if err := msgpacker.EncodeArrayLen(len(m)); err != nil {
 			return err
 		}
@@ -291,12 +293,9 @@ type ListType struct {
 
 func (t *ListType) pack(msgpacker *msgpack.Encoder, fval interface{}, mod *Module) error {
 
-	switch fval.(type) {
+	switch fvalTyped := fval.(type) {
 	case string:
-		l, ok := fval.(string)
-		if !ok {
-			return fmt.Errorf("不支持的数据类型:%v", fval)
-		}
+		l := fvalTyped
 		split := strings.Split(l, t.Separator)
 		if err := msgpacker.EncodeArrayLen(len(split)); err != nil {
 			return err
@@ -330,7 +329,7 @@ func parseComplexType(typeStr string) Type {
 	//	(list#sep=,),type                         对应C#列表　List<type>
 	//(array#sep=,),((array#sep=|),type)             对应C#数组type[][]          这里使用＂,＂作为分隔符,可以替换
 
-	var separator = ""
+	separator := ""
 	var basetype = typeStr
 	if strings.HasPrefix(typeStr, "(map") {
 		parts := strings.SplitN(typeStr, "),", 2)
@@ -551,15 +550,14 @@ func (bean Bean) packRecord(mod *Module, msgpacker *msgpack.Encoder, buffer *byt
 		panic(fmt.Errorf("序列化失败:%w", err))
 	}
 
-	var id uint32
-	id = uint32(v.(map[string]interface{})["id"].(float64))
+	id := uint32(v.(map[string]interface{})["id"].(float64))
 	return []interface{}{id, l, buffer.Len() - l}
 }
 func pack(mod *Module, msgpacker *msgpack.Encoder, v interface{}, bean Bean) error {
-	switch v.(type) {
+	switch vTyped := v.(type) {
 	case []interface{}:
 
-		if err := msgpacker.EncodeArrayLen(len(v.([]interface{}))); err != nil {
+		if err := msgpacker.EncodeArrayLen(len(vTyped)); err != nil {
 			return err
 		}
 		for _, vinner := range v.([]interface{}) {

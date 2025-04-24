@@ -17,7 +17,7 @@ func HandleRootRequest(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "text/plain; charset=utf-8")
 
 	// 使用嵌入的HTTP文档内容
-	w.Write([]byte(httpDoc))
+	_, _ = w.Write([]byte(httpDoc))
 }
 
 // 嵌入HTTP文档

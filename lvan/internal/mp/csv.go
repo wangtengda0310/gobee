@@ -5,12 +5,13 @@ import (
 	"encoding/csv"
 	"encoding/hex"
 	"fmt"
-	"github.com/vmihailenco/msgpack/v5"
 	"log"
 	"os"
 	"path"
 	"strconv"
 	"strings"
+
+	"github.com/vmihailenco/msgpack/v5"
 )
 
 // 客户端原来的特殊处理逻辑 抄过来
@@ -140,9 +141,7 @@ func inferType(vtype string, s string) (interface{}, bool) {
 			return r, false
 		}
 		split := strings.Split(s, "|")
-		for _, v := range split {
-			r = append(r, v)
-		}
+		r = append(r, split...)
 		return r, false
 	case "byte[]", "Byte[]":
 		var r = make([]byte, 0)
@@ -359,9 +358,7 @@ func inferType(vtype string, s string) (interface{}, bool) {
 		for _, sinner := range splitOut {
 			split := strings.Split(sinner, "|")
 			var rinner []string
-			for _, v := range split {
-				rinner = append(rinner, v)
-			}
+			rinner = append(rinner, split...)
 			r = append(r, rinner)
 		}
 		return r, false
@@ -386,7 +383,10 @@ func Maincsv(csvdir, outputdir string) {
 			manifest, packed := parsecsvfile(path.Join(csvdir, file))
 			var name = strings.ToLower(file[:len(file)-4])
 			// 5. 保存文件
-			os.MkdirAll(outputdir, 0755)
+			err := os.MkdirAll(outputdir, 0755)
+			if err != nil {
+				log.Fatal("创建文件夹失败", err)
+			}
 			if err := os.WriteFile(fmt.Sprintf("%s/%smanifest.bytes", outputdir, name), manifest, 0644); err != nil {
 				log.Fatal("写入文件失败:", err)
 			}
@@ -435,9 +435,7 @@ func parsecsvfile(filepath string) (m, d []byte) {
 	}
 
 	var rows [][]string
-	for _, row := range records[4:] {
-		rows = append(rows, row)
-	}
+	rows = append(rows, records[4:]...)
 
 	// 按idindex排序rows（字典序）
 	//slices.SortFunc(rows, func(a, b []string) int {

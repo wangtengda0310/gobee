@@ -4,9 +4,6 @@ import (
 	"context"
 	"errors"
 	"fmt"
-	"github.com/google/uuid"
-	intern "github.com/wangtengda0310/gobee/lvan/internal"
-	"github.com/wangtengda0310/gobee/lvan/pkg/logger"
 	"io"
 	"os"
 	"os/exec"
@@ -16,6 +13,10 @@ import (
 	"strings"
 	"sync"
 	"time"
+
+	"github.com/google/uuid"
+	intern "github.com/wangtengda0310/gobee/lvan/internal"
+	"github.com/wangtengda0310/gobee/lvan/pkg/logger"
 )
 
 // 任务信息
@@ -301,7 +302,10 @@ func ExecuteTask(task *Task) {
 		}
 		defer func(resource string) {
 			if lock != nil {
-				lock.Unlock()
+				err := lock.Unlock()
+				if err != nil {
+					logger.Error("解锁失败: %v", err)
+				}
 			}
 
 			// 释放资源锁
@@ -344,13 +348,13 @@ func ExecuteTask(task *Task) {
 		return
 	}
 
-	CacthStdout(stdout, encodingf, task.AddOutput)
+	CatchStdout(stdout, encodingf, task.AddOutput)
 
 	log := func(s string) {
 		task.AddOutput(s)
 		task.Result.Stderr = append(task.Result.Stderr, s)
 	}
-	CacthStderr(stderr, encodingf, log)
+	CatchStderr(stderr, encodingf, log)
 
 	logger.Info("等待命令完成")
 	err = cmd.Wait()
@@ -358,7 +362,7 @@ func ExecuteTask(task *Task) {
 		var exitCode int
 		// 处理超时错误
 		if errors.Is(ctx.Err(), context.DeadlineExceeded) {
-			task.AddOutput(fmt.Sprintf("命令执行超时"))
+			task.AddOutput("命令执行超时")
 			exitCode = 124 // 通常用 124 表示超时退出码
 			task.AddOutput(fmt.Sprintf("命令执行超时，退出码 %d: %s", exitCode, err.Error()))
 		} else if exitErr, ok := err.(*exec.ExitError); ok { // 尝试获取退出码
