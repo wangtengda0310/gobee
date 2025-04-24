@@ -49,7 +49,7 @@ func handleSSERequest(w http.ResponseWriter, r *http.Request, task *pkg.Task) {
 	jsonw.Encode(map[string]any{"id": task.ID, "status": taskResult})
 
 	// 发送任务ID
-	fmt.Fprintf(w, "data: {\"id\": \"%s\", \"status\": \"%s\"}\n\n", task.ID, taskResult)
+	fmt.Fprintf(w, "data: {\"id\": \"%s\", \"status\": \"%v\"}\n\n", task.ID, taskResult)
 	w.(http.Flusher).Flush()
 
 	// 发送输出流
@@ -69,7 +69,7 @@ func handleSSERequest(w http.ResponseWriter, r *http.Request, task *pkg.Task) {
 	if task.Status != pkg.Running {
 		jsonw.Encode(map[string]any{"status": task.Status, "exitCode": taskResult.ExitCode})
 		_, _ = fmt.Fprint(w, "\n")
-		_, _ = fmt.Fprintf(w, "data: {\"status\": \"%s\", \"exitCode\": %d}\n\n", task.Status, taskResult.ExitCode)
+		_, _ = fmt.Fprintf(w, "data: {\"status\": \"%v\", \"exitCode\": %d}\n\n", task.Status, taskResult.ExitCode)
 		w.(http.Flusher).Flush()
 	}
 	task.Mutex.Unlock()
