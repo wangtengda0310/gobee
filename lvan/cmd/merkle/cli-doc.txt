@@ -1,0 +1,90 @@
+Merkle树计算工具
+==============
+
+简介
+----
+这个工具用于计算指定目录中所有文件的Merkle树，并输出根哈希值。
+Merkle树是一种树形数据结构，用于高效验证大型数据集的完整性。
+
+Merkle树的特点：
+- 可快速检测数据是否被篡改
+- 可轻松进行数据一致性验证
+- 支持快速证明特定数据存在性
+
+用法
+----
+merkle [选项] <目录路径>
+
+选项：
+  --hash 指定要使用的哈希算法（默认：sha256）
+    支持的算法：md5, sha1, sha256, sha512, blake2b, crc32, sm3
+  
+  --output, -o 指定输出文件路径（默认：标准输出）
+    
+  --exclude 指定要排除的文件或目录模式（可多次使用）
+    例如：--exclude "*.tmp" --exclude ".git"
+  
+  --include-empty-dir 是否包含空目录（默认：false）
+
+  --verbose, -v 显示详细输出
+
+  --help, -h 显示帮助信息
+
+  --version 显示版本信息
+  
+  --workers 指定并发工作线程数量（默认为CPU核心数）
+    例如：--workers 4
+
+  --disable-parallel 禁用并行计算（串行模式）
+
+示例
+----
+# 使用默认SHA256计算当前目录的Merkle树
+merkle .
+
+# 使用SHA1算法计算指定目录的Merkle树
+merkle --hash sha1 /path/to/directory
+
+# 使用CRC32算法计算（速度更快，安全性较低）
+merkle --hash crc32 /path/to/directory
+
+# 使用SM3国密算法计算
+merkle --hash sm3 /path/to/directory
+
+# 排除临时文件和.git目录
+merkle --exclude "*.tmp" --exclude ".git" /path/to/directory
+
+# 输出到文件
+merkle -o result.txt /path/to/directory
+
+# 显示详细输出
+merkle -v /path/to/directory
+
+# 使用8个工作线程并行计算
+merkle --workers 8 /path/to/directory
+
+# 禁用并行计算
+merkle --disable-parallel /path/to/directory
+
+输出
+----
+工具会输出Merkle树的根哈希值，以及可选的每个文件的哈希值（使用--verbose模式）。
+使用--verbose模式时还会显示计算耗时信息。
+
+哈希算法
+--------
+支持多种哈希算法：
+- crc32：速度极快，但安全性低，适合非安全场景
+- md5：速度快，但安全性较低
+- sha1：较快速，安全性一般
+- sha256（默认）：速度适中，安全性高
+- sha512：速度较慢，安全性极高
+- blake2b：速度快，安全性高
+- sm3：符合中国密码标准，速度适中，安全性高
+
+性能考虑
+--------
+对于大型目录或大文件，计算可能需要较长时间。
+使用较快的哈希算法（如crc32、md5、blake2b或sm3）可以提高性能，但可能降低安全性。
+并行处理可以充分利用多核CPU加速计算，对于大型目录尤其有效。
+通过--workers选项可以调整并行度，建议设置为可用CPU核心数。 
