@@ -1,0 +1,1 @@
+..\lsmp.bat %APPDATA%\g.editor.electron.v1\otherPlugin\UnityDataTransform\1.0.0\.cache\data\client out

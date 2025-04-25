@@ -39,6 +39,7 @@ for %%d in (
     "msgpackdata"
     "ui_systemui"
     "ui_gameplayui"
+    "ui_entityui"
     "archivedconfigs"
 ) do (
     md "%DST_DIR%\%%~d"
@@ -78,6 +79,15 @@ xcopy /Y /E "%SRC_DIR%\config-json\ui\*" "%DST_DIR%\ui_gameplayui"
 if errorlevel 1 (
     echo Error: 玩法UI处理失败 >&2
     exit /b %errorlevel%
+)
+
+REM 模型UI处理
+if EXIST "%SRC_DIR%\entity\" (
+xcopy /Y /E "%SRC_DIR%\entity\*" "%DST_DIR%\ui_entityui"
+if errorlevel 1 (
+    echo Error: 模型UI处理失败 >&2
+    exit /b %errorlevel%
+)
 )
 
 set "ZIP_TOOL=%~dp0GnuZip\zip.exe"
