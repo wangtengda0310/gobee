@@ -1,6 +1,6 @@
 # Merkle 树计算工具
 
-这个工具用于计算指定目录中所有文件的 Merkle 树，并输出根哈希值。
+这个工具用于计算指定目录中所有文件的 Merkle 树，并输出根哈希值。同时支持比较两个目录之间的差异，能够识别出内容相同但顺序不同的 JSON 和 CSV 文件。
 
 ## 什么是 Merkle 树？
 
@@ -31,7 +31,11 @@ go build
 基本用法：
 
 ```bash
+# 计算Merkle树
 merkle [选项] <目录路径>
+
+# 比较两个目录
+merkle --compare [选项] <源目录> <目标目录>
 ```
 
 ### 选项
@@ -47,6 +51,7 @@ merkle [选项] <目录路径>
 - `--include-empty-dir`: 是否包含空目录（默认：false）
 
 - `--verbose`, `-v`: 显示详细输出
+  - 在比较模式下，会显示每个文件的哈希值
 
 - `--help`, `-h`: 显示帮助信息
 
@@ -56,6 +61,8 @@ merkle [选项] <目录路径>
   - 例如：`--workers 4`
 
 - `--disable-parallel`: 禁用并行计算（使用串行模式）
+
+- `--compare`: 启用目录比较模式
 
 ### 示例
 
@@ -103,6 +110,39 @@ merkle --workers 8 /path/to/directory
 ```bash
 merkle --disable-parallel /path/to/directory
 ```
+
+比较两个目录：
+```bash
+merkle --compare dir1 dir2
+```
+
+比较两个目录并显示详细信息：
+```bash
+merkle --compare -v dir1 dir2
+```
+
+比较两个目录，排除某些文件：
+```bash
+merkle --compare --exclude "*.log" --exclude "*.tmp" dir1 dir2
+```
+
+## 目录比较功能
+
+目录比较功能专门设计用于识别两个目录之间的差异：
+
+- **相同内容但顺序不同的识别**：能够识别内容相同但顺序不同的JSON和CSV文件
+  - JSON文件：会解析JSON结构，比较对象内容而非字符串表示
+  - CSV文件：会比较行内容而非行顺序
+
+- **比较结果分类**：
+  - 仅在源目录存在的文件
+  - 仅在目标目录存在的文件
+  - 内容不同的文件
+  - 内容相同的文件（包括顺序不同但内容相同）
+
+- **递归目录支持**：比较会递归处理所有子目录
+
+- **性能优化**：对于大型目录，使用并行处理提高比较速度
 
 ## 性能考虑
 
