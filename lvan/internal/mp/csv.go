@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"encoding/csv"
 	"encoding/hex"
+	"errors"
 	"fmt"
 	"log"
 	"os"
@@ -24,8 +25,21 @@ func adaptContent(csv string) string {
 	return csv
 }
 
+func parseBool(s string) (bool,error) {
+	if s == "true" || s == "1" {
+		return true, nil
+	} else if s == "false" || s == "0" || s == "" {
+		return false, nil
+	} else {
+		return false, errors.New("invalid bool value")
+	}
+}
+
 // 自动推断字符串类型，转换为 interface{}
 func inferType(vtype string, s string) (interface{}, bool) {
+	firstSep := ";"
+	secondSep := "|"
+	sep := "|"
 	switch vtype {
 	case "string", "String":
 		if s == "0" {
@@ -34,59 +48,57 @@ func inferType(vtype string, s string) (interface{}, bool) {
 			return s, false
 		}
 	case "bool", "Bool", "boolean", "Boolean":
-		if s == "true" || s == "1" {
-			return true, false
-		} else if s == "false" || s == "0" || s == "" {
-			return false, false
+		if b,e := parseBool(s); e == nil {
+			return b, false
 		} else {
 			return false, true
 		}
 	case "byte", "Byte":
 		if s == "" {
-			return 0, false
+			return byte(0), false
 		}
 		// 尝试转换为整数
-		if intVal, err := strconv.Atoi(s); err == nil {
+		if intVal, err := strconv.ParseUint(s, 10, 8); err == nil {
 			return byte(intVal), false
 		} else {
 			panic(err)
 		}
 	case "int8", "Int8":
 		if s == "" {
-			return 0, false
+			return int8(0), false
 		}
 		// 尝试转换为整数
-		if intVal, err := strconv.Atoi(s); err == nil {
+		if intVal, err := strconv.ParseInt(s, 10, 8); err == nil {
 			return int8(intVal), false
 		} else {
 			panic(err)
 		}
 	case "uint8", "Uint8":
 		if s == "" {
-			return 0, false
+			return uint8(0), false
 		}
 		// 尝试转换为整数
-		if intVal, err := strconv.Atoi(s); err == nil {
+		if intVal, err := strconv.ParseUint(s, 10, 8); err == nil {
 			return uint8(intVal), false
 		} else {
 			panic(err)
 		}
 	case "int16", "Int16", "short", "Short":
 		if s == "" {
-			return 0, false
+			return int16(0), false
 		}
 		// 尝试转换为整数
-		if intVal, err := strconv.Atoi(s); err == nil {
+		if intVal, err := strconv.ParseInt(s, 10, 16); err == nil {
 			return int16(intVal), false
 		} else {
 			panic(err)
 		}
 	case "uint16", "Uint16":
 		if s == "" {
-			return 0, false
+			return uint16(0), false
 		}
-		if intVal, err := strconv.Atoi(s); err == nil {
-			return int16(intVal), false
+		if intVal, err := strconv.ParseUint(s, 10, 16); err == nil {
+			return uint16(intVal), false
 		} else {
 			panic(err)
 		}
@@ -101,7 +113,7 @@ func inferType(vtype string, s string) (interface{}, bool) {
 		}
 	case "int32", "Int32":
 		if s == "" {
-			return 0, false
+			return int32(0), false
 		}
 		if intVal, err := strconv.Atoi(s); err == nil {
 			return int32(intVal), false
@@ -110,27 +122,27 @@ func inferType(vtype string, s string) (interface{}, bool) {
 		}
 	case "uint32", "Uint32":
 		if s == "" {
-			return 0, false
+			return uint32(0), false
 		}
-		if intVal, err := strconv.Atoi(s); err == nil {
+		if intVal, err := strconv.ParseUint(s, 10, 32); err == nil {
 			return uint32(intVal), false
 		} else {
 			panic(err)
 		}
 	case "int64", "Int64", "long", "Long":
 		if s == "" {
-			return 0, false
+			return int64(0), false
 		}
-		if intVal, err := strconv.Atoi(s); err == nil {
+		if intVal, err := strconv.ParseInt(s, 10, 64); err == nil {
 			return int64(intVal), false
 		} else {
 			panic(err)
 		}
 	case "uint64", "Uint64":
 		if s == "" {
-			return 0, false
+			return uint64(0), false
 		}
-		if intVal, err := strconv.Atoi(s); err == nil {
+		if intVal, err := strconv.ParseUint(s, 10, 64); err == nil {
 			return uint64(intVal), false
 		} else {
 			panic(err)
@@ -140,7 +152,7 @@ func inferType(vtype string, s string) (interface{}, bool) {
 		if s == "" {
 			return r, false
 		}
-		split := strings.Split(s, "|")
+		split := strings.Split(s, sep)
 		r = append(r, split...)
 		return r, false
 	case "byte[]", "Byte[]":
@@ -148,51 +160,59 @@ func inferType(vtype string, s string) (interface{}, bool) {
 		if s == "" {
 			return r, false
 		}
-		split := strings.Split(s, "|")
+		split := strings.Split(s, sep)
 		for _, v := range split {
-			if intVal, err := strconv.Atoi(v); err == nil {
+			if intVal, err := strconv.ParseUint(v, 10, 8); err == nil {
 				r = append(r, byte(intVal))
 			} else {
 				panic(err)
 			}
 		}
 		return r, false
-	case "int8[]", "Int8[]", "uint8[]", "Uint8[]":
+	case "int8[]", "Int8[]":
 		var r = make([]int8, 0)
 		if s == "" {
 			return r, false
 		}
-		split := strings.Split(s, "|")
+		split := strings.Split(s, sep)
 		for _, v := range split {
-			if intVal, err := strconv.Atoi(v); err == nil {
+			if v == "" {
+				r = append(r, 0)
+				continue
+			}
+			if intVal, err := strconv.ParseInt(v, 10, 8); err == nil {
 				r = append(r, int8(intVal))
 			} else {
 				panic(err)
 			}
 		}
 		return r, false
-	//case "uint8[]", "Uint8[]": // 使用 github.com/shamaton/msgpack/v2 会序列化成字符串
-	//	var r = make([]byte, 0)
-	//	if s == "" {
-	//		return []byte{}
-	//	}
-	//	split := strings.Split(s, "|")
-	//	for _, v := range split {
-	//		if intVal, err := strconv.Atoi(v); err == nil {
-	//			r = append(r, byte(intVal))
-	//		} else {
-	//			panic(err)
-	//		}
-	//	}
-	//	return r
+	case "uint8[]", "Uint8[]": // 使用 github.com/shamaton/msgpack/v2 会序列化成字符串
+		var r = make([]uint8, 0)
+		if s == "" {
+			return r, false
+		}
+		split := strings.Split(s, secondSep)
+		for _, v := range split {
+			if v == "" {
+				r = append(r, 0)
+				continue
+			}
+			if intVal, err := strconv.ParseUint(v,10,8); err == nil {
+				r = append(r, uint8(intVal))
+			} else {
+				panic(err)
+			}
+		}
+		return r,false
 	case "int16[]", "Int16[]":
 		var r = make([]int16, 0)
 		if s == "" {
 			return r, false
 		}
-		split := strings.Split(s, "|")
+		split := strings.Split(s, sep)
 		for _, v := range split {
-			if intVal, err := strconv.Atoi(v); err == nil {
+			if intVal, err := strconv.ParseInt(v, 10, 16); err == nil {
 				r = append(r, int16(intVal))
 			} else {
 				panic(err)
@@ -204,9 +224,9 @@ func inferType(vtype string, s string) (interface{}, bool) {
 		if s == "" {
 			return r, false
 		}
-		split := strings.Split(s, "|")
+		split := strings.Split(s, sep)
 		for _, v := range split {
-			if intVal, err := strconv.Atoi(v); err == nil {
+			if intVal, err := strconv.ParseUint(v, 10, 16); err == nil {
 				r = append(r, uint16(intVal))
 			} else {
 				panic(err)
@@ -218,9 +238,9 @@ func inferType(vtype string, s string) (interface{}, bool) {
 		if s == "" {
 			return r, false
 		}
-		split := strings.Split(s, "|")
+		split := strings.Split(s, sep)
 		for _, v := range split {
-			if intVal, err := strconv.Atoi(v); err == nil {
+			if intVal, err := strconv.ParseInt(v, 10, 32); err == nil {
 				r = append(r, int32(intVal))
 			} else {
 				panic(err)
@@ -232,9 +252,9 @@ func inferType(vtype string, s string) (interface{}, bool) {
 		if s == "" {
 			return r, false
 		}
-		split := strings.Split(s, "|")
+		split := strings.Split(s, sep)
 		for _, v := range split {
-			if intVal, err := strconv.Atoi(v); err == nil {
+			if intVal, err := strconv.ParseUint(v, 10, 32); err == nil {
 				r = append(r, uint32(intVal))
 			} else {
 				panic(err)
@@ -246,9 +266,9 @@ func inferType(vtype string, s string) (interface{}, bool) {
 		if s == "" {
 			return r, false
 		}
-		split := strings.Split(s, "|")
+		split := strings.Split(s, sep)
 		for _, v := range split {
-			if intVal, err := strconv.Atoi(v); err == nil {
+			if intVal, err := strconv.ParseInt(v, 10, 64); err == nil {
 				r = append(r, int64(intVal))
 			} else {
 				panic(err)
@@ -260,9 +280,9 @@ func inferType(vtype string, s string) (interface{}, bool) {
 		if s == "" {
 			return r, false
 		}
-		split := strings.Split(s, "|")
+		split := strings.Split(s, sep)
 		for _, v := range split {
-			if intVal, err := strconv.Atoi(v); err == nil {
+			if intVal, err := strconv.ParseUint(v, 10, 64); err == nil {
 				r = append(r, uint64(intVal))
 			} else {
 				panic(err)
@@ -274,12 +294,16 @@ func inferType(vtype string, s string) (interface{}, bool) {
 		if s == "" {
 			return r, false
 		}
-		splitOut := strings.Split(s, ";")
+		splitOut := strings.Split(s, firstSep)
 		for _, sinner := range splitOut {
-			split := strings.Split(sinner, "|")
+			if sinner == "" {
+				r = append(r, []int32{})
+				continue
+			}
+			split := strings.Split(sinner, secondSep)
 			var rinner []int32
 			for _, v := range split {
-				if intVal, err := strconv.Atoi(v); err == nil {
+				if intVal, err := strconv.ParseInt(v, 10, 32); err == nil {
 					rinner = append(rinner, int32(intVal))
 				} else {
 					panic(err)
@@ -288,25 +312,161 @@ func inferType(vtype string, s string) (interface{}, bool) {
 			r = append(r, rinner)
 		}
 		return r, false
-	case "uint32[][]", "Uit32[][]", "uint32:uint32", "Uint32:Uint32":
+	case "uint32[][]", "Uint32[][]", "uint32:uint32", "Uint32:Uint32":
 		var r = make([][]uint32, 0)
 		if s == "" {
 			return r, false
 		}
-		splitOut := strings.Split(s, ";")
+		splitOut := strings.Split(s, firstSep)
 		for _, sinner := range splitOut {
 			var rinner = make([]uint32, 0)
 			if sinner == "" {
 				r = append(r, rinner)
 				continue
 			}
-			split := strings.Split(sinner, "|")
+			split := strings.Split(sinner, secondSep)
 			for _, v := range split {
-				if intVal, err := strconv.Atoi(v); err == nil {
+				if intVal, err := strconv.ParseUint(v, 10, 32); err == nil {
 					rinner = append(rinner, uint32(intVal))
 				} else {
 					panic(err)
 				}
+			}
+			r = append(r, rinner)
+		}
+		return r, false
+	case "kv:string", "kv:String":
+		var r = make(map[uint32]string)
+		if s == "" {
+			return r, false
+		}
+		splitOut := strings.Split(s, firstSep)
+		for _, sinner := range splitOut {
+			if sinner == "" {
+				continue
+			}
+			split := strings.Split(sinner, secondSep)
+			if k, err := strconv.ParseUint(split[0], 10, 32); err == nil {
+				if _,ok := r[uint32(k)]; ok {
+					panic("key already exists")
+				}
+				r[uint32(k)] = split[1]
+			} else {
+				panic(err)
+			}
+		}
+		return r, false
+	case "kv:Bool", "kv:bool","kv:Boolean", "kv:boolean":
+		var r = make(map[uint32]bool)
+		if s == "" {
+			return r, false
+		}
+		splitOut := strings.Split(s, firstSep)
+		for _, sinner := range splitOut {
+			if sinner == "" {
+				continue
+			}
+			split := strings.Split(sinner, secondSep)
+			var key uint32
+			var valb bool
+			if k, err := strconv.ParseUint(split[0], 10, 32); err == nil {
+				key = uint32(k)
+				if _,ok := r[key]; ok {
+					panic("key already exists")
+				}
+			} else {
+				panic(err)
+			}
+			if b,e := parseBool(split[1]); e != nil {
+				panic(e)
+			} else {
+				valb = b
+			}
+			r[uint32(key)] = valb
+		}
+		return r, false
+	case "kv:int", "kv:Int","kv:int32", "kv:Int32":
+		var r = make(map[uint32]int32)
+		if s == "" {
+			return r, false
+		}
+		splitOut := strings.Split(s, firstSep)
+		for _, sinner := range splitOut {
+			if sinner == "" {
+				continue
+			}
+			split := strings.Split(sinner, secondSep)
+			var key uint32
+			var val int32
+			if k, err := strconv.ParseUint(split[0], 10, 32); err == nil {
+				key = uint32(k)
+				if _,ok := r[key]; ok {
+					panic("key already exists")
+				}
+			} else {
+				panic(err)
+			}
+			if v, err := strconv.ParseInt(split[1], 10, 32); err == nil {
+				val = int32(v)
+			} else {
+				panic(err)
+			}
+			r[key] = val
+		}
+		return r, false
+	case "kv:uint32", "kv:Uint32","kv:uint", "kv:Uint":
+		var r = make(map[uint32]uint32)
+		if s == "" {
+			return r, false
+		}
+		splitOut := strings.Split(s, firstSep)
+		for _, sinner := range splitOut {
+			if sinner == "" {
+				continue
+			}
+			split := strings.Split(sinner, secondSep)
+			var key uint32
+			var val uint32
+			if k, err := strconv.ParseUint(split[0], 10, 32); err == nil {
+				key = uint32(k)
+				if _,ok := r[key]; ok {
+					panic("key already exists")
+				}
+			} else {
+				panic(err)
+			}
+			if v, err := strconv.ParseInt(split[1], 10, 32); err == nil {
+				val = uint32(v)
+			} else {
+				panic(err)
+			}
+			r[key] = val
+		}
+		return r, false
+	case "uint32:int64", "Uint32:Int64", "Uint32:int64", "uint32:Int64":
+		var r = make([][]interface{}, 0)
+		if s == "" {
+			return r, false
+		}
+		splitOut := strings.Split(s, firstSep)
+		for _, sinner := range splitOut {
+			var rinner = make([]interface{}, 0)
+			if sinner == "" {
+				r = append(r, rinner)
+				continue
+			}
+			// key
+			split := strings.Split(sinner, secondSep)
+			if intVal, err := strconv.ParseUint(split[0], 10, 32); err == nil {
+				rinner = append(rinner, uint32(intVal))
+			} else {
+				panic(err)
+			}
+			// value
+			if intVal, err := strconv.ParseInt(split[1], 10, 64); err == nil {
+				rinner = append(rinner, int64(intVal))
+			} else {
+				panic(err)
 			}
 			r = append(r, rinner)
 		}
@@ -316,12 +476,16 @@ func inferType(vtype string, s string) (interface{}, bool) {
 		if s == "" {
 			return r, false
 		}
-		splitOut := strings.Split(s, ";")
+		splitOut := strings.Split(s, firstSep)
 		for _, sinner := range splitOut {
-			split := strings.Split(sinner, "|")
+			if sinner == "" {
+				r = append(r, []int64{})
+				continue
+			}
+			split := strings.Split(sinner, secondSep)
 			var rinner []int64
 			for _, v := range split {
-				if intVal, err := strconv.Atoi(v); err == nil {
+				if intVal, err := strconv.ParseInt(v, 10, 64); err == nil {
 					rinner = append(rinner, int64(intVal))
 				} else {
 					panic(err)
@@ -335,12 +499,16 @@ func inferType(vtype string, s string) (interface{}, bool) {
 		if s == "" {
 			return r, false
 		}
-		splitOut := strings.Split(s, ";")
+		splitOut := strings.Split(s, firstSep)
 		for _, sinner := range splitOut {
-			split := strings.Split(sinner, "|")
+			if sinner == "" {
+				r = append(r, []uint64{})
+				continue
+			}
+			split := strings.Split(sinner, secondSep)
 			var rinner []uint64
 			for _, v := range split {
-				if intVal, err := strconv.Atoi(v); err == nil {
+				if intVal, err := strconv.ParseUint(v, 10, 64); err == nil {
 					rinner = append(rinner, uint64(intVal))
 				} else {
 					panic(err)
@@ -354,12 +522,10 @@ func inferType(vtype string, s string) (interface{}, bool) {
 		if s == "" {
 			return r, false
 		}
-		splitOut := strings.Split(s, ";")
+		splitOut := strings.Split(s, firstSep)
 		for _, sinner := range splitOut {
-			split := strings.Split(sinner, "|")
-			var rinner []string
-			rinner = append(rinner, split...)
-			r = append(r, rinner)
+			split := strings.Split(sinner, secondSep)
+			r = append(r, split)
 		}
 		return r, false
 	}

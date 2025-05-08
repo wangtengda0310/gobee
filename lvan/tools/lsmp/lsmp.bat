@@ -1,6 +1,11 @@
 @echo off
-REM 确保在任何目录下调用都能正确定位mp.exe
 REM 文件夹内自带压缩工具GnuZip\zip.exe
+
+REM lsmp.bat game-meta导出目录的下一层 目标目录
+REM 比如
+REM lsmp.bat output\client newdir
+REM lsmp.bat output\preview newdir
+
 setlocal
 
 REM 提示乱码解决方法
@@ -50,6 +55,7 @@ for %%d in (
 )
 
 REM 设置工具路径
+REM 确保在任何目录下调用都能正确定位mp.exe
 set "MP_TOOL=%~dp0mp.exe"
 
 REM 数据转换流程（注意以下输出可能包含UTF-8字符）
