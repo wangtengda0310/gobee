@@ -25,7 +25,7 @@ func adaptContent(csv string) string {
 	return csv
 }
 
-func parseBool(s string) (bool,error) {
+func parseBool(s string) (bool, error) {
 	if s == "true" || s == "1" {
 		return true, nil
 	} else if s == "false" || s == "0" || s == "" {
@@ -33,6 +33,9 @@ func parseBool(s string) (bool,error) {
 	} else {
 		return false, errors.New("invalid bool value")
 	}
+}
+func logger(v any) {
+	fmt.Printf("%v", v)
 }
 
 // 自动推断字符串类型，转换为 interface{}
@@ -48,59 +51,59 @@ func inferType(vtype string, s string) (interface{}, bool) {
 			return s, false
 		}
 	case "bool", "Bool", "boolean", "Boolean":
-		if b,e := parseBool(s); e == nil {
+		if b, e := parseBool(s); e == nil {
 			return b, false
 		} else {
 			return false, true
 		}
 	case "byte", "Byte":
 		if s == "" {
-			return byte(0), false
+			return 0, false
 		}
 		// 尝试转换为整数
 		if intVal, err := strconv.ParseUint(s, 10, 8); err == nil {
 			return byte(intVal), false
 		} else {
-			panic(err)
+			return 0, illegalValue(err)
 		}
 	case "int8", "Int8":
 		if s == "" {
-			return int8(0), false
+			return 0, false
 		}
 		// 尝试转换为整数
 		if intVal, err := strconv.ParseInt(s, 10, 8); err == nil {
 			return int8(intVal), false
 		} else {
-			panic(err)
+			return 0, illegalValue(err)
 		}
 	case "uint8", "Uint8":
 		if s == "" {
-			return uint8(0), false
+			return 0, false
 		}
 		// 尝试转换为整数
 		if intVal, err := strconv.ParseUint(s, 10, 8); err == nil {
 			return uint8(intVal), false
 		} else {
-			panic(err)
+			return 0, illegalValue(err)
 		}
 	case "int16", "Int16", "short", "Short":
 		if s == "" {
-			return int16(0), false
+			return 0, false
 		}
 		// 尝试转换为整数
 		if intVal, err := strconv.ParseInt(s, 10, 16); err == nil {
 			return int16(intVal), false
 		} else {
-			panic(err)
+			return 0, illegalValue(err)
 		}
 	case "uint16", "Uint16":
 		if s == "" {
-			return uint16(0), false
+			return 0, false
 		}
 		if intVal, err := strconv.ParseUint(s, 10, 16); err == nil {
 			return uint16(intVal), false
 		} else {
-			panic(err)
+			return 0, illegalValue(err)
 		}
 	case "int", "Int":
 		if s == "" {
@@ -109,43 +112,43 @@ func inferType(vtype string, s string) (interface{}, bool) {
 		if intVal, err := strconv.Atoi(s); err == nil {
 			return intVal, false
 		} else {
-			panic(err)
+			return 0, illegalValue(err)
 		}
 	case "int32", "Int32":
 		if s == "" {
-			return int32(0), false
+			return 0, false
 		}
 		if intVal, err := strconv.Atoi(s); err == nil {
 			return int32(intVal), false
 		} else {
-			panic(err)
+			return 0, illegalValue(err)
 		}
 	case "uint32", "Uint32":
 		if s == "" {
-			return uint32(0), false
+			return 0, false
 		}
 		if intVal, err := strconv.ParseUint(s, 10, 32); err == nil {
 			return uint32(intVal), false
 		} else {
-			panic(err)
+			return 0, illegalValue(err)
 		}
 	case "int64", "Int64", "long", "Long":
 		if s == "" {
-			return int64(0), false
+			return 0, false
 		}
 		if intVal, err := strconv.ParseInt(s, 10, 64); err == nil {
-			return int64(intVal), false
+			return intVal, false
 		} else {
-			panic(err)
+			return 0, illegalValue(err)
 		}
 	case "uint64", "Uint64":
 		if s == "" {
-			return uint64(0), false
+			return 0, false
 		}
 		if intVal, err := strconv.ParseUint(s, 10, 64); err == nil {
-			return uint64(intVal), false
+			return intVal, false
 		} else {
-			panic(err)
+			return 0, illegalValue(err)
 		}
 	case "string[]", "String[]":
 		var r = make([]string, 0)
@@ -165,7 +168,8 @@ func inferType(vtype string, s string) (interface{}, bool) {
 			if intVal, err := strconv.ParseUint(v, 10, 8); err == nil {
 				r = append(r, byte(intVal))
 			} else {
-				panic(err)
+				illegalValue(err)
+				continue
 			}
 		}
 		return r, false
@@ -183,14 +187,15 @@ func inferType(vtype string, s string) (interface{}, bool) {
 			if intVal, err := strconv.ParseInt(v, 10, 8); err == nil {
 				r = append(r, int8(intVal))
 			} else {
-				panic(err)
+				illegalValue(err)
+				continue
 			}
 		}
 		return r, false
 	case "uint8[]", "Uint8[]": // 使用 github.com/shamaton/msgpack/v2 会序列化成字符串
 		var r = make([]uint8, 0)
 		if s == "" {
-			return r, false
+			return make([]uint16, 0), false
 		}
 		split := strings.Split(s, secondSep)
 		for _, v := range split {
@@ -198,13 +203,14 @@ func inferType(vtype string, s string) (interface{}, bool) {
 				r = append(r, 0)
 				continue
 			}
-			if intVal, err := strconv.ParseUint(v,10,8); err == nil {
+			if intVal, err := strconv.ParseUint(v, 10, 8); err == nil {
 				r = append(r, uint8(intVal))
 			} else {
-				panic(err)
+				illegalValue(err)
+				continue
 			}
 		}
-		return r,false
+		return r, false
 	case "int16[]", "Int16[]":
 		var r = make([]int16, 0)
 		if s == "" {
@@ -215,7 +221,8 @@ func inferType(vtype string, s string) (interface{}, bool) {
 			if intVal, err := strconv.ParseInt(v, 10, 16); err == nil {
 				r = append(r, int16(intVal))
 			} else {
-				panic(err)
+				illegalValue(err)
+				continue
 			}
 		}
 		return r, false
@@ -229,7 +236,8 @@ func inferType(vtype string, s string) (interface{}, bool) {
 			if intVal, err := strconv.ParseUint(v, 10, 16); err == nil {
 				r = append(r, uint16(intVal))
 			} else {
-				panic(err)
+				illegalValue(err)
+				continue
 			}
 		}
 		return r, false
@@ -243,7 +251,8 @@ func inferType(vtype string, s string) (interface{}, bool) {
 			if intVal, err := strconv.ParseInt(v, 10, 32); err == nil {
 				r = append(r, int32(intVal))
 			} else {
-				panic(err)
+				illegalValue(err)
+				continue
 			}
 		}
 		return r, false
@@ -257,7 +266,8 @@ func inferType(vtype string, s string) (interface{}, bool) {
 			if intVal, err := strconv.ParseUint(v, 10, 32); err == nil {
 				r = append(r, uint32(intVal))
 			} else {
-				panic(err)
+				illegalValue(err)
+				continue
 			}
 		}
 		return r, false
@@ -271,7 +281,8 @@ func inferType(vtype string, s string) (interface{}, bool) {
 			if intVal, err := strconv.ParseInt(v, 10, 64); err == nil {
 				r = append(r, int64(intVal))
 			} else {
-				panic(err)
+				illegalValue(err)
+				continue
 			}
 		}
 		return r, false
@@ -285,7 +296,8 @@ func inferType(vtype string, s string) (interface{}, bool) {
 			if intVal, err := strconv.ParseUint(v, 10, 64); err == nil {
 				r = append(r, uint64(intVal))
 			} else {
-				panic(err)
+				illegalValue(err)
+				continue
 			}
 		}
 		return r, false
@@ -306,7 +318,8 @@ func inferType(vtype string, s string) (interface{}, bool) {
 				if intVal, err := strconv.ParseInt(v, 10, 32); err == nil {
 					rinner = append(rinner, int32(intVal))
 				} else {
-					panic(err)
+					illegalValue(err)
+					continue
 				}
 			}
 			r = append(r, rinner)
@@ -329,7 +342,8 @@ func inferType(vtype string, s string) (interface{}, bool) {
 				if intVal, err := strconv.ParseUint(v, 10, 32); err == nil {
 					rinner = append(rinner, uint32(intVal))
 				} else {
-					panic(err)
+					illegalValue(err)
+					continue
 				}
 			}
 			r = append(r, rinner)
@@ -347,16 +361,17 @@ func inferType(vtype string, s string) (interface{}, bool) {
 			}
 			split := strings.Split(sinner, secondSep)
 			if k, err := strconv.ParseUint(split[0], 10, 32); err == nil {
-				if _,ok := r[uint32(k)]; ok {
+				if _, ok := r[uint32(k)]; ok {
 					panic("key already exists")
 				}
 				r[uint32(k)] = split[1]
 			} else {
-				panic(err)
+				illegalValue(err)
+				continue
 			}
 		}
 		return r, false
-	case "kv:Bool", "kv:bool","kv:Boolean", "kv:boolean":
+	case "kv:Bool", "kv:bool", "kv:Boolean", "kv:boolean":
 		var r = make(map[uint32]bool)
 		if s == "" {
 			return r, false
@@ -371,13 +386,14 @@ func inferType(vtype string, s string) (interface{}, bool) {
 			var valb bool
 			if k, err := strconv.ParseUint(split[0], 10, 32); err == nil {
 				key = uint32(k)
-				if _,ok := r[key]; ok {
+				if _, ok := r[key]; ok {
 					panic("key already exists")
 				}
 			} else {
-				panic(err)
+				illegalValue(err)
+				continue
 			}
-			if b,e := parseBool(split[1]); e != nil {
+			if b, e := parseBool(split[1]); e != nil {
 				panic(e)
 			} else {
 				valb = b
@@ -385,7 +401,7 @@ func inferType(vtype string, s string) (interface{}, bool) {
 			r[uint32(key)] = valb
 		}
 		return r, false
-	case "kv:int", "kv:Int","kv:int32", "kv:Int32":
+	case "kv:int", "kv:Int", "kv:int32", "kv:Int32":
 		var r = make(map[uint32]int32)
 		if s == "" {
 			return r, false
@@ -400,21 +416,23 @@ func inferType(vtype string, s string) (interface{}, bool) {
 			var val int32
 			if k, err := strconv.ParseUint(split[0], 10, 32); err == nil {
 				key = uint32(k)
-				if _,ok := r[key]; ok {
+				if _, ok := r[key]; ok {
 					panic("key already exists")
 				}
 			} else {
-				panic(err)
+				illegalValue(err)
+				continue
 			}
 			if v, err := strconv.ParseInt(split[1], 10, 32); err == nil {
 				val = int32(v)
 			} else {
-				panic(err)
+				illegalValue(err)
+				continue
 			}
 			r[key] = val
 		}
 		return r, false
-	case "kv:uint32", "kv:Uint32","kv:uint", "kv:Uint":
+	case "kv:uint32", "kv:Uint32", "kv:uint", "kv:Uint":
 		var r = make(map[uint32]uint32)
 		if s == "" {
 			return r, false
@@ -429,16 +447,18 @@ func inferType(vtype string, s string) (interface{}, bool) {
 			var val uint32
 			if k, err := strconv.ParseUint(split[0], 10, 32); err == nil {
 				key = uint32(k)
-				if _,ok := r[key]; ok {
+				if _, ok := r[key]; ok {
 					panic("key already exists")
 				}
 			} else {
-				panic(err)
+				illegalValue(err)
+				continue
 			}
 			if v, err := strconv.ParseInt(split[1], 10, 32); err == nil {
 				val = uint32(v)
 			} else {
-				panic(err)
+				illegalValue(err)
+				continue
 			}
 			r[key] = val
 		}
@@ -460,13 +480,15 @@ func inferType(vtype string, s string) (interface{}, bool) {
 			if intVal, err := strconv.ParseUint(split[0], 10, 32); err == nil {
 				rinner = append(rinner, uint32(intVal))
 			} else {
-				panic(err)
+				illegalValue(err)
+				continue
 			}
 			// value
 			if intVal, err := strconv.ParseInt(split[1], 10, 64); err == nil {
 				rinner = append(rinner, int64(intVal))
 			} else {
-				panic(err)
+				illegalValue(err)
+				continue
 			}
 			r = append(r, rinner)
 		}
@@ -488,7 +510,8 @@ func inferType(vtype string, s string) (interface{}, bool) {
 				if intVal, err := strconv.ParseInt(v, 10, 64); err == nil {
 					rinner = append(rinner, int64(intVal))
 				} else {
-					panic(err)
+					illegalValue(err)
+					continue
 				}
 			}
 			r = append(r, rinner)
@@ -511,7 +534,8 @@ func inferType(vtype string, s string) (interface{}, bool) {
 				if intVal, err := strconv.ParseUint(v, 10, 64); err == nil {
 					rinner = append(rinner, uint64(intVal))
 				} else {
-					panic(err)
+					illegalValue(err)
+					continue
 				}
 			}
 			r = append(r, rinner)
@@ -532,6 +556,16 @@ func inferType(vtype string, s string) (interface{}, bool) {
 
 	// 默认返回字符串
 	return s, true
+}
+
+func illegalValue(err error) bool {
+	_, quickfail := os.LookupEnv("lvan_mp_fail_exit")
+	if quickfail {
+		panic(err)
+	} else {
+		logger(err)
+		return false
+	}
 }
 
 func Maincsv(csvdir, outputdir string) {
@@ -624,38 +658,49 @@ func parsecsvfile(filepath string) (m, d []byte) {
 		var item []interface{}
 		var id uint32
 		for i, val := range row {
-			defer func(i int, v string) {
-				if err := recover(); err != nil {
-					panic(fmt.Sprintf("解析失败:%d列 %s %v\n", i, v, err))
-				}
-			}(i, val)
 			if i >= len(headers) {
 				continue // 忽略多余列
 			}
-
-			content := adaptContent(val) // 适配原来客户端的逻辑
-
 			if types[i] == "jsonArray" || types[i] == "json" { // 这个还不知道具体的内容格式
 				continue
 			}
 
-			v, unsupported := inferType(types[i], content)
-			if unsupported {
-				panic(fmt.Errorf("不支持的类型: %s %s", types[i], content))
-			}
-			item = append(item, v)
-			if i == idindex {
-				idu, ok := v.(int32)
-				if !ok {
-					idstr, err := strconv.Atoi(content)
+			func(i int, val string) {
+
+				defer func(i int, val string) {
+					err := recover()
 					if err != nil {
-						panic("无法解析id")
+						panic(fmt.Errorf("%d列 值%s %v", i+1, val, err))
 					}
-					id = uint32(idstr)
-				} else {
-					id = uint32(idu)
+				}(i, val)
+
+				content := adaptContent(val) // 适配原来客户端的逻辑
+
+				v, unsupported := inferType(types[i], content)
+				if unsupported {
+					illegalValue(fmt.Errorf("不支持的类型: %s 列 %s 值 %s 文件 %s", types[i], headers[i], content, filepath))
 				}
-			}
+				item = append(item, v)
+				if i == idindex {
+					idu, ok := v.(int32)
+					if ok {
+						id = uint32(idu)
+					} else {
+						func(content string) {
+							defer func() {
+								if err := recover(); err != nil {
+									panic(fmt.Errorf("无法解析id %s", content))
+								}
+							}()
+							idstr, err := strconv.Atoi(content)
+							if err != nil {
+								illegalValue(err)
+							}
+							id = uint32(idstr)
+						}(content)
+					}
+				}
+			}(i, val)
 		}
 
 		l := buffer.Len()
