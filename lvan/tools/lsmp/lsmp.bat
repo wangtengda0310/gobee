@@ -46,6 +46,7 @@ for %%d in (
     "ui_gameplayui"
     "ui_entityui"
     "archivedconfigs"
+    "const"
 ) do (
     md "%DST_DIR%\%%~d"
     if errorlevel 1 (
@@ -60,40 +61,66 @@ set "MP_TOOL=%~dp0mp.exe"
 
 REM 数据转换流程（注意以下输出可能包含UTF-8字符）
 REM CSV转换（可能产生乱码日志）
-"%MP_TOOL%" --csvdir "%SRC_DIR%\config" "%DST_DIR%\msgpackdata"
-if errorlevel 1 (
-    echo Error: CSV转换失败，请检查原始数据 >&2
-    exit /b %errorlevel%
+if EXIST "%SRC_DIR%\config\" (
+    "%MP_TOOL%" --csvdir "%SRC_DIR%\config" "%DST_DIR%\msgpackdata"
+    if errorlevel 1 (
+        echo Error: CSV转换失败，请检查原始数据 >&2
+        exit /b %errorlevel%
+    )
 )
 
 REM JSON配置转换（可能产生乱码日志）
-"%MP_TOOL%" --jsondir "%SRC_DIR%\config-json" "%DST_DIR%\msgpackdata"
-if errorlevel 1 (
-    echo Error: JSON配置转换失败 >&2
-    exit /b %errorlevel%
+if EXIST "%SRC_DIR%\ui\" (
+    "%MP_TOOL%" --jsondir "%SRC_DIR%\ui" "%DST_DIR%\msgpackdata"
+    if errorlevel 1 (
+        echo Error: JSON配置转换失败 >&2
+        exit /b %errorlevel%
+    )
 )
 
 REM 系统UI处理
-xcopy /Y /E "%SRC_DIR%\ui\*" "%DST_DIR%\ui_systemui"
-if errorlevel 1 (
-    echo Error: 系统UI处理失败 >&2
-    exit /b %errorlevel%
+if EXIST "%SRC_DIR%\ui\" (
+    xcopy /Y /E /I "%SRC_DIR%\ui\*" "%DST_DIR%\ui_systemui"
+    if errorlevel 1 (
+        echo Error: 系统UI处理失败 >&2
+        exit /b %errorlevel%
+    )
 )
 
 REM 玩法UI处理
-xcopy /Y /E "%SRC_DIR%\config-json\ui\*" "%DST_DIR%\ui_gameplayui"
-if errorlevel 1 (
-    echo Error: 玩法UI处理失败 >&2
-    exit /b %errorlevel%
+if EXIST "%SRC_DIR%\config-json\ui\" (
+xcopy /Y /E /I "%SRC_DIR%\config-json\ui\*" "%DST_DIR%\ui_gameplayui"
+    if errorlevel 1 (
+        echo Error: 玩法UI处理失败 >&2
+        exit /b %errorlevel%
+    )
 )
 
 REM 模型UI处理
 if EXIST "%SRC_DIR%\entity\" (
-xcopy /Y /E "%SRC_DIR%\entity\*" "%DST_DIR%\ui_entityui"
-if errorlevel 1 (
-    echo Error: 模型UI处理失败 >&2
-    exit /b %errorlevel%
+    xcopy /Y /E /I "%SRC_DIR%\entity\*" "%DST_DIR%\ui_entityui"
+    if errorlevel 1 (
+        echo Error: 模型UI处理失败 >&2
+        exit /b %errorlevel%
+    )
 )
+
+REM const目录
+if EXIST "%SRC_DIR%\const\" (
+    xcopy /Y /E /I "%SRC_DIR%\const\*" "%DST_DIR%\const"
+    if errorlevel 1 (
+        echo Error: const目录处理失败 >&2
+        exit /b %errorlevel%
+    )
+)
+
+REM attrFormula目录
+if EXIST "%SRC_DIR%\attrFormula\" (
+    xcopy /Y /E /I "%SRC_DIR%\attrFormula\*" "%DST_DIR%\attrFormula"
+    if errorlevel 1 (
+        echo Error: attrFormula目录处理失败 >&2
+        exit /b %errorlevel%
+    )
 )
 
 set "ZIP_TOOL=%~dp0GnuZip\zip.exe"
