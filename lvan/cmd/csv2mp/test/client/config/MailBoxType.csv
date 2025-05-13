@@ -1,4 +1,0 @@
-id,name,desc,mailBoxLimit
-uint32,string,string,uint32
-key,,,
-邮箱类型id,名称,邮箱类型描述,邮箱领取数量上限

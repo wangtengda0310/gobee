@@ -1,5 +1,0 @@
-id,name,desc,plotDialogue,plotDialogueSet,order,text
-uint32,string,string,uint32,uint32,uint32,string
-key,,,,,,
-对话单元id,名称,描述,所属对话,所属对话集,序号,文本
-10117,对话段落1,,10107,10028,,<p>变幻莫测的云层中，你隐隐看到龙的身影，这应该是一个好兆头！<p>

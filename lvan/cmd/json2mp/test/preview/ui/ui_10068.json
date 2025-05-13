@@ -1,1 +1,0 @@
-{"uiId":1,"maxUid":2,"adapt":{},"props":{"height":460,"maskType":1,"name":"文本提示弹窗","type":1,"width":585},"components":[{"uiId":2,"name":"文本提示弹窗","label":"文本提示弹窗","type":"clPopUpbuy","package":"commonLib_fui.bytes","comu":"","dataSource":[],"pos":["158","228"],"props":{"height":460,"width":585,"x":0,"y":0}}]}

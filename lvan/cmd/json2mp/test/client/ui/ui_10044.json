@@ -1,1 +1,0 @@
-{"uiId":1,"maxUid":2,"adapt":{},"props":{"height":1280,"maskType":1,"name":"[系统]_背包_背包11-随机礼包弹窗","type":1,"width":720},"components":[{"uiId":2,"name":"S-随机礼包弹窗","label":"S-随机礼包弹窗","type":"gforge.complib.randomBundlePopUpV1View","package":"randomBundlePopUpV1.fui","comu":"","dataSource":[],"pos":["266","172"],"props":{"height":913,"width":614,"x":55,"y":164}}]}

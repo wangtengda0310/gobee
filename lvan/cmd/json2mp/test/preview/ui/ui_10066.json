@@ -1,1 +1,0 @@
-{"uiId":1,"maxUid":2,"adapt":{},"props":{"height":1560,"maskType":1,"name":"物品获得弹窗","type":1,"width":720},"components":[{"uiId":2,"name":"物品获得界面","label":"物品获得界面","type":"clReceivedRewardV1View","package":"commonLib_fui.bytes","comu":"","dataSource":[],"pos":["218","221"],"props":{"height":1560,"width":720,"x":0,"y":0}}]}

@@ -1,5 +1,0 @@
-id,name,parent,desc
-uint32,string,uint32,string
-key,,,
-域id,名称,父域,描述
-10001,测试属性域,,

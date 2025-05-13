@@ -1,4 +1,0 @@
-id,attrEnumClassId,name,value,icon,funcTag
-uint32,uint32,string,uint32,string,string
-key,,,,,
-属性枚举ID,属性枚举类ID,属性枚举名称,属性枚举值,icon,属性功能标签

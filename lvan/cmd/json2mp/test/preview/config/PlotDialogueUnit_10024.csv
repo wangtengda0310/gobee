@@ -1,6 +1,0 @@
-id,name,desc,plotDialogue,plotDialogueSet,order,text
-uint32,string,string,uint32,uint32,uint32,string
-key,,,,,,
-对话单元id,名称,描述,所属对话,所属对话集,序号,文本
-10107,对话段落1,,10097,10024,,<p>打捞沉船宝藏时，你发现了一批保存完好的元代龙泉瓷器。<p>
-10108,对话段落1,,10098,10024,,<p>有一头背部扎着鱼叉的鲸鱼向你求助，你帮它将鱼叉拔掉，它送了你一块龙涎香。<p>

@@ -1,4 +1,0 @@
-id,name,rectParams,priority,delayTime,simbolPrev,simbolSuffix,resId,valueSplite,valueSpliteDelay,heightAdjust,wholeAlpha,wholeScale,flyType,preText,pivotType,hideMode,conversion
-uint32,string,int32[],uint16,uint16,string,string,string,uint8,uint32,int32,uint8,uint16,uint8,string,uint8,uint8,string[][]
-key,,,,,,,,,,,,,,,,,
-伤害字体表现id,名称,取值区间,优先级,延迟出现时间,符号前缀,符号后缀,资产id,伤害/治疗分段,分段时间间隔,冒字高度调整,整体透明值,整体缩放值,飘字动画类型,文字形式描述,初始点类型,隐藏模式,单位换算

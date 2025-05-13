@@ -1,8 +1,0 @@
-id,name,type,func,value
-uint32,string,uint16,string,uint32
-key,,,,
-ID,名称,类型,全局配置功能,全局配置值
-10001,装备升级养成线标签,1,equipUpgradeGrowthLabel,10033
-10002,装备升星养成线标签,1,equipBreakGrowthLabel,10034
-10003,装备S级标签,1,equipSLabel,10001
-10004,同名装备词缀显示,1,sameNameEquip,10015

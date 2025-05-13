@@ -1,1 +1,0 @@
-{"uiId":1,"maxUid":3,"adapt":{},"props":{"height":1560,"name":"主界面框架","type":0,"width":720},"components":[{"uiId":3,"name":"主界面框架","label":"主界面框架","type":"mainTabView","package":"main_fui.bytes","comu":"","dataSource":[{"id":"10007","type":0,"name":"","key":"mainTabView_0"}],"pos":["357","327"],"props":{"height":1560,"width":720,"x":0,"y":0}}]}

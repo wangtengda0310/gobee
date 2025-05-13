@@ -1,1 +1,0 @@
-{"uiId":1,"maxUid":2,"adapt":{},"props":{"height":1280,"maskType":1,"name":"[系统]_背包_背包15-一键开启弹窗","type":1,"width":720},"components":[{"uiId":2,"name":"Y-一键开启","label":"Y-一键开启","type":"gforge.complib.openAllOpoUpV1View","package":"openAllPopUpV1.fui","comu":"","dataSource":[],"pos":["229","195"],"props":{"height":523,"upLabel":10013,"width":578,"x":75,"y":345}}]}

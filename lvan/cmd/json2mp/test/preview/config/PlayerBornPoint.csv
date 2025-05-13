@@ -1,5 +1,0 @@
-id,name,playerClass
-uint32,string,uint32
-key,,
-玩家出生点id,名称,玩家角色配置
-10006,主角数据,10001

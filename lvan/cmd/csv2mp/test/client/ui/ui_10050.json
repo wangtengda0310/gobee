@@ -1,1 +1,0 @@
-{"uiId":1,"maxUid":2,"adapt":{},"props":{"height":1280,"maskType":1,"name":"[系统]_背包_背包17-获取途径弹窗","type":1,"width":720},"components":[{"uiId":2,"name":"H-获取来源","label":"H-获取来源","type":"gforge.complib.getItemPopUpV1View","package":"getItemPopUpV1.fui","comu":"","dataSource":[],"pos":["264","222"],"props":{"height":913,"width":614,"x":50,"y":146}}]}

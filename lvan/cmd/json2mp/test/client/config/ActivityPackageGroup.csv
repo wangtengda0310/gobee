@@ -1,6 +1,0 @@
-id,name,activityPackage
-uint32,string,uint32[]
-key,,client
-活动包组ID,活动包组名称,包含活动包
-10002,1,
-10003,七日目标,10002

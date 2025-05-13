@@ -1,6 +1,0 @@
-id,name,desc,plotDialogue,plotDialogueSet,order,text
-uint32,string,string,uint32,uint32,uint32,string
-key,,,,,,
-对话单元id,名称,描述,所属对话,所属对话集,序号,文本
-10010,1,,10008,10004,,<p>你潜入海底沉船，发现一具穿着明朝服饰的尸体。你从尸体身上找到一枚古老的铜币。</p>
-10012,1,,10009,10004,,<p>你在紫竹林祭坛前解开符文谜题，祭坛缓缓打开，露出一个神秘的宝箱。</p>

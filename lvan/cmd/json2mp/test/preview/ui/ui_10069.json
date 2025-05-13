@@ -1,1 +1,0 @@
-{"uiId":1,"maxUid":2,"adapt":{},"props":{"height":72,"maskType":0,"name":"战力变化","type":6,"width":643},"components":[{"uiId":2,"name":"战力变化飘字","label":"战力变化飘字","type":"powerPopUp","package":"commonLib_fui.bytes","comu":"","dataSource":[],"pos":["263","315"],"props":{"height":72,"width":643,"x":0,"y":0}}]}

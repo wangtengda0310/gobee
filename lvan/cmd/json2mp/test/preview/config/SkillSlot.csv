@@ -1,4 +1,0 @@
-id,name,skillBar,priority,openCondition,skill
-uint32,string,uint32,uint32,string,uint32
-key,,,,,
-槽位id,槽位名称,所属技能栏,槽位优先级,开启条件,槽位技能

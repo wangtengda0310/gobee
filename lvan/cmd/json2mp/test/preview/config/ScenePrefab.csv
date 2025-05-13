@@ -1,5 +1,0 @@
-id,name,scene,sceneBox,labelMatch,pos,posTag,objType,refreshObj,autoRefresh,refreshInterval,spawnRule,respawnRule,camp,visible,faceDirection
-uint32,string,uint32,uint32,uint32[][],uint32[][],uint32[][],uint32,uint32:uint32,uint8,int32,string,string,uint32[],uint8,uint16
-key,,,,,,,,,,,,,,,
-场景预制体id,名称,所属场景,白盒,标签匹配,坐标,特殊坐标标签（需要跟程序约定标签值的含义）,刷新对象类型,刷新对象(对象|权重），每种类型的对象都有其定义属性的资源表,自动刷新,刷新间隔(ms),首次刷新规则,重复刷新规则,阵营,是否可见,朝向
-10018,龙江港-场景,10009,,,,,,,,,,,,,

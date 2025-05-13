@@ -1,1 +1,0 @@
-{"uiId":1,"maxUid":2,"adapt":{},"props":{"height":342,"maskType":1,"name":"物品tips","type":1,"width":520},"components":[{"uiId":2,"name":"物品tips","label":"物品tips","type":"clItemTipsView","package":"commonLib_fui.bytes","comu":"","dataSource":[],"pos":["139","259"],"props":{"height":342,"width":520,"x":0,"y":0}}]}

@@ -1,6 +1,0 @@
-id,name,maxLevel,style
-uint32,string,uint32,uint32
-key,,,client
-品级类id,名称,最高等级,UI样式类型
-10001,装备稀有度,,4
-10003,装备星级,,

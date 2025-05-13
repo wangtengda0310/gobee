@@ -1,4 +1,0 @@
-id,name,monsterSet,index,monster,monsterGroup,attr,count,refreshRule,monsterInterval,dropBox,dropSettleRule
-uint32,string,uint32,uint32,uint32[][],uint32[][],int64[][],uint32,uint32[][],uint32,uint32[],uint32
-key,client,,,client,client,client,client,client,client,,
-标识id,波次名称,所属怪物集,波次,怪物配置,怪物组配置,怪物属性,次数,刷新规则,怪物刷新间隔,掉落包,掉落校验规则

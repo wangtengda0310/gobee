@@ -1,6 +1,0 @@
-id,name,monsterGroupId,monster,offsetPos
-uint32,string,uint32,uint32,int64[]
-key,,,,
-怪物组详情id,详情名称,所属怪物组id,怪物,偏移坐标
-10008,第1只怪,10009,,
-10009,第2只怪,10009,,

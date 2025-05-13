@@ -1,5 +1,0 @@
-id,name,desc,type,victoryRule,victorySettle,defeatedRule,defeatedSettle
-uint32,string,string,uint8,int64[][],int64[][],int64[][],int64[][]
-key,,,,,,,
-战斗系统id,名称,描述,类型,胜利条件,胜利结算,失败条件,失败结算
-10004,U01回合制,主线战斗,1,1|2|5|0;2|5|30,,1|1|5|0,

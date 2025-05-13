@@ -1,4 +1,0 @@
-id,name,icon,desc,parentCategoryId,type,funcLabel,funcLabelClass
-uint32,string,string,string,uint32,uint32,string,string
-key,,client,client,,,,
-类别id,类别名称,图标,描述,父类别id,类型,标签,标签类

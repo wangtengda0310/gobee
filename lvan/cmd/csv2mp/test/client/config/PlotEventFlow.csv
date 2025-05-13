@@ -1,7 +1,0 @@
-id,name,desc,triggerType,triggerParam,event
-uint32,string,string,uint8,int64[][],uint32
-key,,,,,
-事件流id,名称,描述,触发类型,触发参数,事件
-10007,获得属性事件流,,,,10017
-10009,开局事件流,,,,10035
-10010,纯文字事件流,,,,10038

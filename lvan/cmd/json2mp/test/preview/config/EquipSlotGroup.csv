@@ -1,5 +1,0 @@
-id,name,equipWearGrowth,exclusiveCode
-uint32,string,uint32,uint32
-key,,,
-装备槽位组id,装备槽位组名称,所属装备穿戴养成线id,互斥编码
-10002,星盘,10035,

@@ -1,5 +1,0 @@
-id,name,title,body,sendMode,sendModeParam,filterCondition,rewardShow,reward,activationDays,mailBoxTypeId,mailLimit
-uint32,string,string,uint32[],uint8,string,string,uint32[][],uint32[][],uint32,uint32,uint32
-key,,,,,,,,,,,
-邮件ID,名称,标题,正文提示语id,发送模式,发送模式参数,过滤条件,邮件显示奖励,奖励,激活天数,邮箱类型id,邮件领取数量上限
-10001,[系统]_日/周常任务_任务补发邮件,任务奖励补发,10020,3,,,,,30,,

@@ -1,1 +1,0 @@
-[{"id":10002,"name":"测试01出生点","nc":{"controlerComp":{"mainControl":1},"sceneBoxComp":{"sceneBox":10003}},"nodeType":"scenePrefab","scene":10002},{"id":10003,"name":"测试01刷怪点","nc":{"controlerComp":{"mainControl":1},"sceneBoxComp":{"sceneBox":10002}},"nodeType":"scenePrefab","scene":10002}]

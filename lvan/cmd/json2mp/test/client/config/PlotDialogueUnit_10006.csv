@@ -1,5 +1,0 @@
-id,name,desc,plotDialogue,plotDialogueSet,order,text
-uint32,string,string,uint32,uint32,uint32,string
-key,,,,,,
-对话单元id,名称,描述,所属对话,所属对话集,序号,文本
-10016,选择天使剧情1,,10014,10006,,<p>你选择成为天使</p>

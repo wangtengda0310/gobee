@@ -1,4 +1,0 @@
-id,name,loop,resId,delayTime,volume,label,labelClass
-uint32,string,uint8,string,uint16,uint32,uint32[],uint32[]
-key,,,client,client,client,client,client
-id,名称,是否循环,音效资产id,延时播放时间（毫秒）,音量,标签,标签类别

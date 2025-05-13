@@ -1,5 +1,0 @@
-id,name,class,exclusiveCode
-uint32,string,uint32,uint32
-key,,,
-宠物槽位组id,宠物槽位组名称,所属宠物系统id,互斥编码
-10002,英雄槽位,10003,

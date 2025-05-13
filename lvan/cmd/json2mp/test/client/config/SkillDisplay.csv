@@ -1,4 +1,0 @@
-id,name,actWholeTime,readyAction,castAction,endAction,beAttackAction,beAtkEffect,readySound,castSound,deadFly,pressesType,pressesParam
-uint32,string,uint16[],string,string,string,string,uint32,uint32,uint32,uint8,uint8,string[]
-key,,,,,,,,,,,,
-技能动作表现id,技能动作表现名称,完整动作时间,技能前摇动作,技能施法动作,技能结束动作,技能被击动作,技能被击特效,技能起手音效,技能释放音效,死亡是否击飞,引导类型,引导参数

@@ -1,1 +1,0 @@
-{"uiId":1,"maxUid":2,"adapt":{},"props":{"height":1280,"maskType":1,"name":"[系统]_背包_背包16-一键合成弹窗","type":1,"width":720},"components":[{"uiId":2,"name":"Y-一键合成","label":"Y-一键合成","type":"gforge.complib.synAllOpoUpV1View","package":"openAllPopUpV1.fui","comu":"","dataSource":[],"pos":["201","181"],"props":{"height":523,"upLabel":10019,"width":578,"x":70,"y":292}}]}

@@ -1,4 +1,0 @@
-id,name,radius,pickFilter,intEffect,outEffect,specialEffect,durationEffect,attenuationType,attenuationParams,deathActive,filterCaster,art
-uint32,string,uint16,int32[][],uint32[],uint32[],uint32[][],uint32[],uint8,uint32[],uint8,uint8,uint32
-key,,,,,,,,,,,,
-光环ID,光环名,半径,范围拾取过滤规则,命中效果id列表,结束效果id列表,特殊效果,进入范围后添加的持续效果id列表,持续效果距离系数类型,持续效果距离系数,死亡后继续生效,过滤施法者,表现

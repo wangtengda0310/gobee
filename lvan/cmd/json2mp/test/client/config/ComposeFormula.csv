@@ -1,7 +1,0 @@
-id,name,desc,categoryId,classId,reactionType,quality,gainDisplayItem,isNumDisplay,fixedGain,openConditionDesc,materialSelector,costGroup,cost,costDesc
-uint32,string,string,uint32,uint32,uint32,uint32,uint32[][],uint8,uint32[][],string,uint32[][],uint32[][],uint32[][],string
-key,,client,,,,,,client,,client,,,,client
-合成配方id,合成配方名称,描述,配方类别id,合成系统id,反应类型,品质,产出显示,是否显示数量,固定产出,开启条件描述,材料过滤选择器,消耗组,消耗,消耗描述
-10015,测试合成配方,,10010,10006,1,,,1,10036|1,,,,10037|100,
-10017,3合1,,10012,10008,1,1,10036|1000,1,10036|1000,,,,10062|3,
-10018,水豚勇士,,10013,10009,1,,,1,10069|1,,,,10072|30,

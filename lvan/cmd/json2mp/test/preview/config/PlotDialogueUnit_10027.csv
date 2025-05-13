@@ -1,5 +1,0 @@
-id,name,desc,plotDialogue,plotDialogueSet,order,text
-uint32,string,string,uint32,uint32,uint32,string
-key,,,,,,
-对话单元id,名称,描述,所属对话,所属对话集,序号,文本
-10116,对话段落1,,10106,10027,,<p>船行驶至普陀山，你似乎看到了“观音佛光”，心灵得到了治愈。<p>

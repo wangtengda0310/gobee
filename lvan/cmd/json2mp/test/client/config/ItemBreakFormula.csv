@@ -1,7 +1,0 @@
-id,name,desc,categoryId,classId,reactionType,quality,openConditionDesc,source,sourceSelector,materialNum,material,materialSelectorNum,materialSelector,costGroup,cost,costDesc,target,fixedItemGain,dropItemGain,gainDesc,gainItemDisplay,costItemDisplay
-uint32,string,string,uint32,uint32,uint8,uint32,string,uint32[],uint32[][],uint32,uint32[],uint32[],uint32[][],uint32[][],uint32[][],string,uint32,uint32[][],uint32[],string,uint32[][],uint32[][]
-key,,client,,,,,client,,,,,,,,,client,,,,client,client,client
-合成配方id,合成配方名称,配方描述,配方类别id,合成系统id,反应类型,品质,开启条件描述,源物品,源物品选择器,材料物品数量,材料物品配置ID,材料物品选择器数量,材料物品选择器,消耗组,消耗,消耗描述,目标物品,固定产出,掉落产出,产出描述,道具产出显示,物品消耗显示
-10012,测试突破,,10006,10001,1,,,10041,,1,10041,,,,,,10045,,,,,
-10013,测试突破选择器,,10006,10001,1,,,10045,,,,2,10004,,,,10046,,,,,
-10016,测试降品,,10011,10007,,,,10046,,,,,,,,,10041,,,,,

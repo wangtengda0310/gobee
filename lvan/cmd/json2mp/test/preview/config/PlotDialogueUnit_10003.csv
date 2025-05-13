@@ -1,6 +1,0 @@
-id,name,desc,plotDialogue,plotDialogueSet,order,text
-uint32,string,string,uint32,uint32,uint32,string
-key,,,,,,
-对话单元id,名称,描述,所属对话,所属对话集,序号,文本
-10008,1,,10006,10003,,<p>你深入海中<span style='color: rgb(66， 144， 247);'>紫竹林</span>，古老的竹子上刻满<span style='color: rgb(235， 144， 58);'>符文</span>。你解开谜题，触发机关，紫竹缓缓散去。</p>
-10009,1,,10007,10003,,<p>你在<span style='color: rgb(66， 144， 247);'>海雾</span>中迷失方向，远处传来诡异的<span style='color: rgb(235， 144， 58);'>歌声</span>。你跟随歌声，发现一座隐藏的小岛。</p>

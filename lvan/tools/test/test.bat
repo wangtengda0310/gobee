@@ -1,1 +1,1 @@
-..\lsmp\lsmp.bat %APPDATA%\g.editor.electron.v1\otherPlugin\UnityDataTransform\1.0.0\.cache\data\client out
+..\lsmp\lsmp.bat %APPDATA%\g.editor.electron.v1\otherPlugin\UnityDataTransform\1.0.0\.cache\data\client outsecurego/gosec:v2
