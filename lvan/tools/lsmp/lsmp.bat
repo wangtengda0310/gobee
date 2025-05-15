@@ -70,8 +70,8 @@ if EXIST "%SRC_DIR%\config\" (
 )
 
 REM JSON配置转换（可能产生乱码日志）
-if EXIST "%SRC_DIR%\ui\" (
-    "%MP_TOOL%" --jsondir "%SRC_DIR%\ui" "%DST_DIR%\msgpackdata"
+if EXIST "%SRC_DIR%\config-json\" (
+    "%MP_TOOL%" --jsondir "%SRC_DIR%\config-json" "%DST_DIR%\msgpackdata"
     if errorlevel 1 (
         echo Error: JSON配置转换失败 >&2
         exit /b %errorlevel%
