@@ -106,6 +106,7 @@ if EXIST "%SRC_DIR%\entity\" (
 )
 
 REM const目录
+rmdir /Q /S "%DST_DIR%\const"
 if EXIST "%SRC_DIR%\const\" (
     xcopy /Y /E /I "%SRC_DIR%\const\*" "%DST_DIR%\const"
     if errorlevel 1 (
@@ -115,6 +116,7 @@ if EXIST "%SRC_DIR%\const\" (
 )
 
 REM attrFormula目录
+rmdir /Q /S "%DST_DIR%\attrFormula"
 if EXIST "%SRC_DIR%\attrFormula\" (
     xcopy /Y /E /I "%SRC_DIR%\attrFormula\*" "%DST_DIR%\attrFormula"
     if errorlevel 1 (
