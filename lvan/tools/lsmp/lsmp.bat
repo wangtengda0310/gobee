@@ -78,33 +78,6 @@ if EXIST "%SRC_DIR%\config-json\" (
     )
 )
 
-REM 系统UI处理
-if EXIST "%SRC_DIR%\ui\" (
-    xcopy /Y /E /I "%SRC_DIR%\ui\*" "%DST_DIR%\ui_systemui"
-    if errorlevel 1 (
-        echo Error: 系统UI处理失败 >&2
-        exit /b %errorlevel%
-    )
-)
-
-REM 玩法UI处理
-if EXIST "%SRC_DIR%\config-json\ui\" (
-xcopy /Y /E /I "%SRC_DIR%\config-json\ui\*" "%DST_DIR%\ui_gameplayui"
-    if errorlevel 1 (
-        echo Error: 玩法UI处理失败 >&2
-        exit /b %errorlevel%
-    )
-)
-
-REM 模型UI处理
-if EXIST "%SRC_DIR%\entity\" (
-    xcopy /Y /E /I "%SRC_DIR%\entity\*" "%DST_DIR%\ui_entityui"
-    if errorlevel 1 (
-        echo Error: 模型UI处理失败 >&2
-        exit /b %errorlevel%
-    )
-)
-
 REM const目录
 rmdir /Q /S "%DST_DIR%\const"
 if EXIST "%SRC_DIR%\const\" (
@@ -122,6 +95,43 @@ if EXIST "%SRC_DIR%\attrFormula\" (
     if errorlevel 1 (
         echo Error: attrFormula目录处理失败 >&2
         exit /b %errorlevel%
+    )
+)
+
+REM 过度阶段UI目录
+if EXIST "%SRC_DIR%\ui_json\" (
+REM 新版ui目录
+    xcopy /Y /E /I "%SRC_DIR%\ui_json\*" "%DST_DIR%\"
+    if errorlevel 1 (
+        echo Error: attrFormula目录处理失败 >&2
+        exit /b %errorlevel%
+    )
+) else (
+    REM 系统UI处理
+    if EXIST "%SRC_DIR%\ui\" (
+        xcopy /Y /E /I "%SRC_DIR%\ui\*" "%DST_DIR%\ui_systemui"
+        if errorlevel 1 (
+            echo Error: 系统UI处理失败 >&2
+            exit /b %errorlevel%
+        )
+    )
+
+    REM 玩法UI处理
+    if EXIST "%SRC_DIR%\config-json\ui\" (
+    xcopy /Y /E /I "%SRC_DIR%\config-json\ui\*" "%DST_DIR%\ui_gameplayui"
+        if errorlevel 1 (
+            echo Error: 玩法UI处理失败 >&2
+            exit /b %errorlevel%
+        )
+    )
+
+    REM 模型UI处理
+    if EXIST "%SRC_DIR%\entity\" (
+        xcopy /Y /E /I "%SRC_DIR%\entity\*" "%DST_DIR%\ui_entityui"
+        if errorlevel 1 (
+            echo Error: 模型UI处理失败 >&2
+            exit /b %errorlevel%
+        )
     )
 )
 
