@@ -250,6 +250,17 @@ func ExecuteTask(task *Task) {
 	task.AddOutput(fmt.Sprintf("使用可执行文件: %s\n", task.CmdPath))
 
 	var timeout = 10 * time.Minute
+	if os.Getenv("exporter_timeout") != "" {
+		m, err := strconv.Atoi(os.Getenv("exporter_timeout"))
+		if err == nil {
+			timeout = time.Duration(m) * time.Minute
+			task.AddOutput(fmt.Sprintf("通过环境变量设置超时: %d 分钟\n", m))
+		}
+	}
+	if task.CmdMeta.Timeout > 0 {
+		timeout = time.Duration(task.CmdMeta.Timeout) * time.Minute
+		task.AddOutput(fmt.Sprintf("通过meta.yml设置超时: %d 分钟\n", task.CmdMeta.Timeout))
+	}
 	ctx, cancel := context.WithTimeout(context.Background(), timeout)
 	task.Cancel = cancel
 
@@ -362,15 +373,14 @@ func ExecuteTask(task *Task) {
 		var exitCode int
 		// 处理超时错误
 		if errors.Is(ctx.Err(), context.DeadlineExceeded) {
-			task.AddOutput("命令执行超时")
 			exitCode = 124 // 通常用 124 表示超时退出码
-			task.AddOutput(fmt.Sprintf("命令执行超时，退出码 %d: %s", exitCode, err.Error()))
+			task.AddOutput(fmt.Sprintf("exporter 命令执行超时，退出码 %d: %s", exitCode, err.Error()))
 		} else if exitErr, ok := err.(*exec.ExitError); ok { // 尝试获取退出码
 			exitCode = exitErr.ExitCode()
-			task.AddOutput(fmt.Sprintf("命令执行失败，退出码 %d: %s", exitCode, err.Error()))
+			task.AddOutput(fmt.Sprintf("exporter 命令执行失败，退出码 %d: %s", exitCode, err.Error()))
 		} else {
 			exitCode = 1 // 默认错误码
-			task.AddOutput(fmt.Sprintf("命令执行未知错误，退出码 %d: %s", exitCode, err.Error()))
+			task.AddOutput(fmt.Sprintf("exporter 命令执行未知错误，退出码 %d: %s", exitCode, err.Error()))
 		}
 		task.Complete(Failed, exitCode)
 	} else {
