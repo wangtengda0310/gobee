@@ -98,7 +98,7 @@ func (b *MonoType) pack(msgpacker *msgpack.Encoder, fval interface{}, mod *Modul
 				return err
 			}
 		default:
-			return fmt.Errorf("不支持的数据类型 byte:%v", fval)
+			return fmt.Errorf("无法解析为 byte: %v", fval)
 		}
 	case "sbyte", "SByte", "sByte", "Sbyte":
 		switch fvalTyped := fval.(type) {
@@ -116,7 +116,7 @@ func (b *MonoType) pack(msgpacker *msgpack.Encoder, fval interface{}, mod *Modul
 				return err
 			}
 		default:
-			return fmt.Errorf("不支持的数据类型 sbyte:%v", fval)
+			return fmt.Errorf("无法解析为 sbyte: %v", fval)
 		}
 	case "UInt16", "uint16":
 		switch fvalTyped := fval.(type) {
@@ -150,7 +150,7 @@ func (b *MonoType) pack(msgpacker *msgpack.Encoder, fval interface{}, mod *Modul
 				return err
 			}
 		default:
-			return fmt.Errorf("不支持的数据类型 short:%v", fval)
+			return fmt.Errorf("无法解析为 short: %v", fval)
 		}
 	case "UInt32", "uint32":
 		switch fvalTyped := fval.(type) {
@@ -168,7 +168,7 @@ func (b *MonoType) pack(msgpacker *msgpack.Encoder, fval interface{}, mod *Modul
 				return err
 			}
 		default:
-			return fmt.Errorf("不支持的数据类型 uint32:%v", fval)
+			return fmt.Errorf("无法解析为 uint32: %v", fval)
 		}
 	case "int", "Int", "INT":
 		switch fvalTyped := fval.(type) {
@@ -186,7 +186,7 @@ func (b *MonoType) pack(msgpacker *msgpack.Encoder, fval interface{}, mod *Modul
 				return err
 			}
 		default:
-			return fmt.Errorf("不支持的数据类型 int:%v", fval)
+			return fmt.Errorf("无法解析为 int: %v", fval)
 		}
 	case "UInt64", "uint64":
 		switch fvalTyped := fval.(type) {
@@ -204,7 +204,7 @@ func (b *MonoType) pack(msgpacker *msgpack.Encoder, fval interface{}, mod *Modul
 				return err
 			}
 		default:
-			return fmt.Errorf("不支持的数据类型 uint64:%v", fval)
+			return fmt.Errorf("无法解析为 uint64: %v", fval)
 		}
 	case "long", "Long", "LONG":
 		switch fvalTyped := fval.(type) {
@@ -222,7 +222,7 @@ func (b *MonoType) pack(msgpacker *msgpack.Encoder, fval interface{}, mod *Modul
 				return err
 			}
 		default:
-			return fmt.Errorf("不支持的数据类型 long:%v", fval)
+			return fmt.Errorf("无法解析为 long: %v", fval)
 		}
 	case "bool", "boolean", "Bool", "Boolean", "BOOL", "BOOLEAN":
 		switch fvalTyped := fval.(type) {
@@ -239,7 +239,7 @@ func (b *MonoType) pack(msgpacker *msgpack.Encoder, fval interface{}, mod *Modul
 				return err
 			}
 		default:
-			return fmt.Errorf("不支持的数据类型 bool:%v", fval)
+			return fmt.Errorf("无法解析为 bool: %v", fval)
 		}
 	case "string":
 		if strVal, ok := fval.(string); ok {
@@ -247,7 +247,7 @@ func (b *MonoType) pack(msgpacker *msgpack.Encoder, fval interface{}, mod *Modul
 				return err
 			}
 		} else {
-			return fmt.Errorf("不支持的数据类型 string:%v", fval)
+			return fmt.Errorf("无法解析为 string: %v", fval)
 		}
 	default:
 		return fmt.Errorf("不支持的数据类型:%s", b.Type)
@@ -334,7 +334,7 @@ func parseComplexType(typeStr string) Type {
 	if strings.HasPrefix(typeStr, "(map") {
 		parts := strings.SplitN(typeStr, "),", 2)
 		if len(parts) < 2 {
-			panic("不支持的数据类型:" + typeStr)
+			panic("无法解析为 map:" + typeStr)
 		}
 		sepPart := strings.SplitN(parts[0], "sep=", 2)
 		separator = ","
@@ -346,7 +346,7 @@ func parseComplexType(typeStr string) Type {
 	} else if strings.HasPrefix(typeStr, "(listKVP") {
 		parts := strings.SplitN(typeStr, "),", 2)
 		if len(parts) < 2 {
-			panic("不支持的数据类型:" + typeStr)
+			panic("无法解析为 listKv:" + typeStr)
 		}
 		sepPart := strings.SplitN(parts[0], "sep=", 2)
 		separator = ","
@@ -358,7 +358,7 @@ func parseComplexType(typeStr string) Type {
 	} else if strings.HasPrefix(typeStr, "(list") {
 		parts := strings.SplitN(typeStr, "),", 2)
 		if len(parts) < 2 {
-			panic("不支持的数据类型:" + typeStr)
+			panic("无法解析为 list:" + typeStr)
 		}
 
 		listPart := strings.TrimPrefix(parts[0], "(list")
@@ -372,7 +372,7 @@ func parseComplexType(typeStr string) Type {
 	} else if strings.HasPrefix(typeStr, "(array") {
 		parts := strings.SplitN(typeStr, "),", 2)
 		if len(parts) < 2 {
-			panic("不支持的数据类型:" + typeStr)
+			panic("无法解析为 array:" + typeStr)
 		}
 		sepPart := strings.SplitN(parts[0], "sep=", 2)
 		separator = ","
