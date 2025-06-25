@@ -1,0 +1,1 @@
+{"jsonrpc":"2.0","id":"1","method":"call_tool","params":{"name":"current time","arguments":{"timezone":"Asia/Shanghai"}}} 
