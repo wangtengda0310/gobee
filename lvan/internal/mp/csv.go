@@ -371,6 +371,25 @@ func inferType(vtype string, s string) (interface{}, bool) {
 			}
 		}
 		return r, false
+	case "uint32:string", "uint32:String", "Uint32:string", "Uint32:String": // 允许key重复
+		var r = make([]any, 0)
+		if s == "" {
+			return r, false
+		}
+		splitOut := strings.Split(s, firstSep)
+		for _, sinner := range splitOut {
+			if sinner == "" {
+				continue
+			}
+			split := strings.Split(sinner, secondSep)
+			if k, err := strconv.ParseUint(split[0], 10, 32); err == nil {
+				r = append(r, []any{uint32(k), split[1]})
+			} else {
+				illegalValue(err)
+				continue
+			}
+		}
+		return r, false
 	case "kv:Bool", "kv:bool", "kv:Boolean", "kv:boolean":
 		var r = make(map[uint32]bool)
 		if s == "" {
