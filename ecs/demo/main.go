@@ -20,6 +20,20 @@ func LogInfof(format string, args ...interface{}) {
 	}
 }
 
+func shouldProfile() bool {
+	// 环境变量优先
+	if os.Getenv("ECS_PROFILE") == "1" {
+		return true
+	}
+	// 命令行参数
+	for _, arg := range os.Args[1:] {
+		if arg == "--profile" || arg == "-p" {
+			return true
+		}
+	}
+	return false
+}
+
 func main() {
 	logger := NewLoggerSystem("ecs.log")
 	GlobalLogger = logger
@@ -27,14 +41,10 @@ func main() {
 		GlobalLogger.logChan <- LogData{Message: "main开始", Level: "INFO", Time: time.Now()}
 	}
 
-	// 启动CPU Profile
-	f, err := os.Create("cpu.prof")
-	if err == nil {
-		_ = pprof.StartCPUProfile(f)
-		defer func() {
-			pprof.StopCPUProfile()
-			f.Close()
-		}()
+	var cpuProfile *os.File
+	if shouldProfile() {
+		cpuProfile, _ = os.Create("cpu.prof")
+		_ = pprof.StartCPUProfile(cpuProfile)
 	}
 
 	var now = time.Now()
@@ -224,8 +234,10 @@ func main() {
 	ebus.Replay(log)
 
 	// 性能分析
-	ecs.WriteProfile("ecs.prof")
-	LogInfo("已写入heap profile: ecs.prof")
+	if shouldProfile() {
+		ecs.WriteProfile("ecs.prof")
+		LogInfo("已写入heap profile: ecs.prof")
+	}
 
 	// 脚本注册
 	RegisterScriptSystem("PrintHello", func(args ...interface{}) {
@@ -265,4 +277,9 @@ func main() {
 	time.Sleep(2 * time.Second)
 	close(logger.logChan)
 	logger.file.Close()
+
+	if shouldProfile() && cpuProfile != nil {
+		pprof.StopCPUProfile()
+		cpuProfile.Close()
+	}
 }
