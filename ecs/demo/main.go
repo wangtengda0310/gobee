@@ -6,19 +6,8 @@ import (
 	"os"
 	"runtime/pprof"
 	"time"
+	// 引入ECS主模块
 )
-
-// 全局日志函数，自动判空
-func LogInfo(msg string) {
-	if GlobalLogger != nil {
-		GlobalLogger.logChan <- LogData{Message: msg, Level: "INFO", Time: time.Now()}
-	}
-}
-func LogInfof(format string, args ...interface{}) {
-	if GlobalLogger != nil {
-		GlobalLogger.logChan <- LogData{Message: fmt.Sprintf(format, args...), Level: "INFO", Time: time.Now()}
-	}
-}
 
 func shouldProfile() bool {
 	// 环境变量优先
@@ -35,11 +24,15 @@ func shouldProfile() bool {
 }
 
 func main() {
-	logger := NewLoggerSystem("ecs.log")
-	GlobalLogger = logger
-	if GlobalLogger != nil {
-		GlobalLogger.logChan <- LogData{Message: "main开始", Level: "INFO", Time: time.Now()}
+	// 创建mainLogger Entity并挂载Log组件
+	mainLoggerComps := map[ComponentType]interface{}{
+		Log: LogData{Message: "main logger entity created", Level: "INFO", Time: time.Now()},
 	}
+	ecs := NewECS()
+	mainLoggerEntityID := ecs.CreateEntity(mainLoggerComps)
+	mainLogger := ecs.entities[mainLoggerEntityID]
+
+	mainLogger.Log(ecs, "main通过Entity写入日志", "INFO")
 
 	var cpuProfile *os.File
 	if shouldProfile() {
@@ -48,14 +41,13 @@ func main() {
 	}
 
 	var now = time.Now()
-	ecs := NewECS()
 	// 事件系统示例
 	ecs.EventBus().Subscribe(EventKill, func(e Event) {
-		LogInfo(fmt.Sprintf("[事件] Entity %d 被Kill, 原因: %v", e.Entity, e.Data))
+		mainLogger.Log(ecs, fmt.Sprintf("[事件] Entity %d 被Kill, 原因: %v", e.Entity, e.Data), "INFO")
 	})
 	// 高级事件系统示例
 	ecs.AdvancedBus().Subscribe(EventGrowth, func(e Event) {
-		LogInfo(fmt.Sprintf("[高级事件] Entity %d 成长: %v", e.Entity, e.Data))
+		mainLogger.Log(ecs, fmt.Sprintf("[高级事件] Entity %d 成长: %v", e.Entity, e.Data), "INFO")
 	})
 
 	// 创建100万个entity，分布不同component
@@ -88,18 +80,18 @@ func main() {
 		}
 		_ = ecs.CreateEntity(comps)
 	}
-	LogInfo("创建完成")
+	mainLogger.Log(ecs, "创建完成", "INFO")
 
 	// 动态增删component
 	id := ecs.CreateEntity(map[ComponentType]interface{}{
 		Attack:   AttackData{Value: 10},
 		Velocity: VelocityData{X: 1, Y: 2},
 	})
-	LogInfo(fmt.Sprintf("Entity %d 初始: Attack+Velocity", id))
+	mainLogger.Log(ecs, fmt.Sprintf("Entity %d 初始: Attack+Velocity", id), "INFO")
 	ecs.AddComponent(id, Shape, ShapeData{Name: "Square"})
-	LogInfo(fmt.Sprintf("Entity %d 增加Shape", id))
+	mainLogger.Log(ecs, fmt.Sprintf("Entity %d 增加Shape", id), "INFO")
 	ecs.RemoveComponent(id, Attack)
-	LogInfo(fmt.Sprintf("Entity %d 移除Attack", id))
+	mainLogger.Log(ecs, fmt.Sprintf("Entity %d 移除Attack", id), "INFO")
 
 	// 系统扩展性与性能监控
 	sm := NewSystemManager()
@@ -110,14 +102,18 @@ func main() {
 	sm.Register(NewRenderSystem())
 	sm.SortSystems()
 
+	// 注册LoggerSystem
+	logger := NewLoggerSystem("demo/ecs.log")
+	sm.Register(logger)
+
 	// 并行处理所有system
 	start := time.Now()
 	sm.ParallelUpdateAll(ecs, 10*time.Millisecond)
-	LogInfo(fmt.Sprintf("并行系统处理100万entity耗时: %v", time.Since(start)))
+	mainLogger.Log(ecs, fmt.Sprintf("并行系统处理100万entity耗时: %v", time.Since(start)), "INFO")
 
 	// 复杂事件链测试
 	ecs.AdvancedBus().Subscribe(EventHide, func(e Event) {
-		LogInfo(fmt.Sprintf("[链式事件] Entity %d 被隐藏，自动触发成长", e.Entity))
+		mainLogger.Log(ecs, fmt.Sprintf("[链式事件] Entity %d 被隐藏，自动触发成长", e.Entity), "INFO")
 		ecs.AdvancedBus().Publish(CustomEvent{
 			Type:   EventGrowth,
 			Entity: e.Entity,
@@ -172,25 +168,25 @@ func main() {
 		time.Sleep(10 * time.Millisecond)
 	}
 
-	LogInfo(fmt.Sprintf("ECS系统复杂事件与system测试完成, 耗时: %v", time.Since(now)))
+	mainLogger.Log(ecs, fmt.Sprintf("ECS系统复杂事件与system测试完成, 耗时: %v", time.Since(now)), "INFO")
 
 	// 生命周期钩子测试
 	RegisterOnCreate(func(e *Entity) {
-		LogInfo(fmt.Sprintf("[生命周期] 创建Entity %d", e.ID))
+		mainLogger.Log(ecs, fmt.Sprintf("[生命周期] 创建Entity %d", e.ID), "INFO")
 	})
 	RegisterOnDestroy(func(e *Entity) {
-		LogInfo(fmt.Sprintf("[生命周期] 销毁Entity %d", e.ID))
+		mainLogger.Log(ecs, fmt.Sprintf("[生命周期] 销毁Entity %d", e.ID), "INFO")
 	})
 
 	// 标签分组批量操作
 	for i := 0; i < 10; i++ {
 		_ = ecs.CreateEntityWithTags(map[ComponentType]interface{}{Attack: AttackData{Value: i}}, "enemy")
 	}
-	LogInfo(fmt.Sprintf("enemy标签下entity数量: %d", len(ecs.EntitiesWithTag("enemy"))))
+	mainLogger.Log(ecs, fmt.Sprintf("enemy标签下entity数量: %d", len(ecs.EntitiesWithTag("enemy"))), "INFO")
 
 	// 组件组合
 	combo := CompositeComponent{Components: []ComponentType{Attack, Velocity}}
-	LogInfo(fmt.Sprintf("组合组件bitmask: %d", combo.Type()))
+	mainLogger.Log(ecs, fmt.Sprintf("组合组件bitmask: %d", combo.Type()), "INFO")
 
 	// System热插拔
 	sm = NewSystemManager()
@@ -198,14 +194,14 @@ func main() {
 	sm.Register(sysA)
 	sysB := NewAISystem()
 	sm.HotSwap("HPSystem", sysB)
-	LogInfo(fmt.Sprintf("System热插拔后第一个system: %s", sm.systems[0].Name()))
+	mainLogger.Log(ecs, fmt.Sprintf("System热插拔后第一个system: %s", sm.systems[0].Name()), "INFO")
 
 	// 快照/回滚
 	snap := ecs.Snapshot()
 	id = ecs.CreateEntityWithTags(map[ComponentType]interface{}{Attack: AttackData{Value: 99}}, "hero")
-	LogInfo(fmt.Sprintf("创建新entity: %d", id))
+	mainLogger.Log(ecs, fmt.Sprintf("创建新entity: %d", id), "INFO")
 	ecs.Restore(snap)
-	LogInfo(fmt.Sprintf("回滚后hero标签下entity数量: %d", len(ecs.EntitiesWithTag("hero"))))
+	mainLogger.Log(ecs, fmt.Sprintf("回滚后hero标签下entity数量: %d", len(ecs.EntitiesWithTag("hero"))), "INFO")
 
 	// 事件优先级/过滤/重放
 	peb := NewPriorityEventBus()
@@ -213,13 +209,13 @@ func main() {
 		Priority: 10,
 		Filter:   func(e Event) bool { return e.Entity%2 == 0 },
 		Handler: func(e Event) {
-			LogInfo(fmt.Sprintf("[高优先级偶数Kill] %d", e.Entity))
+			mainLogger.Log(ecs, fmt.Sprintf("[高优先级偶数Kill] %d", e.Entity), "INFO")
 		},
 	})
 	peb.Subscribe(EventKill, EventSubscription{
 		Priority: 1,
 		Handler: func(e Event) {
-			LogInfo(fmt.Sprintf("[低优先级Kill] %d", e.Entity))
+			mainLogger.Log(ecs, fmt.Sprintf("[低优先级Kill] %d", e.Entity), "INFO")
 		},
 	})
 	for i := 0; i < 5; i++ {
@@ -230,39 +226,36 @@ func main() {
 	ebus := NewAdvancedEventBus()
 	ebus.Publish(CustomEvent{Type: EventGrowth, Entity: 42, Data: "test"})
 	log := ebus.SaveLog()
-	LogInfo("事件日志保存，重放:")
+	mainLogger.Log(ecs, "事件日志保存，重放:", "INFO")
 	ebus.Replay(log)
 
 	// 性能分析
 	if shouldProfile() {
 		ecs.WriteProfile("ecs.prof")
-		LogInfo("已写入heap profile: ecs.prof")
+		mainLogger.Log(ecs, "已写入heap profile: ecs.prof", "INFO")
 	}
 
 	// 脚本注册
 	RegisterScriptSystem("PrintHello", func(args ...interface{}) {
-		LogInfo(fmt.Sprintf("[脚本System] Hello %v", args))
+		mainLogger.Log(ecs, fmt.Sprintf("[脚本System] Hello %v", args), "INFO")
 	})
 	scriptSystems["PrintHello"]("world", 123)
 
 	// 配置加载
 	cfg, err := LoadECSConfig("ecs_config.json")
 	if err == nil {
-		LogInfo(fmt.Sprintf("加载配置: %+v", cfg))
+		mainLogger.Log(ecs, fmt.Sprintf("加载配置: %+v", cfg), "INFO")
 	} else {
-		LogInfo("未找到配置文件，跳过配置加载测试")
+		mainLogger.Log(ecs, "未找到配置文件，跳过配置加载测试", "INFO")
 	}
 
 	// Mock
 	mock := MockEntity(999, Attack|Velocity, "mock")
-	LogInfo(fmt.Sprintf("Mock entity: %+v", mock))
+	mainLogger.Log(ecs, fmt.Sprintf("Mock entity: %+v", mock), "INFO")
 
 	// 网络事件
 	SendNetworkEvent(NetworkEvent{Type: EventKill, Entity: 888, Data: "net"})
 	ReceiveNetworkEvent(NetworkEvent{Type: EventGrowth, Entity: 777, Data: "recv"})
-
-	// 注册LoggerSystem
-	sm.Register(logger)
 
 	// 日志entity测试
 	for i := 0; i < 5; i++ {
@@ -271,8 +264,12 @@ func main() {
 		})
 	}
 
-	LogInfo("main中间")
-	LogInfo(fmt.Sprintf("全部高级功能测试完成, 总耗时: %v", time.Since(now)))
+	mainLogger.Log(ecs, "main中间", "INFO")
+	mainLogger.Log(ecs, fmt.Sprintf("全部高级功能测试完成, 总耗时: %v", time.Since(now)), "INFO")
+	// 日志写入后，强制更新所有system，确保日志entity被LoggerSystem消费
+	sm.UpdateAll(ecs, 0)
+	// 手动调用一次logger.Update(ecs)调试
+	logger.Update(ecs)
 	// 日志写入后sleep，保证异步日志全部落盘
 	time.Sleep(2 * time.Second)
 	close(logger.logChan)

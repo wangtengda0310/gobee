@@ -2,10 +2,14 @@ package main
 
 import (
 	"fmt"
+	"os"
 	"sort"
 	"sync"
 	"time"
 )
+
+// 全局LoggerSystem，便于系统/钩子/事件输出日志
+var GlobalLogger *LoggerSystem
 
 type SystemPriority int
 
@@ -131,7 +135,13 @@ func (sm *SystemManager) PrintStats() {
 	for _, s := range sm.systems {
 		switch sys := s.(type) {
 		case *HPSystem:
-			fmt.Printf("System %s 调用%d次, 总耗时%v\n", sys.Name(), sys.calls, sys.cost)
+			if GlobalLogger != nil {
+				GlobalLogger.logChan <- LogData{
+					Message: fmt.Sprintf("System %s 调用%d次, 总耗时%v", sys.Name(), sys.calls, sys.cost),
+					Level:   "INFO",
+					Time:    time.Now(),
+				}
+			}
 			// 可扩展更多system类型
 		}
 	}
@@ -247,3 +257,55 @@ func (ecs *ECS) Restore(snap *ECS) {
 	ecs.entities = snap.entities
 	// chunk和component数据可按需恢复
 }
+
+// LoggerSystem: 异步写入日志到文件
+
+type LoggerSystem struct {
+	logChan chan LogData
+	file    *os.File
+}
+
+func NewLoggerSystem(filename string) *LoggerSystem {
+	f, _ := os.OpenFile(filename, os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0644)
+	sys := &LoggerSystem{
+		logChan: make(chan LogData, 1000),
+		file:    f,
+	}
+	go sys.run()
+	return sys
+}
+
+func (s *LoggerSystem) run() {
+	count := 0
+	for log := range s.logChan {
+		fmt.Fprintf(s.file, "[%s] %s: %s\n", log.Time.Format(time.RFC3339), log.Level, log.Message)
+		count++
+		if count%100 == 0 {
+			s.file.Sync()
+		}
+	}
+	s.file.Sync() // 关闭前强制落盘
+}
+
+func (s *LoggerSystem) Update(ecs *ECS) {
+	for arch, chunk := range ecs.archMgr.chunks {
+		if chunk.archetype&Log != 0 {
+			msg := fmt.Sprintf("[LoggerSystem] chunk arch=0x%x entityCount=%d", arch, len(chunk.entities))
+			s.logChan <- LogData{Message: msg, Level: "DEBUG", Time: time.Now()}
+			for i, logs := range chunk.log {
+				msg := fmt.Sprintf("  entityIdx=%d entityID=%v logCount=%d", i, chunk.entities[i], len(logs))
+				s.logChan <- LogData{Message: msg, Level: "DEBUG", Time: time.Now()}
+				for _, log := range logs {
+					s.logChan <- log
+				}
+				chunk.log[i] = nil // 消费后清空队列
+			}
+		}
+	}
+}
+
+func (s *LoggerSystem) Priority() SystemPriority        { return 0 }
+func (s *LoggerSystem) DependsOn() []string             { return nil }
+func (s *LoggerSystem) Name() string                    { return "LoggerSystem" }
+func (s *LoggerSystem) Filter(e *Entity, ecs *ECS) bool { return true }
+func (s *LoggerSystem) Tick(ecs *ECS, dt time.Duration) {}

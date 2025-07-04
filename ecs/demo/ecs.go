@@ -6,6 +6,7 @@ import (
 	"os"
 	"runtime/pprof"
 	"sync"
+	"time"
 )
 
 // ComponentType 用bitmask表示
@@ -23,6 +24,7 @@ const (
 	Kill
 	Hide
 	Growth
+	Log
 )
 
 type EntityID int
@@ -77,6 +79,11 @@ type RenderData struct{ Mesh string }
 type KillData struct{ Reason string }
 type HideData struct{ Hidden bool }
 type GrowthData struct{ Level int }
+type LogData struct {
+	Message string
+	Level   string
+	Time    time.Time
+}
 
 // Chunk: SoA结构
 
@@ -91,6 +98,7 @@ type Chunk struct {
 	kill      []KillData
 	hide      []HideData
 	growth    []GrowthData
+	log       [][]LogData // 每个entity一个日志队列
 }
 
 // 全局chunk池
@@ -112,6 +120,7 @@ func PutChunk(c *Chunk) {
 	c.kill = c.kill[:0]
 	c.hide = c.hide[:0]
 	c.growth = c.growth[:0]
+	c.log = c.log[:0]
 	chunkPool.Put(c)
 }
 
@@ -141,6 +150,9 @@ func (c *Chunk) AddEntity(e EntityID, comps map[ComponentType]interface{}) {
 	if c.archetype&Growth != 0 {
 		c.growth = append(c.growth, comps[Growth].(GrowthData))
 	}
+	if c.archetype&Log != 0 {
+		c.log = append(c.log, []LogData{comps[Log].(LogData)})
+	}
 }
 
 func (c *Chunk) RemoveEntity(idx int) {
@@ -168,6 +180,9 @@ func (c *Chunk) RemoveEntity(idx int) {
 	}
 	if c.archetype&Growth != 0 {
 		c.growth = append(c.growth[:idx], c.growth[idx+1:]...)
+	}
+	if c.archetype&Log != 0 {
+		c.log = append(c.log[:idx], c.log[idx+1:]...)
 	}
 }
 
@@ -223,6 +238,21 @@ type Entity struct {
 	arch     ComponentType
 	chunkIdx int // 在chunk中的下标
 	Tags     []Tag
+}
+
+// 日志写入方法：只有挂载Log组件的Entity才可用
+func (e *Entity) Log(ecs *ECS, msg string, level string) {
+	if e.arch&Log == 0 {
+		return // 未挂载Log组件
+	}
+	chunk := ecs.archMgr.GetOrCreateChunk(e.arch)
+	if len(chunk.log) > e.chunkIdx {
+		chunk.log[e.chunkIdx] = append(chunk.log[e.chunkIdx], LogData{
+			Message: msg,
+			Level:   level,
+			Time:    time.Now(),
+		})
+	}
 }
 
 type ECS struct {
