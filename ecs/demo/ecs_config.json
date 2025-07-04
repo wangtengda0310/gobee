@@ -1,0 +1,18 @@
+{
+  "archetypes": [
+    {"Attack": {"Value": 10}, "Velocity": {"X": 1, "Y": 2}},
+    {"Shape": {"Name": "Circle"}, "Color": {"R": 255, "G": 255, "B": 255}},
+    {"Render": {"Mesh": "MeshA"}, "Growth": {"Level": 1}}
+  ],
+  "systems": [
+    "HPSystem",
+    "AISystem",
+    "PhysicsSystem",
+    "RenderSystem"
+  ],
+  "events": [
+    "EventKill",
+    "EventHide",
+    "EventGrowth"
+  ]
+} 
