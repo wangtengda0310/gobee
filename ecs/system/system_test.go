@@ -46,28 +46,16 @@ func TestNew(t *testing.T) {
 	t.Log(e)
 
 	var r []any
-	s1cb := func(v1 componentA, v2 componentB, v3 componentC) {
-		r = append(r, v1)
-		r = append(r, v2)
-		r = append(r, v3)
-	}
-	s1 := New[componentA, componentB, componentC](
-		s1cb,
-		func() componentA { return a },
-		func() componentB { return b },
-		func() componentC { return c },
-	)
-	s1.update()
-	assert.Equal(t, []any{a, b, c}, r)
 
 	r = nil
 	Group(func(chunk entity.Chunk) {
 		r = append(r, a)
 		r = append(r, b)
+		r = append(r, c)
 	}, typeA, typeB)
 	Range(*structDispatcher)
 	//Update(e, s2)
-	assert.Equal(t, []any{a, b}, r)
+	assert.Equal(t, []any{a, b, c}, r)
 
 	// s3 := New(b, c)
 	// s4 := New(a)
@@ -87,19 +75,6 @@ func (s s) update() {
 	for _, f := range s.systems {
 		f() // 假设1, 2, 3是A, B, C的实例
 	}
-}
-
-type i[TC component.Type] interface {
-	Type() TC
-}
-
-func New[A, B, C component.Component](cb func(v1 A, v2 B, v3 C), t1 func() A, t2 func() B, t3 func() C) S {
-	return s{[]func(){func() {
-		cb(t1(), t2(), t3())
-	}}}
-}
-
-func Update(e entity.Entity, cb func(componentA, componentC)) {
 }
 
 func TestGroup(t *testing.T) {
