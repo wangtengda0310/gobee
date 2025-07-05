@@ -9,6 +9,9 @@
 
     分组分回合,同一组的system在同一回合内执行
     有依赖的system在前一次components迭代完成后再次迭代
+ - world/system是否可以实现为component
+ - system的执行顺序如何保证
+ - 没有挂载到entity上的游离态component是否可以被system处理
 # 位运算
   1. 通过位运算来表示entity挂载了哪些component
 2. 通过位运算来表示system需要哪些component
