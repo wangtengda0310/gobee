@@ -53,9 +53,9 @@ func TestNew(t *testing.T) {
 	}
 	s1 := New[componentA, componentB, componentC](
 		s1cb,
-		func() componentA { component.AddComponent(a); return a },
-		func() componentB { component.AddComponent(b); return b },
-		func() componentC { component.AddComponent(c); return c },
+		func() componentA { return a },
+		func() componentB { return b },
+		func() componentC { return c },
 	)
 	s1.update()
 	assert.Equal(t, []any{a, b, c}, r)

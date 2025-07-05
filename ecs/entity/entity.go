@@ -49,16 +49,47 @@ func Del(e Entity) {
 	}
 }
 func RemoveComponent(e Entity, components ...component.Component) (r []component.Component) {
+	var v = Pool[e]
+	for _, c := range Chunks[v].Components {
+		c.Del(int(e))
+	}
+	for _, c := range components {
+		i := int(c.Type())
+		v = Archetype(int(v) ^ i)
+	}
+	Pool[e] = v
+
+	for _, c := range components {
+		c2, ok := Chunks[v].Components[c.Type()]
+		if !ok {
+			continue
+		}
+		c2.Del(int(id))
+	}
+
 	return nil
 }
 func AddComponent(e Entity, components ...component.Component) {
 	var v = Pool[e]
+	for _, c := range Chunks[v].Components {
+		c.Del(int(e))
+	}
 	for _, c := range components {
 		i := int(c.Type())
 		v = Archetype(int(v) | i)
 	}
 	Pool[e] = v
-	component.AddComponent(components...)
+	if Chunks[v] == nil {
+		Chunks[v] = &Chunk{Archetype: v, Components: map[component.Type]component.SparseSet[component.Component]{}}
+	}
+	for _, c := range components {
+		c2, ok := Chunks[v].Components[c.Type()]
+		if !ok {
+			c2 = component.SparseSet[component.Component]{}
+			Chunks[v].Components[c.Type()] = c2
+		}
+		c2.Add(int(id), c)
+	}
 }
 
 type Archetype int

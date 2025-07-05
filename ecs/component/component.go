@@ -5,8 +5,6 @@ type SparseSet[T Component] struct {
 	sparse []int
 }
 
-var allType = SparseSet[Component]{}
-
 func (s *SparseSet[T]) Get(id int) []T {
 	if id < 0 || id >= len(s.sparse) {
 		return nil
@@ -58,15 +56,4 @@ func (s *SparseSet[T]) Del(id int) {
 type Type int
 type Component interface {
 	Type() Type
-}
-
-func AddComponent(components ...Component) {
-	for _, c := range components {
-		t := int(c.Type())
-		allType.Add(t, c)
-	}
-}
-
-func Data(c Type) []Component {
-	return allType.Get(int(c))
 }
