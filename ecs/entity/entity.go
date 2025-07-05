@@ -9,17 +9,8 @@ import (
 	"github.com/wangtengda0310/gobee/ecs/component"
 )
 
-// Pool is a fixed size array to store entity data
-// Pool[0] is the next entity id to allocate
-// Pool[1:L] stores the entity data, where index stands for entity id
-// Pool[m:R] stores removed entity ids to reuse, where m is the last removed entity index
-var Pool = make([]Archetype, 256)
-
-var (
-	L = 1             // stands for next allocate
-	M = len(Pool) - 1 // collects removed entity to reuse
-	R = M             // capacity for Pool
-)
+var id Entity
+var Pool = map[Entity]Archetype{}
 
 type Entity uint64
 
@@ -36,35 +27,28 @@ func New(components ...component.Component) Entity {
 		archetype = archetype | int(c.Type())
 	}
 
-	Chunks[Archetype(archetype)] = &Chunk{Components: map[component.Type][]component.Component{}}
+	id++
+	Pool[id] = Archetype(archetype)
+
+	Chunks[Archetype(archetype)] = &Chunk{Components: map[component.Type]component.SparseSet[component.Component]{}}
 	for _, c := range components {
-		cs := Chunks[Archetype(archetype)].Components[c.Type()]
-		Chunks[Archetype(archetype)].Components[c.Type()] = append(cs, c)
+		sparse := Chunks[Archetype(archetype)].Components[c.Type()]
+		sparse.Add(int(id), c)
 	}
 
-	if M == R {
-		// new entity
-		e := Pool[0] + 1
-		Pool[L] = Archetype(archetype)
-		L++
-		Pool[0] = e
-		return Entity(L - 1)
-	} else {
-		// reuse entity
-		//M++
-		//e := Pool[M]
-		Pool[L] = Archetype(archetype)
-		L++
-		return Entity(L - 1)
-	}
+	return id
 }
 
 func Del(e Entity) {
-	L--
-	Pool[e], Pool[M] = Pool[L], Pool[e]
-	M--
+	delete(Pool, e)
+	if chunk, ok := Chunks[Pool[e]]; ok {
+		for _, cs := range chunk.Components {
+			cs.Del(int(e))
+		}
+		delete(Chunks, Pool[e])
+	}
 }
-func Components(e Entity) (r []component.Component) {
+func RemoveComponent(e Entity, components ...component.Component) (r []component.Component) {
 	return nil
 }
 func AddComponent(e Entity, components ...component.Component) {
@@ -80,5 +64,5 @@ func AddComponent(e Entity, components ...component.Component) {
 type Archetype int
 type Chunk struct {
 	Archetype  Archetype
-	Components map[component.Type][]component.Component
+	Components map[component.Type]component.SparseSet[component.Component]
 }

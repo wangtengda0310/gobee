@@ -1,13 +1,13 @@
 package component
 
-type sparseSet[T Component] struct {
+type SparseSet[T Component] struct {
 	dense  [][]T
 	sparse []int
 }
 
-var allType = sparseSet[Component]{}
+var allType = SparseSet[Component]{}
 
-func (s *sparseSet[T]) Get(id int) []T {
+func (s *SparseSet[T]) Get(id int) []T {
 	if id < 0 || id >= len(s.sparse) {
 		return nil
 	}
@@ -18,7 +18,7 @@ func (s *sparseSet[T]) Get(id int) []T {
 	return s.dense[idx]
 }
 
-func (s *sparseSet[T]) Add(id int, c T) {
+func (s *SparseSet[T]) Add(id int, c T) {
 	if s.sparse == nil {
 		s.sparse = make([]int, len(s.dense))
 	}
@@ -37,6 +37,21 @@ func (s *sparseSet[T]) Add(id int, c T) {
 	s.dense = append(s.dense, nil)
 	s.dense[idx] = append(s.dense[idx], c)
 	s.sparse[id] = idx
+}
+func (s *SparseSet[T]) Del(id int) {
+	if id < 0 || id >= len(s.sparse) {
+		return
+	}
+	idx := s.sparse[id]
+	if idx < 0 || idx >= len(s.dense) {
+		return
+	}
+
+	s.dense[len(s.dense)-1] = s.dense[idx]
+	s.dense = s.dense[:len(s.dense)-1]
+
+	s.sparse[id] = -1 // mark as empty
+
 }
 
 // Type represents a component type in the ECS system. hold only one flag in bits
