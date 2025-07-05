@@ -13,7 +13,7 @@ import (
 // Pool[0] is the next entity id to allocate
 // Pool[1:L] stores the entity data, where index stands for entity id
 // Pool[m:R] stores removed entity ids to reuse, where m is the last removed entity index
-var Pool = make([]int, 256)
+var Pool = make([]Archetype, 256)
 
 var (
 	L = 1             // stands for next allocate
@@ -27,34 +27,41 @@ func init() {
 	Pool[0] = 0
 }
 
-func New(components ...component.Type) Entity {
-	// v stands for all components that entity holding by bitset
-	var v int
+var Chunks = map[Archetype]*Chunk{}
+
+func New(components ...component.Component) Entity {
+	// archetype stands for all components that entity holding by bitset
+	var archetype int
 	for _, c := range components {
-		i := int(c)
-		v = v | i
+		archetype = archetype | int(c.Type())
+	}
+
+	Chunks[Archetype(archetype)] = &Chunk{Components: map[component.Type][]component.Component{}}
+	for _, c := range components {
+		cs := Chunks[Archetype(archetype)].Components[c.Type()]
+		Chunks[Archetype(archetype)].Components[c.Type()] = append(cs, c)
 	}
 
 	if M == R {
 		// new entity
 		e := Pool[0] + 1
-		Pool[L] = v
+		Pool[L] = Archetype(archetype)
 		L++
 		Pool[0] = e
 		return Entity(L - 1)
 	} else {
 		// reuse entity
-		M++
-		e := Pool[M]
-		Pool[L] = v
+		//M++
+		//e := Pool[M]
+		Pool[L] = Archetype(archetype)
 		L++
-		return Entity(e)
+		return Entity(L - 1)
 	}
 }
 
 func Del(e Entity) {
 	L--
-	Pool[e], Pool[M] = Pool[L], int(e)
+	Pool[e], Pool[M] = Pool[L], Pool[e]
 	M--
 }
 func Components(e Entity) (r []component.Component) {
@@ -64,8 +71,14 @@ func AddComponent(e Entity, components ...component.Component) {
 	var v = Pool[e]
 	for _, c := range components {
 		i := int(c.Type())
-		v = v | i
+		v = Archetype(int(v) | i)
 	}
 	Pool[e] = v
 	component.AddComponent(components...)
+}
+
+type Archetype int
+type Chunk struct {
+	Archetype  Archetype
+	Components map[component.Type][]component.Component
 }

@@ -19,38 +19,12 @@ type DispatcherGroup struct {
 }
 type DispatcherRound struct {
 	archetype int
-	system    []func()
+	system    []func(chunk entity.Chunk)
 }
 
 var structDispatcher = &systemDispatcher{}
 
-func One(p component.Type, system func()) {
-	var match bool
-	for _, group := range structDispatcher.group {
-		if len(group.round) == 0 {
-			continue
-		}
-		if group.round[0].archetype&int(p) == 0 {
-			continue
-		} else {
-			group.round[0].archetype |= int(p)
-			match = true
-		}
-	}
-	if !match {
-		// create new round
-		structDispatcher.group = append(structDispatcher.group, DispatcherGroup{
-			round: []DispatcherRound{
-				{
-					archetype: int(p),
-					system:    []func(){system},
-				},
-			},
-		})
-	}
-}
-
-func Group(f func(), p ...component.Type) {
+func Group(f func(chunk entity.Chunk), p ...component.Type) {
 	var mask int
 	for _, c := range p {
 		mask |= int(c)
@@ -60,10 +34,9 @@ func Group(f func(), p ...component.Type) {
 		if len(group.round) == 0 {
 			continue
 		}
-		if group.round[0].archetype&mask == 0 {
+		if group.round[0].archetype != mask {
 			continue
 		} else {
-			group.round[0].archetype |= mask
 			group.round[0].system = append(group.round[0].system, f)
 			match = true
 		}
@@ -74,39 +47,15 @@ func Group(f func(), p ...component.Type) {
 			round: []DispatcherRound{
 				{
 					archetype: mask,
-					system:    []func(){f},
+					system:    []func(chunk entity.Chunk){f},
 				},
 			},
 		})
 	}
 
-	tryMerge()
 }
 
-func tryMerge() {
-	for g, currentGroup := range structDispatcher.group {
-		if len(currentGroup.round) == 0 {
-			continue
-		}
-		if g == len(structDispatcher.group)-1 {
-			// last group, no next group to merge
-			continue
-		}
-		nextGroup := structDispatcher.group[g+1]
-		nextGroupAllRound := nextGroup.round
-		if nextGroupAllRound[0].archetype&currentGroup.round[0].archetype != 0 {
-			var r = 0
-			// todo 这里使用树状结构是否可以使round易于并行执行
-			for r < len(nextGroup.round) {
-				currentGroup.round[r].archetype |= nextGroupAllRound[r].archetype
-				currentGroup.round[r].system = append(currentGroup.round[r].system, nextGroup.round[r].system...)
-				r++
-			}
-		}
-	}
-}
-
-func Round(p component.Type, q component.Type, f func()) {
+func Round(p component.Type, q component.Type, f func(chunk entity.Chunk)) {
 	for _, group := range structDispatcher.group {
 		if len(group.round) == 0 {
 			continue
@@ -120,7 +69,7 @@ func Round(p component.Type, q component.Type, f func()) {
 			} else {
 				group.round = append(group.round, DispatcherRound{
 					archetype: int(q),
-					system:    []func(){f},
+					system:    []func(chunk entity.Chunk){f},
 				})
 			}
 			return
@@ -130,59 +79,36 @@ func Round(p component.Type, q component.Type, f func()) {
 		round: []DispatcherRound{
 			{
 				archetype: int(p),
-				system:    []func(){f},
+				system:    []func(chunk entity.Chunk){f},
 			},
 			{
 				archetype: int(q),
-				system:    []func(){f},
+				system:    []func(chunk entity.Chunk){f},
 			}}})
 }
 
 func Range(dispatcher systemDispatcher) int {
 	var c int
-	for i := 1; i < entity.L; i++ {
-		ec := entity.Pool[i]
-		for _, components := range dispatcher.group {
-			for _, sc := range components.round {
-				if ec&sc.archetype == sc.archetype {
+	for archetype, chunk := range entity.Chunks {
+		for _, groupedSystem := range dispatcher.group {
+			for _, sc := range groupedSystem.round {
+				if int(archetype)&sc.archetype == sc.archetype {
 					c++
-					// load components
-					var eca [][]component.Component
-					var cce = 1
-					// grouped must sync
-					for cce <= sc.archetype {
-						data := component.Data(component.Type(cce))
-						if cce > len(eca)-1 {
-							// expand eca
-							newEca := make([][]component.Component, cce+1)
-							copy(newEca, eca)
-							eca = newEca
-						}
-						eca[cce] = data
-						cce = cce << 1
-					}
 
 					// not grouped can async
 					var args []any
-					go func(c int) {
-						var cc = 1
+					func(c int, chunk entity.Chunk) {
 						// grouped must sync
-						for cc <= sc.archetype {
-							if cc&sc.archetype == 0 {
-								continue
-							}
-							args = append(args, eca[cc][0])
-							for _, f := range sc.system {
-								f()
-							}
-							println("call system with args", args)
-							println("Entity:", i, "Components:", ec, "Dispatcher:", &sc, "Group", c, "type:", cc)
-							cc = cc << 1
+						for _, f := range sc.system {
+							f(chunk)
 						}
-					}(c)
+						println("call system with args", args)
+						//println("Entity:", i, "Dispatcher:", &sc, "Group", c, "type:", chunk.Archetype)
+					}(c, *chunk)
 				}
 			}
 		}
+
 	}
 	return c
 }
