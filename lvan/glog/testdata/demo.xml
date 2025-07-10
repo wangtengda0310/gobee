@@ -1,0 +1,939 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<metalib name="log">
+  <struct name="online" version="1.0" desc="角色在线" obj="服务器事件" source="服务端" code="201010" level="A" isglog="true" type="通用" trigger="每分钟每个区服触发一次，统计在线角色数" use="实时数据采集">
+    <entry name="log_id" required="true" type="string" title="日志id" desc="日志流水号,在一个游戏区服下，每条日志必须保证全局唯一性且递增" catalog="ext" order="1"/>
+    <entry name="event_time" required="true" type="string" title="事件时间" desc="事件触发日期，时间格式为Z yyyy-MM-dd HH:mm:ss 时区+时间形式，如：+0800 2020-10-26 20:16:38" catalog="ext" order="2"/>
+    <entry name="zone_id" required="true" type="string" title="区服组id" desc="来源游戏，服务器游戏产品ID" catalog="ext" order="3"/>
+    <entry name="zone_name" required="true" type="string" title="区服组名称" desc="来源游戏，区服组名称" catalog="ext" order="4"/>
+    <entry name="server_id" required="true" type="string" title="区服id" desc="来源游戏，区服id" catalog="base" order="5"/>
+    <entry name="game_version" required="false" type="string" title="游戏版本号" desc="来源游戏，游戏版本号" catalog="base" order="6"/>
+    <entry name="online_num" required="true" type="bigint" title="在线人数" desc="来源游戏，区服内对应渠道的当前在线人数" catalog="ext" order="7"/>
+    <entry name="account_list" required="true" type="string" title="账号id列表" desc="来源游戏，区服内对应渠道的当前在线玩家账号id列表" catalog="ext" order="8"/>
+  </struct>
+  <struct name="pay" version="1.0" desc="充值" obj="角色事件" source="服务端" code="100021" level="A" isglog="true" type="通用" trigger="3种情况下触发该事件：未支付：角色创建订单时记录支付成功：收到SDK支付成功回调时记录确认发货完成：支付成功后对角色发货成功或补发成功时记录" use="基础运营分析/实时数据基础运营分析/用户维度数据基础运营分析/区服维度数据流失分析/转化分析（漏斗模型）合服分析/累计充值破冰分析/充值行为客诉处理/客服明细查询工具财务对账/充值流水及汇总数据">
+    <entry name="log_id" required="true" type="string" title="日志id" desc="日志流水号,在一个游戏区服下，每条日志必须保证全局唯一性且递增" catalog="base" order="1"/>
+    <entry name="event_time" required="true" type="string" title="事件时间" desc="事件触发日期，时间格式为Z yyyy-MM-dd HH:mm:ss 时区+时间形式，如：+0800 2020-10-26 20:16:38" catalog="base" order="2"/>
+    <entry name="zone_id" required="true" type="string" title="区服组id" desc="来源游戏，服务器游戏产品ID" catalog="base" order="3"/>
+    <entry name="game_version" required="true" type="string" title="游戏版本号" desc="来源游戏，服务器上的游戏版本号" catalog="base" order="4"/>
+    <entry name="pub_id" required="true" type="string" title="发行商id" desc="由CP-SDK透传给游戏记录，来源于绿岸CP-SDK包体" catalog="base" order="5"/>
+    <entry name="tunnel_id" required="true" type="string" title="通道id" desc="由CP-SDK透传给游戏记录，来源于绿岸CP-SDK包体" catalog="base" order="6"/>
+    <entry name="server_id" required="true" type="string" title="区服id" desc="来源游戏，服务器区服ID，角色创角原始区服，合服后仍传原始区服" catalog="base" order="7"/>
+    <entry name="cpsdk_account_id" required="true" type="string" title="账号id" desc="由CP-SDK生成的cpsdk账号id" catalog="base" order="8"/>
+    <entry name="game_account_id" required="true" type="string" title="游戏账号id" desc="来源游戏，游戏的账号id" catalog="base" order="9"/>
+    <entry name="role_id" required="true" type="string" title="角色id" desc="来源游戏，游戏角色id" catalog="base" order="10"/>
+    <entry name="role_name" required="true" type="string" title="角色名" desc="来源游戏，角色当前角色名" catalog="base" order="11"/>
+    <entry name="order_id" required="true" type="string" title="游戏订单id" desc="来源游戏，游戏内点击购买时生成的订单号" catalog="ext" order="12"/>
+    <entry name="cpsdk_order_id" required="true" type="string" title="SDK订单id" desc="CP-SDK返回给游戏的订单号" catalog="ext" order="13"/>
+    <entry name="pay_type" required="true" type="string" title="充值类型" desc="来源游戏，枚举说明【1=正常充值，99=GM充值（非人民币获得的游戏内部充值）， 其他枚举见 sheet-枚举表】" catalog="ext" order="14"/>
+    <entry name="order_status" required="true" type="string" title="订单状态" desc="来源游戏，枚举说明【1=未支付，3=支付成功，5=确认发货完成】" catalog="ext" order="15"/>
+    <entry name="order_moneytype" required="true" type="string" title="订单货币类型" desc="来源游戏，枚举说明【CNY=人民币】" catalog="ext" order="16"/>
+    <entry name="order_amount" required="true" type="bigint" title="订单金额(单位:分)" desc="来源游戏，充值单位说明【单位：分】" catalog="ext" order="17"/>
+    <entry name="money_amount" required="true" type="bigint" title="充值获得代币数量" desc="来源游戏，订单内兑换的代币数量" catalog="ext" order="18"/>
+    <entry name="product_id" required="true" type="string" title="商品id" desc="来源游戏，充值购买商品的编号" catalog="ext" order="19"/>
+    <entry name="product_name" required="true" type="string" title="商品名称" desc="来源游戏，充值购买商品的名称" catalog="ext" order="20"/>
+    <entry name="product_num" required="true" type="bigint" title="商品数量" desc="来源游戏，充值购买商品的数量" catalog="ext" order="21"/>
+    <entry name="device_id" required="true" type="string" title="设备id" desc="来源于绿岸CP-SDK包体，用户设备的唯一id，由CP-SDK透传给游戏记录" catalog="ext" order="22"/>
+    <entry name="user_ip" required="true" type="string" title="用户IP地址" desc="来源于绿岸CP-SDK包体，客户端记录的IP地址，由CP-SDK透传给游戏记录" catalog="ext" order="23"/>
+    <entry name="order_source" required="false" type="string" title="充值来源" desc="充值来源新增枚举：活动充值，普通充值等，由策划定义" catalog="ext" order="24"/>
+    <entry name="order_source_value" required="false" type="string" title="充值来源参数" desc="充值来源参数新增枚举：活动充值的话，对应的参数为活动id，由策划定义" catalog="ext" order="25"/>
+    <entry name="platform" required="false" type="string" title="运行平台" desc="来源CP-SDK，运行平台，如抖音小游戏、微信小游戏等" catalog="ext" order="26"/>
+    <entry name="device_name" required="false" type="string" title="设备名称" desc="来源CP-SDK，手机操作系统，如IOS、安卓" catalog="ext" order="27"/>
+    <entry name="device_os" required="false" type="string" title="操作系统" desc="来源CP-SDK，设备名称，如iPhone14 Pro等" catalog="ext" order="28"/>
+    <entry name="variable_id_100073" required="true" type="ext" title="主线关数" desc="表示玩家当前通关的主线关卡数" catalog="字典" order="100" ext_type="5001" ext_id="100073" ext_id_dict="Variable"/>
+    <entry name="growth_id_10002" required="true" type="ext" title="账号等级" desc="账号等级" catalog="字典" order="101" ext_type="4001" ext_id="10002" ext_id_dict="Item"/>
+  </struct>
+  <struct name="activity" version="1.0" desc="活动日志" obj="角色事件" source="服务端" code="109001" level="B" isglog="true" type="通用" trigger="玩家开启活动时记录" use="">
+    <entry name="log_id" required="true" type="string" title="日志id" desc="日志流水号,在一个游戏区服下，每条日志必须保证全局唯一性且递增" catalog="base" order="1"/>
+    <entry name="event_time" required="true" type="string" title="事件时间" desc="事件触发日期，时间格式为Z yyyy-MM-dd HH:mm:ss 时区+时间形式，如：+0800 2020-10-26 20:16:38" catalog="base" order="2"/>
+    <entry name="zone_id" required="true" type="string" title="区服组id" desc="来源游戏，服务器游戏产品ID" catalog="base" order="3"/>
+    <entry name="game_version" required="true" type="string" title="游戏版本号" desc="来源游戏，服务器上的游戏版本号" catalog="base" order="4"/>
+    <entry name="pub_id" required="true" type="string" title="发行商id" desc="由CP-SDK透传给游戏记录，来源于绿岸CP-SDK包体" catalog="base" order="5"/>
+    <entry name="tunnel_id" required="true" type="string" title="通道id" desc="由CP-SDK透传给游戏记录，来源于绿岸CP-SDK包体" catalog="base" order="6"/>
+    <entry name="server_id" required="true" type="string" title="区服id" desc="来源游戏，服务器区服ID，角色创角原始区服，合服后仍传原始区服" catalog="base" order="7"/>
+    <entry name="cpsdk_account_id" required="true" type="string" title="账号id" desc="由CP-SDK生成的cpsdk账号id" catalog="base" order="8"/>
+    <entry name="game_account_id" required="true" type="string" title="游戏账号id" desc="来源游戏，游戏的账号id" catalog="base" order="9"/>
+    <entry name="role_id" required="true" type="string" title="角色id" desc="来源游戏，游戏角色id" catalog="base" order="10"/>
+    <entry name="role_name" required="true" type="string" title="角色名" desc="来源游戏，角色当前角色名" catalog="base" order="11"/>
+    <entry name="activity_id" required="true" type="string" title="活动id" desc="具体记录活动的ID，如1=通行证，2=月卡等" catalog="ext" order="12"/>
+    <entry name="activity_op_type" required="true" type="string" title="活动操作类型" desc="活动操作类型，目前仅有活动开启" catalog="ext" order="13"/>
+  </struct>
+  <struct name="role_rename" version="1.0" desc="角色改名" obj="角色事件" source="服务端" code="107070" level="A" isglog="true" type="通用" trigger="角色改名成功时记录" use="客诉处理/客服明细查询工具">
+    <entry name="log_id" required="true" type="string" title="日志id" desc="日志流水号,在一个游戏区服下，每条日志必须保证全局唯一性且递增" catalog="base" order="1"/>
+    <entry name="event_time" required="true" type="string" title="事件时间" desc="事件触发日期，时间格式为Z yyyy-MM-dd HH:mm:ss 时区+时间形式，如：+0800 2020-10-26 20:16:38" catalog="base" order="2"/>
+    <entry name="zone_id" required="true" type="string" title="区服组id" desc="来源游戏，服务器游戏产品ID" catalog="base" order="3"/>
+    <entry name="game_version" required="true" type="string" title="游戏版本号" desc="来源游戏，服务器上的游戏版本号" catalog="base" order="4"/>
+    <entry name="pub_id" required="true" type="string" title="发行商id" desc="由CP-SDK透传给游戏记录，来源于绿岸CP-SDK包体" catalog="base" order="5"/>
+    <entry name="tunnel_id" required="true" type="string" title="通道id" desc="由CP-SDK透传给游戏记录，来源于绿岸CP-SDK包体" catalog="base" order="6"/>
+    <entry name="server_id" required="true" type="string" title="区服id" desc="来源游戏，服务器区服ID，角色创角原始区服，合服后仍传原始区服" catalog="base" order="7"/>
+    <entry name="cpsdk_account_id" required="true" type="string" title="账号id" desc="由CP-SDK生成的cpsdk账号id" catalog="base" order="8"/>
+    <entry name="game_account_id" required="true" type="string" title="游戏账号id" desc="来源游戏，游戏的账号id" catalog="base" order="9"/>
+    <entry name="role_id" required="true" type="string" title="角色id" desc="来源游戏，游戏角色id" catalog="base" order="10"/>
+    <entry name="role_name" required="true" type="string" title="角色名" desc="来源游戏，角色当前角色名" catalog="base" order="11"/>
+    <entry name="old_name" required="true" type="string" title="改名前角色名" desc="来源于游戏，玩家的曾用名" catalog="ext" order="12"/>
+    <entry name="namechange_result" required="true" type="string" title="改名结果" desc="玩家此次改名操作结果，【研发自定义枚举见sheet-枚举表】" catalog="ext" order="13"/>
+    <entry name="namechange_detail" required="true" type="string" title="改名失败明细" desc="玩家此次改名操作结果，【研发自定义枚举见sheet-枚举表】" catalog="ext" order="14"/>
+    <entry name="namechange_content" required="true" type="string" title="改名内容" desc="玩家此次尝试改名的名字" catalog="ext" order="15"/>
+    <entry name="namechange_failtype" required="true" type="string" title="改名失败类型" desc="玩家此次改名失败的原因，【研发自定义枚举见sheet-枚举表】" catalog="ext" order="16"/>
+  </struct>
+  <struct name="get_money" version="1.0" desc="充值货币获得" obj="角色事件" source="服务端" code="101010" level="A" isglog="true" type="通用" trigger="角色获得充值货币时记录（如果充值货币有额外赠送的，需要区分）" use="产销监控/充值货币产销监控客诉处理/客服明细查询工具财务对账/充值货币存量及产销">
+    <entry name="log_id" required="true" type="string" title="日志id" desc="日志流水号,在一个游戏区服下，每条日志必须保证全局唯一性且递增" catalog="base" order="1"/>
+    <entry name="event_time" required="true" type="string" title="事件时间" desc="事件触发日期，时间格式为Z yyyy-MM-dd HH:mm:ss 时区+时间形式，如：+0800 2020-10-26 20:16:38" catalog="base" order="2"/>
+    <entry name="zone_id" required="true" type="string" title="区服组id" desc="来源游戏，服务器游戏产品ID" catalog="base" order="3"/>
+    <entry name="game_version" required="true" type="string" title="游戏版本号" desc="来源游戏，服务器上的游戏版本号" catalog="base" order="4"/>
+    <entry name="pub_id" required="true" type="string" title="发行商id" desc="由CP-SDK透传给游戏记录，来源于绿岸CP-SDK包体" catalog="base" order="5"/>
+    <entry name="tunnel_id" required="true" type="string" title="通道id" desc="由CP-SDK透传给游戏记录，来源于绿岸CP-SDK包体" catalog="base" order="6"/>
+    <entry name="server_id" required="true" type="string" title="区服id" desc="来源游戏，服务器区服ID，角色创角原始区服，合服后仍传原始区服" catalog="base" order="7"/>
+    <entry name="cpsdk_account_id" required="true" type="string" title="账号id" desc="由CP-SDK生成的cpsdk账号id" catalog="base" order="8"/>
+    <entry name="game_account_id" required="true" type="string" title="游戏账号id" desc="来源游戏，游戏的账号id" catalog="base" order="9"/>
+    <entry name="role_id" required="true" type="string" title="角色id" desc="来源游戏，游戏角色id" catalog="base" order="10"/>
+    <entry name="role_name" required="true" type="string" title="角色名" desc="来源游戏，角色当前角色名" catalog="base" order="11"/>
+    <entry name="money_type" required="true" type="string" title="货币类型" desc="来源游戏，记录充值货币id" catalog="ext" order="12"/>
+    <entry name="change_amount" required="true" type="bigint" title="变化数量" desc="来源游戏，货币变化数量" catalog="ext" order="13"/>
+    <entry name="before_amount" required="true" type="bigint" title="变化前值" desc="来源游戏，变化前值" catalog="ext" order="14"/>
+    <entry name="after_amount" required="true" type="bigint" title="变化后值" desc="来源游戏，变化后值" catalog="ext" order="15"/>
+    <entry name="op_type" required="true" type="string" title="变化行为分类" desc="来源游戏，变化行为分类【研发自定义枚举见sheet-枚举表】" catalog="ext" order="16"/>
+    <entry name="op_type1" required="false" type="string" title="扩展参数" desc="来源游戏，其他补充信息内容【研发自定义枚举见sheet-枚举表】" catalog="ext" order="17"/>
+    <entry name="op_type2" required="false" type="string" title="扩展属性2" desc="来源游戏，其他补充信息内容【研发自定义枚举见sheet-枚举表】" catalog="ext" order="18"/>
+    <entry name="op_type3" required="false" type="string" title="扩展属性3" desc="来源游戏，其他补充信息内容【研发自定义枚举见sheet-枚举表】" catalog="ext" order="19"/>
+  </struct>
+  <struct name="create_role" version="1.0" desc="角色创建" obj="角色事件" source="服务端" code="107020" level="A" isglog="true" type="通用" trigger="创角成功时记录" use="基础运营分析/实时数据基础运营分析/用户维度数据基础运营分析/区服维度数据流失分析/转化分析（漏斗模型）破冰分析/充值行为客诉处理/客服明细查询工具">
+    <entry name="log_id" required="true" type="string" title="日志id" desc="日志流水号,在一个游戏区服下，每条日志必须保证全局唯一性且递增" catalog="base" order="1"/>
+    <entry name="event_time" required="true" type="string" title="事件时间" desc="事件触发日期，时间格式为Z yyyy-MM-dd HH:mm:ss 时区+时间形式，如：+0800 2020-10-26 20:16:38" catalog="base" order="2"/>
+    <entry name="zone_id" required="true" type="string" title="区服组id" desc="来源游戏，服务器游戏产品ID" catalog="base" order="3"/>
+    <entry name="game_version" required="true" type="string" title="游戏版本号" desc="来源游戏，服务器上的游戏版本号" catalog="base" order="4"/>
+    <entry name="pub_id" required="true" type="string" title="发行商id" desc="由CP-SDK透传给游戏记录，来源于绿岸CP-SDK包体" catalog="base" order="5"/>
+    <entry name="tunnel_id" required="true" type="string" title="通道id" desc="由CP-SDK透传给游戏记录，来源于绿岸CP-SDK包体" catalog="base" order="6"/>
+    <entry name="server_id" required="true" type="string" title="区服id" desc="来源游戏，服务器区服ID，角色创角原始区服，合服后仍传原始区服" catalog="base" order="7"/>
+    <entry name="cpsdk_account_id" required="true" type="string" title="账号id" desc="由CP-SDK生成的cpsdk账号id" catalog="base" order="8"/>
+    <entry name="game_account_id" required="true" type="string" title="游戏账号id" desc="来源游戏，游戏的账号id" catalog="base" order="9"/>
+    <entry name="role_id" required="true" type="string" title="角色id" desc="来源游戏，游戏角色id" catalog="base" order="10"/>
+    <entry name="role_name" required="true" type="string" title="角色名" desc="来源游戏，角色当前角色名" catalog="base" order="11"/>
+    <entry name="acc_role_num" required="true" type="bigint" title="账号已创角数量" desc="来源游戏，统计该账号已创角过的角色数量，包含当次创角。" catalog="ext" order="12"/>
+    <entry name="is_name_random" required="true" type="string" title="取名是否随机" desc="来源游戏，枚举说明【0=手动输入，1=随机生成】 如无法满足请联系数据部门" catalog="ext" order="13"/>
+    <entry name="device_id" required="true" type="string" title="设备id" desc="来源于绿岸CP-SDK包体，用户设备的唯一id，由CP-SDK透传给游戏记录" catalog="ext" order="14"/>
+    <entry name="user_ip" required="true" type="string" title="用户IP地址" desc="来源于绿岸CP-SDK包体，客户端记录的IP地址，由CP-SDK透传给游戏记录" catalog="ext" order="15"/>
+    <entry name="platform" required="false" type="string" title="运行平台" desc="来源CP-SDK，运行平台，如抖音小游戏、微信小游戏等" catalog="ext" order="16"/>
+    <entry name="device_name" required="false" type="string" title="设备名称" desc="来源CP-SDK，手机操作系统，如IOS、安卓" catalog="ext" order="17"/>
+    <entry name="device_os" required="false" type="string" title="操作系统" desc="来源CP-SDK，设备名称，如iPhone14 Pro等" catalog="ext" order="18"/>
+  </struct>
+  <struct name="create_game_account" version="1.0" desc="游戏服务端账号注册" obj="角色事件" source="服务端" code="107000" level="A" isglog="true" type="通用" trigger="游戏服务端账号注册成功时记录；玩家通过微信、美团、陌陌等小程序进入游戏后，是直接默认注册且创角，不需要玩家手动执行，但是玩家会因为机型老旧快速退出，存在SDK账号注册->角色创建转化低的情况，所以该埋点主要做注册转化漏斗分析使用，触发条件是游戏首次跟SDK openID绑定成功 生成游戏账号。转化环节：SDK账号注册->游戏账号注册->角色创建" use="流失分析/转化分析（漏斗模型）">
+    <entry name="log_id" required="true" type="string" title="日志id" desc="日志流水号,在一个游戏区服下，每条日志必须保证全局唯一性且递增" catalog="base" order="1"/>
+    <entry name="event_time" required="true" type="string" title="事件时间" desc="事件触发日期，时间格式为Z yyyy-MM-dd HH:mm:ss 时区+时间形式，如：+0800 2020-10-26 20:16:38" catalog="base" order="2"/>
+    <entry name="zone_id" required="true" type="string" title="区服组id" desc="来源游戏，服务器游戏产品ID" catalog="base" order="3"/>
+    <entry name="game_version" required="true" type="string" title="游戏版本号" desc="来源游戏，服务器上的游戏版本号" catalog="base" order="4"/>
+    <entry name="pub_id" required="true" type="string" title="发行商id" desc="由CP-SDK透传给游戏记录，来源于绿岸CP-SDK包体" catalog="base" order="5"/>
+    <entry name="tunnel_id" required="true" type="string" title="通道id" desc="由CP-SDK透传给游戏记录，来源于绿岸CP-SDK包体" catalog="base" order="6"/>
+    <entry name="server_id" required="true" type="string" title="区服id" desc="来源游戏，服务器区服ID，角色创角原始区服，合服后仍传原始区服" catalog="base" order="7"/>
+    <entry name="cpsdk_account_id" required="true" type="string" title="账号id" desc="由CP-SDK生成的cpsdk账号id" catalog="base" order="8"/>
+    <entry name="game_account_id" required="true" type="string" title="游戏账号id" desc="来源游戏，游戏的账号id" catalog="base" order="9"/>
+    <entry name="role_id" required="true" type="string" title="角色id" desc="来源游戏，游戏角色id" catalog="base" order="10"/>
+    <entry name="role_name" required="true" type="string" title="角色名" desc="来源游戏，角色当前角色名" catalog="base" order="11"/>
+    <entry name="device_id" required="true" type="string" title="设备id" desc="来源于绿岸CP-SDK包体，用户设备的唯一id，由CP-SDK透传给游戏记录" catalog="ext" order="12"/>
+  </struct>
+  <struct name="use_money" version="1.0" desc="充值货币消耗" obj="角色事件" source="服务端" code="101020" level="A" isglog="true" type="通用" trigger="角色消耗充值货币时记录（如果充值货币有额外赠送的，需要区分）" use="产销监控/充值货币产销监控客诉处理/客服明细查询工具财务对账/充值货币存量及产销">
+    <entry name="log_id" required="true" type="string" title="日志id" desc="日志流水号,在一个游戏区服下，每条日志必须保证全局唯一性且递增" catalog="base" order="1"/>
+    <entry name="event_time" required="true" type="string" title="事件时间" desc="事件触发日期，时间格式为Z yyyy-MM-dd HH:mm:ss 时区+时间形式，如：+0800 2020-10-26 20:16:38" catalog="base" order="2"/>
+    <entry name="zone_id" required="true" type="string" title="区服组id" desc="来源游戏，服务器游戏产品ID" catalog="base" order="3"/>
+    <entry name="game_version" required="true" type="string" title="游戏版本号" desc="来源游戏，服务器上的游戏版本号" catalog="base" order="4"/>
+    <entry name="pub_id" required="true" type="string" title="发行商id" desc="由CP-SDK透传给游戏记录，来源于绿岸CP-SDK包体" catalog="base" order="5"/>
+    <entry name="tunnel_id" required="true" type="string" title="通道id" desc="由CP-SDK透传给游戏记录，来源于绿岸CP-SDK包体" catalog="base" order="6"/>
+    <entry name="server_id" required="true" type="string" title="区服id" desc="来源游戏，服务器区服ID，角色创角原始区服，合服后仍传原始区服" catalog="base" order="7"/>
+    <entry name="cpsdk_account_id" required="true" type="string" title="账号id" desc="由CP-SDK生成的cpsdk账号id" catalog="base" order="8"/>
+    <entry name="game_account_id" required="true" type="string" title="游戏账号id" desc="来源游戏，游戏的账号id" catalog="base" order="9"/>
+    <entry name="role_id" required="true" type="string" title="角色id" desc="来源游戏，游戏角色id" catalog="base" order="10"/>
+    <entry name="role_name" required="true" type="string" title="角色名" desc="来源游戏，角色当前角色名" catalog="base" order="11"/>
+    <entry name="money_type" required="true" type="string" title="货币类型" desc="来源游戏，记录充值货币id" catalog="ext" order="12"/>
+    <entry name="change_amount" required="true" type="bigint" title="变化数量" desc="来源游戏，货币变化数量" catalog="ext" order="13"/>
+    <entry name="before_amount" required="true" type="bigint" title="变化前值" desc="来源游戏，变化前值" catalog="ext" order="14"/>
+    <entry name="after_amount" required="true" type="bigint" title="变化后值" desc="来源游戏，变化后值" catalog="ext" order="15"/>
+    <entry name="op_type" required="true" type="string" title="变化行为分类" desc="来源游戏，变化行为分类【研发自定义枚举见sheet-枚举表】" catalog="ext" order="16"/>
+    <entry name="op_type1" required="false" type="string" title="扩展参数" desc="来源游戏，其他补充信息内容【研发自定义枚举见sheet-枚举表】" catalog="ext" order="17"/>
+    <entry name="op_type2" required="false" type="string" title="扩展属性2" desc="来源游戏，其他补充信息内容【研发自定义枚举见sheet-枚举表】" catalog="ext" order="18"/>
+    <entry name="op_type3" required="false" type="string" title="扩展属性3" desc="来源游戏，其他补充信息内容【研发自定义枚举见sheet-枚举表】" catalog="ext" order="19"/>
+  </struct>
+  <struct name="logout" version="1.0" desc="角色登出" obj="角色事件" source="服务端" code="107030" level="A" isglog="true" type="通用" trigger="5种情况下触发该事件：正常登出：角色正常退出游戏时记录gm命令踢下线：gm命令强制退出游戏连接断开：连接断开退出游戏顶号登出：顶号退出游戏跨天登出：跨天登出只记录在线角色(非挂机)且在跨天0点之后进行记录，但强制更改玩家下线时间为昨日23点59分59秒，并结算当次角色在线时长，次日在线从0点重新结算。超登：通过GM平台超登" use="流失分析/游戏内流失分析合服分析/战力分布客诉处理/客服明细查询工具财务对账/充值货币存量及产销">
+    <entry name="log_id" required="true" type="string" title="日志id" desc="日志流水号,在一个游戏区服下，每条日志必须保证全局唯一性且递增" catalog="base" order="1"/>
+    <entry name="event_time" required="true" type="string" title="事件时间" desc="事件触发日期，时间格式为Z yyyy-MM-dd HH:mm:ss 时区+时间形式，如：+0800 2020-10-26 20:16:38" catalog="base" order="2"/>
+    <entry name="zone_id" required="true" type="string" title="区服组id" desc="来源游戏，服务器游戏产品ID" catalog="base" order="3"/>
+    <entry name="game_version" required="true" type="string" title="游戏版本号" desc="来源游戏，服务器上的游戏版本号" catalog="base" order="4"/>
+    <entry name="pub_id" required="true" type="string" title="发行商id" desc="由CP-SDK透传给游戏记录，来源于绿岸CP-SDK包体" catalog="base" order="5"/>
+    <entry name="tunnel_id" required="true" type="string" title="通道id" desc="由CP-SDK透传给游戏记录，来源于绿岸CP-SDK包体" catalog="base" order="6"/>
+    <entry name="server_id" required="true" type="string" title="区服id" desc="来源游戏，服务器区服ID，角色创角原始区服，合服后仍传原始区服" catalog="base" order="7"/>
+    <entry name="cpsdk_account_id" required="true" type="string" title="账号id" desc="由CP-SDK生成的cpsdk账号id" catalog="base" order="8"/>
+    <entry name="game_account_id" required="true" type="string" title="游戏账号id" desc="来源游戏，游戏的账号id" catalog="base" order="9"/>
+    <entry name="role_id" required="true" type="string" title="角色id" desc="来源游戏，游戏角色id" catalog="base" order="10"/>
+    <entry name="role_name" required="true" type="string" title="角色名" desc="来源游戏，角色当前角色名" catalog="base" order="11"/>
+    <entry name="login_time" required="true" type="string" title="本次会话登陆时间" desc="来源游戏，角色本次会话的登陆时间，如：2020-10-26 20:16:38" catalog="ext" order="12"/>
+    <entry name="online_time" required="true" type="bigint" title="本次在线时长" desc="来源游戏，角色本次在线会话总时长，单位秒" catalog="ext" order="13"/>
+    <entry name="logout_type" required="true" type="string" title="登出类型" desc="来源游戏，【研发自定义枚举见sheet-枚举表】" catalog="ext" order="14"/>
+    <entry name="money_balance" required="true" type="bigint" title="开新币余额" desc="来源游戏，角色登出时开新币的余额" catalog="ext" order="15"/>
+    <entry name="bmoney_balance" required="true" type="bigint" title="钻石余额" desc="来源游戏，角色登出时钻石的余额" catalog="ext" order="16"/>
+    <entry name="device_id" required="true" type="string" title="设备id" desc="来源于绿岸CP-SDK包体，用户设备的唯一id，由CP-SDK透传给游戏记录" catalog="ext" order="17"/>
+    <entry name="platform" required="false" type="string" title="运行平台" desc="来源CP-SDK，运行平台，如抖音小游戏、微信小游戏等" catalog="ext" order="18"/>
+    <entry name="device_name" required="false" type="string" title="设备名称" desc="来源CP-SDK，手机操作系统，如IOS、安卓" catalog="ext" order="19"/>
+    <entry name="device_os" required="false" type="string" title="操作系统" desc="来源CP-SDK，设备名称，如iPhone14 Pro等" catalog="ext" order="20"/>
+    <entry name="variable_id_100073" required="true" type="ext" title="主线关数" desc="主线关数" catalog="字典" order="100" ext_type="5001" ext_id="100073" ext_id_dict="Variable"/>
+    <entry name="growth_id_10002" required="true" type="ext" title="账号等级" desc="账号等级" catalog="字典" order="101" ext_type="4001" ext_id="10002" ext_id_dict="Item"/>
+  </struct>
+  <struct name="login" version="1.0" desc="角色登录" obj="角色事件" source="服务端" code="107010" level="A" isglog="true" type="通用" trigger="4种情况下触发该事件：普通登录：角色正常登录游戏时记录断线重连：角色断线重连时记录跨天登陆：跨天登陆只记录在线角色(非挂机)且在跨天0点之后进行记录，并重置玩家登陆时间为次日0点0分0秒，在线时长重新结算。GM超登：在GM平台进行超登时记录" use="基础运营分析/实时数据基础运营分析/用户维度数据基础运营分析/区服维度数据流失分析/转化分析（漏斗模型）合服分析/用户活跃客诉处理/客服明细查询工具">
+    <entry name="log_id" required="true" type="string" title="日志id" desc="日志流水号,在一个游戏区服下，每条日志必须保证全局唯一性且递增" catalog="base" order="1"/>
+    <entry name="event_time" required="true" type="string" title="事件时间" desc="事件触发日期，时间格式为Z yyyy-MM-dd HH:mm:ss 时区+时间形式，如：+0800 2020-10-26 20:16:38" catalog="base" order="2"/>
+    <entry name="zone_id" required="true" type="string" title="区服组id" desc="来源游戏，服务器游戏产品ID" catalog="base" order="3"/>
+    <entry name="game_version" required="true" type="string" title="游戏版本号" desc="来源游戏，服务器上的游戏版本号" catalog="base" order="4"/>
+    <entry name="pub_id" required="true" type="string" title="发行商id" desc="由CP-SDK透传给游戏记录，来源于绿岸CP-SDK包体" catalog="base" order="5"/>
+    <entry name="tunnel_id" required="true" type="string" title="通道id" desc="由CP-SDK透传给游戏记录，来源于绿岸CP-SDK包体" catalog="base" order="6"/>
+    <entry name="server_id" required="true" type="string" title="区服id" desc="来源游戏，服务器区服ID，角色创角原始区服，合服后仍传原始区服" catalog="base" order="7"/>
+    <entry name="cpsdk_account_id" required="true" type="string" title="账号id" desc="由CP-SDK生成的cpsdk账号id" catalog="base" order="8"/>
+    <entry name="game_account_id" required="true" type="string" title="游戏账号id" desc="来源游戏，游戏的账号id" catalog="base" order="9"/>
+    <entry name="role_id" required="true" type="string" title="角色id" desc="来源游戏，游戏角色id" catalog="base" order="10"/>
+    <entry name="role_name" required="true" type="string" title="角色名" desc="来源游戏，角色当前角色名" catalog="base" order="11"/>
+    <entry name="login_type" required="true" type="string" title="登录类型" desc="来源游戏，【研发自定义枚举见sheet-枚举表】" catalog="ext" order="12"/>
+    <entry name="last_offline_time" required="true" type="string" title="最后下线时间" desc="来源游戏，最后下线时间，时间格式为Z yyyy-MM-dd HH:mm:ss 时区+时间形式，如：+0800 2020-10-26 20:16:38" catalog="ext" order="13"/>
+    <entry name="app_version" required="false" type="string" title="客户端版本号" desc="来源CP-SDK，SDK客户端包体版本号" catalog="ext" order="14"/>
+    <entry name="device_id" required="true" type="string" title="设备id" desc="来源于绿岸CP-SDK包体，用户设备的唯一id，由CP-SDK透传给游戏记录" catalog="ext" order="15"/>
+    <entry name="user_ip" required="true" type="string" title="用户IP地址" desc="来源于绿岸CP-SDK包体，客户端记录的IP地址，由CP-SDK透传给游戏记录" catalog="ext" order="16"/>
+    <entry name="platform" required="false" type="string" title="运行平台" desc="来源CP-SDK，运行平台，如抖音小游戏、微信小游戏等" catalog="ext" order="17"/>
+    <entry name="device_name" required="false" type="string" title="设备名称" desc="来源CP-SDK，手机操作系统，如IOS、安卓" catalog="ext" order="18"/>
+    <entry name="device_os" required="false" type="string" title="操作系统" desc="来源CP-SDK，设备名称，如iPhone14 Pro等" catalog="ext" order="19"/>
+    <entry name="variable_id_100073" required="true" type="ext" title="主线关数" desc="主线关数" catalog="字典" order="100" ext_type="5001" ext_id="100073" ext_id_dict="Variable"/>
+    <entry name="growth_id_10002" required="true" type="ext" title="账号等级" desc="账号等级" catalog="字典" order="101" ext_type="4001" ext_id="10002" ext_id_dict="Item"/>
+  </struct>
+  <struct name="mail" version="1.0" desc="邮件" obj="角色事件" source="服务端" code="108000" level="A" isglog="true" type="通用" trigger="5种情况下记录：1：接收 2：读取 3：领取附件 4：删除 5：系统发送" use="客服事件查询">
+    <entry name="log_id" required="true" type="string" title="日志id" desc="日志流水号,在一个游戏区服下，每条日志必须保证全局唯一性且递增" catalog="base" order="1"/>
+    <entry name="event_time" required="true" type="string" title="事件时间" desc="事件触发日期，时间格式为Z yyyy-MM-dd HH:mm:ss 时区+时间形式，如：+0800 2020-10-26 20:16:38" catalog="base" order="2"/>
+    <entry name="zone_id" required="true" type="string" title="区服组id" desc="来源游戏，服务器游戏产品ID" catalog="base" order="3"/>
+    <entry name="game_version" required="true" type="string" title="游戏版本号" desc="来源游戏，服务器上的游戏版本号" catalog="base" order="4"/>
+    <entry name="pub_id" required="true" type="string" title="发行商id" desc="由CP-SDK透传给游戏记录，来源于绿岸CP-SDK包体" catalog="base" order="5"/>
+    <entry name="tunnel_id" required="true" type="string" title="通道id" desc="由CP-SDK透传给游戏记录，来源于绿岸CP-SDK包体" catalog="base" order="6"/>
+    <entry name="server_id" required="true" type="string" title="区服id" desc="来源游戏，服务器区服ID，角色创角原始区服，合服后仍传原始区服" catalog="base" order="7"/>
+    <entry name="cpsdk_account_id" required="true" type="string" title="账号id" desc="由CP-SDK生成的cpsdk账号id" catalog="base" order="8"/>
+    <entry name="game_account_id" required="true" type="string" title="游戏账号id" desc="来源游戏，游戏的账号id" catalog="base" order="9"/>
+    <entry name="role_id" required="true" type="string" title="角色id" desc="来源游戏，游戏角色id" catalog="base" order="10"/>
+    <entry name="role_name" required="true" type="string" title="角色名" desc="来源游戏，角色当前角色名" catalog="base" order="11"/>
+    <entry name="mail_id" required="false" type="string" title="邮件唯一id" desc="来源游戏，邮件唯一id" catalog="ext" order="12"/>
+    <entry name="mail_type" required="true" type="string" title="邮件类型" desc="来源游戏，邮件类型【研发自定义枚举见sheet-枚举表】" catalog="ext" order="13"/>
+    <entry name="mail_type1" required="true" type="string" title="邮件类型1" desc="来源游戏，邮件类型1【研发自定义枚举见sheet-枚举表】" catalog="ext" order="14"/>
+    <entry name="mail_title" required="false" type="string" title="邮件标题文字" desc="来源游戏，邮件标题文字" catalog="ext" order="15"/>
+    <entry name="mail_txt" required="false" type="string" title="邮件内容文字" desc="来源游戏，邮件内容文字" catalog="ext" order="16"/>
+    <entry name="mail_item" required="false" type="string" title="邮件附件" desc="来源游戏，邮件附件，记录格式（物品1_id;物品1_数量,……,物品N_id;物品N_数量）" catalog="ext" order="17"/>
+    <entry name="mail_op_type" required="true" type="string" title="邮件操作类型" desc="来源游戏，枚举说明【研发自定义枚举见sheet-枚举表】" catalog="ext" order="18"/>
+  </struct>
+  <struct name="get_money_other" version="1.0" desc="其他货币获得" obj="角色事件" source="服务端" code="101030" level="B" isglog="true" type="通用" trigger="角色获得其他货币时记录" use="产销监控/货币产销监控客诉处理/货币存量及产销">
+    <entry name="log_id" required="true" type="string" title="日志id" desc="日志流水号,在一个游戏区服下，每条日志必须保证全局唯一性且递增" catalog="base" order="1"/>
+    <entry name="event_time" required="true" type="string" title="事件时间" desc="事件触发日期，时间格式为Z yyyy-MM-dd HH:mm:ss 时区+时间形式，如：+0800 2020-10-26 20:16:38" catalog="base" order="2"/>
+    <entry name="zone_id" required="true" type="string" title="区服组id" desc="来源游戏，服务器游戏产品ID" catalog="base" order="3"/>
+    <entry name="game_version" required="true" type="string" title="游戏版本号" desc="来源游戏，服务器上的游戏版本号" catalog="base" order="4"/>
+    <entry name="pub_id" required="true" type="string" title="发行商id" desc="由CP-SDK透传给游戏记录，来源于绿岸CP-SDK包体" catalog="base" order="5"/>
+    <entry name="tunnel_id" required="true" type="string" title="通道id" desc="由CP-SDK透传给游戏记录，来源于绿岸CP-SDK包体" catalog="base" order="6"/>
+    <entry name="server_id" required="true" type="string" title="区服id" desc="来源游戏，服务器区服ID，角色创角原始区服，合服后仍传原始区服" catalog="base" order="7"/>
+    <entry name="cpsdk_account_id" required="true" type="string" title="账号id" desc="由CP-SDK生成的cpsdk账号id" catalog="base" order="8"/>
+    <entry name="game_account_id" required="true" type="string" title="游戏账号id" desc="来源游戏，游戏的账号id" catalog="base" order="9"/>
+    <entry name="role_id" required="true" type="string" title="角色id" desc="来源游戏，游戏角色id" catalog="base" order="10"/>
+    <entry name="role_name" required="true" type="string" title="角色名" desc="来源游戏，角色当前角色名" catalog="base" order="11"/>
+    <entry name="money_type" required="true" type="string" title="货币类型" desc="来源游戏，记录充值货币id" catalog="ext" order="12"/>
+    <entry name="change_amount" required="true" type="bigint" title="变化数量" desc="来源游戏，货币变化数量" catalog="ext" order="13"/>
+    <entry name="before_amount" required="true" type="bigint" title="变化前值" desc="来源游戏，变化前值" catalog="ext" order="14"/>
+    <entry name="after_amount" required="true" type="bigint" title="变化后值" desc="来源游戏，变化后值" catalog="ext" order="15"/>
+    <entry name="op_type" required="true" type="string" title="变化行为分类" desc="来源游戏，变化行为分类【研发自定义枚举见sheet-枚举表】" catalog="ext" order="16"/>
+    <entry name="op_type1" required="false" type="string" title="扩展参数" desc="来源游戏，其他补充信息内容【研发自定义枚举见sheet-枚举表】" catalog="ext" order="17"/>
+    <entry name="op_type2" required="false" type="string" title="扩展属性2" desc="来源游戏，其他补充信息内容【研发自定义枚举见sheet-枚举表】" catalog="ext" order="18"/>
+    <entry name="op_type3" required="false" type="string" title="扩展属性3" desc="来源游戏，其他补充信息内容【研发自定义枚举见sheet-枚举表】" catalog="ext" order="19"/>
+  </struct>
+  <struct name="use_money_other" version="1.0" desc="其他货币消耗" obj="角色事件" source="服务端" code="101040" level="B" isglog="true" type="通用" trigger="角色消耗其他货币时记录" use="产销监控/货币产销监控客诉处理/货币存量及产销">
+    <entry name="log_id" required="true" type="string" title="日志id" desc="日志流水号,在一个游戏区服下，每条日志必须保证全局唯一性且递增" catalog="base" order="1"/>
+    <entry name="event_time" required="true" type="string" title="事件时间" desc="事件触发日期，时间格式为Z yyyy-MM-dd HH:mm:ss 时区+时间形式，如：+0800 2020-10-26 20:16:38" catalog="base" order="2"/>
+    <entry name="zone_id" required="true" type="string" title="区服组id" desc="来源游戏，服务器游戏产品ID" catalog="base" order="3"/>
+    <entry name="game_version" required="true" type="string" title="游戏版本号" desc="来源游戏，服务器上的游戏版本号" catalog="base" order="4"/>
+    <entry name="pub_id" required="true" type="string" title="发行商id" desc="由CP-SDK透传给游戏记录，来源于绿岸CP-SDK包体" catalog="base" order="5"/>
+    <entry name="tunnel_id" required="true" type="string" title="通道id" desc="由CP-SDK透传给游戏记录，来源于绿岸CP-SDK包体" catalog="base" order="6"/>
+    <entry name="server_id" required="true" type="string" title="区服id" desc="来源游戏，服务器区服ID，角色创角原始区服，合服后仍传原始区服" catalog="base" order="7"/>
+    <entry name="cpsdk_account_id" required="true" type="string" title="账号id" desc="由CP-SDK生成的cpsdk账号id" catalog="base" order="8"/>
+    <entry name="game_account_id" required="true" type="string" title="游戏账号id" desc="来源游戏，游戏的账号id" catalog="base" order="9"/>
+    <entry name="role_id" required="true" type="string" title="角色id" desc="来源游戏，游戏角色id" catalog="base" order="10"/>
+    <entry name="role_name" required="true" type="string" title="角色名" desc="来源游戏，角色当前角色名" catalog="base" order="11"/>
+    <entry name="money_type" required="true" type="string" title="货币类型" desc="来源游戏，记录充值货币id" catalog="ext" order="12"/>
+    <entry name="change_amount" required="true" type="bigint" title="变化数量" desc="来源游戏，货币变化数量" catalog="ext" order="13"/>
+    <entry name="before_amount" required="true" type="bigint" title="变化前值" desc="来源游戏，变化前值" catalog="ext" order="14"/>
+    <entry name="after_amount" required="true" type="bigint" title="变化后值" desc="来源游戏，变化后值" catalog="ext" order="15"/>
+    <entry name="op_type" required="true" type="string" title="变化行为分类" desc="来源游戏，变化行为分类【研发自定义枚举见sheet-枚举表】" catalog="ext" order="16"/>
+    <entry name="op_type1" required="false" type="string" title="扩展参数" desc="来源游戏，其他补充信息内容【研发自定义枚举见sheet-枚举表】" catalog="ext" order="17"/>
+    <entry name="op_type2" required="false" type="string" title="扩展属性2" desc="来源游戏，其他补充信息内容【研发自定义枚举见sheet-枚举表】" catalog="ext" order="18"/>
+    <entry name="op_type3" required="false" type="string" title="扩展属性3" desc="来源游戏，其他补充信息内容【研发自定义枚举见sheet-枚举表】" catalog="ext" order="19"/>
+  </struct>
+  <struct name="get_item" version="1.0" desc="物品获得" obj="角色事件" source="服务端" code="105030" level="B" isglog="true" type="通用" trigger="角色获得物品时记录" use="产销监控/道具产销监控客诉处理/客服明细查询工具">
+    <entry name="log_id" required="true" type="string" title="日志id" desc="日志流水号,在一个游戏区服下，每条日志必须保证全局唯一性且递增" catalog="base" order="1"/>
+    <entry name="event_time" required="true" type="string" title="事件时间" desc="事件触发日期，时间格式为Z yyyy-MM-dd HH:mm:ss 时区+时间形式，如：+0800 2020-10-26 20:16:38" catalog="base" order="2"/>
+    <entry name="zone_id" required="true" type="string" title="区服组id" desc="来源游戏，服务器游戏产品ID" catalog="base" order="3"/>
+    <entry name="game_version" required="true" type="string" title="游戏版本号" desc="来源游戏，服务器上的游戏版本号" catalog="base" order="4"/>
+    <entry name="pub_id" required="true" type="string" title="发行商id" desc="由CP-SDK透传给游戏记录，来源于绿岸CP-SDK包体" catalog="base" order="5"/>
+    <entry name="tunnel_id" required="true" type="string" title="通道id" desc="由CP-SDK透传给游戏记录，来源于绿岸CP-SDK包体" catalog="base" order="6"/>
+    <entry name="server_id" required="true" type="string" title="区服id" desc="来源游戏，服务器区服ID，角色创角原始区服，合服后仍传原始区服" catalog="base" order="7"/>
+    <entry name="cpsdk_account_id" required="true" type="string" title="账号id" desc="由CP-SDK生成的cpsdk账号id" catalog="base" order="8"/>
+    <entry name="game_account_id" required="true" type="string" title="游戏账号id" desc="来源游戏，游戏的账号id" catalog="base" order="9"/>
+    <entry name="role_id" required="true" type="string" title="角色id" desc="来源游戏，游戏角色id" catalog="base" order="10"/>
+    <entry name="role_name" required="true" type="string" title="角色名" desc="来源游戏，角色当前角色名" catalog="base" order="11"/>
+    <entry name="item_id" required="true" type="string" title="物品id" desc="来源游戏，物品id" catalog="ext" order="12"/>
+    <entry name="item_instance_id" required="true" type="string" title="物品唯一id" desc="来源游戏，物品唯一id" catalog="ext" order="13"/>
+    <entry name="change_amount" required="true" type="bigint" title="变化数量" desc="来源游戏，物品变化数量" catalog="ext" order="14"/>
+    <entry name="before_amount" required="true" type="bigint" title="变化前值" desc="来源游戏，变化前值" catalog="ext" order="15"/>
+    <entry name="after_amount" required="true" type="bigint" title="变化后值" desc="来源游戏，变化后值" catalog="ext" order="16"/>
+    <entry name="op_type" required="true" type="string" title="变化行为分类" desc="来源游戏，变化行为分类【研发自定义枚举见sheet-枚举表】" catalog="ext" order="17"/>
+    <entry name="op_type1" required="false" type="string" title="扩展参数" desc="来源游戏，其他补充信息内容【研发自定义枚举见sheet-枚举表】" catalog="ext" order="18"/>
+    <entry name="op_type2" required="false" type="string" title="扩展属性2" desc="来源游戏，其他补充信息内容【研发自定义枚举见sheet-枚举表】" catalog="ext" order="19"/>
+    <entry name="op_type3" required="false" type="string" title="扩展属性3" desc="来源游戏，其他补充信息内容【研发自定义枚举见sheet-枚举表】" catalog="ext" order="20"/>
+  </struct>
+  <struct name="use_item" version="1.0" desc="物品消耗" obj="角色事件" source="服务端" code="105040" level="B" isglog="true" type="通用" trigger="角色消耗物品时记录" use="产销监控/道具产销监控客诉处理/客服明细查询工具">
+    <entry name="log_id" required="true" type="string" title="日志id" desc="日志流水号,在一个游戏区服下，每条日志必须保证全局唯一性且递增" catalog="base" order="1"/>
+    <entry name="event_time" required="true" type="string" title="事件时间" desc="事件触发日期，时间格式为Z yyyy-MM-dd HH:mm:ss 时区+时间形式，如：+0800 2020-10-26 20:16:38" catalog="base" order="2"/>
+    <entry name="zone_id" required="true" type="string" title="区服组id" desc="来源游戏，服务器游戏产品ID" catalog="base" order="3"/>
+    <entry name="game_version" required="true" type="string" title="游戏版本号" desc="来源游戏，服务器上的游戏版本号" catalog="base" order="4"/>
+    <entry name="pub_id" required="true" type="string" title="发行商id" desc="由CP-SDK透传给游戏记录，来源于绿岸CP-SDK包体" catalog="base" order="5"/>
+    <entry name="tunnel_id" required="true" type="string" title="通道id" desc="由CP-SDK透传给游戏记录，来源于绿岸CP-SDK包体" catalog="base" order="6"/>
+    <entry name="server_id" required="true" type="string" title="区服id" desc="来源游戏，服务器区服ID，角色创角原始区服，合服后仍传原始区服" catalog="base" order="7"/>
+    <entry name="cpsdk_account_id" required="true" type="string" title="账号id" desc="由CP-SDK生成的cpsdk账号id" catalog="base" order="8"/>
+    <entry name="game_account_id" required="true" type="string" title="游戏账号id" desc="来源游戏，游戏的账号id" catalog="base" order="9"/>
+    <entry name="role_id" required="true" type="string" title="角色id" desc="来源游戏，游戏角色id" catalog="base" order="10"/>
+    <entry name="role_name" required="true" type="string" title="角色名" desc="来源游戏，角色当前角色名" catalog="base" order="11"/>
+    <entry name="item_id" required="true" type="string" title="物品id" desc="来源游戏，物品id" catalog="ext" order="12"/>
+    <entry name="item_instance_id" required="true" type="string" title="物品唯一id" desc="来源游戏，物品唯一id" catalog="ext" order="13"/>
+    <entry name="change_amount" required="true" type="bigint" title="变化数量" desc="来源游戏，物品变化数量" catalog="ext" order="14"/>
+    <entry name="before_amount" required="true" type="bigint" title="变化前值" desc="来源游戏，变化前值" catalog="ext" order="15"/>
+    <entry name="after_amount" required="true" type="bigint" title="变化后值" desc="来源游戏，变化后值" catalog="ext" order="16"/>
+    <entry name="op_type" required="true" type="string" title="变化行为分类" desc="来源游戏，变化行为分类【研发自定义枚举见sheet-枚举表】" catalog="ext" order="17"/>
+    <entry name="op_type1" required="false" type="string" title="扩展参数" desc="来源游戏，其他补充信息内容【研发自定义枚举见sheet-枚举表】" catalog="ext" order="18"/>
+    <entry name="op_type2" required="false" type="string" title="扩展属性2" desc="来源游戏，其他补充信息内容【研发自定义枚举见sheet-枚举表】" catalog="ext" order="19"/>
+    <entry name="op_type3" required="false" type="string" title="扩展属性3" desc="来源游戏，其他补充信息内容【研发自定义枚举见sheet-枚举表】" catalog="ext" order="20"/>
+  </struct>
+  <struct name="shopping" version="1.0" desc="商品购买" obj="角色事件" source="服务端" code="201062" level="B" isglog="true" type="通用" trigger="玩家购买商品后记录" use="">
+    <entry name="log_id" required="true" type="string" title="日志id" desc="日志流水号,在一个游戏区服下，每条日志必须保证全局唯一性且递增" catalog="base" order="1"/>
+    <entry name="event_time" required="true" type="string" title="事件时间" desc="事件触发日期，时间格式为Z yyyy-MM-dd HH:mm:ss 时区+时间形式，如：+0800 2020-10-26 20:16:38" catalog="base" order="2"/>
+    <entry name="zone_id" required="true" type="string" title="区服组id" desc="来源游戏，服务器游戏产品ID" catalog="base" order="3"/>
+    <entry name="game_version" required="true" type="string" title="游戏版本号" desc="来源游戏，服务器上的游戏版本号" catalog="base" order="4"/>
+    <entry name="pub_id" required="true" type="string" title="发行商id" desc="由CP-SDK透传给游戏记录，来源于绿岸CP-SDK包体" catalog="base" order="5"/>
+    <entry name="tunnel_id" required="true" type="string" title="通道id" desc="由CP-SDK透传给游戏记录，来源于绿岸CP-SDK包体" catalog="base" order="6"/>
+    <entry name="server_id" required="true" type="string" title="区服id" desc="来源游戏，服务器区服ID，角色创角原始区服，合服后仍传原始区服" catalog="base" order="7"/>
+    <entry name="cpsdk_account_id" required="true" type="string" title="账号id" desc="由CP-SDK生成的cpsdk账号id" catalog="base" order="8"/>
+    <entry name="game_account_id" required="true" type="string" title="游戏账号id" desc="来源游戏，游戏的账号id" catalog="base" order="9"/>
+    <entry name="role_id" required="true" type="string" title="角色id" desc="来源游戏，游戏角色id" catalog="base" order="10"/>
+    <entry name="role_name" required="true" type="string" title="角色名" desc="来源游戏，角色当前角色名" catalog="base" order="11"/>
+    <entry name="product_id" required="true" type="string" title="商店物品ID" desc="来源游戏，记录商店列表中的商品id（productListShop）" catalog="ext" order="12"/>
+    <entry name="buy_type" required="true" type="string" title="购买类型" desc="来源游戏，商品的购买类型" catalog="ext" order="13"/>
+    <entry name="buy_use_type" required="true" type="string" title="购买消耗类型" desc="来源游戏，购买商品所需消耗的道具/货币 id" catalog="ext" order="14"/>
+    <entry name="item_discount" required="false" type="string" title="商品折扣" desc="来源游戏，当前商品的折扣，格式如：80%、90%" catalog="ext" order="15"/>
+    <entry name="product_unit_price" required="true" type="bigint" title="商品单价" desc="来源游戏，记录商店中购买物品所需的货币单价" catalog="ext" order="16"/>
+    <entry name="product_count" required="true" type="bigint" title="商品购买数量" desc="来源游戏，记录此次购买商品的数量" catalog="ext" order="17"/>
+  </struct>
+  <struct name="challenge" version="1.0" desc="玩法结果记录" obj="角色事件" source="服务端" code="109010" level="B" isglog="true" type="通用" trigger="角色参与挑战玩法出结果时记录" use="">
+    <entry name="log_id" required="true" type="string" title="日志id" desc="日志流水号,在一个游戏区服下，每条日志必须保证全局唯一性且递增" catalog="base" order="1"/>
+    <entry name="event_time" required="true" type="string" title="事件时间" desc="事件触发日期，时间格式为Z yyyy-MM-dd HH:mm:ss 时区+时间形式，如：+0800 2020-10-26 20:16:38" catalog="base" order="2"/>
+    <entry name="zone_id" required="true" type="string" title="区服组id" desc="来源游戏，服务器游戏产品ID" catalog="base" order="3"/>
+    <entry name="game_version" required="true" type="string" title="游戏版本号" desc="来源游戏，服务器上的游戏版本号" catalog="base" order="4"/>
+    <entry name="pub_id" required="true" type="string" title="发行商id" desc="由CP-SDK透传给游戏记录，来源于绿岸CP-SDK包体" catalog="base" order="5"/>
+    <entry name="tunnel_id" required="true" type="string" title="通道id" desc="由CP-SDK透传给游戏记录，来源于绿岸CP-SDK包体" catalog="base" order="6"/>
+    <entry name="server_id" required="true" type="string" title="区服id" desc="来源游戏，服务器区服ID，角色创角原始区服，合服后仍传原始区服" catalog="base" order="7"/>
+    <entry name="cpsdk_account_id" required="true" type="string" title="账号id" desc="由CP-SDK生成的cpsdk账号id" catalog="base" order="8"/>
+    <entry name="game_account_id" required="true" type="string" title="游戏账号id" desc="来源游戏，游戏的账号id" catalog="base" order="9"/>
+    <entry name="role_id" required="true" type="string" title="角色id" desc="来源游戏，游戏角色id" catalog="base" order="10"/>
+    <entry name="role_name" required="true" type="string" title="角色名" desc="来源游戏，角色当前角色名" catalog="base" order="11"/>
+    <entry name="challenge_type" required="true" type="string" title="玩法类型" desc="来源游戏，记录玩法类型【研发自定义枚举见sheet-枚举表】" catalog="ext" order="12"/>
+    <entry name="challenge_level" required="true" type="string" title="副本的等级" desc="来源游戏，关卡层数" catalog="ext" order="13"/>
+    <entry name="challenge_result" required="true" type="string" title="玩法结果" desc="来源游戏，指定的地图玩法会有挑战结果的值 【研发自定义枚举见sheet-枚举表】" catalog="ext" order="14"/>
+    <entry name="finish_schedule" required="true" type="string" title="完成进度" desc="来源游戏，结算时的关卡进度（波次）" catalog="ext" order="15"/>
+    <entry name="challenge_time" required="true" type="bigint" title="挑战用时" desc="来源游戏，解释说明【开始挑战到结果产生所用的时间】，不算暂停时间" catalog="ext" order="16"/>
+    <entry name="grids_num" required="true" type="string" title="背包格子数量" desc="来源游戏，记录对应触发时间的玩家背包格子数量" catalog="ext" order="17"/>
+    <entry name="bag_equip" required="true" type="string" title="背包武器" desc="来源游戏，结算时玩家背包内的武器，记录格式为：1阶芭蕉扇_1;2阶飞镖_2;4阶手套_1" catalog="ext" order="18"/>
+  </struct>
+  <struct name="task" version="1.0" desc="任务" obj="角色事件" source="服务端" code="106000" level="B" isglog="true" type="通用" trigger="任务状态发生变化时触发（示例：接受任务，完成任务，放弃任务等）" use="">
+    <entry name="log_id" required="true" type="string" title="日志id" desc="日志流水号,在一个游戏区服下，每条日志必须保证全局唯一性且递增" catalog="base" order="1"/>
+    <entry name="event_time" required="true" type="string" title="事件时间" desc="事件触发日期，时间格式为Z yyyy-MM-dd HH:mm:ss 时区+时间形式，如：+0800 2020-10-26 20:16:38" catalog="base" order="2"/>
+    <entry name="zone_id" required="true" type="string" title="区服组id" desc="来源游戏，服务器游戏产品ID" catalog="base" order="3"/>
+    <entry name="game_version" required="true" type="string" title="游戏版本号" desc="来源游戏，服务器上的游戏版本号" catalog="base" order="4"/>
+    <entry name="pub_id" required="true" type="string" title="发行商id" desc="由CP-SDK透传给游戏记录，来源于绿岸CP-SDK包体" catalog="base" order="5"/>
+    <entry name="tunnel_id" required="true" type="string" title="通道id" desc="由CP-SDK透传给游戏记录，来源于绿岸CP-SDK包体" catalog="base" order="6"/>
+    <entry name="server_id" required="true" type="string" title="区服id" desc="来源游戏，服务器区服ID，角色创角原始区服，合服后仍传原始区服" catalog="base" order="7"/>
+    <entry name="cpsdk_account_id" required="true" type="string" title="账号id" desc="由CP-SDK生成的cpsdk账号id" catalog="base" order="8"/>
+    <entry name="game_account_id" required="true" type="string" title="游戏账号id" desc="来源游戏，游戏的账号id" catalog="base" order="9"/>
+    <entry name="role_id" required="true" type="string" title="角色id" desc="来源游戏，游戏角色id" catalog="base" order="10"/>
+    <entry name="role_name" required="true" type="string" title="角色名" desc="来源游戏，角色当前角色名" catalog="base" order="11"/>
+    <entry name="task_id" required="true" type="string" title="任务id" desc="来源游戏，角色接取/达成/完成相关任务id" catalog="ext" order="12"/>
+    <entry name="task_name" required="true" type="string" title="任务名" desc="来源游戏，角色接取/达成/完成相关任务名称" catalog="ext" order="13"/>
+    <entry name="task_type" required="true" type="string" title="任务类型" desc="来源游戏，角色接取/达成/完成相关任务类型，枚举说明【研发自定义枚举见sheet-枚举表】" catalog="ext" order="14"/>
+    <entry name="task_op_type" required="true" type="string" title="操作类型" desc="来源游戏，枚举说明【研发自定义枚举见sheet-枚举表】" catalog="ext" order="15"/>
+    <entry name="task_used_time" required="true" type="bigint" title="任务时长" desc="来源游戏，从任务接取到任务完成的时间(单位:秒)" catalog="ext" order="16"/>
+  </struct>
+  <struct name="grow" version="1.0" desc="养成线成长" obj="角色事件" source="服务端" code="104000" level="B" isglog="true" type="通用" trigger="用户成长线变化时记录" use="">
+    <entry name="log_id" required="true" type="string" title="日志id" desc="日志流水号,在一个游戏区服下，每条日志必须保证全局唯一性且递增" catalog="base" order="1"/>
+    <entry name="event_time" required="true" type="string" title="事件时间" desc="事件触发日期，时间格式为Z yyyy-MM-dd HH:mm:ss 时区+时间形式，如：+0800 2020-10-26 20:16:38" catalog="base" order="2"/>
+    <entry name="zone_id" required="true" type="string" title="区服组id" desc="来源游戏，服务器游戏产品ID" catalog="base" order="3"/>
+    <entry name="game_version" required="true" type="string" title="游戏版本号" desc="来源游戏，服务器上的游戏版本号" catalog="base" order="4"/>
+    <entry name="pub_id" required="true" type="string" title="发行商id" desc="由CP-SDK透传给游戏记录，来源于绿岸CP-SDK包体" catalog="base" order="5"/>
+    <entry name="tunnel_id" required="true" type="string" title="通道id" desc="由CP-SDK透传给游戏记录，来源于绿岸CP-SDK包体" catalog="base" order="6"/>
+    <entry name="server_id" required="true" type="string" title="区服id" desc="来源游戏，服务器区服ID，角色创角原始区服，合服后仍传原始区服" catalog="base" order="7"/>
+    <entry name="cpsdk_account_id" required="true" type="string" title="账号id" desc="由CP-SDK生成的cpsdk账号id" catalog="base" order="8"/>
+    <entry name="game_account_id" required="true" type="string" title="游戏账号id" desc="来源游戏，游戏的账号id" catalog="base" order="9"/>
+    <entry name="role_id" required="true" type="string" title="角色id" desc="来源游戏，游戏角色id" catalog="base" order="10"/>
+    <entry name="role_name" required="true" type="string" title="角色名" desc="来源游戏，角色当前角色名" catalog="base" order="11"/>
+    <entry name="grow_type" required="true" type="string" title="成长大类" desc="来源游戏，成长类型【研发自定义枚举见sheet-Grow枚举表】" catalog="ext" order="12"/>
+    <entry name="before_value" required="true" type="bigint" title="变化前值" desc="来源游戏，变化前值" catalog="ext" order="13"/>
+    <entry name="after_value" required="true" type="bigint" title="变化后值" desc="来源游戏，变化后值" catalog="ext" order="14"/>
+    <entry name="change_value" required="true" type="bigint" title="变化值" desc="来源游戏，变化值" catalog="ext" order="15"/>
+  </struct>
+  <struct name="equipment_change" version="1.0" desc="装备变更" obj="角色事件" source="服务端" code="201064" level="B" isglog="true" type="通用" trigger="玩家装备发生变化时记录 1、穿戴装备时记录 2、卸下装备时记录 3、替换装备时记" use="">
+    <entry name="log_id" required="true" type="string" title="日志id" desc="日志流水号,在一个游戏区服下，每条日志必须保证全局唯一性且递增" catalog="base" order="1"/>
+    <entry name="event_time" required="true" type="string" title="事件时间" desc="事件触发日期，时间格式为Z yyyy-MM-dd HH:mm:ss 时区+时间形式，如：+0800 2020-10-26 20:16:38" catalog="base" order="2"/>
+    <entry name="zone_id" required="true" type="string" title="区服组id" desc="来源游戏，服务器游戏产品ID" catalog="base" order="3"/>
+    <entry name="game_version" required="true" type="string" title="游戏版本号" desc="来源游戏，服务器上的游戏版本号" catalog="base" order="4"/>
+    <entry name="pub_id" required="true" type="string" title="发行商id" desc="由CP-SDK透传给游戏记录，来源于绿岸CP-SDK包体" catalog="base" order="5"/>
+    <entry name="tunnel_id" required="true" type="string" title="通道id" desc="由CP-SDK透传给游戏记录，来源于绿岸CP-SDK包体" catalog="base" order="6"/>
+    <entry name="server_id" required="true" type="string" title="区服id" desc="来源游戏，服务器区服ID，角色创角原始区服，合服后仍传原始区服" catalog="base" order="7"/>
+    <entry name="cpsdk_account_id" required="true" type="string" title="账号id" desc="由CP-SDK生成的cpsdk账号id" catalog="base" order="8"/>
+    <entry name="game_account_id" required="true" type="string" title="游戏账号id" desc="来源游戏，游戏的账号id" catalog="base" order="9"/>
+    <entry name="role_id" required="true" type="string" title="角色id" desc="来源游戏，游戏角色id" catalog="base" order="10"/>
+    <entry name="role_name" required="true" type="string" title="角色名" desc="来源游戏，角色当前角色名" catalog="base" order="11"/>
+    <entry name="equipment_type" required="true" type="string" title="装备类型" desc="来源游戏，记录装备的类型【研发自定义枚举见sheet-枚举表】" catalog="ext" order="12"/>
+    <entry name="equip_slot_id" required="true" type="string" title="装备槽位id" desc="来源游戏，操作的装备的槽位编号：目前编辑器无法查看槽位id 无法提供枚举，但不影响日志使用" catalog="ext" order="13"/>
+    <entry name="equip_id" required="true" type="string" title="操作后槽位内的装备id" desc="来源游戏，对应equip_slot_id的操作后的槽位内的装备id（Ps：如果槽位内没有装备则记录空值即可）" catalog="ext" order="14"/>
+    <entry name="equip_instance_id" required="true" type="string" title="操作后槽位内的装备唯一id" desc="来源游戏，对应equip_slot_id的操作后的槽位内的装备唯一id（Ps：如果槽位内没有装备则记录空值即可）" catalog="ext" order="15"/>
+    <entry name="equipment_change_type" required="true" type="string" title="装备变更类型" desc="来源游戏，记录装备变更的类型，如：穿戴、脱下" catalog="ext" order="16"/>
+  </struct>
+  <struct name="rank_snapshot" version="1.0" desc="排行榜快照" obj="角色事件" source="服务端" code="103000" level="B" isglog="true" type="通用" trigger="根据各排行榜快照跑批时间进行快照记录" use="">
+    <entry name="log_id" required="true" type="string" title="日志id" desc="日志流水号,在一个游戏区服下，每条日志必须保证全局唯一性且递增" catalog="base" order="1"/>
+    <entry name="event_time" required="true" type="string" title="事件时间" desc="事件触发日期，时间格式为Z yyyy-MM-dd HH:mm:ss 时区+时间形式，如：+0800 2020-10-26 20:16:38" catalog="base" order="2"/>
+    <entry name="zone_id" required="true" type="string" title="区服组id" desc="来源游戏，服务器游戏产品ID" catalog="base" order="3"/>
+    <entry name="game_version" required="true" type="string" title="游戏版本号" desc="来源游戏，服务器上的游戏版本号" catalog="base" order="4"/>
+    <entry name="pub_id" required="true" type="string" title="发行商id" desc="由CP-SDK透传给游戏记录，来源于绿岸CP-SDK包体" catalog="base" order="5"/>
+    <entry name="tunnel_id" required="true" type="string" title="通道id" desc="由CP-SDK透传给游戏记录，来源于绿岸CP-SDK包体" catalog="base" order="6"/>
+    <entry name="server_id" required="true" type="string" title="区服id" desc="来源游戏，服务器区服ID，角色创角原始区服，合服后仍传原始区服" catalog="base" order="7"/>
+    <entry name="cpsdk_account_id" required="true" type="string" title="账号id" desc="由CP-SDK生成的cpsdk账号id" catalog="base" order="8"/>
+    <entry name="game_account_id" required="true" type="string" title="游戏账号id" desc="来源游戏，游戏的账号id" catalog="base" order="9"/>
+    <entry name="role_id" required="true" type="string" title="角色id" desc="来源游戏，游戏角色id" catalog="base" order="10"/>
+    <entry name="role_name" required="true" type="string" title="角色名" desc="来源游戏，角色当前角色名" catalog="base" order="11"/>
+    <entry name="rank_instance_id" required="false" type="string" title="排行榜结算ID" desc="来源游戏，排行榜结算唯一ID，用于定位排行榜结算时的轮次" catalog="ext" order="12"/>
+    <entry name="rank_type" required="true" type="string" title="排行榜类型" desc="来源游戏，如：战力排行榜，枚举说明【研发自定义枚举见sheet-枚举表】" catalog="ext" order="13"/>
+    <entry name="rank_sub_type" required="true" type="string" title="排行榜子类型" desc="来源游戏，枚举说明【研发自定义枚举见sheet-枚举表】" catalog="ext" order="14"/>
+    <entry name="rank" required="false" type="bigint" title="排名" desc="来源游戏，排行榜排名" catalog="ext" order="15"/>
+    <entry name="rank_value" required="false" type="bigint" title="排行值" desc="来源游戏，排行榜对应排行值" catalog="ext" order="16"/>
+    <entry name="rank_obj_type" required="true" type="string" title="排行对象" desc="来源游戏，如：角色/队伍/服务器，枚举说明【研发自定义枚举见sheet-枚举表】" catalog="ext" order="17"/>
+    <entry name="rank_obj_id" required="true" type="string" title="排行对象的唯一id" desc="来源游戏，如：角色id/队伍id/服务器id" catalog="ext" order="18"/>
+    <entry name="rank_obj_detail" required="true" type="string" title="补充排行对象的相关信息" desc="来源游戏，补充排行对象的相关信息" catalog="ext" order="19"/>
+  </struct>
+  <struct name="lottery_draw" version="1.0" desc="抽奖" obj="角色事件" source="服务端" code="201065" level="B" isglog="true" type="通用" trigger="玩家进行抽奖时记录1、玩家消耗钻石单抽2、玩家消耗钻石十连3、玩家观看广告30秒完成免费单抽" use="">
+    <entry name="log_id" required="true" type="string" title="日志id" desc="日志流水号,在一个游戏区服下，每条日志必须保证全局唯一性且递增" catalog="base" order="1"/>
+    <entry name="event_time" required="true" type="string" title="事件时间" desc="事件触发日期，时间格式为Z yyyy-MM-dd HH:mm:ss 时区+时间形式，如：+0800 2020-10-26 20:16:38" catalog="base" order="2"/>
+    <entry name="zone_id" required="true" type="string" title="区服组id" desc="来源游戏，服务器游戏产品ID" catalog="base" order="3"/>
+    <entry name="game_version" required="true" type="string" title="游戏版本号" desc="来源游戏，服务器上的游戏版本号" catalog="base" order="4"/>
+    <entry name="pub_id" required="true" type="string" title="发行商id" desc="由CP-SDK透传给游戏记录，来源于绿岸CP-SDK包体" catalog="base" order="5"/>
+    <entry name="tunnel_id" required="true" type="string" title="通道id" desc="由CP-SDK透传给游戏记录，来源于绿岸CP-SDK包体" catalog="base" order="6"/>
+    <entry name="server_id" required="true" type="string" title="区服id" desc="来源游戏，服务器区服ID，角色创角原始区服，合服后仍传原始区服" catalog="base" order="7"/>
+    <entry name="cpsdk_account_id" required="true" type="string" title="账号id" desc="由CP-SDK生成的cpsdk账号id" catalog="base" order="8"/>
+    <entry name="game_account_id" required="true" type="string" title="游戏账号id" desc="来源游戏，游戏的账号id" catalog="base" order="9"/>
+    <entry name="role_id" required="true" type="string" title="角色id" desc="来源游戏，游戏角色id" catalog="base" order="10"/>
+    <entry name="role_name" required="true" type="string" title="角色名" desc="来源游戏，角色当前角色名" catalog="base" order="11"/>
+    <entry name="lottery_type" required="true" type="string" title="卡池类型" desc="来源游戏，卡池类型【研发自定义枚举见sheet-枚举表】" catalog="ext" order="12"/>
+    <entry name="draw_type" required="true" type="string" title="抽卡类型" desc="来源游戏，抽卡类型【研发自定义枚举见sheet-枚举表】" catalog="ext" order="13"/>
+    <entry name="draw_use" required="true" type="string" title="抽卡消耗" desc="来源游戏，记录本次抽卡消耗的数量" catalog="ext" order="14"/>
+    <entry name="draw_result" required="true" type="string" title="抽卡结果" desc="来源游戏，记录本次抽卡的结果，以逗号分隔，记录道具id及道具数量" catalog="ext" order="15"/>
+    <entry name="draw_use_type" required="true" type="string" title="抽卡消耗类型" desc="来源游戏，记录本次抽卡消耗的道具类型" catalog="ext" order="16"/>
+  </struct>
+  <struct name="click" version="1.0" desc="点击日志" obj="角色事件" source="客户端" code="100301" level="B" isglog="true" type="通用" trigger="点击icon时记录" use="">
+    <entry name="log_id" required="true" type="string" title="日志id" desc="日志流水号,在一个游戏区服下，每条日志必须保证全局唯一性且递增" catalog="base" order="1"/>
+    <entry name="event_time" required="true" type="string" title="事件时间" desc="事件触发日期，时间格式为Z yyyy-MM-dd HH:mm:ss 时区+时间形式，如：+0800 2020-10-26 20:16:38" catalog="base" order="2"/>
+    <entry name="zone_id" required="true" type="string" title="区服组id" desc="来源游戏，服务器游戏产品ID" catalog="base" order="3"/>
+    <entry name="game_version" required="true" type="string" title="游戏版本号" desc="来源游戏，服务器上的游戏版本号" catalog="base" order="4"/>
+    <entry name="pub_id" required="true" type="string" title="发行商id" desc="由CP-SDK透传给游戏记录，来源于绿岸CP-SDK包体" catalog="base" order="5"/>
+    <entry name="tunnel_id" required="true" type="string" title="通道id" desc="由CP-SDK透传给游戏记录，来源于绿岸CP-SDK包体" catalog="base" order="6"/>
+    <entry name="server_id" required="true" type="string" title="区服id" desc="来源游戏，服务器区服ID，角色创角原始区服，合服后仍传原始区服" catalog="base" order="7"/>
+    <entry name="cpsdk_account_id" required="true" type="string" title="账号id" desc="由CP-SDK生成的cpsdk账号id" catalog="base" order="8"/>
+    <entry name="game_account_id" required="true" type="string" title="游戏账号id" desc="来源游戏，游戏的账号id" catalog="base" order="9"/>
+    <entry name="role_id" required="true" type="string" title="角色id" desc="来源游戏，游戏角色id" catalog="base" order="10"/>
+    <entry name="role_name" required="true" type="string" title="角色名" desc="来源游戏，角色当前角色名" catalog="base" order="11"/>
+    <entry name="device_id" required="true" type="string" title="设备id" desc="来源于绿岸CP-SDK包体，用户设备的唯一id，由CP-SDK透传给游戏记录" catalog="ext" order="12"/>
+    <entry name="icon_id" required="true" type="string" title="按钮id" desc="客户端UI组件的按钮id" catalog="ext" order="13"/>
+    <entry name="click_type" required="true" type="string" title="点击方式" desc="来源游戏，枚举：【1.手动点击 2.自动点击】" catalog="ext" order="14"/>
+  </struct>
+  <struct name="ui_change" version="1.0" desc="UI变更" obj="角色事件" source="客户端" code="100302" level="B" isglog="true" type="通用" trigger="打开/关闭UI时记录" use="">
+    <entry name="log_id" required="true" type="string" title="日志id" desc="日志流水号,在一个游戏区服下，每条日志必须保证全局唯一性且递增" catalog="base" order="1"/>
+    <entry name="event_time" required="true" type="string" title="事件时间" desc="事件触发日期，时间格式为Z yyyy-MM-dd HH:mm:ss 时区+时间形式，如：+0800 2020-10-26 20:16:38" catalog="base" order="2"/>
+    <entry name="zone_id" required="true" type="string" title="区服组id" desc="来源游戏，服务器游戏产品ID" catalog="base" order="3"/>
+    <entry name="game_version" required="true" type="string" title="游戏版本号" desc="来源游戏，服务器上的游戏版本号" catalog="base" order="4"/>
+    <entry name="pub_id" required="true" type="string" title="发行商id" desc="由CP-SDK透传给游戏记录，来源于绿岸CP-SDK包体" catalog="base" order="5"/>
+    <entry name="tunnel_id" required="true" type="string" title="通道id" desc="由CP-SDK透传给游戏记录，来源于绿岸CP-SDK包体" catalog="base" order="6"/>
+    <entry name="server_id" required="true" type="string" title="区服id" desc="来源游戏，服务器区服ID，角色创角原始区服，合服后仍传原始区服" catalog="base" order="7"/>
+    <entry name="cpsdk_account_id" required="true" type="string" title="账号id" desc="由CP-SDK生成的cpsdk账号id" catalog="base" order="8"/>
+    <entry name="game_account_id" required="true" type="string" title="游戏账号id" desc="来源游戏，游戏的账号id" catalog="base" order="9"/>
+    <entry name="role_id" required="true" type="string" title="角色id" desc="来源游戏，游戏角色id" catalog="base" order="10"/>
+    <entry name="role_name" required="true" type="string" title="角色名" desc="来源游戏，角色当前角色名" catalog="base" order="11"/>
+    <entry name="ui_id" required="true" type="string" title="UI模块" desc="客户端UI组件id" catalog="ext" order="12"/>
+    <entry name="change_type" required="true" type="string" title="变更类型" desc="【研发自定义枚举见sheet-枚举表】，1.手动打开 2.自动弹出 3.手动关闭 4.自动关闭" catalog="ext" order="13"/>
+  </struct>
+  <struct name="client_shopping" version="1.0" desc="前端商品购买" obj="角色事件" source="客户端" code="100303" level="B" isglog="true" type="通用" trigger="玩家购买商品请求记录" use="">
+    <entry name="log_id" required="true" type="string" title="日志id" desc="日志流水号,在一个游戏区服下，每条日志必须保证全局唯一性且递增" catalog="base" order="1"/>
+    <entry name="event_time" required="true" type="string" title="事件时间" desc="事件触发日期，时间格式为Z yyyy-MM-dd HH:mm:ss 时区+时间形式，如：+0800 2020-10-26 20:16:38" catalog="base" order="2"/>
+    <entry name="zone_id" required="true" type="string" title="区服组id" desc="来源游戏，服务器游戏产品ID" catalog="base" order="3"/>
+    <entry name="game_version" required="true" type="string" title="游戏版本号" desc="来源游戏，服务器上的游戏版本号" catalog="base" order="4"/>
+    <entry name="pub_id" required="true" type="string" title="发行商id" desc="由CP-SDK透传给游戏记录，来源于绿岸CP-SDK包体" catalog="base" order="5"/>
+    <entry name="tunnel_id" required="true" type="string" title="通道id" desc="由CP-SDK透传给游戏记录，来源于绿岸CP-SDK包体" catalog="base" order="6"/>
+    <entry name="server_id" required="true" type="string" title="区服id" desc="来源游戏，服务器区服ID，角色创角原始区服，合服后仍传原始区服" catalog="base" order="7"/>
+    <entry name="cpsdk_account_id" required="true" type="string" title="账号id" desc="由CP-SDK生成的cpsdk账号id" catalog="base" order="8"/>
+    <entry name="game_account_id" required="true" type="string" title="游戏账号id" desc="来源游戏，游戏的账号id" catalog="base" order="9"/>
+    <entry name="role_id" required="true" type="string" title="角色id" desc="来源游戏，游戏角色id" catalog="base" order="10"/>
+    <entry name="role_name" required="true" type="string" title="角色名" desc="来源游戏，角色当前角色名" catalog="base" order="11"/>
+    <entry name="product_id" required="true" type="string" title="商店物品ID" desc="来源游戏，记录商店列表中的商品id（productListShop）" catalog="ext" order="12"/>
+    <entry name="buy_type" required="true" type="string" title="购买类型" desc="来源游戏，商品的购买类型" catalog="ext" order="13"/>
+    <entry name="buy_use_type" required="true" type="string" title="购买消耗类型" desc="来源游戏，购买商品所需消耗的道具/货币 id" catalog="ext" order="14"/>
+    <entry name="item_discount" required="false" type="string" title="商品折扣" desc="来源游戏，当前商品的折扣，格式如：80%、90%" catalog="ext" order="15"/>
+    <entry name="product_unit_price" required="true" type="bigint" title="商品单价" desc="来源游戏，记录商店中购买物品所需的货币单价" catalog="ext" order="16"/>
+    <entry name="product_count" required="true" type="bigint" title="商品购买数量" desc="来源游戏，记录此次购买商品的数量" catalog="ext" order="17"/>
+  </struct>
+  <struct name="boss_battle" version="1.0" desc="BOSS战" obj="角色事件" source="客户端" code="100304" level="B" isglog="true" type="通用" trigger="1.进入BOSS战时记录（记录为0秒）2.进入BOSS战后每5秒记录1次（该记录记录时按照event_type=10记录）3.BOSS战中如果挑战失败则记录挑战失败，后续不再记录4.BOSS战中如果击杀boss则记录击杀boss，后续不再记录" use="">
+    <entry name="log_id" required="true" type="string" title="日志id" desc="日志流水号,在一个游戏区服下，每条日志必须保证全局唯一性且递增" catalog="base" order="1"/>
+    <entry name="event_time" required="true" type="string" title="事件时间" desc="事件触发日期，时间格式为Z yyyy-MM-dd HH:mm:ss 时区+时间形式，如：+0800 2020-10-26 20:16:38" catalog="base" order="2"/>
+    <entry name="zone_id" required="true" type="string" title="区服组id" desc="来源游戏，服务器游戏产品ID" catalog="base" order="3"/>
+    <entry name="game_version" required="true" type="string" title="游戏版本号" desc="来源游戏，服务器上的游戏版本号" catalog="base" order="4"/>
+    <entry name="pub_id" required="true" type="string" title="发行商id" desc="由CP-SDK透传给游戏记录，来源于绿岸CP-SDK包体" catalog="base" order="5"/>
+    <entry name="tunnel_id" required="true" type="string" title="通道id" desc="由CP-SDK透传给游戏记录，来源于绿岸CP-SDK包体" catalog="base" order="6"/>
+    <entry name="server_id" required="true" type="string" title="区服id" desc="来源游戏，服务器区服ID，角色创角原始区服，合服后仍传原始区服" catalog="base" order="7"/>
+    <entry name="cpsdk_account_id" required="true" type="string" title="账号id" desc="由CP-SDK生成的cpsdk账号id" catalog="base" order="8"/>
+    <entry name="game_account_id" required="true" type="string" title="游戏账号id" desc="来源游戏，游戏的账号id" catalog="base" order="9"/>
+    <entry name="role_id" required="true" type="string" title="角色id" desc="来源游戏，游戏角色id" catalog="base" order="10"/>
+    <entry name="role_name" required="true" type="string" title="角色名" desc="来源游戏，角色当前角色名" catalog="base" order="11"/>
+    <entry name="role_power" required="true" type="string" title="玩家能力" desc="来源游戏，记录玩家进入玩法时的能力（Ps：在 同一局对战，玩家的能力是不变的）" catalog="ext" order="12"/>
+    <entry name="battle_id" required="true" type="string" title="副本挑战id" desc="来源游戏，玩家创建副本的唯一id" catalog="ext" order="13"/>
+    <entry name="scene_id" required="true" type="string" title="关卡id" desc="来源游戏，玩家创建副本的场景id【枚举见《枚举表sheet》】" catalog="ext" order="14"/>
+    <entry name="batch_id" required="true" type="string" title="BOSS批次id" desc="来源游戏，对应创建的副本中第N个boss（如果是第1场boss战则记录1，第N长boss战则记录N）" catalog="ext" order="15"/>
+    <entry name="battle_time" required="true" type="string" title="挑战耗时" desc="来源游戏，记录Boss战的持续时间" catalog="ext" order="16"/>
+    <entry name="boss_event_type" required="true" type="string" title="BOSS战事件类型" desc="来源游戏，枚举值【1=开始挑战，2=挑战失败，3=通过boss波次，4=放弃挑战】" catalog="ext" order="17"/>
+    <entry name="grids_num" required="true" type="string" title="背包格子数量" desc="来源游戏，记录对应触发时间的玩家背包格子数量" catalog="ext" order="18"/>
+    <entry name="left_player_hp" required="true" type="string" title="玩家剩余血量百分比" desc="来源游戏，记录对应触发时间玩家剩余血量%（如果是100%，记录100，如果已经死亡记录0，向上取整）" catalog="ext" order="19"/>
+    <entry name="left_boss_hp" required="true" type="string" title="BOSS剩余血量百分比" desc="来源游戏，记录对应触发时间BOSS剩余血量%（如果是100%，记录100，如果已经死亡记录0，向上取整）" catalog="ext" order="20"/>
+    <entry name="total_damage" required="true" type="string" title="实际总伤害" desc="来源游戏，记录对应触发时间的玩家该波次实际造成的总伤害" catalog="ext" order="21"/>
+    <entry name="total_blood_returning" required="true" type="string" title="实际总回血量" desc="来源游戏，记录对应触发时间的玩家该波次实际总回血量" catalog="ext" order="22"/>
+    <entry name="total_shield_returning" required="true" type="string" title="实际总回盾量" desc="来源游戏，记录对应触发时间的玩家该波次实际总回盾量" catalog="ext" order="23"/>
+  </struct>
+  <struct name="battle" version="1.0" desc="关卡战" obj="角色事件" source="客户端" code="100305" level="B" isglog="true" type="通用" trigger="1.开始挑战时记录2.挑战成功时记录3.挑战失败时记录4.挑战中记录（event_type记录为10，schedule分别=11,22,33,44,55,66,77,88,99时记录）5.放弃挑战时记录" use="">
+    <entry name="log_id" required="true" type="string" title="日志id" desc="日志流水号,在一个游戏区服下，每条日志必须保证全局唯一性且递增" catalog="base" order="1"/>
+    <entry name="event_time" required="true" type="string" title="事件时间" desc="事件触发日期，时间格式为Z yyyy-MM-dd HH:mm:ss 时区+时间形式，如：+0800 2020-10-26 20:16:38" catalog="base" order="2"/>
+    <entry name="zone_id" required="true" type="string" title="区服组id" desc="来源游戏，服务器游戏产品ID" catalog="base" order="3"/>
+    <entry name="game_version" required="true" type="string" title="游戏版本号" desc="来源游戏，服务器上的游戏版本号" catalog="base" order="4"/>
+    <entry name="pub_id" required="true" type="string" title="发行商id" desc="由CP-SDK透传给游戏记录，来源于绿岸CP-SDK包体" catalog="base" order="5"/>
+    <entry name="tunnel_id" required="true" type="string" title="通道id" desc="由CP-SDK透传给游戏记录，来源于绿岸CP-SDK包体" catalog="base" order="6"/>
+    <entry name="server_id" required="true" type="string" title="区服id" desc="来源游戏，服务器区服ID，角色创角原始区服，合服后仍传原始区服" catalog="base" order="7"/>
+    <entry name="cpsdk_account_id" required="true" type="string" title="账号id" desc="由CP-SDK生成的cpsdk账号id" catalog="base" order="8"/>
+    <entry name="game_account_id" required="true" type="string" title="游戏账号id" desc="来源游戏，游戏的账号id" catalog="base" order="9"/>
+    <entry name="role_id" required="true" type="string" title="角色id" desc="来源游戏，游戏角色id" catalog="base" order="10"/>
+    <entry name="role_name" required="true" type="string" title="角色名" desc="来源游戏，角色当前角色名" catalog="base" order="11"/>
+    <entry name="role_power" required="true" type="string" title="玩家能力" desc="来源游戏，记录玩家进入玩法时的能力（Ps：在 同一局对战，玩家的能力是不变的）" catalog="ext" order="12"/>
+    <entry name="battle_id" required="true" type="string" title="副本挑战id" desc="来源游戏，玩家创建副本的唯一id" catalog="ext" order="13"/>
+    <entry name="scene_type" required="true" type="string" title="关卡类型" desc="来源游戏，玩家创建副本的场景类型【枚举见《枚举表sheet》】" catalog="ext" order="14"/>
+    <entry name="scene_id" required="true" type="string" title="关卡id" desc="来源游戏，玩家创建副本的场景id【枚举见《枚举表sheet》】" catalog="ext" order="15"/>
+    <entry name="schedule" required="true" type="string" title="进度节点" desc="来源游戏，记录对应事件发生时的副本进度（例如：开始挑战记0，挑战成功记总波次数，其他记录点根据要求记录）" catalog="ext" order="16"/>
+    <entry name="battle_event_type" required="true" type="string" title="关卡战事件类型" desc="来源游戏，枚举值【1=开始挑战，2=挑战成功，3=挑战失败，4=放弃挑战，10=持续挑战】" catalog="ext" order="17"/>
+    <entry name="left_player_hp" required="true" type="string" title="剩余血量百分比" desc="来源游戏，记录对应触发时间玩家剩余血量%（如果是100%，记录100，如果已经死亡记录0，向上取整）" catalog="ext" order="18"/>
+    <entry name="grids_num" required="true" type="string" title="背包格子数量" desc="来源游戏，记录对应触发时间的玩家背包格子数量" catalog="ext" order="19"/>
+    <entry name="total_damage" required="true" type="string" title="实际总伤害" desc="来源游戏，记录对应触发时间的玩家该波次实际造成的总伤害" catalog="ext" order="20"/>
+    <entry name="total_blood_returning" required="true" type="string" title="实际总回血量" desc="来源游戏，记录对应触发时间的玩家该波次实际总回血量" catalog="ext" order="21"/>
+    <entry name="total_shield_returning" required="true" type="string" title="实际总回盾量" desc="来源游戏，记录对应触发时间的玩家该波次实际总回盾量" catalog="ext" order="22"/>
+  </struct>
+  <struct name="death" version="1.0" desc="玩家死亡" obj="角色事件" source="客户端" code="100306" level="B" isglog="true" type="通用" trigger="玩家死亡时记录" use="">
+    <entry name="log_id" required="true" type="string" title="日志id" desc="日志流水号,在一个游戏区服下，每条日志必须保证全局唯一性且递增" catalog="base" order="1"/>
+    <entry name="event_time" required="true" type="string" title="事件时间" desc="事件触发日期，时间格式为Z yyyy-MM-dd HH:mm:ss 时区+时间形式，如：+0800 2020-10-26 20:16:38" catalog="base" order="2"/>
+    <entry name="zone_id" required="true" type="string" title="区服组id" desc="来源游戏，服务器游戏产品ID" catalog="base" order="3"/>
+    <entry name="game_version" required="true" type="string" title="游戏版本号" desc="来源游戏，服务器上的游戏版本号" catalog="base" order="4"/>
+    <entry name="pub_id" required="true" type="string" title="发行商id" desc="由CP-SDK透传给游戏记录，来源于绿岸CP-SDK包体" catalog="base" order="5"/>
+    <entry name="tunnel_id" required="true" type="string" title="通道id" desc="由CP-SDK透传给游戏记录，来源于绿岸CP-SDK包体" catalog="base" order="6"/>
+    <entry name="server_id" required="true" type="string" title="区服id" desc="来源游戏，服务器区服ID，角色创角原始区服，合服后仍传原始区服" catalog="base" order="7"/>
+    <entry name="cpsdk_account_id" required="true" type="string" title="账号id" desc="由CP-SDK生成的cpsdk账号id" catalog="base" order="8"/>
+    <entry name="game_account_id" required="true" type="string" title="游戏账号id" desc="来源游戏，游戏的账号id" catalog="base" order="9"/>
+    <entry name="role_id" required="true" type="string" title="角色id" desc="来源游戏，游戏角色id" catalog="base" order="10"/>
+    <entry name="role_name" required="true" type="string" title="角色名" desc="来源游戏，角色当前角色名" catalog="base" order="11"/>
+    <entry name="role_power" required="true" type="string" title="玩家能力" desc="来源游戏，记录玩家进入玩法时的能力（Ps：在 同一局对战，玩家的能力是不变的）" catalog="ext" order="12"/>
+    <entry name="battle_id" required="true" type="string" title="副本挑战id" desc="来源游戏，玩家创建副本的唯一id" catalog="ext" order="13"/>
+    <entry name="scene_id" required="true" type="string" title="关卡id" desc="来源游戏，玩家创建副本的场景id【枚举见《枚举表sheet》】" catalog="ext" order="14"/>
+    <entry name="schedule" required="true" type="string" title="进度节点" desc="来源游戏，记录对应事件发生时的副本进度（例如：玩家死亡时波次为第4波,，则记录3，只记录已经通过的波次）" catalog="ext" order="15"/>
+    <entry name="death_event_type" required="true" type="string" title="死亡事件类型" desc="来源游戏，枚举值【1=第1次死亡，……，N=第N次死亡】" catalog="ext" order="16"/>
+    <entry name="grids_num" required="true" type="string" title="背包格子数量" desc="来源游戏，记录对应触发时间的玩家背包格子数量" catalog="ext" order="17"/>
+    <entry name="bag_equip" required="true" type="string" title="背包武器" desc="来源游戏，死亡时玩家背包内的武器，记录格式为：道具ID_数量;2阶飞镖_2;4阶手套_1" catalog="ext" order="18"/>
+  </struct>
+  <struct name="chat" version="1.0" desc="聊天记录" obj="角色事件" source="服务端" code="108010" level="B" isglog="true" type="通用" trigger="角色在各频道聊天时记录" use="">
+    <entry name="log_id" required="true" type="string" title="日志id" desc="日志流水号,在一个游戏区服下，每条日志必须保证全局唯一性且递增" catalog="base" order="1"/>
+    <entry name="event_time" required="true" type="string" title="事件时间" desc="事件触发日期，时间格式为Z yyyy-MM-dd HH:mm:ss 时区+时间形式，如：+0800 2020-10-26 20:16:38" catalog="base" order="2"/>
+    <entry name="zone_id" required="true" type="string" title="区服组id" desc="来源游戏，服务器游戏产品ID" catalog="base" order="3"/>
+    <entry name="game_version" required="true" type="string" title="游戏版本号" desc="来源游戏，服务器上的游戏版本号" catalog="base" order="4"/>
+    <entry name="pub_id" required="true" type="string" title="发行商id" desc="由CP-SDK透传给游戏记录，来源于绿岸CP-SDK包体" catalog="base" order="5"/>
+    <entry name="tunnel_id" required="true" type="string" title="通道id" desc="由CP-SDK透传给游戏记录，来源于绿岸CP-SDK包体" catalog="base" order="6"/>
+    <entry name="server_id" required="true" type="string" title="区服id" desc="来源游戏，服务器区服ID，角色创角原始区服，合服后仍传原始区服" catalog="base" order="7"/>
+    <entry name="cpsdk_account_id" required="true" type="string" title="账号id" desc="由CP-SDK生成的cpsdk账号id" catalog="base" order="8"/>
+    <entry name="game_account_id" required="true" type="string" title="游戏账号id" desc="来源游戏，游戏的账号id" catalog="base" order="9"/>
+    <entry name="role_id" required="true" type="string" title="角色id" desc="来源游戏，游戏角色id" catalog="base" order="10"/>
+    <entry name="role_name" required="true" type="string" title="角色名" desc="来源游戏，角色当前角色名" catalog="base" order="11"/>
+    <entry name="chat_type" required="true" type="string" title="聊天频道" desc="来源游戏，聊天的频道" catalog="ext" order="13"/>
+    <entry name="chat_txt" required="true" type="string" title="聊天内容" desc="来源游戏，聊天内容，不能包含竖线" catalog="ext" order="14"/>
+    <entry name="chat_role_id" required="false" type="string" title="聊天对象的角色id" desc="来源游戏，聊天对象的角色id，仅私聊频道时记录" catalog="ext" order="15"/>
+    <entry name="chat_role_name" required="false" type="string" title="聊天对象的角色名" desc="来源游戏，聊天对象的角色名，仅私聊频道时记录" catalog="ext" order="16"/>
+  </struct>
+  <struct name="gemstone_compose" version="1.0" desc="宝石合成" obj="角色事件" source="服务端" code="201066" level="B" isglog="true" type="通用" trigger="玩家进行宝石合成时记录1、合成宝石成功2、合成宝石失败" use="">
+    <entry name="log_id" required="true" type="string" title="日志id" desc="日志流水号,在一个游戏区服下，每条日志必须保证全局唯一性且递增" catalog="base" order="1"/>
+    <entry name="event_time" required="true" type="string" title="事件时间" desc="事件触发日期，时间格式为Z yyyy-MM-dd HH:mm:ss 时区+时间形式，如：+0800 2020-10-26 20:16:38" catalog="base" order="2"/>
+    <entry name="zone_id" required="true" type="string" title="区服组id" desc="来源游戏，服务器游戏产品ID" catalog="base" order="3"/>
+    <entry name="game_version" required="true" type="string" title="游戏版本号" desc="来源游戏，服务器上的游戏版本号" catalog="base" order="4"/>
+    <entry name="pub_id" required="true" type="string" title="发行商id" desc="由CP-SDK透传给游戏记录，来源于绿岸CP-SDK包体" catalog="base" order="5"/>
+    <entry name="tunnel_id" required="true" type="string" title="通道id" desc="由CP-SDK透传给游戏记录，来源于绿岸CP-SDK包体" catalog="base" order="6"/>
+    <entry name="server_id" required="true" type="string" title="区服id" desc="来源游戏，服务器区服ID，角色创角原始区服，合服后仍传原始区服" catalog="base" order="7"/>
+    <entry name="cpsdk_account_id" required="true" type="string" title="账号id" desc="由CP-SDK生成的cpsdk账号id" catalog="base" order="8"/>
+    <entry name="game_account_id" required="true" type="string" title="游戏账号id" desc="来源游戏，游戏的账号id" catalog="base" order="9"/>
+    <entry name="role_id" required="true" type="string" title="角色id" desc="来源游戏，游戏角色id" catalog="base" order="10"/>
+    <entry name="role_name" required="true" type="string" title="角色名" desc="来源游戏，角色当前角色名" catalog="base" order="11"/>
+    <entry name="gemstone_op_result" required="true" type="string" title="宝石合成结果" desc="来源游戏，宝石合成结果，1.成功、2.失败" catalog="ext" order="12"/>
+    <entry name="gemstone_op_type" required="true" type="string" title="宝石合成类型" desc="来源游戏，宝石合成类型，1.一键合成" catalog="ext" order="13"/>
+    <entry name="gemstone_use_item1" required="true" type="string" title="合成失去道具1" desc="来源游戏，记录合成失去的道具1" catalog="ext" order="14"/>
+    <entry name="gemstone_use_item2" required="true" type="string" title="合成失去道具2" desc="来源游戏，记录合成失去的道具2" catalog="ext" order="15"/>
+    <entry name="gemstone_use_item3" required="true" type="string" title="合成失去道具3" desc="来源游戏，记录合成失去的道具3" catalog="ext" order="16"/>
+    <entry name="gemstone_use_item4" required="true" type="string" title="合成失去道具4" desc="来源游戏，记录合成失去的道具4" catalog="ext" order="17"/>
+    <entry name="gemstone_use_item5" required="true" type="string" title="合成失去道具5" desc="来源游戏，记录合成失去的道具5" catalog="ext" order="18"/>
+    <entry name="gemstone_get_item" required="true" type="string" title="合成获得道具" desc="来源游戏，记录合成获得的道具" catalog="ext" order="19"/>
+  </struct>
+  <struct name="equipment_op" version="1.0" desc="装备操作" obj="角色事件" source="服务端" code="201067" level="B" isglog="true" type="通用" trigger="玩家进行装备操作时记录" use="">
+    <entry name="log_id" required="true" type="string" title="日志id" desc="日志流水号,在一个游戏区服下，每条日志必须保证全局唯一性且递增" catalog="base" order="1"/>
+    <entry name="event_time" required="true" type="string" title="事件时间" desc="事件触发日期，时间格式为Z yyyy-MM-dd HH:mm:ss 时区+时间形式，如：+0800 2020-10-26 20:16:38" catalog="base" order="2"/>
+    <entry name="zone_id" required="true" type="string" title="区服组id" desc="来源游戏，服务器游戏产品ID" catalog="base" order="3"/>
+    <entry name="game_version" required="true" type="string" title="游戏版本号" desc="来源游戏，服务器上的游戏版本号" catalog="base" order="4"/>
+    <entry name="pub_id" required="true" type="string" title="发行商id" desc="由CP-SDK透传给游戏记录，来源于绿岸CP-SDK包体" catalog="base" order="5"/>
+    <entry name="tunnel_id" required="true" type="string" title="通道id" desc="由CP-SDK透传给游戏记录，来源于绿岸CP-SDK包体" catalog="base" order="6"/>
+    <entry name="server_id" required="true" type="string" title="区服id" desc="来源游戏，服务器区服ID，角色创角原始区服，合服后仍传原始区服" catalog="base" order="7"/>
+    <entry name="cpsdk_account_id" required="true" type="string" title="账号id" desc="由CP-SDK生成的cpsdk账号id" catalog="base" order="8"/>
+    <entry name="game_account_id" required="true" type="string" title="游戏账号id" desc="来源游戏，游戏的账号id" catalog="base" order="9"/>
+    <entry name="role_id" required="true" type="string" title="角色id" desc="来源游戏，游戏角色id" catalog="base" order="10"/>
+    <entry name="role_name" required="true" type="string" title="角色名" desc="来源游戏，角色当前角色名" catalog="base" order="11"/>
+    <entry name="equipment_type" required="true" type="string" title="装备类型" desc="来源游戏，记录装备的类型【研发自定义枚举见sheet-枚举表】" catalog="ext" order="12"/>
+    <entry name="equip_id" required="true" type="string" title="装备id" desc="来源游戏，操作的装备ID" catalog="ext" order="13"/>
+    <entry name="equip_instance_id" required="true" type="string" title="操作后槽位内的装备id" desc="来源游戏，对应equip_slot_id的操作后的槽位内的装备id（Ps：如果槽位内没有装备则记录空值即可）" catalog="ext" order="14"/>
+    <entry name="equipment_op_type" required="true" type="string" title="装备操作类型" desc="来源游戏，记录装备操作的类型，如：1=分解，2=洗练" catalog="ext" order="15"/>
+    <entry name="equipment_clean_result" required="false" type="string" title="装备洗练结果" desc="来源游戏，记录装备洗练结果，如：词条1;词条2;词条3" catalog="ext" order="16"/>
+  </struct>
+  <struct name="client_function" version="1.0" desc="客户端性能" obj="角色事件" source="客户端" code="300071" level="B" isglog="true" type="通用" trigger="日志记录触发逻辑：1、进入战斗场景时触发1次2、在战斗场景中每停留1分钟记录1次3、退出战斗场景时记录1次" use="">
+    <entry name="log_id" required="true" type="string" title="日志id" desc="日志流水号,在一个游戏区服下，每条日志必须保证全局唯一性且递增" catalog="base" order="1"/>
+    <entry name="event_time" required="true" type="string" title="事件时间" desc="事件触发日期，时间格式为Z yyyy-MM-dd HH:mm:ss 时区+时间形式，如：+0800 2020-10-26 20:16:38" catalog="base" order="2"/>
+    <entry name="zone_id" required="true" type="string" title="区服组id" desc="来源游戏，服务器游戏产品ID" catalog="base" order="3"/>
+    <entry name="game_version" required="true" type="string" title="游戏版本号" desc="来源游戏，服务器上的游戏版本号" catalog="base" order="4"/>
+    <entry name="pub_id" required="true" type="string" title="发行商id" desc="由CP-SDK透传给游戏记录，来源于绿岸CP-SDK包体" catalog="base" order="5"/>
+    <entry name="tunnel_id" required="true" type="string" title="通道id" desc="由CP-SDK透传给游戏记录，来源于绿岸CP-SDK包体" catalog="base" order="6"/>
+    <entry name="server_id" required="true" type="string" title="区服id" desc="来源游戏，服务器区服ID，角色创角原始区服，合服后仍传原始区服" catalog="base" order="7"/>
+    <entry name="cpsdk_account_id" required="true" type="string" title="账号id" desc="由CP-SDK生成的cpsdk账号id" catalog="base" order="8"/>
+    <entry name="game_account_id" required="true" type="string" title="游戏账号id" desc="来源游戏，游戏的账号id" catalog="base" order="9"/>
+    <entry name="role_id" required="true" type="string" title="角色id" desc="来源游戏，游戏角色id" catalog="base" order="10"/>
+    <entry name="role_name" required="true" type="string" title="角色名" desc="来源游戏，角色当前角色名" catalog="base" order="11"/>
+    <entry name="scene_type" required="true" type="string" title="场景类型" desc="来源游戏，枚举说明【1=主线，2=xx战斗】（枚举由游戏自己定义，字典给到G数即可）" catalog="ext" order="12"/>
+    <entry name="scene_id" required="true" type="string" title="场景id" desc="来源游戏，具体的场景值枚举说明【1=第一关，2=第二关.....】（枚举由游戏自己定义，字典给到G数即可）" catalog="ext" order="13"/>
+    <entry name="time" required="true" type="bigint" title="持续时间" desc="来源游戏，记录切换至该场景后到日志记录的持续时长（单位：秒）" catalog="ext" order="14"/>
+    <entry name="avg_fps" required="true" type="string" title="帧率平均指标" desc="来源游戏，记录在持续时间内平均fps数" catalog="ext" order="15"/>
+    <entry name="min_fps" required="true" type="string" title="帧率最小指标" desc="来源游戏，记录在持续时间内最小fps数" catalog="ext" order="16"/>
+    <entry name="max_fps" required="true" type="string" title="帧率最大指标" desc="来源游戏，记录在持续时间内最大fps数" catalog="ext" order="17"/>
+    <entry name="device_id" required="true" type="string" title="设备id" desc="来源于绿岸CP-SDK包体，用户设备的唯一id，由CP-SDK透传给游戏记录" catalog="ext" order="18"/>
+    <entry name="platform" required="true" type="string" title="游戏运行平台" desc="来源于绿岸CP-SDK包体，枚举说明【1=IOS，2=安卓，3=H5，4=未知，5=小程序】由CP-SDK透传给游戏记录" catalog="ext" order="19"/>
+    <entry name="brand_model" required="true" type="string" title="设备品牌与型号" desc="手机小程序   手机品牌  由sdk brand与model字段拼接用_链接如：手机H5  浏览器品牌" catalog="ext" order="20"/>
+    <entry name="sdk_int" required="false" type="string" title="设备系统版本" desc="手机小程序   未知 如：手机H5  浏览器版本" catalog="ext" order="21"/>
+  </struct>
+  <struct name="server_op" version="1.0" desc="服务器操作" obj="服务器事件" source="服务端" code="201030" level="A" isglog="true" type="通用" trigger="5种情况下触发该事件：开服：区服首次开服时记录，维护开服：区服维护完成后开服时记录，维护关服：区服开始维护关服时记录，服务器进程启动：服务器进程启动时记录，服务器进程关闭：服务器进程关闭时记录，开服失败：开服失败时记录" use="">
+    <entry name="log_id" required="true" type="string" title="日志id" desc="日志流水号,在一个游戏区服下，每条日志必须保证全局唯一性且递增" catalog="base" order="1"/>
+    <entry name="event_time" required="true" type="string" title="事件时间" desc="事件触发日期，时间格式为Z yyyy-MM-dd HH:mm:ss 时区+时间形式，如：+0800 2020-10-26 20:16:38" catalog="base" order="2"/>
+    <entry name="zone_id" required="true" type="string" title="区服组id" desc="来源游戏，服务器游戏产品ID" catalog="base" order="3"/>
+    <entry name="zone_name" required="true" type="string" title="区服组名称" desc="来源游戏，区服组名称" catalog="base" order="4"/>
+    <entry name="server_id" required="true" type="string" title="区服id" desc="来源游戏，服务器区服ID，角色创角原始区服，合服后仍传原始区服" catalog="base" order="5"/>
+    <entry name="game_version" required="false" type="string" title="游戏版本号" desc="来源游戏，游戏版本号" catalog="base" order="6"/>
+    <entry name="server_name" required="false" type="string" title="区服名称" desc="来源游戏，区服名称" catalog="ext" order="7"/>
+    <entry name="server_open_time" required="true" type="string" title="服务器首次开服时间" desc="来源游戏，服务器首次开服时间" catalog="ext" order="8"/>
+    <entry name="server_open_day" required="true" type="bigint" title="服务器开服天数" desc="来源游戏，服务器开服天数" catalog="ext" order="9"/>
+    <entry name="server_op_type" required="true" type="string" title="服务器操作类型" desc="来源游戏，枚举说明【1=首次开服，2=维护开服，3=维护关服，101=服务器进程启动，102=服务器进程关闭】" catalog="ext" order="10"/>
+    <entry name="open_type" required="true" type="string" title="开服类型" desc="来源游戏，枚举说明【1=手动开服，2=指定时间开服（指定该区服的开服时间），3=计划开服时间（指定开服时间但不指定区服），4=策略开服】" catalog="ext" order="11"/>
+    <entry name="open_plan_time" required="false" type="string" title="计划开服时间" desc="计划开服时间，开服类型为123时必传，时间格式为Z yyyy-MM-dd HH:mm:ss 时区+时间形式，如 +0800 2020-10-26 20:16:38" catalog="ext" order="12"/>
+    <entry name="open_result" required="true" type="string" title="开服结果" desc="来源游戏，枚举说明【1=成功，2=失败】" catalog="ext" order="13"/>
+    <entry name="open_strategy_condition" required="false" type="string" title="开服策略条件" desc="策略具体内容，开服类型为4时必传，枚举见【sheet-枚举表】。如设置策略为：新增账号100，新增付费人数80，pcu100，acu100。满足新增账号100时记录“2:100”，满足新增付费人数80时记录“3:80”；即满足哪个条件记录那个，格式“2:100”，2表示类型，100表示设置的数量。" catalog="ext" order="14"/>
+    <entry name="open_fail_cause" required="false" type="string" title="开服失败原因" desc="来源游戏，开服失败时必传，枚举说明【研发自定义枚举见sheet-枚举表】" catalog="ext" order="15"/>
+    <entry name="back_server_num" required="true" type="bigint" title="备服数量" desc="来源游戏，备服的数量" catalog="ext" order="16"/>
+  </struct>
+  <struct name="server_merge" version="1.0" desc="合服事件" obj="服务器事件" source="服务端" code="201040" level="A" isglog="true" type="通用" trigger="区服合并时记录" use="">
+    <entry name="log_id" required="true" type="string" title="日志id" desc="日志流水号,在一个游戏区服下，每条日志必须保证全局唯一性且递增" catalog="base" order="1"/>
+    <entry name="event_time" required="true" type="string" title="事件时间" desc="事件触发日期，时间格式为Z yyyy-MM-dd HH:mm:ss 时区+时间形式，如：+0800 2020-10-26 20:16:38" catalog="base" order="2"/>
+    <entry name="zone_id" required="true" type="string" title="区服组id" desc="来源游戏，服务器游戏产品ID" catalog="base" order="3"/>
+    <entry name="zone_name" required="true" type="string" title="区服组名称" desc="来源游戏，区服组名称" catalog="base" order="4"/>
+    <entry name="server_id" required="true" type="string" title="区服id" desc="来源游戏，服务器区服ID，角色创角原始区服，合服后仍传原始区服" catalog="base" order="5"/>
+    <entry name="game_version" required="false" type="string" title="游戏版本号" desc="来源游戏，游戏版本号" catalog="base" order="6"/>
+    <entry name="target_server_id" required="true" type="string" title="目标区服id" desc="来源服务器，目标服区服id" catalog="ext" order="7"/>
+    <entry name="target_server_name" required="true" type="string" title="目标区服名称" desc="来源服务器，目标服区服名称" catalog="ext" order="8"/>
+    <entry name="source_hostname" required="true" type="string" title="源服务器名称" desc="来源服务器，被合服区服所在服务器名称" catalog="ext" order="9"/>
+    <entry name="target_hostname" required="true" type="string" title="目标服务器名称" desc="来源服务器，目标服所在服务器名称" catalog="ext" order="10"/>
+  </struct>
+  <struct name="guide" version="1.0" desc="新手引导" obj="角色事件" source="服务端" code="300072" level="B" isglog="true" type="通用" trigger="两种情况下记录日志：1、触发新手引导2、完成新手引导" use="">
+    <entry name="log_id" required="true" type="string" title="日志id" desc="日志流水号,在一个游戏区服下，每条日志必须保证全局唯一性且递增" catalog="base" order="1"/>
+    <entry name="event_time" required="true" type="string" title="事件时间" desc="事件触发日期，时间格式为Z yyyy-MM-dd HH:mm:ss 时区+时间形式，如：+0800 2020-10-26 20:16:38" catalog="base" order="2"/>
+    <entry name="zone_id" required="true" type="string" title="区服组id" desc="来源游戏，服务器游戏产品ID" catalog="base" order="3"/>
+    <entry name="game_version" required="true" type="string" title="游戏版本号" desc="来源游戏，服务器上的游戏版本号" catalog="base" order="4"/>
+    <entry name="pub_id" required="true" type="string" title="发行商id" desc="由CP-SDK透传给游戏记录，来源于绿岸CP-SDK包体" catalog="base" order="5"/>
+    <entry name="tunnel_id" required="true" type="string" title="通道id" desc="由CP-SDK透传给游戏记录，来源于绿岸CP-SDK包体" catalog="base" order="6"/>
+    <entry name="server_id" required="true" type="string" title="区服id" desc="来源游戏，服务器区服ID，角色创角原始区服，合服后仍传原始区服" catalog="base" order="7"/>
+    <entry name="cpsdk_account_id" required="true" type="string" title="账号id" desc="由CP-SDK生成的cpsdk账号id" catalog="base" order="8"/>
+    <entry name="game_account_id" required="true" type="string" title="游戏账号id" desc="来源游戏，游戏的账号id" catalog="base" order="9"/>
+    <entry name="role_id" required="true" type="string" title="角色id" desc="来源游戏，游戏角色id" catalog="base" order="10"/>
+    <entry name="role_name" required="true" type="string" title="角色名" desc="来源游戏，角色当前角色名" catalog="base" order="11"/>
+    <entry name="guide_id" required="true" type="string" title="教程ID" desc="来源游戏，记录引导对应的教程ID" catalog="ext" order="12"/>
+    <entry name="group_id" required="true" type="string" title="组ID" desc="来源游戏，记录引导对应的组ID" catalog="ext" order="13"/>
+    <entry name="step_id" required="true" type="string" title="步骤ID" desc="来源游戏，记录引导对应的步骤" catalog="ext" order="14"/>
+    <entry name="guide_op_type" required="true" type="string" title="引导操作" desc="来源游戏，引导操作，触发=0，完成=1" catalog="ext" order="15"/>
+  </struct>
+  <struct name="money_balance" version="1.0" desc="玩家货币余额" obj="角色事件" source="服务端" code="103010" level="B" isglog="true" type="通用" trigger="3种情况下记录日志：1、在线的玩家，每隔1小时记录一次；2、玩家登出时，记录一次3、当玩家跨天在线时，23:59:59需要记录一条" use="">
+    <entry name="log_id" required="true" type="string" title="日志id" desc="日志流水号,在一个游戏区服下，每条日志必须保证全局唯一性且递增" catalog="base" order="1"/>
+    <entry name="event_time" required="true" type="string" title="事件时间" desc="事件触发日期，时间格式为Z yyyy-MM-dd HH:mm:ss 时区+时间形式，如：+0800 2020-10-26 20:16:38" catalog="base" order="2"/>
+    <entry name="zone_id" required="true" type="string" title="区服组id" desc="来源游戏，服务器游戏产品ID" catalog="base" order="3"/>
+    <entry name="game_version" required="true" type="string" title="游戏版本号" desc="来源游戏，服务器上的游戏版本号" catalog="base" order="4"/>
+    <entry name="pub_id" required="true" type="string" title="发行商id" desc="由CP-SDK透传给游戏记录，来源于绿岸CP-SDK包体" catalog="base" order="5"/>
+    <entry name="tunnel_id" required="true" type="string" title="通道id" desc="由CP-SDK透传给游戏记录，来源于绿岸CP-SDK包体" catalog="base" order="6"/>
+    <entry name="server_id" required="true" type="string" title="区服id" desc="来源游戏，服务器区服ID，角色创角原始区服，合服后仍传原始区服" catalog="base" order="7"/>
+    <entry name="cpsdk_account_id" required="true" type="string" title="账号id" desc="由CP-SDK生成的cpsdk账号id" catalog="base" order="8"/>
+    <entry name="game_account_id" required="true" type="string" title="游戏账号id" desc="来源游戏，游戏的账号id" catalog="base" order="9"/>
+    <entry name="role_id" required="true" type="string" title="角色id" desc="来源游戏，游戏角色id" catalog="base" order="10"/>
+    <entry name="role_name" required="true" type="string" title="角色名" desc="来源游戏，角色当前角色名" catalog="base" order="11"/>
+    <entry name="money_type" required="true" type="string" title="货币类型" desc="来源游戏，货币的类型" catalog="ext" order="12"/>
+    <entry name="balance" required="true" type="string" title="货币余额" desc="来源游戏，记录日志时，玩家的货币余额" catalog="ext" order="13"/>
+  </struct>
+  <struct name="function_use" version="1.0" desc="抖音功能使用" obj="角色事件" source="服务端" code="103020" level="B" isglog="true" type="通用" trigger="2种情况下记录日志：1、点击功能时记录一次；2、领奖时记录一次；目前在3个场景下记录日志：1、保存侧边栏2、保存桌面3、分享" use="">
+    <entry name="log_id" required="true" type="string" title="日志id" desc="日志流水号,在一个游戏区服下，每条日志必须保证全局唯一性且递增" catalog="base" order="1"/>
+    <entry name="event_time" required="true" type="string" title="事件时间" desc="事件触发日期，时间格式为Z yyyy-MM-dd HH:mm:ss 时区+时间形式，如：+0800 2020-10-26 20:16:38" catalog="base" order="2"/>
+    <entry name="zone_id" required="true" type="string" title="区服组id" desc="来源游戏，服务器游戏产品ID" catalog="base" order="3"/>
+    <entry name="game_version" required="true" type="string" title="游戏版本号" desc="来源游戏，服务器上的游戏版本号" catalog="base" order="4"/>
+    <entry name="pub_id" required="true" type="string" title="发行商id" desc="由CP-SDK透传给游戏记录，来源于绿岸CP-SDK包体" catalog="base" order="5"/>
+    <entry name="tunnel_id" required="true" type="string" title="通道id" desc="由CP-SDK透传给游戏记录，来源于绿岸CP-SDK包体" catalog="base" order="6"/>
+    <entry name="server_id" required="true" type="string" title="区服id" desc="来源游戏，服务器区服ID，角色创角原始区服，合服后仍传原始区服" catalog="base" order="7"/>
+    <entry name="cpsdk_account_id" required="true" type="string" title="账号id" desc="由CP-SDK生成的cpsdk账号id" catalog="base" order="8"/>
+    <entry name="game_account_id" required="true" type="string" title="游戏账号id" desc="来源游戏，游戏的账号id" catalog="base" order="9"/>
+    <entry name="role_id" required="true" type="string" title="角色id" desc="来源游戏，游戏角色id" catalog="base" order="10"/>
+    <entry name="role_name" required="true" type="string" title="角色名" desc="来源游戏，角色当前角色名" catalog="base" order="11"/>
+    <entry name="function_type" required="true" type="string" title="功能类型" desc="来源游戏，功能类型" catalog="ext" order="12"/>
+    <entry name="function_op_type" required="true" type="string" title="功能操作类型" desc="来源游戏，功能操作类型：1=点击   2=领奖" catalog="ext" order="13"/>
+  </struct>
+  <struct name="backpack_item_refresh" version="1.0" desc="背包刷新日志" obj="角色事件" source="客户端" code="100401" level="B" isglog="true" type="通用" trigger="玩家在触发各种类型的背包刷新时记录：1、自动刷新2、免费刷新3、广告刷新4、道具刷新5、铜币刷新" use="">
+    <entry name="log_id" required="true" type="string" title="日志id" desc="日志流水号,在一个游戏区服下，每条日志必须保证全局唯一性且递增" catalog="base" order="1"/>
+    <entry name="event_time" required="true" type="string" title="事件时间" desc="事件触发日期，时间格式为Z yyyy-MM-dd HH:mm:ss 时区+时间形式，如：+0800 2020-10-26 20:16:38" catalog="base" order="2"/>
+    <entry name="zone_id" required="true" type="string" title="区服组id" desc="来源游戏，服务器游戏产品ID" catalog="base" order="3"/>
+    <entry name="game_version" required="true" type="string" title="游戏版本号" desc="来源游戏，服务器上的游戏版本号" catalog="base" order="4"/>
+    <entry name="pub_id" required="true" type="string" title="发行商id" desc="由CP-SDK透传给游戏记录，来源于绿岸CP-SDK包体" catalog="base" order="5"/>
+    <entry name="tunnel_id" required="true" type="string" title="通道id" desc="由CP-SDK透传给游戏记录，来源于绿岸CP-SDK包体" catalog="base" order="6"/>
+    <entry name="server_id" required="true" type="string" title="区服id" desc="来源游戏，服务器区服ID，角色创角原始区服，合服后仍传原始区服" catalog="base" order="7"/>
+    <entry name="cpsdk_account_id" required="true" type="string" title="账号id" desc="由CP-SDK生成的cpsdk账号id" catalog="base" order="8"/>
+    <entry name="game_account_id" required="true" type="string" title="游戏账号id" desc="来源游戏，游戏的账号id" catalog="base" order="9"/>
+    <entry name="role_id" required="true" type="string" title="角色id" desc="来源游戏，游戏角色id" catalog="base" order="10"/>
+    <entry name="role_name" required="true" type="string" title="角色名" desc="来源游戏，角色当前角色名" catalog="base" order="11"/>
+    <entry name="battle_id" required="true" type="string" title="副本挑战id" desc="来源游戏，玩家创建副本的唯一id" catalog="ext" order="12"/>
+    <entry name="scene_type" required="true" type="string" title="关卡类型" desc="来源游戏，玩家创建副本的场景类型【枚举见《枚举表sheet》】" catalog="ext" order="13"/>
+    <entry name="scene_id" required="true" type="string" title="关卡id" desc="来源游戏，玩家创建副本的场景id【枚举见《枚举表sheet》】" catalog="ext" order="14"/>
+    <entry name="schedule" required="true" type="string" title="进度节点" desc="来源游戏，记录对应事件发生时的副本进度，也就是波次" catalog="ext" order="15"/>
+    <entry name="package_refresh_type" required="true" type="string" title="背包刷新类型" desc="来源游戏，枚举值【1=自动刷新，2=免费刷新，3=广告刷新，4=道具刷新，5=铜币刷新】" catalog="ext" order="16"/>
+    <entry name="refresh_get1_type" required="" type="string" title="刷新获得道具1的大类" desc="来源游戏，刷新获得道具1的大类，1=法宝、2=格子" catalog="ext" order="17"/>
+    <entry name="get_item1_id" required="" type="string" title="刷到的道具1的ID" desc="来源游戏，刷新获得道具1的ID" catalog="ext" order="18"/>
+    <entry name="get_item1_name" required="" type="string" title="刷到的道具1的名称" desc="来源游戏，刷新获得道具1的名称" catalog="ext" order="19"/>
+    <entry name="get_item1_type" required="" type="string" title="刷到的道具1子类" desc="来源游戏，刷新获得道具1的子类，如果是法宝，那么就是法宝类型（攻击类-穿透），如果是格子，那么就是格子的类型（广告格，免费格）" catalog="ext" order="20"/>
+    <entry name="weapon1_quality" required="" type="string" title="刷到的法宝1品质" desc="来源游戏，刷新获得法宝1的品质，仅有大类为法宝时才会记录，否则为空" catalog="ext" order="21"/>
+    <entry name="weapon1_shape" required="" type="string" title="刷到的法宝1形状" desc="来源游戏，刷新获得道具1的形状" catalog="ext" order="22"/>
+    <entry name="refresh_get2_type" required="" type="string" title="刷新获得道具2的大类" desc="来源游戏，刷新获得道具2的大类，1=法宝、2=格子" catalog="ext" order="23"/>
+    <entry name="get_item2_id" required="" type="string" title="刷到的道具2的ID" desc="来源游戏，刷新获得道具2的ID" catalog="ext" order="24"/>
+    <entry name="get_item2_name" required="" type="string" title="刷到的道具2的名称" desc="来源游戏，刷新获得道具2的名称" catalog="ext" order="25"/>
+    <entry name="get_item2_type" required="" type="string" title="刷到的道具2子类" desc="来源游戏，刷新获得道具2的子类，如果是法宝，那么就是法宝类型（攻击类-穿透），如果是格子，那么就是格子的类型（广告格，免费格）" catalog="ext" order="26"/>
+    <entry name="weapon2_quality" required="" type="string" title="刷到的法宝2品质" desc="来源游戏，刷新获得法宝2的品质，仅有大类为法宝时才会记录，否则为空" catalog="ext" order="27"/>
+    <entry name="weapon2_shape" required="" type="string" title="刷到的法宝2形状" desc="来源游戏，刷新获得道具2的形状" catalog="ext" order="28"/>
+    <entry name="refresh_get3_type" required="" type="string" title="刷新获得道具3的大类" desc="来源游戏，刷新获得道具3的大类，1=法宝、2=格子" catalog="ext" order="29"/>
+    <entry name="get_item3_id" required="" type="string" title="刷到的道具3的ID" desc="来源游戏，刷新获得道具3的ID" catalog="ext" order="30"/>
+    <entry name="get_item3_name" required="" type="string" title="刷到的道具3的名称" desc="来源游戏，刷新获得道具3的名称" catalog="ext" order="31"/>
+    <entry name="get_item3_type" required="" type="string" title="刷到的道具3子类" desc="来源游戏，刷新获得道具3的子类，如果是法宝，那么就是法宝类型（攻击类-穿透），如果是格子，那么就是格子的类型（广告格，免费格）" catalog="ext" order="32"/>
+    <entry name="weapon3_quality" required="" type="string" title="刷到的法宝3品质" desc="来源游戏，刷新获得法宝3的品质，仅有大类为法宝时才会记录，否则为空" catalog="ext" order="33"/>
+    <entry name="weapon3_shape" required="" type="string" title="刷到的法宝3形状" desc="来源游戏，刷新获得道具3的形状" catalog="ext" order="34"/>
+    <entry name="refresh_get4_type" required="" type="string" title="刷新获得道具4的大类" desc="来源游戏，刷新获得道具4的大类，1=法宝、2=格子" catalog="ext" order="35"/>
+    <entry name="get_item4_id" required="" type="string" title="刷到的道具4的ID" desc="来源游戏，刷新获得道具4的ID" catalog="ext" order="36"/>
+    <entry name="get_item4_name" required="" type="string" title="刷到的道具4的名称" desc="来源游戏，刷新获得道具4的名称" catalog="ext" order="37"/>
+    <entry name="get_item4_type" required="" type="string" title="刷到的道具4子类" desc="来源游戏，刷新获得道具4的子类，如果是法宝，那么就是法宝类型（攻击类-穿透），如果是格子，那么就是格子的类型（广告格，免费格）" catalog="ext" order="38"/>
+    <entry name="weapon4_quality" required="" type="string" title="刷到的法宝4品质" desc="来源游戏，刷新获得法宝4的品质，仅有大类为法宝时才会记录，否则为空" catalog="ext" order="39"/>
+    <entry name="weapon4_shape" required="" type="string" title="刷到的法宝4形状" desc="来源游戏，刷新获得道具4的形状" catalog="ext" order="40"/>
+    <entry name="refresh_get5_type" required="" type="string" title="刷新获得道具5的大类" desc="来源游戏，刷新获得道具5的大类，1=法宝、2=格子" catalog="ext" order="41"/>
+    <entry name="get_item5_id" required="" type="string" title="刷到的道具5的ID" desc="来源游戏，刷新获得道具5的ID" catalog="ext" order="42"/>
+    <entry name="get_item5_name" required="" type="string" title="刷到的道具5的名称" desc="来源游戏，刷新获得道具5的名称" catalog="ext" order="43"/>
+    <entry name="get_item5_type" required="" type="string" title="刷到的道具5子类" desc="来源游戏，刷新获得道具5的子类，如果是法宝，那么就是法宝类型（攻击类-穿透），如果是格子，那么就是格子的类型（广告格，免费格）" catalog="ext" order="44"/>
+    <entry name="weapon5_quality" required="" type="string" title="刷到的法宝5品质" desc="来源游戏，刷新获得法宝5的品质，仅有大类为法宝时才会记录，否则为空" catalog="ext" order="45"/>
+    <entry name="weapon5_shape" required="" type="string" title="刷到的法宝5形状" desc="来源游戏，刷新获得道具5的形状" catalog="ext" order="46"/>
+    <entry name="refresh_get6_type" required="" type="string" title="刷新获得道具6的大类" desc="来源游戏，刷新获得道具6的大类，1=法宝、2=格子" catalog="ext" order="47"/>
+    <entry name="get_item6_id" required="" type="string" title="刷到的道具6的ID" desc="来源游戏，刷新获得道具6的ID" catalog="ext" order="48"/>
+    <entry name="get_item6name" required="" type="string" title="刷到的道具6的名称" desc="来源游戏，刷新获得道具6的名称" catalog="ext" order="49"/>
+    <entry name="get_item6_type" required="" type="string" title="刷到的道具6子类" desc="来源游戏，刷新获得道具6的子类，如果是法宝，那么就是法宝类型（攻击类-穿透），如果是格子，那么就是格子的类型（广告格，免费格）" catalog="ext" order="50"/>
+    <entry name="weapon6_quality" required="" type="string" title="刷到的法宝6品质" desc="来源游戏，刷新获得法宝6的品质，仅有大类为法宝时才会记录，否则为空" catalog="ext" order="51"/>
+    <entry name="weapon6_shape" required="" type="string" title="刷到的法宝6形状" desc="来源游戏，刷新获得道具6的形状" catalog="ext" order="52"/>
+  </struct>
+  <struct name="skill_card_refresh" version="1.0" desc="技能卡刷新日志" obj="角色事件" source="客户端" code="100402" level="B" isglog="true" type="通用" trigger="玩家在触发各种类型的技能卡刷新时记录：1、自动刷新2、广告刷新3、道具刷新" use="">
+    <entry name="log_id" required="true" type="string" title="日志id" desc="日志流水号,在一个游戏区服下，每条日志必须保证全局唯一性且递增" catalog="base" order="1"/>
+    <entry name="event_time" required="true" type="string" title="事件时间" desc="事件触发日期，时间格式为Z yyyy-MM-dd HH:mm:ss 时区+时间形式，如：+0800 2020-10-26 20:16:38" catalog="base" order="2"/>
+    <entry name="zone_id" required="true" type="string" title="区服组id" desc="来源游戏，服务器游戏产品ID" catalog="base" order="3"/>
+    <entry name="game_version" required="true" type="string" title="游戏版本号" desc="来源游戏，服务器上的游戏版本号" catalog="base" order="4"/>
+    <entry name="pub_id" required="true" type="string" title="发行商id" desc="由CP-SDK透传给游戏记录，来源于绿岸CP-SDK包体" catalog="base" order="5"/>
+    <entry name="tunnel_id" required="true" type="string" title="通道id" desc="由CP-SDK透传给游戏记录，来源于绿岸CP-SDK包体" catalog="base" order="6"/>
+    <entry name="server_id" required="true" type="string" title="区服id" desc="来源游戏，服务器区服ID，角色创角原始区服，合服后仍传原始区服" catalog="base" order="7"/>
+    <entry name="cpsdk_account_id" required="true" type="string" title="账号id" desc="由CP-SDK生成的cpsdk账号id" catalog="base" order="8"/>
+    <entry name="game_account_id" required="true" type="string" title="游戏账号id" desc="来源游戏，游戏的账号id" catalog="base" order="9"/>
+    <entry name="role_id" required="true" type="string" title="角色id" desc="来源游戏，游戏角色id" catalog="base" order="10"/>
+    <entry name="role_name" required="true" type="string" title="角色名" desc="来源游戏，角色当前角色名" catalog="base" order="11"/>
+    <entry name="battle_id" required="true" type="string" title="副本挑战id" desc="来源游戏，玩家创建副本的唯一id" catalog="ext" order="12"/>
+    <entry name="scene_type" required="true" type="string" title="关卡类型" desc="来源游戏，玩家创建副本的场景类型【枚举见《枚举表sheet》】" catalog="ext" order="13"/>
+    <entry name="scene_id" required="true" type="string" title="关卡id" desc="来源游戏，玩家创建副本的场景id【枚举见《枚举表sheet》】" catalog="ext" order="14"/>
+    <entry name="schedule" required="true" type="string" title="进度节点" desc="来源游戏，记录对应事件发生时的副本进度，也就是波次" catalog="ext" order="15"/>
+    <entry name="skill_refresh_type" required="true" type="string" title="技能卡刷新类型" desc="来源游戏，枚举值【1=自动刷新，2=道具刷新，3=广告刷新】" catalog="ext" order="16"/>
+    <entry name="skill_card_id1" required="" type="string" title="技能卡ID1" desc="来源游戏，刷出的技能卡ID1" catalog="ext" order="17"/>
+    <entry name="skill_card_name1" required="" type="string" title="技能卡名称1" desc="来源游戏，刷出的技能卡名称1" catalog="ext" order="18"/>
+    <entry name="skill_card_quality1" required="" type="string" title="技能卡品质1" desc="来源游戏，刷出的技能卡品质1" catalog="ext" order="19"/>
+    <entry name="skill_card_type1" required="" type="string" title="技能卡类型1" desc="来源游戏，刷出的技能卡类型1" catalog="ext" order="20"/>
+    <entry name="skill_card_entry1" required="" type="string" title="技能卡词条1" desc="来源游戏，刷出的技能卡词条1" catalog="ext" order="21"/>
+    <entry name="skill_card_id2" required="" type="string" title="技能卡ID2" desc="来源游戏，刷出的技能卡ID2" catalog="ext" order="22"/>
+    <entry name="skill_card_name2" required="" type="string" title="技能卡名称2" desc="来源游戏，刷出的技能卡名称2" catalog="ext" order="23"/>
+    <entry name="skill_card_quality2" required="" type="string" title="技能卡品质2" desc="来源游戏，刷出的技能卡品质2" catalog="ext" order="24"/>
+    <entry name="skill_card_type2" required="" type="string" title="技能卡类型2" desc="来源游戏，刷出的技能卡类型2" catalog="ext" order="25"/>
+    <entry name="skill_card_entry2" required="" type="string" title="技能卡词条2" desc="来源游戏，刷出的技能卡词条2" catalog="ext" order="26"/>
+    <entry name="skill_card_id3" required="" type="string" title="技能卡ID3" desc="来源游戏，刷出的技能卡ID3" catalog="ext" order="27"/>
+    <entry name="skill_card_name3" required="" type="string" title="技能卡名称3" desc="来源游戏，刷出的技能卡名称3" catalog="ext" order="28"/>
+    <entry name="skill_card_quality3" required="" type="string" title="技能卡品质3" desc="来源游戏，刷出的技能卡品质3" catalog="ext" order="29"/>
+    <entry name="skill_card_type3" required="" type="string" title="技能卡类型3" desc="来源游戏，刷出的技能卡类型3" catalog="ext" order="30"/>
+    <entry name="skill_card_entry3" required="true" type="string" title="技能卡词条3" desc="来源游戏，刷出的技能卡词条3" catalog="ext" order="31"/>
+  </struct>
+  <struct name="backpack_item_hold" version="1.0" desc="玩家背包持有道具日志" obj="角色事件" source="客户端" code="100403" level="B" isglog="true" type="通用" trigger="在每一波开始时，记录玩家当前背包持有的道具数量" use="">
+    <entry name="log_id" required="true" type="string" title="日志id" desc="日志流水号,在一个游戏区服下，每条日志必须保证全局唯一性且递增" catalog="base" order="1"/>
+    <entry name="event_time" required="true" type="string" title="事件时间" desc="事件触发日期，时间格式为Z yyyy-MM-dd HH:mm:ss 时区+时间形式，如：+0800 2020-10-26 20:16:38" catalog="base" order="2"/>
+    <entry name="zone_id" required="true" type="string" title="区服组id" desc="来源游戏，服务器游戏产品ID" catalog="base" order="3"/>
+    <entry name="game_version" required="true" type="string" title="游戏版本号" desc="来源游戏，服务器上的游戏版本号" catalog="base" order="4"/>
+    <entry name="pub_id" required="true" type="string" title="发行商id" desc="由CP-SDK透传给游戏记录，来源于绿岸CP-SDK包体" catalog="base" order="5"/>
+    <entry name="tunnel_id" required="true" type="string" title="通道id" desc="由CP-SDK透传给游戏记录，来源于绿岸CP-SDK包体" catalog="base" order="6"/>
+    <entry name="server_id" required="true" type="string" title="区服id" desc="来源游戏，服务器区服ID，角色创角原始区服，合服后仍传原始区服" catalog="base" order="7"/>
+    <entry name="cpsdk_account_id" required="true" type="string" title="账号id" desc="由CP-SDK生成的cpsdk账号id" catalog="base" order="8"/>
+    <entry name="game_account_id" required="true" type="string" title="游戏账号id" desc="来源游戏，游戏的账号id" catalog="base" order="9"/>
+    <entry name="role_id" required="true" type="string" title="角色id" desc="来源游戏，游戏角色id" catalog="base" order="10"/>
+    <entry name="role_name" required="true" type="string" title="角色名" desc="来源游戏，角色当前角色名" catalog="base" order="11"/>
+    <entry name="battle_id" required="true" type="string" title="副本挑战id" desc="来源游戏，玩家创建副本的唯一id" catalog="ext" order="12"/>
+    <entry name="scene_type" required="true" type="string" title="关卡类型" desc="来源游戏，玩家创建副本的场景类型【枚举见《枚举表sheet》】" catalog="ext" order="13"/>
+    <entry name="scene_id" required="true" type="string" title="关卡id" desc="来源游戏，玩家创建副本的场景id【枚举见《枚举表sheet》】" catalog="ext" order="14"/>
+    <entry name="schedule" required="true" type="string" title="进度节点" desc="来源游戏，记录对应事件发生时的副本进度，也就是波次" catalog="ext" order="15"/>
+    <entry name="grid_total" required="" type="int" title="总格子数量" desc="来源游戏，记录当前总格数" catalog="ext" order="16"/>
+    <entry name="weapon_hold" required="" type="string" title="法宝持有" desc="来源游戏，记录玩家当前持有的武器信息，格式如下：id_name_类型_品质_形状_位置 ，多个用逗号分隔" catalog="ext" order="17"/>
+  </struct>
+  <struct name="skill_card_hold" version="1.0" desc="玩家持有技能卡日志" obj="角色事件" source="客户端" code="100404" level="B" isglog="true" type="通用" trigger="在每一波开始时，记录玩家当前持有的技能卡数量" use="">
+    <entry name="log_id" required="true" type="string" title="日志id" desc="日志流水号,在一个游戏区服下，每条日志必须保证全局唯一性且递增" catalog="base" order="1"/>
+    <entry name="event_time" required="true" type="string" title="事件时间" desc="事件触发日期，时间格式为Z yyyy-MM-dd HH:mm:ss 时区+时间形式，如：+0800 2020-10-26 20:16:38" catalog="base" order="2"/>
+    <entry name="zone_id" required="true" type="string" title="区服组id" desc="来源游戏，服务器游戏产品ID" catalog="base" order="3"/>
+    <entry name="game_version" required="true" type="string" title="游戏版本号" desc="来源游戏，服务器上的游戏版本号" catalog="base" order="4"/>
+    <entry name="pub_id" required="true" type="string" title="发行商id" desc="由CP-SDK透传给游戏记录，来源于绿岸CP-SDK包体" catalog="base" order="5"/>
+    <entry name="tunnel_id" required="true" type="string" title="通道id" desc="由CP-SDK透传给游戏记录，来源于绿岸CP-SDK包体" catalog="base" order="6"/>
+    <entry name="server_id" required="true" type="string" title="区服id" desc="来源游戏，服务器区服ID，角色创角原始区服，合服后仍传原始区服" catalog="base" order="7"/>
+    <entry name="cpsdk_account_id" required="true" type="string" title="账号id" desc="由CP-SDK生成的cpsdk账号id" catalog="base" order="8"/>
+    <entry name="game_account_id" required="true" type="string" title="游戏账号id" desc="来源游戏，游戏的账号id" catalog="base" order="9"/>
+    <entry name="role_id" required="true" type="string" title="角色id" desc="来源游戏，游戏角色id" catalog="base" order="10"/>
+    <entry name="role_name" required="true" type="string" title="角色名" desc="来源游戏，角色当前角色名" catalog="base" order="11"/>
+    <entry name="battle_id" required="true" type="string" title="副本挑战id" desc="来源游戏，玩家创建副本的唯一id" catalog="ext" order="12"/>
+    <entry name="scene_type" required="true" type="string" title="关卡类型" desc="来源游戏，玩家创建副本的场景类型【枚举见《枚举表sheet》】" catalog="ext" order="13"/>
+    <entry name="scene_id" required="true" type="string" title="关卡id" desc="来源游戏，玩家创建副本的场景id【枚举见《枚举表sheet》】" catalog="ext" order="14"/>
+    <entry name="schedule" required="true" type="string" title="进度节点" desc="来源游戏，记录对应事件发生时的副本进度，也就是波次" catalog="ext" order="15"/>
+    <entry name="card_hold" required="" type="string" title="技能卡持有" desc="来源游戏，记录当前持有的技能卡，格式如下：id_name_品质_类型_词条_是否触发效果，多个用逗号分隔" catalog="ext" order="16"/>
+  </struct>
+  <struct name="backpack_item_op" version="1.0" desc="玩家局内法宝操作" obj="角色事件" source="客户端" code="100405" level="B" isglog="true" type="通用" trigger="每一波开始时记录，记录当前波次玩家每一次操作法宝的记录：1、拖进法宝2、拖出法宝3、合成" use="">
+    <entry name="log_id" required="true" type="string" title="日志id" desc="日志流水号,在一个游戏区服下，每条日志必须保证全局唯一性且递增" catalog="base" order="1"/>
+    <entry name="event_time" required="true" type="string" title="事件时间" desc="事件触发日期，时间格式为Z yyyy-MM-dd HH:mm:ss 时区+时间形式，如：+0800 2020-10-26 20:16:38" catalog="base" order="2"/>
+    <entry name="zone_id" required="true" type="string" title="区服组id" desc="来源游戏，服务器游戏产品ID" catalog="base" order="3"/>
+    <entry name="game_version" required="true" type="string" title="游戏版本号" desc="来源游戏，服务器上的游戏版本号" catalog="base" order="4"/>
+    <entry name="pub_id" required="true" type="string" title="发行商id" desc="由CP-SDK透传给游戏记录，来源于绿岸CP-SDK包体" catalog="base" order="5"/>
+    <entry name="tunnel_id" required="true" type="string" title="通道id" desc="由CP-SDK透传给游戏记录，来源于绿岸CP-SDK包体" catalog="base" order="6"/>
+    <entry name="server_id" required="true" type="string" title="区服id" desc="来源游戏，服务器区服ID，角色创角原始区服，合服后仍传原始区服" catalog="base" order="7"/>
+    <entry name="cpsdk_account_id" required="true" type="string" title="账号id" desc="由CP-SDK生成的cpsdk账号id" catalog="base" order="8"/>
+    <entry name="game_account_id" required="true" type="string" title="游戏账号id" desc="来源游戏，游戏的账号id" catalog="base" order="9"/>
+    <entry name="role_id" required="true" type="string" title="角色id" desc="来源游戏，游戏角色id" catalog="base" order="10"/>
+    <entry name="role_name" required="true" type="string" title="角色名" desc="来源游戏，角色当前角色名" catalog="base" order="11"/>
+    <entry name="battle_id" required="true" type="string" title="副本挑战id" desc="来源游戏，玩家创建副本的唯一id" catalog="ext" order="12"/>
+    <entry name="scene_type" required="true" type="string" title="关卡类型" desc="来源游戏，玩家创建副本的场景类型【枚举见《枚举表sheet》】" catalog="ext" order="13"/>
+    <entry name="scene_id" required="true" type="string" title="关卡id" desc="来源游戏，玩家创建副本的场景id【枚举见《枚举表sheet》】" catalog="ext" order="14"/>
+    <entry name="schedule" required="true" type="string" title="进度节点" desc="来源游戏，记录对应事件发生时的副本进度，也就是波次" catalog="ext" order="15"/>
+    <entry name="op_list" required="" type="string" title="操作记录" desc="来源游戏，记录这一波内的所有玩家操作，格式如下：操作次序_操作类型_操作道具类型_道具id_道具name_道具子类型_品质_形状，多个用逗号分隔" catalog="ext" order="16"/>
+  </struct>
+  <struct name="dy_subscription" version="1.0" desc="抖音直推流功能订阅" obj="角色事件" source="客户端" code="103030" level="B" isglog="true" type="通用" trigger="玩家订阅抖音直推流功能时记录" use="">
+    <entry name="log_id" required="true" type="string" title="日志id" desc="日志流水号,在一个游戏区服下，每条日志必须保证全局唯一性且递增" catalog="base" order="1"/>
+    <entry name="event_time" required="true" type="string" title="事件时间" desc="事件触发日期，时间格式为Z yyyy-MM-dd HH:mm:ss 时区+时间形式，如：+0800 2020-10-26 20:16:38" catalog="base" order="2"/>
+    <entry name="zone_id" required="true" type="string" title="区服组id" desc="来源游戏，服务器游戏产品ID" catalog="base" order="3"/>
+    <entry name="game_version" required="true" type="string" title="游戏版本号" desc="来源游戏，服务器上的游戏版本号" catalog="base" order="4"/>
+    <entry name="pub_id" required="true" type="string" title="发行商id" desc="由CP-SDK透传给游戏记录，来源于绿岸CP-SDK包体" catalog="base" order="5"/>
+    <entry name="tunnel_id" required="true" type="string" title="通道id" desc="由CP-SDK透传给游戏记录，来源于绿岸CP-SDK包体" catalog="base" order="6"/>
+    <entry name="server_id" required="true" type="string" title="区服id" desc="来源游戏，服务器区服ID，角色创角原始区服，合服后仍传原始区服" catalog="base" order="7"/>
+    <entry name="cpsdk_account_id" required="true" type="string" title="账号id" desc="由CP-SDK生成的cpsdk账号id" catalog="base" order="8"/>
+    <entry name="game_account_id" required="true" type="string" title="游戏账号id" desc="来源游戏，游戏的账号id" catalog="base" order="9"/>
+    <entry name="role_id" required="true" type="string" title="角色id" desc="来源游戏，游戏角色id" catalog="base" order="10"/>
+    <entry name="role_name" required="true" type="string" title="角色名" desc="来源游戏，角色当前角色名" catalog="base" order="11"/>
+    <entry name="game_scene_id" required="true" type="string" title="游戏场景ID" desc="来源游戏，游戏定义的场景ID" catalog="ext" order="12"/>
+  </struct>
+  <struct name="dy_status_search" version="1.0" desc="抖音就绪状态查询" obj="角色事件" source="客户端" code="103040" level="B" isglog="true" type="通用" trigger="1、SDK向游戏查询角色场景就绪状态开始时记录2、SDK向游戏查询角色场景就绪状态成功时记录3、SDK向游戏查询角色场景就绪状态异常时记录" use="">
+    <entry name="log_id" required="true" type="string" title="日志id" desc="日志流水号,在一个游戏区服下，每条日志必须保证全局唯一性且递增" catalog="base" order="1"/>
+    <entry name="event_time" required="true" type="string" title="事件时间" desc="事件触发日期，时间格式为Z yyyy-MM-dd HH:mm:ss 时区+时间形式，如：+0800 2020-10-26 20:16:38" catalog="base" order="2"/>
+    <entry name="zone_id" required="true" type="string" title="区服组id" desc="来源游戏，服务器游戏产品ID" catalog="base" order="3"/>
+    <entry name="game_version" required="true" type="string" title="游戏版本号" desc="来源游戏，服务器上的游戏版本号" catalog="base" order="4"/>
+    <entry name="pub_id" required="true" type="string" title="发行商id" desc="由CP-SDK透传给游戏记录，来源于绿岸CP-SDK包体" catalog="base" order="5"/>
+    <entry name="tunnel_id" required="true" type="string" title="通道id" desc="由CP-SDK透传给游戏记录，来源于绿岸CP-SDK包体" catalog="base" order="6"/>
+    <entry name="server_id" required="true" type="string" title="区服id" desc="来源游戏，服务器区服ID，角色创角原始区服，合服后仍传原始区服" catalog="base" order="7"/>
+    <entry name="cpsdk_account_id" required="true" type="string" title="账号id" desc="由CP-SDK生成的cpsdk账号id" catalog="base" order="8"/>
+    <entry name="game_account_id" required="true" type="string" title="游戏账号id" desc="来源游戏，游戏的账号id" catalog="base" order="9"/>
+    <entry name="role_id" required="true" type="string" title="角色id" desc="来源游戏，游戏角色id" catalog="base" order="10"/>
+    <entry name="role_name" required="true" type="string" title="角色名" desc="来源游戏，角色当前角色名" catalog="base" order="11"/>
+    <entry name="game_scene_id" required="true" type="string" title="游戏场景ID" desc="来源游戏，游戏定义的场景ID，多条用逗号分隔" catalog="ext" order="12"/>
+    <entry name="search_status" required="true" type="string" title="查询状态" desc="来源游戏，查询的状态，1=开始查询，2=查询成功，3=查询异常" catalog="ext" order="13"/>
+    <entry name="result_desc" required="true" type="string" title="查询返回结果" desc="来源游戏，查询返回的结果" catalog="ext" order="14"/>
+  </struct>
+  <struct name="random_grow" version="1.0" desc="随机类养成线日志" obj="角色事件" source="服务端" code="100407" level="B" isglog="true" type="通用" trigger="玩家进行随机养成时记录" use="">
+    <entry name="log_id" required="true" type="string" title="日志id" desc="日志流水号,在一个游戏区服下，每条日志必须保证全局唯一性且递增" catalog="base" order="1"/>
+    <entry name="event_time" required="true" type="string" title="事件时间" desc="事件触发日期，时间格式为Z yyyy-MM-dd HH:mm:ss 时区+时间形式，如：+0800 2020-10-26 20:16:38" catalog="base" order="2"/>
+    <entry name="zone_id" required="true" type="string" title="区服组id" desc="来源游戏，服务器游戏产品ID" catalog="base" order="3"/>
+    <entry name="game_version" required="true" type="string" title="游戏版本号" desc="来源游戏，服务器上的游戏版本号" catalog="base" order="4"/>
+    <entry name="pub_id" required="true" type="string" title="发行商id" desc="由CP-SDK透传给游戏记录，来源于绿岸CP-SDK包体" catalog="base" order="5"/>
+    <entry name="tunnel_id" required="true" type="string" title="通道id" desc="由CP-SDK透传给游戏记录，来源于绿岸CP-SDK包体" catalog="base" order="6"/>
+    <entry name="server_id" required="true" type="string" title="区服id" desc="来源游戏，服务器区服ID，角色创角原始区服，合服后仍传原始区服" catalog="base" order="7"/>
+    <entry name="cpsdk_account_id" required="true" type="string" title="账号id" desc="由CP-SDK生成的cpsdk账号id" catalog="base" order="8"/>
+    <entry name="game_account_id" required="true" type="string" title="游戏账号id" desc="来源游戏，游戏的账号id" catalog="base" order="9"/>
+    <entry name="role_id" required="true" type="string" title="角色id" desc="来源游戏，游戏角色id" catalog="base" order="10"/>
+    <entry name="role_name" required="true" type="string" title="角色名" desc="来源游戏，角色当前角色名" catalog="base" order="11"/>
+    <entry name="random_grow_type" required="true" type="string" title="随机养成线类型" desc="来源游戏，随机养成线类型" catalog="ext" order="12"/>
+    <entry name="random_grow_id" required="true" type="string" title="养成线ID" desc="来源游戏，随机养成线ID" catalog="ext" order="13"/>
+    <entry name="random_grow_op_type" required="true" type="string" title="养成行为" desc="来源游戏，养成行为" catalog="ext" order="14"/>
+    <entry name="random_before_entry" required="false" type="string" title="操作前词条" desc="来源游戏，操作前词条" catalog="ext" order="15"/>
+    <entry name="random_after_entry" required="true" type="string" title="操作后词条" desc="来源游戏，操作后词条" catalog="ext" order="16"/>
+  </struct>
+  <struct name="equip_decompose" version="1.0" desc="装备分解日志" obj="角色事件" source="服务端" code="100409" level="B" isglog="true" type="通用" trigger="装备分解时记录" use="">
+    <entry name="log_id" required="true" type="string" title="日志id" desc="日志流水号,在一个游戏区服下，每条日志必须保证全局唯一性且递增" catalog="base" order="1"/>
+    <entry name="event_time" required="true" type="string" title="事件时间" desc="事件触发日期，时间格式为Z yyyy-MM-dd HH:mm:ss 时区+时间形式，如：+0800 2020-10-26 20:16:38" catalog="base" order="2"/>
+    <entry name="zone_id" required="true" type="string" title="区服组id" desc="来源游戏，服务器游戏产品ID" catalog="base" order="3"/>
+    <entry name="game_version" required="true" type="string" title="游戏版本号" desc="来源游戏，服务器上的游戏版本号" catalog="base" order="4"/>
+    <entry name="pub_id" required="true" type="string" title="发行商id" desc="由CP-SDK透传给游戏记录，来源于绿岸CP-SDK包体" catalog="base" order="5"/>
+    <entry name="tunnel_id" required="true" type="string" title="通道id" desc="由CP-SDK透传给游戏记录，来源于绿岸CP-SDK包体" catalog="base" order="6"/>
+    <entry name="server_id" required="true" type="string" title="区服id" desc="来源游戏，服务器区服ID，角色创角原始区服，合服后仍传原始区服" catalog="base" order="7"/>
+    <entry name="cpsdk_account_id" required="true" type="string" title="账号id" desc="由CP-SDK生成的cpsdk账号id" catalog="base" order="8"/>
+    <entry name="game_account_id" required="true" type="string" title="游戏账号id" desc="来源游戏，游戏的账号id" catalog="base" order="9"/>
+    <entry name="role_id" required="true" type="string" title="角色id" desc="来源游戏，游戏角色id" catalog="base" order="10"/>
+    <entry name="role_name" required="true" type="string" title="角色名" desc="来源游戏，角色当前角色名" catalog="base" order="11"/>
+    <entry name="decompose_type" required="true" type="string" title="分解的装备类型" desc="来源游戏，分解的装备类型" catalog="ext" order="12"/>
+    <entry name="decompose_slot" required="true" type="string" title="分解的装备槽位" desc="来源游戏，分解的装备槽位" catalog="ext" order="13"/>
+    <entry name="decompose_equip_id" required="false" type="string" title="分解的装备ID" desc="来源游戏，分解的装备ID" catalog="ext" order="14"/>
+  </struct>
+  <struct name="copper_production_sales" version="1.0" desc="局内铜币产销日志" obj="角色事件" source="客户端" code="100410" level="B" isglog="true" type="通用" trigger="每一波开始时记录玩家铜币的产销信息" use="">
+    <entry name="log_id" required="true" type="string" title="日志id" desc="日志流水号,在一个游戏区服下，每条日志必须保证全局唯一性且递增" catalog="base" order="1"/>
+    <entry name="event_time" required="true" type="string" title="事件时间" desc="事件触发日期，时间格式为Z yyyy-MM-dd HH:mm:ss 时区+时间形式，如：+0800 2020-10-26 20:16:38" catalog="base" order="2"/>
+    <entry name="zone_id" required="true" type="string" title="区服组id" desc="来源游戏，服务器游戏产品ID" catalog="base" order="3"/>
+    <entry name="game_version" required="true" type="string" title="游戏版本号" desc="来源游戏，服务器上的游戏版本号" catalog="base" order="4"/>
+    <entry name="pub_id" required="true" type="string" title="发行商id" desc="由CP-SDK透传给游戏记录，来源于绿岸CP-SDK包体" catalog="base" order="5"/>
+    <entry name="tunnel_id" required="true" type="string" title="通道id" desc="由CP-SDK透传给游戏记录，来源于绿岸CP-SDK包体" catalog="base" order="6"/>
+    <entry name="server_id" required="true" type="string" title="区服id" desc="来源游戏，服务器区服ID，角色创角原始区服，合服后仍传原始区服" catalog="base" order="7"/>
+    <entry name="cpsdk_account_id" required="true" type="string" title="账号id" desc="由CP-SDK生成的cpsdk账号id" catalog="base" order="8"/>
+    <entry name="game_account_id" required="true" type="string" title="游戏账号id" desc="来源游戏，游戏的账号id" catalog="base" order="9"/>
+    <entry name="role_id" required="true" type="string" title="角色id" desc="来源游戏，游戏角色id" catalog="base" order="10"/>
+    <entry name="role_name" required="true" type="string" title="角色名" desc="来源游戏，角色当前角色名" catalog="base" order="11"/>
+    <entry name="battle_id" required="true" type="string" title="副本挑战id" desc="来源游戏，玩家创建副本的唯一id" catalog="ext" order="12"/>
+    <entry name="scene_type" required="true" type="string" title="关卡类型" desc="来源游戏，玩家创建副本的场景类型【枚举见《枚举表sheet》】" catalog="ext" order="13"/>
+    <entry name="scene_id" required="true" type="string" title="关卡id" desc="来源游戏，玩家创建副本的场景id【枚举见《枚举表sheet》】" catalog="ext" order="14"/>
+    <entry name="schedule" required="true" type="string" title="进度节点" desc="来源游戏，记录对应事件发生时的副本进度，也就是波次" catalog="ext" order="15"/>
+    <entry name="copper_get" required="true" type="int" title="获取铜币数量" desc="来源游戏，在该波次获取的铜币数量" catalog="ext" order="16"/>
+    <entry name="copper_use" required="true" type="int" title="使用铜币数量" desc="来源游戏，在该波次使用的铜币数量" catalog="ext" order="17"/>
+    <entry name="copper_balance" required="true" type="int" title="剩余铜币数量" desc="来源游戏，在该波次剩余的铜币数量" catalog="ext" order="18"/>
+  </struct>
+</metalib> 

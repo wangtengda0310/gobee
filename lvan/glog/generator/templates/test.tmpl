@@ -1,0 +1,49 @@
+package {{ .PackageName }}
+
+import (
+    "os"
+    "strings"
+    "testing"
+    "github.com/brianvoe/gofakeit/v6"
+)
+
+{{- range .Structs }}
+{{- $struct := . }}
+func Test{{ $struct.Name }}Log(t *testing.T) {
+    tempDir := t.TempDir()
+    logFile := tempDir + "/log.txt"
+    // 设置临时文件写入器
+    oldWriter := DefaultWriter
+    DefaultWriter = func(contents []string) {
+        f, err := os.OpenFile(logFile, os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
+        if err != nil {
+            t.Fatalf("打开临时log文件失败: %v", err)
+        }
+        defer f.Close()
+        f.WriteString(strings.Join(contents, "\n") + "\n")
+    }
+    defer func() { DefaultWriter = oldWriter }()
+    var param {{ $struct.ParamName }}
+    gofakeit.Seed(0)
+    gofakeit.Struct(&param)
+    {{ $struct.Name }}Log(param)
+    data, err := os.ReadFile(logFile)
+    if err != nil {
+        t.Fatalf("读取log.txt失败: %v", err)
+    }
+    lines := strings.Split(strings.TrimSpace(string(data)), "\n")
+    if len(lines) == 0 {
+        t.Fatal("log.txt没有内容")
+    }
+    // 断言日志内容以event name|version|开头
+    expectPrefix := "{{ $struct.RawName }}|{{ $struct.Version }}|"
+    if !strings.HasPrefix(lines[0], expectPrefix) {
+        t.Errorf("日志内容前缀不正确，期望: %s, 实际: %s", expectPrefix, lines[0])
+    }
+    // 断言字段数等于entry数+2
+    fields := strings.Split(lines[0], "|")
+    if len(fields) != {{ len $struct.Entries }}+2 {
+        t.Errorf("日志字段数不正确，期望: %d, 实际: %d, 内容: %s", {{ len $struct.Entries }}+2, len(fields), lines[0])
+    }
+}
+{{- end }} 
