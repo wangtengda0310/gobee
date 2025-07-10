@@ -1,0 +1,62 @@
+package {{ .PackageName }}
+
+import (
+    "strconv"
+    "strings"
+)
+
+type writeFunc func(contents []string)
+
+type BaseParam struct {
+{{- range .BaseEntries }}
+    // {{ .Title }}
+    {{ .Name }} {{ .Type }}
+{{- end }}
+}
+
+{{- range .Structs }}
+{{- $struct := . }}
+// {{ $struct.Name }} 日志函数
+{{- range $struct.Comment }}
+// {{ . }}
+{{- end }}
+func {{ $struct.Name }}Log(param {{ $struct.ParamName }}) {
+    {{ lower $struct.Name }}LogHelper(
+        {{- range $struct.Entries }}
+        param.{{ .Name }},
+        {{- end }}
+        DefaultWriter,
+    )
+}
+
+func {{ lower $struct.Name }}LogHelper(
+    {{- range $i, $e := $struct.Entries }}
+    {{ lower $e.Name }} {{ $e.Type }},
+    {{- end }}
+    write func([]string),
+) {
+    var buf strings.Builder
+    buf.Grow(128)
+    {{- range $i, $e := $struct.Entries }}
+    {{- if eq $e.Type "int64" }}
+    buf.WriteString(strconv.FormatInt({{ lower $e.Name }}, 10))
+    {{- else if eq $e.Type "int" }}
+    buf.WriteString(strconv.Itoa({{ lower $e.Name }}))
+    {{- else }}
+    buf.WriteString({{ lower $e.Name }})
+    {{- end }}
+    {{- if lt $i (sub1 (len $struct.Entries)) }}
+    buf.WriteByte('|')
+    {{- end }}
+    {{- end }}
+    write([]string{buf.String()})
+}
+
+type {{ $struct.ParamName }} struct {
+    BaseParam
+    {{- range $struct.Entries }}
+    // {{ .Title }}
+    {{ .Name }} {{ .Type }}
+    {{- end }}
+}
+{{- end }}

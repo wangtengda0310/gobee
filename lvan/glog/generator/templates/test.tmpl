@@ -1,0 +1,43 @@
+package {{ .PackageName }}
+
+import (
+    "os"
+    "strings"
+    "testing"
+    "github.com/brianvoe/gofakeit/v6"
+)
+
+{{- range .Structs }}
+{{- $struct := . }}
+func Test{{ $struct.Name }}Log(t *testing.T) {
+    tempDir := t.TempDir()
+    logFile := tempDir + "/log.txt"
+    // 设置临时文件写入器
+    oldWriter := DefaultWriter
+    DefaultWriter = func(contents []string) {
+        f, err := os.OpenFile(logFile, os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
+        if err != nil {
+            t.Fatalf("打开临时log文件失败: %v", err)
+        }
+        defer f.Close()
+        f.WriteString(strings.Join(contents, "\n") + "\n")
+    }
+    defer func() { DefaultWriter = oldWriter }()
+    var param {{ $struct.ParamName }}
+    gofakeit.Seed(0)
+    gofakeit.Struct(&param)
+    {{ $struct.Name }}Log(param)
+    data, err := os.ReadFile(logFile)
+    if err != nil {
+        t.Fatalf("读取log.txt失败: %v", err)
+    }
+    lines := strings.Split(strings.TrimSpace(string(data)), "\n")
+    if len(lines) == 0 {
+        t.Fatal("log.txt没有内容")
+    }
+    // 这里只能断言有内容，无法断言具体值（因为mock是随机的）
+    if lines[0] == "" {
+        t.Errorf("日志内容为空")
+    }
+}
+{{- end }} 

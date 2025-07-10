@@ -1,0 +1,102 @@
+package {{ .PackageName }}
+
+import (
+    "testing"
+    "github.com/brianvoe/gofakeit/v6"
+    "os"
+    "path/filepath"
+    "fmt"
+    "strings"
+)
+
+{{- range .Structs }}
+{{- $struct := . }}
+func Benchmark{{ $struct.Name }}Log(b *testing.B) {
+    params := make([]{{ $struct.ParamName }}, b.N)
+    gofakeit.Seed(0)
+    for i := 0; i < b.N; i++ {
+        gofakeit.Struct(&params[i])
+    }
+    b.ResetTimer()
+    for i := 0; i < b.N; i++ {
+        {{ $struct.Name }}Log(params[i])
+    }
+}
+
+func Benchmark{{ $struct.Name }}LogHelper(b *testing.B) {
+    batchSizes := []int{1, 10, 100, 1000}
+    for _, batchSize := range batchSizes {
+        b.Run(fmt.Sprintf("batchSize_%d", batchSize), func(b *testing.B) {
+            tempDir := b.TempDir()
+            filePath := filepath.Join(tempDir, "bench.log")
+            writer := func(contents []string) {
+                f, err := os.OpenFile(filePath, os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
+                if err != nil {
+                    b.Fatalf("open file error: %v", err)
+                }
+                defer f.Close()
+                for i := 0; i < len(contents); i += batchSize {
+                    end := i + batchSize
+                    if end > len(contents) {
+                        end = len(contents)
+                    }
+                    batch := contents[i:end]
+                    f.WriteString(strings.Join(batch, "\n") + "\n")
+                }
+            }
+            params := make([]{{ $struct.ParamName }}, b.N)
+            gofakeit.Seed(0)
+            for i := 0; i < b.N; i++ {
+                gofakeit.Struct(&params[i])
+            }
+            b.ResetTimer()
+            for i := 0; i < b.N; i++ {
+                {{ lower $struct.Name }}LogHelper(
+                    {{- range $e := $struct.Entries }}
+                    params[i].{{ $e.Name }},
+                    {{- end }}
+                    writer,
+                )
+            }
+        })
+    }
+}
+
+func Benchmark{{ $struct.Name }}LogHelper_Parallel(b *testing.B) {
+    batchSizes := []int{1, 10, 100, 1000}
+    for _, batchSize := range batchSizes {
+        b.Run(fmt.Sprintf("batchSize_%d", batchSize), func(b *testing.B) {
+            tempDir := b.TempDir()
+            filePath := filepath.Join(tempDir, "bench_parallel.log")
+            writer := func(contents []string) {
+                f, err := os.OpenFile(filePath, os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
+                if err != nil {
+                    b.Fatalf("open file error: %v", err)
+                }
+                defer f.Close()
+                for i := 0; i < len(contents); i += batchSize {
+                    end := i + batchSize
+                    if end > len(contents) {
+                        end = len(contents)
+                    }
+                    batch := contents[i:end]
+                    f.WriteString(strings.Join(batch, "\n") + "\n")
+                }
+            }
+            b.ResetTimer()
+            b.RunParallel(func(pb *testing.PB) {
+                param := {{ $struct.ParamName }}{}
+                gofakeit.Struct(&param)
+                for pb.Next() {
+                    {{ lower $struct.Name }}LogHelper(
+                        {{- range $e := $struct.Entries }}
+                        param.{{ $e.Name }},
+                        {{- end }}
+                        writer,
+                    )
+                }
+            })
+        })
+    }
+}
+{{- end }} 
