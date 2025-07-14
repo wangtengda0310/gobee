@@ -30,9 +30,13 @@ func New(components ...component.Component) Entity {
 	id++
 	Pool[id] = Archetype(archetype)
 
-	Chunks[Archetype(archetype)] = &Chunk{Archetype: Pool[id], Components: map[component.Type]component.SparseSet[component.Component]{}}
+	Chunks[Archetype(archetype)] = &Chunk{Archetype: Pool[id], Components: map[component.Type]*component.SparseSet[component.Component]{}}
 	for _, c := range components {
 		sparse := Chunks[Archetype(archetype)].Components[c.Type()]
+		if sparse == nil {
+			sparse = &component.SparseSet[component.Component]{}
+			Chunks[Archetype(archetype)].Components[c.Type()] = sparse
+		}
 		sparse.Add(int(id), c)
 	}
 
@@ -48,23 +52,37 @@ func Del(e Entity) {
 		delete(Chunks, Pool[e])
 	}
 }
-func RemoveComponent(e Entity, components ...component.Component) (r []component.Component) {
+func RemoveComponent(e Entity, components ...component.Type) (r []component.Component) {
 	var v = Pool[e]
-	for _, c := range Chunks[v].Components {
-		c.Del(int(e))
-	}
+
+	reversed := Chunks[v].Remove(e, v)
+
 	for _, c := range components {
-		i := int(c.Type())
+		i := int(c)
 		v = Archetype(int(v) ^ i)
 	}
 	Pool[e] = v
 
-	for _, c := range components {
-		c2, ok := Chunks[v].Components[c.Type()]
-		if !ok {
+	if v == 0 {
+		Chunks[0] = &Chunk{Archetype: 0, Components: map[component.Type]*component.SparseSet[component.Component]{}}
+	}
+	var flag Archetype = 1
+	for Pool[e] >= flag {
+		if Pool[e]&flag == 0 {
+			flag <<= 1
 			continue
 		}
-		c2.Del(int(id))
+		if Chunks[v] == nil {
+			Chunks[v] = &Chunk{Archetype: v, Components: map[component.Type]*component.SparseSet[component.Component]{}}
+		}
+		c2, ok := Chunks[v].Components[component.Type(flag)]
+		if !ok {
+			c2 = &component.SparseSet[component.Component]{}
+			Chunks[v].Components[component.Type(flag)] = c2
+		}
+		c := reversed[component.Type(flag)]
+		c2.Add(int(e), c) // add a nil component to keep the sparse set
+		flag <<= 1
 	}
 
 	return nil
@@ -80,12 +98,12 @@ func AddComponent(e Entity, components ...component.Component) {
 	}
 	Pool[e] = v
 	if Chunks[v] == nil {
-		Chunks[v] = &Chunk{Archetype: v, Components: map[component.Type]component.SparseSet[component.Component]{}}
+		Chunks[v] = &Chunk{Archetype: v, Components: map[component.Type]*component.SparseSet[component.Component]{}}
 	}
 	for _, c := range components {
 		c2, ok := Chunks[v].Components[c.Type()]
 		if !ok {
-			c2 = component.SparseSet[component.Component]{}
+			c2 = &component.SparseSet[component.Component]{}
 			Chunks[v].Components[c.Type()] = c2
 		}
 		c2.Add(int(id), c)
@@ -95,9 +113,17 @@ func AddComponent(e Entity, components ...component.Component) {
 type Archetype int
 type Chunk struct {
 	Archetype  Archetype
-	Components map[component.Type]component.SparseSet[component.Component]
+	Components map[component.Type]*component.SparseSet[component.Component]
 }
 
+func (c *Chunk) Remove(e Entity, v Archetype) map[component.Type]component.Component {
+	var r = make(map[component.Type]component.Component)
+	for t, c := range Chunks[v].Components {
+		r[t] = c.Get(int(e))[0]
+		c.Del(int(e))
+	}
+	return r
+}
 func (c *Chunk) Len() int {
 	var l int
 	for _, cs := range c.Components {
