@@ -30,7 +30,7 @@ func New(components ...component.Component) Entity {
 	id++
 	Pool[id] = Archetype(archetype)
 
-	Chunks[Archetype(archetype)] = &Chunk{Components: map[component.Type]component.SparseSet[component.Component]{}}
+	Chunks[Archetype(archetype)] = &Chunk{Archetype: Pool[id], Components: map[component.Type]component.SparseSet[component.Component]{}}
 	for _, c := range components {
 		sparse := Chunks[Archetype(archetype)].Components[c.Type()]
 		sparse.Add(int(id), c)
@@ -96,4 +96,12 @@ type Archetype int
 type Chunk struct {
 	Archetype  Archetype
 	Components map[component.Type]component.SparseSet[component.Component]
+}
+
+func (c *Chunk) Len() int {
+	var l int
+	for _, cs := range c.Components {
+		l += len(cs.Get(0)) // get the first component's length
+	}
+	return l
 }

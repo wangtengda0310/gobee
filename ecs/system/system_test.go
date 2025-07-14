@@ -9,9 +9,11 @@ import (
 )
 
 const (
-	typeA component.Type = iota
-	typeB component.Type = iota
-	typeC component.Type = iota
+	typeA component.Type = 1
+	typeB component.Type = 2
+	typeC component.Type = 4
+	typeD component.Type = 8
+	typeE component.Type = 16
 )
 
 type componentA struct {
@@ -37,54 +39,58 @@ type componentC struct {
 func (c componentC) Type() component.Type {
 	return typeC
 }
+
 func TestNew(t *testing.T) {
 	a := componentA{1}
 	b := componentB{2}
 	c := componentC{3}
 
-	e := entity.New(a, b, c)
+	e := entity.New(a)
 	t.Log(e)
+	assert.EqualValues(t, 1, entity.Chunks[1].Archetype)
 
-	var r []any
+	e = entity.New(b)
+	t.Log(e)
+	assert.EqualValues(t, 2, entity.Chunks[2].Archetype)
 
-	r = nil
+	e = entity.New(c)
+	t.Log(e)
+	assert.EqualValues(t, 4, entity.Chunks[4].Archetype)
+
+	e = entity.New(a, b)
+	t.Log(e)
+	assert.EqualValues(t, 3, entity.Chunks[3].Archetype)
+
+	e = entity.New(b, c)
+	t.Log(e)
+	assert.EqualValues(t, 6, entity.Chunks[6].Archetype)
+
+	e = entity.New(a, c)
+	t.Log(e)
+	assert.EqualValues(t, 5, entity.Chunks[5].Archetype)
+
+	e = entity.New(a, b, c)
+	t.Log(e)
+	assert.EqualValues(t, 7, entity.Chunks[7].Archetype)
+
+	var called int
 	Group(func(chunk entity.Chunk) {
-		r = append(r, a)
-		r = append(r, b)
-		r = append(r, c)
-	}, typeA, typeB)
+		called++
+	}, typeA)
 	Range(*structDispatcher)
-	//Update(e, s2)
-	assert.Equal(t, []any{a, b, c}, r)
+	assert.EqualValues(t, 4, called)
 
-	// s3 := New(b, c)
-	// s4 := New(a)
-	// s5 := New(b)
-	// s6 := New(c)
 	structDispatcher = &systemDispatcher{}
 }
 
-type S interface {
-	update()
-}
-type s struct {
-	systems []func()
-}
-
-func (s s) update() {
-	for _, f := range s.systems {
-		f() // 假设1, 2, 3是A, B, C的实例
-	}
-}
-
 func TestGroup(t *testing.T) {
-	Group(func(chunk entity.Chunk) {}, 1, 2)
+	Group(func(chunk entity.Chunk) {}, typeA, typeB)
 	assert.Equal(t, 3, structDispatcher.group[0].round[0].archetype)
-	Group(func(chunk entity.Chunk) {}, 4, 8)
+	Group(func(chunk entity.Chunk) {}, typeC, typeD)
 	assert.Equal(t, 12, structDispatcher.group[1].round[0].archetype)
-	Group(func(chunk entity.Chunk) {}, 1, 16)
+	Group(func(chunk entity.Chunk) {}, typeA, typeE)
 	assert.Equal(t, 17, structDispatcher.group[2].round[0].archetype)
-	Group(func(chunk entity.Chunk) {}, 1, 4)
+	Group(func(chunk entity.Chunk) {}, typeA, typeC)
 	assert.Equal(t, 5, structDispatcher.group[3].round[0].archetype)
 
 	entity.New(componentA{1}, componentB{1}, componentC{1})
