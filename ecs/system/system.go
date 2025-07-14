@@ -112,3 +112,7 @@ func Range(dispatcher systemDispatcher) int {
 	}
 	return c
 }
+
+func Update() int {
+	return Range(*structDispatcher)
+}

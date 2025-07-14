@@ -77,7 +77,7 @@ func TestNew(t *testing.T) {
 	Group(func(chunk entity.Chunk) {
 		called++
 	}, typeA)
-	Range(*structDispatcher)
+	Update()
 	assert.EqualValues(t, 4, called)
 
 	structDispatcher = &systemDispatcher{}
@@ -95,10 +95,10 @@ func TestGroup(t *testing.T) {
 
 	entity.New(componentA{1}, componentB{1}, componentC{1})
 
-	c := Range(*structDispatcher)
+	c := Update()
 	assert.Equal(t, 1, c, "1个相关的system应该可以并行执行")
 	Group(nil, 32, 64)
 	assert.Equal(t, 96, structDispatcher.group[4].round[0].archetype)
-	c = Range(*structDispatcher)
+	c = Update()
 	assert.Equal(t, 5, len(structDispatcher.group), "2个不相关的system应该可以并行执行")
 }
