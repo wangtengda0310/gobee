@@ -1,0 +1,5 @@
+<mapping>
+  <type xml="int64" go="int64"/>
+  <type xml="string" go="string"/>
+  <type xml="bigint" go="int64"/>
+</mapping> 

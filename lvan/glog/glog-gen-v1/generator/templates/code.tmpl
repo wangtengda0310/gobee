@@ -5,8 +5,6 @@ import (
     "strings"
 )
 
-type writeFunc func(contents []string)
-
 type BaseParam struct {
 {{- range .BaseEntries }}
     // {{ .Title }}

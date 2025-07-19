@@ -7,6 +7,8 @@ import (
 	"sync"
 )
 
+type writeFunc func(contents []string)
+
 var (
 	DefaultWriter writeFunc = newFileWriter("log.txt", 1)
 	mu            sync.RWMutex
