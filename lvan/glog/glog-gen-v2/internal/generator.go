@@ -13,25 +13,29 @@ import (
 // 返回 Struct 列表和错误
 type Parse func() ([]Struct, error)
 
-func Generate(xmlPath, mappingPath, outDir string) error {
+// 修改 Generate 签名，支持传入解析函数
+func Generate(parse Parse, mappingPath, outDir string) error {
 	fmt.Println("进入Generate主流程...")
-	fmt.Println("即将加载类型映射...", mappingPath)
+	fmt.Printf("mappingPath: %s, outDir: %s\n", mappingPath, outDir)
 	// 1. 解析类型映射
 	typeMap, err := LoadTypeMapping(mappingPath)
 	if err != nil {
-		fmt.Println("类型映射加载失败:", err)
+		fmt.Printf("类型映射加载失败: %v\n", err)
 		return fmt.Errorf("类型映射加载失败: %w", err)
 	}
 	fmt.Println("类型映射加载成功")
-	// 2. 解析XML（直接用闭包适配 ParseXML）
-	fmt.Println("即将解析XML...")
-	parse := func() ([]Struct, error) { return ParseXML(xmlPath) }
+	// 2. 解析结构体（通过 parse 适配 XML/Excel）
+	fmt.Println("即将解析结构体...")
 	structs, err := parse()
 	if err != nil {
-		fmt.Println("XML解析失败:", err)
-		return fmt.Errorf("XML解析失败: %w", err)
+		fmt.Printf("结构体解析失败: %v\n", err)
+		return fmt.Errorf("结构体解析失败: %w", err)
 	}
-	fmt.Println("XML解析成功")
+	fmt.Printf("解析得到 struct 数量: %d\n", len(structs))
+	if len(structs) == 0 {
+		fmt.Println("警告: 解析结果为空，未生成任何 struct")
+	}
+	fmt.Println("结构体解析成功")
 
 	// 3. 填充模板数据结构并校验类型映射
 	var baseEntries []Entry

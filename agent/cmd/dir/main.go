@@ -17,7 +17,12 @@ func main() {
 		"1.0.0",
 		server.WithToolCapabilities(true),
 	)
+	type Provider interface {
+		Parse()
+	}
 
+	var f = func() {}
+	var p Provider = f // OK，只要 f != nil
 	s.AddTool(
 		mcp.NewTool("echo",
 			mcp.WithDescription("返回输入内容"),

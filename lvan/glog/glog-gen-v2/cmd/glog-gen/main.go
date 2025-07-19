@@ -13,8 +13,9 @@ import (
 
 func main() {
 	fmt.Println("main开始")
-	var xmlPath, mappingPath, outDir, tmplDir string
-	flag.StringVar(&xmlPath, "xml", "", "日志结构XML文件路径（必填）")
+	var xmlPath, excelPath, mappingPath, outDir, tmplDir string
+	flag.StringVar(&xmlPath, "xml", "", "日志结构XML文件路径")
+	flag.StringVar(&excelPath, "excel", "", "日志结构Excel文件路径")
 	flag.StringVar(&mappingPath, "mapping", "./config/type_mapping.xml", "类型映射配置文件路径")
 	flag.StringVar(&outDir, "out", "./output", "代码输出目录")
 	flag.StringVar(&tmplDir, "tmplDir", "./templates", "模板文件夹路径")
@@ -22,12 +23,20 @@ func main() {
 
 	internal.GlobalTemplateDir = tmplDir
 
-	if xmlPath == "" {
-		log.Fatal("请通过 -xml 参数指定日志结构XML文件路径")
+	if (xmlPath == "" && excelPath == "") || (xmlPath != "" && excelPath != "") {
+		log.Fatal("请且只能指定 -xml 或 -excel 参数中的一个")
 	}
-	if _, err := os.Stat(xmlPath); err != nil {
-		fmt.Fprintf(os.Stderr, "XML文件不存在: %s\n", xmlPath)
-		os.Exit(1)
+	if xmlPath != "" {
+		if _, err := os.Stat(xmlPath); err != nil {
+			fmt.Fprintf(os.Stderr, "XML文件不存在: %s\n", xmlPath)
+			os.Exit(1)
+		}
+	}
+	if excelPath != "" {
+		if _, err := os.Stat(excelPath); err != nil {
+			fmt.Fprintf(os.Stderr, "Excel文件不存在: %s\n", excelPath)
+			os.Exit(1)
+		}
 	}
 	if _, err := os.Stat(mappingPath); err != nil {
 		fmt.Fprintf(os.Stderr, "类型映射文件不存在: %s\n", mappingPath)
@@ -39,8 +48,16 @@ func main() {
 	}
 
 	fmt.Println("准备生成代码...")
-	if err := internal.Generate(xmlPath, mappingPath, outDir); err != nil {
-		fmt.Fprintf(os.Stderr, "代码生成失败: %+v\n", err)
+	var genErr error
+	if xmlPath != "" {
+		parse := func() ([]internal.Struct, error) { return internal.ParseXML(xmlPath) }
+		genErr = internal.Generate(parse, mappingPath, outDir)
+	} else {
+		parse := func() ([]internal.Struct, error) { return internal.ParseExcel(excelPath) }
+		genErr = internal.Generate(parse, mappingPath, outDir)
+	}
+	if genErr != nil {
+		fmt.Fprintf(os.Stderr, "代码生成失败: %+v\n", genErr)
 		os.Exit(1)
 	}
 	fmt.Println("代码生成完成。请检查输出目录：", filepath.Clean(outDir))
