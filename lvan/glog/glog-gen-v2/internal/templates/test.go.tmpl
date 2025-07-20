@@ -37,15 +37,14 @@ func Test{{ .Struct.FuncName }}(t *testing.T) {
     if len(lines) == 0 {
         t.Fatal("log.txt没有内容")
     }
-    // 断言日志内容以event name|version|开头
-    expectPrefix := "{{ .Struct.Name }}|{{ .Struct.Version }}|"
-    if !strings.HasPrefix(lines[0], expectPrefix) {
-        t.Errorf("日志内容前缀不正确，期望: %s, 实际: %s", expectPrefix, lines[0])
+    // 断言日志内容为合法 JSON
+    var m map[string]interface{}
+    if err := json.Unmarshal([]byte(lines[0]), &m); err != nil {
+        t.Errorf("日志内容不是合法JSON: %v, 内容: %s", err, lines[0])
     }
-    // 断言字段数等于entry数+2
-    fields := strings.Split(lines[0], "|")
-    if len(fields) != {{ len .Struct.Entries }}+2 {
-        t.Errorf("日志字段数不正确，期望: %d, 实际: %d, 内容: %s", {{ len .Struct.Entries }}+2, len(fields), lines[0])
+    // 断言字段数等于entry数
+    if len(m) != {{ len .Struct.Entries }} {
+        t.Errorf("日志字段数不正确，期望: %d, 实际: %d, 内容: %s", {{ len .Struct.Entries }}, len(m), lines[0])
     }
 }
 

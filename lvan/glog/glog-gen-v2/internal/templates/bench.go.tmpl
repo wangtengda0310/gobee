@@ -39,12 +39,8 @@ func Benchmark{{.Struct.FuncName}}Helper(b *testing.B) {
 			}
 			b.ResetTimer()
 			for i := 0; i < b.N; i++ {
-				{{.Struct.FuncName | lower}}Helper(
-					{{- range .AllFieldNames}}
-					params[i].{{.}},
-					{{- end}}
-					writer,
-				)
+				s := {{.Struct.FuncName | lower}}Helper(params[i])
+				writer([]string{s})
 			}
 		})
 	}
@@ -79,11 +75,8 @@ func Benchmark{{.Struct.FuncName}}LogHelper(b *testing.B) {
 			}
 			b.ResetTimer()
 			for i := 0; i < b.N; i++ {
-				{{.Struct.FuncName | lower}}Helper(
-					{{- range .AllFieldNames }}params[i].{{.}},
-					{{- end }}
-					writer,
-				)
+				s := {{.Struct.FuncName | lower}}Helper(params[i])
+				writer([]string{s})
 			}
 		})
 	}
@@ -97,11 +90,8 @@ func Benchmark{{.Struct.FuncName}}LogHelper_Concurrent(b *testing.B) {
 		for pb.Next() {
 			param := {{.Struct.FuncName}}Param{}
 			gofakeit.Struct(&param)
-			{{.Struct.FuncName | lower}}Helper(
-				{{- range .AllFieldNames }}param.{{.}},
-				{{- end }}
-				noopWriter,
-			)
+			s := {{.Struct.FuncName | lower}}Helper(param)
+			noopWriter([]string{s})
 		}
 	})
 }
@@ -131,11 +121,8 @@ func Benchmark{{.Struct.FuncName}}LogHelper_ConcurrentIO(b *testing.B) {
 		for pb.Next() {
 			param := {{.Struct.FuncName}}Param{}
 			gofakeit.Struct(&param)
-			{{.Struct.FuncName | lower}}Helper(
-				{{- range .AllFieldNames }}param.{{.}},
-				{{- end }}
-				writer,
-			)
+			s := {{.Struct.FuncName | lower}}Helper(param)
+			writer([]string{s})
 		}
 	})
 } 

@@ -70,6 +70,7 @@ func ParseXML(path string) ([]Struct, error) {
 			order, _ := strconv.Atoi(e.Order)
 			st.Entries = append(st.Entries, Entry{
 				Name:      toCamel(e.Name),
+				EntryName: e.Name,
 				XMLType:   e.Type,
 				Order:     order,
 				Title:     e.Title,
@@ -146,7 +147,8 @@ func ParseExcel(path string) ([]Struct, error) {
 			order, _ := strconv.Atoi(entryRow[12]) // M 序号
 			st.Entries = append(st.Entries, Entry{
 				Name:      toCamel(entryRow[13]), // N 字段
-				XMLType:   entryRow[18],          // S 字段类型
+				EntryName: entryRow[13],
+				XMLType:   entryRow[18], // S 字段类型
 				Order:     order,
 				Title:     entryRow[15],        // P 字段名称
 				Desc:      entryRow[19],        // T 字段说明

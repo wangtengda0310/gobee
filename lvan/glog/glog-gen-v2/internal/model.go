@@ -1,7 +1,8 @@
 package internal
 
 type Entry struct {
-	Name      string // 字段名
+	Name      string // 字段名（Go驼峰）
+	EntryName string // 原始entry name（下划线风格，用于json tag）
 	Type      string // go类型
 	XMLType   string // xml原始类型
 	Order     int    // 顺序

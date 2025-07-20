@@ -2,34 +2,25 @@
 package {{.Package}}
 
 import (
+	"encoding/json"
 	"fmt"
 	"strings"
 )
 
 // {{.Struct.Desc}}
 func {{.Struct.FuncName}}(param {{.Struct.FuncName}}Param) {
-	{{.Struct.FuncName | lower}}Helper(
-		{{- range .AllFieldNames}}
-		param.{{.}},
-		{{- end}}
-		DefaultWriter,
-	)
+	s := {{.Struct.FuncName | lower}}JsonHelper(param)
+	DefaultWriter([]string{s})
 }
 
-// {{.Struct.FuncName | lower}}Helper formatter函数
-func {{.Struct.FuncName | lower}}Helper(
-	{{- range .AllFields}}
-	{{.Name}} {{.Type}},
-	{{- end}}
-	write WriteFunc,
-) {
+// {{.Struct.FuncName | lower}}Helper 竖线分隔格式
+func {{.Struct.FuncName | lower}}Helper(param {{.Struct.FuncName}}Param) string {
 	var buf strings.Builder
 	buf.Grow(128)
-	// 先写入 event name 和 version 前缀
 	buf.WriteString("{{.Struct.Name}}|{{.Struct.Version}}|")
 	fields := []string{
 		{{- range .AllFieldNames}}
-		fmt.Sprint({{.}}),
+		fmt.Sprint(param.{{.}}),
 		{{- end}}
 	}
 	for i, v := range fields {
@@ -38,5 +29,11 @@ func {{.Struct.FuncName | lower}}Helper(
 			buf.WriteByte('|')
 		}
 	}
-	write([]string{buf.String()})
+	return buf.String()
+}
+
+// {{.Struct.FuncName | lower}}JsonHelper JSON格式
+func {{.Struct.FuncName | lower}}JsonHelper(param {{.Struct.FuncName}}Param) string {
+	b, _ := json.Marshal(param)
+	return string(b)
 } 

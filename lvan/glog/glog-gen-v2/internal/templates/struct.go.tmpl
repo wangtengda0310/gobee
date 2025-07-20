@@ -5,6 +5,6 @@ package {{.Package}}
 type {{.Struct.FuncName}}Param struct {
 {{- range .Struct.Entries}}
 	// {{.Title}}
-	{{.Name}} {{.Type}} // {{.Desc}}
+	{{.Name}} {{.Type}} `json:"{{.EntryName}}"` // {{.Desc}}
 {{- end}}
 } 

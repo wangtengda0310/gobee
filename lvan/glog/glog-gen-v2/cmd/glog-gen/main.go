@@ -1,6 +1,6 @@
 package main
 
-//go:generate go run main.go -xml ../../testdata/demo.xml -mapping ../../config/type_mapping.xml -out ../../output/logs
+//go:generate go run main.go -xml ../../testdata/demo.xml -mapping ../../config/type_mapping.xml -out ../../output/glog
 import (
 	"flag"
 	"fmt"
