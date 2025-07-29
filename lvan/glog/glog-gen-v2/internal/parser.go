@@ -54,7 +54,7 @@ func ParseXML(path string) ([]Struct, error) {
 	for _, s := range m.Structs {
 		st := Struct{
 			Name:     s.Name,
-			FuncName: toCamel(s.Name) + "Log",
+			FuncName: funcName(toCamel(s.Name)),
 			Version:  s.Version,
 			Desc:     s.Desc,
 			Obj:      s.Obj,
@@ -116,7 +116,7 @@ func ParseExcel(path string) ([]Struct, error) {
 		// 解析struct属性
 		st := Struct{
 			Name:     row[3], // D 事件名称
-			FuncName: toCamel(row[3]) + "Log",
+			FuncName: funcName(toCamel(row[3])),
 			Version:  row[4],        // E 版本号
 			Desc:     row[0],        // A 事件
 			Obj:      row[7],        // H 上报端
@@ -163,6 +163,10 @@ func ParseExcel(path string) ([]Struct, error) {
 		rowIdx = end + 1
 	}
 	return structs, nil
+}
+
+func funcName(name string) string {
+	return name + "Log"
 }
 
 // allEmpty 判断一组单元格是否全为空

@@ -55,16 +55,7 @@ func Generate(parse Parse, mappingPath, outDir string) error {
 			e.Type = cleanStr(goType)
 			entries[i] = e
 			if e.Catalog == "base" {
-				found := false
-				for _, be := range baseEntries {
-					if be.Name == e.Name {
-						found = true
-						break
-					}
-				}
-				if !found {
-					baseEntries = append(baseEntries, e)
-				}
+				baseEntries = addBaseEntryIfNotExists(baseEntries, e)
 			}
 		}
 		st.Entries = entries
@@ -77,36 +68,18 @@ func Generate(parse Parse, mappingPath, outDir string) error {
 	// 	TypeMap:     typeMap,
 	// }
 
-	// 4. 渲染模板并输出到 outDir
-	var tmplContent string
+	// 通用模板渲染写文件方法
+	funcMap := template.FuncMap{"lower": func(s string) string { return strings.ToLower(s) }}
 
 	// 4.1 生成 base_param.go
 	fmt.Println("开始生成 base_param.go ...")
-	tmplContent, err = GetTemplate("base_param.go.tmpl")
-	if err != nil {
-		fmt.Println("加载base_param模板失败:", err)
-		return err
-	}
-	baseTmpl, err := template.New("base_param.go.tmpl").Funcs(template.FuncMap{
-		"lower": func(s string) string { return strings.ToLower(s) },
-	}).Parse(tmplContent)
-	if err != nil {
-		fmt.Println("加载base_param模板失败:", err)
-		return err
-	}
 	baseFile := filepath.Join(outDir, "base_param.go")
-	fmt.Println("准备创建文件:", baseFile)
-	bf, err := os.Create(baseFile)
-	if err != nil {
-		fmt.Println("创建base_param.go失败:", err)
-		return err
-	}
-	defer bf.Close()
-	fmt.Println("准备渲染模板到文件:", baseFile)
-	if err := baseTmpl.Execute(bf, map[string]interface{}{
+	pkg := filepath.Base(outDir)
+	if err := RenderTemplateToFile("base_param.go.tmpl", baseFile, map[string]interface{}{
 		"BaseEntries": baseEntries,
-	}); err != nil {
-		fmt.Println("渲染base_param.go失败:", err)
+		"Package":     pkg,
+	}, funcMap); err != nil {
+		fmt.Println(err)
 		return err
 	}
 	fmt.Println("base_param.go 生成完成")
@@ -114,151 +87,34 @@ func Generate(parse Parse, mappingPath, outDir string) error {
 	fmt.Println("即将进入struct循环，生成各类文件...")
 	for _, st := range structs {
 		fmt.Printf("生成 %s 相关文件...\n", st.Name)
-		pkg := "output"
-		// 结构体文件
-		fmt.Printf("生成 %s.go ...\n", st.Name)
-		tmplContent, err = GetTemplate("struct.go.tmpl")
-		if err != nil {
-			fmt.Println("加载struct模板失败:", err)
-			return err
-		}
-		structTmpl, err := template.New("struct.go.tmpl").Funcs(template.FuncMap{
-			"lower": func(s string) string { return strings.ToLower(s) },
-		}).Parse(tmplContent)
-		if err != nil {
-			fmt.Println("加载struct模板失败:", err)
-			return err
-		}
-		structFile := filepath.Join(outDir, st.Name+".go")
-		f, err := os.Create(structFile)
-		if err != nil {
-			fmt.Println("创建struct文件失败:", err)
-			return err
-		}
-		extEntries := []Entry{}
-		for _, e := range st.Entries {
-			if e.Catalog == "ext" {
-				extEntries = append(extEntries, e)
-			}
-		}
-		if err := structTmpl.Execute(f, map[string]interface{}{
-			"Package":     pkg,
-			"Struct":      st,
-			"ExtEntries":  extEntries,
-			"IsBase":      false,
-			"BaseEntries": baseEntries,
-		}); err != nil {
-			fmt.Println("渲染struct文件失败:", err)
-			return err
-		}
-		f.Close()
-
-		// 日志函数文件
-		fmt.Printf("生成 %s_func.go ...\n", st.Name)
-		tmplContent, err = GetTemplate("func.go.tmpl")
-		if err != nil {
-			fmt.Println("加载func模板失败:", err)
-			return err
-		}
-		funcTmpl, err := template.New("func.go.tmpl").Funcs(template.FuncMap{
-			"lower": func(s string) string { return strings.ToLower(s) },
-		}).Parse(tmplContent)
-		if err != nil {
-			fmt.Println("加载func模板失败:", err)
-			return err
-		}
-		funcFile := filepath.Join(outDir, st.Name+"_func.go")
-		ff, err := os.Create(funcFile)
-		if err != nil {
-			fmt.Println("创建func文件失败:", err)
-			return err
-		}
+		pkg := filepath.Base(outDir)
 		allFields := st.Entries
-		allFieldNames := []string{}
-		for _, e := range allFields {
-			allFieldNames = append(allFieldNames, e.Name)
-		}
-		if err := funcTmpl.Execute(ff, map[string]interface{}{
+		allFieldNames := getAllFieldNames(allFields)
+		extEntries := getExtEntries(st.Entries)
+		// 合并结构体和函数到一个文件
+		funcStructFile := filepath.Join(outDir, st.Name+".go")
+		if err := RenderTemplateToFile("func_struct.go.tmpl", funcStructFile, map[string]interface{}{
 			"Package":       pkg,
 			"Struct":        st,
 			"AllFields":     allFields,
 			"AllFieldNames": allFieldNames,
-		}); err != nil {
-			fmt.Println("渲染func文件失败:", err)
+			"ExtEntries":    extEntries,
+			"IsBase":        false,
+			"BaseEntries":   baseEntries,
+		}, funcMap); err != nil {
+			fmt.Println(err)
 			return err
 		}
-		ff.Close()
-
 		// 单元测试文件
-		fmt.Printf("生成 %s_test.go ...\n", st.Name)
-		tmplContent, err = GetTemplate("test.go.tmpl")
-		if err != nil {
-			fmt.Println("加载test模板失败:", err)
-			return err
-		}
-		testTmpl, err := template.New("test.go.tmpl").Funcs(template.FuncMap{
-			"lower": func(s string) string { return strings.ToLower(s) },
-		}).Parse(tmplContent)
-		if err != nil {
-			fmt.Println("加载test模板失败:", err)
-			return err
-		}
 		testFile := filepath.Join(outDir, st.Name+"_test.go")
-		tf, err := os.Create(testFile)
-		if err != nil {
-			fmt.Println("创建test文件失败:", err)
-			return err
-		}
-		allFields = st.Entries
-		allFieldNames = []string{}
-		for _, e := range allFields {
-			allFieldNames = append(allFieldNames, e.Name)
-		}
-		if err := testTmpl.Execute(tf, map[string]interface{}{
+		if err := RenderTemplateToFile("test.go.tmpl", testFile, map[string]interface{}{
 			"Package":       pkg,
 			"Struct":        st,
 			"AllFieldNames": allFieldNames,
-		}); err != nil {
-			fmt.Println("渲染test文件失败:", err)
+		}, funcMap); err != nil {
+			fmt.Println(err)
 			return err
 		}
-		tf.Close()
-
-		// benchmark 文件
-		fmt.Printf("生成 %s_bench_test.go ...\n", st.Name)
-		tmplContent, err = GetTemplate("bench.go.tmpl")
-		if err != nil {
-			fmt.Println("加载bench模板失败:", err)
-			return err
-		}
-		benchTmpl, err := template.New("bench.go.tmpl").Funcs(template.FuncMap{
-			"lower": func(s string) string { return strings.ToLower(s) },
-		}).Parse(tmplContent)
-		if err != nil {
-			fmt.Println("加载bench模板失败:", err)
-			return err
-		}
-		benchFile := filepath.Join(outDir, st.Name+"_bench_test.go")
-		bf, err := os.Create(benchFile)
-		if err != nil {
-			fmt.Println("创建bench文件失败:", err)
-			return err
-		}
-		allFields = st.Entries
-		allFieldNames = []string{}
-		for _, e := range allFields {
-			allFieldNames = append(allFieldNames, e.Name)
-		}
-		if err := benchTmpl.Execute(bf, map[string]interface{}{
-			"Package":       pkg,
-			"Struct":        st,
-			"AllFields":     allFields,
-			"AllFieldNames": allFieldNames,
-		}); err != nil {
-			fmt.Println("渲染bench文件失败:", err)
-			return err
-		}
-		bf.Close()
 		fmt.Printf("%s 相关文件生成完成\n", st.Name)
 	}
 	fmt.Println("所有struct文件生成完毕")
@@ -269,4 +125,53 @@ func cleanStr(s string) string {
 	// 移除所有不可见字符（控制字符）
 	reg := regexp.MustCompile(`[\x00-\x1F\x7F]`)
 	return reg.ReplaceAllString(s, "")
+}
+
+// 工具函数：如 baseEntries 去重、字段名和扩展字段提取
+func addBaseEntryIfNotExists(baseEntries []Entry, e Entry) []Entry {
+	for _, be := range baseEntries {
+		if be.Name == e.Name {
+			return baseEntries
+		}
+	}
+	return append(baseEntries, e)
+}
+
+func getAllFieldNames(entries []Entry) []string {
+	names := make([]string, 0, len(entries))
+	for _, e := range entries {
+		names = append(names, e.Name)
+	}
+	return names
+}
+
+func getExtEntries(entries []Entry) []Entry {
+	extEntries := []Entry{}
+	for _, e := range entries {
+		if e.Catalog == "ext" {
+			extEntries = append(extEntries, e)
+		}
+	}
+	return extEntries
+}
+
+// 通用模板渲染写文件方法
+func RenderTemplateToFile(tmplName, fileName string, data map[string]interface{}, funcMap template.FuncMap) error {
+	tmplContent, err := GetTemplate(tmplName)
+	if err != nil {
+		return fmt.Errorf("加载模板 %s 失败: %w", tmplName, err)
+	}
+	tmpl, err := template.New(tmplName).Funcs(funcMap).Parse(tmplContent)
+	if err != nil {
+		return fmt.Errorf("解析模板 %s 失败: %w", tmplName, err)
+	}
+	f, err := os.Create(fileName)
+	if err != nil {
+		return fmt.Errorf("创建文件 %s 失败: %w", fileName, err)
+	}
+	defer f.Close()
+	if err := tmpl.Execute(f, data); err != nil {
+		return fmt.Errorf("渲染模板 %s 到文件 %s 失败: %w", tmplName, fileName, err)
+	}
+	return nil
 }

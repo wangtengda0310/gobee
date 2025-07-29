@@ -3,7 +3,7 @@ package output
 
 import (
 	"os"
-	"strings"
+	"sync"
 
 	"github.com/brianvoe/gofakeit/v6"
 )
@@ -13,31 +13,85 @@ func init() {
 }
 
 // WriteFunc 日志写入函数类型
-type WriteFunc func(contents []string)
+type WriteFunc func(content string)
 
 // DefaultWriter 默认日志写入器
-var DefaultWriter WriteFunc = NewFileWriter("log.txt", 1)
+var DefaultWriter WriteFunc = NewFileWriter("log.txt")
 
 // SetDefaultWriter 设置默认日志写入器
 func SetDefaultWriter(factory func() WriteFunc) {
 	DefaultWriter = factory()
 }
 
-// NewFileWriter 创建文件写入器
-func NewFileWriter(filePath string, batchSize int) WriteFunc {
-	return func(contents []string) {
+// NewChannelFileWriter 创建线程安全的文件写入器（channel+goroutine实现）
+func NewChannelFileWriter(filePath string, batchSize int) (WriteFunc, func()) {
+	ch := make(chan string, batchSize*10)
+	var wg sync.WaitGroup
+	writeBatch := func(batch []string) {
 		f, err := os.OpenFile(filePath, os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
 		if err != nil {
 			return
 		}
 		defer f.Close()
-		for i := 0; i < len(contents); i += batchSize {
-			end := i + batchSize
-			if end > len(contents) {
-				end = len(contents)
-			}
-			batch := contents[i:end]
-			f.WriteString(strings.Join(batch, "|") + "\n")
+		for _, c := range batch {
+			f.WriteString(c + "\n")
 		}
 	}
+	wg.Add(1)
+	// 后台批量写入goroutine
+	go func() {
+		defer wg.Done()
+		buf := make([]string, 0, batchSize)
+		for content := range ch {
+			buf = append(buf, content)
+			if len(buf) >= batchSize {
+				writeBatch(buf)
+				buf = buf[:0]
+			}
+		}
+		// 收到关闭信号后，写入剩余内容
+		if len(buf) > 0 {
+			writeBatch(buf)
+		}
+	}()
+	writeFunc := func(content string) {
+		ch <- content
+	}
+	closeFunc := func() {
+		close(ch)
+		wg.Wait()
+	}
+	return writeFunc, closeFunc
+}
+
+// NewFileWriter 创建每次直接写入一行的文件写入器（无 batch，无缓冲）
+func NewFileWriter(filePath string) WriteFunc {
+	return func(content string) {
+		f, err := os.OpenFile(filePath, os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
+		if err != nil {
+			return
+		}
+		defer f.Close()
+		f.WriteString(content + "\n")
+	}
+}
+
+// NewMutexFileWriter 只打开一次文件，写入时加锁，返回 WriteFunc 和关闭函数
+func NewMutexFileWriter(filePath string) (WriteFunc, func(), error) {
+	f, err := os.OpenFile(filePath, os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
+	if err != nil {
+		return nil, nil, err
+	}
+	var mu sync.Mutex
+	writeFunc := func(content string) {
+		mu.Lock()
+		defer mu.Unlock()
+		f.WriteString(content + "\n")
+	}
+	closeFunc := func() {
+		mu.Lock()
+		defer mu.Unlock()
+		f.Close()
+	}
+	return writeFunc, closeFunc, nil
 }
