@@ -1,17 +1,25 @@
 module github.com/wangtengda0310/gobee/lvan
 
-go 1.23.0
+go 1.24.5
 
 require (
 	github.com/gofrs/flock v0.12.1
 	github.com/google/uuid v1.6.0
+	github.com/jlaffaye/ftp v0.2.0
+	github.com/k0kubun/pp v3.0.1+incompatible
 	github.com/robfig/cron v1.2.0
-	github.com/tjfoc/gmsm v1.4.1
 	github.com/vmihailenco/msgpack/v5 v5.4.1
-	golang.org/x/crypto v0.37.0
 	golang.org/x/mod v0.24.0
 	golang.org/x/text v0.24.0
 	gopkg.in/yaml.v3 v3.0.1
+)
+
+require (
+	github.com/hashicorp/errwrap v1.0.0 // indirect
+	github.com/hashicorp/go-multierror v1.1.1 // indirect
+	github.com/k0kubun/colorstring v0.0.0-20150214042306-9440f1994b88 // indirect
+	github.com/mattn/go-colorable v0.1.14 // indirect
+	github.com/mattn/go-isatty v0.0.20 // indirect
 )
 
 require (
