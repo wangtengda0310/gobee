@@ -55,6 +55,7 @@ func main() {
 	username := flag.String("u", user, "FTP用户名")
 	password := flag.String("p", pass, "FTP密码")
 	filename := flag.String("f", "", "远程文件名")
+	getfile := flag.String("g", "", "下载远程文件到标准输出")
 	flag.Parse()
 
 	// 连接FTP服务器
@@ -67,6 +68,14 @@ func main() {
 	// 登录
 	if err := conn.Login(*username, *password); err != nil {
 		log.Fatalf("登录失败: %v", err)
+	}
+
+	if *getfile != "" {
+		err := streamToStdout(conn, *getfile)
+		if err != nil {
+			log.Fatalf("下载文件失败: %v", err)
+		}
+		return
 	}
 
 	// 获取非flag参数
@@ -112,6 +121,25 @@ func main() {
 	//	}
 	//}
 }
+
+// 核心函数：将FTP文件流式输出到stdout
+func streamToStdout(conn *ftp.ServerConn, remotePath string) error {
+	// 获取文件读取流
+	r, err := conn.Retr(remotePath)
+	if err != nil {
+		return fmt.Errorf("下载文件失败: %w", err)
+	}
+	defer r.Close()
+
+	// 将内容直接复制到标准输出
+	_, err = io.Copy(os.Stdout, r)
+	if err != nil {
+		return fmt.Errorf("输出到标准输出失败: %w", err)
+	}
+
+	return nil
+}
+
 func mergeReader(conn *ftp.ServerConn, filename *string, args []string) {
 	var r []io.Reader
 	hasFiles := len(args) > 0
