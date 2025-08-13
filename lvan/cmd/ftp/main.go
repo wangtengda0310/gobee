@@ -14,6 +14,9 @@ import (
 	"github.com/jlaffaye/ftp"
 )
 
+// 该变量用于条件编译，实际不会被编译进最终二进制
+var enableMCP = false
+
 //go:embed host
 var host string
 
@@ -51,75 +54,97 @@ func SwitchStdinMode() StdinMode {
 }
 func main() {
 	// 解析命令行参数
-	server := flag.String("h", fmt.Sprintf("%s:21", host), "FTP服务器地址和端口")
+	mcpMode := flag.Bool("mcp", false, "启用MCP模式")
+	flag.Parse()
+
+	// 如果启用了MCP模式，则启动MCP服务器
+	if *mcpMode {
+		err := StartMCPServer()
+		if err != nil {
+			log.Fatalf("MCP服务器启动失败: %v", err)
+		}
+		return
+	}
+
+	// 以下是原有的命令行功能
+	// 重新解析命令行参数（因为前面已经调用过flag.Parse()）
+	flag.CommandLine = flag.NewFlagSet(os.Args[0], flag.ExitOnError)
+	// 解析命令行参数
+	server := flag.String("h", host, "FTP服务器地址和端口")
 	username := flag.String("u", user, "FTP用户名")
 	password := flag.String("p", pass, "FTP密码")
 	filename := flag.String("f", "", "远程文件名")
 	getfile := flag.String("g", "", "下载远程文件到标准输出")
 	flag.Parse()
 
-	// 连接FTP服务器
-	conn, err := ftp.Dial(*server, ftp.DialWithTimeout(time.Duration(3)*time.Second))
+	if *getfile != "" {
+		// 连接FTP服务器
+		err := openServer(*server, *username, *password, func(conn *ftp.ServerConn) {
+			err := streamToStdout(conn, *getfile)
+			if err != nil {
+				log.Fatalf("下载文件失败: %v", err)
+			}
+			return
+		})
+		if err != nil {
+			log.Fatalf("连接FTP服务器失败: %s %s %s %v", *server, *username, *password, err)
+		}
+
+	}
+	err := openServer(*server, *username, *password, func(conn *ftp.ServerConn) {
+
+		// 获取非flag参数
+		args := flag.Args()
+
+		if *filename == "" {
+
+			hasFiles := len(args) > 0
+
+			mode := SwitchStdinMode()
+			switch {
+			// 模式1: 有文件参数时忽略 stdin
+			case hasFiles && mode == StdinModeInput:
+				println("只处理文件参数，不处理标准输入")
+				storFiles(conn, args)
+
+			// 模式2: 有文件参数且有重定向的 stdin
+			case hasFiles:
+				println("处理文件参数和重定向的标准输入")
+
+				storStdin(conn)
+				storFiles(conn, args)
+			// 模式3: 无参数时等待用户输入
+			default:
+				if mode == StdinModeInput {
+					fmt.Println("Waiting for user input (press Ctrl+D to finish):")
+				}
+				storStdin(conn)
+			}
+		} else {
+			mergeReader(conn, filename, args)
+		}
+
+	})
 	if err != nil {
-		log.Fatalf("连接FTP服务器失败: %v", err)
+		log.Fatalf("连接FTP服务器失败: %s %s %s %v", *server, *username, *password, err)
+	}
+}
+
+func openServer(server string, username string, password string, f func(*ftp.ServerConn)) error {
+
+	conn, err := ftp.Dial(server, ftp.DialWithTimeout(time.Duration(3)*time.Second))
+	if err != nil {
+		return fmt.Errorf("连接FTP服务器失败: %s %s %s %w", server, username, password, err)
 	}
 	defer conn.Quit()
-
 	// 登录
-	if err := conn.Login(*username, *password); err != nil {
-		log.Fatalf("登录失败: %v", err)
+	if err := conn.Login(username, password); err != nil {
+		return fmt.Errorf("登录失败: %s %s %s %w", server, username, password, err)
 	}
 
-	if *getfile != "" {
-		err := streamToStdout(conn, *getfile)
-		if err != nil {
-			log.Fatalf("下载文件失败: %v", err)
-		}
-		return
-	}
+	f(conn)
 
-	// 获取非flag参数
-	args := flag.Args()
-
-	if *filename == "" {
-
-		hasFiles := len(args) > 0
-
-		mode := SwitchStdinMode()
-		switch {
-		// 模式1: 有文件参数时忽略 stdin
-		case hasFiles && mode == StdinModeInput:
-			println("只处理文件参数，不处理标准输入")
-			storFiles(conn, args)
-
-		// 模式2: 有文件参数且有重定向的 stdin
-		case hasFiles:
-			println("处理文件参数和重定向的标准输入")
-
-			storStdin(conn)
-			storFiles(conn, args)
-		// 模式3: 无参数时等待用户输入
-		default:
-			if mode == StdinModeInput {
-				fmt.Println("Waiting for user input (press Ctrl+D to finish):")
-			}
-			storStdin(conn)
-		}
-	} else {
-		mergeReader(conn, filename, args)
-	}
-
-	//
-	//// 处理文件和文件夹参数
-	//if len(args) > 0 {
-	//	for _, path := range args {
-	//		if err := uploadPath(conn, path, *filename); err != nil {
-	//			log.Printf("上传 %s 失败: %v", path, err)
-	//		} else {
-	//			fmt.Printf("%s 上传成功\n", path)
-	//		}
-	//	}
-	//}
+	return nil
 }
 
 // 核心函数：将FTP文件流式输出到stdout
