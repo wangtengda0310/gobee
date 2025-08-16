@@ -1,0 +1,15 @@
+{
+  "rules": {
+    "project": {
+      "structure": "agent目录作为独立的Go模块项目，gobee目录不作为Go模块项目",
+      "workingDirectory": "agent"
+    },
+    "development": {
+      "language": "Go",
+      "framework": "MCP"
+    }
+  },
+  "settings": {
+    "defaultWorkingDirectory": "agent"
+  }
+} 
