@@ -3,6 +3,7 @@ package main
 import (
 	"context"
 	"fmt"
+	"log"
 	"strings"
 	"time"
 
@@ -22,13 +23,14 @@ func StartMCPServer() error {
 		server.WithResourceCapabilities(true, true),
 	)
 
-	// 注册FTP上传文件工具
-	//s.AddTool(
-	//	mcp.NewTool("get_config",
-	//		mcp.WithDescription("trae查询配置"),
-	//	),
-	//	get_config,
-	//)
+	//注册FTP上传文件工具
+	s.AddResource(
+		mcp.NewResource("ftp://list", "ftp服务器文件列表工具",
+			mcp.WithResourceDescription("列出服务器上的文件列表"),
+			mcp.WithMIMEType("application/json"),
+		),
+		listFtpFiles,
+	)
 
 	// 注册FTP上传文件工具
 	s.AddTool(
@@ -43,9 +45,50 @@ func StartMCPServer() error {
 	)
 
 	// 启动标准输入输出服务器
-	fmt.Println("FTP Client MCP服务器已启动...")
+	log.Println("FTP Client MCP服务器已启动...")
 	return server.ServeStdio(s)
 }
+
+func listFtpFiles(ctx context.Context, req mcp.ReadResourceRequest) ([]mcp.ResourceContents, error) {
+	var sb strings.Builder
+	arguments := req.Params.Arguments
+	reqhost := host
+	requser := user
+	reqpass := pass
+	if h, ok := arguments["ftp服务器"]; ok {
+		reqhost = h.(string)
+	}
+	if u, ok := arguments["账号"]; ok {
+		requser = u.(string)
+	}
+	if p, ok := arguments["密码"]; ok {
+		reqpass = p.(string)
+	}
+	e := openServer(
+		reqhost, requser, reqpass,
+		func(conn *ftp.ServerConn) {
+			entries, err := conn.List(".")
+			if err != nil {
+				return
+			}
+			for _, entry := range entries {
+				sb.WriteString(fmt.Sprintf("%s\n", entry.Name))
+				log.Println(entry.Name)
+			}
+		},
+	)
+	if e != nil {
+		return nil, e
+	}
+	return []mcp.ResourceContents{
+		mcp.TextResourceContents{
+			URI:      req.Params.URI,
+			MIMEType: "application/json",
+			Text:     sb.String(),
+		},
+	}, nil
+}
+
 func get_config(ctx context.Context, req mcp.CallToolRequest) (*mcp.CallToolResult, error) {
 	return mcp.NewToolResultText("配置查询成功"), nil
 }
