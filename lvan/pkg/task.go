@@ -27,7 +27,6 @@ type Task struct {
 	Request    intern.CommandRequest `json:"request"`
 	Status     TaskStatus            `json:"status"` // running, completed, failed
 	Result     *TaskResult           `json:"result"` // completed, failed, running, blocking
-	CmdPath    string                `json:"cmd_path"`
 	WorkDir    string                `json:"workdir"`
 	Mutex      *sync.Mutex           `json:"-"`
 	Logger     *logger.Logger        `json:"-"`
@@ -206,6 +205,44 @@ func (tm *TaskManager) GetTask(id string) (*Task, bool) {
 	return task, exists
 }
 
+var findExec = func(ctx context.Context, versionDir, cmdName string, cmdMeta *intern.CommandMeta, cmdArgs ...string) (string, *exec.Cmd, error) {
+	// 查找可执行文件
+	executable, err := FindExecutable(versionDir, cmdName)
+	if err != nil {
+		return "", nil, err
+	}
+
+	cmdpath, err := filepath.Abs(executable)
+	if err != nil {
+		return "", nil, err
+	}
+
+	var cmd *exec.Cmd
+	if cmdMeta != nil && cmdMeta.Shell != nil {
+		newArgs := append(cmdMeta.Shell[1:], cmdpath)
+		newArgs = append(newArgs, cmdArgs...)
+		cmd = exec.CommandContext(ctx, cmdMeta.Shell[0], newArgs...)
+
+	} else if runtime.GOOS == "windows" {
+		// 检查是否是 Windows 平台 尝试使用cmd执行.bat和.cmd
+		// 检查文件扩展名是否为批处理文件
+		ext := strings.ToLower(filepath.Ext(cmdpath))
+		if ext == ".bat" || ext == ".cmd" {
+			// 使用 cmd /c 执行批处理文件
+			newArgs := append([]string{"/c", cmdpath}, cmdArgs...)
+			cmd = exec.CommandContext(ctx, "cmd", newArgs...)
+		} else {
+			// 非批处理文件直接执行
+			cmd = exec.CommandContext(ctx, cmdpath, cmdArgs...)
+		}
+	} else {
+		// 非 Windows 平台直接执行命令
+		cmd = exec.CommandContext(ctx, cmdpath, cmdArgs...)
+	}
+
+	return cmdpath, cmd, nil
+}
+
 // 执行命令
 func ExecuteTask(task *Task) {
 	// 记录开始执行
@@ -229,26 +266,6 @@ func ExecuteTask(task *Task) {
 	}
 	task.CmdMeta = intern.TryMeta(filepath.Join(versionDir, "meta.yaml"))
 
-	// 查找可执行文件
-	executable, err := FindExecutable(versionDir, cmdName)
-	if err != nil {
-		logger.Error("找不到命令 %s 版本 %s: %v\n", cmdName, cmdVersion, err)
-		task.AddOutput(fmt.Sprintf("找不到命令 %s 版本 %s: %v\n", cmdName, cmdVersion, err))
-		task.Complete(Failed, cmdNotExit)
-		return
-	}
-
-	task.CmdPath, err = filepath.Abs(executable)
-	if err != nil {
-		logger.Error("找不到命令 %s 版本 %s: %v\n", cmdName, cmdVersion, err)
-		task.AddOutput(fmt.Sprintf("找不到命令 %s 版本 %s: %v\n", cmdName, cmdVersion, err))
-		task.Complete(Failed, cmdNotExit)
-		return
-	}
-
-	// 记录使用的可执行文件路径
-	task.AddOutput(fmt.Sprintf("使用可执行文件: %s\n", task.CmdPath))
-
 	var timeout = 10 * time.Minute
 	if os.Getenv("exporter_timeout") != "" {
 		m, err := strconv.Atoi(os.Getenv("exporter_timeout"))
@@ -264,28 +281,15 @@ func ExecuteTask(task *Task) {
 	ctx, cancel := context.WithTimeout(context.Background(), timeout)
 	task.Cancel = cancel
 
-	var cmd *exec.Cmd
-	if task.CmdMeta != nil && task.CmdMeta.Shell != nil {
-		newArgs := append(task.CmdMeta.Shell[1:], task.CmdPath)
-		newArgs = append(newArgs, cmdArgs...)
-		cmd = exec.CommandContext(ctx, task.CmdMeta.Shell[0], newArgs...)
-
-	} else if runtime.GOOS == "windows" {
-		// 检查是否是 Windows 平台 尝试使用cmd执行.bat和.cmd
-		// 检查文件扩展名是否为批处理文件
-		ext := strings.ToLower(filepath.Ext(task.CmdPath))
-		if ext == ".bat" || ext == ".cmd" {
-			// 使用 cmd /c 执行批处理文件
-			newArgs := append([]string{"/c", task.CmdPath}, cmdArgs...)
-			cmd = exec.CommandContext(ctx, "cmd", newArgs...)
-		} else {
-			// 非批处理文件直接执行
-			cmd = exec.CommandContext(ctx, task.CmdPath, cmdArgs...)
-		}
-	} else {
-		// 非 Windows 平台直接执行命令
-		cmd = exec.CommandContext(ctx, task.CmdPath, cmdArgs...)
+	cmdpath, cmd, err := findExec(ctx, versionDir, cmdName, task.CmdMeta)
+	if err != nil {
+		logger.Error("找不到命令 %s 版本 %s: %v\n", cmdName, cmdVersion, err)
+		task.AddOutput(fmt.Sprintf("找不到命令 %s 版本 %s: %v\n", cmdName, cmdVersion, err))
+		task.Complete(Failed, cmdNotExit)
+		return
 	}
+	// 记录使用的可执行文件路径
+	task.AddOutput(fmt.Sprintf("使用可执行文件: %s\n", cmdpath))
 
 	// 获取当前环境变量
 	var env = os.Environ()
@@ -372,10 +376,34 @@ func ExecuteTask(task *Task) {
 	if err != nil {
 		var exitCode int
 		// 处理超时错误
-		if errors.Is(ctx.Err(), context.DeadlineExceeded) {
+		if errors.Is(context.Cause(ctx), context.DeadlineExceeded) || errors.Is(context.Cause(ctx), context.Canceled) {
 			exitCode = 124 // 通常用 124 表示超时退出码
 			task.AddOutput(fmt.Sprintf("exporter 命令执行超时，退出码 %d: %s", exitCode, err.Error()))
-		} else if exitErr, ok := err.(*exec.ExitError); ok { // 尝试获取退出码
+			{
+				logger.Warn(fmt.Sprintf("exporter 命令执行超时，退出码 %d: %s", exitCode, err.Error()))
+				ctx, cancel := context.WithTimeout(context.Background(), time.Minute)
+				defer cancel()
+				cmdpath, cmd, err := findExec(ctx, versionDir, fmt.Sprintf("error_%d", exitCode), task.CmdMeta)
+				if err == nil {
+					logger.Info("执行错误回调脚本%s", cmdpath)
+
+					status, err, stdout, stderr := Cmd(cmd, task.WorkDir, env)
+					task.Status = status
+					if err != nil {
+						return
+					}
+
+					CatchStdout(stdout, encodingf, task.AddOutput)
+					CatchStderr(stderr, encodingf, log)
+
+					err = cmd.Wait()
+					if err != nil {
+						logger.Warn(err.Error())
+					}
+
+				}
+			}
+		} else if exitErr := new(exec.ExitError); errors.As(err, &exitErr) { // 尝试获取退出码
 			exitCode = exitErr.ExitCode()
 			task.AddOutput(fmt.Sprintf("exporter 命令执行失败，退出码 %d: %s", exitCode, err.Error()))
 		} else {
