@@ -3,15 +3,16 @@ package api
 import (
 	"encoding/json"
 	"fmt"
+	"io"
+	"net/http"
+	"os"
+	"strings"
+
 	"github.com/google/uuid"
 	"github.com/wangtengda0310/gobee/lvan/internal"
 	"github.com/wangtengda0310/gobee/lvan/pkg"
 	"github.com/wangtengda0310/gobee/lvan/pkg/logger"
 	"gopkg.in/yaml.v3"
-	"io"
-	"net/http"
-	"os"
-	"strings"
 )
 
 // 处理SSE请求
@@ -41,7 +42,7 @@ func handleSSERequest(w http.ResponseWriter, r *http.Request, task *pkg.Task) {
 
 	// 异步执行命令（如果尚未执行）
 	taskResult := task.Result
-	if task.Status == pkg.Blocking && task.CmdPath == "" {
+	if task.Status == pkg.Blocking {
 		go pkg.ExecuteTask(task)
 	}
 

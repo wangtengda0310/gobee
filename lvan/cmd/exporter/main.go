@@ -73,10 +73,10 @@ func getEnvBool(key string, defaultVal bool) bool {
 func main() {
 	// 设置程序说明
 	pflag.Usage = func() {
-		fmt.Fprintf(os.Stderr, "Exporter 服务程序 v%s\n\n", Version)
-		fmt.Fprintf(os.Stderr, "用法:\n")
-		fmt.Fprintf(os.Stderr, "  exporter [选项]\n\n")
-		fmt.Fprintf(os.Stderr, "选项:\n")
+		_, _ = fmt.Fprintf(os.Stderr, "Exporter 服务程序 v%s\n\n", Version)
+		_, _ = fmt.Fprintf(os.Stderr, "用法:\n")
+		_, _ = fmt.Fprintf(os.Stderr, "  exporter [选项]\n\n")
+		_, _ = fmt.Fprintf(os.Stderr, "选项:\n")
 		pflag.PrintDefaults()
 	}
 
