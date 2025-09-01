@@ -1,13 +1,14 @@
-package pkg
+package execute
 
 import (
 	"fmt"
-	"github.com/wangtengda0310/gobee/lvan/pkg/logger"
 	"os"
 	"path/filepath"
 	"runtime"
 	"sort"
 	"strings"
+
+	"github.com/wangtengda0310/gobee/lvan/pkg/logger"
 
 	"golang.org/x/mod/semver"
 )
@@ -15,12 +16,7 @@ import (
 var CommandDir string
 
 // CommandInfo 存储命令的信息
-type CommandInfo struct {
-	Name       string // 命令名称
-	Version    string // 版本号
-	Executable string // 可执行文件路径
-	IsLatest   bool   // 是否是最新版本
-}
+type CommandInfo string
 
 // GetCommandVersionPath 获取命令的可执行文件路径
 // cmdName: 命令名称
@@ -32,6 +28,7 @@ func GetCommandVersionPath(cmdName, version string) (string, error) {
 	// 检查命令目录是否存在
 	cmdDir := filepath.Join(CommandDir, cmdName)
 	if _, err := os.Stat(cmdDir); os.IsNotExist(err) {
+		logger.Error("找不到命令 %s 版本 %s: %v\n", cmdName, version, err)
 		return "", fmt.Errorf("命令 %s 不存在", cmdName)
 	}
 
@@ -134,7 +131,6 @@ func FindExecutable(dir, cmdName string) (string, error) {
 
 	// Windows 平台下，检查是否需要添加 .exe 后缀
 	if runtime.GOOS == "windows" {
-		logger.Info("当前windows环境")
 		// 检查是否已有扩展名
 		if !strings.Contains(filepath.Base(cmdName), ".") {
 			// 检查 .exe 版本是否存在
@@ -163,7 +159,6 @@ func isExecutable(path string) bool {
 	// 检查文件是否存在
 	info, err := os.Stat(path)
 	if err != nil {
-		logger.Info("没找到文件 %v", path)
 		return false
 	}
 
@@ -202,43 +197,13 @@ func ListCommands() ([]CommandInfo, error) {
 		}
 
 		cmdName := cmdEntry.Name()
-		cmdDir := filepath.Join(CommandDir, cmdName)
 
 		// 获取最新版本
-		latestVersion, err := findLatestVersion(cmdName)
+		_, err := findLatestVersion(cmdName)
 		if err != nil {
 			continue
 		}
-
-		// 读取版本目录
-		versionEntries, err := os.ReadDir(cmdDir)
-		if err != nil {
-			continue
-		}
-
-		// 遍历每个版本
-		for _, versionEntry := range versionEntries {
-			if !versionEntry.IsDir() {
-				continue
-			}
-
-			version := versionEntry.Name()
-			versionDir := filepath.Join(cmdDir, version)
-
-			// 查找可执行文件
-			executable, err := FindExecutable(versionDir, cmdName)
-			if err != nil {
-				continue
-			}
-
-			// 添加到命令列表
-			commands = append(commands, CommandInfo{
-				Name:       cmdName,
-				Version:    version,
-				Executable: executable,
-				IsLatest:   version == latestVersion,
-			})
-		}
+		commands = append(commands, CommandInfo(cmdName))
 	}
 
 	return commands, nil

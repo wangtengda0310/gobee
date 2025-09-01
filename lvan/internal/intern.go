@@ -20,15 +20,6 @@ type ResultResponse struct {
 	Job  CommandRequest `json:"job"`
 }
 
-type CommandMeta struct {
-	Encoding  Charset  `yaml:"encoding"`
-	Shell     []string `yaml:"shell"`
-	Resources []string `yaml:"resources"`
-	Timeout   int      `yaml:"timeout"`
-}
-
-type Charset string
-
 var (
 	WorkDir string // 工作目录
 )
