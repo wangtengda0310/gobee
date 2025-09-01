@@ -1,10 +1,11 @@
 package internal
 
 import (
-	"github.com/stretchr/testify/assert"
 	"slices"
 	"strings"
 	"testing"
+
+	"github.com/stretchr/testify/assert"
 )
 
 func TestParseLine(t *testing.T) {

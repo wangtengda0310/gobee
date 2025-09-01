@@ -8,8 +8,7 @@ import (
 	"os/exec"
 
 	"github.com/spf13/pflag"
-	"github.com/wangtengda0310/gobee/lvan/internal"
-	"github.com/wangtengda0310/gobee/lvan/pkg"
+	"github.com/wangtengda0310/gobee/lvan/pkg/utf8"
 )
 
 func main() {
@@ -43,12 +42,12 @@ func main() {
 		for scanner.Scan() {
 			var toString string
 			if *from != "" {
-				toString = pkg.UtfFrom(scanner.Bytes(), internal.Charset(*from))
+				toString = utf8.From(scanner.Bytes(), utf8.Charset(*from))
 			} else {
 				toString = scanner.Text()
 			}
 			if *to != "" {
-				toString = pkg.UtfTo([]byte(toString), internal.Charset(*to))
+				toString = utf8.To([]byte(toString), utf8.Charset(*to))
 			}
 			fmt.Fprintln(os.Stdout, toString)
 		}

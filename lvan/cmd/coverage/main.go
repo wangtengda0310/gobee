@@ -3,8 +3,9 @@ package main
 import (
 	"flag"
 	"fmt"
-	"github.com/wangtengda0310/gobee/lvan/cmd/coverage/internal"
 	"os"
+
+	"github.com/wangtengda0310/gobee/lvan/cmd/coverage/internal"
 )
 
 type StringList []string

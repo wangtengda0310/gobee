@@ -12,27 +12,13 @@ package internal
 
 import (
 	"errors"
-	"github.com/gofrs/flock"
-	"github.com/wangtengda0310/gobee/lvan/pkg/logger"
-	"gopkg.in/yaml.v3"
 	"os"
 	"path/filepath"
 	"time"
-)
 
-func TryMeta(metaFile string) *CommandMeta {
-	file, err := os.ReadFile(metaFile)
-	if err != nil {
-		return nil
-	}
-	meta := &CommandMeta{}
-	err = yaml.Unmarshal(file, meta)
-	if err != nil {
-		logger.Warn("解析 meta.yaml 失败: %v %s", err, file)
-		return nil
-	}
-	return meta
-}
+	"github.com/gofrs/flock"
+	"github.com/wangtengda0310/gobee/lvan/pkg/logger"
+)
 
 // 资源锁目录
 var ResourceLockDir string

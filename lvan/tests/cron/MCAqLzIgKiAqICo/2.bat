@@ -1,1 +1,1 @@
-echo run cron 1 %cd%
+echo 每2分钟执行一次任务

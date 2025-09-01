@@ -1,9 +1,10 @@
-package pkg
+package execute
 
 import (
-	"github.com/wangtengda0310/gobee/lvan/pkg/logger"
 	"sync"
 	"time"
+
+	"github.com/wangtengda0310/gobee/lvan/pkg/logger"
 )
 
 // 客户端信息
@@ -154,4 +155,45 @@ func (cm *ClientManager) Close() {
 	}
 
 	logger.Info("客户端管理器已关闭")
+}
+
+// 添加SSE客户端
+func (t *Task) AddClient(clientID string) chan string {
+	t.Mutex.Lock()
+	defer t.Mutex.Unlock()
+
+	// 如果任务已完成，返回nil
+	if t.Status == Completed || t.Status == Failed {
+		logger.Warn("尝试为已完成的任务 %s 添加客户端 %s", t.ID, clientID)
+		return nil
+	}
+
+	// 使用ClientManager添加客户端
+	if t.sseClients != nil {
+		ch := t.sseClients.AddClient(clientID)
+
+		// 如果是新客户端，发送已有的输出历史
+		if ch != nil && t.Result.Output != "" {
+			select {
+			case ch <- t.Result.Output:
+				// 发送成功
+			default:
+				// 通道已满，跳过历史输出
+				logger.Warn("客户端 %s 通道已满，跳过历史输出", clientID)
+			}
+		}
+		return ch
+	}
+
+	// 如果ClientManager不存在，创建一个
+	t.sseClients = NewClientManager(1000, 30*time.Minute)
+	return t.sseClients.AddClient(clientID)
+}
+
+// 移除SSE客户端
+func (t *Task) RemoveClient(clientID string) {
+	// 不需要锁定Task，ClientManager有自己的锁
+	if t.sseClients != nil {
+		t.sseClients.RemoveClient(clientID)
+	}
 }

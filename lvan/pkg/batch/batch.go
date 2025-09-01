@@ -7,7 +7,7 @@ import (
 	"path/filepath"
 	"slices"
 
-	"github.com/wangtengda0310/gobee/lvan/pkg"
+	"github.com/wangtengda0310/gobee/lvan/internal/execute"
 	"github.com/wangtengda0310/gobee/lvan/pkg/logger"
 )
 
@@ -23,9 +23,16 @@ func WithSort(workdir string) error {
 		if canSort(name) {
 			sorted = append(sorted, d)
 		} else {
-			err := File(filepath.Join(workdir, name))
-			if err != nil {
-				return err
+			if d.IsDir() {
+				err := WithSort(filepath.Join(workdir, name))
+				if err != nil {
+					return err
+				}
+			} else {
+				err := File(filepath.Join(workdir, name))
+				if err != nil {
+					return err
+				}
 			}
 		}
 	}
@@ -54,6 +61,7 @@ func WithSort(workdir string) error {
 func canSort(name string) bool {
 	return len(name) > 0 && name[0] >= '0' && name[0] <= '9'
 }
+
 func File(file string) error {
 	logger.Debug("执行 %s", file)
 	file, err := filepath.Abs(file)
@@ -62,13 +70,13 @@ func File(file string) error {
 	}
 	command := exec.Command(file)
 
-	workdir := filepath.Join(pkg.TasksDir, "cron", filepath.Base(filepath.Dir(file)))
+	workdir := filepath.Join(execute.TasksDir, "cron", filepath.Base(filepath.Dir(file)))
 
 	err = os.MkdirAll(workdir, os.ModePerm)
 	if err != nil {
 		return err
 	}
-	_, err, stdout, stderr := pkg.Cmd(command, workdir, os.Environ())
+	err, stdout, stderr := execute.Cmd(command, workdir, os.Environ())
 	if err != nil {
 		return err
 	}
@@ -76,9 +84,9 @@ func File(file string) error {
 	log := func(s string) {
 		logger.Info("%s", s)
 	}
-	pkg.CatchStdout(stdout, nil, log)
+	execute.CatchStdout(stdout, nil, log)
 
-	pkg.CatchStderr(stderr, nil, log)
+	execute.CatchStderr(stderr, nil, log)
 
 	logger.Info("等待命令完成")
 	return command.Wait()

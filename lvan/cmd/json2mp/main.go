@@ -1,8 +1,9 @@
 package main
 
 import (
-	"github.com/wangtengda0310/gobee/lvan/internal/mp"
 	"os"
+
+	"github.com/wangtengda0310/gobee/lvan/internal/mp"
 )
 
 func main() {

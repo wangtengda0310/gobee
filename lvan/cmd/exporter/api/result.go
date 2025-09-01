@@ -9,7 +9,7 @@ import (
 
 	"github.com/google/uuid"
 	"github.com/wangtengda0310/gobee/lvan/internal"
-	"github.com/wangtengda0310/gobee/lvan/pkg"
+	"github.com/wangtengda0310/gobee/lvan/internal/execute"
 	"github.com/wangtengda0310/gobee/lvan/pkg/logger"
 )
 
@@ -32,7 +32,7 @@ func HandleResultRequest(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// 获取任务
-	task, exists := pkg.GetTask(taskID)
+	task, exists := execute.GetTask(taskID)
 	if !exists {
 		http.Error(w, "Task not found", http.StatusNotFound)
 		return
@@ -49,7 +49,7 @@ func HandleResultRequest(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-func resultSSE(w http.ResponseWriter, r *http.Request, task *pkg.Task) bool {
+func resultSSE(w http.ResponseWriter, r *http.Request, task *execute.Task) bool {
 	// 设置SSE头
 	w.Header().Set("Content-Type", "text/event-stream; charset=utf-8")
 	w.Header().Set("Cache-Control", "no-cache")
@@ -102,7 +102,7 @@ func resultSSE(w http.ResponseWriter, r *http.Request, task *pkg.Task) bool {
 
 	// 如果任务已完成，关闭连接
 	task.Mutex.Lock()
-	isCompleted := task.Status == pkg.Completed
+	isCompleted := task.Status == execute.Completed
 	task.Mutex.Unlock()
 
 	if isCompleted {
@@ -124,7 +124,7 @@ func resultSSE(w http.ResponseWriter, r *http.Request, task *pkg.Task) bool {
 }
 
 // 处理同步执行命令请求 // todo 跟新见任务的方法合并
-func HandleSyncResultRequest(w http.ResponseWriter, task *pkg.Task) {
+func HandleSyncResultRequest(w http.ResponseWriter, task *execute.Task) {
 	// 检查任务是否仍在运行
 	task.Mutex.Lock()
 	isRunning := task.Status
@@ -132,7 +132,7 @@ func HandleSyncResultRequest(w http.ResponseWriter, task *pkg.Task) {
 
 	var res *internal.ResultResponse
 	// 根据任务状态设置HTTP状态码
-	if isRunning == pkg.Failed {
+	if isRunning == execute.Failed {
 		w.Header().Set("X-Exit-Code", fmt.Sprintf("%d", task.Result.ExitCode))
 		res = &internal.ResultResponse{
 			Code: 3,
@@ -140,7 +140,7 @@ func HandleSyncResultRequest(w http.ResponseWriter, task *pkg.Task) {
 			Id:   task.ID,
 			Job:  task.Request,
 		}
-	} else if isRunning == pkg.Running {
+	} else if isRunning == execute.Running {
 		w.WriteHeader(http.StatusAccepted) // 202
 		w.Header().Set("X-Exit-Code", fmt.Sprintf("%d", task.Result.ExitCode))
 		res = &internal.ResultResponse{
@@ -149,7 +149,7 @@ func HandleSyncResultRequest(w http.ResponseWriter, task *pkg.Task) {
 			Id:   task.ID,
 			Job:  task.Request,
 		}
-	} else if isRunning == pkg.Blocking {
+	} else if isRunning == execute.Blocking {
 		w.WriteHeader(http.StatusAccepted) // 202 todo 是否需要新的状态码
 		w.Header().Set("X-Exit-Code", fmt.Sprintf("%d", task.Result.ExitCode))
 		res = &internal.ResultResponse{

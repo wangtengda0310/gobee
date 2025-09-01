@@ -10,13 +10,13 @@ import (
 
 	"github.com/google/uuid"
 	"github.com/wangtengda0310/gobee/lvan/internal"
-	"github.com/wangtengda0310/gobee/lvan/pkg"
+	"github.com/wangtengda0310/gobee/lvan/internal/execute"
 	"github.com/wangtengda0310/gobee/lvan/pkg/logger"
 	"gopkg.in/yaml.v3"
 )
 
 // 处理SSE请求
-func handleSSERequest(w http.ResponseWriter, r *http.Request, task *pkg.Task) {
+func handleSSERequest(w http.ResponseWriter, r *http.Request, task *execute.Task) {
 	// 设置SSE头
 	w.Header().Set("Content-Type", "text/event-stream; charset=utf-8")
 	w.Header().Set("Cache-Control", "no-cache")
@@ -42,8 +42,8 @@ func handleSSERequest(w http.ResponseWriter, r *http.Request, task *pkg.Task) {
 
 	// 异步执行命令（如果尚未执行）
 	taskResult := task.Result
-	if task.Status == pkg.Blocking {
-		go pkg.ExecuteTask(task)
+	if task.Status == execute.Blocking {
+		go execute.ExecuteTask(task)
 	}
 
 	jsonw := json.NewEncoder(w)
@@ -67,7 +67,7 @@ func handleSSERequest(w http.ResponseWriter, r *http.Request, task *pkg.Task) {
 
 	// 如果输出通道关闭但任务仍在运行，发送最终状态
 	task.Mutex.Lock()
-	if task.Status != pkg.Running {
+	if task.Status != execute.Running {
 		_ = jsonw.Encode(map[string]any{"status": task.Status, "exitCode": taskResult.ExitCode})
 		_, _ = fmt.Fprint(w, "\n")
 		_, _ = fmt.Fprintf(w, "data: {\"status\": \"%v\", \"exitCode\": %d}\n\n", task.Status, taskResult.ExitCode)
@@ -77,17 +77,17 @@ func handleSSERequest(w http.ResponseWriter, r *http.Request, task *pkg.Task) {
 }
 
 // 处理只返回ID的请求
-func handleOnlyIDRequest(w http.ResponseWriter, task *pkg.Task) {
+func handleOnlyIDRequest(w http.ResponseWriter, task *execute.Task) {
 	w.Header().Set("Content-Type", "text/plain")
 	_, _ = w.Write([]byte(task.ID))
 
 	// 异步执行命令
-	go pkg.ExecuteTask(task)
+	go execute.ExecuteTask(task)
 }
 
 // 处理命令请求
 func HandleCommandRequest(w http.ResponseWriter, r *http.Request) {
-	var task *pkg.Task
+	var task *execute.Task
 	switch r.Method {
 	// 处理GET请求，格式为/cmd/command/param1/param2...
 	case http.MethodGet:
@@ -118,7 +118,7 @@ func HandleCommandRequest(w http.ResponseWriter, r *http.Request) {
 			Env:     make(map[string]string),
 		}
 
-		task = pkg.CreateTask(req, w, os.Stdout)
+		task = execute.CreateTask(req, w, os.Stdout)
 
 	// 处理POST请求
 	case http.MethodPost:
@@ -157,7 +157,7 @@ func HandleCommandRequest(w http.ResponseWriter, r *http.Request) {
 		}
 
 		// 创建任务
-		task = pkg.CreateTask(req, w, os.Stdout)
+		task = execute.CreateTask(req, w, os.Stdout)
 
 	default:
 		http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
@@ -182,11 +182,11 @@ func HandleCommandRequest(w http.ResponseWriter, r *http.Request) {
 	w.(http.Flusher).Flush()
 
 	// 同步执行命令
-	go pkg.ExecuteTask(task)
+	go execute.ExecuteTask(task)
 }
 
 // 处理同步执行命令请求
-func handleSyncRequest(w http.ResponseWriter, task *pkg.Task) {
+func handleSyncRequest(w http.ResponseWriter, task *execute.Task) {
 	// 检查任务是否仍在运行
 	task.Mutex.Lock()
 	status := task.Status
@@ -194,7 +194,7 @@ func handleSyncRequest(w http.ResponseWriter, task *pkg.Task) {
 
 	var res *internal.CmdResponse
 	// 根据任务状态设置HTTP状态码
-	if status == pkg.Failed {
+	if status == execute.Failed {
 		w.Header().Set("X-Exit-Code", fmt.Sprintf("%d", task.Result.ExitCode))
 		res = &internal.CmdResponse{
 			Code: 1,

@@ -1,1 +1,2 @@
-timeout: 1s
+timeout: 1
+encoding: gbk

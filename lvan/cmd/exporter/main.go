@@ -12,11 +12,12 @@ import (
 	"strings"
 	"time"
 
-	"github.com/wangtengda0310/gobee/lvan/api"
+	"github.com/wangtengda0310/gobee/lvan/cmd/exporter/api"
 	"github.com/wangtengda0310/gobee/lvan/internal"
-	"github.com/wangtengda0310/gobee/lvan/pkg"
+	"github.com/wangtengda0310/gobee/lvan/internal/execute"
 	"github.com/wangtengda0310/gobee/lvan/pkg/cron"
 	"github.com/wangtengda0310/gobee/lvan/pkg/logger"
+	"github.com/wangtengda0310/gobee/lvan/pkg/utf8"
 
 	"github.com/spf13/pflag"
 )
@@ -132,11 +133,11 @@ func main() {
 	}
 
 	// 设置相关目录
-	pkg.TasksDir = filepath.Join(internal.WorkDir, "tasks")
+	execute.TasksDir = filepath.Join(internal.WorkDir, "tasks")
 	logsDir = filepath.Join(internal.WorkDir, "logs")
 
 	// 确保相关目录存在
-	if err := os.MkdirAll(pkg.TasksDir, 0755); err != nil {
+	if err := os.MkdirAll(execute.TasksDir, 0755); err != nil {
 		fmt.Printf("无法创建任务目录: %v\n", err)
 		os.Exit(1)
 	}
@@ -153,16 +154,16 @@ func main() {
 	}
 	logger.SetDefaultLogger(loggerInstance)
 
-	pkg.CommandDir = filepath.Join(internal.WorkDir, "cmd")
+	execute.CommandDir = filepath.Join(internal.WorkDir, "cmd")
 
 	if *cleanFlag {
-		cleanGeneratedFiles(pkg.TasksDir)
+		cleanGeneratedFiles(execute.TasksDir)
 		return // 清理后直接退出
 	}
 
 	go cron.WorkDir(filepath.Join(internal.WorkDir, "cron"))
 
-	go internal.ScheduleCleaner(pkg.TasksDir, time.Hour*24)
+	go internal.ScheduleCleaner(execute.TasksDir, time.Hour*24)
 
 	// 设置日志级别
 	switch strings.ToLower(*logLevel) {
@@ -228,8 +229,8 @@ func main() {
 				Version: *version,
 				Args:    cmdArgs,
 			}
-			var task = pkg.CreateTask(req, os.Stdout)
-			pkg.ExecuteTask(task)
+			var task = execute.CreateTask(req, os.Stdout)
+			execute.ExecuteTask(task)
 		case "exec", "run":
 			var cmd = args[1]
 			cmdArgs := args[2:]
@@ -246,7 +247,7 @@ func main() {
 			var encodingFunc func([]byte) string
 			if *encoding != "" {
 				encodingFunc = func(s []byte) string {
-					return pkg.UtfFrom(s, internal.Charset(*encoding))
+					return utf8.From(s, utf8.Charset(*encoding))
 				}
 			}
 
@@ -259,16 +260,21 @@ func main() {
 			log := func(s string) {
 				logger.Info("%s", s)
 			}
-			status, err, stdout, stderr := pkg.Cmd(c, dir, []string{})
+			err, stdout, stderr := execute.Cmd(c, dir, []string{})
 			if err != nil {
 				logger.Warn("命令执行失败: %v", err)
 			}
 
-			pkg.CatchStdout(stdout, encodingFunc, log)
+			execute.CatchStdout(stdout, encodingFunc, log)
 
-			pkg.CatchStderr(stderr, encodingFunc, log)
+			execute.CatchStderr(stderr, encodingFunc, log)
 
-			logger.Info("命令执行完成: %v", status)
+			if err = c.Wait(); err != nil {
+				logger.Warn("等待命令完成失败: %v", err)
+			} else {
+				logger.Info("命令执行完成")
+			}
+
 		default:
 			fmt.Printf("未知子命令: %s\n", args[0])
 			os.Exit(1)
