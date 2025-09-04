@@ -1,0 +1,8 @@
+[2025-09-03 20:48:30.876] [INFO] [a6e12f3e-15e0-466e-9e91-6a556eafcb2d]: Starting command: version
+
+[2025-09-03 20:48:30.876] [INFO] [a6e12f3e-15e0-466e-9e91-6a556eafcb2d]: Version: 
+
+[2025-09-03 20:48:30.876] [INFO] [a6e12f3e-15e0-466e-9e91-6a556eafcb2d]: Arguments: 
+
+[2025-09-03 20:48:30.876] [INFO] [a6e12f3e-15e0-466e-9e91-6a556eafcb2d]: 找不到命令 version 版本 : 命令 version 不存在
+
