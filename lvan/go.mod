@@ -3,16 +3,17 @@ module github.com/wangtengda0310/gobee/lvan
 go 1.25.0
 
 require (
+	github.com/go-sql-driver/mysql v1.9.3
 	github.com/gofrs/flock v0.12.1
 	github.com/google/uuid v1.6.0
 	github.com/robfig/cron v1.2.0
-	github.com/tjfoc/gmsm v1.4.1
 	github.com/vmihailenco/msgpack/v5 v5.4.1
-	golang.org/x/crypto v0.37.0
 	golang.org/x/mod v0.24.0
 	golang.org/x/text v0.24.0
 	gopkg.in/yaml.v3 v3.0.1
 )
+
+require filippo.io/edwards25519 v1.1.0 // indirect
 
 require (
 	github.com/davecgh/go-spew v1.1.1 // indirect
