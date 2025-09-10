@@ -43,14 +43,16 @@ func WorkDir(workdir string) {
 				}
 			})
 			if err != nil {
-				return
+				logger.Error("添加定时任务失败 [%s]: %v", cronExp, err)
+				continue // 修改此处从 return 改为 continue
 			}
 		} else {
 			err := c.AddFunc(cronExp, func() {
 				logger.Warn("还不支持文件定时任务")
 			})
 			if err != nil {
-				return
+				logger.Error("添加文件定时任务失败 [%s]: %v", cronExp, err)
+				continue // 修改此处从 return 改为 continue
 			}
 		}
 	}
@@ -58,6 +60,6 @@ func WorkDir(workdir string) {
 }
 
 func validateCronExpress(exp string) bool {
-	_, err := cron.ParseStandard(exp)
+	_, err := cron.Parse(exp)
 	return err == nil
 }
