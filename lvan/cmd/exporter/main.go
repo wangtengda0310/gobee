@@ -89,6 +89,7 @@ func main() {
 	logLevel := pflag.String("log-level", "info", "Log level (debug, info, warn, error, fatal)")
 	cleanFlag := pflag.Bool("clean", getEnvBool("EXPORTER_CLEAN", false), "清除任务的工作目录，支持环境变量 EXPORTER_CLEAN")
 	workDirFlag := pflag.StringP("workdir", "w", getEnvString("EXPORTER_WORKDIR", ""), "指定工作目录，默认为程序所在目录，支持环境变量 EXPORTER_WORKDIR")
+	htmlDirFlag := pflag.String("html", getEnvString("EXPORTER_HTML_DIR", "html"), "指定HTML静态文件目录，支持环境变量 EXPORTER_HTML_DIR")
 
 	// 为参数添加长格式说明
 	pflag.Lookup("port").Usage = "指定服务监听的TCP端口默认 80 支持环境变量 EXPORTER_PORT\n" +
@@ -290,6 +291,21 @@ func main() {
 	router.HandleFunc("/cmd/", api.HandleCommandRequest)
 	router.HandleFunc("/result/", api.HandleResultRequest)
 	router.HandleFunc("/backup/", api.HandleBackupRequest)
+
+	// 如果指定了HTML目录，则注册/html/路径
+	if *htmlDirFlag != "" {
+		htmlDir := *htmlDirFlag
+		// 确保目录存在
+		if err := os.MkdirAll(htmlDir, 0755); err != nil {
+			logger.Warn("无法创建HTML目录 %s: %v", htmlDir, err)
+		} else {
+			// 创建文件服务器handler
+			fileServer := http.FileServer(http.Dir(filepath.Join(internal.WorkDir, htmlDir)))
+			// 注册 /html/ 路径
+			router.Handle("/html/", http.StripPrefix("/html/", fileServer))
+			logger.Info("HTML静态文件服务已启用，目录: %s，URL路径: /html/", htmlDir)
+		}
+	}
 
 	// 使用中间件包装路由
 	protectedRouter := recoveryMiddleware(router)

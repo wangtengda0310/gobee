@@ -47,3 +47,27 @@ cron
       └── 4.exe
  会每隔1面运行cmd1dir下的cmd1dir/cmd1dir.exe和cmd2dir下的cmd2dir/cmd2dir.bat和cmd3.exe，并且不保证顺序
  会每隔5面运行1dir下的1dir/cmd3dir.exe和2dir下的2dir/cmd4dir.bat和3.bat和4.exe，并且按照数字前缀顺序运行，注意NotNumPrefix.bat和NotNumPrefix.exe因为前缀不是数字，所以不会被保证运行顺序
+
+html目录用于存放静态HTML文件，通过--html参数或环境变量EXPORTER_HTML_DIR指定目录后，可通过/html/路径访问这些文件
+exporter.exe
+html
+ ├── deleterole.html
+ ├── page1.html
+ └── subdir
+      └── page2.html
+
+使用方式：
+  命令行参数:
+    exporter --html ./html
+  环境变量:
+    EXPORTER_HTML_DIR=./html exporter
+
+访问路径：
+  http://localhost:80/html/deleterole.html      -> 访问 html/deleterole.html
+  http://localhost:80/html/page1.html          -> 访问 html/page1.html
+  http://localhost:80/html/subdir/page2.html   -> 访问 html/subdir/page2.html
+
+注意：
+  - 如果指定的HTML目录不存在，程序会自动创建
+  - 支持.html、.js、.css、.图片等所有静态文件类型
+  - URL路径/html/后的路径会映射到指定目录下的相对路径
