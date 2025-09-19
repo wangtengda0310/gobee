@@ -1,0 +1,67 @@
+// 常量定义
+const int MAX_AGE = 150 // years
+const int MIN_AGE = 18  // years
+
+// 枚举定义
+enum ErrCode {
+    ERR_OK = 0
+    PARAM_ERROR = 1003
+}
+
+enum Department {
+    ENGINEERING = 1
+    MARKETING = 2
+    SALES = 3
+}
+
+// 数据结构
+type Manager {
+    string id
+    string name (validate="len($) > 0 && len($) <= 64")
+    int? age (validate="$ >= MIN_AGE && $ <= MAX_AGE")
+    Department dept (enum_as_string)
+}
+
+type Response<T> {
+    ErrCode errno (validate="OneOfErrCode($)")
+    string errmsg
+    T data
+}
+
+// 请求与响应
+type ManagerReq {
+    string id (path="id")
+}
+
+type GetManagerResp Response<Manager?>
+
+// 普通 RPC 接口
+rpc GetManager(ManagerReq) GetManagerResp {
+    method="GET"
+    path="/managers/{id}"
+    summary="根据ID获取管理员信息"
+}
+
+// 流式处理
+type StreamReq {
+    string ID (json="id")
+}
+
+type StreamResp {
+    string id
+    string data
+    Payload payload
+}
+
+oneof Payload {
+    string text_data
+    int? numberData (json="number_data")
+    bool boolean_data (json="")
+}
+
+// 流式 RPC 接口
+rpc Stream(StreamReq) stream<StreamResp> {
+    method="GET"
+    path="/stream/{id}"
+    summary="流式传输数据"
+}

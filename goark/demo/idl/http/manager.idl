@@ -1,0 +1,189 @@
+// ----------------------
+// Manager Service IDL
+// ----------------------
+
+// ---- Const definitions ----
+
+const int    MAX_AGE = 150 // years
+const int    MIN_AGE = 18
+const bool   DEFAULT_VIP = false
+const string DEFAULT_ROLE = "user"
+const int    DEFAULT_PAGE = 1
+const int    DEFAULT_PAGE_SIZE = 20
+const int    MAX_PAGE_SIZE = 100
+const float  SALARY_MIN = 0.0
+const float  SALARY_MAX = 1000000.0
+
+// ---- Enum definitions ----
+
+// Standard error codes
+enum ErrCode {
+    ERR_OK = 0
+    PARAM_ERROR = 1003
+    NOT_FOUND = 4004
+    PERMISSION_DENIED = 4003
+    INTERNAL_ERROR = 5000
+}
+
+// Manager seniority levels
+enum ManagerLevel {
+    JUNIOR = 1
+    MIDDLE = 2
+    SENIOR = 3
+}
+
+// Company departments
+enum Department {
+    ENGINEERING = 1
+    MARKETING = 2
+    SALES = 3
+    HR = 4
+    FINANCE = 5
+}
+
+// ---- Core types ----
+
+// Generic response wrapper for all RPCs
+type Response<T> {
+    ErrCode errno = ErrCode.ERR_OK (validate="OneOfErrCode($)")
+    string errmsg
+    T data
+}
+
+// Pagination request and response
+type PageReq {
+    int page = DEFAULT_PAGE (json="page", validate="$ >= 1", query="page")
+    int size = DEFAULT_PAGE_SIZE (validate="$ >= 1 && $ <= MAX_PAGE_SIZE", query="size")
+}
+
+type PageResp<T> {
+    int total
+    int page
+    int size
+    list<T> items
+}
+
+// Address & Contact info
+type Address {
+    string city
+    string? street (go.type="*string")
+    string? postalCode
+}
+
+type ContactInfo {
+    string email (validate="Email($)")
+    string? phone
+    Address address
+}
+
+// Department info
+type DepartmentInfo {
+    Department dept
+    string deptName
+}
+
+// ---- Manager domain ----
+
+// Manager entity definition
+type Manager {
+    string id
+    string name (validate="len($) > 0 && len($) <= 64")
+    int? age (validate="$ >= MIN_AGE && $ <= MAX_AGE")
+    bool vip = DEFAULT_VIP
+    float salary = 0.0 (validate="$ >= SALARY_MIN && $ <= SALARY_MAX")
+    string role = DEFAULT_ROLE
+    ManagerLevel level = ManagerLevel.JUNIOR (enum_as_string)
+    DepartmentInfo deptInfo
+    ContactInfo contact
+}
+
+// ---- Request types ----
+
+// Single manager by ID
+type ManagerReq {
+    string id (path="id")
+}
+
+// Create new manager
+type CreateManagerReq {
+    string name (validate="len($) > 0 && len($) <= 64")
+    int? age (validate="$ >= MIN_AGE && $ <= MAX_AGE")
+    bool vip = DEFAULT_VIP
+    float salary = 0.0 (validate="$ >= SALARY_MIN && $ <= SALARY_MAX")
+    string role = DEFAULT_ROLE
+    ManagerLevel level = ManagerLevel.JUNIOR
+    DepartmentInfo deptInfo
+    ContactInfo contact
+}
+
+// Update existing manager
+type UpdateManagerReq {
+    string id (path="id")
+    string? name
+    int? age (validate="$ >= MIN_AGE && $ <= MAX_AGE")
+    bool? vip
+    float? salary (validate="$ >= SALARY_MIN && $ <= SALARY_MAX")
+    string? role
+    ManagerLevel? level
+    DepartmentInfo? dept_info
+    ContactInfo? contact
+}
+
+// Paginated manager query
+type ListManagersByPageReq {
+    PageReq
+    string? keyword (query="keyword")
+    Department? dept (query="dept")
+    ManagerLevel? minLevel (query="minLevel")
+    bool? vip (query="vip")
+    string? authToken (header="X-Auth-Token")
+}
+
+// ---- Response types ----
+
+// Create / Update / Get responses
+type CreateManagerResp Response<Manager?>
+type UpdateManagerResp Response<Manager?>
+type GetManagerResp Response<Manager?>
+type DeleteManagerResp Response<bool>
+
+// Paginated response
+type ManagersPageData PageResp<Manager?>
+type ListManagersByPageResp Response<ManagersPageData?>
+
+// ---- RPC definitions ----
+
+// Create a new manager
+rpc CreateManager(CreateManagerReq) CreateManagerResp {
+    method="POST"
+    path="/managers"
+    summary="Create a new manager"
+}
+
+// Get manager by ID
+rpc GetManager(ManagerReq) GetManagerResp {
+    method="GET"
+    path="/managers/{id}"
+    summary="Get manager by ID"
+}
+
+// Update manager info
+rpc UpdateManager(UpdateManagerReq) UpdateManagerResp {
+    method="PUT"
+    path="/managers/{id}"
+    summary="Update a manager"
+}
+
+// Delete a manager
+rpc DeleteManager(ManagerReq) DeleteManagerResp {
+    method="DELETE"
+    path="/managers/{id}"
+    summary="Delete a manager"
+}
+
+// List managers with pagination
+rpc ListManagersByPage(ListManagersByPageReq) ListManagersByPageResp {
+    method="GET"
+    path="/managers/page"
+    summary="List managers with pagination"
+}

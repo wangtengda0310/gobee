@@ -1,0 +1,15 @@
+// stream.idl
+
+type StreamReq {
+    string id
+}
+
+type StreamResp {
+    string id
+    string data
+}
+
+rpc Stream(StreamReq) stream<StreamResp> {
+    method="GET"
+    path="/stream"
+}
