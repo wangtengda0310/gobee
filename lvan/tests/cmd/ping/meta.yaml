@@ -1,2 +1,4 @@
 timeout: 1
 encoding: gbk
+resources:
+  - "now"

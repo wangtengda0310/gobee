@@ -12,6 +12,8 @@ import (
 	"strings"
 	"time"
 
+	"github.com/go-spring/spring-core/gs"
+
 	"github.com/wangtengda0310/gobee/lvan/cmd/exporter/api"
 	"github.com/wangtengda0310/gobee/lvan/internal"
 	"github.com/wangtengda0310/gobee/lvan/internal/execute"
@@ -72,6 +74,10 @@ func getEnvBool(key string, defaultVal bool) bool {
 	return defaultVal
 }
 func main() {
+	gs.Object(struct{}{}).Init(func(s struct{}) {
+		println()
+	})
+	gs.EnableSimplePProfServer(true)
 	// 设置程序说明
 	pflag.Usage = func() {
 		_, _ = fmt.Fprintf(os.Stderr, "Exporter 服务程序 v%s\n\n", Version)

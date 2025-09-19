@@ -1,5 +1,6 @@
 {
     "windsurf.cascadeCommandsAllowList": [
         "go"
-    ]
+    ],
+    "terminal.explorerKind": "integrated"
 }

@@ -1,0 +1,14 @@
+{
+  "mcpServers": {
+    "npx @agentdeskai/browser-tools-mcp@1.1.0": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@agentdeskai/browser-tools-mcp@1.1.0"
+      ]
+    },
+    "gobee-mcphost": {
+      "command": "D:\\wangtengda\\gobee\\mcphost.exe"
+    }
+  }
+}
