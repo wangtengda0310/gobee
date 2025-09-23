@@ -8,6 +8,14 @@
 - 支持模拟模式，无需连接实际数据库即可生成测试文件
 - 支持MySQL风格的stdin输入密码方式
 - 参数验证和错误处理
+- 支持通过 import_replace.sh 脚本导入替换数据
+
+- 按指定ID列表导出MySQL/MariaDB表数据
+- 支持自定义主机、用户、密码、数据库和表名
+- 自动生成SQL文件，文件名包含表名和ID信息
+- 支持模拟模式，无需连接实际数据库即可生成测试文件
+- 支持MySQL风格的stdin输入密码方式
+- 参数验证和错误处理
 
 ## 使用方法
 
@@ -91,3 +99,16 @@ echo "password" | ./dump.sh -h localhost -u root -p -d gforge -t user 1 2 3
 
 - bash
 - mysqldump 或 mariadb-dump
+
+
+# MySQL 数据导入和替换脚本
+
+还有一个用于数据导入和替换的脚本 `import_replace.sh`，它支持以下功能：
+
+- 创建临时库用于数据处理
+- 将指定SQL文件导入临时库
+- 根据参数替换指定列的旧值为新值
+- 将更新后的数据导入目标库对应表
+- 执行参数指定的后续SQL
+
+详细使用说明请参见 [README_import_replace.md](README_import_replace.md) 文件。
