@@ -170,16 +170,23 @@ if [[ $? -ne 0 ]]; then
     exit 1
 fi
 
+# 步骤2.5: 检查目标库中目标表是否存在
+echo "步骤2.5: 检查目标库 $DATABASE 中目标表 $TABLE 是否存在"
+TABLE_EXISTS=$($MYSQL_CMD -N -s -e "SELECT COUNT(*) FROM information_schema.tables WHERE table_schema = '$DATABASE' AND table_name = '$TABLE';")
+if [[ $? -ne 0 || "$TABLE_EXISTS" -ne 1 ]]; then
+    echo "警告: 目标库 $DATABASE 中不存在目标表 $TABLE，将在步骤4中自动创建该表"
+fi
+
 # 步骤3: 根据参数指定column替换旧值为新值
 if [[ -n "$COLUMN" && -n "$OLD_VALUE" && -n "$NEW_VALUE" ]]; then
-    echo "步骤3: 替换 $TABLE 表中 $COLUMN 列的值，将 '$OLD_VALUE' 替换为 '$NEW_VALUE'"
+    echo "步骤3: 替换临时库 $TEMP_DATABASE.$TABLE 表中 $COLUMN 列的值，将 '$OLD_VALUE' 替换为 '$NEW_VALUE'"
     $MYSQL_CMD $TEMP_DATABASE -e "UPDATE $TABLE SET $COLUMN = '$NEW_VALUE' WHERE $COLUMN = '$OLD_VALUE';"
     if [[ $? -ne 0 ]]; then
         echo "错误: 替换值失败!"
         exit 1
     fi
 elif [[ -n "$REPLACE_SQL" ]]; then
-    echo "步骤3: 执行自定义替换SQL"
+    echo "步骤3: 执行自定义替换SQL（临时库：$TEMP_DATABASE）"
     $MYSQL_CMD $TEMP_DATABASE -e "$REPLACE_SQL"
     if [[ $? -ne 0 ]]; then
         echo "错误: 执行自定义替换SQL失败!"
