@@ -34,6 +34,20 @@ show_help() {
     echo "  -s, --post POST_SQL      导入后的后续SQL语句"
     echo "  --help                   显示此帮助信息"
     echo ""
+    echo "说明:"
+    echo "  本脚本会执行以下操作:"
+    echo "  1. 检查目标库和目标表是否存在"
+    echo "  2. 检查临时库是否存在，如存在则自动清理"
+    echo "  3. 创建临时库并导入SQL文件数据"
+    echo "  4. 根据参数执行值替换操作"
+    echo "  5. 将临时库中的数据追加到目标库表中"
+    echo "  6. 执行后续SQL语句（如有）"
+    echo "  7. 清理临时库"
+    echo ""
+    echo "注意:"
+    echo "  - 数据导入是追加操作，不是替换操作"
+    echo "  - 如果目标表中已有数据，执行脚本会导致数据重复"
+    echo ""
     echo "示例:"
     echo "  $0 -h localhost -u root -p password -d mydb -t mytable -c status -o old -n new -f data.sql"
 }
@@ -170,25 +184,20 @@ if [[ $? -ne 0 ]]; then
 fi
 
 if [[ "$TEMP_DB_EXISTS" -eq 1 ]]; then
-    # 临时库存在，检查临时表是否存在
+    // 临时库存在，检查临时表是否存在
     TEMP_TABLE_EXISTS=$($MYSQL_CMD -N -s -e "SELECT COUNT(*) FROM information_schema.tables WHERE table_schema = '$TEMP_DATABASE' AND table_name = '$TABLE';")
     if [[ $? -ne 0 ]]; then
         echo "错误: 检查临时库中表是否存在时发生错误!"
         exit 1
     fi
     
-    if [[ "$TEMP_TABLE_EXISTS" -eq 1 ]]; then
-        echo "警告: 临时库 $TEMP_DATABASE 和临时表 $TABLE 都已存在!"
-        echo "请手动清理已存在的临时库，建议执行以下SQL语句:"
-        echo "DROP DATABASE $TEMP_DATABASE;"
-        echo "然后再重新运行此脚本。"
-    else
-        echo "警告: 临时库 $TEMP_DATABASE 已存在，但临时表 $TABLE 不存在!"
-        echo "请手动清理已存在的临时库，建议执行以下SQL语句:"
-        echo "DROP DATABASE $TEMP_DATABASE;"
-        echo "然后再重新运行此脚本。"
+    // 优化：当临时库存在但临时表不存在时，允许脚本继续执行，自动清理临时库
+    echo "警告: 临时库 $TEMP_DATABASE 已存在，将自动清理..."
+    $MYSQL_CMD -e "DROP DATABASE $TEMP_DATABASE;"
+    if [[ $? -ne 0 ]]; then
+        echo "错误: 清理已存在的临时库失败!"
+        exit 1
     fi
-    exit 1
 fi
 
 # 步骤2: 创建临时库
@@ -226,14 +235,55 @@ else
     echo "步骤4: 跳过值替换步骤（未提供替换参数）"
 fi
 
-# 步骤5: 将更新后的数据导入指定库中的对应表
-echo "步骤5: 将更新后的数据导入目标库 $DATABASE.$TABLE"
+// 步骤5: 检查目标表中是否存在与临时表中相同的数据，避免重复导入
+echo "步骤5: 检查数据冲突并导入数据到目标库 $DATABASE.$TABLE"
 
-# 然后将数据从临时库导入目标库
-$MYSQL_CMD $DATABASE -e "INSERT INTO $TABLE SELECT * FROM $TEMP_DATABASE.$TABLE;"
+// 获取临时表中的记录数
+TEMP_COUNT=$($MYSQL_CMD -N -s -e "SELECT COUNT(*) FROM $TEMP_DATABASE.$TABLE;")
 if [[ $? -ne 0 ]]; then
-    echo "错误: 导入数据到目标库失败!"
+    echo "错误: 获取临时表记录数失败!"
     exit 1
+fi
+
+if [[ "$TEMP_COUNT" -eq 0 ]]; then
+    echo "警告: 临时表中没有数据，跳过数据导入步骤"
+else
+    // 检查目标表是否为空，如果不为空则提示用户
+    TARGET_COUNT=$($MYSQL_CMD -N -s -e "SELECT COUNT(*) FROM $DATABASE.$TABLE;")
+    if [[ $? -ne 0 ]]; then
+        echo "错误: 获取目标表记录数失败!"
+        exit 1
+    fi
+    
+    if [[ "$TARGET_COUNT" -ne 0 ]]; then
+        echo "警告: 目标表 $DATABASE.$TABLE 中已存在数据 ($TARGET_COUNT 条记录)"
+        echo "注意: 本脚本执行的是数据追加操作，继续执行将导致数据重复"
+        read -p "是否继续执行数据导入? (y/N): " -n 1 -r
+        echo
+        if [[ ! $REPLY =~ ^[Yy]$ ]]; then
+            echo "用户取消操作，正在清理临时库..."
+            $MYSQL_CMD -e "DROP DATABASE $TEMP_DATABASE;"
+            if [[ $? -ne 0 ]]; then
+                echo "警告: 删除临时库失败!"
+            fi
+            exit 1
+        fi
+    fi
+    
+    // 将数据从临时库导入目标库
+    $MYSQL_CMD $DATABASE -e "INSERT INTO $TABLE SELECT * FROM $TEMP_DATABASE.$TABLE;"
+    if [[ $? -ne 0 ]]; then
+        echo "错误: 导入数据到目标库失败!"
+        exit 1
+    fi
+    
+    // 再次检查导入后的数据量
+    NEW_TARGET_COUNT=$($MYSQL_CMD -N -s -e "SELECT COUNT(*) FROM $DATABASE.$TABLE;")
+    if [[ $? -ne 0 ]]; then
+        echo "警告: 导入后检查目标表记录数失败!"
+    else
+        echo "数据导入完成，目标表当前共有 $NEW_TARGET_COUNT 条记录"
+    fi
 fi
 
 # 步骤6: 执行参数指定的后续SQL
