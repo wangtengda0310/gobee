@@ -174,7 +174,8 @@ fi
 echo "步骤2.5: 检查目标库 $DATABASE 中目标表 $TABLE 是否存在"
 TABLE_EXISTS=$($MYSQL_CMD -N -s -e "SELECT COUNT(*) FROM information_schema.tables WHERE table_schema = '$DATABASE' AND table_name = '$TABLE';")
 if [[ $? -ne 0 || "$TABLE_EXISTS" -ne 1 ]]; then
-    echo "警告: 目标库 $DATABASE 中不存在目标表 $TABLE，将在步骤4中自动创建该表"
+    echo "错误: 目标库 $DATABASE 中不存在目标表 $TABLE!"
+    exit 1
 fi
 
 # 步骤3: 根据参数指定column替换旧值为新值
@@ -198,7 +199,13 @@ fi
 
 # 步骤4: 将更新后的数据导入指定库中的对应表
 echo "步骤4: 将更新后的数据导入目标库 $DATABASE.$TABLE"
-# 首先确保目标表存在
+# 首先检查目标库是否存在
+DB_EXISTS=$($MYSQL_CMD -N -s -e "SELECT COUNT(*) FROM information_schema.schemata WHERE schema_name = '$DATABASE';")
+if [[ $? -ne 0 || "$DB_EXISTS" -ne 1 ]]; then
+    echo "错误: 目标库 $DATABASE 不存在!"
+    exit 1
+fi
+# 然后确保目标表存在
 $MYSQL_CMD $DATABASE -e "CREATE TABLE IF NOT EXISTS $TABLE LIKE $TEMP_DATABASE.$TABLE;"
 if [[ $? -ne 0 ]]; then
     echo "错误: 创建目标表失败!"
