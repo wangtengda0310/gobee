@@ -26,6 +26,9 @@ show_help() {
     echo "  --simulate               模拟模式，不实际连接数据库"
     echo "  --help                   显示此帮助信息"
     echo ""
+    echo "相关工具:"
+    echo "  import_replace.sh        数据导入和替换脚本，用于将导出的数据导入到数据库并替换特定值"
+    echo ""
     echo "示例:"
     echo "  导出account数据: $0 -h localhost -u root -p password -d gforge -t account 1 2 3"
     echo "  导出user数据: $0 -h localhost -u root -p password -d gforge -t user 1 2 3"
@@ -33,6 +36,10 @@ show_help() {
     echo "  默认导出user数据: $0 -h localhost -u root -p password 1 2 3"
     echo "  MySQL风格的stdin输入密码: $0 -h localhost -u root -p -d gforge -t user 1 2 3"
     echo "  模拟模式测试: $0 --simulate -d testdb -t users 1 2 3"
+    echo ""
+    echo "数据导入:"
+    echo "  使用 import_replace.sh 脚本将导出的数据导入到数据库并替换特定值"
+    echo "  例如: ./import_replace.sh -h localhost -u root -p password -d gforge -t account -c permission -o 0 -n 1 -f account_uid_1.sql"
 }
 
 # 解析命令行参数
@@ -198,3 +205,17 @@ else
     echo "导出数据失败!"
     exit 1
 fi
+
+# 添加对 import_replace.sh 脚本的引用说明
+cat << 'EOF' >> "$OUTPUT_FILE"
+
+-- 
+-- 相关工具: import_replace.sh
+-- 
+-- 如果需要将此文件导入数据库并替换特定值，请使用 import_replace.sh 脚本:
+-- 
+-- 示例:
+--   ./import_replace.sh -h localhost -u root -p password -d gforge -t account -c permission -o 0 -n 1 -f account_uid_1.sql
+-- 
+-- 更多信息请查看同目录下的 README.md 文件
+EOF
