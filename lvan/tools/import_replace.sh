@@ -1,4 +1,4 @@
-#!/bin/bash
+﻿#!/bin/bash
 
 # MySQL 数据导入和替换脚本
 # 用法: ./import_replace.sh [选项]
@@ -154,63 +154,80 @@ if [[ -n "$PASSWORD" ]]; then
     MYSQL_CMD="$MYSQL_CMD -p$PASSWORD"
 fi
 
-# 步骤1: 创建临时库
-echo "步骤1: 创建临时库 $TEMP_DATABASE"
-$MYSQL_CMD -e "DROP DATABASE IF EXISTS $TEMP_DATABASE; CREATE DATABASE $TEMP_DATABASE;"
-if [[ $? -ne 0 ]]; then
-    echo "错误: 创建临时库失败!"
-    exit 1
-fi
-
-# 步骤2: 将指定文件导入临时库
-echo "步骤2: 将指定文件导入临时库"
-$MYSQL_CMD $TEMP_DATABASE < "$SQL_FILE"
-if [[ $? -ne 0 ]]; then
-    echo "错误: 导入SQL文件到临时库失败!"
-    exit 1
-fi
-
-# 步骤2.5: 检查目标库中目标表是否存在
-echo "步骤2.5: 检查目标库 $DATABASE 中目标表 $TABLE 是否存在"
+# 步骤1: 检查目标库中目标表是否存在
+echo "步骤1: 检查目标库 $DATABASE 中目标表 $TABLE 是否存在"
 TABLE_EXISTS=$($MYSQL_CMD -N -s -e "SELECT COUNT(*) FROM information_schema.tables WHERE table_schema = '$DATABASE' AND table_name = '$TABLE';")
 if [[ $? -ne 0 || "$TABLE_EXISTS" -ne 1 ]]; then
     echo "错误: 目标库 $DATABASE 中不存在目标表 $TABLE!"
     exit 1
 fi
 
-# 步骤3: 根据参数指定column替换旧值为新值
+# 检查临时库是否已存在
+TEMP_DB_EXISTS=$($MYSQL_CMD -N -s -e "SELECT COUNT(*) FROM information_schema.schemata WHERE schema_name = '$TEMP_DATABASE';")
+if [[ $? -ne 0 ]]; then
+    echo "错误: 检查临时库是否存在时发生错误!"
+    exit 1
+fi
+
+if [[ "$TEMP_DB_EXISTS" -eq 1 ]]; then
+    # 临时库存在，检查临时表是否存在
+    TEMP_TABLE_EXISTS=$($MYSQL_CMD -N -s -e "SELECT COUNT(*) FROM information_schema.tables WHERE table_schema = '$TEMP_DATABASE' AND table_name = '$TABLE';")
+    if [[ $? -ne 0 ]]; then
+        echo "错误: 检查临时库中表是否存在时发生错误!"
+        exit 1
+    fi
+    
+    if [[ "$TEMP_TABLE_EXISTS" -eq 1 ]]; then
+        echo "警告: 临时库 $TEMP_DATABASE 和临时表 $TABLE 都已存在!"
+        echo "请手动清理已存在的临时库，建议执行以下SQL语句:"
+        echo "DROP DATABASE $TEMP_DATABASE;"
+        echo "然后再重新运行此脚本。"
+    else
+        echo "警告: 临时库 $TEMP_DATABASE 已存在，但临时表 $TABLE 不存在!"
+        echo "请手动清理已存在的临时库，建议执行以下SQL语句:"
+        echo "DROP DATABASE $TEMP_DATABASE;"
+        echo "然后再重新运行此脚本。"
+    fi
+    exit 1
+fi
+
+# 步骤2: 创建临时库
+echo "步骤2: 创建临时库 $TEMP_DATABASE"
+$MYSQL_CMD -e "CREATE DATABASE $TEMP_DATABASE;"
+if [[ $? -ne 0 ]]; then
+    echo "错误: 创建临时库失败!"
+    exit 1
+fi
+
+# 步骤3: 将指定文件导入临时库
+echo "步骤3: 将指定文件导入临时库"
+$MYSQL_CMD $TEMP_DATABASE < "$SQL_FILE"
+if [[ $? -ne 0 ]]; then
+    echo "错误: 导入SQL文件到临时库失败!"
+    exit 1
+fi
+
+# 步骤4: 根据参数指定column替换旧值为新值
 if [[ -n "$COLUMN" && -n "$OLD_VALUE" && -n "$NEW_VALUE" ]]; then
-    echo "步骤3: 替换临时库 $TEMP_DATABASE.$TABLE 表中 $COLUMN 列的值，将 '$OLD_VALUE' 替换为 '$NEW_VALUE'"
+    echo "步骤4: 替换临时库 $TEMP_DATABASE.$TABLE 表中 $COLUMN 列的值，将 '$OLD_VALUE' 替换为 '$NEW_VALUE'"
     $MYSQL_CMD $TEMP_DATABASE -e "UPDATE $TABLE SET $COLUMN = '$NEW_VALUE' WHERE $COLUMN = '$OLD_VALUE';"
     if [[ $? -ne 0 ]]; then
         echo "错误: 替换值失败!"
         exit 1
     fi
 elif [[ -n "$REPLACE_SQL" ]]; then
-    echo "步骤3: 执行自定义替换SQL（临时库：$TEMP_DATABASE）"
+    echo "步骤4: 执行自定义替换SQL（临时库：$TEMP_DATABASE）"
     $MYSQL_CMD $TEMP_DATABASE -e "$REPLACE_SQL"
     if [[ $? -ne 0 ]]; then
         echo "错误: 执行自定义替换SQL失败!"
         exit 1
     fi
 else
-    echo "步骤3: 跳过值替换步骤（未提供替换参数）"
+    echo "步骤4: 跳过值替换步骤（未提供替换参数）"
 fi
 
-# 步骤4: 将更新后的数据导入指定库中的对应表
-echo "步骤4: 将更新后的数据导入目标库 $DATABASE.$TABLE"
-# 首先检查目标库是否存在
-DB_EXISTS=$($MYSQL_CMD -N -s -e "SELECT COUNT(*) FROM information_schema.schemata WHERE schema_name = '$DATABASE';")
-if [[ $? -ne 0 || "$DB_EXISTS" -ne 1 ]]; then
-    echo "错误: 目标库 $DATABASE 不存在!"
-    exit 1
-fi
-# 然后确保目标表存在
-$MYSQL_CMD $DATABASE -e "CREATE TABLE IF NOT EXISTS $TABLE LIKE $TEMP_DATABASE.$TABLE;"
-if [[ $? -ne 0 ]]; then
-    echo "错误: 创建目标表失败!"
-    exit 1
-fi
+# 步骤5: 将更新后的数据导入指定库中的对应表
+echo "步骤5: 将更新后的数据导入目标库 $DATABASE.$TABLE"
 
 # 然后将数据从临时库导入目标库
 $MYSQL_CMD $DATABASE -e "INSERT INTO $TABLE SELECT * FROM $TEMP_DATABASE.$TABLE;"
@@ -219,20 +236,20 @@ if [[ $? -ne 0 ]]; then
     exit 1
 fi
 
-# 步骤5: 执行参数指定的后续SQL
+# 步骤6: 执行参数指定的后续SQL
 if [[ -n "$POST_SQL" ]]; then
-    echo "步骤5: 执行后续SQL"
+    echo "步骤6: 执行后续SQL"
     $MYSQL_CMD $DATABASE -e "$POST_SQL"
     if [[ $? -ne 0 ]]; then
         echo "错误: 执行后续SQL失败!"
         exit 1
     fi
 else
-    echo "步骤5: 跳过后续SQL执行（未提供后续SQL参数）"
+    echo "步骤6: 跳过后续SQL执行（未提供后续SQL参数）"
 fi
 
-# 清理临时库
-echo "清理: 删除临时库 $TEMP_DATABASE"
+# 步骤7: 清理临时库
+echo "步骤7: 删除临时库 $TEMP_DATABASE"
 $MYSQL_CMD -e "DROP DATABASE $TEMP_DATABASE;"
 if [[ $? -ne 0 ]]; then
     echo "警告: 删除临时库失败!"
