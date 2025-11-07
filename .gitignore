@@ -1,0 +1,4 @@
+# Large binaries excluded from version control (exceed GitHub's size limits).
+# Re-fetch locally with: cmd/dumper/testdata/download_dolt.sh
+cmd/dumper/testdata/mysql1/dolt.exe
+cmd/dumper/testdata/mysql1/dolt

@@ -1,0 +1,1 @@
+copy lsmp.bat C:\Users\lvan\AppData\Roaming\g.editor.electron.v1\otherPlugin\UnityTransformLocalPriData\1.0.0\

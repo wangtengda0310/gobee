@@ -1,0 +1,1 @@
+echo run cron 1 %cd%
