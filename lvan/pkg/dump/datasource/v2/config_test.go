@@ -127,7 +127,7 @@ func TestMySQLConfigSpecificBehavior(t *testing.T) {
 		config := NewMySQLConfig("localhost", 3306, "testuser", "testpass", "testdb", "users")
 		dsn := config.GetDSN()
 
-		expectedDSN := "testuser:testpass@tcp(localhost:3306)/testdb?charset=utf8mb4&parseTime=true&timeout=30"
+		expectedDSN := "testuser:testpass@tcp(localhost:3306)/testdb?charset=utf8mb4&parseTime=true&timeout=30s"
 		if dsn != expectedDSN {
 			t.Errorf("DSN生成不正确\n期望: %s\n实际: %s", expectedDSN, dsn)
 		}

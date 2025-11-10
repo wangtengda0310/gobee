@@ -245,7 +245,7 @@ func (c *mysqlConfigImpl) GetDSN() string {
 
 	// 添加超时参数
 	if c.timeout > 0 {
-		params.Add("timeout", strconv.Itoa(c.timeout))
+		params.Add("timeout", strconv.Itoa(c.timeout)+"s")
 	}
 
 	// 添加解析时间参数
