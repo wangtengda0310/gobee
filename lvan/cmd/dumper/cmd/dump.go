@@ -57,10 +57,12 @@ to quickly create a Cobra application.`,
 
 func transExportFormat() func(records []dump.Record, pks ...string) string {
 	//output := viper.GetString("output")
-	in := viper.GetString(in)
+	in := viper.GetString("in")
+	database := viper.GetString("database")
+	table := viper.GetString("table")
 	switch in {
 	case tpzip:
-		return _type.Zip(fmt.Sprintf("%s.%s.zip"))
+		return _type.Zip(fmt.Sprintf("%s.%s.zip", database, table))
 	//case tpdir:
 	//	return _type.Dir(fmt.Sprintf("%s.%s", database, table))
 	case tpsql:

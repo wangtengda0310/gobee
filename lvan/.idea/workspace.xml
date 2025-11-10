@@ -1,0 +1,311 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="9223d6ab-03ed-467d-8e30-25784fc54721" name="更改" comment="lvan mysql dump工具">
+      <change beforePath="$PROJECT_DIR$/cmd/dumper/cmd/dump.go" beforeDir="false" afterPath="$PROJECT_DIR$/cmd/dumper/cmd/dump.go" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Go File" />
+      </list>
+    </option>
+  </component>
+  <component name="GOROOT" url="file://D:/go/pkg/mod/golang.org/toolchain@v0.0.1-go1.25.0.windows-amd64" />
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
+  <component name="HighlightingSettingsPerFile">
+    <setting file="jar://$PROJECT_DIR$/cmd/dumper/gforge_u01_dev3.user.zip!/3000067/accountid" root0="SKIP_INSPECTION" />
+    <setting file="jar://$PROJECT_DIR$/cmd/dumper/gforge_u01_dev3.user.zip!/3000067/data" root0="SKIP_INSPECTION" />
+  </component>
+  <component name="KubernetesApiPersistence">{}</component>
+  <component name="KubernetesApiProvider">{
+  &quot;isMigrated&quot;: true
+}</component>
+  <component name="PerforceDirect.Settings">
+    <option name="CHARSET" value="none" />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 5
+}</component>
+  <component name="ProjectId" id="34RrvEazm73QJK6KMNjFYrpnKZs" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;DefaultGoTemplateProperty&quot;: &quot;Go File&quot;,
+    &quot;Go 构建.go build github.com/wangtengda0310/gobee/lvan.executor&quot;: &quot;Debug&quot;,
+    &quot;Go 构建.go build github.com/wangtengda0310/gobee/lvan/cmd/dumper.executor&quot;: &quot;Debug&quot;,
+    &quot;Go 测试.github.com/wangtengda0310/gobee/lvan/pkg/template 中的 TestRenderTemplate/#00.executor&quot;: &quot;Debug&quot;,
+    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.GoLinterPluginOnboarding&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.GoLinterPluginStorageMigration&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.go.formatter.settings.were.checked&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;lvan/dumper&quot;,
+    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;E:/wangtengda/lvan_dumper/lvan/cmd/dumper/cmd/exec&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  },
+  &quot;keyToStringList&quot;: {
+    &quot;DatabaseDriversLRU&quot;: [
+      &quot;mysql&quot;,
+      &quot;redis&quot;
+    ]
+  }
+}</component>
+  <component name="RecentsManager">
+    <key name="GoMoveDeclarationDialog.RECENT_KEY">
+      <recent name="$PROJECT_DIR$/pkg/dump" />
+    </key>
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="E:\wangtengda\lvan_dumper\lvan\cmd\dumper\cmd\exec" />
+      <recent name="E:\wangtengda\lvan_dumper\lvan" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="E:\wangtengda\lvan_dumper\lvan\cmd\dumper\cmd\exec" />
+      <recent name="E:\wangtengda\lvan_dumper\lvan\cmd\dumper\cmd\redis" />
+      <recent name="E:\wangtengda\lvan_dumper\lvan\cmd\dumper\cmd\mysql" />
+      <recent name="E:\wangtengda\lvan_dumper\lvan\cmd\dumper\testdata\mysql1" />
+      <recent name="E:\wangtengda\lvan_dumper\lvan\cmd\dumper\testdata" />
+    </key>
+  </component>
+  <component name="RunManager" selected="Go 构建.go build github.com/wangtengda0310/gobee/lvan/cmd/dumper">
+    <configuration default="true" type="GoApplicationRunConfiguration" factoryName="Go Application">
+      <module name="lvan" />
+      <working_directory value="$PROJECT_DIR$" />
+      <go_parameters value="-i" />
+      <kind value="FILE" />
+      <directory value="$PROJECT_DIR$" />
+      <filePath value="$PROJECT_DIR$" />
+      <method v="2" />
+    </configuration>
+    <configuration name="go build github.com/wangtengda0310/gobee/lvan" type="GoApplicationRunConfiguration" factoryName="Go Application" temporary="true" nameIsGenerated="true">
+      <module name="lvan" />
+      <working_directory value="$PROJECT_DIR$" />
+      <kind value="PACKAGE" />
+      <package value="github.com/wangtengda0310/gobee/lvan" />
+      <directory value="$PROJECT_DIR$" />
+      <filePath value="$PROJECT_DIR$/main.go" />
+      <method v="2" />
+    </configuration>
+    <configuration name="go build github.com/wangtengda0310/gobee/lvan/cmd/dumper" type="GoApplicationRunConfiguration" factoryName="Go Application" temporary="true" nameIsGenerated="true">
+      <module name="lvan" />
+      <working_directory value="$PROJECT_DIR$/cmd/dumper" />
+      <parameters value="--in zip mysql -h 101.34.211.79 -p p_mysql -P 32579 -d gforge_u01_dev6 -t user dump 6000017" />
+      <kind value="PACKAGE" />
+      <package value="github.com/wangtengda0310/gobee/lvan/cmd/dumper" />
+      <directory value="$PROJECT_DIR$" />
+      <filePath value="$PROJECT_DIR$/cmd/dumper/main.go" />
+      <method v="2" />
+    </configuration>
+    <configuration default="true" type="GoTestRunConfiguration" factoryName="Go Test">
+      <module name="lvan" />
+      <working_directory value="$PROJECT_DIR$" />
+      <go_parameters value="-i" />
+      <kind value="DIRECTORY" />
+      <directory value="$PROJECT_DIR$" />
+      <filePath value="$PROJECT_DIR$" />
+      <framework value="gotest" />
+      <method v="2" />
+    </configuration>
+    <configuration name="github.com/wangtengda0310/gobee/lvan/pkg/template 中的 TestRenderTemplate/#00" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
+      <module name="lvan" />
+      <working_directory value="$PROJECT_DIR$/pkg/template" />
+      <root_directory value="$PROJECT_DIR$" />
+      <kind value="PACKAGE" />
+      <package value="github.com/wangtengda0310/gobee/lvan/pkg/template" />
+      <directory value="$PROJECT_DIR$" />
+      <filePath value="$PROJECT_DIR$" />
+      <framework value="gotest" />
+      <pattern value="^\QTestRenderTemplate\E$/^\Q#00\E$" />
+      <method v="2" />
+    </configuration>
+    <list>
+      <item itemvalue="Go 构建.go build github.com/wangtengda0310/gobee/lvan" />
+      <item itemvalue="Go 构建.go build github.com/wangtengda0310/gobee/lvan/cmd/dumper" />
+      <item itemvalue="Go 测试.github.com/wangtengda0310/gobee/lvan/pkg/template 中的 TestRenderTemplate/#00" />
+    </list>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Go 构建.go build github.com/wangtengda0310/gobee/lvan/cmd/dumper" />
+        <item itemvalue="Go 测试.github.com/wangtengda0310/gobee/lvan/pkg/template 中的 TestRenderTemplate/#00" />
+        <item itemvalue="Go 构建.go build github.com/wangtengda0310/gobee/lvan" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-jdk-30f59d01ecdd-cffe25b9f5b3-intellij.indexing.shared.core-IU-253.28086.51" />
+        <option value="bundled-js-predefined-d6986cc7102b-c7e53b3be11b-JavaScript-IU-253.28086.51" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="默认任务">
+      <changelist id="9223d6ab-03ed-467d-8e30-25784fc54721" name="更改" comment="" />
+      <created>1761187457197</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1761187457197</updated>
+      <workItem from="1761187458635" duration="1444000" />
+      <workItem from="1761267389567" duration="692000" />
+      <workItem from="1761268172937" duration="295000" />
+      <workItem from="1761268492187" duration="29000" />
+      <workItem from="1761308707140" duration="377000" />
+      <workItem from="1761309964728" duration="54000" />
+      <workItem from="1761403888831" duration="2856000" />
+      <workItem from="1761406801674" duration="141000" />
+      <workItem from="1761406958927" duration="13186000" />
+      <workItem from="1761545608793" duration="595000" />
+      <workItem from="1761573411782" duration="595000" />
+      <workItem from="1761574874166" duration="599000" />
+      <workItem from="1761658788505" duration="6622000" />
+      <workItem from="1761717334805" duration="829000" />
+      <workItem from="1761722733168" duration="1144000" />
+      <workItem from="1761810507263" duration="5639000" />
+      <workItem from="1761824807785" duration="37018000" />
+      <workItem from="1761912070241" duration="9309000" />
+      <workItem from="1761959686866" duration="9959000" />
+      <workItem from="1761977293511" duration="604000" />
+      <workItem from="1761978219173" duration="68000" />
+      <workItem from="1762314613534" duration="3842000" />
+      <workItem from="1762481679273" duration="304000" />
+      <workItem from="1762486046706" duration="41000" />
+      <workItem from="1762496253130" duration="31756000" />
+    </task>
+    <task id="LOCAL-00001" summary="lvan mysql dump工具">
+      <option name="closed" value="true" />
+      <created>1761407225806</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1761407225806</updated>
+    </task>
+    <task id="LOCAL-00002" summary="lvan mysql dump工具">
+      <option name="closed" value="true" />
+      <created>1761407390813</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1761407390813</updated>
+    </task>
+    <task id="LOCAL-00003" summary="lvan mysql dump工具">
+      <option name="closed" value="true" />
+      <created>1761417936946</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1761417936946</updated>
+    </task>
+    <task id="LOCAL-00004" summary="lvan mysql dump工具">
+      <option name="closed" value="true" />
+      <created>1761418144071</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1761418144071</updated>
+    </task>
+    <task id="LOCAL-00005" summary="lvan mysql dump工具">
+      <option name="closed" value="true" />
+      <created>1761424374959</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1761424374959</updated>
+    </task>
+    <task id="LOCAL-00006" summary="lvan mysql dump工具">
+      <option name="closed" value="true" />
+      <created>1761424474757</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1761424474757</updated>
+    </task>
+    <task id="LOCAL-00007" summary="lvan mysql dump工具">
+      <option name="closed" value="true" />
+      <created>1761424578489</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1761424578489</updated>
+    </task>
+    <task id="LOCAL-00008" summary="lvan mysql dump工具">
+      <option name="closed" value="true" />
+      <created>1761902374707</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1761902374707</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State>
+              <option name="FILTERS">
+                <map>
+                  <entry key="branch">
+                    <value>
+                      <list>
+                        <option value="master" />
+                      </list>
+                    </value>
+                  </entry>
+                </map>
+              </option>
+            </State>
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="lvan mysql dump工具" />
+    <option name="LAST_COMMIT_MESSAGE" value="lvan mysql dump工具" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="DlvLineBreakpoint">
+          <url>file://$PROJECT_DIR$/cmd/dumper/cmd/mysql/import.go</url>
+          <line>43</line>
+          <option name="timeStamp" value="58" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DlvLineBreakpoint">
+          <url>file://$PROJECT_DIR$/cmd/dumper/cmd/root.go</url>
+          <line>22</line>
+          <option name="timeStamp" value="59" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+  </component>
+</project>
