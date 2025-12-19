@@ -5,6 +5,7 @@ go 1.25.0
 require github.com/go-spring/spring-core v1.2.5
 
 require (
+	github.com/gocarina/gocsv v0.0.0-20240520201108-78e41c74b4b1
 	github.com/prometheus/client_golang v1.23.2
 	github.com/prometheus/common v0.66.1
 	github.com/stretchr/testify v1.11.1

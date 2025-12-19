@@ -31,12 +31,12 @@ func init() {
 	gs.Provide(
 		NewServeMux,
 		gs.IndexArg(1, gs.TagArg("access")),
-	)
+	).Export(gs.As[http.Handler]())
 }
 
 // NewServeMux creates a new HTTP request multiplexer and registers
 // routes with access logging middleware.
-func NewServeMux(c *controller.Controller, logger *slog.Logger) http.Handler {
+func NewServeMux(c *controller.Controller, logger *slog.Logger) *http.ServeMux {
 	mux := http.DefaultServeMux
 	proto.RegisterRouter(mux, c, Access(logger))
 

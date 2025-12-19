@@ -23,33 +23,30 @@ import (
 	"sort"
 
 	"github.com/go-spring/spring-core/gs"
+	"github.com/wangtengda0310/gobee/ark/csv"
 )
 
-func init() {
-	gs.Object(&BookDao{Store: map[string]Book{
-		"978-0134190440": {
-			Title:     "The Go Programming Language",
-			Author:    "Alan A. A. Donovan, Brian W. Kernighan",
-			ISBN:      "978-0134190440",
-			Publisher: "Addison-Wesley",
-		},
-	}})
-}
+var d = BookDao{Store: map[string]Book{}}
 
-type Book struct {
-	Title     string `json:"title"`
-	Author    string `json:"author"`
-	ISBN      string `json:"isbn"`
-	Publisher string `json:"publisher"`
+func init() {
+	gs.Object(&d)
+	gs.Object(&Manager{}).Export(gs.As[csv.DataHolder]())
 }
 
 type BookDao struct {
 	Store  map[string]Book
 	Logger *slog.Logger `autowire:"dao"`
+	BookGetter
+	AuthorGetter
 }
 
 // ListBooks returns a sorted list of all books in the store.
 func (dao *BookDao) ListBooks() ([]Book, error) {
+	var records []Book
+	for _, record := range records {
+		dao.Store[record.Title] = record
+	}
+
 	r := slices.Collect(maps.Values(dao.Store))
 	sort.Slice(r, func(i, j int) bool {
 		return r[i].ISBN < r[j].ISBN
@@ -59,9 +56,8 @@ func (dao *BookDao) ListBooks() ([]Book, error) {
 
 // GetBook retrieves a book by its ISBN.
 func (dao *BookDao) GetBook(isbn string) (Book, error) {
-	r, ok := dao.Store[isbn]
-	_ = ok
-	return r, nil
+	book := dao.GetBookById(isbn)
+	return book, nil
 }
 
 // SaveBook adds or updates a book in the store.

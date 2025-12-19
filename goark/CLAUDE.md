@@ -1,0 +1,1 @@
+gs.Object()方法后需要调用Export(gs.As[`{interface`]())生命接口，否则可能导致注入失败
