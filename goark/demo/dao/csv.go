@@ -17,8 +17,8 @@ type BookGetter interface {
 }
 
 type Author struct {
-	firstName  string `csv:"first_name"`
-	secondName string `csv:"second_name"`
+	FirstName  string `csv:"first_name"`
+	SecondName string `csv:"second_name"`
 }
 
 type AuthorGetter interface {

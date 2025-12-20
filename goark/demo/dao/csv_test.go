@@ -23,12 +23,12 @@ func TestManager_GetCsvStructMapping(t *testing.T) {
 		},
 		authors: []*Author{
 			{
-				firstName:  "张",
-				secondName: "三",
+				FirstName:  "张",
+				SecondName: "三",
 			},
 			{
-				firstName:  "李",
-				secondName: "四",
+				FirstName:  "李",
+				SecondName: "四",
 			},
 		},
 	}
@@ -63,7 +63,7 @@ func TestManager_GetCsvStructMapping(t *testing.T) {
 					return false
 				}
 				authors := *authorsPtr
-				return len(authors) == 2 && authors[0] != nil && authors[0].firstName == "张"
+				return len(authors) == 2 && authors[0] != nil && authors[0].FirstName == "张"
 			},
 		},
 	}
