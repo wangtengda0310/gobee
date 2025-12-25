@@ -6,7 +6,6 @@ import (
 	"net/http"
 	"os"
 	"os/exec"
-	"runtime/debug"
 	"strconv"
 	"strings"
 	"time"
@@ -89,7 +88,7 @@ func main() {
 	logLevel := pflag.String("log-level", "info", "Log level (debug, info, warn, error, fatal)")
 	cleanFlag := pflag.Bool("clean", getEnvBool("EXPORTER_CLEAN", false), "清除任务的工作目录，支持环境变量 EXPORTER_CLEAN")
 	workdir.Pflag(getEnvString)
-	htmlDirFlag := pflag.String("html", getEnvString("EXPORTER_HTML_DIR", "html"), "指定HTML静态文件目录，支持环境变量 EXPORTER_HTML_DIR")
+	api.Pflag(getEnvString)
 
 	// 为参数添加长格式说明
 	pflag.Lookup("port").Usage = "指定服务监听的TCP端口默认 80 支持环境变量 EXPORTER_PORT\n" +
@@ -263,49 +262,10 @@ func main() {
 		}
 		return
 	}
-
-	// 创建路由器并应用中间件
-	router := http.NewServeMux()
-	router.HandleFunc("/", api.HandleRootRequest)
-	router.HandleFunc("/cmd", api.HandleCommandRequest)
-	router.HandleFunc("/cancel/", api.HandleCancelRequest)
-	router.HandleFunc("/cmd/", api.HandleCommandRequest)
-	router.HandleFunc("/result/", api.HandleResultRequest)
-	router.HandleFunc("/backup/", api.HandleBackupRequest)
-
-	// 如果指定了HTML目录，则注册/html/路径
-	if *htmlDirFlag != "" {
-		htmlDir := *htmlDirFlag
-		// 确保目录存在
-		if err := os.MkdirAll(htmlDir, 0755); err != nil {
-			logger.Warn("无法创建HTML目录 %s: %v", htmlDir, err)
-		} else {
-			// 创建文件服务器handler
-			fileServer := http.FileServer(http.Dir(workdir.Join(htmlDir)))
-			// 注册 /html/ 路径
-			router.Handle("/html/", http.StripPrefix("/html/", fileServer))
-			logger.Info("HTML静态文件服务已启用，目录: %s，URL路径: /html/", htmlDir)
-		}
-	}
-
-	// 使用中间件包装路由
-	protectedRouter := recoveryMiddleware(router)
+	protectedRouter := api.Router()
 
 	// 启动HTTP服务器
 	serverAddr := fmt.Sprintf(":%d", *port)
 	logger.Info("启动exporter服务器，监听端口 %d...", *port)
 	logger.Fatal("服务器停止: %v", http.ListenAndServe(serverAddr, protectedRouter))
-}
-
-// 新增恢复中间件
-func recoveryMiddleware(next http.Handler) http.Handler {
-	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		defer func() {
-			if err := recover(); err != nil {
-				logger.Error("HTTP处理崩溃恢复: %v\n%s", err, debug.Stack())
-				http.Error(w, "内部服务器错误", http.StatusInternalServerError)
-			}
-		}()
-		next.ServeHTTP(w, r)
-	})
 }
