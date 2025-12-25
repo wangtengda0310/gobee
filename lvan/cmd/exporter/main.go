@@ -6,7 +6,6 @@ import (
 	"net/http"
 	"os"
 	"os/exec"
-	"path/filepath"
 	"runtime/debug"
 	"strconv"
 	"strings"
@@ -15,6 +14,7 @@ import (
 	"github.com/wangtengda0310/gobee/lvan/cmd/exporter/api"
 	"github.com/wangtengda0310/gobee/lvan/internal"
 	"github.com/wangtengda0310/gobee/lvan/internal/execute"
+	"github.com/wangtengda0310/gobee/lvan/internal/workdir"
 	"github.com/wangtengda0310/gobee/lvan/pkg/cron"
 	"github.com/wangtengda0310/gobee/lvan/pkg/logger"
 	"github.com/wangtengda0310/gobee/lvan/pkg/utf8"
@@ -88,7 +88,7 @@ func main() {
 	showMoreHelp := pflag.Bool("morehelp", false, "展示更详细的文档")
 	logLevel := pflag.String("log-level", "info", "Log level (debug, info, warn, error, fatal)")
 	cleanFlag := pflag.Bool("clean", getEnvBool("EXPORTER_CLEAN", false), "清除任务的工作目录，支持环境变量 EXPORTER_CLEAN")
-	workDirFlag := pflag.StringP("workdir", "w", getEnvString("EXPORTER_WORKDIR", ""), "指定工作目录，默认为程序所在目录，支持环境变量 EXPORTER_WORKDIR")
+	workdir.Pflag(getEnvString)
 	htmlDirFlag := pflag.String("html", getEnvString("EXPORTER_HTML_DIR", "html"), "指定HTML静态文件目录，支持环境变量 EXPORTER_HTML_DIR")
 
 	// 为参数添加长格式说明
@@ -112,36 +112,17 @@ func main() {
 		"    --workdir /path/to/dir         使用长格式指定工作目录\n" +
 		"    -w /path/to/dir                使用短格式指定工作目录"
 	pflag.Parse()
-
-	// 初始化工作目录
-	if *workDirFlag != "" {
-		// 使用命令行参数指定的工作目录
-		internal.WorkDir = *workDirFlag
-	} else {
-		// 默认使用可执行文件所在目录
-		execPath, err := os.Getwd()
-		if err != nil {
-			fmt.Printf("无法获取程序路径: %v\n", err)
-			os.Exit(1)
-		}
-		internal.WorkDir = execPath
-	}
-
-	// 确保工作目录存在
-	if err := os.MkdirAll(internal.WorkDir, 0755); err != nil {
-		fmt.Printf("无法创建工作目录: %v\n", err)
-		os.Exit(1)
-	}
+	workdir.Path()
 
 	// 设置相关目录
-	execute.TasksDir = filepath.Join(internal.WorkDir, "tasks")
-	logsDir = filepath.Join(internal.WorkDir, "logs")
-
+	execute.TasksDir = workdir.Join("tasks")
 	// 确保相关目录存在
 	if err := os.MkdirAll(execute.TasksDir, 0755); err != nil {
 		fmt.Printf("无法创建任务目录: %v\n", err)
 		os.Exit(1)
 	}
+
+	logsDir = workdir.Join("logs")
 	if err := os.MkdirAll(logsDir, 0755); err != nil {
 		fmt.Printf("无法创建日志目录: %v\n", err)
 		os.Exit(1)
@@ -155,14 +136,14 @@ func main() {
 	}
 	logger.SetDefaultLogger(loggerInstance)
 
-	execute.CommandDir = filepath.Join(internal.WorkDir, "cmd")
+	execute.CommandDir = workdir.Join("cmd")
 
 	if *cleanFlag {
 		cleanGeneratedFiles(execute.TasksDir)
 		return // 清理后直接退出
 	}
 
-	go cron.WorkDir(filepath.Join(internal.WorkDir, "cron"))
+	go cron.WorkDir(workdir.Join("cron"))
 
 	go internal.ScheduleCleaner(execute.TasksDir, time.Hour*24)
 
@@ -300,7 +281,7 @@ func main() {
 			logger.Warn("无法创建HTML目录 %s: %v", htmlDir, err)
 		} else {
 			// 创建文件服务器handler
-			fileServer := http.FileServer(http.Dir(filepath.Join(internal.WorkDir, htmlDir)))
+			fileServer := http.FileServer(http.Dir(workdir.Join(htmlDir)))
 			// 注册 /html/ 路径
 			router.Handle("/html/", http.StripPrefix("/html/", fileServer))
 			logger.Info("HTML静态文件服务已启用，目录: %s，URL路径: /html/", htmlDir)

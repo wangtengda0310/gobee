@@ -31,7 +31,7 @@ func HandleBackupRequest(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// 获取工作目录
-	workDir := internal.WorkDir
+	workDir := workdir.WorkDir
 
 	// 构建完整的子目录路径
 	subDirPath := filepath.Join(workDir, subDir)
