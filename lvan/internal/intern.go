@@ -19,7 +19,3 @@ type ResultResponse struct {
 	Id   string         `json:"id"` // 0 成功 1 排队 2 处理 3 失败
 	Job  CommandRequest `json:"job"`
 }
-
-var (
-	WorkDir string // 工作目录
-)
