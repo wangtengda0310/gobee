@@ -6,6 +6,7 @@ import (
 	"log"
 	"os"
 	"path/filepath"
+	"strings"
 	"sync"
 	"time"
 )
@@ -26,6 +27,25 @@ var levelNames = []string{
 	"WARN",
 	"ERROR",
 	"FATAL",
+}
+
+func Init(logLevel string) {
+
+	// 设置日志级别
+	switch strings.ToLower(logLevel) {
+	case "debug":
+		SetLevel(DEBUG)
+	case "info":
+		SetLevel(INFO)
+	case "warn":
+		SetLevel(WARN)
+	case "error":
+		SetLevel(ERROR)
+	case "fatal":
+		SetLevel(FATAL)
+	default:
+		SetLevel(INFO)
+	}
 }
 
 // 日志条目结构

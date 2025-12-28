@@ -10,7 +10,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/wangtengda0310/gobee/lvan/internal"
+	"github.com/wangtengda0310/gobee/lvan/internal/workdir"
 	"github.com/wangtengda0310/gobee/lvan/pkg/logger"
 )
 

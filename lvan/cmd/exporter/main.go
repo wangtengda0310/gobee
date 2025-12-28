@@ -5,20 +5,18 @@ import (
 	"fmt"
 	"net/http"
 	"os"
-	"os/exec"
 	"strconv"
 	"strings"
 	"time"
 
-	"github.com/wangtengda0310/gobee/lvan/cmd/exporter/api"
+	"github.com/spf13/pflag"
+	"github.com/wangtengda0310/gobee/lvan/cmd/exporter/customCmd"
 	"github.com/wangtengda0310/gobee/lvan/internal"
 	"github.com/wangtengda0310/gobee/lvan/internal/execute"
+	"github.com/wangtengda0310/gobee/lvan/internal/execute/customizeCmd/api"
 	"github.com/wangtengda0310/gobee/lvan/internal/workdir"
 	"github.com/wangtengda0310/gobee/lvan/pkg/cron"
 	"github.com/wangtengda0310/gobee/lvan/pkg/logger"
-	"github.com/wangtengda0310/gobee/lvan/pkg/utf8"
-
-	"github.com/spf13/pflag"
 )
 
 // 嵌入CLI文档
@@ -146,21 +144,7 @@ func main() {
 
 	go internal.ScheduleCleaner(execute.TasksDir, time.Hour*24)
 
-	// 设置日志级别
-	switch strings.ToLower(*logLevel) {
-	case "debug":
-		logger.SetLevel(logger.DEBUG)
-	case "info":
-		logger.SetLevel(logger.INFO)
-	case "warn":
-		logger.SetLevel(logger.WARN)
-	case "error":
-		logger.SetLevel(logger.ERROR)
-	case "fatal":
-		logger.SetLevel(logger.FATAL)
-	default:
-		logger.SetLevel(logger.INFO)
-	}
+	logger.Init(*logLevel)
 
 	// 处理版本信息
 	if *showVersion {
@@ -186,76 +170,9 @@ func main() {
 		// 根据第一个参数判断子命令
 		switch args[0] {
 		case "cmd", "command":
-			var cmd = args[1]
-			cmdArgs := args[2:]
-			logger.Info("执行命令: %s, %s", cmd, cmdArgs)
-
-			flags := pflag.NewFlagSet("cmd", pflag.ExitOnError)
-			version := flags.StringP("version", "v", "", "被调用的版本号")
-			err := flags.Parse(cmdArgs)
-			if err != nil {
-				logger.Warn("%v", err)
-				return
-			}
-			//
-			//// 必要参数检查
-			//if *message == "" {
-			//	fmt.Println("必须提供提交信息（-m）")
-			//	cmd.PrintDefaults()
-			//	os.Exit(1)
-			//}
-
-			var req = internal.CommandRequest{
-				Cmd:     cmd,
-				Version: *version,
-				Args:    cmdArgs,
-			}
-			var task = execute.CreateTask(req, os.Stdout)
-			execute.ExecuteTask(task)
+			customCmd.Commands[args[0]](args[1:])
 		case "exec", "run":
-			var cmd = args[1]
-			cmdArgs := args[2:]
-			logger.Info("执行命令: %s, %s", cmd, cmdArgs)
-
-			flags := pflag.NewFlagSet("cmd", pflag.ExitOnError)
-			encoding := flags.String("encoding", "", "被调用的版本号")
-			err := flags.Parse(cmdArgs)
-			if err != nil {
-				logger.Warn("parse flags error %v %v", cmdArgs, err)
-				return
-			}
-
-			var encodingFunc func([]byte) string
-			if *encoding != "" {
-				encodingFunc = func(s []byte) string {
-					return utf8.From(s, utf8.Charset(*encoding))
-				}
-			}
-
-			c := exec.Command(cmd, cmdArgs...)
-			dir, err := os.Getwd()
-			if err != nil {
-				logger.Warn("获取当前工作目录失败: %v", err)
-			}
-
-			log := func(s string) {
-				logger.Info("%s", s)
-			}
-			err, stdout, stderr := execute.Cmd(c, dir, []string{})
-			if err != nil {
-				logger.Warn("命令执行失败: %v", err)
-			}
-
-			execute.CatchStdout(stdout, encodingFunc, log)
-
-			execute.CatchStderr(stderr, encodingFunc, log)
-
-			if err = c.Wait(); err != nil {
-				logger.Warn("等待命令完成失败: %v", err)
-			} else {
-				logger.Info("命令执行完成")
-			}
-
+			customCmd.Commands[args[0]](args[1:])
 		default:
 			fmt.Printf("未知子命令: %s\n", args[0])
 			os.Exit(1)

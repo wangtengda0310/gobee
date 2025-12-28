@@ -18,8 +18,10 @@ func Pflag(getEnvString func(key string, defaultVal string) string) *string {
 	return workDirFlag
 }
 
-func Join(string ...string) string {
-	return filepath.Join(string...)
+func Join(str ...string) string {
+	var s = []string{WorkDir}
+	s = append(s, str...)
+	return filepath.Join(s...)
 }
 func Path() {
 
