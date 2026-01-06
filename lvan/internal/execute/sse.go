@@ -13,6 +13,7 @@ type Client struct {
 	OutputChan   chan string // 输出通道
 	LastActivity time.Time   // 最后活动时间
 	Active       bool        // 客户端是否活跃
+	closed       bool        // 通道是否已关闭
 }
 
 // 客户端管理器，使用分片锁减少锁竞争
@@ -23,12 +24,20 @@ type ClientManager struct {
 	MaxClients  int                // 最大客户端数量
 	IdleTimeout time.Duration      // 客户端空闲超时时间
 	shutdown    chan struct{}      // 关闭信号
+	closeOnce   sync.Once          // 确保 Close 只执行一次
+	closed      bool               // 管理器是否已关闭
 }
 
 // 添加客户端
 func (cm *ClientManager) AddClient(clientID string) chan string {
 	cm.Mutex.Lock()
 	defer cm.Mutex.Unlock()
+
+	// 检查管理器是否已关闭
+	if cm.closed {
+		logger.Warn("尝试为已关闭的管理器添加客户端 %s", clientID)
+		return nil
+	}
 
 	// 检查是否达到最大客户端数量限制
 	if cm.MaxClients > 0 && len(cm.Clients) >= cm.MaxClients {
@@ -42,6 +51,7 @@ func (cm *ClientManager) AddClient(clientID string) chan string {
 		OutputChan:   make(chan string, 100),
 		LastActivity: time.Now(),
 		Active:       true,
+		closed:       false,
 	}
 
 	cm.Clients[clientID] = client
@@ -55,7 +65,11 @@ func (cm *ClientManager) RemoveClient(clientID string) {
 	defer cm.Mutex.Unlock()
 
 	if client, exists := cm.Clients[clientID]; exists {
-		close(client.OutputChan)
+		// 只有在通道未关闭时才关闭
+		if !client.closed {
+			close(client.OutputChan)
+			client.closed = true
+		}
 		delete(cm.Clients, clientID)
 		logger.Info("移除客户端 %s，当前客户端数量: %d", clientID, len(cm.Clients))
 	}
@@ -63,6 +77,15 @@ func (cm *ClientManager) RemoveClient(clientID string) {
 
 // 广播消息给所有客户端
 func (cm *ClientManager) Broadcast(msg string) {
+	cm.Mutex.RLock()
+	closed := cm.closed
+	cm.Mutex.RUnlock()
+
+	// 如果管理器已关闭，不再发送消息
+	if closed {
+		return
+	}
+
 	select {
 	case cm.BroadcastCh <- msg:
 		// 消息已放入广播通道
@@ -108,8 +131,11 @@ func (cm *ClientManager) cleanupWorker() {
 			now := time.Now()
 			for id, client := range cm.Clients {
 				if now.Sub(client.LastActivity) > cm.IdleTimeout {
-					// 关闭通道
-					close(client.OutputChan)
+					// 只有在通道未关闭时才关闭
+					if !client.closed {
+						close(client.OutputChan)
+						client.closed = true
+					}
 					// 从映射中删除
 					delete(cm.Clients, id)
 					logger.Info("客户端 %s 因空闲超时被清理", id)
@@ -142,19 +168,26 @@ func NewClientManager(maxClients int, idleTimeout time.Duration) *ClientManager 
 
 // 关闭客户端管理器
 func (cm *ClientManager) Close() {
-	// 发送关闭信号
-	close(cm.shutdown)
+	cm.closeOnce.Do(func() {
+		// 发送关闭信号
+		close(cm.shutdown)
 
-	// 关闭所有客户端连接
-	cm.Mutex.Lock()
-	defer cm.Mutex.Unlock()
+		// 关闭所有客户端连接
+		cm.Mutex.Lock()
+		cm.closed = true
+		defer cm.Mutex.Unlock()
 
-	for id, client := range cm.Clients {
-		close(client.OutputChan)
-		delete(cm.Clients, id)
-	}
+		for id, client := range cm.Clients {
+			// 只有在通道未关闭时才关闭
+			if !client.closed {
+				close(client.OutputChan)
+				client.closed = true
+			}
+			delete(cm.Clients, id)
+		}
 
-	logger.Info("客户端管理器已关闭")
+		logger.Info("客户端管理器已关闭")
+	})
 }
 
 // 添加SSE客户端
