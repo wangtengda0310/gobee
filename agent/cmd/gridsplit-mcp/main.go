@@ -10,7 +10,7 @@ import (
 	"github.com/mark3labs/mcp-go/server"
 )
 
-const gridsplitPath = "lvan/cmd/gridsplit/gridsplit.exe"
+const gridsplitPath = "lvan/cmd/gridsplit-mcp/gridsplit.exe"
 
 func main() {
 	// Create MCP server
