@@ -13,6 +13,7 @@ import (
 	"github.com/wangtengda0310/gobee/lvan/cmd/exporter/customCmd"
 	"github.com/wangtengda0310/gobee/lvan/internal"
 	"github.com/wangtengda0310/gobee/lvan/internal/execute"
+	_ "github.com/wangtengda0310/gobee/lvan/internal/execute/customizeCmd"
 	"github.com/wangtengda0310/gobee/lvan/internal/execute/customizeCmd/api"
 	"github.com/wangtengda0310/gobee/lvan/internal/workdir"
 	"github.com/wangtengda0310/gobee/lvan/pkg/cron"

@@ -1,0 +1,57 @@
+gridsplit - 九宫格图片切分工具
+
+用法:
+    gridsplit [选项] <输入路径> [输出路径]
+
+参数:
+    <输入路径>    输入图片文件或目录 (必需)
+    [输出路径]    输出目录 (可选，默认为 "output")
+
+选项:
+    -m, --mode <模式>           切分模式: equal, color, edge (默认: equal)
+    -r, --rows <行数>           行数，0=自动检测 (默认: 3)
+    -c, --cols <列数>           列数，0=自动检测 (默认: 3)
+    --line-color <颜色>         分割线颜色，格式: #RRGGBB (默认: #FFFFFF)
+    --color-tolerance <值>      颜色容差 0-255 (默认: 30)
+    --edge-threshold <值>       边缘阈值 0-255 (默认: 50)
+    -f, --format <格式>         输出格式: png, jpg, jpeg (默认: png)
+    --padding <像素>            切分边距 (默认: 0)
+    -a, --auto                  自动检测网格
+    -v, --verbose               详细输出
+    --dry-run                   预览模式，不实际保存
+    -h, --help                  显示此帮助信息
+    -V, --version               显示版本信息
+
+切分模式说明:
+    equal       等间距切分 - 将图片均匀分割成指定行列数
+    color       颜色检测 - 通过检测指定颜色的分割线来确定网格
+    edge        边缘检测 - 使用边缘检测算法自动识别网格线
+
+示例:
+    # 等间距切分 3x3
+    gridsplit -i input.png -o output/ -r 3 -c 3
+
+    # 自动检测网格
+    gridsplit input.png output/ --auto
+
+    # 颜色检测 (白色分割线)
+    gridsplit input.png output/ --mode color --line-color "#FFFFFF"
+
+    # 边缘检测模式
+    gridsplit input.png output/ --mode edge --edge-threshold 50
+
+    # 批量处理目录
+    gridsplit input_dir/ output_dir/ -r 2 -c 2
+
+    # 预览模式
+    gridsplit input.png --dry-run -v
+
+输出格式:
+    输出文件命名格式: <原文件名>_00.<扩展名>
+    例如: photo_00.png, photo_01.png, ..., photo_08.png
+
+注意:
+    - 颜色检测模式适用于有明显颜色分割线的图片
+    - 边缘检测模式适用于有明显网格线的图片
+    - 自动检测模式会尝试最佳方法，可能不总是准确
+    - 对于复杂图片，建议使用等间距模式并指定行列数
