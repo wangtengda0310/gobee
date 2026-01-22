@@ -10,7 +10,22 @@ import (
 	"github.com/mark3labs/mcp-go/server"
 )
 
-const gridsplitPath = "lvan/cmd/gridsplit-mcp/gridsplit.exe"
+// Find gridsplit executable - prefer PATH version over relative path
+func findGridsplit() string {
+	// Try to find in PATH first (prefer user-installed version)
+	if path, err := exec.LookPath("gridsplit.exe"); err == nil {
+		return path
+	}
+	// Fallback to relative path (for development)
+	relativePath := "lvan/cmd/gridsplit/gridsplit.exe"
+	if absPath, err := filepath.Abs(relativePath); err == nil {
+		if _, err := exec.LookPath(absPath); err == nil {
+			return absPath
+		}
+	}
+	// Final fallback
+	return "gridsplit.exe"
+}
 
 func main() {
 	// Create MCP server
@@ -138,6 +153,7 @@ func splitImageHandler(ctx context.Context, request mcp.CallToolRequest) (*mcp.C
 	}
 
 	// Execute command
+	gridsplitPath := findGridsplit()
 	cmd := exec.CommandContext(ctx, gridsplitPath, args...)
 	output, err := cmd.CombinedOutput()
 	if err != nil {
@@ -179,6 +195,7 @@ func detectGridSizeHandler(ctx context.Context, request mcp.CallToolRequest) (*m
 	args := []string{imagePath, "--dry-run", "--auto", "-v"}
 
 	// Execute command
+	gridsplitPath := findGridsplit()
 	cmd := exec.CommandContext(ctx, gridsplitPath, args...)
 	output, err := cmd.CombinedOutput()
 	if err != nil {
