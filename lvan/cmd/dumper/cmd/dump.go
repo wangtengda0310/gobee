@@ -39,7 +39,8 @@ to quickly create a Cobra application.`,
 		internal.VisitExport(func(db dump.Datasource) {
 
 			columns := dump.Columns(db.DB, db.Database, db.Table)
-			records := dump.Dump(db.DB, db.Database, db.Table, columns, where, args...)
+			columnTypes := dump.GetColumnTypes(db.DB, db.Database, db.Table)
+			records := dump.Dump(db.DB, db.Database, db.Table, columns, columnTypes, where, args...)
 			log.Println(len(records), "records")
 
 			pkColumns, err := dump.GetPrimaryKeyColumns(db.DB, db.Database, db.Table)
@@ -56,13 +57,27 @@ to quickly create a Cobra application.`,
 }
 
 func transExportFormat() func(records []dump.Record, pks ...string) string {
-	//output := viper.GetString("output")
+	output := viper.GetString("output")
 	in := viper.GetString(in)
 	switch in {
 	case tpzip:
-		return _type.Zip(fmt.Sprintf("%s.%s.zip"))
+		// 从 viper 获取 database 和 table 名称
+		database := viper.GetString("database")
+		table := viper.GetString("table")
+		// 如果用户指定了输出路径，使用用户指定的路径；否则使用默认的 database.table.zip
+		filename := output
+		if filename == "" {
+			filename = fmt.Sprintf("%s.%s.zip", database, table)
+		}
+		return _type.Zip(filename)
 	//case tpdir:
-	//	return _type.Dir(fmt.Sprintf("%s.%s", database, table))
+	//	database := viper.GetString("database")
+	//	table := viper.GetString("table")
+	//	dirname := output
+	//	if dirname == "" {
+	//		dirname = fmt.Sprintf("%s.%s", database, table)
+	//	}
+	//	return _type.Dir(dirname)
 	case tpsql:
 		return func(records []dump.Record, pks ...string) string {
 			return fmt.Sprintf("%v", records)

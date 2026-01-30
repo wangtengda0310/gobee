@@ -160,3 +160,30 @@ func hasPrimaryKey(record map[string][]byte, pkColumns []string) bool {
 	}
 	return true
 }
+
+// GetColumnTypes 获取表中所有列的数据类型
+// 返回 map[column_name]data_type，例如: {"uid": "int", "ctime": "timestamp"}
+func GetColumnTypes(db *sql.DB, database, table string) map[string]string {
+	query := `
+		SELECT COLUMN_NAME, DATA_TYPE
+		FROM INFORMATION_SCHEMA.COLUMNS
+		WHERE TABLE_SCHEMA = ? AND TABLE_NAME = ?
+		ORDER BY ORDINAL_POSITION`
+
+	rows, err := db.Query(query, database, table)
+	if err != nil {
+		log.Panic("获取列类型失败:", err)
+	}
+	defer rows.Close()
+
+	columnTypes := make(map[string]string)
+	for rows.Next() {
+		var colName, dataType string
+		if err := rows.Scan(&colName, &dataType); err != nil {
+			log.Panic("扫描列类型失败:", err)
+		}
+		columnTypes[colName] = dataType
+	}
+
+	return columnTypes
+}

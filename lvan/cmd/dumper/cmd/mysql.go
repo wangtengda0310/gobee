@@ -80,33 +80,36 @@ func init() {
 }
 
 func persistentFlags(mysqlCmd *cobra.Command) {
-
+	// 将数据库连接参数定义为 Persistent Flags，使其对所有子命令可用
+	mysqlCmd.PersistentFlags().StringP("host", "h", "localhost", "MySQL 主机名 (默认: localhost)")
+	mysqlCmd.PersistentFlags().Uint16P("port", "P", 3306, "MySQL 端口号 (默认: 3306)")
+	mysqlCmd.PersistentFlags().StringP("user", "u", "root", "MySQL 用户名 (默认: root)")
+	mysqlCmd.PersistentFlags().StringP("password", "p", "", "MySQL 密码 (空密码时可不提供)")
+	mysqlCmd.PersistentFlags().StringP("database", "d", "gforge", "数据库名 (默认: gforge)")
+	mysqlCmd.PersistentFlags().StringP("table", "t", "user", "表名 (默认: user)")
 }
 
 func flags(mysqlCmd *cobra.Command) {
-	mysqlCmd.Flags().StringP("host", "h", "localhost", "MySQL 主机名 (默认: localhost)")
-	mysqlCmd.Flags().Uint16P("port", "P", 3306, "MySQL 端口号 (默认: 3306)")
-	mysqlCmd.Flags().StringP("user", "u", "root", "MySQL 用户名 (默认: root)")
-	mysqlCmd.Flags().StringP("password", "p", "", "MySQL 密码 (空密码时可不提供)")
-	mysqlCmd.Flags().StringP("database", "d", "gforge", "数据库名 (默认: gforge)")
-	mysqlCmd.Flags().StringP("table", "t", "user", "表名 (默认: user)")
+	// 本地 flag 可以在这里定义
+	// 注意：数据库连接参数已移至 persistentFlags()
 
-	if viper.BindPFlag("host", mysqlCmd.Flags().Lookup("host")) != nil {
+	// 绑定 persistent flags 到 viper
+	if viper.BindPFlag("host", mysqlCmd.PersistentFlags().Lookup("host")) != nil {
 		return
 	}
-	if viper.BindPFlag("port", mysqlCmd.Flags().Lookup("port")) != nil {
+	if viper.BindPFlag("port", mysqlCmd.PersistentFlags().Lookup("port")) != nil {
 		return
 	}
-	if viper.BindPFlag("user", mysqlCmd.Flags().Lookup("user")) != nil {
+	if viper.BindPFlag("user", mysqlCmd.PersistentFlags().Lookup("user")) != nil {
 		return
 	}
-	if viper.BindPFlag("password", mysqlCmd.Flags().Lookup("password")) != nil {
+	if viper.BindPFlag("password", mysqlCmd.PersistentFlags().Lookup("password")) != nil {
 		return
 	}
-	if viper.BindPFlag("database", mysqlCmd.Flags().Lookup("database")) != nil {
+	if viper.BindPFlag("database", mysqlCmd.PersistentFlags().Lookup("database")) != nil {
 		return
 	}
-	if viper.BindPFlag("table", mysqlCmd.Flags().Lookup("table")) != nil {
+	if viper.BindPFlag("table", mysqlCmd.PersistentFlags().Lookup("table")) != nil {
 		return
 	}
 }
