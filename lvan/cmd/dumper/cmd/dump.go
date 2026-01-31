@@ -10,6 +10,7 @@ import (
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
+	"github.com/wangtengda0310/gobee/lvan/cmd/dumper/cmd/cmdcontext"
 	"github.com/wangtengda0310/gobee/lvan/cmd/dumper/cmd/internal"
 	"github.com/wangtengda0310/gobee/lvan/pkg/dump"
 	_type "github.com/wangtengda0310/gobee/lvan/pkg/dump/type"
@@ -36,23 +37,29 @@ to quickly create a Cobra application.`,
 		if err != nil {
 			log.Panic(err)
 		}
-		internal.VisitExport(func(db dump.Datasource) {
 
-			columns := dump.Columns(db.DB, db.Database, db.Table)
-			columnTypes := dump.GetColumnTypes(db.DB, db.Database, db.Table)
-			records := dump.Dump(db.DB, db.Database, db.Table, columns, columnTypes, where, args...)
-			log.Println(len(records), "records")
+		// 从 context 获取 manager
+		mgr := cmdcontext.GetManager(cmd.Context())
+		if mgr == nil {
+			log.Panic("数据源未初始化")
+		}
 
-			pkColumns, err := dump.GetPrimaryKeyColumns(db.DB, db.Database, db.Table)
-			if err != nil {
-				log.Printf("获取主键失败: %v\n", err)
-			}
-			log.Println("主键", pkColumns)
-			export := internal.TransExport(records, pkColumns...)
+		db := mgr.GetDB()
+		cfg := mgr.GetConfig()
 
-			log.Println("exported format", export)
-		}, where, args...)
+		columns := dump.Columns(db, cfg.Database, cfg.Table)
+		columnTypes := dump.GetColumnTypes(db, cfg.Database, cfg.Table)
+		records := dump.Dump(db, cfg.Database, cfg.Table, columns, columnTypes, where, args...)
+		log.Println(len(records), "records")
 
+		pkColumns, err := dump.GetPrimaryKeyColumns(db, cfg.Database, cfg.Table)
+		if err != nil {
+			log.Printf("获取主键失败: %v\n", err)
+		}
+		log.Println("主键", pkColumns)
+		export := internal.TransExport(records, pkColumns...)
+
+		log.Println("exported format", export)
 	},
 }
 

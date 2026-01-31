@@ -1,0 +1,107 @@
+mysql:
+  server:
+    port: 3307
+    database: testdb
+    user: root
+    password: ""
+    host: 127.0.0.1
+
+  schemas:
+    - name: user
+      columns:
+        - name: uid
+          type: INT
+          primary: true
+          nullable: false
+          auto_increment: true
+        - name: accountid
+          type: VARCHAR(50)
+          nullable: false
+          unique: true
+        - name: data
+          type: BLOB
+          nullable: true
+        - name: created_at
+          type: TIMESTAMP
+          nullable: false
+        - name: updated_at
+          type: TIMESTAMP
+          nullable: true
+      indexes:
+        - name: idx_accountid
+          columns: [accountid]
+          unique: true
+        - name: idx_created_at
+          columns: [created_at]
+          unique: false
+      data:
+        - uid: 1
+          accountid: user001
+          data: "SGVsbG8gV29ybGQhIQ=="  # Base64编码的 "Hello World!!"
+          created_at: "2025-01-10 10:00:00"
+          updated_at: "2025-01-10 10:00:00"
+        - uid: 2
+          accountid: user002
+          data: "0x48656c6c6f576f726c642121"  # 十六进制格式的 "HelloWorld!!"
+          created_at: "2025-01-10 11:00:00"
+          updated_at: "2025-01-10 11:00:00"
+        - uid: 3
+          accountid: user003
+          data: ""
+          created_at: "2025-01-10 12:00:00"
+          updated_at: null
+
+    - name: profile
+      columns:
+        - name: id
+          type: INT
+          primary: true
+          nullable: false
+          auto_increment: true
+        - name: user_id
+          type: INT
+          nullable: false
+        - name: name
+          type: VARCHAR(100)
+          nullable: false
+        - name: email
+          type: VARCHAR(255)
+          nullable: true
+        - name: age
+          type: INT
+          nullable: true
+        - name: is_active
+          type: BOOLEAN
+          nullable: false
+          default: "1"
+      indexes:
+        - name: idx_user_id
+          columns: [user_id]
+          unique: false
+        - name: idx_email
+          columns: [email]
+          unique: true
+      data:
+        - id: 1
+          user_id: 1
+          name: "Alice Smith"
+          email: "alice@example.com"
+          age: 28
+          is_active: true
+        - id: 2
+          user_id: 2
+          name: "Bob Johnson"
+          email: "bob@example.com"
+          age: 32
+          is_active: true
+        - id: 3
+          user_id: 3
+          name: "Charlie Brown"
+          email: null
+          age: 25
+          is_active: false
+
+  variables:
+    test_user_count: 100
+    default_balance: 1000.00
+    test_timeout: 30

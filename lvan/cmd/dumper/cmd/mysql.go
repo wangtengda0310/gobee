@@ -4,13 +4,15 @@ Copyright © 2025 NAME HERE <EMAIL ADDRESS>
 package cmd
 
 import (
+	"context"
 	"fmt"
 	"log"
 
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
-	"github.com/wangtengda0310/gobee/lvan/cmd/dumper/cmd/internal"
+	"github.com/wangtengda0310/gobee/lvan/cmd/dumper/cmd/cmdcontext"
 	"github.com/wangtengda0310/gobee/lvan/pkg/dump"
+	"github.com/wangtengda0310/gobee/lvan/pkg/dump/service"
 )
 
 // mysqlCmd represents the mysql command
@@ -32,21 +34,48 @@ to quickly create a Cobra application.`,
 		}
 		log.Println("PersistentPreRunE mysql")
 
+		// 解析配置
 		c := dbParams(cmd)
 		log.Println("config", c)
 
-		internal.Accept(func(visitor internal.Visitor, where string, args ...string) {
-			conn := dump.ConnC(c)
-			conn(func(db dump.Datasource) {
+		// 转换为 service.Config
+		svcCfg := service.Config{
+			Host:     c.Host,
+			Port:     c.Port,
+			User:     c.User,
+			Password: c.Password,
+			Database: c.Database,
+			Table:    c.Table,
+		}
 
-				visitor(db)
+		// 创建 MySQL 管理器
+		mgr, err := service.NewMySQLManager(context.Background(), svcCfg)
+		if err != nil {
+			return fmt.Errorf("创建数据源失败: %w", err)
+		}
 
-				log.Println("done")
+		// 获取当前 context，如果为 nil 则使用 Background
+		ctx := cmd.Context()
+		if ctx == nil {
+			ctx = context.Background()
+		}
 
-			})
-		})
-		fmt.Println("dump called", c)
+		// 存储到 context
+		ctx = cmdcontext.SetManager(ctx, mgr)
+		cmd.SetContext(ctx)
 
+		log.Println("数据源已初始化")
+		return nil
+	},
+	PersistentPostRunE: func(cmd *cobra.Command, args []string) error {
+		// 清理：关闭连接
+		if mgr := cmdcontext.GetManager(cmd.Context()); mgr != nil {
+			if err := mgr.Close(); err != nil {
+				log.Printf("关闭数据源失败: %v", err)
+				return err
+			}
+			log.Println("数据源已关闭")
+		}
 		return nil
 	},
 	Run: func(cmd *cobra.Command, args []string) {

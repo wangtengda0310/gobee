@@ -1,0 +1,315 @@
+package testdb
+
+import (
+	"testing"
+
+	"github.com/stretchr/testify/assert"
+)
+
+// TestFrameworkDemo 框架功能演示（不依赖外部库）
+func TestFrameworkDemo(t *testing.T) {
+	t.Run("配置验证演示", func(t *testing.T) {
+		// 演示MySQL配置验证
+		t.Run("有效MySQL配置", func(t *testing.T) {
+			config := MySQLConfig{
+				Server: MySQLServerConfig{
+					Host:     "127.0.0.1",
+					Port:     3307,
+					Database: "testdb",
+					User:     "root",
+					Password: "",
+				},
+				Schemas: []TableSchema{
+					{
+						Name: "user",
+						Columns: []ColumnSchema{
+							{Name: "id", Type: "INT", Primary: true, Nullable: false},
+							{Name: "name", Type: "VARCHAR(100)", Nullable: false},
+						},
+					},
+				},
+			}
+
+			err := ValidateMySQLConfig(config)
+			assert.NoError(t, err, "有效的MySQL配置应该通过验证")
+		})
+
+		t.Run("无效MySQL配置", func(t *testing.T) {
+			config := MySQLConfig{
+				Server: MySQLServerConfig{
+					Port:     99999, // 无效端口
+					Database: "testdb",
+					User:     "root",
+				},
+			}
+
+			err := ValidateMySQLConfig(config)
+			assert.Error(t, err, "无效的MySQL配置应该失败")
+			assert.Contains(t, err.Error(), "无效的端口号")
+		})
+	})
+
+	t.Run("SQL构建演示", func(t *testing.T) {
+		// 创建模拟实现来测试SQL构建
+		mysqlImpl := &MySQLTestDatabaseImpl{}
+
+		t.Run("CREATE TABLE SQL构建", func(t *testing.T) {
+			schema := TableSchema{
+				Name: "user",
+				Columns: []ColumnSchema{
+					{Name: "uid", Type: "INT", Primary: true, Nullable: false, AutoIncrement: true},
+					{Name: "accountid", Type: "VARCHAR(50)", Nullable: false, Unique: true},
+					{Name: "data", Type: "BLOB", Nullable: true},
+					{Name: "created_at", Type: "TIMESTAMP", Nullable: false},
+				},
+			}
+
+			sql := mysqlImpl.buildCreateTableSQL(schema)
+
+			assert.Contains(t, sql, "CREATE TABLE user")
+			assert.Contains(t, sql, "uid INT PRIMARY KEY AUTO_INCREMENT NOT NULL")
+			assert.Contains(t, sql, "accountid VARCHAR(50) NOT NULL UNIQUE")
+			assert.Contains(t, sql, "data BLOB")
+			assert.Contains(t, sql, "created_at TIMESTAMP NOT NULL")
+
+			t.Logf("生成的CREATE TABLE SQL:\n%s", sql)
+		})
+
+		t.Run("INSERT SQL构建", func(t *testing.T) {
+			schema := TableSchema{
+				Name: "user",
+				Columns: []ColumnSchema{
+					{Name: "uid", Type: "INT"},
+					{Name: "accountid", Type: "VARCHAR(50)"},
+					{Name: "data", Type: "BLOB"},
+					{Name: "created_at", Type: "TIMESTAMP"},
+				},
+			}
+
+			data := map[string]interface{}{
+				"accountid":  "test_user_001",
+				"data":       []byte("test data"),
+				"created_at": "2025-01-10 10:00:00",
+			}
+
+			sql, args := mysqlImpl.buildInsertSQL("user", schema, data)
+
+			assert.Contains(t, sql, "INSERT INTO user")
+			assert.Contains(t, sql, "accountid")
+			assert.Contains(t, sql, "data")
+			assert.Contains(t, sql, "created_at")
+			assert.Contains(t, sql, "?, ?, ?")
+
+			assert.Len(t, args, 3)
+			assert.Equal(t, "test_user_001", args[0])
+			assert.Equal(t, []byte("test data"), args[1])
+			assert.Equal(t, "2025-01-10 10:00:00", args[2])
+
+			t.Logf("生成的INSERT SQL: %s", sql)
+			t.Logf("参数: %+v", args)
+		})
+
+		t.Run("CREATE INDEX SQL构建", func(t *testing.T) {
+			index := IndexSchema{
+				Name:    "idx_accountid",
+				Columns: []string{"accountid"},
+				Unique:  true,
+			}
+
+			sql := mysqlImpl.buildCreateIndexSQL("user", index)
+
+			assert.Equal(t, "CREATE UNIQUE INDEX idx_accountid ON user (accountid)", sql)
+
+			t.Logf("生成的CREATE INDEX SQL: %s", sql)
+		})
+	})
+
+	t.Run("类型映射演示", func(t *testing.T) {
+		mysqlImpl := &MySQLTestDatabaseImpl{}
+
+		typeMappings := map[string]string{
+			"INT":       "INT",
+			"VARCHAR":   "VARCHAR(255)",
+			"TEXT":      "TEXT",
+			"BLOB":      "BLOB",
+			"TIMESTAMP": "TIMESTAMP",
+			"BOOLEAN":   "BOOLEAN",
+			"FLOAT":     "FLOAT",
+			"UNKNOWN":   "VARCHAR(255)",
+		}
+
+		for goType, expected := range typeMappings {
+			t.Run(goType, func(t *testing.T) {
+				result := mysqlImpl.mapColumnType(goType)
+				assert.Equal(t, expected, result)
+				t.Logf("%s -> %s", goType, result)
+			})
+		}
+	})
+
+	t.Run("工厂模式演示", func(t *testing.T) {
+		factory := GlobalFactory
+		assert.NotNil(t, factory, "全局工厂实例应该存在")
+
+		t.Run("创建MySQL配置对象", func(t *testing.T) {
+			config := CreateTestMySQLConfig()
+
+			assert.Equal(t, "testdb", config.Server.Database)
+			assert.Equal(t, 3307, config.Server.Port)
+			assert.Equal(t, "root", config.Server.User)
+			assert.Len(t, config.Schemas, 1)
+			assert.Equal(t, "user", config.Schemas[0].Name)
+
+			t.Logf("MySQL配置: %+v", config)
+		})
+
+		t.Run("创建Redis配置对象", func(t *testing.T) {
+			config := CreateTestRedisConfig()
+
+			assert.Equal(t, 6380, config.Server.Port)
+			assert.Equal(t, 0, config.Server.DB)
+			assert.Len(t, config.Data.Strings, 2)
+			assert.Len(t, config.Data.Hashes, 1)
+
+			t.Logf("Redis配置: %+v", config)
+		})
+	})
+
+	t.Run("适配器演示", func(t *testing.T) {
+		adapter := GetGlobalTestDBAdapter()
+		assert.NotNil(t, adapter, "全局适配器实例应该存在")
+
+		t.Logf("测试数据库适配器已初始化")
+	})
+}
+
+// TestFrameworkFeatures 框架特性演示
+func TestFrameworkFeatures(t *testing.T) {
+	t.Run("配置驱动特性", func(t *testing.T) {
+		// 演示YAML配置的结构
+		config := MySQLConfig{
+			Server: MySQLServerConfig{
+				Port:     3307,
+				Database: "testdb",
+				User:     "root",
+				Password: "",
+			},
+			Schemas: []TableSchema{
+				{
+					Name: "user",
+					Columns: []ColumnSchema{
+						{Name: "uid", Type: "INT", Primary: true, Nullable: false, AutoIncrement: true},
+						{Name: "accountid", Type: "VARCHAR(50)", Nullable: false, Unique: true},
+						{Name: "data", Type: "BLOB", Nullable: true},
+					},
+					Indexes: []IndexSchema{
+						{Name: "idx_accountid", Columns: []string{"accountid"}, Unique: true},
+					},
+					Data: []map[string]interface{}{
+						{
+							"uid":        1,
+							"accountid":  "user001",
+							"data":       "SGVsbG8gV29ybGQhIQ==",
+							"created_at": "2025-01-10 10:00:00",
+						},
+					},
+				},
+			},
+			Variables: map[string]interface{}{
+				"test_user_count": 100,
+				"default_balance": 1000.00,
+			},
+		}
+
+		// 验证配置
+		err := ValidateMySQLConfig(config)
+		assert.NoError(t, err)
+
+		t.Logf("配置驱动的表结构定义:")
+		for _, schema := range config.Schemas {
+			t.Logf("  表: %s", schema.Name)
+			for _, col := range schema.Columns {
+				t.Logf("    列: %s %s (主键:%v, 可空:%v)", col.Name, col.Type, col.Primary, col.Nullable)
+			}
+			for _, idx := range schema.Indexes {
+				t.Logf("    索引: %s %v", idx.Name, idx.Columns)
+			}
+			t.Logf("    测试数据: %d 条记录", len(schema.Data))
+		}
+	})
+
+	t.Run("接口设计演示", func(t *testing.T) {
+		// 演示接口层次结构
+		var _ TestDatabase = (*MySQLTestDatabaseImpl)(nil)
+		var _ MySQLTestDatabase = (*MySQLTestDatabaseImpl)(nil)
+		var _ TestDatabaseFactory = (*testDatabaseFactoryImpl)(nil)
+
+		t.Logf("接口层次结构验证通过")
+		t.Logf("- TestDatabase (基础接口)")
+		t.Logf("- MySQLTestDatabase (MySQL特定接口)")
+		t.Logf("- TestDatabaseFactory (工厂接口)")
+	})
+
+	t.Run("错误处理演示", func(t *testing.T) {
+		testCases := []struct {
+			name     string
+			config   MySQLConfig
+			wantErr  bool
+			errMsg   string
+		}{
+			{
+				name: "有效配置",
+				config: MySQLConfig{
+					Server: MySQLServerConfig{Port: 3307, Database: "test", User: "root"},
+					Schemas: []TableSchema{
+						{
+							Name: "test",
+							Columns: []ColumnSchema{
+								{Name: "id", Type: "INT", Primary: true, Nullable: false},
+							},
+						},
+					},
+				},
+				wantErr: false,
+			},
+			{
+				name: "无效端口",
+				config: MySQLConfig{
+					Server: MySQLServerConfig{Port: 99999, Database: "test", User: "root"},
+				},
+				wantErr: true,
+				errMsg:  "无效的端口号",
+			},
+			{
+				name: "缺少主键",
+				config: MySQLConfig{
+					Server: MySQLServerConfig{Port: 3307, Database: "test", User: "root"},
+					Schemas: []TableSchema{
+						{
+							Name: "test",
+							Columns: []ColumnSchema{
+								{Name: "name", Type: "VARCHAR(100)", Nullable: false},
+							},
+						},
+					},
+				},
+				wantErr: true,
+				errMsg:  "需要一个主键",
+			},
+		}
+
+		for _, tc := range testCases {
+			t.Run(tc.name, func(t *testing.T) {
+				err := ValidateMySQLConfig(tc.config)
+				if tc.wantErr {
+					assert.Error(t, err)
+					if tc.errMsg != "" {
+						assert.Contains(t, err.Error(), tc.errMsg)
+					}
+				} else {
+					assert.NoError(t, err)
+				}
+			})
+		}
+	})
+}

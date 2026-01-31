@@ -1,0 +1,124 @@
+redis:
+  server:
+    port: 6380
+    host: 127.0.0.1
+    db: 0
+
+  data:
+    # 字符串类型数据
+    strings:
+      - key: "user:1"
+        value: '{"id":1,"name":"alice","email":"alice@example.com"}'
+        ttl: 3600
+      - key: "user:2"
+        value: '{"id":2,"name":"bob","email":"bob@example.com"}'
+        ttl: 3600
+      - key: "config:app"
+        value: '{"version":"1.0.0","debug":true,"timeout":30}'
+        ttl: 0
+
+    # Hash类型数据
+    hashes:
+      - key: "user:1:profile"
+        fields:
+          id: "1"
+          name: "alice"
+          email: "alice@example.com"
+          age: "28"
+          created_at: "2025-01-10T10:00:00Z"
+        ttl: 3600
+      - key: "user:2:profile"
+        fields:
+          id: "2"
+          name: "bob"
+          email: "bob@example.com"
+          age: "32"
+          created_at: "2025-01-10T11:00:00Z"
+        ttl: 3600
+      - key: "session:abc123"
+        fields:
+          user_id: "1"
+          created_at: "2025-01-10T12:00:00Z"
+          last_activity: "2025-01-10T12:30:00Z"
+          ip_address: "192.168.1.100"
+        ttl: 1800
+
+    # List类型数据
+    lists:
+      - key: "user:1:orders"
+        values:
+          - '{"order_id":1001,"amount":50.00,"status":"completed"}'
+          - '{"order_id":1002,"amount":75.25,"status":"pending"}'
+          - '{"order_id":1003,"amount":120.00,"status":"shipped"}'
+        ttl: 0
+      - key: "user:2:orders"
+        values:
+          - '{"order_id":2001,"amount":25.50,"status":"completed"}'
+          - '{"order_id":2002,"amount":89.99,"status":"pending"}'
+        ttl: 0
+      - key: "notifications:global"
+        values:
+          - "System maintenance scheduled for tonight"
+          - "New features released in version 2.0"
+          - "Security update available"
+        ttl: 86400
+
+    # Set类型数据
+    sets:
+      - key: "user:1:tags"
+        members:
+          - "premium"
+          - "verified"
+          - "active"
+          - "beta_tester"
+        ttl: 0
+      - key: "user:2:tags"
+        members:
+          - "basic"
+          - "active"
+        ttl: 0
+      - key: "system:permissions:admin"
+        members:
+          - "user:read"
+          - "user:write"
+          - "system:config"
+          - "logs:view"
+        ttl: 0
+
+    # Sorted Set类型数据
+    sorted_sets:
+      - key: "leaderboard:score"
+        members:
+          - member: "user:1"
+            score: 1500.5
+          - member: "user:2"
+            score: 2200.75
+          - member: "user:3"
+            score: 890.25
+          - member: "user:4"
+            score: 3200.0
+        ttl: 0
+      - key: "leaderboard:login_streak"
+        members:
+          - member: "user:1"
+            score: 30
+          - member: "user:2"
+            score: 15
+          - member: "user:3"
+            score: 7
+        ttl: 0
+      - key: "cache:expiry"
+        members:
+          - member: "user:profile:1"
+            score: 1641790800  # Unix timestamp
+          - member: "user:profile:2"
+            score: 1641794400
+          - member: "session:abc123"
+            score: 1641798000
+        ttl: 0
+
+  variables:
+    default_ttl: 3600
+    max_users: 1000
+    cache_prefix: "cache:"
+    session_prefix: "session:"

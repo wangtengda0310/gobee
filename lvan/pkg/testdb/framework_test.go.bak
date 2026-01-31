@@ -1,0 +1,276 @@
+package testdb
+
+import (
+	"testing"
+
+	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/require"
+)
+
+// TestConfigValidation 测试配置验证功能
+func TestConfigValidation(t *testing.T) {
+	t.Run("验证有效MySQL配置", func(t *testing.T) {
+		config := MySQLConfig{
+			Server: MySQLServerConfig{
+				Host:     "127.0.0.1",
+				Port:     3307,
+				Database: "testdb",
+				User:     "root",
+				Password: "",
+			},
+			Schemas: []TableSchema{
+				{
+					Name: "user",
+					Columns: []ColumnSchema{
+						{Name: "id", Type: "INT", Primary: true, Nullable: false},
+						{Name: "name", Type: "VARCHAR(100)", Nullable: false},
+					},
+				},
+			},
+		}
+
+		err := ValidateMySQLConfig(config)
+		assert.NoError(t, err)
+	})
+
+	t.Run("验证无效MySQL配置", func(t *testing.T) {
+		// 端口超出范围
+		config := MySQLConfig{
+			Server: MySQLServerConfig{
+				Port:     99999,
+				Database: "testdb",
+				User:     "root",
+			},
+		}
+
+		err := ValidateMySQLConfig(config)
+		assert.Error(t, err)
+		assert.Contains(t, err.Error(), "无效的端口号")
+	})
+
+	t.Run("验证缺少主键的表", func(t *testing.T) {
+		config := MySQLConfig{
+			Server: MySQLServerConfig{
+				Port:     3307,
+				Database: "testdb",
+				User:     "root",
+			},
+			Schemas: []TableSchema{
+				{
+					Name: "user",
+					Columns: []ColumnSchema{
+						{Name: "name", Type: "VARCHAR(100)", Nullable: false},
+					},
+				},
+			},
+		}
+
+		err := ValidateMySQLConfig(config)
+		assert.Error(t, err)
+		assert.Contains(t, err.Error(), "需要一个主键")
+	})
+
+	t.Run("验证有效Redis配置", func(t *testing.T) {
+		config := RedisConfig{
+			Server: RedisServerConfig{
+				Host: "127.0.0.1",
+				Port: 6380,
+				DB:   0,
+			},
+		}
+
+		err := ValidateRedisConfig(config)
+		assert.NoError(t, err)
+	})
+
+	t.Run("验证无效Redis配置", func(t *testing.T) {
+		// DB索引超出范围
+		config := RedisConfig{
+			Server: RedisServerConfig{
+				Port: 6380,
+				DB:   20,
+			},
+		}
+
+		err := ValidateRedisConfig(config)
+		assert.Error(t, err)
+		assert.Contains(t, err.Error(), "无效的Redis DB索引")
+	})
+}
+
+// TestFactoryPattern 测试工厂模式
+func TestFactoryPattern(t *testing.T) {
+	factory := GlobalFactory
+	require.NotNil(t, factory)
+
+	t.Run("创建MySQL配置", func(t *testing.T) {
+		config := CreateTestMySQLConfig()
+
+		mysqlDB, err := factory.CreateMySQL(config)
+		assert.NoError(t, err)
+		assert.NotNil(t, mysqlDB)
+
+		// 测试接口方法
+		assert.Equal(t, "testdb", config.Server.Database)
+		assert.Equal(t, 3307, config.Server.Port)
+	})
+
+	t.Run("创建Redis配置", func(t *testing.T) {
+		config := CreateTestRedisConfig()
+
+		redisDB, err := factory.CreateRedis(config)
+		assert.NoError(t, err)
+		assert.NotNil(t, redisDB)
+
+		// 测试接口方法
+		assert.Equal(t, 0, config.Server.DB)
+		assert.Equal(t, 6380, config.Server.Port)
+	})
+}
+
+// TestSQLBuilder 测试SQL构建功能
+func TestSQLBuilder(t *testing.T) {
+	// 创建模拟的MySQL实现来测试SQL构建
+	mysqlImpl := &MySQLTestDatabaseImpl{
+		config: CreateTestMySQLConfig(),
+	}
+
+	t.Run("构建CREATE TABLE SQL", func(t *testing.T) {
+		schema := TableSchema{
+			Name: "test_user",
+			Columns: []ColumnSchema{
+				{Name: "id", Type: "INT", Primary: true, Nullable: false, AutoIncrement: true},
+				{Name: "username", Type: "VARCHAR(50)", Nullable: false, Unique: true},
+				{Name: "email", Type: "VARCHAR(100)", Nullable: true},
+				{Name: "created_at", Type: "TIMESTAMP", Nullable: false},
+			},
+		}
+
+		sql := mysqlImpl.buildCreateTableSQL(schema)
+
+		assert.Contains(t, sql, "CREATE TABLE test_user")
+		assert.Contains(t, sql, "id INT PRIMARY KEY AUTO_INCREMENT NOT NULL")
+		assert.Contains(t, sql, "username VARCHAR(50) NOT NULL UNIQUE")
+		assert.Contains(t, sql, "email VARCHAR(100)")
+		assert.Contains(t, sql, "created_at TIMESTAMP NOT NULL")
+	})
+
+	t.Run("构建CREATE INDEX SQL", func(t *testing.T) {
+		index := IndexSchema{
+			Name:    "idx_username",
+			Columns: []string{"username"},
+			Unique:  true,
+		}
+
+		sql := mysqlImpl.buildCreateIndexSQL("test_user", index)
+
+		assert.Equal(t, "CREATE UNIQUE INDEX idx_username ON test_user (username)", sql)
+	})
+
+	t.Run("构建INSERT SQL", func(t *testing.T) {
+		schema := TableSchema{
+			Name: "test_user",
+			Columns: []ColumnSchema{
+				{Name: "id", Type: "INT"},
+				{Name: "username", Type: "VARCHAR(50)"},
+				{Name: "email", Type: "VARCHAR(100)"},
+			},
+		}
+
+		data := map[string]interface{}{
+			"username": "testuser",
+			"email":    "test@example.com",
+		}
+
+		sql, args := mysqlImpl.buildInsertSQL("test_user", schema, data)
+
+		assert.Contains(t, sql, "INSERT INTO test_user")
+		assert.Contains(t, sql, "username")
+		assert.Contains(t, sql, "email")
+		assert.Contains(t, sql, "?, ?")
+		assert.Len(t, args, 2)
+		assert.Equal(t, "testuser", args[0])
+		assert.Equal(t, "test@example.com", args[1])
+	})
+}
+
+// TestColumnTypeMapping 测试列类型映射
+func TestColumnTypeMapping(t *testing.T) {
+	mysqlImpl := &MySQLTestDatabaseImpl{}
+
+	testCases := []struct {
+		input    string
+		expected string
+	}{
+		{"INT", "INT"},
+		{"int", "INT"},
+		{"VARCHAR", "VARCHAR(255)"},
+		{"string", "VARCHAR(255)"},
+		{"TEXT", "TEXT"},
+		{"text", "TEXT"},
+		{"BLOB", "BLOB"},
+		{"blob", "BLOB"},
+		{"TIMESTAMP", "TIMESTAMP"},
+		{"timestamp", "TIMESTAMP"},
+		{"BOOLEAN", "BOOLEAN"},
+		{"bool", "BOOLEAN"},
+		{"FLOAT", "FLOAT"},
+		{"float", "FLOAT"},
+		{"UNKNOWN", "VARCHAR(255)"},
+	}
+
+	for _, tc := range testCases {
+		t.Run(tc.input, func(t *testing.T) {
+			result := mysqlImpl.mapColumnType(tc.input)
+			assert.Equal(t, tc.expected, result)
+		})
+	}
+}
+
+// TestConfigFileOperations 测试配置文件操作
+func TestConfigFileOperations(t *testing.T) {
+	t.Run("创建测试配置", func(t *testing.T) {
+		mysqlConfig := CreateTestMySQLConfig()
+		assert.Equal(t, "testdb", mysqlConfig.Server.Database)
+		assert.Equal(t, 3307, mysqlConfig.Server.Port)
+		assert.Len(t, mysqlConfig.Schemas, 1)
+		assert.Equal(t, "user", mysqlConfig.Schemas[0].Name)
+
+		redisConfig := CreateTestRedisConfig()
+		assert.Equal(t, 6380, redisConfig.Server.Port)
+		assert.Equal(t, 0, redisConfig.Server.DB)
+		assert.Len(t, redisConfig.Data.Strings, 2)
+		assert.Len(t, redisConfig.Data.Hashes, 1)
+	})
+}
+
+// TestFrameworkBasics 测试框架基础功能
+func TestFrameworkBasics(t *testing.T) {
+	t.Run("全局工厂实例", func(t *testing.T) {
+		factory := GlobalFactory
+		assert.NotNil(t, factory)
+	})
+
+	t.Run("适配器初始化", func(t *testing.T) {
+		adapter := GetGlobalTestDBAdapter()
+		assert.NotNil(t, adapter)
+	})
+}
+
+// BenchmarkSQLBuilder SQL构建性能基准测试
+func BenchmarkSQLBuilder(b *testing.B) {
+	mysqlImpl := &MySQLTestDatabaseImpl{}
+	schema := TableSchema{
+		Name: "benchmark_table",
+		Columns: []ColumnSchema{
+			{Name: "id", Type: "INT", Primary: true, Nullable: false},
+			{Name: "name", Type: "VARCHAR(100)", Nullable: false},
+			{Name: "description", Type: "TEXT", Nullable: true},
+		},
+	}
+
+	b.ResetTimer()
+	for i := 0; i < b.N; i++ {
+		mysqlImpl.buildCreateTableSQL(schema)
+	}
+}
