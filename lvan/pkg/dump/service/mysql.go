@@ -16,7 +16,11 @@ type MySQLManager struct {
 
 // NewMySQLManager 创建 MySQL 管理器
 func NewMySQLManager(ctx context.Context, config Config) (*MySQLManager, error) {
-	db, err := sql.Open("mysql", config.DSN())
+	// 直接构建 DSN，不使用 Config.DSN() 方法
+	dsn := fmt.Sprintf("%s:%s@tcp(%s:%d)/%s?parseTime=true",
+		config.User, config.Password, config.Host, config.Port, config.Database)
+
+	db, err := sql.Open("mysql", dsn)
 	if err != nil {
 		return nil, fmt.Errorf("连接失败: %w", err)
 	}
