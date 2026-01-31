@@ -34,6 +34,13 @@
   - 原因: fmt.Sprintf("%s.%s.zip") 缺少参数
   - 修复: 从 viper 获取 database 和 table 参数
 
+- [x] **TODO-012**: 架构重构 - 统一为 context 传递模式
+  - 状态: ✅ 已完成 (2025-01-31)
+  - 文件: `docs/ARCHITECTURE_ADR.md`, `docs/REFACTOR_PLAN.md`
+  - 新增: `pkg/dump/service/`, `cmd/dumper/cmd/cmdcontext/`
+  - 重构: 移除全局变量依赖，使用 context.Context 传递数据源
+  - 详见: [架构决策记录](docs/ARCHITECTURE_ADR.md)
+
 ---
 
 ## 🟡 中优先级 (P1)
@@ -236,6 +243,7 @@ password := "p_mysql"
 | TODO-006 | 更新回归测试文档 | 2025-01-31 |
 | TODO-010 | 修复 TIMESTAMP 导入失败 | 2025-01-31 |
 | TODO-011 | 修复 ZIP 文件名格式化 | 2025-01-31 |
+| TODO-012 | 架构重构：统一为 context 传递模式 | 2025-01-31 |
 | - | MySQL Mock 框架实现 | 2025-01-10 |
 | - | v2 数据源抽象 | 2025-11-10 |
 | - | ZIP 格式测试 | 已完成 |
