@@ -103,8 +103,9 @@ func (d *Dumper) dumpKeyToZip(ctx context.Context, client *redis.Client, key str
 
 // dumpStringToZip 导出 String 类型到 ZIP
 func (d *Dumper) dumpStringToZip(ctx context.Context, client *redis.Client, key string, zipWriter *zip.Writer) error {
-	// 获取值
-	value, err := client.Get(ctx, key).Result()
+	// 获取值 - 使用 Bytes() 确保二进制安全
+	// 这对于包含 NULL 字节、Protobuf 数据、非 UTF-8 编码的数据非常重要
+	value, err := client.Get(ctx, key).Bytes()
 	if err != nil {
 		return fmt.Errorf("获取 String 值失败: %w", err)
 	}
@@ -119,8 +120,8 @@ func (d *Dumper) dumpStringToZip(ctx context.Context, client *redis.Client, key 
 		return fmt.Errorf("创建 ZIP 文件失败: %w", err)
 	}
 
-	// 写入数据
-	_, err = w.Write([]byte(value))
+	// 写入数据 - 直接写入 []byte，无需转换
+	_, err = w.Write(value)
 	if err != nil {
 		return fmt.Errorf("写入数据失败: %w", err)
 	}

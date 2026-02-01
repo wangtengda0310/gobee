@@ -72,7 +72,7 @@ func (imp *Importer) Import(ctx context.Context, zipPath string, db int) (*Impor
 			path:      file.Name,
 			entryType: entryType,
 			entryName: entryName,
-			content:   string(content),
+			content:   content, // 直接使用 []byte
 		})
 	}
 
@@ -98,7 +98,7 @@ type zipFileEntry struct {
 	path      string
 	entryType string // "string", "hash", "zset", "set"
 	entryName string // 字段名、成员名等
-	content   string
+	content   []byte // 使用 []byte 支持二进制数据
 }
 
 // parseZipFilePath 解析 ZIP 文件路径
@@ -257,8 +257,10 @@ func (imp *Importer) detectDataType(entries []zipFileEntry) string {
 	for _, e := range entries {
 		// 反向清理文件名
 		unsanitized := unsanitizeFileName(filepath.Base(e.path))
+		// 将 content ([]byte) 转换为 string 进行比较
+		contentStr := string(e.content)
 		// 如果内容与反向清理后的文件名不同，则不是 Set
-		if e.content != unsanitized {
+		if contentStr != unsanitized {
 			allSet = false
 			break
 		}
@@ -284,7 +286,8 @@ func (imp *Importer) importString(ctx context.Context, client *redis.Client, key
 		return fmt.Errorf("String 类型应该只有一个条目，但找到 %d 个", len(entries))
 	}
 
-	value := entries[0].content
+	value := entries[0].content // []byte
+	// Set() 直接接受 []byte，会正确处理二进制数据
 	return client.Set(ctx, key, value, 0).Err()
 }
 
@@ -293,6 +296,7 @@ func (imp *Importer) importHash(ctx context.Context, client *redis.Client, key s
 	for _, entry := range entries {
 		// 提取字段名（最后一部分是字段名）
 		fieldName := filepath.Base(entry.path)
+		// HSet() 接受 []byte，会正确处理二进制字段值
 		if err := client.HSet(ctx, key, fieldName, entry.content).Err(); err != nil {
 			return err
 		}
@@ -307,7 +311,7 @@ func (imp *Importer) importZSet(ctx context.Context, client *redis.Client, key s
 		fileName := filepath.Base(entry.path)
 		_, score := parseZSetFileName(fileName)
 
-		// 内容是 member 名称
+		// 内容是 member 名称（可能是二进制）
 		memberName := entry.content
 
 		// 使用 ZAdd 添加成员
@@ -324,8 +328,9 @@ func (imp *Importer) importZSet(ctx context.Context, client *redis.Client, key s
 // importSet 导入 Set 类型
 func (imp *Importer) importSet(ctx context.Context, client *redis.Client, key string, entries []zipFileEntry) error {
 	for _, entry := range entries {
-		// 内容是 member 名称
+		// 内容是 member 名称（可能是二进制）
 		member := entry.content
+		// SAdd() 接受 []byte，会正确处理二进制成员
 		if err := client.SAdd(ctx, key, member).Err(); err != nil {
 			return err
 		}
