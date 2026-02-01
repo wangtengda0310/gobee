@@ -153,6 +153,42 @@ func isZSetFileName(name string) bool {
 	return matched
 }
 
+// isListFileName 判断是否是 List 文件名格式（连续的 6 位数字索引）
+// List 文件名格式：000000, 000001, 000002, ...（连续索引）
+// ZSET 文件名格式：000099_user_10001（非连续的分数）
+//
+// 检测策略：检查所有文件名是否形成从 0 开始的连续序列
+func isListFileName(entries []zipFileEntry) bool {
+	if len(entries) == 0 {
+		return false
+	}
+
+	// 收集所有索引
+	indices := make(map[int]bool)
+	for _, entry := range entries {
+		fileName := filepath.Base(entry.path)
+		// 检查是否是 6 位数字开头
+		matched, _ := regexp.MatchString(`^\d{6}`, fileName)
+		if !matched {
+			return false
+		}
+
+		// 提取索引
+		indexStr := fileName[:6]
+		index, _ := strconv.ParseInt(indexStr, 10, 64)
+		indices[int(index)] = true
+	}
+
+	// 检查是否是从 0 开始的连续索引
+	for i := 0; i < len(indices); i++ {
+		if !indices[i] {
+			return false
+		}
+	}
+
+	return true
+}
+
 // parseZSetFileName 解析 ZSET 文件名
 // 例如：000099_user_10001 -> member=user:10001, score=99
 func parseZSetFileName(name string) (member string, score int64) {
@@ -224,6 +260,8 @@ func (imp *Importer) importKey(ctx context.Context, client *redis.Client, key st
 		return imp.importString(ctx, client, key, entries)
 	case "hash":
 		return imp.importHash(ctx, client, key, entries)
+	case "list":
+		return imp.importList(ctx, client, key, entries)
 	case "zset":
 		return imp.importZSet(ctx, client, key, entries)
 	case "set":
@@ -244,9 +282,15 @@ func (imp *Importer) detectDataType(entries []zipFileEntry) string {
 		return "string"
 	}
 
-	// 检查第一个条目的格式
-	// 如果文件名是数字开头 -> ZSET
-	if isZSetFileName(filepath.Base(entries[0].path)) {
+	// 检查是否是 List 类型（连续索引从 0 开始）
+	// 需要在 ZSET 之前检查，因为 ZSET 也有 6 位数字前缀
+	if isListFileName(entries) {
+		return "list"
+	}
+
+	// 检查是否是 ZSET 文件名格式（6 位数字 + 下划线 + 内容）
+	fileName := filepath.Base(entries[0].path)
+	if isZSetFileName(fileName) {
 		return "zset"
 	}
 
@@ -333,6 +377,40 @@ func (imp *Importer) importSet(ctx context.Context, client *redis.Client, key st
 		// SAdd() 接受 []byte，会正确处理二进制成员
 		if err := client.SAdd(ctx, key, member).Err(); err != nil {
 			return err
+		}
+	}
+	return nil
+}
+
+// importList 导入 List 类型
+func (imp *Importer) importList(ctx context.Context, client *redis.Client, key string, entries []zipFileEntry) error {
+	// List 文件名格式：000000 或 000000_content
+	// 需要按索引排序后，使用 RPUSH 按顺序导入
+	// RPUSH 保证：RPUSH a,b,c -> List [a,b,c]
+
+	// 按索引排序条目
+	sortedEntries := make([]zipFileEntry, len(entries))
+	copy(sortedEntries, entries)
+
+	// 简单的冒泡排序，按文件名的索引部分排序
+	for i := 0; i < len(sortedEntries)-1; i++ {
+		for j := i + 1; j < len(sortedEntries); j++ {
+			fileNameI := filepath.Base(sortedEntries[i].path)
+			fileNameJ := filepath.Base(sortedEntries[j].path)
+			// 提取索引（前 6 位）
+			indexI := fileNameI[:6]
+			indexJ := fileNameJ[:6]
+			if indexI > indexJ {
+				sortedEntries[i], sortedEntries[j] = sortedEntries[j], sortedEntries[i]
+			}
+		}
+	}
+
+	// 按顺序 RPUSH
+	for _, entry := range sortedEntries {
+		// 内容是 List 元素（可能是二进制）
+		if err := client.RPush(ctx, key, entry.content).Err(); err != nil {
+			return fmt.Errorf("导入 List 元素失败: %w", err)
 		}
 	}
 	return nil
