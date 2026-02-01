@@ -2,7 +2,7 @@
 
 ## 当前分支: lvan/dumper
 
-**最后更新**: 2025-01-31
+**最后更新**: 2025-02-02
 
 ---
 
@@ -232,6 +232,81 @@ password := "p_mysql"
 | TODO-001 | encoding_examples.go 未使用的导入 | 低 | ✅ 已处理 | - |
 | TODO-002 | go-spring 集成代码清理 | 中 | ✅ 已完成 | - |
 | DEBT-004 | 集成测试硬编码数据库 | 中 | 🟡 待重构 | - |
+| REDIS-001 | Go 模块路径解析问题 | 🔴 高 | ✅ 已解决 | - |
+| REDIS-002 | ZSET 文件名格式断言修正 | 🟡 中 | ✅ 已完成 | - |
+| REDIS-003 | Redis import 功能实现 | 🟢 中 | ✅ 已完成 | - |
+
+---
+
+### ✅ REDIS-001: Go 模块路径解析问题
+
+**最后更新**: 2025-02-02
+
+**问题**: `go test` 无法找到正确的模块路径
+
+**解决方案**:
+从模块根目录 (`lvan/`) 运行测试：`go test ./pkg/dump/redis/...`
+
+**状态**: ✅ 已解决
+
+---
+
+### ✅ REDIS-002: ZSET 文件名格式断言修正
+
+**最后更新**: 2025-02-02
+
+**问题**: 测试断言与实际文件名格式不匹配
+
+**解决方案**:
+修改测试断言以匹配 `sanitizeFileName()` 行为
+
+**状态**: ✅ 已完成
+
+---
+
+### ✅ REDIS-003: Redis Import 功能实现
+
+**最后更新**: 2025-02-02
+
+**功能**: 从 ZIP 文件导入 Redis 数据
+
+**实现内容**:
+- ✅ String 类型导入 (RSI01-RSI04)
+- ✅ Hash 类型导入 (RHI01-RHI02)
+- ✅ ZSET 类型导入 (RZI01)
+- ✅ Set 类型导入 (RSI01)
+- ✅ 错误处理（无效文件）
+
+**测试结果**: 9/9 测试通过
+
+**相关文件**:
+- `lvan/pkg/dump/redis/import.go` - Importer 实现
+- `lvan/pkg/dump/redis/import_test.go` - Import 单元测试
+
+---
+
+### 📊 Redis 功能开发完成情况
+
+| 功能 | 测试覆盖 | 状态 |
+|------|---------|------|
+| String dump/import | 7/7 | ✅ |
+| Hash dump/import | 3/3 | ✅ |
+| ZSET dump/import | 2/2 | ✅ |
+| Set dump/import | 2/2 | ✅ |
+| Pattern 匹配 | 2/2 | ✅ |
+| 错误处理 | 2/2 | ✅ |
+
+**总测试数**: 18/18 ✅
+
+**文件清单**:
+- ✅ `lvan/pkg/dump/service/redis.go` - RedisManager 实现
+- ✅ `lvan/cmd/dumper/cmd/redis.go` - CLI 命令框架
+- ✅ `lvan/pkg/dump/redis/dump.go` - Dumper 实现
+- ✅ `lvan/pkg/dump/redis/dump_test.go` - Dump 单元测试
+- ✅ `lvan/pkg/dump/redis/import.go` - Importer 实现
+- ✅ `lvan/pkg/dump/redis/import_test.go` - Import 单元测试
+
+---
 
 ### 最近完成 (2025-01-31)
 
@@ -261,4 +336,4 @@ password := "p_mysql"
 ---
 
 *维护者: LVAN Dumper 开发团队*
-*最后更新: 2025-01-31*
+*最后更新: 2025-02-02*
