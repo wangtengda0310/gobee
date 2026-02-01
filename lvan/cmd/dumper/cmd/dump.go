@@ -85,6 +85,16 @@ func transExportFormat() func(records []dump.Record, pks ...string) string {
 	//		dirname = fmt.Sprintf("%s.%s", database, table)
 	//	}
 	//	return _type.Dir(dirname)
+	case tprredis:
+		// Redis 输出格式 (MySQL → Redis 迁移)
+		return _type.Redis(_type.RedisConfig{
+			Host:      viper.GetString("redis-host"),
+			Port:      viper.GetInt("redis-port"),
+			Password:  viper.GetString("redis-password"),
+			DB:        viper.GetInt("redis-db"),
+			KeyPrefix: viper.GetString("redis-key-prefix"),
+			TTL:       viper.GetInt64("redis-ttl"),
+		})
 	case tpsql:
 		return func(records []dump.Record, pks ...string) string {
 			return fmt.Sprintf("%v", records)
@@ -114,6 +124,22 @@ func init() {
 			log.Printf("Error binding output flag to viper: %v", err)
 		}
 	}
+
+	// Redis 输出相关 flags (MySQL → Redis 迁移)
+	dumpCmd.PersistentFlags().String("redis-host", "127.0.0.1", "Redis 主机地址")
+	dumpCmd.PersistentFlags().Int("redis-port", 6379, "Redis 端口")
+	dumpCmd.PersistentFlags().String("redis-password", "", "Redis 密码")
+	dumpCmd.PersistentFlags().Int("redis-db", 0, "Redis 数据库编号")
+	dumpCmd.PersistentFlags().String("redis-key-prefix", "export:", "Redis key 前缀")
+	dumpCmd.PersistentFlags().Int64("redis-ttl", 0, "Redis key 过期时间（秒），0 表示永不过期")
+
+	// 绑定 Redis flags 到 viper
+	viper.BindPFlag("redis-host", dumpCmd.PersistentFlags().Lookup("redis-host"))
+	viper.BindPFlag("redis-port", dumpCmd.PersistentFlags().Lookup("redis-port"))
+	viper.BindPFlag("redis-password", dumpCmd.PersistentFlags().Lookup("redis-password"))
+	viper.BindPFlag("redis-db", dumpCmd.PersistentFlags().Lookup("redis-db"))
+	viper.BindPFlag("redis-key-prefix", dumpCmd.PersistentFlags().Lookup("redis-key-prefix"))
+	viper.BindPFlag("redis-ttl", dumpCmd.PersistentFlags().Lookup("redis-ttl"))
 
 	// Cobra supports local flags which will only run when this command
 	// is called directly, e.g.:

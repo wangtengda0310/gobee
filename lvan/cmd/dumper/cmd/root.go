@@ -21,6 +21,7 @@ const (
 	tpsql     = "sql-tpl"
 	tpdir     = "dir"
 	tpconsole = "-"
+	tprredis  = "redis" // Redis 输出格式 (MySQL → Redis 迁移)
 )
 
 var cfgFile string
@@ -89,7 +90,7 @@ func init() {
 	// will be global for your application.
 
 	rootCmd.PersistentFlags().StringVar(&cfgFile, "config", "", "config file (default is $HOME/.dumper.yaml)")
-	rootCmd.PersistentFlags().String(in, tpzip, fmt.Sprintf("输出format:%s/%s/%s (默认: %s)", tpzip, tpdir, tpsql, tpzip))
+	rootCmd.PersistentFlags().String(in, tpzip, fmt.Sprintf("输出format:%s/%s/%s/%s (默认: %s)", tpzip, tpdir, tpsql, tprredis, tpzip))
 	if viper.BindPFlag(in, rootCmd.PersistentFlags().Lookup(in)) != nil {
 		return
 	}
