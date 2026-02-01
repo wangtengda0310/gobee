@@ -5,7 +5,6 @@ import (
 	"fmt"
 	"log"
 	"strings"
-	"time"
 )
 
 // isTimeType 列是否为时间类型，需要特殊处理
@@ -47,15 +46,14 @@ func Dump(db *sql.DB, database, table string, columns []string, columnTypes map[
 	columns, err = query.Columns()
 	colCount := len(columns)
 	for query.Next() {
-		// 为时间类型字段使用 time.Time，其他使用 []byte
+		// 为时间类型字段使用 sql.NullTime（可处理 NULL），其他使用 []byte
 		values := make([]interface{}, colCount)
 		scanInterfaces := make([]interface{}, colCount)
 		for i, col := range columns {
 			if isTimeType(columnTypes[col]) {
-				var t time.Time
+				var t sql.NullTime
 				scanInterfaces[i] = &t
-				// 时间类型在扫描后转换为字符串
-				values[i] = nil
+				values[i] = &t
 			} else {
 				var b []byte
 				scanInterfaces[i] = &b
@@ -71,10 +69,9 @@ func Dump(db *sql.DB, database, table string, columns []string, columnTypes map[
 		for i, column := range columns {
 			if isTimeType(columnTypes[column]) {
 				// 时间类型转换为字符串
-				t := scanInterfaces[i].(*time.Time)
-				if !t.IsZero() {
-					// 使用 MySQL 标准格式
-					rowMap[column] = []byte(t.Format("2006-01-02 15:04:05"))
+				nt := values[i].(*sql.NullTime)
+				if nt.Valid {
+					rowMap[column] = []byte(nt.Time.Format("2006-01-02 15:04:05"))
 				} else {
 					rowMap[column] = nil
 				}

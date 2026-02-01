@@ -13,6 +13,13 @@ func Import(db *sql.DB, database string, table string, records []Record) {
 	for _, importRecords := range beforeImportRecordsCallback {
 		importRecords(records)
 	}
+
+	// 切换到目标数据库
+	_, err := db.Exec(fmt.Sprintf("USE %s;", database))
+	if err != nil {
+		log.Panicf("切换数据库失败: %v", err)
+	}
+
 	// 1. 获取表结构信息（包含字段类型）
 	columnsInfo, err := getTableColumnsWithTypes(db, database, table)
 	if err != nil {
@@ -158,6 +165,11 @@ func recordExists(tx *sql.Tx, table string, pkColumns []string, record map[strin
 
 // processFieldValue 根据字段类型处理值
 func processFieldValue(value []byte, fieldType string) interface{} {
+	// 空值处理：对于所有类型，空字节数组都应返回 nil
+	if len(value) == 0 {
+		return nil
+	}
+
 	switch fieldType {
 	case "blob", "longblob", "mediumblob", "tinyblob":
 		// blob类型直接使用record对应的值
