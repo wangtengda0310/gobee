@@ -3,6 +3,7 @@ package redis
 import (
 	"archive/zip"
 	"context"
+	"encoding/json"
 	"fmt"
 	"io"
 	"log"
@@ -10,6 +11,7 @@ import (
 	"regexp"
 	"strconv"
 	"strings"
+	"time"
 
 	"github.com/redis/go-redis/v9"
 	"github.com/wangtengda0310/gobee/lvan/pkg/dump/service"
@@ -46,9 +48,39 @@ func (imp *Importer) Import(ctx context.Context, zipPath string, db int) (*Impor
 
 	// 按键分组收集数据
 	keyGroups := make(map[string][]zipFileEntry)
+	keyMetadatas := make(map[string]keyMetadata) // 存储每个 key 的元数据
 	for _, file := range zipReader.File {
 		// 跳过目录
 		if file.FileInfo().IsDir() {
+			continue
+		}
+
+		fileName := filepath.Base(file.Name)
+
+		// 跳过元数据文件
+		if fileName == ".metadata.json" {
+			// 读取元数据
+			rc, err := file.Open()
+			if err != nil {
+				return nil, fmt.Errorf("打开元数据文件 %s 失败: %w", file.Name, err)
+			}
+
+			content, err := io.ReadAll(rc)
+			rc.Close()
+
+			if err != nil {
+				return nil, fmt.Errorf("读取元数据文件失败: %w", err)
+			}
+
+			// 解析元数据
+			var metadata keyMetadata
+			if err := json.Unmarshal(content, &metadata); err != nil {
+				return nil, fmt.Errorf("解析元数据失败: %w", err)
+			}
+
+			// 从路径中提取 key
+			key := filepath.Dir(file.Name)
+			keyMetadatas[key] = metadata
 			continue
 		}
 
@@ -79,9 +111,22 @@ func (imp *Importer) Import(ctx context.Context, zipPath string, db int) (*Impor
 	// 导入每个 key
 	keysImported := 0
 	for key, entries := range keyGroups {
-		if err := imp.importKey(ctx, client, key, entries, db); err != nil {
+		// 获取元数据
+		metadata, hasMetadata := keyMetadatas[key]
+
+		if err := imp.importKey(ctx, client, key, entries, db, metadata); err != nil {
 			return nil, fmt.Errorf("导入 key %s 失败: %w", key, err)
 		}
+
+		// 恢复 TTL
+		if hasMetadata && metadata.TTL >= 0 {
+			// TTL >= 0 表示有过期时间
+			if err := client.Expire(ctx, key, time.Duration(metadata.TTL)*time.Second).Err(); err != nil {
+				return nil, fmt.Errorf("恢复 TTL 失败: %w", err)
+			}
+			log.Printf("  恢复 TTL: %d秒", metadata.TTL)
+		}
+
 		keysImported++
 	}
 
@@ -99,6 +144,13 @@ type zipFileEntry struct {
 	entryType string // "string", "hash", "zset", "set"
 	entryName string // 字段名、成员名等
 	content   []byte // 使用 []byte 支持二进制数据
+}
+
+// keyMetadata Key 元数据
+type keyMetadata struct {
+	Key  string `json:"key"`
+	Type string `json:"type"`
+	TTL  int64  `json:"ttl"` // -1 表示永久
 }
 
 // parseZipFilePath 解析 ZIP 文件路径
@@ -241,7 +293,10 @@ func unsanitizeFileName(name string) string {
 }
 
 // importKey 导入单个 key
-func (imp *Importer) importKey(ctx context.Context, client *redis.Client, key string, entries []zipFileEntry, db int) error {
+func (imp *Importer) importKey(ctx context.Context, client *redis.Client, key string, entries []zipFileEntry, db int, metadata keyMetadata) error {
+	_ = db // 暂时未使用
+	_ = metadata // 暂时未使用，TTL 恢复在调用方处理
+
 	if len(entries) == 0 {
 		return nil
 	}

@@ -3,10 +3,12 @@ package redis
 import (
 	"archive/zip"
 	"context"
+	"encoding/json"
 	"fmt"
 	"log"
 	"os"
 	"strings"
+	"time"
 
 	"github.com/redis/go-redis/v9"
 	"github.com/wangtengda0310/gobee/lvan/pkg/dump/service"
@@ -82,23 +84,58 @@ func (d *Dumper) dumpKeyToZip(ctx context.Context, client *redis.Client, key str
 		return fmt.Errorf("获取 key 类型失败: %w", err)
 	}
 
-	log.Printf("导出 key: %s (类型: %s)", key, keyType)
+	// 获取 TTL
+	ttl, err := client.TTL(ctx, key).Result()
+	if err != nil {
+		return fmt.Errorf("获取 TTL 失败: %w", err)
+	}
+
+	// 记录日志
+	ttlSeconds := int64(ttl) / int64(time.Second)
+	if ttlSeconds == 0 {
+		// 在 Redis 中 TTL=-1 表示永久，但某些客户端可能返回 0
+		// 我们通过检查 TTL 是否小于 0 来判断
+		if ttl < 0 {
+			ttlSeconds = -1
+		}
+	}
+	log.Printf("导出 key: %s (类型: %s, TTL: %d秒)", key, keyType, ttlSeconds)
 
 	// 根据类型导出
 	switch keyType {
 	case "string":
-		return d.dumpStringToZip(ctx, client, key, zipWriter)
+		if err := d.dumpStringToZip(ctx, client, key, zipWriter); err != nil {
+			return err
+		}
 	case "hash":
-		return d.dumpHashToZip(ctx, client, key, zipWriter)
+		if err := d.dumpHashToZip(ctx, client, key, zipWriter); err != nil {
+			return err
+		}
 	case "zset":
-		return d.dumpZSetToZip(ctx, client, key, zipWriter)
+		if err := d.dumpZSetToZip(ctx, client, key, zipWriter); err != nil {
+			return err
+		}
 	case "set":
-		return d.dumpSetToZip(ctx, client, key, zipWriter)
+		if err := d.dumpSetToZip(ctx, client, key, zipWriter); err != nil {
+			return err
+		}
 	case "list":
-		return d.dumpListToZip(ctx, client, key, zipWriter)
+		if err := d.dumpListToZip(ctx, client, key, zipWriter); err != nil {
+			return err
+		}
 	default:
 		return fmt.Errorf("不支持的 key 类型: %s", keyType)
 	}
+
+	// 创建元数据文件（仅当 TTL != -1 时）
+	// 永久 key (TTL=-1) 不需要元数据，保持向后兼容
+	if ttlSeconds != -1 {
+		if err := d.createMetadataFile(key, keyType, ttlSeconds, zipWriter); err != nil {
+			return fmt.Errorf("创建元数据文件失败: %w", err)
+		}
+	}
+
+	return nil
 }
 
 // dumpStringToZip 导出 String 类型到 ZIP
@@ -263,4 +300,35 @@ func sanitizeFileName(name string) string {
 	}
 
 	return result
+}
+
+// createMetadataFile 创建元数据文件
+func (d *Dumper) createMetadataFile(key, keyType string, ttlSeconds int64, zipWriter *zip.Writer) error {
+	// 构建元数据结构
+	metadata := map[string]interface{}{
+		"key":  key,
+		"type": keyType,
+		"ttl":  ttlSeconds, // -1 表示永久
+	}
+
+	// 转换为 JSON
+	metadataJSON, err := json.Marshal(metadata)
+	if err != nil {
+		return fmt.Errorf("序列化元数据失败: %w", err)
+	}
+
+	// 创建元数据文件：key/.metadata.json
+	metadataPath := key + "/.metadata.json"
+	w, err := zipWriter.Create(metadataPath)
+	if err != nil {
+		return fmt.Errorf("创建元数据文件失败: %w", err)
+	}
+
+	// 写入元数据
+	_, err = w.Write(metadataJSON)
+	if err != nil {
+		return fmt.Errorf("写入元数据失败: %w", err)
+	}
+
+	return nil
 }
