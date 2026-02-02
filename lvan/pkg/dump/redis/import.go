@@ -110,11 +110,24 @@ func (imp *Importer) Import(ctx context.Context, zipPath string, db int) (*Impor
 
 	// 导入每个 key
 	keysImported := 0
+	totalKeys := len(keyGroups)
+
+	// 创建进度条
+	progress := NewProgressManager(int64(totalKeys), "导入进度")
+	defer progress.Finish()
+
+	// 在安静模式下输出到 stderr，避免干扰进度条
+	if progress.IsQuiet() || !progress.IsTTY() {
+		log.Printf("开始导入 %d 个 key", totalKeys)
+	}
+
+	currentKey := 0
 	for key, entries := range keyGroups {
 		// 获取元数据
 		metadata, hasMetadata := keyMetadatas[key]
 
 		if err := imp.importKey(ctx, client, key, entries, db, metadata); err != nil {
+			progress.Close()
 			return nil, fmt.Errorf("导入 key %s 失败: %w", key, err)
 		}
 
@@ -124,13 +137,28 @@ func (imp *Importer) Import(ctx context.Context, zipPath string, db int) (*Impor
 			if err := client.Expire(ctx, key, time.Duration(metadata.TTL)*time.Second).Err(); err != nil {
 				return nil, fmt.Errorf("恢复 TTL 失败: %w", err)
 			}
-			log.Printf("  恢复 TTL: %d秒", metadata.TTL)
+			// 只在安静模式或非终端环境输出 TTL 恢复日志
+			if progress.IsQuiet() || !progress.IsTTY() {
+				log.Printf("  恢复 TTL: %d秒", metadata.TTL)
+			}
 		}
 
 		keysImported++
+		currentKey++
+		progress.AddOne()
+
+		// 在安静模式下每 100 个 key 输出一次日志
+		if progress.IsQuiet() && currentKey%100 == 0 {
+			log.Printf("已导入 %d/%d 个 key", currentKey, totalKeys)
+		}
 	}
 
-	log.Printf("成功导入 %d 个 key", keysImported)
+	// 完成进度条
+	progress.Close()
+
+	if progress.IsQuiet() || !progress.IsTTY() {
+		log.Printf("成功导入 %d 个 key", keysImported)
+	}
 
 	return &ImportResult{
 		KeysImported: keysImported,

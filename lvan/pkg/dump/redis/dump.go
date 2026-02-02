@@ -44,14 +44,21 @@ func (d *Dumper) Dump(ctx context.Context, pattern, output string) (*DumpResult,
 		return nil, fmt.Errorf("未找到匹配的 key: pattern=%s", pattern)
 	}
 
-	log.Printf("找到 %d 个匹配的 key", len(keys))
+	// 2. 创建进度条
+	progress := NewProgressManager(int64(len(keys)), "导出进度")
+	defer progress.Finish()
 
-	// 2. 确定输出文件名
+	// 在安静模式下输出到 stderr，避免干扰进度条
+	if progress.IsQuiet() || !progress.IsTTY() {
+		log.Printf("找到 %d 个匹配的 key", len(keys))
+	}
+
+	// 3. 确定输出文件名
 	if output == "" {
 		output = "redis_export.zip"
 	}
 
-	// 3. 创建 ZIP 文件
+	// 4. 创建 ZIP 文件
 	zipFile, err := os.Create(output)
 	if err != nil {
 		return nil, fmt.Errorf("创建 ZIP 文件失败: %w", err)
@@ -61,14 +68,26 @@ func (d *Dumper) Dump(ctx context.Context, pattern, output string) (*DumpResult,
 	zipWriter := zip.NewWriter(zipFile)
 	defer zipWriter.Close()
 
-	// 4. 导出每个 key
-	for _, key := range keys {
-		if err := d.dumpKeyToZip(ctx, client, key, zipWriter); err != nil {
+	// 5. 导出每个 key（带进度显示）
+	for i, key := range keys {
+		if err := d.dumpKeyToZip(ctx, client, key, zipWriter, progress); err != nil {
+			progress.Close()
 			return nil, fmt.Errorf("导出 key %s 失败: %w", key, err)
+		}
+		progress.AddOne()
+
+		// 在安静模式下每 100 个 key 输出一次日志
+		if progress.IsQuiet() && (i+1)%100 == 0 {
+			log.Printf("已导出 %d/%d 个 key", i+1, len(keys))
 		}
 	}
 
-	log.Printf("成功导出 %d 个 key 到 %s", len(keys), output)
+	// 完成进度条
+	progress.Close()
+
+	if progress.IsQuiet() || !progress.IsTTY() {
+		log.Printf("成功导出 %d 个 key 到 %s", len(keys), output)
+	}
 
 	return &DumpResult{
 		KeysExported: len(keys),
@@ -77,7 +96,7 @@ func (d *Dumper) Dump(ctx context.Context, pattern, output string) (*DumpResult,
 }
 
 // dumpKeyToZip 导出单个 key 到 ZIP
-func (d *Dumper) dumpKeyToZip(ctx context.Context, client *redis.Client, key string, zipWriter *zip.Writer) error {
+func (d *Dumper) dumpKeyToZip(ctx context.Context, client *redis.Client, key string, zipWriter *zip.Writer, progress *ProgressManager) error {
 	// 获取 key 的类型
 	keyType, err := client.Type(ctx, key).Result()
 	if err != nil {
@@ -90,7 +109,7 @@ func (d *Dumper) dumpKeyToZip(ctx context.Context, client *redis.Client, key str
 		return fmt.Errorf("获取 TTL 失败: %w", err)
 	}
 
-	// 记录日志
+	// 记录日志（仅在安静模式或非终端环境）
 	ttlSeconds := int64(ttl) / int64(time.Second)
 	if ttlSeconds == 0 {
 		// 在 Redis 中 TTL=-1 表示永久，但某些客户端可能返回 0
@@ -99,7 +118,11 @@ func (d *Dumper) dumpKeyToZip(ctx context.Context, client *redis.Client, key str
 			ttlSeconds = -1
 		}
 	}
-	log.Printf("导出 key: %s (类型: %s, TTL: %d秒)", key, keyType, ttlSeconds)
+
+	// 只在安静模式或非终端环境输出详细日志
+	if progress.IsQuiet() || !progress.IsTTY() {
+		log.Printf("导出 key: %s (类型: %s, TTL: %d秒)", key, keyType, ttlSeconds)
+	}
 
 	// 根据类型导出
 	switch keyType {
