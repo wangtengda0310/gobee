@@ -1,0 +1,4 @@
+name,price,in_stock,category
+Laptop,999.99,true,Electronics
+Mouse,29.99,true,Electronics
+Desk,299.00,false,Furniture
