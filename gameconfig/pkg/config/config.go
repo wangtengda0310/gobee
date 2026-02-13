@@ -26,9 +26,10 @@ import (
 type Mode = config.Mode
 
 const (
-	ModeAuto  = config.ModeAuto
-	ModeExcel = config.ModeExcel
-	ModeCSV   = config.ModeCSV
+	ModeAuto   = config.ModeAuto
+	ModeExcel  = config.ModeExcel
+	ModeCSV    = config.ModeCSV
+	ModeMemory = config.ModeMemory
 )
 
 // LoadOptions 加载选项
@@ -59,6 +60,11 @@ func (l *Loader[T]) Reload() ([]T, error) {
 // GetVersion 获取配置版本号
 func (l *Loader[T]) GetVersion() (int, error) {
 	return l.inner.GetVersion()
+}
+
+// SetMockData 设置 Mock 数据（用于测试）
+func (l *Loader[T]) SetMockData(data [][]string) {
+	l.inner.SetMockData(data)
 }
 
 // ConfigWithComments 带批注的配置数据
