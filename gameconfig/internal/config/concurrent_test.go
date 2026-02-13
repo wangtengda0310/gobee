@@ -98,26 +98,16 @@ func equalSlice(a, b [][]string) bool {
 		return false
 	}
 	for i := range a {
-		match := false
-		for j := range b {
-			if len(a[i]) != len(b[j]) {
-				return false
-			}
-			if len(a[i]) == 0 {
-				return false
-			}
-			for k := range a[i] {
-				if a[i][k] != b[j][k] {
-					return false
-				}
-			}
-			match = true
+		if len(a[i]) != len(b[i]) {
+			return false
 		}
-		if match {
-			return true
+		for j := range a[i] {
+			if a[i][j] != b[i][j] {
+				return false
+			}
 		}
 	}
-	return false
+	return true
 }
 
 // TestConcurrentReload 测试并发重新加载
