@@ -17,6 +17,8 @@ const (
 	ModeExcel Mode = "excel"
 	// ModeCSV 强制读取 CSV
 	ModeCSV Mode = "csv"
+	// ModeMemory 从内存数据加载（用于 Mock 测试）
+	ModeMemory Mode = "memory"
 )
 
 // LoadOptions 加载选项
@@ -31,6 +33,8 @@ type LoadOptions struct {
 	DataStart int
 	// TagName struct tag 名称（默认 "excel"）
 	TagName string
+	// MockData Mock 数据源（用于 Memory 模式）
+	MockData [][]string
 }
 
 // Loader 配置加载器（泛型）
@@ -39,6 +43,7 @@ type Loader[T any] struct {
 	sheetName string
 	options   LoadOptions
 	mapper    *StructMapper[T]
+	data      [][]string // 内存数据源（用于 Memory 模式）
 }
 
 // NewLoader 创建配置加载器
@@ -74,6 +79,8 @@ func (l *Loader[T]) Load() ([]T, error) {
 		return l.loadFromExcel()
 	case ModeCSV:
 		return l.loadFromCSV()
+	case ModeMemory:
+		return l.loadFromMemory()
 	default:
 		return nil, fmt.Errorf("不支持的加载模式: %s", mode)
 	}
@@ -82,6 +89,16 @@ func (l *Loader[T]) Load() ([]T, error) {
 // Reload 重新加载
 func (l *Loader[T]) Reload() ([]T, error) {
 	return l.Load()
+}
+
+// loadFromMemory 从内存数据加载
+func (l *Loader[T]) loadFromMemory() ([]T, error) {
+	// 如果 MockData 不为空，使用 MockData
+	if len(l.options.MockData) > 0 {
+		return l.parseRows(l.options.MockData)
+	}
+	// 否则使用内部存储的数据
+	return l.parseRows(l.data)
 }
 
 // detectMode 自动检测加载模式
@@ -270,4 +287,15 @@ func readComments(reader *ExcelReader, sheetName string) map[string]string {
 	// TODO: 实现批注读取
 	// 目前返回空 map，后续在 comment.go 中实现
 	return make(map[string]string)
+}
+
+// SetMockData 设置 Mock 数据（用于测试）
+// 将数据存储在内部，当 Mode 为 ModeMemory 时使用
+func (l *Loader[T]) SetMockData(data [][]string) {
+	l.data = data
+}
+
+// GetMockData 获取当前 Mock 数据（用于测试）
+func (l *Loader[T]) GetMockData() [][]string {
+	return l.data
 }

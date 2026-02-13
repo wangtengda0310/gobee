@@ -168,6 +168,38 @@ type Equipment struct {
 | `ModeAuto` | 自动检测 | 默认模式 |
 | `ModeExcel` | 强制读取 Excel | 开发环境 |
 | `ModeCSV` | 强制读取 CSV | 生产环境 |
+| `ModeMemory` | 从内存数据加载 | 测试环境（使用 Mock 数据） |
+
+### 使用 Mock 数据（测试环境）
+
+当没有策划提供 Excel 文件时，可以使用 Mock 数据进行开发和测试：
+
+```go
+// 方式 1：直接在 LoadOptions 中提供 MockData
+loader := config.NewLoader[Equipment]("", "武器", config.LoadOptions{
+    Mode: config.ModeMemory,
+    MockData: [][]string{
+        {"id", "name", "attack", "defense"},
+        {"1001", "铁剑", "10", "5"},
+        {"1002", "钢剑", "25", "10"},
+    },
+})
+
+items, err := loader.Load()
+
+// 方式 2：使用 SetMockData 方法（适合动态测试）
+loader := config.NewLoader[Equipment]("", "武器", config.LoadOptions{
+    Mode: config.ModeMemory,
+})
+
+// 设置 mock 数据
+loader.SetMockData([][]string{
+    {"id", "name", "attack", "defense"},
+    {"1001", "铁剑", "10", "5"},
+})
+
+items, err := loader.Load()
+```
 
 ## 错误处理
 
