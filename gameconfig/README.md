@@ -170,6 +170,58 @@ type Equipment struct {
 | `ModeCSV` | 强制读取 CSV | 生产环境 |
 | `ModeMemory` | 从内存数据加载 | 测试环境（使用 Mock 数据） |
 
+### 并发安全特性
+
+gameconfig 设计了并发安全机制，支持以下并发场景：
+
+#### ✅ 支持的场景
+- **多 goroutine 同时读取**：每个 Loader 实例独立，可并发加载
+- **热重载 + 读取**：Watcher 独立运行，不影响 Loader 读取
+- **StructMapper 并发使用**：反射操作后缓存不可变，天然线程安全
+
+#### ⚠️ 注意：SetMockData 并发安全
+- `SetMockData()` 方法使用 `sync.RWMutex` 保护数据访问
+- 多个 goroutine 同时设置数据时，最终值不确定，但不保证数据一致性
+- 建议在测试环境中使用，生产环境中慎用
+
+#### 推荐用法
+```go
+// ✅ 推荐：每 goroutine 使用独立 Loader
+for i := 0; i < 10; i++ {
+    loader := config.NewLoader[Equipment](path, "sheet", opts)
+    go func() {
+        items, _ := loader.Load()
+        // 处理数据
+    }()
+}
+
+// ✅ 推荐：同一个 Loader 在不同 goroutine 中读取
+loader := config.NewLoader[Equipment](path, "sheet", opts)
+for i := 0; i < 10; i++ {
+    go func() {
+        items, _ := loader.Load()
+        // 处理数据
+    }()
+}
+
+// ⚠️ 不推荐：多 goroutine 写入同一 Loader
+// SetMockData 没有原子操作保证
+for i := 0; i < 10; i++ {
+    go loader.SetMockData(data)  // 可能产生竞争
+}
+```
+
+### 测试
+
+运行并发测试（带竞态检测）：
+```bash
+# 运行并发测试
+go test ./internal/config/... -run "TestConcurrent" -race -v
+
+# 运行所有测试
+go test ./... -v
+```
+
 ### 使用 Mock 数据（测试环境）
 
 当没有策划提供 Excel 文件时，可以使用 Mock 数据进行开发和测试：

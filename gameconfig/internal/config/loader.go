@@ -5,6 +5,7 @@ import (
 	"os"
 	"path/filepath"
 	"strings"
+	"sync"
 )
 
 // Mode 配置加载模式
@@ -44,6 +45,7 @@ type Loader[T any] struct {
 	options   LoadOptions
 	mapper    *StructMapper[T]
 	data      [][]string // 内存数据源（用于 Memory 模式）
+	dataMu    sync.RWMutex // 保护 data 字段的读写锁
 }
 
 // NewLoader 创建配置加载器
@@ -92,12 +94,16 @@ func (l *Loader[T]) Reload() ([]T, error) {
 }
 
 // loadFromMemory 从内存数据加载
+// 并发安全：使用读锁保护数据访问
 func (l *Loader[T]) loadFromMemory() ([]T, error) {
 	// 如果 MockData 不为空，使用 MockData
 	if len(l.options.MockData) > 0 {
 		return l.parseRows(l.options.MockData)
 	}
-	// 否则使用内部存储的数据
+
+	// 使用读锁保护内部数据访问
+	l.dataMu.RLock()
+	defer l.dataMu.RUnlock()
 	return l.parseRows(l.data)
 }
 
@@ -291,11 +297,17 @@ func readComments(reader *ExcelReader, sheetName string) map[string]string {
 
 // SetMockData 设置 Mock 数据（用于测试）
 // 将数据存储在内部，当 Mode 为 ModeMemory 时使用
+// 并发安全：使用写锁保护
 func (l *Loader[T]) SetMockData(data [][]string) {
+	l.dataMu.Lock()
+	defer l.dataMu.Unlock()
 	l.data = data
 }
 
 // GetMockData 获取当前 Mock 数据（用于测试）
+// 并发安全：使用读锁保护
 func (l *Loader[T]) GetMockData() [][]string {
+	l.dataMu.RLock()
+	defer l.dataMu.RUnlock()
 	return l.data
 }
