@@ -1,0 +1,13 @@
+#!/bin/bash
+# pre-commit hook - 检查 skill 文件同步
+#
+# 安装: cp scripts/pre-commit .git/hooks/pre-commit
+#        chmod +x .git/hooks/pre-commit
+
+set -e
+
+# 只在修改了相关文件时检查
+if git diff --cached --name-only | grep -qE '\.(claude|cmd/install-skill)/'; then
+    echo "🔍 检查 skill 文件同步..."
+    bash scripts/check-sync.sh
+fi
