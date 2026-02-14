@@ -1,0 +1,19 @@
+name: Skill Sync Check
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+
+jobs:
+  check-skill-sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Check skill files sync
+        run: bash scripts/check-sync.sh
+
+      - name: Run install-skill tests
+        run: go test -v ./tests/... -run TestInstallSkill
