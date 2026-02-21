@@ -6,11 +6,9 @@ require (
 	github.com/gofrs/flock v0.12.1
 	github.com/google/uuid v1.6.0
 	github.com/robfig/cron v1.2.0
-	github.com/tjfoc/gmsm v1.4.1
 	github.com/vmihailenco/msgpack/v5 v5.4.1
-	golang.org/x/crypto v0.37.0
-	golang.org/x/mod v0.24.0
-	golang.org/x/text v0.24.0
+	golang.org/x/mod v0.29.0
+	golang.org/x/text v0.31.0
 	gopkg.in/yaml.v3 v3.0.1
 )
 
@@ -22,5 +20,5 @@ require (
 	github.com/spf13/pflag v1.0.6
 	github.com/stretchr/testify v1.10.0
 	github.com/vmihailenco/tagparser/v2 v2.0.0 // indirect
-	golang.org/x/sys v0.32.0 // indirect
+	golang.org/x/sys v0.38.0 // indirect
 )
