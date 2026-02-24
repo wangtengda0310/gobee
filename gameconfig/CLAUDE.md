@@ -111,6 +111,95 @@ gameconfig/
 └── README.md
 ```
 
+### Skill 文件类型对比
+
+| 文件 | 读者 | 内容类型 | 更新频率 |
+|------|------|----------|----------|
+| SKILL.md | 用户 + AI | 使用指南、API 参考、场景示例 | 中 |
+| AI指导.md | AI | 触发场景、决策树、响应流程 | 中 |
+| README.md | 开发者 | 目录说明、快速链接 | 低 |
+
+### Skill 内容组织原则
+
+#### SKILL.md 结构
+
+```
+1. YAML frontmatter（name + description）
+2. 项目定位（Module + 核心价值）
+3. 快速开始（最简用法代码）
+4. 核心概念（表格：模式、Tag、格式）
+5. 使用场景（5+ 个实际场景）
+6. 项目结构（目录树）
+7. 最佳实践（DO/DON'T）
+8. 常见问题（Q&A）
+9. 运行测试（命令示例）
+10. 依赖（go require）
+11. 相关文档（链接）
+```
+
+#### AI指导.md 结构
+
+```
+1. AI 触发场景（5+ 个场景）
+2. AI 约束和原则（必须/推荐/避免）
+3. 快速决策树（ASCII 流程图）
+4. 示例对话（完整交互流程）
+5. 代码引用格式（file:line）
+6. 常见代码模式（模板）
+```
+
+### Skill 文件编写技巧
+
+#### 1. 使用表格展示对比
+
+```markdown
+### 加载模式
+
+| 模式 | 何时使用 |
+|------|----------|
+| ModeAuto | 默认，自动检测（优先 CSV） |
+| ModeExcel | 开发环境直接读 Excel |
+| ModeCSV | 生产环境读 CSV |
+| ModeMemory | 测试环境使用 Mock 数据 |
+```
+
+#### 2. 使用代码块展示示例
+
+```markdown
+### 场景 1: 基础加载
+
+```go
+loader := config.NewLoader[Equipment](
+    "config/装备表.xlsx",
+    "武器",
+    config.LoadOptions{Mode: config.ModeAuto},
+)
+items, err := loader.Load()
+```
+```
+
+#### 3. 使用 DO/DON'T 列表
+
+```markdown
+### DO 推荐
+
+- ✅ 生产环境使用 `ModeCSV`（Git diff 友好）
+- ✅ 测试环境使用 `ModeMemory`（无需文件）
+
+### DON'T 避免
+
+- ❌ 不要在生产环境直接读取 Excel
+- ❌ 不要忘记处理 `Load()` 返回的 error
+```
+
+#### 4. 使用代码引用
+
+```markdown
+- 条件字段实现: `gameconfig/internal/config/conditional_test.go:100`
+- 映射逻辑: `gameconfig/internal/config/mapper.go:50`
+- 测试示例: `gameconfig/tests/integration_test.go:200`
+```
+
 ### 同步到安装工具
 
 修改 skill 后，**必须同步**到嵌入文件：
@@ -129,6 +218,119 @@ bash scripts/check-sync.sh
 
 # 运行完整测试
 go test ./tests/... -run TestInstallSkill -v
+```
+
+### Skill 同步工作流
+
+```
+修改 Skill 源文件
+    ↓
+cd cmd/install-skill
+    ↓
+go generate           # 同步到 skills 目录
+    ↓
+# 验证同步
+ls skills/gameconfig/
+    ↓
+go test ./... -v       # 运行测试
+    ↓
+# 修复问题（如有）
+    ↓
+git add .claude/skills/ cmd/install-skill/
+    ↓
+git commit -m "docs: update skill"
+```
+
+### Skill 发布流程
+
+1. **修改 Skill 内容**
+   - 更新 SKILL.md 或 AI指导.md
+   - 确保格式正确（YAML frontmatter）
+
+2. **同步并测试**
+   ```bash
+   cd cmd/install-skill
+   go generate
+   go test ./... -v
+   ```
+
+3. **编译安装工具**
+   ```bash
+   go build -o ../../gameconfig-install-skill .
+   # 验证可执行文件已生成
+   ls ../../gameconfig-install-skill
+   ```
+
+4. **本地测试**
+   ```bash
+   # 测试安装到临时目录
+   ../../gameconfig-install-skill -target /tmp/gameconfig-skill
+   # 验证文件已正确安装
+   ls /tmp/gameconfig-skill/
+   ```
+
+5. **提交代码**
+   ```bash
+   git add .claude/skills/ cmd/install-skill/
+   git commit -m "docs: update AI skill content"
+   git push
+   ```
+
+6. **发布新版本**
+   ```bash
+   # 用户安装新版本
+   go install github.com/wangtengda0310/gobee/gameconfig/cmd/install-skill@latest
+   gameconfig-install-skill
+   ```
+
+### 常见问题
+
+#### Q: 修改 Skill 后用户看不到更新？
+
+**A**: 用户需要重新运行安装工具：
+```bash
+go install github.com/wangtengda0310/gobee/gameconfig/cmd/install-skill@latest
+gameconfig-install-skill
+```
+
+#### Q: 如何验证 Skill 文件格式正确？
+
+**A**: 检查 YAML frontmatter：
+```bash
+head -5 .claude/skills/gameconfig/SKILL.md
+# 应该看到：
+# ---
+# name: gameconfig 配置管理工具
+# description: ...
+# ---
+```
+
+#### Q: `go generate` 失败怎么办？
+
+**A**: 确保 skill 源文件存在：
+```bash
+ls -la .claude/skills/gameconfig/
+# 应该看到 SKILL.md 和 abilities/AI指导.md
+```
+
+#### Q: 如何添加新的 AI 触发场景？
+
+**A**: 在 `abilities/AI指导.md` 中添加：
+
+1. 在 "AI 触发场景" 部分添加新场景
+2. 更新 "快速决策树" 添加对应分支
+3. 添加示例对话（如果复杂）
+4. 运行 `go generate && go test` 验证
+
+#### Q: 技能文件放在哪里？
+
+**A**: 唯一修改位置是 `.claude/skills/gameconfig/`：
+```
+gameconfig/.claude/skills/gameconfig/
+├── SKILL.md        # 主 skill 文件
+├── README.md       # 目录说明
+└── abilities/
+    └── AI指导.md   # AI 能力指导
 ```
 
 ### Skill 内容原则
@@ -255,6 +457,8 @@ git push origin v1.x.x
 | 文档 | 说明 | 读者 |
 |------|------|------|
 | [README.md](README.md) | 使用说明和示例 | 使用者 |
+| [.claude/skills/gameconfig/SKILL.md](.claude/skills/gameconfig/SKILL.md) | AI Skill 使用指南 | 用户 + AI |
+| [.claude/skills/gameconfig/abilities/AI指导.md](.claude/skills/gameconfig/abilities/AI指导.md) | AI 能力指导 | AI |
 | [DESIGN.md](DESIGN.md) | 设计文档 | 开发者 |
 | [CHANGELOG.md](CHANGELOG.md) | 版本变更记录 | 所有人 |
 | [AI_NATIVE.md](AI_NATIVE.md) | AI 原生规划 | 开发者 |
