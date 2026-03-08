@@ -1,0 +1,25 @@
+# OpenClaw Channel Configuration Example
+
+# Gateway connection settings
+gateway:
+  url: ws://127.0.0.1:18789
+  token: your-gateway-token-here
+  reconnectDelay: 5s
+  maxReconnect: 10
+  pingInterval: 30s
+  timeout: 30s
+  enableHeartbeat: true
+
+# API server settings
+api:
+  host: 0.0.0.0
+  port: 8080
+  readTimeout: 30s
+  writeTimeout: 120s
+  shutdownTimeout: 10s
+
+# Logging settings
+log:
+  level: info  # debug, info, warn, error
+  format: text  # text, json
+  output: stdout  # stdout, stderr, or file path
