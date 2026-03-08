@@ -19,15 +19,19 @@ func (r *Rank) Less(i, j int) bool {
 
 func (r *Rank) Swap(i, j int) {
 	r.items[i], r.items[j] = r.items[j], r.items[i]
+	r.items[i].Index = i
+	r.items[j].Index = j
 }
 
 func (r *Rank) Push(x any) {
-	r.items = append(r.items, x.(*RankItem))
+	item := x.(*RankItem)
+	item.Index = len(r.items)
+	r.items = append(r.items, item)
 }
 
 func (r *Rank) Pop() any {
 	n := len(r.items)
 	x := r.items[n-1]
-	r.items = r.items[:len(r.items)-1]
+	r.items = r.items[0 : n-1]
 	return x
 }
