@@ -4,6 +4,7 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
+	"io/fs"
 	"log"
 	"net/http"
 	"os"
@@ -13,6 +14,23 @@ import (
 
 	"github.com/gorilla/websocket"
 )
+
+// Static files are embedded via server.go (staticFS variable)
+// This file uses that shared variable for serving the web UI
+
+// apiCorsMiddleware adds CORS headers to API responses
+func apiCorsMiddleware(next http.Handler) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		w.Header().Set("Access-Control-Allow-Origin", "*")
+		w.Header().Set("Access-Control-Allow-Methods", "GET, POST, OPTIONS")
+		w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
+		if r.Method == "OPTIONS" {
+			w.WriteHeader(http.StatusOK)
+			return
+		}
+		next.ServeHTTP(w, r)
+	})
+}
 
 // EnhancedAPIServer represents the enhanced REST API server
 type EnhancedAPIServer struct {
@@ -70,12 +88,23 @@ func (s *EnhancedAPIServer) Start() error {
 	mux.HandleFunc("/chat", s.handleChat)
 	mux.HandleFunc("/stats", s.handleStats)
 	mux.HandleFunc("/ws", s.handleWebSocket)
-	mux.HandleFunc("/", s.handleRoot)
+	mux.HandleFunc("/api", s.handleRoot)
+
+	// Static file serving
+	staticContent, err := fs.Sub(staticFS, "static")
+	if err != nil {
+		return fmt.Errorf("failed to load static files: %w", err)
+	}
+	fileServer := http.FileServer(http.FS(staticContent))
+	mux.Handle("/static/", http.StripPrefix("/static/", fileServer))
+
+	// Serve index.html at root
+	mux.HandleFunc("/", s.handleIndex)
 
 	addr := fmt.Sprintf("%s:%d", s.config.API.Host, s.config.API.Port)
 	s.server = &http.Server{
 		Addr:         addr,
-		Handler:      mux,
+		Handler:      apiCorsMiddleware(mux),
 		ReadTimeout:  s.config.API.ReadTimeout,
 		WriteTimeout: s.config.API.WriteTimeout,
 	}
@@ -84,6 +113,7 @@ func (s *EnhancedAPIServer) Start() error {
 	errCh := make(chan error, 1)
 	go func() {
 		log.Printf("Starting enhanced API server on %s", addr)
+		log.Printf("Web UI available at: http://%s/\n", addr)
 		log.Println("Endpoints:")
 		log.Println("  GET  /health  - Health check")
 		log.Println("  GET  /status  - Gateway status")
@@ -122,6 +152,24 @@ func (s *EnhancedAPIServer) Start() error {
 
 	log.Println("Server stopped")
 	return nil
+}
+
+// handleIndex serves the embedded index.html
+func (s *EnhancedAPIServer) handleIndex(w http.ResponseWriter, r *http.Request) {
+	if r.URL.Path != "/" {
+		http.NotFound(w, r)
+		return
+	}
+
+	// Serve index.html from embedded FS
+	content, err := staticFS.ReadFile("static/index.html")
+	if err != nil {
+		http.Error(w, "Failed to load page", http.StatusInternalServerError)
+		return
+	}
+
+	w.Header().Set("Content-Type", "text/html; charset=utf-8")
+	w.Write(content)
 }
 
 func (s *EnhancedAPIServer) handleRoot(w http.ResponseWriter, r *http.Request) {

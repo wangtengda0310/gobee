@@ -5,10 +5,12 @@ import (
 	"crypto/ed25519"
 	"crypto/rand"
 	"crypto/sha256"
+	"embed"
 	"encoding/base64"
 	"encoding/hex"
 	"encoding/json"
 	"fmt"
+	"io/fs"
 	"log"
 	"net/http"
 	"os"
@@ -20,6 +22,16 @@ import (
 	"github.com/gorilla/websocket"
 )
 
+//go:embed static/*
+var staticFS embed.FS
+
+// ChatResult stores the result of a chat operation
+type ChatResult struct {
+	RunID   string
+	Text    string
+	Status  string
+}
+
 // ReverseServer represents a WebSocket server that accepts connections from OpenClaw Gateway
 type ReverseServer struct {
 	config       *Config
@@ -28,6 +40,8 @@ type ReverseServer struct {
 	connMu       sync.Mutex
 	pending      map[string]chan *Frame
 	events       chan *Frame
+	chatResults  map[string]chan *ChatResult
+	chatMu       sync.Mutex
 	state        atomic.Int32
 	ctx          context.Context
 	cancel       context.CancelFunc
@@ -54,14 +68,15 @@ func NewReverseServer(cfg *Config) *ReverseServer {
 	}
 
 	return &ReverseServer{
-		config:     cfg,
-		pending:    make(map[string]chan *Frame),
-		events:     make(chan *Frame, 100),
-		ctx:        ctx,
-		cancel:     cancel,
-		debug:      os.Getenv("OPENCLAW_DEBUG") != "",
-		privateKey: privateKey,
-		publicKey:  publicKey,
+		config:      cfg,
+		pending:     make(map[string]chan *Frame),
+		events:      make(chan *Frame, 500),
+		chatResults: make(map[string]chan *ChatResult),
+		ctx:         ctx,
+		cancel:      cancel,
+		debug:       os.Getenv("OPENCLAW_DEBUG") != "",
+		privateKey:  privateKey,
+		publicKey:   publicKey,
 		upgrader: websocket.Upgrader{
 			CheckOrigin: func(r *http.Request) bool {
 				return true // Allow all origins for now
@@ -99,6 +114,20 @@ func (s *ReverseServer) updateStats(fn func(*ClientStats)) {
 	fn(&s.stats)
 }
 
+// corsMiddleware adds CORS headers to all responses
+func corsMiddleware(next http.Handler) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		w.Header().Set("Access-Control-Allow-Origin", "*")
+		w.Header().Set("Access-Control-Allow-Methods", "GET, POST, OPTIONS")
+		w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
+		if r.Method == "OPTIONS" {
+			w.WriteHeader(http.StatusOK)
+			return
+		}
+		next.ServeHTTP(w, r)
+	})
+}
+
 // Start starts the reverse connection server
 func (s *ReverseServer) Start() error {
 	mux := http.NewServeMux()
@@ -111,12 +140,23 @@ func (s *ReverseServer) Start() error {
 	mux.HandleFunc("/status", s.handleStatus)
 	mux.HandleFunc("/chat", s.handleChat)
 	mux.HandleFunc("/stats", s.handleStats)
-	mux.HandleFunc("/", s.handleRoot)
+	mux.HandleFunc("/api", s.handleRoot)
+
+	// Static file serving
+	staticContent, err := fs.Sub(staticFS, "static")
+	if err != nil {
+		return fmt.Errorf("failed to load static files: %w", err)
+	}
+	fileServer := http.FileServer(http.FS(staticContent))
+	mux.Handle("/static/", http.StripPrefix("/static/", fileServer))
+
+	// Serve index.html at root
+	mux.HandleFunc("/", s.handleIndex)
 
 	addr := fmt.Sprintf("%s:%d", s.config.API.Host, s.config.API.Port)
 	s.server = &http.Server{
 		Addr:         addr,
-		Handler:      mux,
+		Handler:      corsMiddleware(mux),
 		ReadTimeout:  s.config.API.ReadTimeout,
 		WriteTimeout: s.config.API.WriteTimeout,
 	}
@@ -125,15 +165,34 @@ func (s *ReverseServer) Start() error {
 
 	log.Printf("Starting reverse connection server on %s", addr)
 	log.Println("Waiting for OpenClaw Gateway to connect...")
+	log.Println("Web UI available at: http://%s/", addr)
 	log.Println("API Endpoints:")
 	log.Println("  GET  /health  - Health check")
 	log.Println("  GET  /status  - Gateway status")
 	log.Println("  POST /chat    - Send a message")
 	log.Println("  GET  /stats   - Server statistics")
 	log.Println("")
-	log.Println("Gateway should connect to: ws://<this-server>:%d/gateway", s.config.API.Port)
+	log.Printf("Gateway should connect to: ws://%s/gateway\n", addr)
 
 	return s.server.ListenAndServe()
+}
+
+// handleIndex serves the embedded index.html
+func (s *ReverseServer) handleIndex(w http.ResponseWriter, r *http.Request) {
+	if r.URL.Path != "/" {
+		http.NotFound(w, r)
+		return
+	}
+
+	// Serve index.html from embedded FS
+	content, err := staticFS.ReadFile("static/index.html")
+	if err != nil {
+		http.Error(w, "Failed to load page", http.StatusInternalServerError)
+		return
+	}
+
+	w.Header().Set("Content-Type", "text/html; charset=utf-8")
+	w.Write(content)
 }
 
 // handleGatewayConnection handles WebSocket connections from OpenClaw Gateway
@@ -254,6 +313,9 @@ func (s *ReverseServer) readLoop() {
 			switch frame.Event {
 			case "connect.challenge":
 				s.handleChallenge(&frame)
+			case "chat":
+				// Handle chat events - check for final state
+				s.handleChatEvent(&frame)
 			default:
 				select {
 				case s.events <- &frame:
@@ -381,6 +443,53 @@ func (s *ReverseServer) handleGatewayConnect(frame *Frame) {
 	s.log("Gateway connect acknowledged")
 }
 
+// handleChatEvent handles chat events from the gateway
+func (s *ReverseServer) handleChatEvent(frame *Frame) {
+	if frame.Payload == nil {
+		return
+	}
+
+	payload, ok := frame.Payload.(map[string]interface{})
+	if !ok {
+		return
+	}
+
+	runID, _ := payload["runId"].(string)
+	state, _ := payload["state"].(string)
+
+	// Only process final state messages
+	if state != "final" {
+		return
+	}
+
+	s.log("Received chat event with state=final for runId=%s", runID)
+
+	// Extract the message text
+	var textContent string
+	if msg, ok := payload["message"].(map[string]interface{}); ok {
+		if content, ok := msg["content"].([]interface{}); ok && len(content) > 0 {
+			if contentMap, ok := content[0].(map[string]interface{}); ok {
+				if text, ok := contentMap["text"].(string); ok {
+					textContent = text
+				}
+			}
+		}
+	}
+
+	// Route to waiting chat handler
+	s.chatMu.Lock()
+	if ch, ok := s.chatResults[runID]; ok {
+		ch <- &ChatResult{
+			RunID:  runID,
+			Text:   textContent,
+			Status: state,
+		}
+		delete(s.chatResults, runID)
+		s.log("Routed chat result for runId=%s", runID)
+	}
+	s.chatMu.Unlock()
+}
+
 // Chat sends a message through the gateway connection
 func (s *ReverseServer) Chat(sessionKey, text string) (string, error) {
 	if !s.IsConnected() {
@@ -400,7 +509,7 @@ func (s *ReverseServer) Chat(sessionKey, text string) (string, error) {
 		st.LastMessageTime = time.Now()
 	})
 
-	response, err := s.waitForResponse(id, 120*time.Second)
+	response, err := s.waitForResponse(id, 30*time.Second)
 	if err != nil {
 		return "", fmt.Errorf("failed to get response: %w", err)
 	}
@@ -422,30 +531,31 @@ func (s *ReverseServer) Chat(sessionKey, text string) (string, error) {
 		}
 	}
 
-	// Use agent.wait for response
+	// Wait for the chat event with final state directly
 	if runID != "" {
-		waitID := generateID()
-		waitFrame := NewAgentWaitFrame(waitID, runID, 60000)
+		// Register a channel to receive the chat result
+		ch := make(chan *ChatResult, 1)
+		s.chatMu.Lock()
+		s.chatResults[runID] = ch
+		s.chatMu.Unlock()
 
-		s.log("Sending agent.wait with id=%s, runId=%s", waitID, runID)
-		if err := s.sendFrame(waitFrame); err != nil {
-			return "", fmt.Errorf("failed to send agent.wait: %w", err)
-		}
+		defer func() {
+			s.chatMu.Lock()
+			delete(s.chatResults, runID)
+			s.chatMu.Unlock()
+		}()
 
-		waitResponse, err := s.waitForResponse(waitID, 90*time.Second)
-		if err != nil {
-			return "", fmt.Errorf("failed to get agent.wait response: %w", err)
-		}
-
-		if !waitResponse.OK {
-			errMsg := "unknown error"
-			if waitResponse.Error != nil {
-				errMsg = waitResponse.Error.Message
+		s.log("Waiting for chat event with runId=%s", runID)
+		select {
+		case result := <-ch:
+			s.log("Got chat result for runId=%s", runID)
+			if result.Text != "" {
+				return result.Text, nil
 			}
-			return "", fmt.Errorf("agent.wait failed: %s", errMsg)
+			return "Message processed but no text content found.", nil
+		case <-time.After(120 * time.Second):
+			return "", fmt.Errorf("timeout waiting for chat response")
 		}
-
-		return "Message sent successfully. Check the agent session for response.", nil
 	}
 
 	return "Message sent.", nil
