@@ -1,4 +1,4 @@
-module openclaw-channel
+module github.com/wangtengda0310/gobee/agent/openclaw/channel
 
 go 1.23.4
 
