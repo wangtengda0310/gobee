@@ -6,54 +6,156 @@ A Go implementation of an OpenClaw channel that supports multiple interaction mo
 
 ✅ **完全可用** - 所有模式都已实现并测试通过。
 ✅ **反向连接** - 支持公网部署，实现内网穿透。
+✅ **Web UI** - 内置现代化聊天界面。
 
 ## Features
 
-### Core Features
-- **Interactive Mode**: Real-time command-line chat with OpenClaw
-- **Batch Mode**: Process messages from stdin or command line arguments
-- **RESTful API Mode**: HTTP endpoints for integration with other systems
-- **MCP Mode**: Model Context Protocol server for AI assistant integration
-- **Reverse Mode**: Reverse connection server for public deployment (内网穿透)
+- **Web UI**: 现代化聊天界面，深色主题，响应式设计
+- **Interactive Mode**: 实时命令行聊天
+- **Batch Mode**: 批量消息处理
+- **RESTful API**: HTTP 接口，支持 CORS
+- **Reverse Mode**: 反向连接，公网部署
+- **MCP Mode**: Model Context Protocol 服务器
 
-### Enhanced Features
-- **Auto-reconnect**: Automatic reconnection on disconnection
-- **Heartbeat/Keep-alive**: Connection health monitoring
-- **Connection State Tracking**: Real-time state monitoring
-- **Client Statistics**: Message counts, error tracking, timing
-- **Graceful Shutdown**: Clean shutdown with timeout
-- **Configuration Files**: YAML/JSON config support
-- **Environment Variables**: Override settings via env vars
+## Quick Start
+
+### 安装
+
+```bash
+# 从源码编译
+git clone https://github.com/wangtengda0310/gobee.git
+cd gobee/agent/openclaw/channel
+go build -o openclaw-channel .
+
+# 或直接安装
+go install github.com/wangtengda0310/gobee/agent/openclaw/channel@latest
+```
+
+### 本地使用
+
+```bash
+# 启动 API 服务器（带 Web UI）
+./openclaw-channel api-enhanced --port 8080 --token YOUR_TOKEN
+
+# 访问 http://localhost:8080/ 即可使用 Web UI
+```
+
+### 公网部署（反向连接）
+
+**服务端（公网服务器）**:
+```bash
+./openclaw-channel reverse --port 18770 --token YOUR_TOKEN
+```
+
+**本地（连接内网 Gateway）**:
+```bash
+./openclaw-channel connector --remote ws://your-server:18770/gateway --token YOUR_TOKEN
+```
+
+然后访问 `http://your-server:18770/` 即可使用 Web UI。
+
+## Web UI
+
+访问根路径 `/` 即可使用内置的聊天界面：
+
+- 连接状态指示器
+- 会话选择（Main/Dev/Test Agent）
+- 消息发送和接收
+- 统计信息面板
+- 快捷操作按钮
+
+## API Endpoints
+
+| 端点 | 方法 | 说明 |
+|------|------|------|
+| `/` | GET | Web UI (HTML) |
+| `/health` | GET | 健康检查 |
+| `/status` | GET | Gateway 状态 |
+| `/chat` | POST | 发送消息 |
+| `/stats` | GET | 统计信息 |
+| `/gateway` | WS | WebSocket 端点 |
+
+### 发送消息示例
+
+```bash
+curl -X POST http://localhost:8080/chat \
+  -H "Content-Type: application/json" \
+  -d '{"message":"Hello!","session":"agent:main:main"}'
+```
+
+## CLI Commands
+
+```bash
+# 交互模式
+./openclaw-channel interactive
+
+# 批量模式
+./openclaw-channel batch "Hello"
+
+# API 服务器
+./openclaw-channel api-enhanced --port 8080
+
+# 反向服务器
+./openclaw-channel reverse --port 18770 --token TOKEN
+
+# 连接器
+./openclaw-channel connector --remote ws://server:18770/gateway --token TOKEN
+
+# MCP 服务器
+./openclaw-channel mcp
+```
+
+## Global Flags
+
+```
+-g, --gateway string   Gateway URL (default "ws://127.0.0.1:18789")
+-t, --token string     Auth token
+-c, --config string    Config file path
+```
+
+## Configuration
+
+### 环境变量
+
+```bash
+OPENCLAW_GATEWAY_URL    # Gateway URL
+OPENCLAW_GATEWAY_TOKEN  # Auth token
+OPENCLAW_API_PORT       # API 端口
+OPENCLAW_DEBUG          # 调试模式 (1)
+```
+
+### 配置文件 (config.yaml)
+
+```yaml
+gateway:
+  url: ws://127.0.0.1:18789
+  token: your-token
+
+api:
+  host: 0.0.0.0
+  port: 8080
+```
 
 ## Project Structure
 
 ```
-agent/openclaw/channel/
-├── main.go              # CLI entry point and commands
-├── client.go            # WebSocket client (original)
-├── client_enhanced.go   # Enhanced client with reconnection
-├── config.go            # Configuration management
-├── protocol.go          # Protocol types and frames (v3)
-├── batch.go             # Batch mode implementation
-├── interactive.go       # Interactive mode implementation
-├── api.go               # REST API server (original)
-├── api_enhanced.go      # Enhanced API server with monitoring
-├── server.go            # Reverse connection server
-├── connector.go         # Connector for bridging local gateway
-├── mcp.go               # MCP server implementation
-├── go.mod               # Go module definition
-├── go.sum               # Go dependencies checksum
-├── config.example.yaml  # Example configuration file
-└── README.md            # This file
+channel/
+├── main.go              # CLI 入口
+├── server.go            # 反向服务器 + Web UI
+├── api_enhanced.go      # 增强 API 服务器
+├── connector.go         # 连接器
+├── client_enhanced.go   # WebSocket 客户端
+├── protocol.go          # 协议 v3
+├── config.go            # 配置管理
+├── static/index.html    # Web UI (嵌入)
+├── CLAUDE.md            # 开发者文档
+└── README.md            # 本文件
 ```
 
-## Building
+## Live Demo
 
-```bash
-cd E:\github.com\gobee\agent\openclaw\channel
-go mod tidy
-go build -o openclaw-channel.exe .
-```
+- Web UI: http://itsnot.fun:18770/
+- Health: http://itsnot.fun:18770/health
 
 ## Usage
 
