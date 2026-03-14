@@ -1,0 +1,103 @@
+name: CI
+
+on:
+  push:
+    branches: [ main, master, behavior ]
+    paths:
+      - 'behavior/**'
+  pull_request:
+    branches: [ main, master ]
+    paths:
+      - 'behavior/**'
+
+defaults:
+  run:
+    working-directory: behavior
+
+jobs:
+  test:
+    name: Test
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        go-version: ['1.20', '1.21', '1.22']
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: ${{ matrix.go-version }}
+
+      - name: Run v1 tests
+        working-directory: behavior/v1
+        run: go test -v -race ./...
+
+      - name: Run v2 tests
+        working-directory: behavior/v2
+        run: go test -v -race ./...
+
+  coverage:
+    name: Coverage
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: '1.22'
+
+      - name: Generate v1 coverage
+        working-directory: behavior/v1
+        run: |
+          go test -coverprofile=coverage.out ./...
+          go tool cover -func=coverage.out
+
+      - name: Generate v2 coverage
+        working-directory: behavior/v2
+        run: |
+          go test -coverprofile=coverage.out ./...
+          go tool cover -func=coverage.out
+
+  lint:
+    name: Lint
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: '1.22'
+
+      - name: golangci-lint
+        uses: golangci/golangci-lint-action@v6
+        with:
+          working-directory: behavior/v1
+          args: --timeout=5m
+
+      - name: golangci-lint v2
+        uses: golangci/golangci-lint-action@v6
+        with:
+          working-directory: behavior/v2
+          args: --timeout=5m
+
+  fuzz:
+    name: Fuzz
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: '1.22'
+
+      - name: Run v1 fuzz tests
+        working-directory: behavior/v1
+        run: go test -fuzz=Fuzz -fuzztime=30s ./...
+
+      - name: Run v2 fuzz tests
+        working-directory: behavior/v2
+        run: go test -fuzz=Fuzz -fuzztime=30s ./...
