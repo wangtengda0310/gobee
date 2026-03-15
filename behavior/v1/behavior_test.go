@@ -315,3 +315,112 @@ func TestDemoBehaviorTree(t *testing.T) {
 		DemoBehaviorTree()
 	}, "DemoBehaviorTree() should not panic")
 }
+
+// === 新节点测试 ===
+
+func TestFilter(t *testing.T) {
+	shoot := Action(func(ctx Context) Result { return Success })
+
+	// Test condition satisfied
+	ctx := make(Context)
+	ctx["hasAmmo"] = true
+	filter := Filter(func(ctx Context) bool {
+		return ctx["hasAmmo"].(bool)
+	}, shoot)
+	result := filter(ctx)
+	assert.Equal(t, Success, result, "Filter should return Success when condition is met and child succeeds")
+
+	// Test condition not satisfied
+	ctx["hasAmmo"] = false
+	result = filter(ctx)
+	assert.Equal(t, Failure, result, "Filter should return Failure when condition is not met")
+}
+
+func TestActiveSelector(t *testing.T) {
+	// Test all failures
+	failure1 := Action(func(ctx Context) Result { return Failure })
+	failure2 := Action(func(ctx Context) Result { return Failure })
+	selector := ActiveSelector(failure1, failure2)
+	result := selector(make(Context))
+	assert.Equal(t, Failure, result, "ActiveSelector should return Failure when all children fail")
+
+	// Test first success
+	success := Action(func(ctx Context) Result { return Success })
+	afterSuccess := Action(func(ctx Context) Result {
+		t.Error("After success should not be executed")
+		return Failure
+	})
+	selector = ActiveSelector(success, afterSuccess)
+	result = selector(make(Context))
+	assert.Equal(t, Success, result, "ActiveSelector should return Success when first child succeeds")
+
+	// Test running
+	running := Action(func(ctx Context) Result { return Running })
+	afterRunning := Action(func(ctx Context) Result {
+		t.Error("After running should not be executed")
+		return Failure
+	})
+	selector = ActiveSelector(running, afterRunning)
+	result = selector(make(Context))
+	assert.Equal(t, Running, result, "ActiveSelector should return Running when child returns Running")
+
+	// Test empty active selector
+	emptySelector := ActiveSelector()
+	result = emptySelector(make(Context))
+	assert.Equal(t, Failure, result, "Empty ActiveSelector should return Failure")
+}
+
+func TestMonitor(t *testing.T) {
+	attack := Action(func(ctx Context) Result { return Success })
+
+	// Test condition met
+	ctx := make(Context)
+	ctx["hasEnemy"] = true
+	monitor := Monitor(func(ctx Context) bool {
+		return ctx["hasEnemy"].(bool)
+	}, attack)
+	result := monitor(ctx)
+	assert.Equal(t, Success, result, "Monitor should return child's result when condition is met")
+
+	// Test condition not met
+	ctx["hasEnemy"] = false
+	result = monitor(ctx)
+	assert.Equal(t, Failure, result, "Monitor should return Failure when condition is not met")
+}
+
+func TestRepeat(t *testing.T) {
+	ctx := make(Context)
+	counter := 0
+
+	// Test child succeeds - should keep running
+	successAction := Action(func(ctx Context) Result {
+		counter++
+		return Success
+	})
+	repeat := Repeat(successAction)
+	result := repeat(ctx)
+	assert.Equal(t, Running, result, "Repeat should return Running when child succeeds")
+	assert.Equal(t, 1, counter, "Counter should be incremented after first tick")
+
+	// Second tick
+	result = repeat(ctx)
+	assert.Equal(t, Running, result, "Repeat should keep returning Running")
+	assert.Equal(t, 2, counter, "Counter should be incremented after second tick")
+
+	// Test child running
+	runningAction := Action(func(ctx Context) Result { return Running })
+	repeat = Repeat(runningAction)
+	result = repeat(ctx)
+	assert.Equal(t, Running, result, "Repeat should return Running when child is running")
+
+	// Test child failure
+	counter = 0
+	failureAction := Action(func(ctx Context) Result {
+		counter++
+		return Failure
+	})
+	repeat = Repeat(failureAction)
+	result = repeat(ctx)
+	assert.Equal(t, Running, result, "Repeat should return Running when child fails")
+	assert.Equal(t, 1, counter, "Counter should be incremented even when child fails")
+}

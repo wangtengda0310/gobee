@@ -1,5 +1,90 @@
 package behavior
 
+// Filter 创建一个过滤装饰器节点，只有条件满足时才执行子节点。
+// 条件不满足时直接返回 Failure，不执行子节点。
+//
+// 参数:
+//   - condition: 条件函数，返回 true 表示条件满足
+//   - child: 要执行的子节点
+//
+// 返回值:
+//   - Failure: 条件不满足
+//   - 其他: 子节点的执行结果
+//
+// 示例:
+//
+//	// 只有有弹药时才能射击
+//	filter := Filter(func(ctx Context) bool {
+//	    return ctx["ammo"].(int) > 0
+//	}, shoot)
+func Filter(condition func(ctx Context) bool, child Node) Node {
+	return func(ctx Context) Result {
+		if !condition(ctx) {
+			return Failure
+		}
+		return child(ctx)
+	}
+}
+
+// Monitor 创建一个监控装饰器节点，持续监控条件并执行子节点。
+// 每次执行时先检查条件，条件满足时执行子节点，否则返回 Failure。
+// 与 Filter 不同，Monitor 适用于需要持续监控的场景。
+//
+// 参数:
+//   - condition: 监控条件函数
+//   - child: 条件满足时要执行的子节点
+//
+// 返回值:
+//   - Failure: 条件不满足
+//   - 其他: 子节点的执行结果
+//
+// 使用场景:
+//   - 监控敌人距离，距离足够近时攻击
+//   - 监控血量，血量低时逃跑
+//
+// 示例:
+//
+//	// 持续监控敌人距离，近则攻击
+//	monitor := Monitor(func(ctx Context) bool {
+//	    return ctx["enemyDistance"].(float64) < 10.0
+//	}, attack)
+func Monitor(condition func(ctx Context) bool, child Node) Node {
+	return func(ctx Context) Result {
+		if !condition(ctx) {
+			return Failure
+		}
+		return child(ctx)
+	}
+}
+
+// Repeat 创建一个无限重复装饰器节点，永远重复执行子节点。
+// 子节点成功或失败后立即重新执行，只有返回 Running 时保持 Running 状态。
+//
+// 参数:
+//   - child: 要无限重复执行的子节点
+//
+// 返回值:
+//   - Running: 子节点正在执行或已完成一次执行（准备下一次）
+//   - 注意: 此节点永远不会返回 Success 或 Failure
+//
+// 与 Repeater 的区别:
+//   - Repeater(times, child): 重复指定次数后返回 Success
+//   - Repeat(child): 无限重复，永远返回 Running
+//
+// 警告: 此节点永远不会自然结束，需要外部中断或配合其他节点使用。
+//
+// 示例:
+//
+//	// 无限循环巡逻
+//	repeat := Repeat(patrol)
+func Repeat(child Node) Node {
+	return func(ctx Context) Result {
+		_ = child(ctx)
+		// 无论成功还是失败，都继续执行（返回 Running）
+		return Running
+	}
+}
+
 // Inverter 创建一个反转装饰器节点，反转子节点的执行结果。
 // Success 变为 Failure，Failure 变为 Success，Running 保持不变。
 //

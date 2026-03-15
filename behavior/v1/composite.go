@@ -72,6 +72,46 @@ func Selector(children ...Node) Node {
 	}
 }
 
+// ActiveSelector 创建一个主动选择器节点，每次都重新评估所有子节点。
+// 与普通 Selector 不同，ActiveSelector 不会记住上次成功的节点，
+// 而是每次都从头开始评估，选择第一个返回非失败的子节点。
+//
+// 执行规则:
+//   - 每次都按顺序评估所有子节点
+//   - 返回第一个非 Failure 的子节点结果
+//   - 如果所有子节点都返回 Failure，返回 Failure
+//
+// 参数:
+//   - children: 子节点列表（按优先级排序）
+//
+// 返回值:
+//   - Node: 主动选择器节点函数
+//
+// 边界情况: 空选择器返回 Failure
+//
+// 使用场景: 适用于需要动态改变优先级的场景，如：
+//   - 低优先级行为执行中，高优先级条件满足时立即切换
+//   - 巡逻时发现敌人立即追击，追击时失去目标立即返回巡逻
+//
+// 示例:
+//
+//	// 每次都重新评估：攻击 > 追击 > 巡逻
+//	selector := ActiveSelector(attack, chase, patrol)
+func ActiveSelector(children ...Node) Node {
+	return func(ctx Context) Result {
+		if len(children) == 0 {
+			return Failure
+		}
+		for _, child := range children {
+			result := child(ctx)
+			if result != Failure {
+				return result
+			}
+		}
+		return Failure
+	}
+}
+
 // Parallel 创建一个并行节点，同时执行所有子节点。
 // 并行节点根据成功和失败策略决定最终结果。
 //
