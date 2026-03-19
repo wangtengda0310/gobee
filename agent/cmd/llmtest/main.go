@@ -8,9 +8,9 @@ import (
 	"strings"
 	"time"
 
-	"agent/pkg/llm"
-	"agent/pkg/llm/anthropic"
-	"agent/pkg/llm/openai"
+	"github.com/wangtengda0310/gobee/agent/pkg/llm"
+	"github.com/wangtengda0310/gobee/agent/pkg/llm/anthropic"
+	"github.com/wangtengda0310/gobee/agent/pkg/llm/openai"
 )
 
 func main() {

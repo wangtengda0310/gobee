@@ -1,4 +1,4 @@
-module agent
+module github.com/wangtengda0310/gobee/agent
 
 go 1.23.4
 

@@ -11,7 +11,7 @@ import (
 	"strings"
 	"time"
 
-	"agent/pkg/llm"
+	"github.com/wangtengda0310/gobee/agent/pkg/llm"
 )
 
 // Config Anthropic 客户端配置

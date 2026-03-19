@@ -1,7 +1,7 @@
 package anthropic
 
 import (
-	"agent/pkg/llm"
+	"github.com/wangtengda0310/gobee/agent/pkg/llm"
 )
 
 // convertRequest 将统一请求格式转换为 Anthropic 格式

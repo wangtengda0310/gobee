@@ -124,8 +124,8 @@ import (
     "fmt"
     "os"
 
-    "agent/pkg/llm"
-    "agent/pkg/llm/anthropic"
+    "github.com/wangtengda0310/gobee/agent/pkg/llm"
+    "github.com/wangtengda0310/gobee/agent/pkg/llm/anthropic"
 )
 
 func main() {
