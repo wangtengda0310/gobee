@@ -128,3 +128,43 @@ func DefaultConfig() *Config {
 		Temperature: 0.7,
 	}
 }
+
+// EventType 流式事件类型
+type EventType string
+
+const (
+	// EventTypeContent 文本内容增量
+	EventTypeContent EventType = "content"
+	// EventTypeToolCall 工具调用
+	EventTypeToolCall EventType = "tool_call"
+	// EventTypeToolResult 工具执行结果
+	EventTypeToolResult EventType = "tool_result"
+	// EventTypeDone 执行完成
+	EventTypeDone EventType = "done"
+	// EventTypeError 错误
+	EventTypeError EventType = "error"
+)
+
+// StreamEvent 流式事件
+type StreamEvent struct {
+	// Type 事件类型
+	Type EventType `json:"type"`
+
+	// Content 文本内容
+	Content string `json:"content,omitempty"`
+
+	// ToolCall 工具调用信息
+	ToolCall *llm.ToolCall `json:"tool_call,omitempty"`
+
+	// ToolResult 工具执行结果
+	ToolResult *tool.ToolResult `json:"tool_result,omitempty"`
+
+	// Error 错误信息
+	Error error `json:"error,omitempty"`
+
+	// LoopCount 当前循环次数
+	LoopCount int `json:"loop_count,omitempty"`
+
+	// Result 最终结果（仅在 Done 时有效）
+	Result *Result `json:"result,omitempty"`
+}

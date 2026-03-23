@@ -458,3 +458,54 @@ func TestBatchExecutor_Empty(t *testing.T) {
 		t.Error("expected empty batch result")
 	}
 }
+
+// TestBatchExecutor_ArgumentPassing 测试参数传递是否正确
+// 这是一个回归测试，确保 BatchExecutor 正确传递工具调用参数
+func TestBatchExecutor_ArgumentPassing(t *testing.T) {
+	registry := NewRegistry()
+
+	var receivedArgs map[string]any
+	registry.Register(NewFunction("echo", "回显工具", func(ctx context.Context, args map[string]any) (any, error) {
+		receivedArgs = args
+		return args, nil
+	}, WithStringParam("message", "消息", true)))
+
+	executor := NewBatchExecutor(registry, 2)
+
+	// 测试 ExecuteBatch 参数传递
+	calls := []*llm.ToolCall{
+		llm.NewToolCall("call_1", "echo", `{"message": "hello world"}`),
+	}
+
+	batch := executor.ExecuteBatch(context.Background(), calls)
+	if batch.ErrorCount > 0 {
+		t.Errorf("unexpected errors: %d", batch.ErrorCount)
+	}
+
+	if receivedArgs == nil {
+		t.Fatal("expected args to be received")
+	}
+
+	if receivedArgs["message"] != "hello world" {
+		t.Errorf("expected message 'hello world', got '%v'", receivedArgs["message"])
+	}
+
+	// 测试 ExecuteSequential 参数传递
+	receivedArgs = nil
+	calls2 := []*llm.ToolCall{
+		llm.NewToolCall("call_2", "echo", `{"message": "sequential test"}`),
+	}
+
+	batch2 := executor.ExecuteSequential(context.Background(), calls2)
+	if batch2.ErrorCount > 0 {
+		t.Errorf("unexpected errors: %d", batch2.ErrorCount)
+	}
+
+	if receivedArgs == nil {
+		t.Fatal("expected args to be received in sequential mode")
+	}
+
+	if receivedArgs["message"] != "sequential test" {
+		t.Errorf("expected message 'sequential test', got '%v'", receivedArgs["message"])
+	}
+}

@@ -2,6 +2,7 @@ package tool
 
 import (
 	"context"
+	"encoding/json"
 	"sync"
 
 	"github.com/wangtengda0310/gobee/agent/pkg/llm"
@@ -60,8 +61,9 @@ func (e *BatchExecutor) ExecuteBatch(ctx context.Context, calls []*llm.ToolCall)
 				Name:       tc.Function.Name,
 			}
 
-			// 执行工具
-			res, err := e.registry.Execute(ctx, tc.Function.Name, nil)
+			// 解析参数并执行工具
+			args := parseArguments(tc.Function.Arguments)
+			res, err := e.registry.Execute(ctx, tc.Function.Name, args)
 			if err != nil {
 				result.Error = err
 			} else {
@@ -105,7 +107,9 @@ func (e *BatchExecutor) ExecuteSequential(ctx context.Context, calls []*llm.Tool
 			Name:       call.Function.Name,
 		}
 
-		res, err := e.registry.Execute(ctx, call.Function.Name, nil)
+		// 解析参数并执行工具
+		args := parseArguments(call.Function.Arguments)
+		res, err := e.registry.Execute(ctx, call.Function.Name, args)
 		if err != nil {
 			result.Error = err
 			batch.ErrorCount++
@@ -123,4 +127,16 @@ func (e *BatchExecutor) ExecuteSequential(ctx context.Context, calls []*llm.Tool
 // Registry 返回底层注册表
 func (e *BatchExecutor) Registry() *Registry {
 	return e.registry
+}
+
+// parseArguments 解析工具调用参数
+func parseArguments(argsJSON string) map[string]any {
+	args := make(map[string]any)
+	if argsJSON == "" {
+		return args
+	}
+	if err := json.Unmarshal([]byte(argsJSON), &args); err != nil {
+		return args
+	}
+	return args
 }

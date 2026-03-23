@@ -522,3 +522,85 @@ func TestNewLoopController_DefaultValue(t *testing.T) {
 		t.Errorf("expected default MaxLoops 10, got %d", controller2.MaxLoops)
 	}
 }
+
+// TestAgent_MemoryIntegration 测试 memory 集成
+func TestAgent_MemoryIntegration(t *testing.T) {
+	mockLLM := &MockLLM{
+		responses: []*llm.ChatResponse{
+			{Content: "第一次回复", StopReason: llm.StopReasonEndTurn},
+			{Content: "第二次回复", StopReason: llm.StopReasonEndTurn},
+		},
+	}
+
+	// 创建滑动窗口 memory
+	mem := memory.NewSlidingWindow(10)
+
+	ag := New(WithLLM(mockLLM), WithSystemPrompt("你是助手"))
+	ag.SetMemory(mem)
+
+	ctx := context.Background()
+
+	// 第一次对话
+	_, err := ag.Run(ctx, "你好")
+	if err != nil {
+		t.Fatalf("unexpected error: %v", err)
+	}
+
+	// 验证 memory 中有消息
+	if mem.Len() < 2 {
+		t.Errorf("expected at least 2 messages in memory, got %d", mem.Len())
+	}
+
+	// 第二次对话
+	_, err = ag.Run(ctx, "再见")
+	if err != nil {
+		t.Fatalf("unexpected error: %v", err)
+	}
+
+	// 验证 memory 持续累积
+	if mem.Len() < 4 {
+		t.Errorf("expected at least 4 messages in memory after second run, got %d", mem.Len())
+	}
+}
+
+// TestAgent_MemoryWithContext 测试 memory 提供历史上下文
+func TestAgent_MemoryWithContext(t *testing.T) {
+	var callCount int
+	var lastMessages []*llm.Message
+
+	mockLLM := &MockLLM{
+		responses: []*llm.ChatResponse{
+			{Content: "回复1", StopReason: llm.StopReasonEndTurn},
+			{Content: "回复2", StopReason: llm.StopReasonEndTurn},
+		},
+	}
+
+	mem := memory.NewSlidingWindow(10)
+
+	ag := New(
+		WithLLM(mockLLM),
+		WithHooks(&Hooks{
+			OnLLMCall: func(messages []*llm.Message) {
+				callCount++
+				lastMessages = messages
+			},
+		}),
+	)
+	ag.SetMemory(mem)
+
+	ctx := context.Background()
+
+	// 第一次对话
+	_, _ = ag.Run(ctx, "问题1")
+
+	_ = callCount // 记录调用次数
+	firstMsgCount := len(lastMessages)
+
+	// 第二次对话 - 应该包含历史
+	_, _ = ag.Run(ctx, "问题2")
+
+	// 验证 LLM 调用时包含了历史消息
+	if len(lastMessages) <= firstMsgCount {
+		t.Errorf("expected more messages in second call due to history, got %d vs %d", len(lastMessages), firstMsgCount)
+	}
+}
