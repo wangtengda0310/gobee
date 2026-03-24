@@ -65,8 +65,8 @@ jobs:
           fetch-depth: 0
       - name: 'Qodana Scan - ${{ matrix.module.name }}'
         uses: JetBrains/qodana-action@v2025.1
+        working-directory: ${{ matrix.module.dir }}
         env:
           QODANA_TOKEN: ${{ secrets.QODANA_TOKEN }} # 可选，Community 版不需要但可以提供以获得更多功能
         with:
           args: --fail-threshold=0
-        working-directory: ${{ matrix.module.dir }}
