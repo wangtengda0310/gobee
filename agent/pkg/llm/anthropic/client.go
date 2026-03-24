@@ -14,6 +14,24 @@ import (
 	"github.com/wangtengda0310/gobee/agent/pkg/llm"
 )
 
+// buildEndpoint 构建完整的 API 端点 URL
+// 智能处理 /v1 路径，兼容不同提供商的 BaseURL 格式
+//
+// Anthropic 官方: https://api.anthropic.com/v1 -> /messages
+// 智谱 AI: https://open.bigmodel.cn/api/anthropic -> /v1/messages
+func buildEndpoint(baseURL, path string) string {
+	// 移除 BaseURL 末尾的斜杠
+	baseURL = strings.TrimSuffix(baseURL, "/")
+
+	// 如果 BaseURL 已经以 /v1 结尾，直接拼接路径
+	if strings.HasSuffix(baseURL, "/v1") {
+		return baseURL + path
+	}
+
+	// 否则添加 /v1 前缀（兼容智谱 AI 等第三方服务）
+	return baseURL + "/v1" + path
+}
+
 // Config Anthropic 客户端配置
 type Config struct {
 	APIKey     string
@@ -144,7 +162,8 @@ func (c *Client) Complete(ctx context.Context, req *llm.ChatRequest) (*llm.ChatR
 		return nil, fmt.Errorf("序列化请求失败: %w", err)
 	}
 
-	httpReq, err := http.NewRequestWithContext(ctx, "POST", c.config.BaseURL+"/messages", bytes.NewReader(body))
+	endpoint := buildEndpoint(c.config.BaseURL, "/messages")
+	httpReq, err := http.NewRequestWithContext(ctx, "POST", endpoint, bytes.NewReader(body))
 	if err != nil {
 		return nil, fmt.Errorf("创建请求失败: %w", err)
 	}
@@ -203,7 +222,8 @@ func (c *Client) Stream(ctx context.Context, req *llm.ChatRequest) (<-chan *llm.
 		return nil, fmt.Errorf("序列化请求失败: %w", err)
 	}
 
-	httpReq, err := http.NewRequestWithContext(ctx, "POST", c.config.BaseURL+"/messages", bytes.NewReader(body))
+	endpoint := buildEndpoint(c.config.BaseURL, "/messages")
+	httpReq, err := http.NewRequestWithContext(ctx, "POST", endpoint, bytes.NewReader(body))
 	if err != nil {
 		return nil, fmt.Errorf("创建请求失败: %w", err)
 	}

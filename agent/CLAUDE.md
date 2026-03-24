@@ -102,14 +102,14 @@ go run ./openclaw/channel api-enhanced --port 8080
 ANTHROPIC_API_KEY="xxx" go run ./cmd/llmtest \
   -provider anthropic \
   -model "glm-5" \
-  -base-url "https://open.bigmodel.cn/api/anthropic/v1" \
+  -base-url "https://open.bigmodel.cn/api/anthropic" \
   -prompt "Hello"
 
 # 测试流式响应
 ANTHROPIC_API_KEY="xxx" go run ./cmd/llmtest \
   -provider anthropic \
   -model "glm-5" \
-  -base-url "https://open.bigmodel.cn/api/anthropic/v1" \
+  -base-url "https://open.bigmodel.cn/api/anthropic" \
   -prompt "Hello" \
   -stream
 ```
