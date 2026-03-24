@@ -2,9 +2,15 @@ name: Qodana
 on:
   workflow_dispatch:
   pull_request:
+    paths:
+      - 'agent/**'
+      - '.github/workflows/qodana_code_quality.yml'
   push:
     branches:
       - main
+    paths:
+      - 'agent/**'
+      - '.github/workflows/qodana_code_quality.yml'
 
 jobs:
   qodana:
@@ -13,6 +19,9 @@ jobs:
       contents: write
       pull-requests: write
       checks: write
+    defaults:
+      run:
+        working-directory: ./agent
     steps:
       - uses: actions/checkout@v3
         with:
@@ -24,3 +33,4 @@ jobs:
           QODANA_TOKEN: ${{ secrets.QODANA_TOKEN }}
         with:
           args: --fail-threshold=0
+          source-dir: ./agent
