@@ -4,12 +4,35 @@ on:
   pull_request:
     paths:
       - 'agent/**'
+      - 'agent/go.mod'
+      - 'behavior/**'
+      - 'cache/**'
+      - 'gameactor/**'
+      - 'gameconfig/**'
+      - 'lvan/**'
+      - 'memshare/**'
+      - 'realm/**'
+      - 'reflectparam/**'
+      - 'snowflow_treemap/**'
+      - 'wangtengda/**'
+      - 'wow/**'
       - '.github/workflows/qodana_code_quality.yml'
   push:
     branches:
       - main
     paths:
       - 'agent/**'
+      - 'behavior/**'
+      - 'cache/**'
+      - 'gameactor/**'
+      - 'gameconfig/**'
+      - 'lvan/**'
+      - 'memshare/**'
+      - 'realm/**'
+      - 'reflectparam/**'
+      - 'snowflow_treemap/**'
+      - 'wangtengda/**'
+      - 'wow/**'
       - '.github/workflows/qodana_code_quality.yml'
 
 jobs:
@@ -19,18 +42,31 @@ jobs:
       contents: write
       pull-requests: write
       checks: write
-    defaults:
-      run:
-        working-directory: ./agent
+    strategy:
+      matrix:
+        module:
+          - { name: agent, dir: ./agent }
+          - { name: behavior-v1, dir: ./behavior/v1 }
+          - { name: behavior-v2, dir: ./behavior/v2 }
+          - { name: cache, dir: ./cache }
+          - { name: gameactor, dir: ./gameactor }
+          - { name: gameconfig, dir: ./gameconfig }
+          - { name: lvan, dir: ./lvan }
+          - { name: memshare, dir: ./memshare }
+          - { name: realm, dir: ./realm }
+          - { name: reflectparam, dir: ./reflectparam }
+          - { name: snowflow_treemap, dir: ./snowflow_treemap }
+          - { name: wangtengda, dir: ./wangtengda }
+          - { name: wow, dir: ./wow }
     steps:
       - uses: actions/checkout@v3
         with:
           ref: ${{ github.event.pull_request.head.sha }}
           fetch-depth: 0
-      - name: 'Qodana Scan'
+      - name: 'Qodana Scan - ${{ matrix.module.name }}'
         uses: JetBrains/qodana-action@v2025.1
         env:
           QODANA_TOKEN: ${{ secrets.QODANA_TOKEN }}
         with:
           args: --fail-threshold=0
-          source-dir: ./agent
+          source-dir: ${{ matrix.module.dir }}
