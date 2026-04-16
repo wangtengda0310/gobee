@@ -11,13 +11,13 @@ import (
 func TestNewExporterTools(t *testing.T) {
 	reg := NewExporterTools()
 	require.NotNil(t, reg)
-	assert.Equal(t, 4, reg.Count(), "应注册 4 个工具")
+	assert.Equal(t, 5, reg.Count(), "应注册 5 个工具")
 }
 
 func TestExporterTools_HasExpectedTools(t *testing.T) {
 	reg := NewExporterTools()
 
-	expectedTools := []string{"execute_command", "list_commands", "get_task_result", "cancel_task"}
+	expectedTools := []string{"execute_command", "list_commands", "get_task_result", "cancel_task", "run_shell"}
 	for _, name := range expectedTools {
 		tool, found := reg.GetTool(name)
 		assert.True(t, found, "工具 %s 应存在", name)
@@ -29,7 +29,7 @@ func TestExporterTools_HasExpectedTools(t *testing.T) {
 func TestExporterTools_GetDefinitions(t *testing.T) {
 	reg := NewExporterTools()
 	defs := reg.GetDefinitions()
-	assert.Equal(t, 4, len(defs))
+	assert.Equal(t, 5, len(defs))
 
 	for _, def := range defs {
 		assert.NotNil(t, def.Function)
@@ -88,4 +88,33 @@ func TestExporterTools_CancelTask(t *testing.T) {
 	assert.NotNil(t, result)
 	assert.Equal(t, "task-456", result.(map[string]any)["task_id"])
 	assert.Equal(t, "cancelled", result.(map[string]any)["status"])
+}
+func TestExporterTools_RunShell(t *testing.T) {
+	reg := NewExporterTools()
+	shellTool, found := reg.GetTool("run_shell")
+	require.True(t, found)
+
+	t.Run("基本命令执行", func(t *testing.T) {
+		result, err := shellTool.Execute(context.Background(), map[string]any{
+			"command": "echo hello",
+		})
+		require.NoError(t, err)
+		m := result.(map[string]any)
+		assert.Equal(t, 0, m["exitCode"])
+		assert.Contains(t, m["stdout"], "hello")
+	})
+
+	t.Run("命令执行失败", func(t *testing.T) {
+		result, err := shellTool.Execute(context.Background(), map[string]any{
+			"command": "nonexistent_cmd_xyz",
+		})
+		require.NoError(t, err)
+		m := result.(map[string]any)
+		assert.NotEqual(t, 0, m["exitCode"])
+	})
+
+	t.Run("缺少 command 参数", func(t *testing.T) {
+		_, err := shellTool.Execute(context.Background(), map[string]any{})
+		assert.Error(t, err)
+	})
 }
