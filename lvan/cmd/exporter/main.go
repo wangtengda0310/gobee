@@ -13,6 +13,7 @@ import (
 	"time"
 
 	"github.com/wangtengda0310/gobee/lvan/cmd/exporter/api"
+	"github.com/wangtengda0310/gobee/lvan/cmd/exporter/chat"
 	"github.com/wangtengda0310/gobee/lvan/internal"
 	"github.com/wangtengda0310/gobee/lvan/internal/execute"
 	"github.com/wangtengda0310/gobee/lvan/pkg/cron"
@@ -301,6 +302,27 @@ func main() {
 	router.HandleFunc("/cmd/", api.HandleCommandRequest)
 	router.HandleFunc("/result/", api.HandleResultRequest)
 	router.HandleFunc("/backup/", api.HandleBackupRequest)
+
+	// 注册 Chat Agent 路由
+		homeDir := os.Getenv("HOME")
+		if homeDir == "" {
+			homeDir = os.Getenv("USERPROFILE") // Windows 兼容
+		}
+		settingsPath := filepath.Join(homeDir, ".claude", "settings.json")
+		chatConfig, chatErr := chat.LoadConfig(settingsPath)
+		if chatErr != nil {
+			logger.Warn("Chat Agent 配置加载失败: %v", chatErr)
+		} else if chatConfig.APIKey != "" {
+			chatHandler, err := chat.NewChatHandler(chatConfig)
+			if err != nil {
+				logger.Warn("Chat Agent 初始化失败: %v", err)
+			} else {
+				chatHandler.RegisterHandlers(router)
+				logger.Info("Chat Agent 已启用，访问路径: /chat/")
+			}
+		} else {
+			logger.Warn("Chat Agent 未启用：未找到有效的 API Key")
+		}
 
 	// 如果指定了HTML目录，则注册/html/路径
 	if *htmlDirFlag != "" {

@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exporter Chat Agent</title>
+    <link rel="stylesheet" href="/chat/style.css">
+</head>
+<body>
+    <div id="app">
+        <header id="toolbar">
+            <select id="model-select"><option value="">加载中...</option></select>
+            <div class="toolbar-actions">
+                <button id="btn-clear" title="清空历史">清空历史</button>
+                <a href="/chat/help" target="_blank"><button id="btn-help" title="帮助">帮助</button></a>
+            </div>
+        </header>
+        <main id="messages"></main>
+        <footer id="input-bar">
+            <textarea id="input" rows="1" placeholder="输入消息... (Enter 发送, Shift+Enter 换行)"></textarea>
+            <button id="btn-send">发送</button>
+        </footer>
+    </div>
+    <script src="/chat/app.js"></script>
+</body>
+</html>

@@ -9,6 +9,7 @@ require (
 	github.com/google/uuid v1.6.0
 	github.com/robfig/cron v1.2.0
 	github.com/vmihailenco/msgpack/v5 v5.4.1
+	github.com/wangtengda0310/gobee/agent v0.0.0+incompatible
 	golang.org/x/mod v0.29.0
 	golang.org/x/text v0.31.0
 	gopkg.in/yaml.v3 v3.0.1
@@ -23,4 +24,10 @@ require (
 	github.com/stretchr/testify v1.10.0
 	github.com/vmihailenco/tagparser/v2 v2.0.0 // indirect
 	golang.org/x/sys v0.38.0 // indirect
+)
+
+replace (
+	github.com/wangtengda0310/gobee/agent => ../agent
+	github.com/wangtengda0310/gobee/agent/pkg/llm => ../agent/pkg/llm
+	github.com/wangtengda0310/gobee/agent/pkg/tool => ../agent/pkg/tool
 )

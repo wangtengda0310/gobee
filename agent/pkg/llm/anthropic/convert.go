@@ -41,8 +41,13 @@ func convertMessages(messages []*llm.Message) []Message {
 			continue
 		}
 
+		// Anthropic API requires tool_result messages to have role "user"
+		role := string(msg.Role)
+		if msg.Role == llm.RoleTool {
+			role = "user"
+		}
 		anthMsg := Message{
-			Role: string(msg.Role),
+			Role: role,
 		}
 
 		// 转换内容
