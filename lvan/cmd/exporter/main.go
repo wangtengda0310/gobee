@@ -19,6 +19,7 @@ import (
 	"github.com/wangtengda0310/gobee/lvan/pkg/logger"
 	"github.com/wangtengda0310/gobee/lvan/pkg/utf8"
 
+	"github.com/google/uuid"
 	"github.com/spf13/pflag"
 )
 
@@ -71,6 +72,7 @@ func getEnvBool(key string, defaultVal bool) bool {
 	}
 	return defaultVal
 }
+
 func main() {
 	// 设置程序说明
 	pflag.Usage = func() {
@@ -88,7 +90,7 @@ func main() {
 	showMoreHelp := pflag.Bool("morehelp", false, "展示更详细的文档")
 	logLevel := pflag.String("log-level", "info", "Log level (debug, info, warn, error, fatal)")
 	cleanFlag := pflag.Bool("clean", getEnvBool("EXPORTER_CLEAN", false), "清除任务的工作目录，支持环境变量 EXPORTER_CLEAN")
-	workDirFlag := pflag.StringP("workdir", "w", getEnvString("EXPORTER_WORKDIR", ""), "指定工作目录，默认为程序所在目录，支持环境变量 EXPORTER_WORKDIR")
+	workDirFlag := pflag.StringP("workdir", "w", getEnvString("EXPORTER_WORKDIR", ""), "指定工作目录（-w - 使用临时目录），默认为当前目录，支持环境变量 EXPORTER_WORKDIR")
 	htmlDirFlag := pflag.String("html", getEnvString("EXPORTER_HTML_DIR", "html"), "指定HTML静态文件目录，支持环境变量 EXPORTER_HTML_DIR")
 
 	// 为参数添加长格式说明
@@ -106,19 +108,25 @@ func main() {
 		"    error   错误信息\n" +
 		"    fatal   致命错误"
 
-	pflag.Lookup("workdir").Usage = "指定工作目录，默认为程序所在目录\n" +
-		"  示例:\n" +
-		"    EXPORTER_WORKDIR=/path/to/dir  通过环境变量指定工作目录\n" +
-		"    --workdir /path/to/dir         使用长格式指定工作目录\n" +
-		"    -w /path/to/dir                使用短格式指定工作目录"
+	pflag.Lookup("workdir").Usage = "指定工作目录\n" +
+		"  -w /path/to/dir  指定工作目录\n" +
+		"  -w -             使用系统临时目录（多实例隔离，需手动清理）\n" +
+		"  不指定           使用当前目录\n" +
+		"  环境变量 EXPORTER_WORKDIR 也支持设置，但不支持 '-' 特殊值"
+
 	pflag.Parse()
 
 	// 初始化工作目录
 	if *workDirFlag != "" {
-		// 使用命令行参数指定的工作目录
-		internal.WorkDir = *workDirFlag
+		if *workDirFlag == "-" {
+			// -w - 表示使用临时目录
+			internal.WorkDir = filepath.Join(os.TempDir(), "exporter-"+uuid.New().String()[:8])
+		} else {
+			// 使用命令行参数指定的工作目录
+			internal.WorkDir = *workDirFlag
+		}
 	} else {
-		// 默认使用可执行文件所在目录
+		// 默认使用当前目录
 		execPath, err := os.Getwd()
 		if err != nil {
 			fmt.Printf("无法获取程序路径: %v\n", err)
@@ -154,6 +162,8 @@ func main() {
 		os.Exit(1)
 	}
 	logger.SetDefaultLogger(loggerInstance)
+
+	logger.Info("工作目录: %s", internal.WorkDir)
 
 	execute.CommandDir = filepath.Join(internal.WorkDir, "cmd")
 
