@@ -11,6 +11,7 @@ import (
 
 	"github.com/wangtengda0310/gobee/agent/pkg/llm"
 	"github.com/wangtengda0310/gobee/agent/pkg/llm/anthropic"
+	"github.com/wangtengda0310/gobee/agent/pkg/prompt"
 	"github.com/wangtengda0310/gobee/agent/pkg/tool"
 	"github.com/wangtengda0310/gobee/lvan/pkg/logger"
 )
@@ -18,50 +19,37 @@ import (
 //go:embed all:chatui
 var chatUI embed.FS
 
-// buildSystemPrompt 构建包含平台信息的 system prompt
-func buildSystemPrompt() string {
+// buildSystemPrompt 使用 agent/pkg/prompt 构建包含平台信息的 system prompt
+func buildSystemPrompt(toolsDefs []*llm.Tool) string {
 	osName := runtime.GOOS
 	arch := runtime.GOARCH
-	// 根据平台提供命令示例
-	var cmdExamples string
+
+	// 根据平台选择命令参考
+	var cmdRef string
 	switch osName {
 	case "windows":
-		cmdExamples = `当前是 Windows 系统，请使用 Windows 命令：
-- 列出目录: dir 或 dir D:\
-- 查看文件: type filename
-- 文件信息: dir /s
-- 环境变量: echo %PATH%
-- 进程列表: tasklist`
+		cmdRef = "当前是 Windows 系统，请使用 Windows 命令（如 dir、type、tasklist）"
 	default:
-		cmdExamples = `当前是 Linux/macOS 系统，请使用 Unix 命令：
-- 列出目录: ls -la
-- 查看文件: cat filename
-- 文件查找: find /path -name "*.txt"
-- 磁盘使用: df -h
-- 进程列表: ps aux`
+		cmdRef = "当前是 Linux/macOS 系统，请使用 Unix 命令（如 ls、cat、ps）"
 	}
 
-	return fmt.Sprintf(`你是 Exporter 工具执行助手。你可以帮助用户通过自然语言执行各种命令行工具。
-
-## 运行环境
-- 操作系统: %s
-- 架构: %s
-
-%s
-
-## 可用工具
-- execute_command: 执行 exporter 注册的命令
-- list_commands: 列出所有可用命令
-- get_task_result: 获取命令执行结果
-- cancel_task: 取消正在执行的任务
-- run_shell: 执行本地 shell 命令并返回输出结果
-
-## 注意事项
-- 请根据当前操作系统选择合适的命令语法
-- run_shell 执行失败时（exitCode != 0），请检查 stderr 中的错误信息并调整命令
-- 不要重复尝试相同的失败命令
-
-请用中文回复用户。当用户请求执行操作时，选择合适的工具完成。`, osName, arch, cmdExamples)
+	return prompt.NewSystem("Exporter 工具执行助手").
+		WithDescription("帮助用户通过自然语言执行各种命令行工具和 shell 命令").
+		WithCapabilities(
+			"执行 exporter 注册的命令行工具",
+			"执行本地 shell 命令",
+			"获取命令执行结果",
+			"取消正在执行的任务",
+		).
+		WithTools(toolsDefs...).
+		WithConstraints(
+			"请用中文回复用户",
+			cmdRef,
+			"run_shell 执行失败时（exitCode != 0），请检查 stderr 中的错误信息并调整命令",
+			"不要重复尝试相同的失败命令",
+		).
+		WithContext(fmt.Sprintf("操作系统: %s, 架构: %s", osName, arch)).
+		Build()
 }
 
 const maxToolRounds = 10
@@ -405,11 +393,14 @@ func (h *ChatHandler) handleMessage(w http.ResponseWriter, r *http.Request) {
 	// 获取历史消息
 	history := h.sessions.GetMessages(sessionID)
 
+	// 获取工具定义并构建 system prompt
+	toolsDefs := h.tools.GetDefinitions()
+
 	// 构建请求
 	chatReq := &llm.ChatRequest{
 		Messages: history,
-		System:   buildSystemPrompt(),
-		Tools:    h.tools.GetDefinitions(),
+		System:   buildSystemPrompt(toolsDefs),
+		Tools:    toolsDefs,
 	}
 
 	// 执行工具调用循环（最多 maxToolRounds 轮）
