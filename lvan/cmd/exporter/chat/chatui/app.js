@@ -230,12 +230,11 @@ function createBattlefieldCard(card) {
             <div class="question">${escapeHtml(card.content)}</div>
             <span class="status-badge">${statusText}</span>
         </div>
+        <div class="card-body">${card.answer ? renderMarkdown(card.answer) : ''}</div>
     `;
 
-    if (card.answer || card.toolCalls.length > 0) {
-        html += `<div class="card-body">${renderMarkdown(card.answer)}</div>`;
-
-        // 工具调用区域
+    // 工具调用区域
+    if (card.toolCalls.length > 0) {
         html += '<div class="card-tools">';
         card.toolCalls.forEach(tool => {
             const icon = tool.success === false ? '❌' : '✅';
@@ -385,10 +384,23 @@ function renderMindmap() {
         related: card.getRelated(),
     }));
 
-    // 连线
-    ctx.strokeStyle = 'rgba(255, 215, 0, 0.3)';
+    // 时间线相邻连线（灰色虚线）
+    ctx.strokeStyle = 'rgba(150, 150, 150, 0.3)';
     ctx.lineWidth = 1;
+    ctx.setLineDash([4, 4]);
+    for (let i = 1; i < nodes.length; i++) {
+        ctx.beginPath();
+        ctx.moveTo(nodes[i - 1].x, nodes[i - 1].y);
+        ctx.lineTo(nodes[i].x, nodes[i].y);
+        ctx.stroke();
+    }
+    ctx.setLineDash([]);
+
+    // 手动关联连线（金色实线）
+    ctx.strokeStyle = 'rgba(255, 215, 0, 0.6)';
+    ctx.lineWidth = 2;
     nodes.forEach(node => {
+        if (node.related.length === 0) return;
         node.related.forEach(relatedId => {
             const target = nodes.find(n => n.id === relatedId);
             if (target) {
