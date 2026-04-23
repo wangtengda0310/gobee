@@ -8,6 +8,7 @@
 </head>
 <body>
     <div id="app">
+        <!-- 顶部工具栏 -->
         <header id="toolbar">
             <select id="model-select"><option value="">加载中...</option></select>
             <div class="toolbar-actions">
@@ -15,10 +16,38 @@
                 <a href="/chat/help" target="_blank"><button id="btn-help" title="帮助">帮助</button></a>
             </div>
         </header>
-        <main id="messages"></main>
-        <footer id="input-bar">
-            <textarea id="input" rows="1" placeholder="输入消息... (Enter 发送, Shift+Enter 换行)"></textarea>
-            <button id="btn-send">发送</button>
+
+        <!-- 主内容区：战场 + 侧边栏 -->
+        <main id="main-content">
+            <!-- 战场区：已出牌/正在回答的卡牌 -->
+            <section id="battlefield" aria-label="战场区">
+                <div id="battlefield-cards"></div>
+            </section>
+
+            <!-- 右侧导航区：墓地/导图切换 -->
+            <aside id="sidebar" aria-label="导航区">
+                <div id="sidebar-tabs">
+                    <button id="tab-graveyard" class="tab-btn active" data-panel="graveyard-panel">墓地</button>
+                    <button id="tab-mindmap" class="tab-btn" data-panel="mindmap-panel">导图</button>
+                </div>
+                <div id="sidebar-panels">
+                    <div id="graveyard-panel" class="panel active">
+                        <div id="graveyard-timeline"></div>
+                    </div>
+                    <div id="mindmap-panel" class="panel">
+                        <canvas id="mindmap-canvas"></canvas>
+                    </div>
+                </div>
+            </aside>
+        </main>
+
+        <!-- 手牌区：待出牌队列 + 输入 -->
+        <footer id="hand-area">
+            <div id="hand-cards"></div>
+            <div id="input-area">
+                <textarea id="input" rows="1" placeholder="输入消息... (Enter 发送, Shift+Enter 换行)"></textarea>
+                <button id="btn-send">发送</button>
+            </div>
         </footer>
     </div>
     <script src="/chat/app.js"></script>
