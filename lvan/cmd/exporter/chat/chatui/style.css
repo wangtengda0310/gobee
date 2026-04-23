@@ -1,3 +1,45 @@
+/* ============================================
+   炉石传说主题样式 - Hearthstone Theme
+   文件: lvan/cmd/exporter/chat/chatui/style.css
+   ============================================ */
+
+/* ---------- CSS 变量：炉石主题色 ---------- */
+:root {
+    /* 背景色 */
+    --hs-bg-primary: #1a1a2e;
+    --hs-bg-secondary: #16213e;
+    --hs-bg-dark: #0d1b2a;
+    --hs-bg-panel: #0f3460;
+
+    /* 主题色 */
+    --hs-gold: #ffd700;
+    --hs-gold-light: #ffec8b;
+    --hs-gold-dark: #b8860b;
+    --hs-green: #2ecc71;
+    --hs-green-dark: #27ae60;
+    --hs-red: #e94560;
+    --hs-red-light: #ff6b6b;
+
+    /* 文字色 */
+    --hs-text-primary: #e0e0e0;
+    --hs-text-secondary: #b0b0b0;
+    --hs-text-muted: #808080;
+
+    /* 边框与阴影 */
+    --hs-border-color: #0f3460;
+    --hs-card-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+    --hs-card-shadow-hover: 0 8px 24px rgba(0, 0, 0, 0.7);
+    --hs-gold-glow: 0 0 12px rgba(255, 215, 0, 0.6);
+
+    /* 尺寸 */
+    --toolbar-height: 48px;
+    --sidebar-width: 240px;
+    --hand-area-min-height: 120px;
+    --card-width: 120px;
+    --card-height: 160px;
+}
+
+/* ---------- 基础重置 ---------- */
 * {
     margin: 0;
     padding: 0;
@@ -6,24 +48,31 @@
 
 body {
     font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-    background: #1a1a2e;
-    color: #e0e0e0;
+    background: var(--hs-bg-primary);
+    color: var(--hs-text-primary);
     line-height: 1.5;
+    overflow: hidden;
 }
 
+/* ---------- 布局：#app ---------- */
 #app {
     display: flex;
     flex-direction: column;
     height: 100vh;
+    width: 100vw;
 }
 
+/* ---------- 工具栏：#toolbar ---------- */
 #toolbar {
     display: flex;
     align-items: center;
     gap: 12px;
-    background: #16213e;
+    height: var(--toolbar-height);
+    min-height: var(--toolbar-height);
+    background: var(--hs-bg-secondary);
     padding: 8px 16px;
-    border-bottom: 1px solid #0f3460;
+    border-bottom: 2px solid var(--hs-border-color);
+    flex-shrink: 0;
 }
 
 .toolbar-actions {
@@ -32,19 +81,127 @@ body {
     margin-left: auto;
 }
 
-select, button {
-    background: #0f3460;
-    color: #e0e0e0;
+/* ---------- 主内容区：#main-content ---------- */
+#main-content {
+    display: flex;
+    flex-direction: row;
+    flex: 1;
+    overflow: hidden;
+}
+
+/* ---------- 战场区：#battlefield ---------- */
+#battlefield {
+    flex: 1;
+    overflow-y: auto;
+    padding: 16px;
+    background: linear-gradient(180deg, var(--hs-bg-primary) 0%, var(--hs-bg-dark) 100%);
+}
+
+#battlefield-cards {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    min-height: 100%;
+}
+
+/* ---------- 侧边栏：#sidebar ---------- */
+#sidebar {
+    width: var(--sidebar-width);
+    min-width: var(--sidebar-width);
+    background: var(--hs-bg-secondary);
+    border-left: 2px solid var(--hs-border-color);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    flex-shrink: 0;
+}
+
+#sidebar-tabs {
+    display: flex;
+    flex-direction: row;
+    border-bottom: 1px solid var(--hs-border-color);
+}
+
+.tab-btn {
+    flex: 1;
+    padding: 10px 8px;
+    background: var(--hs-bg-secondary);
+    color: var(--hs-text-secondary);
     border: none;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: bold;
+    transition: all 0.2s ease;
+    text-align: center;
+}
+
+.tab-btn:hover {
+    background: var(--hs-bg-panel);
+    color: var(--hs-text-primary);
+}
+
+.tab-btn.active {
+    background: var(--hs-bg-panel);
+    color: var(--hs-gold);
+    border-bottom: 2px solid var(--hs-gold);
+}
+
+#sidebar-panels {
+    flex: 1;
+    overflow-y: auto;
+    position: relative;
+}
+
+.panel {
+    display: none;
+    padding: 12px;
+    min-height: 100%;
+}
+
+.panel.active {
+    display: block;
+}
+
+/* ---------- 手牌区：#hand-area ---------- */
+#hand-area {
+    background: var(--hs-bg-secondary);
+    border-top: 2px solid var(--hs-border-color);
+    padding: 12px 16px;
+    flex-shrink: 0;
+}
+
+#hand-cards {
+    display: flex;
+    flex-direction: row;
+    gap: 12px;
+    overflow-x: auto;
+    overflow-y: hidden;
+    padding-bottom: 8px;
+    margin-bottom: 8px;
+    min-height: calc(var(--card-height) + 8px);
+}
+
+#input-area {
+    display: flex;
+    align-items: flex-end;
+    gap: 8px;
+}
+
+/* ---------- 通用表单元素 ---------- */
+select, button {
+    background: var(--hs-bg-panel);
+    color: var(--hs-text-primary);
+    border: 1px solid var(--hs-border-color);
     border-radius: 4px;
     padding: 6px 12px;
     cursor: pointer;
     font-size: 14px;
-    transition: background 0.2s;
+    transition: all 0.2s ease;
 }
 
 select:hover, button:hover {
     background: #1a4a7a;
+    border-color: var(--hs-gold-dark);
 }
 
 select {
@@ -55,6 +212,383 @@ a {
     text-decoration: none;
 }
 
+#input {
+    flex: 1;
+    background: var(--hs-bg-dark);
+    border: 1px solid var(--hs-border-color);
+    border-radius: 4px;
+    color: var(--hs-text-primary);
+    padding: 8px;
+    resize: none;
+    font-size: 14px;
+    font-family: inherit;
+    max-height: 120px;
+    min-height: 36px;
+}
+
+#input:focus {
+    outline: none;
+    border-color: var(--hs-gold);
+    box-shadow: 0 0 6px rgba(255, 215, 0, 0.3);
+}
+
+#btn-send {
+    background: var(--hs-red);
+    color: white;
+    min-width: 64px;
+    height: 36px;
+    font-weight: bold;
+    border: none;
+}
+
+#btn-send:hover {
+    background: var(--hs-red-light);
+}
+
+#btn-send:disabled {
+    background: #555;
+    cursor: not-allowed;
+    opacity: 0.6;
+}
+
+#btn-send.sending {
+    background: var(--hs-red-light);
+}
+
+/* ---------- 卡牌样式：.hs-card ---------- */
+.hs-card {
+    width: var(--card-width);
+    height: var(--card-height);
+    background: linear-gradient(145deg, var(--hs-bg-secondary) 0%, var(--hs-bg-panel) 100%);
+    border: 2px solid var(--hs-border-color);
+    border-radius: 12px;
+    box-shadow: var(--hs-card-shadow);
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+    flex-shrink: 0;
+}
+
+.hs-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, transparent, var(--hs-gold-dark), transparent);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.hs-card:hover {
+    transform: translateY(-8px) rotateY(5deg);
+    box-shadow: var(--hs-card-shadow-hover);
+    border-color: var(--hs-gold-dark);
+}
+
+.hs-card:hover::before {
+    opacity: 1;
+}
+
+.hs-card .card-title {
+    font-size: 13px;
+    font-weight: bold;
+    color: var(--hs-text-primary);
+    text-align: center;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.hs-card .card-content {
+    font-size: 11px;
+    color: var(--hs-text-secondary);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    line-clamp: 3;
+}
+
+.hs-card .card-footer {
+    font-size: 10px;
+    color: var(--hs-text-muted);
+    text-align: center;
+}
+
+/* 卡牌状态 */
+.hs-card.pending {
+    border-color: #666;
+    opacity: 0.8;
+}
+
+.hs-card.answering {
+    border-color: var(--hs-gold);
+    animation: cardGlow 1.5s ease-in-out infinite alternate;
+}
+
+.hs-card.answered {
+    border-color: var(--hs-green);
+    box-shadow: 0 0 8px rgba(46, 204, 113, 0.4);
+}
+
+/* ---------- 战场区大卡片：.battlefield-card ---------- */
+.battlefield-card {
+    width: 100%;
+    min-height: 200px;
+    background: linear-gradient(145deg, var(--hs-bg-secondary) 0%, var(--hs-bg-dark) 100%);
+    border: 2px solid var(--hs-border-color);
+    border-radius: 16px;
+    box-shadow: var(--hs-card-shadow);
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.battlefield-card:hover {
+    border-color: var(--hs-gold-dark);
+    box-shadow: var(--hs-card-shadow-hover);
+}
+
+.battlefield-card .card-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--hs-border-color);
+}
+
+.battlefield-card .card-header .question {
+    font-size: 16px;
+    font-weight: bold;
+    color: var(--hs-text-primary);
+    flex: 1;
+}
+
+.battlefield-card .card-header .status-badge {
+    padding: 4px 10px;
+    border-radius: 12px;
+    font-size: 12px;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.battlefield-card .card-body {
+    flex: 1;
+    font-size: 14px;
+    color: var(--hs-text-secondary);
+    line-height: 1.6;
+}
+
+.battlefield-card .card-tools {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+/* 战场卡片状态 */
+.battlefield-card.pending {
+    border-color: #666;
+}
+
+.battlefield-card.pending .status-badge {
+    background: #444;
+    color: var(--hs-text-muted);
+}
+
+.battlefield-card.answering {
+    border-color: var(--hs-gold);
+    animation: cardGlow 1.5s ease-in-out infinite alternate;
+}
+
+.battlefield-card.answering .status-badge {
+    background: rgba(255, 215, 0, 0.2);
+    color: var(--hs-gold);
+}
+
+.battlefield-card.answered {
+    border-color: var(--hs-green);
+}
+
+.battlefield-card.answered .status-badge {
+    background: rgba(46, 204, 113, 0.2);
+    color: var(--hs-green);
+}
+
+/* ---------- 墓地条目：.graveyard-item ---------- */
+.graveyard-item {
+    background: var(--hs-bg-dark);
+    border: 1px solid var(--hs-border-color);
+    border-radius: 8px;
+    padding: 10px 12px;
+    margin-bottom: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-size: 13px;
+    color: var(--hs-text-secondary);
+}
+
+.graveyard-item:hover {
+    border-color: var(--hs-gold);
+    background: var(--hs-bg-panel);
+    color: var(--hs-text-primary);
+}
+
+.graveyard-item .item-time {
+    font-size: 11px;
+    color: var(--hs-text-muted);
+    margin-bottom: 4px;
+}
+
+.graveyard-item .item-text {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+/* ---------- 工具调用样式 ---------- */
+.tool-call {
+    background: var(--hs-bg-secondary);
+    border-left: 3px solid var(--hs-red);
+    padding: 8px 12px;
+    margin: 8px 0;
+    border-radius: 4px;
+}
+
+.tool-call summary {
+    cursor: pointer;
+    color: var(--hs-red);
+    font-weight: bold;
+    user-select: none;
+}
+
+.tool-call summary:hover {
+    color: var(--hs-red-light);
+}
+
+.tool-call pre {
+    background: var(--hs-bg-dark);
+    padding: 12px;
+    border-radius: 4px;
+    overflow-x: auto;
+    margin-top: 8px;
+    font-size: 13px;
+    color: var(--hs-text-primary);
+}
+
+/* ---------- 错误提示 ---------- */
+.error-toast {
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--hs-red);
+    color: white;
+    padding: 12px 24px;
+    border-radius: 8px;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+    animation: slideDown 0.3s ease, shake 0.5s ease 0.3s;
+    font-weight: bold;
+    border: 1px solid var(--hs-red-light);
+}
+
+/* ---------- 动画 ---------- */
+@keyframes cardGlow {
+    from {
+        box-shadow: 0 0 8px rgba(255, 215, 0, 0.4);
+        border-color: var(--hs-gold-dark);
+    }
+    to {
+        box-shadow: 0 0 20px rgba(255, 215, 0, 0.8), 0 0 40px rgba(255, 215, 0, 0.3);
+        border-color: var(--hs-gold);
+    }
+}
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateX(-50%) translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(-50%) translateY(0);
+    }
+}
+
+@keyframes shake {
+    0%, 100% { transform: translateX(-50%) translateX(0); }
+    20% { transform: translateX(-50%) translateX(-8px); }
+    40% { transform: translateX(-50%) translateX(8px); }
+    60% { transform: translateX(-50%) translateX(-4px); }
+    80% { transform: translateX(-50%) translateX(4px); }
+}
+
+/* ---------- 滚动条美化 ---------- */
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--hs-bg-dark);
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--hs-bg-panel);
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #1a4a7a;
+}
+
+/* 手牌区横向滚动条 */
+#hand-cards::-webkit-scrollbar {
+    height: 6px;
+}
+
+#hand-cards::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+#hand-cards::-webkit-scrollbar-thumb {
+    background: var(--hs-gold-dark);
+    border-radius: 3px;
+}
+
+/* ---------- 响应式：小屏幕隐藏 sidebar ---------- */
+@media (max-width: 768px) {
+    #sidebar {
+        display: none;
+    }
+
+    #battlefield {
+        padding: 10px;
+    }
+
+    .hs-card {
+        width: 100px;
+        height: 140px;
+    }
+
+    #hand-area {
+        padding: 8px 10px;
+    }
+}
+
+/* ---------- 旧版兼容样式（app.js 尚未更新时保留） ---------- */
 #messages {
     flex: 1;
     overflow-y: auto;
@@ -71,16 +605,16 @@ a {
 
 .message.user {
     margin-left: auto;
-    background: #0f3460;
+    background: var(--hs-bg-panel);
 }
 
 .message.assistant {
     margin-right: auto;
-    background: #16213e;
+    background: var(--hs-bg-secondary);
 }
 
 .message code {
-    background: #0d1b2a;
+    background: var(--hs-bg-dark);
     padding: 2px 6px;
     border-radius: 3px;
     font-family: 'Consolas', 'Monaco', monospace;
@@ -88,7 +622,7 @@ a {
 }
 
 .message pre {
-    background: #0d1b2a;
+    background: var(--hs-bg-dark);
     padding: 12px;
     border-radius: 6px;
     overflow-x: auto;
@@ -110,127 +644,14 @@ a {
 }
 
 .message strong {
-    color: #e94560;
-}
-
-.tool-call {
-    background: #16213e;
-    border-left: 3px solid #e94560;
-    padding: 8px 12px;
-    margin: 8px 0;
-    border-radius: 4px;
-    max-width: 80%;
-}
-
-.tool-call summary {
-    cursor: pointer;
-    color: #e94560;
-    font-weight: bold;
-    user-select: none;
-}
-
-.tool-call summary:hover {
-    color: #ff6b6b;
-}
-
-.tool-call pre {
-    background: #0d1b2a;
-    padding: 12px;
-    border-radius: 4px;
-    overflow-x: auto;
-    margin-top: 8px;
-    font-size: 13px;
+    color: var(--hs-red);
 }
 
 #input-bar {
     display: flex;
     align-items: flex-end;
     padding: 8px 16px;
-    background: #16213e;
-    border-top: 1px solid #0f3460;
+    background: var(--hs-bg-secondary);
+    border-top: 1px solid var(--hs-border-color);
     gap: 8px;
-}
-
-#input {
-    flex: 1;
-    background: #0d1b2a;
-    border: 1px solid #0f3460;
-    border-radius: 4px;
-    color: #e0e0e0;
-    padding: 8px;
-    resize: none;
-    font-size: 14px;
-    font-family: inherit;
-    max-height: 120px;
-    min-height: 36px;
-}
-
-#input:focus {
-    outline: none;
-    border-color: #e94560;
-}
-
-#btn-send {
-    background: #e94560;
-    color: white;
-    min-width: 64px;
-    height: 36px;
-    font-weight: bold;
-}
-
-#btn-send:hover {
-    background: #ff6b6b;
-}
-
-#btn-send:disabled {
-    background: #555;
-    cursor: not-allowed;
-    opacity: 0.6;
-}
-
-#btn-send.sending {
-    background: #ff6b6b;
-}
-
-.error-toast {
-    position: fixed;
-    top: 20px;
-    left: 50%;
-    transform: translateX(-50%);
-    background: #ff4444;
-    color: white;
-    padding: 10px 20px;
-    border-radius: 4px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-    z-index: 1000;
-    animation: slideDown 0.3s ease;
-}
-
-@keyframes slideDown {
-    from {
-        opacity: 0;
-        transform: translateX(-50%) translateY(-20px);
-    }
-    to {
-        opacity: 1;
-        transform: translateX(-50%) translateY(0);
-    }
-}
-
-/* 滚动条样式 */
-#messages::-webkit-scrollbar {
-    width: 8px;
-}
-
-#messages::-webkit-scrollbar-track {
-    background: #0d1b2a;
-}
-
-#messages::-webkit-scrollbar-thumb {
-    background: #0f3460;
-    border-radius: 4px;
-}
-
-#messages::-webkit-scrollbar-thumb:hover {
-    background: #1a4a7a;
 }
