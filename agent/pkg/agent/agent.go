@@ -231,6 +231,7 @@ func (a *Agent) callLLM(ctx context.Context, messages []*llm.Message) (*llm.Chat
 		Messages:    messages,
 		MaxTokens:   a.config.MaxTokens,
 		Temperature: a.config.Temperature,
+		System:      a.config.SystemPrompt,
 	}
 
 	// 添加工具定义
@@ -565,6 +566,7 @@ func (a *Agent) callLLMStream(ctx context.Context, messages []*llm.Message) (<-c
 		Messages:    messages,
 		MaxTokens:   a.config.MaxTokens,
 		Temperature: a.config.Temperature,
+		System:      a.config.SystemPrompt,
 	}
 
 	// 添加工具定义

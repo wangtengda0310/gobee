@@ -13,11 +13,13 @@ import (
 
 // MockLLM 模拟 LLM 客户端
 type MockLLM struct {
-	responses []*llm.ChatResponse
-	callCount int
+	responses   []*llm.ChatResponse
+	callCount   int
+	lastRequest *llm.ChatRequest
 }
 
-func (m *MockLLM) Complete(_ context.Context, _ *llm.ChatRequest) (*llm.ChatResponse, error) {
+func (m *MockLLM) Complete(_ context.Context, req *llm.ChatRequest) (*llm.ChatResponse, error) {
+	m.lastRequest = req
 	if m.callCount >= len(m.responses) {
 		return &llm.ChatResponse{
 			Content:    "default response",
@@ -29,7 +31,8 @@ func (m *MockLLM) Complete(_ context.Context, _ *llm.ChatRequest) (*llm.ChatResp
 	return resp, nil
 }
 
-func (m *MockLLM) Stream(_ context.Context, _ *llm.ChatRequest) (<-chan *llm.StreamChunk, error) {
+func (m *MockLLM) Stream(_ context.Context, req *llm.ChatRequest) (<-chan *llm.StreamChunk, error) {
+	m.lastRequest = req
 	ch := make(chan *llm.StreamChunk, 1)
 	ch <- llm.NewDoneChunk(&llm.ChatResponse{Content: "stream response"})
 	close(ch)
@@ -560,6 +563,101 @@ func TestAgent_MemoryIntegration(t *testing.T) {
 	// 验证 memory 持续累积
 	if mem.Len() < 4 {
 		t.Errorf("expected at least 4 messages in memory after second run, got %d", mem.Len())
+	}
+}
+
+// === 系统提示词丢失 Bug 回归测试 ===
+//
+// Bug 描述: agent.WithSystemPrompt() 配合 Anthropic provider 时，系统提示词被静默丢弃。
+//
+// 根因（三个环节配合断裂）:
+//   1. Run()/RunStream() 将系统提示词以 RoleSystem 消息放入 Messages 数组（agent.go:367-371）
+//   2. callLLM()/callLLMStream() 构建 ChatRequest 时未设置 System 字段（agent.go:230-234）
+//   3. Anthropic convertMessages() 跳过所有 RoleSystem 消息（anthropic/convert.go:39-42）
+//   → 结果: 系统提示词既不在顶层 system 字段，也不在 messages 数组中，被完全丢弃
+//
+// 修复: 在 callLLM()/callLLMStream() 中将 a.config.SystemPrompt 设置到 req.System（agent.go:231,569）
+//
+// 影响: 未配置 SystemPrompt 时模型缺少工具使用引导，tool calling 触发率严重下降
+//
+// TestAgent_SystemPromptPassedToChatRequest_Complete 验证 WithSystemPrompt 配置后，
+// Run() 调用 LLM 时将系统提示词设置到 ChatRequest.System 字段而非仅放入 Messages
+// 复现: 修复前 System 字段为空，Anthropic converter 会丢弃 Messages 中的 RoleSystem 消息
+func TestAgent_SystemPromptPassedToChatRequest_Complete(t *testing.T) {
+	mockLLM := &MockLLM{
+		responses: []*llm.ChatResponse{
+			{Content: "ok", StopReason: llm.StopReasonEndTurn},
+		},
+	}
+
+	systemPrompt := "你是一个专业的翻译助手，请将所有输入翻译成英文。"
+	ag := New(WithLLM(mockLLM), WithSystemPrompt(systemPrompt))
+
+	_, err := ag.Run(context.Background(), "你好")
+	if err != nil {
+		t.Fatalf("unexpected error: %v", err)
+	}
+
+	// 验证最后一次 LLM 请求的 System 字段不为空
+	lastReq := mockLLM.lastRequest
+	if lastReq == nil {
+		t.Fatal("expected LastRequest to be recorded")
+	}
+	if lastReq.System != systemPrompt {
+		t.Errorf("expected ChatRequest.System = %q, got %q", systemPrompt, lastReq.System)
+	}
+}
+
+// TestAgent_SystemPromptPassedToChatRequest_Stream 验证流式调用也正确传递 System 字段
+func TestAgent_SystemPromptPassedToChatRequest_Stream(t *testing.T) {
+	mockLLM := &MockLLM{
+		responses: []*llm.ChatResponse{
+			{Content: "ok", StopReason: llm.StopReasonEndTurn},
+		},
+	}
+
+	systemPrompt := "你是一个代码审查助手，请检查代码中的安全问题。"
+	ag := New(WithLLM(mockLLM), WithSystemPrompt(systemPrompt))
+
+	eventCh, err := ag.RunStream(context.Background(), "请检查这段代码")
+	if err != nil {
+		t.Fatalf("unexpected error: %v", err)
+	}
+
+	// 消费完所有事件，等待 goroutine 结束后再断言
+	for range eventCh {
+	}
+
+	lastReq := mockLLM.lastRequest
+	if lastReq == nil {
+		t.Fatal("expected LastRequest to be recorded")
+	}
+	if lastReq.System != systemPrompt {
+		t.Errorf("expected ChatRequest.System = %q, got %q", systemPrompt, lastReq.System)
+	}
+}
+
+// TestAgent_SystemPromptEmptyWhenNotSet 验证未配置 SystemPrompt 时 System 字段为空
+func TestAgent_SystemPromptEmptyWhenNotSet(t *testing.T) {
+	mockLLM := &MockLLM{
+		responses: []*llm.ChatResponse{
+			{Content: "ok", StopReason: llm.StopReasonEndTurn},
+		},
+	}
+
+	ag := New(WithLLM(mockLLM))
+
+	_, err := ag.Run(context.Background(), "你好")
+	if err != nil {
+		t.Fatalf("unexpected error: %v", err)
+	}
+
+	lastReq := mockLLM.lastRequest
+	if lastReq == nil {
+		t.Fatal("expected LastRequest to be recorded")
+	}
+	if lastReq.System != "" {
+		t.Errorf("expected empty System when not configured, got %q", lastReq.System)
 	}
 }
 
