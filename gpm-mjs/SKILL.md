@@ -190,10 +190,11 @@ gpm-cli issue list --sprint <当前活跃迭代> --assignee <人员> --size 100
 
 1. **Excel 查需求**：按单号索引需求行（需 `str()` 转换）
 2. **Excel 查任务**：按单号索引子任务，筛选类型=前端/后端/策划，排除名称含「联调」
-3. **GPM 去重**：
-   - 需求开发单：`gpm-cli issue list` 搜单号 → 有则复用，展示 `issueId`
-   - 子任务：`gpm-cli issue get <父issueId>` 看 `children` 字段匹配已有子任务
-   - 注意：`children` 中子任务的 `summary` 包含单号前缀，与 Excel 任务名称匹配
+3. **逐条去重（⚠️ 不可缓存）**：
+   - 每个需求建单前必须实时查询 GPM，不能用提前拉取的列表缓存
+   - 需求开发单：`gpm-cli issue list --size 500` 搜单号，逐个 grep
+   - 子任务：`gpm-cli issue get <父issueId>` 看 `children`
+   - **原因**：批量建单过程中 GPM 在变化，缓存的列表会过时导致重复建单
 4. **按确认策略决定**：必填都有值 → 直接创建；缺失 → 询问
 5. **创建**：按需创建缺失的需求开发单和子任务
 
@@ -330,6 +331,7 @@ bug：<问题描述>
 ## 重要约束
 
 1. **去重优先**：任何创建前必须先搜 GPM，匹配到则复用
+2. **🚫 禁止缓存去重结果**：批量建单不能先拉一次 GPM 列表当缓存用，必须每条实时查询，否则 GPM 数据变化会导致重复建单
 2. **子任务去重用 children**：`gpm-cli issue get <父编号>` 的 `children` 字段列出所有子任务，比命令行 grep 更可靠
 3. **parentIssueId 用 issueId**：子任务关联父单时，`parentIssueId` 填父单的 `issueId`（如 141842），不是 `issueNum`（17418）
 4. **versionId / versionTreeId**：创建 JSON 中版本字段是 `versionId`（字符串）和 `versionTreeId`（字符串），不是 `version` 和 `versionTree`
