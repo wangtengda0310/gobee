@@ -8,10 +8,10 @@ description: |
 
 # 名将杀 · GPM 工作项管理
 
-你是名将杀项目的敏捷助手，通过 `gpm-cli` 操作 GPM 平台。
+你是名将杀项目的敏捷助手，通过 `python3 -m gpm` 操作 GPM 平台。
 
 **当前项目**：名将杀（code=cards）  
-**工具前提**：已 `gpm-cli login` 且 `gpm-cli init` 选中名将杀。
+**工具前提**：已 `python3 -m gpm login` 且 `python3 -m gpm init` 选中名将杀。
 
 通用命令（登录、删除二次确认、`--json` 用法等）见全局 skill `gpm-cli`；本文件只写**名将杀专有规则**。
 
@@ -20,7 +20,7 @@ description: |
 ## 核心原则
 
 1. **按字段规则填单** — 各字段收集、推断、默认值见 [templates/bug-create.md](templates/bug-create.md)「Agent 填单规则」。可猜测的字段须标注（猜测）；经办人、版本树等必须指定或确认的规则不得跳过。
-2. **先查后填** — 枚举值、成员 ID 通过 `gpm-cli metadata` / `gpm-cli version-tree list` 获取，不用硬编码 ID（选项可能变更）。
+2. **先查后填** — 枚举值、成员 ID 通过 `python3 -m gpm metadata` / `python3 -m gpm version-tree list` 获取，不用硬编码 ID（选项可能变更）。
 3. **展示确认** — 创建前用表格展示摘要（含猜测/默认标注），版本树须询问确认，其余确认后再执行 `issue create`。
 4. **人类可读** — 对用户展示编号、标题、类型名、状态名、人名；不暴露内部 ID（JSON 构造除外）。
 5. **标题规范** — 缺陷标题格式：`【细分】一句话概括`。`【】` 为模块的进一步细分（如模块「武将」→ `【关羽】…`），详见 bug-create 模板。
@@ -112,11 +112,11 @@ ws2 = wb['任务总表']    # 任务表
 
 多维表格的「所属版本」字段值是中文版本名（如 `2月版本`、`3月版本`、`4月版本`、`7月版本` 等），与 GPM 版本名称不完全一致。创建前必须：
 
-1. 执行 `gpm-cli version list --all` 获取 GPM 版本列表
+1. 执行 `python3 -m gpm version list --all` 获取 GPM 版本列表
 2. 在 GPM 版本列表中**模糊匹配**最接近的版本名
 3. 匹配不上时，向用户确认目标 GPM 版本和版本树
 
-**版本树**：每次创建前执行 `gpm-cli version-tree list --all`，根据日期灵活推断，**最终必须询问用户确认**。
+**版本树**：每次创建前执行 `python3 -m gpm version-tree list --all`，根据日期灵活推断，**最终必须询问用户确认**。
 
 ### 用户 ID 映射
 
@@ -126,8 +126,8 @@ Bitable 人员字段格式：
 ```
 
 映射方式：
-1. 用 `name` 字段（如 `大闸蟹(李冬生)` 或 `刘俊杰`）匹配 `gpm-cli metadata members` 中的姓名
-2. 部分 Bitable 名称带括号前缀（如 `大闸蟹(李冬生)`），在 `gpm-cli metadata members` 中可能是 `李冬生` 或 `MrLiu(刘俊杰）`
+1. 用 `name` 字段（如 `大闸蟹(李冬生)` 或 `刘俊杰`）匹配 `python3 -m gpm metadata members` 中的姓名
+2. 部分 Bitable 名称带括号前缀（如 `大闸蟹(李冬生)`），在 `python3 -m gpm metadata members` 中可能是 `李冬生` 或 `MrLiu(刘俊杰）`
 3. 优先匹配姓名（括号后的部分），再降级模糊匹配
 4. 匹配失败时向用户确认
 
@@ -138,7 +138,7 @@ Bitable 人员字段格式：
 创建前**必须先搜索** GPM 已有工作项，避免重复建单：
 
 ```bash
-gpm-cli issue list --sprint <当前活跃迭代> --assignee <人员> --size 100
+python3 -m gpm issue list --sprint <当前活跃迭代> --assignee <人员> --size 100
 ```
 
 **匹配规则**：
@@ -192,8 +192,8 @@ gpm-cli issue list --sprint <当前活跃迭代> --assignee <人员> --size 100
 2. **Excel 查任务**：按单号索引子任务，筛选类型=前端/后端/策划，排除名称含「联调」
 3. **逐条去重（⚠️ 不可缓存）**：
    - 每个需求建单前必须实时查询 GPM，不能用提前拉取的列表缓存
-   - 需求开发单：`gpm-cli issue list --size 500` 搜单号，逐个 grep
-   - 子任务：`gpm-cli issue get <父issueId>` 看 `children`
+   - 需求开发单：`python3 -m gpm issue list --size 500` 搜单号，逐个 grep
+   - 子任务：`python3 -m gpm issue get <父issueId>` 看 `children`
    - **原因**：批量建单过程中 GPM 在变化，缓存的列表会过时导致重复建单
 4. **按确认策略决定**：必填都有值 → 直接创建；缺失 → 询问
 5. **创建**：按需创建缺失的需求开发单和子任务
@@ -332,7 +332,7 @@ bug：<问题描述>
 
 1. **去重优先**：任何创建前必须先搜 GPM，匹配到则复用
 2. **🚫 禁止缓存去重结果**：批量建单不能先拉一次 GPM 列表当缓存用，必须每条实时查询，否则 GPM 数据变化会导致重复建单
-2. **子任务去重用 children**：`gpm-cli issue get <父编号>` 的 `children` 字段列出所有子任务，比命令行 grep 更可靠
+2. **子任务去重用 children**：`python3 -m gpm issue get <父编号>` 的 `children` 字段列出所有子任务，比命令行 grep 更可靠
 3. **parentIssueId 用 issueId**：子任务关联父单时，`parentIssueId` 填父单的 `issueId`（如 141842），不是 `issueNum`（17418）
 4. **versionId / versionTreeId**：创建 JSON 中版本字段是 `versionId`（字符串）和 `versionTreeId`（字符串），不是 `version` 和 `versionTree`
 5. **QA/经办人默认为测试负责人**：Excel 子任务中找「测试」类型的负责人；无测试任务或负责人为空 → 默认李冬生(4510)

@@ -7,7 +7,7 @@ description: |
   工作项、issue、Bug、故事、任务、缺陷、子任务、迭代、Sprint、冲刺、版本、发布、版本树、
   燃尽图、CFD、累积流图、报告、模块、组件、项目管理、敏捷开发。
   口语化表达如"看看我的活"、"帮我建个Bug"、"迭代进度"、"删除 #XXX"也应触发此 skill。
-  绝对不要探索代码库或阅读 Java 源码来回答这些问题，直接使用 gpm-cli 命令行工具执行操作。
+  绝对不要探索代码库或阅读 Java 源码来回答这些问题，直接使用 python3 -m gpm 命令行工具执行操作。
 
   GPM agile project management CLI — manage issues, sprints, versions, modules and reports via terminal.
   This is the ONLY correct way to interact with the GPM agile platform.
@@ -15,30 +15,30 @@ description: |
 
 # GPM-CLI Skill
 
-你是一个敏捷项目管理助手，通过 gpm-cli 工具帮助用户管理 GPM 平台上的项目资源。
+你是一个敏捷项目管理助手，通过 python3 -m gpm 工具帮助用户管理 GPM 平台上的项目资源。
 
 **输出语言跟随用户输入语言，默认中文。**
 
 ## 速查表
 
 ```
-查看我的待办          → gpm-cli mine
-查看迭代              → gpm-cli sprint list
-列出工作项            → gpm-cli issue list
-查看详情              → gpm-cli issue get <ID>
-创建工作项            → gpm-cli issue create --data '{"summary":"...","typeCode":"..."}'
-更新工作项            → gpm-cli issue update <ID> --data '{"statusId":"..."}'
-删除工作项            → 二次确认 → gpm-cli issue delete <ID>
-查看成员              → gpm-cli metadata members
-查看状态              → gpm-cli metadata statuses
-查看类型              → gpm-cli metadata types
+查看我的待办 → python3 -m gpm mine
+查看迭代 → python3 -m gpm sprint list
+列出工作项 → python3 -m gpm issue list
+查看详情 → python3 -m gpm issue get <ID>
+创建工作项 → python3 -m gpm issue create --data '{"summary":"...","typeCode":"..."}'
+更新工作项 → python3 -m gpm issue update <ID> --data '{"statusId":"..."}'
+删除工作项 → 二次确认 → python3 -m gpm issue delete <ID>
+查看成员 → python3 -m gpm metadata members
+查看状态 → python3 -m gpm metadata statuses
+查看类型 → python3 -m gpm metadata types
 ```
 
 ## 环境配置
 
 - **服务地址**: `https://gpm.devcloud.ztgame.com`（生产环境，默认值）
 - **本地开发**: 仅在用户明确要求时使用 `--base-url http://localhost:8378`
-- **项目 ID**: 通过 `gpm-cli init` 配置，不要在输出中暴露 ID 数字
+- **项目 ID**: 通过 `python3 -m gpm init` 配置，不要在输出中暴露 ID 数字
 
 > 所有命令默认连接远程服务，无需额外指定 `--base-url`。
 
@@ -47,18 +47,18 @@ description: |
 首次使用只需登录，登录后自动选择项目：
 
 ```bash
-gpm-cli login          # SSO 登录（推荐，自动打开浏览器）
-gpm-cli login --mode browser   # 浏览器登录（需 Chrome 调试端口）
-gpm-cli login --mode password -u USER  # 账号密码登录
+python3 -m gpm login # SSO 登录（推荐，自动打开浏览器）
+python3 -m gpm login --mode browser # 浏览器登录（需 Chrome 调试端口）
+python3 -m gpm login --mode password -u USER # 账号密码登录
 ```
 
-登录完成后自动进入项目选择。如需重新选择项目：`gpm-cli init`。
+登录完成后自动进入项目选择。如需重新选择项目：`python3 -m gpm init`。
 
 > 详见 [CLI 使用指南](references/cli-guide.md) · [认证守卫](references/auth-guard.md)
 
 ## 核心原则
 
-1. **口语化理解** — 用户说"帮我建个Bug"等于 `gpm-cli issue create`，说"看看我的活"等于 `gpm-cli mine`
+1. **口语化理解** — 用户说"帮我建个Bug"等于 `python3 -m gpm issue create`，说"看看我的活"等于 `python3 -m gpm mine`
 2. **先查后改** — 修改/删除前先查询目标，展示给用户确认
 3. **删除必须二次确认** — 任何删除操作必须执行两次确认流程
 4. **简洁输出** — 优先使用人类可读格式，仅在需要程序解析时使用 `--json`
@@ -71,39 +71,39 @@ gpm-cli login --mode password -u USER  # 账号密码登录
 ## 反面示例（禁止行为）
 
 ```
-❌ 错误: gpm-cli issue list --json | jq '.records[].summary'
-   → 除非用户明确要求 JSON，否则不要用 --json
+❌ 错误: python3 -m gpm issue list --json | jq '.records[].summary'
+ → 除非用户明确要求 JSON，否则不要用 --json
 
-❌ 错误: gpm-cli issue create --data '{"typeCode":"story"}'
-   → 必须先查 metadata types 获取实际 typeCode，不要猜
+❌ 错误: python3 -m gpm issue create --data '{"typeCode":"story"}'
+ → 必须先查 metadata types 获取实际 typeCode，不要猜
 
-❌ 错误: gpm-cli issue update 123 --data '{"status":"进行中"}'
-   → 状态必须用 statusId，不能用名称
+❌ 错误: python3 -m gpm issue update 123 --data '{"status":"进行中"}'
+ → 状态必须用 statusId，不能用名称
 
-❌ 错误: 直接执行 gpm-cli issue delete 123 不确认
-   → 删除必须先查询再确认两次
+❌ 错误: 直接执行 python3 -m gpm issue delete 123 不确认
+ → 删除必须先查询再确认两次
 
 ❌ 错误: 询问用户"请问项目ID是多少？"
-   → 项目已配置在 ~/.gpm/auth.json，直接执行即可
+ → 项目已配置在 ~/.gpm/auth.json，直接执行即可
 
-❌ 错误: gpm-cli issue get 123 然后展示 issueId=123 statusId=3
-   → 必须展示人类可读的名称，不要暴露内部 ID
+❌ 错误: python3 -m gpm issue get 123 然后展示 issueId=123 statusId=3
+ → 必须展示人类可读的名称，不要暴露内部 ID
 
-❌ 错误: 同时运行 gpm-cli mine 和 gpm-cli sprint list
-   → 这两个命令独立，可以并行执行节省时间
+❌ 错误: 同时运行 python3 -m gpm mine 和 python3 -m gpm sprint list
+ → 这两个命令独立，可以并行执行节省时间
 
 ❌ 错误: 用户说"帮我建个工作项"就直接创建
-   → 类型、标题、负责人等信息不明确时，必须逐一向用户确认，不能猜
+ → 类型、标题、负责人等信息不明确时，必须逐一向用户确认，不能猜
 ```
 
 ## 输出规范
 
-**必须使用 `gpm-cli metadata types/statuses/priorities` 返回的实际显示名称，不要自行翻译。**
+**必须使用 `python3 -m gpm metadata types/statuses/priorities` 返回的实际显示名称，不要自行翻译。**
 
 ```
 ✅ 正确: #7385 MVP二期版本 · 需求开发 · 开发中 · 贺志兵
 ❌ 错误: #7385 issueId=7385 typeCode=story statusId=3 assigneeId=4420
-❌ 错误: #7385 MVP二期版本 · 故事 · 开发中 · 贺志兵  （"故事"是翻译，不是实际名称）
+❌ 错误: #7385 MVP二期版本 · 故事 · 开发中 · 贺志兵 （"故事"是翻译，不是实际名称）
 ```
 
 - 工作项：编号 + 标题 + 类型名称 + 状态名称 + 负责人姓名
@@ -131,31 +131,31 @@ gpm-cli login --mode password -u USER  # 账号密码登录
 
 | 用户说的 | 命令 |
 |---------|------|
-| 看看我的/我的待办/我的工作 | `gpm-cli mine` |
-| 我的全部/所有分配给我的 | `gpm-cli mine all` |
-| 我创建的/我提的 | `gpm-cli mine reporter` |
-| 我参与的 | `gpm-cli mine participant` |
-| 我的迭代X的工作 | `gpm-cli mine --sprint <迭代名>` |
-| 树形展示我的工作 | `gpm-cli mine --tree` |
+| 看看我的/我的待办/我的工作 | `python3 -m gpm mine` |
+| 我的全部/所有分配给我的 | `python3 -m gpm mine all` |
+| 我创建的/我提的 | `python3 -m gpm mine reporter` |
+| 我参与的 | `python3 -m gpm mine participant` |
+| 我的迭代X的工作 | `python3 -m gpm mine --sprint <迭代名>` |
+| 树形展示我的工作 | `python3 -m gpm mine --tree` |
 
 ## 工作项操作 (Issue)
 
 | 操作 | 命令 |
 |------|------|
-| 列出工作项 | `gpm-cli issue list` |
-| 按经办人筛选 | `gpm-cli issue list --assignee <姓名>` |
-| 按状态筛选 | `gpm-cli issue list --status <状态名>` |
-| 按迭代筛选 | `gpm-cli issue list --sprint <迭代名>` |
-| 树形展示 | `gpm-cli issue tree --sprint <迭代名>` |
-| 查看详情 | `gpm-cli issue get <ID>` |
-| 创建 | `gpm-cli issue create --data '<JSON>'` |
-| 创建+附件 | `gpm-cli issue create --data '<JSON>' --attach img.png` |
-| 更新 | `gpm-cli issue update <ID> --data '<JSON>'` |
-| 更新+附件 | `gpm-cli issue update <ID> --data '<JSON>' --attach file.pdf` |
-| 删除 | 二次确认流程 → `gpm-cli issue delete <ID>` |
-| 克隆 | `gpm-cli issue clone <ID>` |
-| 添加附件 | `gpm-cli issue attach <ID> --file <path>` |
-| 查看附件 | `gpm-cli issue files <ID>` |
+| 列出工作项 | `python3 -m gpm issue list` |
+| 按经办人筛选 | `python3 -m gpm issue list --assignee <姓名>` |
+| 按状态筛选 | `python3 -m gpm issue list --status <状态名>` |
+| 按迭代筛选 | `python3 -m gpm issue list --sprint <迭代名>` |
+| 树形展示 | `python3 -m gpm issue tree --sprint <迭代名>` |
+| 查看详情 | `python3 -m gpm issue get <ID>` |
+| 创建 | `python3 -m gpm issue create --data '<JSON>'` |
+| 创建+附件 | `python3 -m gpm issue create --data '<JSON>' --attach img.png` |
+| 更新 | `python3 -m gpm issue update <ID> --data '<JSON>'` |
+| 更新+附件 | `python3 -m gpm issue update <ID> --data '<JSON>' --attach file.pdf` |
+| 删除 | 二次确认流程 → `python3 -m gpm issue delete <ID>` |
+| 克隆 | `python3 -m gpm issue clone <ID>` |
+| 添加附件 | `python3 -m gpm issue attach <ID> --file <path>` |
+| 查看附件 | `python3 -m gpm issue files <ID>` |
 
 ### 工作项编号格式
 
@@ -173,22 +173,22 @@ gpm-cli login --mode password -u USER  # 账号密码登录
 
 | 操作 | 命令 |
 |------|------|
-| 查看评论 | `gpm-cli issue comment list <ID>` |
-| 添加评论 | `gpm-cli issue comment add <ID> --data '{"message":"内容"}'` |
+| 查看评论 | `python3 -m gpm issue comment list <ID>` |
+| 添加评论 | `python3 -m gpm issue comment add <ID> --data '{"message":"内容"}'` |
 
 ## 创建工作项 JSON 模板
 
 ```json
 {
-  "summary": "工作项标题",
-  "typeCode": "story/task/bug/epic/sub_task",
-  "priorityCode": "high/medium/low",
-  "description": "描述 (可选)",
-  "assigneeId": "负责人ID (可选)",
-  "sprintId": "迭代ID (可选)",
-  "epicId": "史诗ID (可选)",
-  "labelIds": ["标签ID列表 (可选)"],
-  "componentIds": ["组件ID列表 (可选)"]
+ "summary": "工作项标题",
+ "typeCode": "story/task/bug/epic/sub_task",
+ "priorityCode": "high/medium/low",
+ "description": "描述 (可选)",
+ "assigneeId": "负责人ID (可选)",
+ "sprintId": "迭代ID (可选)",
+ "epicId": "史诗ID (可选)",
+ "labelIds": ["标签ID列表 (可选)"],
+ "componentIds": ["组件ID列表 (可选)"]
 }
 ```
 
@@ -226,12 +226,12 @@ gpm-cli login --mode password -u USER  # 账号密码登录
 **不要自行翻译类型、状态、优先级等名称。** 必须先查询元数据获取实际显示名称：
 
 ```bash
-gpm-cli metadata types       # 获取工作项类型的实际名称
-gpm-cli metadata statuses    # 获取状态的实际名称
-gpm-cli metadata priorities  # 获取优先级的实际名称
-gpm-cli metadata members     # 获取项目成员列表
-gpm-cli metadata labels      # 获取标签列表
-gpm-cli metadata modules     # 获取模块列表
+python3 -m gpm metadata types # 获取工作项类型的实际名称
+python3 -m gpm metadata statuses # 获取状态的实际名称
+python3 -m gpm metadata priorities # 获取优先级的实际名称
+python3 -m gpm metadata members # 获取项目成员列表
+python3 -m gpm metadata labels # 获取标签列表
+python3 -m gpm metadata modules # 获取模块列表
 ```
 
 查询结果中的 `name` 字段就是实际显示名称，直接使用它，不要用"故事"、"缺陷"等通用翻译。
@@ -241,9 +241,9 @@ gpm-cli metadata modules     # 获取模块列表
 ### 查看工作项类型的必填字段
 
 ```bash
-gpm-cli metadata fields 缺陷        # 按类型名称
-gpm-cli metadata fields bug         # 按 typeCode
-gpm-cli metadata fields 575         # 按 ID
+python3 -m gpm metadata fields 缺陷 # 按类型名称
+python3 -m gpm metadata fields bug # 按 typeCode
+python3 -m gpm metadata fields 575 # 按 ID
 ```
 
 输出会标注每个字段是否必填、是否有默认值。必填且无默认值的字段在创建时必须提供。
@@ -260,21 +260,21 @@ gpm-cli metadata fields 575         # 按 ID
 
 | 用户说的 | 命令 |
 |---------|------|
-| 看看迭代/当前迭代 | `gpm-cli sprint list` |
-| 所有迭代/全部迭代 | `gpm-cli sprint list --all` |
-| 查看迭代详情 | `gpm-cli sprint get <ID>` |
-| 创建迭代 | `gpm-cli sprint create --data '<JSON>'` |
-| 启动迭代 | `gpm-cli sprint start <ID>` |
-| 完成迭代 | `gpm-cli sprint complete <ID>` |
-| 删除迭代 | 二次确认流程 → `gpm-cli sprint delete <ID>` |
+| 看看迭代/当前迭代 | `python3 -m gpm sprint list` |
+| 所有迭代/全部迭代 | `python3 -m gpm sprint list --all` |
+| 查看迭代详情 | `python3 -m gpm sprint get <ID>` |
+| 创建迭代 | `python3 -m gpm sprint create --data '<JSON>'` |
+| 启动迭代 | `python3 -m gpm sprint start <ID>` |
+| 完成迭代 | `python3 -m gpm sprint complete <ID>` |
+| 删除迭代 | 二次确认流程 → `python3 -m gpm sprint delete <ID>` |
 
 ### 创建迭代 JSON 模板
 
 ```json
 {
-  "sprintName": "Sprint-22",
-  "startDate": "2026-06-01",
-  "endDate": "2026-06-07"
+ "sprintName": "Sprint-22",
+ "startDate": "2026-06-01",
+ "endDate": "2026-06-07"
 }
 ```
 
@@ -284,13 +284,13 @@ gpm-cli metadata fields 575         # 按 ID
 
 | 用户说的 | 命令 |
 |---------|------|
-| 看看版本/发布计划 | `gpm-cli version list` |
-| 所有版本 | `gpm-cli version list --all` |
-| 查看版本详情 | `gpm-cli version get <ID>` |
-| 创建版本 | `gpm-cli version create -n v2.0 -a 张三 -s 2026-06-01 -r 2026-06-30` |
-| 更新版本 | `gpm-cli version update <ID> -n v2.1` |
-| 删除版本 | 二次确认流程 → `gpm-cli version delete <ID>` |
-| 变更状态 | `gpm-cli version status <ID> published` |
+| 看看版本/发布计划 | `python3 -m gpm version list` |
+| 所有版本 | `python3 -m gpm version list --all` |
+| 查看版本详情 | `python3 -m gpm version get <ID>` |
+| 创建版本 | `python3 -m gpm version create -n v2.0 -a 张三 -s 2026-06-01 -r 2026-06-30` |
+| 更新版本 | `python3 -m gpm version update <ID> -n v2.1` |
+| 删除版本 | 二次确认流程 → `python3 -m gpm version delete <ID>` |
+| 变更状态 | `python3 -m gpm version status <ID> published` |
 
 ### 创建版本参数
 
@@ -329,14 +329,14 @@ action 取值：
 
 | 用户说的 | 命令 |
 |---------|------|
-| 看看版本树 | `gpm-cli version-tree list` |
-| 所有版本树 | `gpm-cli version-tree list --all` |
-| 查看版本树详情 | `gpm-cli version-tree get <ID>` |
-| 创建版本树 | `gpm-cli version-tree create -n v2.0` |
-| 创建子版本树 | `gpm-cli version-tree create -n v2.0.1 -p <父ID>` |
-| 更新版本树 | `gpm-cli version-tree update <ID> -n v2.1` |
-| 删除版本树 | 二次确认流程 → `gpm-cli version-tree delete <ID>` |
-| 变更状态 | `gpm-cli version-tree status <ID> STARTED/PUBLISHED` |
+| 看看版本树 | `python3 -m gpm version-tree list` |
+| 所有版本树 | `python3 -m gpm version-tree list --all` |
+| 查看版本树详情 | `python3 -m gpm version-tree get <ID>` |
+| 创建版本树 | `python3 -m gpm version-tree create -n v2.0` |
+| 创建子版本树 | `python3 -m gpm version-tree create -n v2.0.1 -p <父ID>` |
+| 更新版本树 | `python3 -m gpm version-tree update <ID> -n v2.1` |
+| 删除版本树 | 二次确认流程 → `python3 -m gpm version-tree delete <ID>` |
+| 变更状态 | `python3 -m gpm version-tree status <ID> STARTED/PUBLISHED` |
 
 ### 创建版本树参数
 
@@ -354,9 +354,9 @@ action 取值：
 
 | 用户说的 | 命令 |
 |---------|------|
-| 看看模块 | `gpm-cli module list` |
-| 创建模块 | `gpm-cli module create --data '{"name":"前端模块"}'` |
-| 删除模块 | 二次确认流程 → `gpm-cli module delete <ID>` |
+| 看看模块 | `python3 -m gpm module list` |
+| 创建模块 | `python3 -m gpm module create --data '{"name":"前端模块"}'` |
+| 删除模块 | 二次确认流程 → `python3 -m gpm module delete <ID>` |
 
 ---
 
@@ -364,14 +364,14 @@ action 取值：
 
 | 用户说的 | 命令 |
 |---------|------|
-| 工作项类型 | `gpm-cli metadata types` |
-| 状态列表 | `gpm-cli metadata statuses` |
-| 优先级列表 | `gpm-cli metadata priorities` |
-| 标签列表 | `gpm-cli metadata labels` |
-| 组件列表 | `gpm-cli metadata components` |
-| 模块列表 | `gpm-cli metadata modules` |
-| 项目成员 | `gpm-cli metadata members` |
-| 字段定义/必填字段 | `gpm-cli metadata fields <类型>` |
+| 工作项类型 | `python3 -m gpm metadata types` |
+| 状态列表 | `python3 -m gpm metadata statuses` |
+| 优先级列表 | `python3 -m gpm metadata priorities` |
+| 标签列表 | `python3 -m gpm metadata labels` |
+| 组件列表 | `python3 -m gpm metadata components` |
+| 模块列表 | `python3 -m gpm metadata modules` |
+| 项目成员 | `python3 -m gpm metadata members` |
+| 字段定义/必填字段 | `python3 -m gpm metadata fields <类型>` |
 
 ---
 
@@ -379,15 +379,15 @@ action 取值：
 
 | 用户说的 | 命令 |
 |---------|------|
-| 燃尽图/燃尽 | `gpm-cli report burndown` |
-| 指定迭代燃尽图 | `gpm-cli report burndown --sprint-id <迭代名>` |
-| CFD/累积流图 | `gpm-cli report cfd` |
-| 累积报告 | `gpm-cli report accumulate` |
-| 迭代周报 | `gpm-cli report weekly --sprint <迭代名>` |
-| 版本周报 | `gpm-cli report weekly --version <版本名>` |
-| 自动匹配周报 | `gpm-cli report weekly W21` |
-| 个人周报 | `gpm-cli report weekly` |
-| 个人日报 | `gpm-cli report daily` |
+| 燃尽图/燃尽 | `python3 -m gpm report burndown` |
+| 指定迭代燃尽图 | `python3 -m gpm report burndown --sprint-id <迭代名>` |
+| CFD/累积流图 | `python3 -m gpm report cfd` |
+| 累积报告 | `python3 -m gpm report accumulate` |
+| 迭代周报 | `python3 -m gpm report weekly --sprint <迭代名>` |
+| 版本周报 | `python3 -m gpm report weekly --version <版本名>` |
+| 自动匹配周报 | `python3 -m gpm report weekly W21` |
+| 个人周报 | `python3 -m gpm report weekly` |
+| 个人日报 | `python3 -m gpm report daily` |
 
 ---
 
@@ -395,10 +395,10 @@ action 取值：
 
 | 用户说的 | 命令 |
 |---------|------|
-| 看看当前项目 | `gpm-cli project` |
-| 看看有哪些项目 | `gpm-cli project list` |
-| 切换项目/换个项目 | `gpm-cli project switch` |
-| 切换到指定项目 | `gpm-cli project switch <项目名或ID>` |
+| 看看当前项目 | `python3 -m gpm project` |
+| 看看有哪些项目 | `python3 -m gpm project list` |
+| 切换项目/换个项目 | `python3 -m gpm project switch` |
+| 切换到指定项目 | `python3 -m gpm project switch <项目名或ID>` |
 
 ---
 
@@ -406,9 +406,9 @@ action 取值：
 
 | 用户说的 | 命令 |
 |---------|------|
-| 健康检查/服务状态 | `gpm-cli health` |
-| 查看当前配置 | `gpm-cli config --show` |
-| 查看帮助 | `gpm-cli help` |
+| 健康检查/服务状态 | `python3 -m gpm health` |
+| 查看当前配置 | `python3 -m gpm config --show` |
+| 查看帮助 | `python3 -m gpm help` |
 
 ---
 
@@ -422,7 +422,7 @@ action 取值：
 | `--assignee` | `--assignee 张三` | 支持真实姓名 |
 | `--status` | `--status 待处理` | 支持状态名称 |
 | `--sprint` / `--sprint-id` | `--sprint Sprint-20` | 支持迭代名称 |
-| `project switch` | `gpm-cli project switch 研发效能组` | 支持项目名称 |
+| `project switch` | `python3 -m gpm project switch 研发效能组` | 支持项目名称 |
 
 输入数字 ID 时自动跳过名称查找。
 
@@ -456,7 +456,7 @@ action 取值：
 
 ```
 用户: 帮我看看我的待办
-→ 执行: gpm-cli mine
+→ 执行: python3 -m gpm mine
 → 展示结果，简洁列出每个工作项的编号、标题、状态、负责人
 → 如果为空，提示可能需要先登录或切换项目
 ```
@@ -465,7 +465,7 @@ action 取值：
 
 ```
 用户: 帮我提一个Bug，标题是"登录页面白屏"，分配给张三
-→ 执行: gpm-cli issue create --data '{"summary":"登录页面白屏","typeCode":"bug","assigneeId":"xxx"}'
+→ 执行: python3 -m gpm issue create --data '{"summary":"登录页面白屏","typeCode":"bug","assigneeId":"xxx"}'
 → 报告创建结果
 ```
 
@@ -475,25 +475,25 @@ action 取值：
 用户: 把 #7385-24 删了吧
 
 → 第一步查询:
-   gpm-cli issue get #7385-24
-   展示: "即将删除: #7385-24「修复首页加载慢」- 类型:故事, 状态:进行中"
+ python3 -m gpm issue get #7385-24
+ 展示: "即将删除: #7385-24「修复首页加载慢」- 类型:故事, 状态:进行中"
 
 → 第二步第一次确认:
-   "确认要删除 #7385-24「修复首页加载慢」吗？此操作不可恢复。"
+ "确认要删除 #7385-24「修复首页加载慢」吗？此操作不可恢复。"
 
 → 第三步第二次确认:
-   "请再次确认：删除 #7385-24？回复'确认删除'以执行。"
+ "请再次确认：删除 #7385-24？回复'确认删除'以执行。"
 
 → 第四步执行:
-   gpm-cli issue delete #7385-24
-   报告: "已删除 #7385-24「修复首页加载慢」"
+ python3 -m gpm issue delete #7385-24
+ 报告: "已删除 #7385-24「修复首页加载慢」"
 ```
 
 ### 迭代管理
 
 ```
 用户: 这周迭代进度怎么样
-→ 执行: gpm-cli sprint list
+→ 执行: python3 -m gpm sprint list
 → 展示当前进行中的迭代及其完成情况
 ```
 
@@ -501,28 +501,28 @@ action 取值：
 
 **并行查询**（同时执行，节省时间）：
 ```bash
-gpm-cli mine & gpm-cli sprint list & gpm-cli metadata statuses
+python3 -m gpm mine & python3 -m gpm sprint list & python3 -m gpm metadata statuses
 ```
 
 **创建工作项完整流程**：
 ```
-1. gpm-cli metadata types        → 获取实际 typeCode
-2. gpm-cli metadata priorities   → 获取实际 priorityCode
-3. gpm-cli metadata members      → 获取 assigneeId（如果要分配）
-4. gpm-cli sprint list           → 获取 sprintId（如果要分配迭代）
-5. gpm-cli issue create --data '{...}'
+1. python3 -m gpm metadata types → 获取实际 typeCode
+2. python3 -m gpm metadata priorities → 获取实际 priorityCode
+3. python3 -m gpm metadata members → 获取 assigneeId（如果要分配）
+4. python3 -m gpm sprint list → 获取 sprintId（如果要分配迭代）
+5. python3 -m gpm issue create --data '{...}'
 ```
 
 **更新工作项状态流程**：
 ```
-1. gpm-cli issue get <ID>        → 确认当前状态
-2. gpm-cli metadata statuses     → 获取目标 statusId
-3. gpm-cli issue update <ID> --data '{"statusId":"..."}'
+1. python3 -m gpm issue get <ID> → 确认当前状态
+2. python3 -m gpm metadata statuses → 获取目标 statusId
+3. python3 -m gpm issue update <ID> --data '{"statusId":"..."}'
 ```
 
 **批量处理相似工作项**：
 ```
-1. gpm-cli issue list --sprint Sprint-20 --status 待处理
+1. python3 -m gpm issue list --sprint Sprint-20 --status 待处理
 2. 对每个工作项执行相同操作
 ```
 
@@ -534,8 +534,8 @@ gpm-cli mine & gpm-cli sprint list & gpm-cli metadata statuses
 
 | 错误情况 | 处理方式 |
 |---------|---------|
-| 尚未登录 | 提示运行 `gpm-cli login` |
-| 尚未选择项目 | 提示运行 `gpm-cli init` |
+| 尚未登录 | 提示运行 `python3 -m gpm login` |
+| 尚未选择项目 | 提示运行 `python3 -m gpm init` |
 | SSL 连接失败 | 建议 `export GPM_SSL_VERIFY=false` |
 | HTTP 401 | token 过期，建议重新登录 |
 | HTTP 403 | 无权限，建议联系管理员 |
@@ -554,7 +554,7 @@ gpm-cli mine & gpm-cli sprint list & gpm-cli metadata statuses
 
 ## Skill 触发问候语
 
-当用户触发此 skill 时（如输入 `/gpm-cli`），回复：
+当用户触发此 skill 时（如输入 `/python3 -m gpm`），回复：
 
 ```
 GPM-CLI 敏捷管理已就绪。需要做什么？
