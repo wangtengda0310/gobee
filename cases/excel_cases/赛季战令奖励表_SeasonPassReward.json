@@ -1,0 +1,98 @@
+{
+ "sheet": "赛季战令奖励表|SeasonPassReward",
+ "managerList": {
+  "QA": [],
+  "Designer": [],
+  "Programmer": []
+ },
+ "rules": {
+  "HighReward": {
+   "PropName": "HighReward",
+   "PropType": "ItemCfg[]",
+   "PropRules": [
+    {
+     "Type": "CROSS_REFERENCE",
+     "Uuid": "b7a119ad-c547-4d86-873e-add74d5206d9",
+     "DisplayName": "",
+     "Enabled": true,
+     "Params": {
+      "allowCommit": "true",
+      "allowEmpty": "false",
+      "breakLine": "3",
+      "compareOp": "",
+      "excepts": "",
+      "filterCol": "",
+      "filterVal": "",
+      "groups": "1",
+      "isArray": "false",
+      "matchCol": "",
+      "matchRefCol": "",
+      "pattern": "{(\\d+);\\d+}",
+      "refCol": "Id",
+      "refSheet": "道具表|Item"
+     }
+    }
+   ]
+  },
+  "Id": {
+   "PropName": "Id",
+   "PropType": "int",
+   "PropRules": []
+  },
+  "NormalReward": {
+   "PropName": "NormalReward",
+   "PropType": "ItemCfg[]",
+   "PropRules": [
+    {
+     "Type": "CROSS_REFERENCE",
+     "Uuid": "d3eabc62-05bf-44ad-badf-1635f4ebcf9e",
+     "DisplayName": "",
+     "Enabled": true,
+     "Params": {
+      "allowCommit": "true",
+      "allowEmpty": "false",
+      "breakLine": "3",
+      "compareOp": "",
+      "excepts": "",
+      "filterCol": "",
+      "filterVal": "",
+      "groups": "1",
+      "isArray": "true",
+      "matchCol": "",
+      "matchRefCol": "",
+      "pattern": "{(\\d+);\\d+}",
+      "refCol": "Id",
+      "refSheet": "道具表|Item"
+     }
+    }
+   ]
+  },
+  "SeasonPassId": {
+   "PropName": "SeasonPassId",
+   "PropType": "int",
+   "PropRules": [
+    {
+     "Type": "CHAIN_REFERENCE",
+     "Uuid": "ca22cd7e-1710-41eb-93c3-77f1346d2f51",
+     "DisplayName": "",
+     "Enabled": true,
+     "Params": {
+      "allowCommit": "true",
+      "allowEmpty": "false",
+      "breakLine": "3",
+      "chainCompare": "verify_exists",
+      "chainMatchCompare": "verify_exists",
+      "chainSteps": "{\"left\":{\"steps\":[{\"sheet\":\"\",\"preCol\":\"\",\"findVal\":\"col\",\"nextCol\":\"HighReward\",\"pattern\":\"{(\\\\d+);\\\\d+}\",\"groups\":\"1\",\"filterCol\":\"level\",\"filterVal\":\"51,61,71,81,91\",\"isArray\":\"false\",\"filterIsArray\":\"true\"},{\"sheet\":\"道具表|Item\",\"preCol\":\"Id\",\"findVal\":\"col\",\"nextCol\":\"ItemParam\",\"pattern\":\"\",\"groups\":\"\",\"filterCol\":\"\",\"filterVal\":\"\",\"isArray\":\"false\"},{\"sheet\":\"道具表|Item\",\"preCol\":\"Id\",\"findVal\":\"col\",\"nextCol\":\"ItemParam\",\"pattern\":\"\",\"groups\":\"\",\"filterCol\":\"\",\"filterVal\":\"\",\"isArray\":\"false\"}],\"compareCol\":\"\"},\"right\":{\"steps\":[{\"sheet\":\"赛季战令表|SeasonPass\",\"preCol\":\"Id\",\"findVal\":\"col\",\"nextCol\":\"HeroId\",\"pattern\":\"\",\"groups\":\"\",\"filterCol\":\"\",\"filterVal\":\"\",\"isArray\":\"false\"},{\"sheet\":\"武将表|Hero\",\"preCol\":\"Id\",\"findVal\":\"col\",\"nextCol\":\"Id\",\"pattern\":\"\",\"groups\":\"\",\"filterCol\":\"\",\"filterVal\":\"\",\"isArray\":\"false\"}],\"compareCol\":\"\"}}",
+      "excepts": ""
+     }
+    }
+   ]
+  },
+  "level": {
+   "PropName": "level",
+   "PropType": "int",
+   "PropRules": []
+  }
+ },
+ "tableRules": []
+}

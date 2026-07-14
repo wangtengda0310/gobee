@@ -1,0 +1,41 @@
+# 配表影响分析 Docker Compose 配置
+# 用于本地开发和测试
+
+services:
+  analyzer:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile
+    image: rain-config-analyzer:latest
+    container_name: config-analyzer
+    environment:
+      - FEISHU_ROBOT=${CI_CLAUDE_FEISHU_ROBOT:-none}
+      - TARGET_COMMIT=${CI_CLAUDE_TARGET_COMMIT:-}
+      # 流水线触发 Claude 需要执行的 skill（docker/skills/ 下的目录名）
+      - CI_INVOKE_SKILL=${CI_INVOKE_SKILL:-analyze-prompt}
+      # 1=entrypoint 兜底把 Claude 输出发飞书（skill 自身不发通知时用）
+      - CI_ENTRYPOINT_NOTIFY=${CI_ENTRYPOINT_NOTIFY:-0}
+      # 脚本层监控通知接收邮箱（与 backend DMMonitorDecorator 区分）
+      - CI_CLAUDE_MONITOR_EMAIL=${CI_CLAUDE_MONITOR_EMAIL:-v-wangtengda@ztgame.com}
+      - FEISHU_DM_APP_ID=${CI_CLAUDE_FEISHU_DM_APP_ID:-}
+      - FEISHU_DM_APP_SECRET=${CI_CLAUDE_FEISHU_DM_APP_SECRET:-}
+      - BK_CI_START_USER_NAME=${BK_CI_START_USER_NAME:-}
+      - BK_CI_HOOK_BRANCH=${BK_CI_HOOK_BRANCH:-}
+      - BK_CI_HOOK_REVISION=${BK_CI_HOOK_REVISION:-}
+    volumes:
+      # rain-qa-func 项目代码（含 .claude/skills、前端源码、测试用例等）
+      - ../../rain-qa-func:/workspace
+      # 配表仓库（完整 git 仓库，含 .git 目录，用于分析变更影响）
+      # 运行时必须设置正确的路径
+      - ${CI_CLAUDE_CONFIG_REPO_PATH:-/dev/null}:/config-repo
+      # Claude Code 配置（用户提供 settings.json，只读挂载）
+      - ./settings.json:/home/analyzer/.claude/settings.json:ro
+    working_dir: /workspace
+    # 本地测试保留 stdin
+    stdin_open: true
+    tty: true
+    deploy:
+      resources:
+        limits:
+          cpus: '2.0'
+          memory: 4G

@@ -1,0 +1,52 @@
+{
+ "sheet": "活动邀请表|ActivityInvite",
+ "managerList": {
+  "QA": [],
+  "Designer": [],
+  "Programmer": []
+ },
+ "rules": {
+  "ActivityId": {
+   "PropName": "ActivityId",
+   "PropType": "int",
+   "PropRules": [
+    {
+     "Type": "ALL_BASE",
+     "Uuid": "6faec599-ee26-4719-934b-6796af9ae0b6",
+     "DisplayName": "",
+     "Enabled": true,
+     "Params": {
+      "allowCommit": "true",
+      "allowEmpty": "false",
+      "breakLine": "3",
+      "chsOnly": "false",
+      "increase": "false",
+      "unique": "true"
+     }
+    }
+   ]
+  },
+  "MemNumContraint": {
+   "PropName": "MemNumContraint",
+   "PropType": "int",
+   "PropRules": [
+    {
+     "Type": "ENUM",
+     "Uuid": "e498bb91-7408-4f71-b9c3-28e4db73b359",
+     "DisplayName": "",
+     "Enabled": true,
+     "Params": {
+      "allowCommit": "true",
+      "allowEmpty": "false",
+      "breakLine": "3",
+      "chsOnly": "false",
+      "enums": "3",
+      "increase": "false",
+      "unique": "false"
+     }
+    }
+   ]
+  }
+ },
+ "tableRules": []
+}

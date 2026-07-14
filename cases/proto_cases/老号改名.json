@@ -1,0 +1,37 @@
+{
+  "version": 1,
+  "recorded_at": "2026-06-16T13:02:05.076Z",
+  "server_addr": "10.254.114.204:18000",
+  "messages": [
+    {
+      "msg_id": 1001,
+      "msg_name": "GmCommandReq",
+      "seq_id": 1,
+      "descript": "更名换姓道具",
+      "payload_json": {
+        "content": "//AddItem 1000006 1"
+      }
+    },
+    {
+      "msg_id": 1008,
+      "msg_name": "ModifyRoleNameReq",
+      "seq_id": 2,
+      "payload_json": {
+        "newName": "lzjd7"
+      },
+      "field_values": {
+        "newName": {
+          "range_value": {
+            "start": 0,
+            "step": 1,
+            "end": 10
+          },
+          "enum_value": [],
+          "combo_value": [],
+          "input_type": "variable",
+          "variable_name": "openid"
+        }
+      }
+    }
+  ]
+}

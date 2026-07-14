@@ -1,0 +1,71 @@
+{
+  "version": 1,
+  "recorded_at": "2026-06-08T17:03:55.985Z",
+  "server_addr": "10.254.114.204:18000",
+  "messages": [
+    {
+      "msg_id": 1006,
+      "msg_name": "CreateRoleReq",
+      "seq_id": 2,
+      "payload_json": {
+        "gender": 2,
+        "isRandom": true,
+        "itemID": 1020502,
+        "roleName": "曰南城外芈欣瑶"
+      }
+    },
+    {
+      "msg_id": 1025,
+      "msg_name": "PostUserStatusReq",
+      "seq_id": 3,
+      "payload_json": {
+        "status": 11
+      }
+    },
+    {
+      "msg_id": 1001,
+      "msg_name": "GmCommandReq",
+      "seq_id": 10,
+      "descript": "添加黄金",
+      "payload_json": {
+        "content": "//AddItem 1000001 1"
+      }
+    },
+    {
+      "msg_id": 1001,
+      "msg_name": "GmCommandReq",
+      "seq_id": 29,
+      "descript": "添加碎银",
+      "payload_json": {
+        "content": "//AddItem 1000002 9999"
+      }
+    },
+    {
+      "msg_id": 1001,
+      "msg_name": "GmCommandReq",
+      "seq_id": 29,
+      "descript": "添加铜钱",
+      "payload_json": {
+        "content": "//AddItem 1000003 10000000"
+      }
+    },
+    {
+      "msg_id": 1001,
+      "msg_name": "GmCommandReq",
+      "seq_id": 29,
+      "descript": "添加粮草",
+      "payload_json": {
+        "content": "//AddItem 8000003 10"
+      }
+    },
+    {
+      "msg_id": 1001,
+      "msg_name": "GmCommandReq",
+      "seq_id": 29,
+      "descript": "添加虎符",
+      "payload_json": {
+        "content": "//AddItem 1000016 10"
+      }
+    }
+  ]
+}

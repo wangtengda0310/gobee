@@ -1,0 +1,3495 @@
+[
+  {
+   "case": "赵姬_绝善好舞_1_1",
+   "desc": "主动打出牌时——行动牌——杀 ",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1013,
+     1006,
+     1001,
+     1002,
+     1025,
+     1007,
+     1006,
+     1010,
+     1017,
+     1018
+    ],
+    "operateTimeMs": 300000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10105,
+      "initCards": [
+       1003,
+       4067
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [
+       1664
+      ],
+      "delSkills": [
+       1026,
+       1027,
+       1073
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 9,
+      "color": 65,
+      "heroId": 10105,
+      "initCards": [
+       1082
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1026,
+       1027,
+       1073
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "1号位对2号位打出杀",
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "targetsId": [
+      2
+     ],
+     "cards": [
+      1003
+     ],
+     "confirm": false,
+     "timeout": 2,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "成功：1号位对2号位打出杀成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "1号位触发技能绝好善舞，并且弃置手牌4067",
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "targetsId": [
+      1
+     ],
+     "cards": [
+      4067
+     ],
+     "confirm": true,
+     "heroSkillUuid": 1664,
+     "timeout": 2,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "成功：1号位触发技能绝好善舞成功",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "DrawCard",
+       "desc": "成功：1号位摸1张牌",
+       "attr": {
+        "Cards": "1001",
+        "Count": "1"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "赵姬_绝善好舞_1_2",
+   "desc": "主动打出牌时——行动牌——火杀 ",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1013,
+     1006,
+     1001,
+     1002,
+     1025,
+     1003,
+     1007,
+     1006,
+     1010,
+     1017,
+     1018
+    ],
+    "operateTimeMs": 300000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10105,
+      "initCards": [
+       1132,
+       4067
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [
+       1664
+      ],
+      "delSkills": [
+       1026,
+       1027,
+       1073
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 9,
+      "color": 65,
+      "heroId": 10105,
+      "initCards": [
+       1082
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1026,
+       1027,
+       1073
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "1号位对2号位打出火杀",
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "targetsId": [
+      2
+     ],
+     "cards": [
+      1132
+     ],
+     "confirm": false,
+     "timeout": 2,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "成功：1号位对2号位打出火杀成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "1号位触发技能绝好善舞，并且弃置手牌4067",
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "targetsId": [
+      1
+     ],
+     "cards": [
+      4067
+     ],
+     "confirm": true,
+     "heroSkillUuid": 1664,
+     "timeout": 2,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "成功：1号位触发技能绝好善舞成功",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "DrawCard",
+       "desc": "成功：1号位摸1张牌",
+       "attr": {
+        "Cards": "1001",
+        "Count": "1"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "赵姬_绝善好舞_1_3",
+   "desc": "主动打出牌时——行动牌——雷杀 ",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1013,
+     1006,
+     1001,
+     1002,
+     1025,
+     1003,
+     1007,
+     1006,
+     1010,
+     1017,
+     1018
+    ],
+    "operateTimeMs": 300000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10105,
+      "initCards": [
+       1012,
+       4067
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [
+       1664
+      ],
+      "delSkills": [
+       1026,
+       1027,
+       1073
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 9,
+      "color": 65,
+      "heroId": 10105,
+      "initCards": [
+       1082
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1026,
+       1027,
+       1073
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "1号位对2号位打出雷杀",
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "targetsId": [
+      2
+     ],
+     "cards": [
+      1012
+     ],
+     "confirm": false,
+     "timeout": 2,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "成功：1号位对2号位打出雷杀成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "1号位触发技能绝好善舞，并且弃置手牌4067",
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "targetsId": [
+      1
+     ],
+     "cards": [
+      4067
+     ],
+     "confirm": true,
+     "heroSkillUuid": 1664,
+     "timeout": 2,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "成功：1号位触发技能绝好善舞成功",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "DrawCard",
+       "desc": "成功：1号位摸1张牌",
+       "attr": {
+        "Cards": "1001",
+        "Count": "1"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "赵姬_绝善好舞_1_4",
+   "desc": "主动打出牌时——行动牌——怒 ",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1013,
+     1006,
+     1001,
+     1002,
+     1025,
+     1003,
+     1007,
+     1006,
+     1010,
+     1017,
+     1018
+    ],
+    "operateTimeMs": 300000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10105,
+      "initCards": [
+       4044,
+       4067
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [
+       1664
+      ],
+      "delSkills": [
+       1026,
+       1027,
+       1073
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 9,
+      "color": 65,
+      "heroId": 10105,
+      "initCards": [
+       1082
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1026,
+       1027,
+       1073
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "1号位打出怒",
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "targetsId": [
+      1
+     ],
+     "cards": [
+      4044
+     ],
+     "confirm": false,
+     "timeout": 2,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "成功：1号位打出怒成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "1号位触发技能绝好善舞，并且弃置手牌4067",
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "targetsId": [
+      1
+     ],
+     "cards": [
+      4067
+     ],
+     "confirm": true,
+     "heroSkillUuid": 1664,
+     "timeout": 2,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "成功：1号位触发技能绝好善舞成功",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "DrawCard",
+       "desc": "成功：1号位摸1张牌",
+       "attr": {
+        "Cards": "1001",
+        "Count": "1"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "赵姬_绝善好舞_1_5",
+   "desc": "主动打出牌时——行动牌——酒 ",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1013,
+     1006,
+     1001,
+     1002,
+     1025,
+     1003,
+     1007,
+     1006,
+     1010,
+     1017,
+     1018
+    ],
+    "operateTimeMs": 300000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10105,
+      "initCards": [
+       1044,
+       4067
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [
+       1664
+      ],
+      "delSkills": [
+       1026,
+       1027,
+       1073
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 9,
+      "color": 65,
+      "heroId": 10105,
+      "initCards": [
+       1082
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1026,
+       1027,
+       1073
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "1号位打出酒",
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "targetsId": [
+      1
+     ],
+     "cards": [
+      1044
+     ],
+     "confirm": false,
+     "timeout": 2,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "成功：1号位打出酒成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "1号位触发技能绝好善舞，并且弃置手牌4067",
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "targetsId": [
+      1
+     ],
+     "cards": [
+      4067
+     ],
+     "confirm": true,
+     "heroSkillUuid": 1664,
+     "timeout": 2,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "成功：1号位触发技能绝好善舞成功",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "DrawCard",
+       "desc": "成功：1号位摸1张牌",
+       "attr": {
+        "Cards": "1001",
+        "Count": "1"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "赵姬_绝善好舞_1_6",
+   "desc": "主动打出牌时——行动牌——闪 ",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1013,
+     1006,
+     1001,
+     1002,
+     1025,
+     1007,
+     1006,
+     1010,
+     1017,
+     1018
+    ],
+    "operateTimeMs": 300000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10105,
+      "initCards": [
+       1003
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1026,
+       1027,
+       1073
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 9,
+      "color": 65,
+      "heroId": 10105,
+      "initCards": [
+       1082,
+       1095,
+       1026
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [
+       1664
+      ],
+      "delSkills": [
+       1026,
+       1027,
+       1073
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "1号位打出杀",
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "targetsId": [
+      2
+     ],
+     "cards": [
+      1003
+     ],
+     "confirm": false,
+     "timeout": 2,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "成功：1号位打出杀成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "2号位响应杀，出闪",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "targetsId": [
+      0
+     ],
+     "cards": [
+      1082
+     ],
+     "confirm": true,
+     "timeout": 2,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "成功：2号位响应杀，出闪",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "desc": "2号位触发技能绝好善舞，并且弃置手牌1095",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "targetsId": [
+      2
+     ],
+     "cards": [
+      1095
+     ],
+     "confirm": true,
+     "heroSkillUuid": 1664,
+     "timeout": 2,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "成功：2号位触发技能绝好善舞成功",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "DrawCard",
+       "desc": "成功：2号位摸1张牌",
+       "attr": {
+        "Cards": "1001",
+        "Count": "1"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "赵姬_绝善好舞_1_7",
+   "desc": "主动打出牌时——特殊行动牌——符水和桃 ",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     2001,
+     1013,
+     1006,
+     1001,
+     1002,
+     1025,
+     1007,
+     1006,
+     1010,
+     1017,
+     1018
+    ],
+    "operateTimeMs": 300000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10105,
+      "initCards": [
+       1047,
+       1026
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [
+       1664
+      ],
+      "delSkills": [
+       1026,
+       1027,
+       1073
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 9,
+      "color": 65,
+      "heroId": 10105,
+      "initCards": [
+       1082,
+       1095
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1026,
+       1027,
+       1073
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "空等待",
+     "robotIdx": 1,
+     "action": "OnlyAsset",
+     "confirm": false,
+     "timeout": 2,
+     "assets": [
+      {
+       "msgName": "DrawCard",
+       "desc": "成功：1号位摸到牌2001 1013",
+       "attr": {
+        "Cards": "2001 1013",
+        "Count": "2"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "1号位打出符水响应发动绝好善舞",
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "targetsId": [
+      1
+     ],
+     "cards": [
+      1026
+     ],
+     "confirm": true,
+     "heroSkillUuid": 1664,
+     "timeout": 2,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "成功：1号位响应发动绝好善舞成功",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "DrawCard",
+       "desc": "成功：1号位摸到牌1006",
+       "attr": {
+        "Cards": "1006",
+        "Count": "1"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "desc": "1号位打出桃",
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "targetsId": [
+      1
+     ],
+     "cards": [
+      1047
+     ],
+     "confirm": false,
+     "timeout": 100,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "成功：1号位打出桃成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 4,
+     "desc": "1号位触发技能绝好善舞，并且弃置手牌1013",
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "cards": [
+      1013
+     ],
+     "confirm": true,
+     "heroSkillUuid": 1664,
+     "timeout": 100,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "成功：1号位触发技能绝好善舞成功",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "DrawCard",
+       "desc": "成功：2号位摸到牌1002",
+       "attr": {
+        "Cards": "1001",
+        "Count": "1"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "赵姬_绝善好舞_1_8",
+   "desc": "主动打出牌时——特殊行动牌——符水和桃花 ",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     2001,
+     1013,
+     1006,
+     1001,
+     1002,
+     1025,
+     1007,
+     1006,
+     1010,
+     1017,
+     1018
+    ],
+    "operateTimeMs": 300000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10105,
+      "initCards": [
+       2002,
+       1026
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [
+       1664
+      ],
+      "delSkills": [
+       1026,
+       1027,
+       1073
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 9,
+      "color": 65,
+      "heroId": 10105,
+      "initCards": [
+       1082,
+       1095
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1026,
+       1027,
+       1073
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "空等待",
+     "robotIdx": 1,
+     "action": "OnlyAsset",
+     "confirm": false,
+     "timeout": 2,
+     "assets": [
+      {
+       "msgName": "DrawCard",
+       "desc": "成功：1号位摸到牌2001 1013",
+       "attr": {
+        "Cards": "2001 1013",
+        "Count": "2"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "1号位打出符水响应发动绝好善舞",
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "targetsId": [
+      1
+     ],
+     "cards": [
+      1026
+     ],
+     "confirm": true,
+     "heroSkillUuid": 1664,
+     "timeout": 2,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "成功：1号位响应发动绝好善舞成功",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "DrawCard",
+       "desc": "成功：1号位摸到牌1006",
+       "attr": {
+        "Cards": "1006",
+        "Count": "1"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "desc": "1号位打出桃花",
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "targetsId": [
+      1
+     ],
+     "cards": [
+      2002
+     ],
+     "confirm": false,
+     "timeout": 100,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "成功：1号位打出桃花成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 4,
+     "desc": "1号位触发技能绝好善舞，并且弃置手牌1013",
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "cards": [
+      1013
+     ],
+     "confirm": true,
+     "heroSkillUuid": 1664,
+     "timeout": 100,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "成功：1号位触发技能绝好善舞成功",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "DrawCard",
+       "desc": "成功：2号位摸到牌1002",
+       "attr": {
+        "Cards": "1001",
+        "Count": "1"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "赵姬_绝善好舞_1_9",
+   "desc": "主动打出牌时——特殊行动牌——狐鸣 ",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     2017,
+     1013,
+     1006,
+     1001,
+     1002,
+     1025,
+     1007,
+     1006,
+     1010,
+     1017,
+     1018
+    ],
+    "operateTimeMs": 300000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10105,
+      "initCards": [
+       1003
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [
+       1664
+      ],
+      "delSkills": [
+       1026,
+       1027,
+       1073
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 9,
+      "color": 65,
+      "heroId": 10105,
+      "initCards": [
+       1082,
+       1095,
+       1026
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1026,
+       1027,
+       1073
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "空等待",
+     "robotIdx": 1,
+     "action": "OnlyAsset",
+     "confirm": false,
+     "timeout": 2,
+     "assets": [
+      {
+       "msgName": "DrawCard",
+       "desc": "成功：1号位摸到牌2017 1013",
+       "attr": {
+        "Cards": "2017 1013",
+        "Count": "2"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "1号位触发技能绝好善舞，并且弃置手牌1003",
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "cards": [
+      1003
+     ],
+     "confirm": true,
+     "heroSkillUuid": 1664,
+     "timeout": 2,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "成功：1号位触发技能绝好善舞成功",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "DrawCard",
+       "desc": "成功：1号位摸1张牌",
+       "attr": {
+        "Cards": "1006",
+        "Count": "1"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "赵姬_绝善好舞_1_10",
+   "desc": "主动打出牌时——装备牌——青龙偃月刀",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1013,
+     1006,
+     1001,
+     1002,
+     1025,
+     1003,
+     1007,
+     1006,
+     1010,
+     1017,
+     1018
+    ],
+    "operateTimeMs": 300000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10105,
+      "initCards": [
+       1004,
+       4067
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [
+       1664
+      ],
+      "delSkills": [
+       1026,
+       1027,
+       1073
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 9,
+      "color": 65,
+      "heroId": 10105,
+      "initCards": [
+       1082
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1026,
+       1027,
+       1073
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "1号位打出牌青龙偃月刀",
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "targetsId": [
+      1
+     ],
+     "cards": [
+      1004
+     ],
+     "confirm": false,
+     "timeout": 2,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "成功：1号位打出牌青龙偃月刀成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "1号位触发技能绝好善舞，并且弃置手牌4067",
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "targetsId": [
+      1
+     ],
+     "cards": [
+      4067
+     ],
+     "confirm": true,
+     "heroSkillUuid": 1664,
+     "timeout": 2,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "成功：1号位触发技能绝好善舞成功",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "DrawCard",
+       "desc": "成功：1号位摸1张牌",
+       "attr": {
+        "Cards": "1001",
+        "Count": "1"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "赵姬_绝善好舞_1_11",
+   "desc": "主动打出牌时——战法牌——多多益善",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1013,
+     1006,
+     1001,
+     1002,
+     1025,
+     1003,
+     1007,
+     1006,
+     1010,
+     1017,
+     1018
+    ],
+    "operateTimeMs": 300000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10105,
+      "initCards": [
+       1042,
+       4067
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [
+       1664
+      ],
+      "delSkills": [
+       1026,
+       1027,
+       1073
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 9,
+      "color": 65,
+      "heroId": 10105,
+      "initCards": [
+       1082
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1026,
+       1027,
+       1073
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "1号位打出牌多多益善",
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "targetsId": [
+      1
+     ],
+     "cards": [
+      1042
+     ],
+     "confirm": false,
+     "timeout": 2,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "成功：1号位打出牌多多益善成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "1号位触发技能绝好善舞，并且弃置手牌4067",
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "targetsId": [
+      1
+     ],
+     "cards": [
+      4067
+     ],
+     "confirm": true,
+     "heroSkillUuid": 1664,
+     "timeout": 2,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "成功：1号位触发技能绝好善舞成功",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "DrawCard",
+       "desc": "成功：1号位摸1张牌",
+       "attr": {
+        "Cards": "1001",
+        "Count": "1"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "赵姬_绝善好舞_1_12",
+   "desc": "弃置牌——装备区",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1013,
+     1006,
+     1001,
+     1002,
+     1025,
+     1003,
+     1007,
+     1006,
+     1010,
+     1017,
+     1018
+    ],
+    "operateTimeMs": 300000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10105,
+      "initCards": [
+       1004,
+       1074,
+       4067
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [
+       1664
+      ],
+      "delSkills": [
+       1026,
+       1027,
+       1073
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 9,
+      "color": 65,
+      "heroId": 10105,
+      "initCards": [
+       1082
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1026,
+       1027,
+       1073
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "1号位打出牌青龙偃月刀",
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "targetsId": [
+      1
+     ],
+     "cards": [
+      1004
+     ],
+     "confirm": false,
+     "timeout": 2,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "成功：1号位打出牌青龙偃月刀成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "1号位触发技能绝好善舞，并且取消发动",
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "timeout": 2,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "成功：1号位取消技能绝好善舞成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "desc": "1号位多多益善",
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "targetsId": [
+      1
+     ],
+     "cards": [
+      1074
+     ],
+     "confirm": false,
+     "timeout": 2,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "成功：1号位多多益善成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 4,
+     "desc": "1号位触发技能绝好善舞，并且弃置装备牌1004",
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "targetsId": [
+      1
+     ],
+     "cards": [
+      1004
+     ],
+     "confirm": true,
+     "heroSkillUuid": 1664,
+     "timeout": 2,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "成功：1号位触发技能绝好善舞成功",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "DrawCard",
+       "desc": "成功：1号位摸1张牌",
+       "attr": {
+        "Cards": "1001",
+        "Count": "1"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "赵姬_绝善好舞_1_13",
+   "desc": "弃置牌——卜卦区",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1013,
+     1006,
+     1001,
+     1002,
+     1025,
+     1007,
+     1006,
+     1010,
+     1017,
+     1018
+    ],
+    "operateTimeMs": 300000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10105,
+      "initCards": [
+       1003,
+       4088
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1026,
+       1027,
+       1073
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 9,
+      "color": 65,
+      "heroId": 10105,
+      "initCards": [
+       1082,
+       1095,
+       1026
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [
+       1664
+      ],
+      "delSkills": [
+       1026,
+       1027,
+       1073
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "1号位对2号位打出卜卦牌4088",
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "targetsId": [
+      2
+     ],
+     "cards": [
+      4088
+     ],
+     "confirm": false,
+     "timeout": 2,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "成功：1号位对2号位打出卜卦牌4088成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "1号位打出杀",
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "targetsId": [
+      2
+     ],
+     "cards": [
+      1003
+     ],
+     "confirm": false,
+     "timeout": 2,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "成功：1号位打出杀成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "desc": "2号位响应杀，出闪",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "targetsId": [
+      0
+     ],
+     "cards": [
+      1082
+     ],
+     "confirm": true,
+     "timeout": 2,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "成功：2号位响应杀，出闪",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 4,
+     "desc": "2号位触发技能绝好善舞，并且弃置卜卦区牌4088",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "targetsId": [
+      2
+     ],
+     "cards": [
+      4088
+     ],
+     "confirm": true,
+     "heroSkillUuid": 1664,
+     "timeout": 2,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "失败：卜卦牌不能弃置",
+       "attr": {
+        "Result": "1588"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "赵姬_绝善好舞_1_14",
+   "desc": "弃置牌——技能区——郿坞(回合内)",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1013,
+     1006,
+     1001,
+     1002,
+     1025,
+     1003,
+     1007,
+     1006,
+     1010,
+     1017,
+     1018
+    ],
+    "operateTimeMs": 300000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10105,
+      "initCards": [
+       1003,
+       4067
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [
+       1664,
+       1051
+      ],
+      "delSkills": [
+       1026,
+       1027,
+       1073
+      ],
+      "exEquips": [],
+      "skillCardsMap": {
+       "1051": [
+        4096
+       ]
+      }
+     },
+     {
+      "identity": 9,
+      "color": 65,
+      "heroId": 10105,
+      "initCards": [
+       1082
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1026,
+       1027,
+       1073
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "1号位对2号位打出杀",
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "targetsId": [
+      2
+     ],
+     "cards": [
+      1003
+     ],
+     "confirm": false,
+     "timeout": 2,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "成功：1号位对2号位打出杀成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "赵云(1)确认对[赵云(1)], 弃置牌[霜冻(4096)]",
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "targetsId": [
+      1
+     ],
+     "cards": [
+      4096
+     ],
+     "confirm": true,
+     "heroSkillUuid": 1664,
+     "timeout": 2,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "赵云弃牌失败",
+       "attr": {
+        "Result": "1588"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "赵姬_绝善好舞_1_15",
+   "desc": "弃置牌——技能区——郿坞(回合外)",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1013,
+     1006,
+     1001,
+     1002,
+     1025,
+     1003,
+     1007,
+     1006,
+     1010,
+     1017,
+     1018
+    ],
+    "operateTimeMs": 300000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10105,
+      "initCards": [
+       1003,
+       4067
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1026,
+       1027,
+       1073
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 9,
+      "color": 65,
+      "heroId": 10105,
+      "initCards": [
+       1082
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [
+       1664,
+       1051
+      ],
+      "delSkills": [
+       1026,
+       1027,
+       1073
+      ],
+      "exEquips": [],
+      "skillCardsMap": {
+       "1051": [
+        4096
+       ]
+      }
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "1号位对2号位打出杀",
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "targetsId": [
+      2
+     ],
+     "cards": [
+      1003
+     ],
+     "confirm": false,
+     "timeout": 2,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "成功：1号位对2号位打出杀成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "2号位响应杀，出闪",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "targetsId": [
+      0
+     ],
+     "cards": [
+      1082
+     ],
+     "confirm": true,
+     "timeout": 2,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "成功：2号位响应杀，出闪",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "desc": "1号位触发技能绝好善舞，并且弃置郿坞牌4096",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "targetsId": [
+      2
+     ],
+     "cards": [
+      4096
+     ],
+     "confirm": true,
+     "heroSkillUuid": 1664,
+     "timeout": 2,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "失败：2号位触发技能绝好善舞失败",
+       "attr": {
+        "Result": "1588"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "赵姬_绝善好舞_1_16",
+   "desc": "封禁",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1013,
+     1006,
+     1001,
+     1002,
+     1025,
+     1003,
+     1007,
+     1006,
+     1010,
+     1017,
+     1018
+    ],
+    "operateTimeMs": 300000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10105,
+      "initCards": [
+       1003,
+       4067
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1026,
+       1027,
+       1073
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 9,
+      "color": 65,
+      "heroId": 10105,
+      "initCards": [
+       1082
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [
+       1664
+      ],
+      "delSkills": [
+       1026,
+       1027,
+       1073
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "1号位对2号位打出杀",
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "targetsId": [
+      2
+     ],
+     "cards": [
+      1003
+     ],
+     "confirm": false,
+     "timeout": 2,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "成功：1号位对2号位打出杀成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "2号位响应打出闪",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "targetsId": [
+      0
+     ],
+     "cards": [
+      1082
+     ],
+     "confirm": true,
+     "timeout": 2,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "成功：2号位响应打出闪",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "desc": "赵姬发动绝好善舞",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "targetsId": [
+      2
+     ],
+     "confirm": true,
+     "heroSkillUuid": 1664,
+     "timeout": 2,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "成功：赵姬发动绝好善舞失败",
+       "attr": {
+        "Result": "1001"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "赵姬_绝善好舞_1_17",
+   "desc": "技能重置 ",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1013,
+     1006,
+     1001,
+     1002,
+     1025,
+     1007,
+     1006,
+     1010,
+     1017,
+     1018
+    ],
+    "operateTimeMs": 300000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10105,
+      "initCards": [
+       1003,
+       4067
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [
+       1020
+      ],
+      "delSkills": [
+       1026,
+       1027,
+       1073
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 9,
+      "color": 65,
+      "heroId": 10105,
+      "initCards": [
+       1082
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [
+       1664
+      ],
+      "delSkills": [
+       1026,
+       1027,
+       1073
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 9,
+      "color": 65,
+      "heroId": 10105,
+      "initCards": [
+       3028,
+       3030,
+       3032,
+       3098,
+       3100,
+       3103,
+       3105
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [
+       1335
+      ],
+      "delSkills": [
+       1026,
+       1027,
+       1073
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "1号位对3号位打出杀",
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "targetsId": [
+      3
+     ],
+     "cards": [
+      1003
+     ],
+     "confirm": false,
+     "timeout": 2,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "成功：1号位对3号位打出杀成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "赵云(3)取消",
+     "robotIdx": 3,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "赵云(3)取消响应闪",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "desc": "1号位取消救援",
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "timeout": 2,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "成功：1号位取消救援",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 4,
+     "desc": "2号位取消救援",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "timeout": 2,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "成功：2号位取消救援",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 5,
+     "desc": "对2号位发动骨鲠之臣",
+     "robotIdx": 3,
+     "action": "OptRoomAction",
+     "targetsId": [
+      2
+     ],
+     "confirm": true,
+     "heroSkillUuid": 1335,
+     "timeout": 2,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "成功：对2号位发动骨鲠之臣",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 6,
+     "desc": "发动骨鲠之臣删除2号位的绝好善舞",
+     "robotIdx": 3,
+     "action": "OptRoomAction",
+     "targetsId": [
+      2
+     ],
+     "cards": [
+      1,
+      1664
+     ],
+     "confirm": true,
+     "heroSkillUuid": 1335,
+     "timeout": 2,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "成功：删除成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "赵姬_绝善好舞_2_1",
+   "desc": "打出最后一张手牌 其他区无牌",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     2001,
+     1013,
+     1006,
+     1001,
+     1002,
+     1025,
+     1003,
+     1007,
+     1006,
+     1010,
+     1017,
+     1018,
+     4052
+    ],
+    "operateTimeMs": 300000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10105,
+      "initCards": [],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [
+       1664
+      ],
+      "delSkills": [
+       1026,
+       1027,
+       1073
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 9,
+      "color": 65,
+      "heroId": 10105,
+      "initCards": [
+       1082
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1026,
+       1027,
+       1073
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "赵云(1)取消",
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "赵云响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "赵云(1)对[赵云(2)]使用牌[阵前对决(1013)]",
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "targetsId": [
+      2
+     ],
+     "cards": [
+      1013
+     ],
+     "confirm": true,
+     "heroSkillUuid": 1664,
+     "timeout": 2,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "赵云(1)对[赵云(2)]使用牌[阵前对决(1013)]成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "desc": "赵云(1)取消",
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "赵云(1)取消响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 4,
+     "desc": "赵云(1)断言",
+     "robotIdx": 1,
+     "action": "OnlyAsset",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "DrawCard",
+       "desc": "赵云(1)抽到1张牌牌为[1006]",
+       "attr": {
+        "Cards": "1006",
+        "Count": "1"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "赵姬_绝善好舞_2_2",
+   "desc": "打出最后一张手牌 装备区有牌",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     2001,
+     1013,
+     1006,
+     1001,
+     1002,
+     1025,
+     1003,
+     1007,
+     1006,
+     1010,
+     1017,
+     1018,
+     4052
+    ],
+    "operateTimeMs": 300000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10105,
+      "initCards": [],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [
+       1664
+      ],
+      "delSkills": [
+       1026,
+       1027,
+       1073
+      ],
+      "exEquips": [
+       1004
+      ],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 9,
+      "color": 65,
+      "heroId": 10105,
+      "initCards": [
+       1082
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1026,
+       1027,
+       1073
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "赵云(1)取消",
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "赵云响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "赵云(1)对[赵云(2)]使用牌[阵前对决(1013)]",
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "targetsId": [
+      2
+     ],
+     "cards": [
+      1013
+     ],
+     "confirm": true,
+     "heroSkillUuid": 1664,
+     "timeout": 2,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "赵云(1)对[赵云(2)]使用牌[阵前对决(1013)]成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "desc": "赵云(1)取消",
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "赵云响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 4,
+     "desc": "赵云(1)断言",
+     "robotIdx": 1,
+     "action": "OnlyAsset",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "DrawCard",
+       "desc": "赵云(1)抽到1张牌牌为[1006]",
+       "attr": {
+        "Cards": "1006",
+        "Count": "1"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "赵姬_绝善好舞_2_3",
+   "desc": "打出最后一张手牌 技能区有牌",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     2001,
+     1013,
+     1006,
+     1001,
+     1002,
+     1025,
+     1003,
+     1007,
+     1006,
+     1010,
+     1017,
+     1018,
+     4052
+    ],
+    "operateTimeMs": 300000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10105,
+      "initCards": [],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [
+       1664
+      ],
+      "delSkills": [
+       1026,
+       1027,
+       1073
+      ],
+      "exEquips": [
+       1004
+      ],
+      "skillCardsMap": {
+       "1051": [
+        1005
+       ]
+      }
+     },
+     {
+      "identity": 9,
+      "color": 65,
+      "heroId": 10105,
+      "initCards": [
+       1082
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1026,
+       1027,
+       1073
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "赵云(1)取消",
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "赵云响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "赵云(1)对[赵云(2)]使用牌[阵前对决(1013)]",
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "targetsId": [
+      2
+     ],
+     "cards": [
+      1013
+     ],
+     "confirm": true,
+     "heroSkillUuid": 1664,
+     "timeout": 2,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "赵云(1)对[赵云(2)]使用牌[阵前对决(1013)]成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "desc": "赵云(1)取消",
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "赵云响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 4,
+     "desc": "赵云(1)断言",
+     "robotIdx": 1,
+     "action": "OnlyAsset",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "DrawCard",
+       "desc": "赵云(1)抽到1张牌牌为[1006]",
+       "attr": {
+        "Cards": "1006",
+        "Count": "1"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "赵姬_绝善好舞_2_4",
+   "desc": "弃置最后一张手牌 不触发",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     2017,
+     1013,
+     1006,
+     1001,
+     1002,
+     1025,
+     1003,
+     1007,
+     1006,
+     1010,
+     1017,
+     1018
+    ],
+    "operateTimeMs": 300000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10105,
+      "initCards": [],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [
+       1664,
+       1051
+      ],
+      "delSkills": [
+       1026,
+       1027,
+       1073
+      ],
+      "exEquips": [],
+      "skillCardsMap": {
+       "1051": [
+        4096
+       ]
+      }
+     },
+     {
+      "identity": 9,
+      "color": 65,
+      "heroId": 10105,
+      "initCards": [
+       1082
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1026,
+       1027,
+       1073
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "1号位触发技能绝好善舞",
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "confirm": true,
+     "heroSkillUuid": 1664,
+     "timeout": 2,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "成功：1号位触发技能绝好善舞成功",
+       "attr": {
+        "Result": "1001"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "赵姬_绝善好舞_2_5",
+   "desc": "烧毁最后一张手牌(不触发)",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1013,
+     1006,
+     1001,
+     1002,
+     1025,
+     1007,
+     1006,
+     1010,
+     1017,
+     1018
+    ],
+    "operateTimeMs": 300000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10105,
+      "initCards": [
+       1042
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [
+       1045
+      ],
+      "delSkills": [
+       1026,
+       1027,
+       1073
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 9,
+      "color": 65,
+      "heroId": 10105,
+      "initCards": [
+       1058
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [
+       1664
+      ],
+      "delSkills": [
+       1026,
+       1027,
+       1073
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "1号位发动火破连营将1042给2号位",
+     "robotIdx": 1,
+     "action": "UseHeroSkill",
+     "targetsId": [
+      2
+     ],
+     "cards": [
+      1042
+     ],
+     "confirm": false,
+     "heroSkillUuid": 1045,
+     "timeout": 2,
+     "assets": [
+      {
+       "msgName": "UseHeroSkillAck",
+       "desc": "成功：1号位发动火破连营",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "空等待",
+     "robotIdx": 2,
+     "action": "OnlyAsset",
+     "confirm": false,
+     "timeout": 2,
+     "assets": [
+      {
+       "msgName": "DrawCard",
+       "desc": "成功：未触发绝好善舞",
+       "attr": {
+        "Count": "2",
+        "UnExpect": "true"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "赵姬_绝善好舞_2_6",
+   "desc": "销毁最后一张手牌(不触发)",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1013,
+     1006,
+     1001,
+     1002,
+     1025,
+     1007,
+     1006,
+     1010,
+     1017,
+     1018
+    ],
+    "operateTimeMs": 300000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10105,
+      "initCards": [
+       1042
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [
+       1305
+      ],
+      "delSkills": [
+       1026,
+       1027,
+       1073
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 9,
+      "color": 65,
+      "heroId": 10105,
+      "initCards": [
+       1058
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [
+       1664
+      ],
+      "delSkills": [
+       1026,
+       1027,
+       1073
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "1号位斩蛇起义",
+     "robotIdx": 1,
+     "action": "UseHeroSkill",
+     "cards": [
+      1042
+     ],
+     "confirm": false,
+     "heroSkillUuid": 1305,
+     "timeout": 2,
+     "assets": [
+      {
+       "msgName": "UseHeroSkillAck",
+       "desc": "成功：1号位斩蛇起义",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "空等待",
+     "robotIdx": 2,
+     "action": "OnlyAsset",
+     "confirm": false,
+     "timeout": 2,
+     "assets": [
+      {
+       "msgName": "DrawCard",
+       "desc": "成功：未触发绝好善舞",
+       "attr": {
+        "Count": "2",
+        "UnExpect": "true"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "赵姬_绝善好舞_2_7",
+   "desc": "给出最后一张手牌(不触发)",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1013,
+     1006,
+     1001,
+     1002,
+     1025,
+     1007,
+     1006,
+     1010,
+     1017,
+     1018
+    ],
+    "operateTimeMs": 300000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10105,
+      "initCards": [
+       1042
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [
+       1664,
+       1015
+      ],
+      "delSkills": [
+       1026,
+       1027,
+       1073
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 9,
+      "color": 65,
+      "heroId": 10105,
+      "initCards": [
+       1058
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1026,
+       1027,
+       1073
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "1号位惟贤惟德将牌给2号位",
+     "robotIdx": 1,
+     "action": "UseHeroSkill",
+     "targetsId": [
+      2
+     ],
+     "cards": [
+      1042
+     ],
+     "confirm": false,
+     "heroSkillUuid": 1015,
+     "timeout": 2,
+     "assets": [
+      {
+       "msgName": "UseHeroSkillAck",
+       "desc": "成功：1号位惟贤惟德将牌给2号位",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "空等待",
+     "robotIdx": 1,
+     "action": "OnlyAsset",
+     "confirm": false,
+     "timeout": 2,
+     "assets": [
+      {
+       "msgName": "DrawCard",
+       "desc": "成功：未触发绝好善舞",
+       "attr": {
+        "Count": "2",
+        "UnExpect": "true"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "赵姬_迎归甘泉_1_1",
+   "desc": "发动迎归甘泉(包含再次尝试发动)",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1013,
+     1006,
+     1001,
+     1002,
+     1025,
+     1003,
+     1007,
+     1006,
+     1010,
+     1017,
+     1018
+    ],
+    "operateTimeMs": 300000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10105,
+      "initCards": [
+       1003,
+       4067
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [
+       1664,
+       1665
+      ],
+      "delSkills": [
+       1026,
+       1027,
+       1073
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 9,
+      "color": 65,
+      "heroId": 10105,
+      "initCards": [
+       1082
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1026,
+       1027,
+       1073
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "1号位对2号位打出杀",
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "targetsId": [
+      2
+     ],
+     "cards": [
+      1003
+     ],
+     "confirm": false,
+     "timeout": 2,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "成功：1号位对2号位打出杀成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "1号位触发技能绝好善舞，并且弃置手牌4067",
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "targetsId": [
+      1
+     ],
+     "cards": [
+      4067
+     ],
+     "confirm": true,
+     "heroSkillUuid": 1664,
+     "timeout": 2,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "成功：1号位触发技能绝好善舞成功",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "DrawCard",
+       "desc": "成功：1号位摸1张牌",
+       "attr": {
+        "Cards": "1001",
+        "Count": "1"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "desc": "2号位出闪",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "cards": [
+      1082
+     ],
+     "confirm": true,
+     "timeout": 2,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "2号位出闪成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 4,
+     "desc": "1号位发动技能迎归甘泉",
+     "robotIdx": 1,
+     "action": "UseHeroSkill",
+     "confirm": false,
+     "heroSkillUuid": 1665,
+     "timeout": 2,
+     "assets": [
+      {
+       "msgName": "UseHeroSkillAck",
+       "desc": "成功：1号位发动技能迎归甘泉",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "DrawCard",
+       "desc": "成功：1号位获得牌",
+       "attr": {
+        "Cards": "4067",
+        "Count": "1"
+       }
+      }
+     ]
+    },
+    {
+     "id": 5,
+     "desc": "1号位发动技能迎归甘泉",
+     "robotIdx": 1,
+     "action": "UseHeroSkill",
+     "confirm": false,
+     "heroSkillUuid": 1665,
+     "timeout": 2,
+     "assets": [
+      {
+       "msgName": "UseHeroSkillAck",
+       "desc": "成功：1号位再次发动技能迎归甘泉失败",
+       "attr": {
+        "Result": "1561"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "赵姬_迎归甘泉_1_2",
+   "desc": "删除其他技能",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1013,
+     1006,
+     1001,
+     1002,
+     1025,
+     1003,
+     1007,
+     1006,
+     1010,
+     1017,
+     1018
+    ],
+    "operateTimeMs": 300000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10105,
+      "initCards": [
+       1003,
+       4067
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [
+       1665,
+       1320
+      ],
+      "delSkills": [
+       1026,
+       1027,
+       1073
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 9,
+      "color": 65,
+      "heroId": 10105,
+      "initCards": [
+       1082
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1026,
+       1027,
+       1073
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "赵云(1), 使用技能[迎归甘泉]",
+     "robotIdx": 1,
+     "action": "UseHeroSkill",
+     "confirm": false,
+     "heroSkillUuid": 1665,
+     "timeout": 2,
+     "assets": [
+      {
+       "msgName": "UseHeroSkillAck",
+       "desc": "赵云(1), 使用技能[迎归甘泉]成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "赵云(1)对[赵云(2)], 使用技能[背水一战]",
+     "robotIdx": 1,
+     "action": "UseHeroSkill",
+     "targetsId": [
+      2
+     ],
+     "confirm": false,
+     "heroSkillUuid": 1320,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "UseHeroSkillAck",
+       "desc": "赵云(1)对[赵云(2)], 使用技能[背水一战]失败",
+       "attr": {
+        "Result": "1527"
+       }
+      }
+     ]
+    }
+   ]
+  }
+ ]

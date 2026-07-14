@@ -1,0 +1,58 @@
+{
+ "sheet": "活动密钥表|ActivityKey",
+ "managerList": {
+  "QA": [],
+  "Designer": [],
+  "Programmer": []
+ },
+ "rules": {
+  "ActivityId": {
+   "PropName": "ActivityId",
+   "PropType": "int",
+   "PropRules": []
+  },
+  "OffcialKey": {
+   "PropName": "OffcialKey",
+   "PropType": "string",
+   "PropRules": [
+    {
+     "Type": "ENUM",
+     "Uuid": "ed6707c8-cb1c-40e5-ae9e-7d1c47a855b0",
+     "DisplayName": "",
+     "Enabled": true,
+     "Params": {
+      "allowCommit": "true",
+      "allowEmpty": "false",
+      "breakLine": "3",
+      "chsOnly": "false",
+      "enums": "TuVwF8BlrVdrEETwokMHkm0L1CzhuUGR",
+      "increase": "false",
+      "unique": "false"
+     }
+    }
+   ]
+  },
+  "TestKey": {
+   "PropName": "TestKey",
+   "PropType": "string",
+   "PropRules": [
+    {
+     "Type": "ENUM",
+     "Uuid": "3446ba3d-eee6-455d-84bb-585997be6676",
+     "DisplayName": "",
+     "Enabled": true,
+     "Params": {
+      "allowCommit": "true",
+      "allowEmpty": "false",
+      "breakLine": "3",
+      "chsOnly": "false",
+      "enums": "nBLEMBBnikOvNtRfDqMoG6XK4GERN7w8",
+      "increase": "false",
+      "unique": "false"
+     }
+    }
+   ]
+  }
+ },
+ "tableRules": []
+}

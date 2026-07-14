@@ -1,0 +1,4 @@
+analyze-prompt
+check-config-commit-message
+game-config-relations
+multica-cli

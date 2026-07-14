@@ -1,0 +1,28 @@
+{
+    "// 说明": "Claude Code 配置文件模板，请复制为 settings.json 并修改",
+    "// 文档": "https://docs.anthropic.com/en/docs/claude-code/settings",
+    "// 使用方式": "本地 docker compose 调试：cp settings.json.example settings.json 后填入模型/API。流水线环境由 ci_pipeline.sh 从宿主机 ~/.claude/settings.json.<model> 挂载，不读本文件。",
+
+    "// permissions 说明": "仅在「未使用 --dangerously-skip-permissions」时生效。容器 entrypoint.sh 以 --dangerously-skip-permissions 运行，会绕过此 permissions 配置；仅当本地 docker compose 调试且未加该参数时才生效。",
+    "permissions": {
+        "allow": [
+            "Bash(git log*)",
+            "Bash(git diff*)",
+            "Bash(git show*)",
+            "Bash(git rev-parse*)",
+            "Read",
+            "Glob",
+            "Grep"
+        ],
+        "deny": []
+    },
+
+    "// model": "取消注释并按实际使用的模型/中转填写。项目当前流水线使用国内中转模型（如 kimi），请以宿主机 ~/.claude/settings.json.<model> 为准，此处仅示格式，勿照搬具体模型 ID",
+    "// model": "<your-model-id>",
+
+    "// apiProvider": "取消注释并指定 API 提供商",
+    "// apiProvider": "anthropic",
+
+    "// baseURL": "取消注释并指定 API 基础 URL（用于国内模型中转）",
+    "// baseURL": "https://your-proxy.example.com/v1"
+}

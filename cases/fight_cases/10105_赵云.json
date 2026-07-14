@@ -1,0 +1,1098 @@
+[
+  {
+   "case": "赵云_枪出如龙",
+   "desc": "[定制战斗] 创建房间 设置自定义身份 加入房间 ",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1010,
+     1011,
+     1019,
+     1022,
+     1024
+    ],
+    "operateTimeMs": 300000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10105,
+      "initCards": [
+       1003,
+       1090
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [],
+      "exEquips": [
+       1004
+      ],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 9,
+      "color": 65,
+      "heroId": 10108,
+      "initCards": [
+       1092
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1030,
+       1031
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "赵云对孙尚香打出杀",
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "targetsId": [
+      2
+     ],
+     "cards": [
+      1003
+     ],
+     "confirm": false,
+     "transCardSkill": 1,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "赵云出杀成功",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "DrawCard",
+       "desc": "赵云摸一张牌",
+       "attr": {
+        "Cards": "1019",
+        "Count": "1"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "孙尚香响应杀：出闪",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "targetsId": [
+      0
+     ],
+     "cards": [
+      1092
+     ],
+     "confirm": true,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "孙尚香出闪成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "robotIdx": 1,
+     "action": "OnlyAsset",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "AttrChange",
+       "desc": "赵云出杀被闪后  触发青龙偃月刀",
+       "attr": {
+        "ShaCount": "1"
+       }
+      }
+     ]
+    },
+    {
+     "id": 4,
+     "desc": "赵云发动枪出如龙，把闪当杀对孙尚香打出",
+     "robotIdx": 1,
+     "action": "UseHeroSkill",
+     "targetsId": [
+      2
+     ],
+     "cards": [
+      1090
+     ],
+     "confirm": false,
+     "heroSkillUuid": 1026,
+     "transCardSkill": 1,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "UseHeroSkillAck",
+       "desc": "赵云技能发动成功",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "DrawCard",
+       "desc": "赵云摸一张牌",
+       "attr": {
+        "Cards": "1022",
+        "Count": "1"
+       }
+      }
+     ]
+    },
+    {
+     "id": 5,
+     "desc": "孙尚香响应杀：不出闪",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "targetsId": [
+      0
+     ],
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "孙尚香不出闪成功",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "CommonHpChange",
+       "desc": "孙尚香掉1点血",
+       "attr": {
+        "ChangeHp": "-1",
+        "CurHp": "3",
+        "HpSrc": "HarmNormal",
+        "MaxHp": "4"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "赵云_一身是胆",
+   "desc": "[定制战斗] 创建房间 设置自定义身份 加入房间 ",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1010,
+     1011,
+     1019,
+     1022,
+     1024
+    ],
+    "operateTimeMs": 300000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10108,
+      "initCards": [
+       1027
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 9,
+      "color": 65,
+      "heroId": 10105,
+      "initCards": [
+       1003,
+       1090
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1030,
+       1031
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "孙尚香对赵云打出杀",
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "targetsId": [
+      2
+     ],
+     "cards": [
+      1027
+     ],
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "孙尚香出杀成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "赵云发动一身是胆，把杀当闪打出",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "targetsId": [
+      1
+     ],
+     "cards": [
+      1003
+     ],
+     "confirm": true,
+     "heroSkillUuid": 1027,
+     "transCardSkill": 2,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "赵云技能发动成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "desc": "赵云发动枪出如龙，把闪当杀对孙尚香打出",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "targetsId": [
+      1
+     ],
+     "cards": [
+      1090
+     ],
+     "confirm": true,
+     "heroSkillUuid": 1026,
+     "transCardSkill": 1,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "赵云技能发动成功",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "DrawCard",
+       "desc": "赵云摸一张牌",
+       "attr": {
+        "Cards": "1019",
+        "Count": "1"
+       }
+      }
+     ]
+    },
+    {
+     "id": 4,
+     "desc": "孙尚香响应杀：不出闪",
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "targetsId": [
+      0
+     ],
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "孙尚香不出闪成功",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "CommonHpChange",
+       "desc": "孙尚香掉1点血",
+       "attr": {
+        "ChangeHp": "-1",
+        "CurHp": "4",
+        "HpSrc": "HarmNormal",
+        "MaxHp": "5"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "赵云_七进七出",
+   "desc": "[定制战斗] 创建房间 设置自定义身份 加入房间 ",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1010,
+     1011,
+     1019,
+     1022,
+     1024,
+     1027,
+     1030,
+     1032,
+     1033,
+     1035,
+     1012,
+     1020,
+     1047,
+     1048
+    ],
+    "operateTimeMs": 300000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10105,
+      "initCards": [
+       1003
+      ],
+      "initEquips": [
+       1034
+      ],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 9,
+      "color": 65,
+      "heroId": 10108,
+      "initCards": [
+       1078,
+       1079,
+       1082,
+       1083,
+       1084,
+       1087,
+       1090,
+       1091
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1030,
+       1031
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "赵云对孙尚香打出杀",
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "targetsId": [
+      2
+     ],
+     "cards": [
+      1003
+     ],
+     "confirm": false,
+     "timeout": 2,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "赵云出杀成功",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "DrawCard",
+       "desc": "赵云摸一张牌",
+       "attr": {
+        "Cards": "1019",
+        "Count": "1"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "赵云发动诸葛连弩",
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "targetsId": [
+      2
+     ],
+     "confirm": true,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "赵云发动诸葛连弩成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "desc": "孙尚香响应出闪",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "targetsId": [
+      1
+     ],
+     "cards": [
+      1082
+     ],
+     "confirm": true,
+     "transCardSkill": 2,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "孙尚香出闪成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 4,
+     "desc": "赵云空等待节点",
+     "robotIdx": 1,
+     "action": "OnlyAsset",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "DrawCard",
+       "desc": "赵云摸一张牌",
+       "attr": {
+        "Cards": "1022",
+        "Count": "1"
+       }
+      }
+     ]
+    },
+    {
+     "id": 5,
+     "desc": "孙尚香响应出闪",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "targetsId": [
+      1
+     ],
+     "cards": [
+      1083
+     ],
+     "confirm": true,
+     "transCardSkill": 2,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "孙尚香出闪成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 6,
+     "desc": "赵云空等待节点",
+     "robotIdx": 1,
+     "action": "OnlyAsset",
+     "confirm": false,
+     "timeout": 3,
+     "assets": [
+      {
+       "msgName": "DrawCard",
+       "desc": "赵云摸一张牌",
+       "attr": {
+        "Count": "1"
+       }
+      },
+      {
+       "msgName": "AttrChange",
+       "desc": "赵云出杀次数+1变成1；手牌上限+1变成4",
+       "attr": {
+        "HandLimit": "4",
+        "ShaCount": "1"
+       }
+      },
+      {
+       "msgName": "UpdateProperty",
+       "desc": "回合出杀次数永久+1",
+       "attr": {
+        "IdType": "User",
+        "PropID": "ShaCountAdd",
+        "PropValue": "1"
+       }
+      },
+      {
+       "msgName": "UpdateProperty",
+       "desc": "手牌上限+1",
+       "attr": {
+        "IdType": "User",
+        "PropID": "HandLimitAdd",
+        "PropValue": "1"
+       }
+      }
+     ]
+    },
+    {
+     "id": 7,
+     "desc": "孙尚香响应出闪",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "targetsId": [
+      1
+     ],
+     "cards": [
+      1084
+     ],
+     "confirm": true,
+     "transCardSkill": 2,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "孙尚香出闪成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 8,
+     "desc": "赵云空等待节点",
+     "robotIdx": 1,
+     "action": "OnlyAsset",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "DrawCard",
+       "desc": "赵云摸一张牌",
+       "attr": {
+        "Cards": "1027",
+        "Count": "1"
+       }
+      }
+     ]
+    },
+    {
+     "id": 9,
+     "desc": "孙尚香不出闪",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "targetsId": [
+      0
+     ],
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "孙尚香不出闪成功",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "CommonHpChange",
+       "desc": "孙尚香掉1点血",
+       "attr": {
+        "ChangeHp": "-1",
+        "CurHp": "3",
+        "HpSrc": "HarmNormal",
+        "MaxHp": "4"
+       }
+      }
+     ]
+    },
+    {
+     "id": 10,
+     "desc": "赵云空等待节点",
+     "robotIdx": 1,
+     "action": "OnlyAsset",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "UpdateProperty",
+       "desc": "本局伤害累计1",
+       "attr": {
+        "IdType": "User",
+        "PropID": "TotalDoHurtValue",
+        "PropValue": "1"
+       }
+      },
+      {
+       "msgName": "UpdateProperty",
+       "desc": "本轮伤害累计1",
+       "attr": {
+        "IdType": "User",
+        "PropID": "CircleDoHurtValue",
+        "PropValue": "1"
+       }
+      },
+      {
+       "msgName": "DrawCard",
+       "desc": "赵云摸一张牌",
+       "attr": {
+        "Cards": "1030",
+        "Count": "1"
+       }
+      }
+     ]
+    },
+    {
+     "id": 11,
+     "desc": "孙尚香不出闪",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "targetsId": [
+      0
+     ],
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "孙尚香不出闪成功",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "CommonHpChange",
+       "desc": "孙尚香掉1点血",
+       "attr": {
+        "ChangeHp": "-1",
+        "CurHp": "2",
+        "HpSrc": "HarmNormal",
+        "MaxHp": "4"
+       }
+      }
+     ]
+    },
+    {
+     "id": 12,
+     "desc": "赵云空等待节点",
+     "robotIdx": 1,
+     "action": "OnlyAsset",
+     "confirm": false,
+     "timeout": 3,
+     "assets": [
+      {
+       "msgName": "DrawCard",
+       "desc": "赵云摸一张牌",
+       "attr": {
+        "Count": "1"
+       }
+      },
+      {
+       "msgName": "AttrChange",
+       "desc": "赵云, 出杀次数: 2, 手牌上限: 5",
+       "attr": {
+        "HandLimit": "5",
+        "ShaCount": "2"
+       }
+      },
+      {
+       "msgName": "UpdateProperty",
+       "desc": "回合出杀次数永久+1",
+       "attr": {
+        "IdType": "User",
+        "PropID": "ShaCountAdd",
+        "PropValue": "2"
+       }
+      },
+      {
+       "msgName": "UpdateProperty",
+       "desc": "手牌上限+1",
+       "attr": {
+        "IdType": "User",
+        "PropID": "HandLimitAdd",
+        "PropValue": "2"
+       }
+      }
+     ]
+    },
+    {
+     "id": 13,
+     "desc": "孙尚香不出闪",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "targetsId": [
+      0
+     ],
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "孙尚香不出闪成功",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "CommonHpChange",
+       "desc": "孙尚香掉1点血",
+       "attr": {
+        "ChangeHp": "-1",
+        "CurHp": "1",
+        "HpSrc": "HarmNormal",
+        "MaxHp": "4"
+       }
+      }
+     ]
+    },
+    {
+     "id": 14,
+     "desc": "孙尚香不出闪",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "targetsId": [
+      0
+     ],
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "孙尚香不出闪成功",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "CommonHpChange",
+       "desc": "孙尚香掉1点血",
+       "attr": {
+        "ChangeHp": "-1",
+        "CurHp": "0",
+        "HpSrc": "HarmNormal",
+        "MaxHp": "4"
+       }
+      }
+     ]
+    },
+    {
+     "id": 15,
+     "desc": "赵云不救",
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "targetsId": [
+      0
+     ],
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "赵云不救成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 16,
+     "desc": "孙尚香打出桃",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "targetsId": [
+      2
+     ],
+     "cards": [
+      1078
+     ],
+     "confirm": true,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "孙尚香打出桃成功",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "CommonHpChange",
+       "desc": "孙尚香回1点血",
+       "attr": {
+        "ChangeHp": "1",
+        "CurHp": "1",
+        "HpSrc": "CureHp",
+        "MaxHp": "4"
+       }
+      }
+     ]
+    },
+    {
+     "id": 17,
+     "desc": "赵云对孙尚香打出杀",
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "targetsId": [
+      2
+     ],
+     "cards": [
+      1033
+     ],
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "赵云出杀成功",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "DrawCard",
+       "desc": "赵云摸一张牌",
+       "attr": {
+        "Cards": "1035",
+        "Count": "1"
+       }
+      }
+     ]
+    },
+    {
+     "id": 18,
+     "desc": "赵云不发动连弩",
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "targetsId": [
+      0
+     ],
+     "confirm": false,
+     "transCardSkill": 2,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "赵云不发动连弩成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 19,
+     "desc": "孙尚香响应出闪",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "targetsId": [
+      1
+     ],
+     "cards": [
+      1087
+     ],
+     "confirm": true,
+     "transCardSkill": 2,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "孙尚香出闪成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 20,
+     "desc": "赵云对孙尚香打出杀",
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "targetsId": [
+      2
+     ],
+     "cards": [
+      1035
+     ],
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "赵云出牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "DrawCard",
+       "desc": "赵云抽到1张牌",
+       "attr": {
+        "Count": "1"
+       }
+      }
+     ]
+    },
+    {
+     "id": 21,
+     "desc": "赵云(1)取消",
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "赵云响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 22,
+     "desc": "孙尚香(2)确认, 使用牌[闪(1090)]",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "cards": [
+      1090
+     ],
+     "confirm": true,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "孙尚香响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 23,
+     "desc": "赵云(1)对[孙尚香(2)]使用牌[雷杀(1012)]",
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "targetsId": [
+      2
+     ],
+     "cards": [
+      1012
+     ],
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "赵云出牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 24,
+     "desc": "赵云(1)取消",
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "赵云响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 25,
+     "desc": "孙尚香(2)确认, 使用牌[闪(1091)]",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "cards": [
+      1091
+     ],
+     "confirm": true,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "孙尚香响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 26,
+     "desc": "赵云(1)对[孙尚香(2)]使用牌[雷杀(1020)]",
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "targetsId": [
+      2
+     ],
+     "cards": [
+      1020
+     ],
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "出杀次数不足",
+       "attr": {
+        "Result": "1519"
+       }
+      }
+     ]
+    }
+   ]
+  }
+ ]

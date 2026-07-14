@@ -1,0 +1,233 @@
+{
+ "sheet": "掉落道具表|DropItem",
+ "managerList": {
+  "QA": [],
+  "Designer": [],
+  "Programmer": []
+ },
+ "rules": {
+  "CheckExist": {
+   "PropName": "CheckExist",
+   "PropType": "bool",
+   "PropRules": []
+  },
+  "Deduplication": {
+   "PropName": "Deduplication",
+   "PropType": "bool",
+   "PropRules": []
+  },
+  "DropGroup": {
+   "PropName": "DropGroup",
+   "PropType": "int",
+   "PropRules": [
+    {
+     "Type": "NUMERIC",
+     "Uuid": "uuid-numeric-range-dropitem-dropgroup",
+     "DisplayName": "数值范围检查",
+     "Enabled": true,
+     "Params": {
+      "allowCommit": "true",
+      "allowEmpty": "false",
+      "breakLine": "3",
+      "max": "999999",
+      "maxValue": "",
+      "min": "1",
+      "minValue": ""
+     }
+    },
+    {
+     "Type": "CROSS_REFERENCE",
+     "Uuid": "uuid-foreign-key-dropitem-dropgroup",
+     "DisplayName": "外键检查",
+     "Enabled": true,
+     "Params": {
+      "allowCommit": "true",
+      "allowEmpty": "false",
+      "breakLine": "3",
+      "excepts": "",
+      "filterCol": "",
+      "filterVal": "",
+      "groups": "",
+      "pattern": "",
+      "refCol": "Id",
+      "refSheet": "掉落分组表|DropGroup",
+      "targetSheet": "DropGroup"
+     }
+    }
+   ]
+  },
+  "ExcludeExist": {
+   "PropName": "ExcludeExist",
+   "PropType": "bool",
+   "PropRules": []
+  },
+  "ExpireDate": {
+   "PropName": "ExpireDate",
+   "PropType": "string",
+   "PropRules": [
+    {
+     "Type": "DATE",
+     "Uuid": "uuid-date-dropitem-expiredate",
+     "DisplayName": "日期格式检查",
+     "Enabled": true,
+     "Params": {
+      "allowCommit": "true",
+      "allowEmpty": "true",
+      "breakLine": "3",
+      "format": "yyyy-MM-dd HH:mm:ss"
+     }
+    }
+   ]
+  },
+  "Id": {
+   "PropName": "Id",
+   "PropType": "int",
+   "PropRules": [
+    {
+     "Type": "ALL_BASE",
+     "Uuid": "uuid-unique-dropitem-id",
+     "DisplayName": "唯一性检查",
+     "Enabled": true,
+     "Params": {
+      "allowCommit": "true",
+      "allowEmpty": "false",
+      "breakLine": "3",
+      "chsOnly": "false",
+      "enums": "",
+      "excepts": "",
+      "filterCol": "",
+      "filterVal": "",
+      "format": "2006-01-02",
+      "groups": "",
+      "increase": "false",
+      "maxValue": "",
+      "minValue": "",
+      "pattern": "",
+      "refCol": "",
+      "refSheet": "",
+      "targetSum": "100",
+      "unique": "true"
+     }
+    }
+   ]
+  },
+  "Item": {
+   "PropName": "Item",
+   "PropType": "string",
+   "PropRules": [
+    {
+     "Type": "NOT_EMPTY",
+     "Uuid": "uuid-not-empty-dropitem-item",
+     "DisplayName": "非空检查",
+     "Enabled": true,
+     "Params": {
+      "allowCommit": "true",
+      "allowEmpty": "false",
+      "breakLine": "3"
+     }
+    }
+   ]
+  },
+  "MustHave": {
+   "PropName": "MustHave",
+   "PropType": "bool",
+   "PropRules": []
+  },
+  "Name": {
+   "PropName": "Name",
+   "PropType": "string",
+   "PropRules": []
+  },
+  "ReplaceGroup": {
+   "PropName": "ReplaceGroup",
+   "PropType": "int",
+   "PropRules": []
+  },
+  "ValidDate": {
+   "PropName": "ValidDate",
+   "PropType": "string",
+   "PropRules": [
+    {
+     "Type": "DATE",
+     "Uuid": "uuid-date-dropitem-validdate",
+     "DisplayName": "日期格式检查",
+     "Enabled": true,
+     "Params": {
+      "allowCommit": "true",
+      "allowEmpty": "true",
+      "breakLine": "3",
+      "format": "yyyy-MM-dd HH:mm:ss"
+     }
+    }
+   ]
+  },
+  "Weight": {
+   "PropName": "Weight",
+   "PropType": "int",
+   "PropRules": [
+    {
+     "Type": "NUMERIC",
+     "Uuid": "uuid-numeric-range-dropitem-weight",
+     "DisplayName": "数值范围检查",
+     "Enabled": true,
+     "Params": {
+      "allowCommit": "true",
+      "allowEmpty": "true",
+      "breakLine": "3",
+      "max": "999999",
+      "maxValue": "",
+      "min": "0",
+      "minValue": ""
+     }
+    }
+   ]
+  },
+  "WeightInc": {
+   "PropName": "WeightInc",
+   "PropType": "int",
+   "PropRules": [
+    {
+     "Type": "NUMERIC",
+     "Uuid": "uuid-numeric-range-dropitem-weightinc",
+     "DisplayName": "数值范围检查",
+     "Enabled": true,
+     "Params": {
+      "allowCommit": "true",
+      "allowEmpty": "true",
+      "breakLine": "3",
+      "max": "999999",
+      "maxValue": "",
+      "min": "0",
+      "minValue": ""
+     }
+    }
+   ]
+  }
+ },
+ "tableRules": [
+  {
+   "type": "DROP_ITEM_MUST_IN_ITEM_CHECK",
+   "displayName": "掉落道具必须在道具表中",
+   "uuid": "c0d1e2f3-a4b5-4c6d-7e8f-9a0b1c2d3e4f",
+   "description": "检查DropItem中配置的道具是否在Item表中存在",
+   "params": {},
+   "enabled": true
+  },
+  {
+   "type": "DROP_ITEM_VALIDITY_CHECK",
+   "displayName": "DropItem条件和互斥检查",
+   "uuid": "d1e2f3a4-b5c6-4d7e-8f9a-0b1c2d3e4f5a",
+   "description": "检查ReplaceGroup条件引用、布尔互斥、Item道具有效性",
+   "params": {},
+   "enabled": true
+  },
+  {
+   "type": "DATE_VALID_EXPIRE_CHECK",
+   "displayName": "日期有效性检查",
+   "uuid": "f1a2b3c4-d5e6-4f7a-8b9c-0d1e2f3a4b5c",
+   "description": "检查ValidDate \u003c= ExpireDate（当两者均非空时）",
+   "params": {},
+   "enabled": true
+  }
+ ]
+}

@@ -1,0 +1,418 @@
+[
+  {
+   "case": "山有扶苏-13301",
+   "desc": "拥有扶苏回血buff，把xx牌当成原牌是草花牌，不会触发回血",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1002,
+     1004,
+     1006,
+     1040,
+     1023,
+     1051,
+     1063,
+     1072,
+     1081,
+     1087,
+     1092,
+     1097,
+     1098,
+     1099,
+     1108,
+     1111,
+     1117,
+     1120,
+     1126,
+     1132,
+     1136
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10608,
+      "initCards": [
+       3036,
+       1044,
+       1122
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1343
+      ],
+      "exEquips": [
+       1147
+      ],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 2,
+      "heroId": 10104,
+      "initCards": [
+       1161,
+       1162,
+       1047
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [
+       1349
+      ],
+      "delSkills": [
+       1023,
+       1024
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "扶苏(1)使用牌[怒(3036)]",
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "cards": [
+      3036
+     ],
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "扶苏出牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "扶苏(1)使用牌[酒(1044)]",
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "cards": [
+      1044
+     ],
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "扶苏出牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "desc": "扶苏(1)对[张飞(2)]使用牌[杀(1003)]",
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "targetsId": [
+      2
+     ],
+     "cards": [
+      1122
+     ],
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "扶苏出牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 4,
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "张飞响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "CommonHpChange",
+       "desc": "张飞, 体力变化:-4",
+       "attr": {
+        "ChangeHp": "-4"
+       }
+      }
+     ]
+    },
+    {
+     "id": 5,
+     "desc": "扶苏(1)对[张飞(2)], 使用技能[山有扶苏]",
+     "robotIdx": 1,
+     "action": "UseHeroSkill",
+     "targetsId": [
+      2
+     ],
+     "cards": [
+      1
+     ],
+     "confirm": false,
+     "heroSkillUuid": 1342,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "UseHeroSkillAck",
+       "desc": "扶苏使用技能成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 6,
+     "desc": "扶苏(1)对[张飞(2)], 使用技能[山有扶苏]",
+     "robotIdx": 1,
+     "action": "UseHeroSkill",
+     "targetsId": [
+      2
+     ],
+     "cards": [
+      1
+     ],
+     "confirm": false,
+     "heroSkillUuid": 1342,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "UseHeroSkillAck",
+       "desc": "扶苏使用技能成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 7,
+     "desc": "扶苏(1)结束打牌",
+     "robotIdx": 1,
+     "action": "PlayCardOver",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "PlayCardOverAck",
+       "desc": "扶苏结束打牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 8,
+     "desc": "扶苏(1)自动弃牌",
+     "robotIdx": 1,
+     "action": "DisCard",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "DisCardAck",
+       "desc": "扶苏弃牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 9,
+     "desc": "张飞(2)使用牌[易(1161)], 当作牌3打出",
+     "robotIdx": 2,
+     "action": "PlayCard",
+     "cards": [
+      1161
+     ],
+     "confirm": false,
+     "transCardSkill": 3,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "张飞出牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "CommonHpChange",
+       "desc": "张飞, 体力变化:1",
+       "attr": {
+        "ChangeHp": "1"
+       }
+      }
+     ]
+    },
+    {
+     "id": 10,
+     "desc": "张飞(2)使用牌[易(1162)]",
+     "robotIdx": 2,
+     "action": "PlayCard",
+     "cards": [
+      1162
+     ],
+     "confirm": false,
+     "transCardSkill": 401,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "张飞出牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "CommonHpChange",
+       "desc": "张飞",
+       "attr": {
+        "ChangeHp": "0",
+        "UnExpect": "true"
+       }
+      }
+     ]
+    },
+    {
+     "id": 11,
+     "desc": "张飞(2), 使用技能[嗜酒如命]",
+     "robotIdx": 2,
+     "action": "UseHeroSkill",
+     "cards": [
+      1040
+     ],
+     "confirm": false,
+     "heroSkillUuid": 1025,
+     "transCardSkill": 4,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "UseHeroSkillAck",
+       "desc": "张飞使用技能成功",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "CommonHpChange",
+       "desc": "张飞",
+       "attr": {
+        "ChangeHp": "0",
+        "UnExpect": "true"
+       }
+      }
+     ]
+    },
+    {
+     "id": 12,
+     "robotIdx": 2,
+     "action": "UseHeroSkill",
+     "cards": [
+      1006
+     ],
+     "confirm": false,
+     "heroSkillUuid": 1349,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "UseHeroSkillAck",
+       "desc": "张飞使用技能成功",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "DrawCard",
+       "desc": "张飞抽到2张牌",
+       "attr": {
+        "Count": "2"
+       }
+      },
+      {
+       "msgName": "CommonHpChange",
+       "desc": "张飞",
+       "attr": {
+        "UnExpect": "true"
+       }
+      }
+     ]
+    },
+    {
+     "id": 13,
+     "desc": "张飞(2)使用牌[桃(1072)]",
+     "robotIdx": 2,
+     "action": "PlayCard",
+     "cards": [
+      1072
+     ],
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "张飞出牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "CommonHpChange",
+       "desc": "张飞受到来自CureHp的伤害, 体力变化:1, 当前体力: [5], 最大体力: [7]",
+       "attr": {
+        "ChangeHp": "1",
+        "CurHp": "5",
+        "HpSrc": "CureHp",
+        "MaxHp": "7"
+       }
+      },
+      {
+       "msgName": "CommonHpChange",
+       "desc": "张飞受到来自CureHp的伤害, 体力变化:1, 当前体力: [6], 最大体力: [7]",
+       "attr": {
+        "ChangeHp": "1",
+        "CurHp": "6",
+        "HpSrc": "CureHp",
+        "MaxHp": "7"
+       }
+      },
+      {
+       "msgName": "CommonHpChange",
+       "desc": "张飞受到来自CureHp的伤害, 体力变化:1, 当前体力: [7], 最大体力: [7]",
+       "attr": {
+        "ChangeHp": "1",
+        "CurHp": "7",
+        "HpSrc": "CureHp",
+        "MaxHp": "7"
+       }
+      }
+     ]
+    }
+   ]
+  }
+ ]

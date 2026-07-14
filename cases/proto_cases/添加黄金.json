@@ -1,0 +1,15 @@
+{
+  "version": 1,
+  "recorded_at": "2026-06-08T07:03:51.429Z",
+  "server_addr": "10.254.114.204:18000",
+  "messages": [
+    {
+      "msg_id": 1001,
+      "msg_name": "GmCommandReq",
+      "seq_id": 7,
+      "payload_json": {
+        "content": "//AddItem 1000001 6"
+      }
+    }
+  ]
+}

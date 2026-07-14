@@ -1,0 +1,278 @@
+{
+ "sheet": "累计登录活动通用配置|ActivityLogin",
+ "managerList": {
+  "QA": [],
+  "Designer": [],
+  "Programmer": []
+ },
+ "rules": {
+  "ActivityId": {
+   "PropName": "ActivityId",
+   "PropType": "int",
+   "PropRules": []
+  },
+  "Day": {
+   "PropName": "Day",
+   "PropType": "int",
+   "PropRules": [
+    {
+     "Type": "ENUM",
+     "Uuid": "192b9539-a3ea-497e-92bb-f482856e3720",
+     "DisplayName": "",
+     "Enabled": true,
+     "Params": {
+      "allowCommit": "true",
+      "allowEmpty": "true",
+      "breakLine": "3",
+      "chsOnly": "false",
+      "enums": "7",
+      "increase": "false",
+      "unique": "false"
+     }
+    }
+   ]
+  },
+  "Discount": {
+   "PropName": "Discount",
+   "PropType": "int",
+   "PropRules": [
+    {
+     "Type": "ALL_BASE",
+     "Uuid": "9035300b-dd2c-4257-873e-dfdfed9dd900",
+     "DisplayName": "",
+     "Enabled": true,
+     "Params": {
+      "allowCommit": "true",
+      "allowEmpty": "false",
+      "breakLine": "3",
+      "chsOnly": "false",
+      "increase": "false",
+      "unique": "false"
+     }
+    }
+   ]
+  },
+  "MailId": {
+   "PropName": "MailId",
+   "PropType": "int",
+   "PropRules": [
+    {
+     "Type": "ENUM",
+     "Uuid": "4e42392b-589c-4d8a-a877-47ed341cb344",
+     "DisplayName": "",
+     "Enabled": true,
+     "Params": {
+      "allowCommit": "true",
+      "allowEmpty": "true",
+      "breakLine": "3",
+      "chsOnly": "false",
+      "enums": "10005",
+      "increase": "false",
+      "unique": "false"
+     }
+    }
+   ]
+  },
+  "NormalItemCount": {
+   "PropName": "NormalItemCount",
+   "PropType": "int",
+   "PropRules": [
+    {
+     "Type": "ALL_BASE",
+     "Uuid": "3c3d9b28-9cc6-4af0-ba2e-f183060373f0",
+     "DisplayName": "",
+     "Enabled": true,
+     "Params": {
+      "allowCommit": "true",
+      "allowEmpty": "false",
+      "breakLine": "3",
+      "chsOnly": "false",
+      "increase": "false",
+      "unique": "false"
+     }
+    }
+   ]
+  },
+  "NormalItemId": {
+   "PropName": "NormalItemId",
+   "PropType": "int",
+   "PropRules": [
+    {
+     "Type": "ALL_BASE",
+     "Uuid": "a212aad9-a703-4b93-b054-e514195a6b93",
+     "DisplayName": "",
+     "Enabled": true,
+     "Params": {
+      "allowCommit": "true",
+      "allowEmpty": "false",
+      "breakLine": "3",
+      "chsOnly": "false",
+      "increase": "false",
+      "unique": "false"
+     }
+    },
+    {
+     "Type": "CROSS_REFERENCE",
+     "Uuid": "bda2d4c8-bf8b-44ab-9b0d-767a3af5e513",
+     "DisplayName": "",
+     "Enabled": true,
+     "Params": {
+      "allowCommit": "true",
+      "allowEmpty": "true",
+      "breakLine": "3",
+      "chsOnly": "false",
+      "excepts": "",
+      "groups": "",
+      "increase": "false",
+      "pattern": "",
+      "refCol": "Id",
+      "refSheet": "道具表|Item",
+      "unique": "false"
+     }
+    }
+   ]
+  },
+  "NormalReward": {
+   "PropName": "NormalReward",
+   "PropType": "ItemCfg[]",
+   "PropRules": [
+    {
+     "Type": "SPECIAL_FORMAT",
+     "Uuid": "823f7497-d83e-4543-ac65-98a5f919770b",
+     "DisplayName": "",
+     "Enabled": true,
+     "Params": {
+      "allowCommit": "true",
+      "allowEmpty": "true",
+      "breakLine": "3",
+      "chsOnly": "false",
+      "increase": "false",
+      "isArray": "true",
+      "unique": "false"
+     }
+    }
+   ]
+  },
+  "RechargeId": {
+   "PropName": "RechargeId",
+   "PropType": "int",
+   "PropRules": [
+    {
+     "Type": "ALL_BASE",
+     "Uuid": "4c0010c5-ad5e-4420-9fc6-28e7cb6f7d4d",
+     "DisplayName": "",
+     "Enabled": true,
+     "Params": {
+      "allowCommit": "true",
+      "allowEmpty": "false",
+      "breakLine": "3",
+      "chsOnly": "false",
+      "increase": "false",
+      "unique": "true"
+     }
+    }
+   ]
+  },
+  "RechargeItemCount": {
+   "PropName": "RechargeItemCount",
+   "PropType": "int",
+   "PropRules": [
+    {
+     "Type": "ALL_BASE",
+     "Uuid": "73c0a4e3-12d7-4676-9da9-18ed79c278f9",
+     "DisplayName": "",
+     "Enabled": true,
+     "Params": {
+      "allowCommit": "true",
+      "allowEmpty": "false",
+      "breakLine": "3",
+      "chsOnly": "false",
+      "increase": "false",
+      "unique": "false"
+     }
+    }
+   ]
+  },
+  "RechargeItemId": {
+   "PropName": "RechargeItemId",
+   "PropType": "int",
+   "PropRules": [
+    {
+     "Type": "ALL_BASE",
+     "Uuid": "2c32a44e-233a-4e18-a02a-cfe711b38293",
+     "DisplayName": "",
+     "Enabled": true,
+     "Params": {
+      "allowCommit": "true",
+      "allowEmpty": "false",
+      "breakLine": "3",
+      "chsOnly": "false",
+      "increase": "false",
+      "unique": "false"
+     }
+    },
+    {
+     "Type": "CROSS_REFERENCE",
+     "Uuid": "4008eaca-e5b3-4723-b72f-e40c07d71bf3",
+     "DisplayName": "",
+     "Enabled": true,
+     "Params": {
+      "allowCommit": "true",
+      "allowEmpty": "true",
+      "breakLine": "3",
+      "chsOnly": "false",
+      "excepts": "",
+      "groups": "",
+      "increase": "false",
+      "pattern": "",
+      "refCol": "Id",
+      "refSheet": "道具表|Item",
+      "unique": "false"
+     }
+    }
+   ]
+  },
+  "RechargeReward": {
+   "PropName": "RechargeReward",
+   "PropType": "ItemCfg[]",
+   "PropRules": [
+    {
+     "Type": "SPECIAL_FORMAT",
+     "Uuid": "ae179566-0658-4fa8-8332-89c33680e01c",
+     "DisplayName": "",
+     "Enabled": true,
+     "Params": {
+      "allowCommit": "true",
+      "allowEmpty": "true",
+      "breakLine": "3",
+      "chsOnly": "false",
+      "increase": "false",
+      "isArray": "true",
+      "unique": "false"
+     }
+    }
+   ]
+  },
+  "TitleIcon": {
+   "PropName": "TitleIcon",
+   "PropType": "string",
+   "PropRules": [
+    {
+     "Type": "ALL_BASE",
+     "Uuid": "c612e300-c210-4d1b-a706-183b41eba524",
+     "DisplayName": "",
+     "Enabled": true,
+     "Params": {
+      "allowCommit": "true",
+      "allowEmpty": "false",
+      "breakLine": "3",
+      "chsOnly": "false",
+      "increase": "false",
+      "unique": "false"
+     }
+    }
+   ]
+  }
+ },
+ "tableRules": []
+}

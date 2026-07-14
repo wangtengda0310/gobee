@@ -1,0 +1,35 @@
+{
+ "sheet": "掉落规则表|DropRule",
+ "managerList": {
+  "QA": [],
+  "Designer": [],
+  "Programmer": []
+ },
+ "rules": {},
+ "tableRules": [
+  {
+   "type": "DROP_RULE_DATA_VALIDITY_CHECK",
+   "displayName": "DropRule基础数据检查",
+   "uuid": "f1a2b3c4-d5e6-4f7a-8b9c-0d1e2f3a4b5c",
+   "description": "检查Count\u003e0、DropGroup非空、EnsureItemCount\u003c=Count、EnsureSmall\u003cEnsureBig",
+   "params": {},
+   "enabled": true
+  },
+  {
+   "type": "DROP_RULE_GROUP_ID_CHECK",
+   "displayName": "掉落规则组ID引用检查",
+   "uuid": "a2b3c4d5-e6f7-4a8b-9c0d-1e2f3a4b5c6d",
+   "description": "检查DropGroup、EnsureSmallGroup、EnsureBigGroup引用的掉落组ID是否在DropGroup表中存在",
+   "params": {},
+   "enabled": true
+  },
+  {
+   "type": "DROP_RULE_CONDITIONAL_CHECK",
+   "displayName": "DropRule条件引用检查",
+   "uuid": "b3c4d5e6-f7a8-4b9c-0d1e-2f3a4b5c6d7e",
+   "description": "检查保底组条件引用、EnsureItem条件引用的有效性",
+   "params": {},
+   "enabled": true
+  }
+ ]
+}

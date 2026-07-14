@@ -1,0 +1,11 @@
+# Gradle 构建输出（由 gradlew 生成，勿提交）
+.gradle/
+build/
+app/build/
+
+# 编译产物：compile:go:shared 生成的 libwails.so（82MB，勿提交）
+*.so
+
+# overlay 由 generate:android:overlay 任务生成，勿提交
+overlay.json
+gen/

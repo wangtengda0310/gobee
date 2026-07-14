@@ -1,0 +1,56 @@
+{
+ "sheet": "重复掉落转化|DrawRepeat",
+ "managerList": {
+  "QA": [],
+  "Designer": [],
+  "Programmer": []
+ },
+ "rules": {
+  "CommonCount": {
+   "PropName": "CommonCount",
+   "PropType": "int",
+   "PropRules": []
+  },
+  "Id": {
+   "PropName": "Id",
+   "PropType": "int",
+   "PropRules": []
+  },
+  "ItemResolve": {
+   "PropName": "ItemResolve",
+   "PropType": "ItemCfg[]",
+   "PropRules": []
+  },
+  "Range": {
+   "PropName": "Range",
+   "PropType": "int[]",
+   "PropRules": []
+  },
+  "Rarity": {
+   "PropName": "Rarity",
+   "PropType": "int",
+   "PropRules": []
+  },
+  "SeasonCommonCount": {
+   "PropName": "SeasonCommonCount",
+   "PropType": "int",
+   "PropRules": []
+  },
+  "SeasonItemResolve": {
+   "PropName": "SeasonItemResolve",
+   "PropType": "ItemCfg[]",
+   "PropRules": []
+  },
+  "SpecialCount": {
+   "PropName": "SpecialCount",
+   "PropType": "int",
+   "PropRules": []
+  },
+  "SpecialRate": {
+   "PropName": "SpecialRate",
+   "PropType": "int",
+   "PropRules": []
+  }
+ },
+ "tableRules": []
+}

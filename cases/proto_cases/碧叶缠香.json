@@ -1,0 +1,16 @@
+{
+  "version": 1,
+  "recorded_at": "2026-06-17T06:10:39.675Z",
+  "server_addr": "10.254.114.204:18000",
+  "messages": [
+    {
+      "msg_id": 1203,
+      "msg_name": "SubmitTaskReq",
+      "seq_id": 1670,
+      "descript": "登录游戏",
+      "payload_json": {
+        "taskId": 101001
+      }
+    }
+  ]
+}

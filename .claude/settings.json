@@ -1,0 +1,53 @@
+{
+  "extraKnownMarketplaces": {
+    "superpowers-zh": {
+      "source": {
+        "source": "git",
+        "url": "https://github.com/jnMetaCode/superpowers-zh.git"
+      }
+    }
+  },
+  "hooks": {
+    "SessionStart": [
+      {
+        "matcher": "startup",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "wsl -d Ubuntu-24.04 -- python3 -m mempalace wake-up --wing rain-qa-func 2>/dev/null || echo '[mempalace] wake-up 执行失败，请检查 WSL 中 mempalace 是否可用'",
+            "timeout": 15000
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash C:/Users/v-wangtengda/.claude/skills/self-improvement/scripts/error-detector.sh"
+          }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash C:/Users/v-wangtengda/.claude/skills/self-improvement/scripts/session-review.sh"
+          },
+          {
+            "type": "command",
+            "command": "powershell.exe -ExecutionPolicy Bypass -File C:/Users/v-wangtengda/.claude/skills/self-improvement/scripts/windows-notification.ps1"
+          }
+        ]
+      }
+    ]
+  },
+  "enabledPlugins": {
+    "superpowers-zh@superpowers-zh": true
+  }
+}

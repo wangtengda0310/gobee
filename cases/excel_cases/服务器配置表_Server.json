@@ -1,0 +1,46 @@
+{
+ "sheet": "服务器配置表|Server",
+ "managerList": {
+  "QA": [],
+  "Designer": [],
+  "Programmer": []
+ },
+ "rules": {
+  "Id": {
+   "PropName": "Id",
+   "PropType": "int",
+   "PropRules": []
+  },
+  "IpPort": {
+   "PropName": "IpPort",
+   "PropType": "string",
+   "PropRules": []
+  },
+  "IpPortHeroPoint": {
+   "PropName": "IpPortHeroPoint",
+   "PropType": "string",
+   "PropRules": []
+  },
+  "IsSave": {
+   "PropName": "IsSave",
+   "PropType": "int",
+   "PropRules": []
+  },
+  "KeepAlive": {
+   "PropName": "KeepAlive",
+   "PropType": "bool",
+   "PropRules": []
+  },
+  "ServelName": {
+   "PropName": "ServelName",
+   "PropType": "string",
+   "PropRules": []
+  },
+  "ServerZoneId": {
+   "PropName": "ServerZoneId",
+   "PropType": "int",
+   "PropRules": []
+  }
+ },
+ "tableRules": []
+}

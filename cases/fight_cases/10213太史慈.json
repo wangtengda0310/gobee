@@ -1,0 +1,4898 @@
+[
+  {
+   "case": "猿臂善射1-1",
+   "desc": "选择杀目标时 出杀，目标没闪，伤害+1",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1003,
+     1002,
+     1004,
+     1005,
+     1006
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10001,
+      "initCards": [
+       1019
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [
+       1101
+      ],
+      "delSkills": [
+       1001,
+       1074,
+       1075
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 2,
+      "heroId": 10002,
+      "initCards": [
+       1001
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1004,
+       1005,
+       1006
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "曹操(1)对[郭嘉(2)]使用牌[杀(1003)]",
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "targetsId": [
+      2
+     ],
+     "cards": [
+      1003
+     ],
+     "confirm": false,
+     "timeout": 1,
+     "sleepTime": 3
+    },
+    {
+     "id": 2,
+     "desc": "郭嘉受到杀2点伤害，猿臂善射触发伤害+1",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "timeout": 1,
+     "sleepTime": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "郭嘉受到杀2点伤害，猿臂善射触发伤害+1",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "CommonHpChange",
+       "desc": "触发技能效果扣2点血",
+       "attr": {
+        "ChangeHp": "-2"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "robotIdx": 0,
+     "action": "Sleep",
+     "confirm": false,
+     "sleepTime": 3
+    }
+   ]
+  },
+  {
+   "case": "猿臂善射1_2",
+   "desc": "选择杀目标时 出杀，目标无闪有易，伤害+1效果不触发",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1003,
+     1002,
+     1004,
+     1005,
+     1006
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10001,
+      "initCards": [
+       1019
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [
+       1101
+      ],
+      "delSkills": [
+       1001,
+       1074,
+       1075
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 2,
+      "heroId": 10002,
+      "initCards": [
+       1161
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1004,
+       1005,
+       1006
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "曹操(1)对[郭嘉(2)]使用牌[杀(1003)]",
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "targetsId": [
+      2
+     ],
+     "cards": [
+      1003
+     ],
+     "confirm": false,
+     "timeout": 1,
+     "sleepTime": 3
+    },
+    {
+     "id": 2,
+     "desc": "郭嘉有闪不出",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "timeout": 1,
+     "sleepTime": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "郭嘉无闪有易，伤害+1效果触发",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "CommonHpChange",
+       "desc": "效果触发，伤害+1",
+       "attr": {
+        "ChangeHp": "-2"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "robotIdx": 0,
+     "action": "Sleep",
+     "confirm": false
+    },
+    {
+     "id": 4,
+     "robotIdx": 0,
+     "action": "Sleep",
+     "confirm": false,
+     "sleepTime": 3
+    }
+   ]
+  },
+  {
+   "case": "猿臂善射1-3",
+   "desc": "犬韬效果下 出杀 需触发两次伤害+1",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1098,
+     1092,
+     1093
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10001,
+      "initCards": [
+       1019,
+       2016
+      ],
+      "initEquips": [
+       1016
+      ],
+      "augurCards": [],
+      "addSkills": [
+       1101
+      ],
+      "delSkills": [
+       1001,
+       1074,
+       1075
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 2,
+      "heroId": 10002,
+      "initCards": [],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1004,
+       1005,
+       1006
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "曹操(1)使用牌[犬韬(2016)]",
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "cards": [
+      2016
+     ],
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "曹操(1)使用牌[犬韬(2016)]",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "曹操(1)对[郭嘉(2)]使用牌[杀(1003)]",
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "targetsId": [
+      2
+     ],
+     "cards": [
+      1019
+     ],
+     "confirm": false,
+     "timeout": 1,
+     "sleepTime": 3,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "曹操(1)对[郭嘉(2)]使用牌[杀(1003)]",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "desc": "郭嘉(2)取消",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "sleepTime": 3,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "郭嘉响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 4,
+     "desc": "郭嘉(2)取消",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "郭嘉受犬韬掉4血",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "CommonHpChange",
+       "desc": "受到两次技能效果，扣4点血",
+       "attr": {
+        "CurHp": "1",
+        "MaxHp": "5"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "猿臂善射1_4",
+   "desc": "转移伤害，目标手牌无闪 转移目标有闪，伤害不+1",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1002,
+     1004,
+     1005,
+     1006,
+     1016,
+     1018,
+     1017,
+     1019,
+     1028,
+     1027,
+     1026
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10001,
+      "initCards": [
+       1003
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [
+       1101
+      ],
+      "delSkills": [
+       1001,
+       1074,
+       1075
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 2,
+      "heroId": 10002,
+      "initCards": [
+       1083
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1004,
+       1005,
+       1006
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 3,
+      "heroId": 10205,
+      "initCards": [
+       4081
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1042
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "曹操(1)对[大乔(3)]使用牌[杀(1003)]",
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "targetsId": [
+      3
+     ],
+     "cards": [
+      1003
+     ],
+     "confirm": false,
+     "timeout": 1,
+     "sleepTime": 3,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "曹操(1)对[大乔(3)]使用牌[杀(1003)]成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "大乔(3)确认",
+     "robotIdx": 3,
+     "action": "OptRoomAction",
+     "confirm": true,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "大乔(3)确认",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "desc": "大乔(3)确认对[郭嘉(2)], 使用牌[识破(4081)]",
+     "robotIdx": 3,
+     "action": "OptRoomAction",
+     "targetsId": [
+      2
+     ],
+     "cards": [
+      4081
+     ],
+     "confirm": true,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "大乔(3)确认对[郭嘉(2)], 使用牌[识破(4081)]",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 4,
+     "desc": "郭嘉有闪没出，郭嘉2掉血",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "timeout": 1,
+     "sleepTime": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "伤害+1效果不触发",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "CommonHpChange",
+       "desc": "郭嘉掉1血",
+       "attr": {
+        "ChangeHp": "-1",
+        "HpSrc": "HarmNormal"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "猿臂善射1-5",
+   "desc": "选择杀目标时 出杀 目标有闪没出，效果未触发",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1003,
+     1002,
+     1004,
+     1005,
+     1006
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10001,
+      "initCards": [
+       1019
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [
+       1101
+      ],
+      "delSkills": [
+       1001,
+       1074,
+       1075
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 2,
+      "heroId": 10002,
+      "initCards": [
+       1082
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1004,
+       1005,
+       1006
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "曹操(1)对[郭嘉(2)]使用牌[杀(1003)]",
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "targetsId": [
+      2
+     ],
+     "cards": [
+      1003
+     ],
+     "confirm": false,
+     "timeout": 1,
+     "sleepTime": 3,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "曹操(1)对[郭嘉(2)]使用牌[杀(1003)]",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "郭嘉有闪不出",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "timeout": 1,
+     "sleepTime": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "郭嘉有闪不出",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "CommonHpChange",
+       "desc": "郭嘉有闪 没出，伤害+1效果未触发",
+       "attr": {
+        "ChangeHp": "-1"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "robotIdx": 0,
+     "action": "Sleep",
+     "confirm": false,
+     "sleepTime": 3
+    }
+   ]
+  },
+  {
+   "case": "猿臂善射1-6",
+   "desc": "选择杀目标时 鸣鸿刀出杀，只有一张闪，效果未触发",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1098,
+     1092,
+     1093
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10001,
+      "initCards": [
+       1019
+      ],
+      "initEquips": [
+       1016
+      ],
+      "augurCards": [],
+      "addSkills": [
+       1101
+      ],
+      "delSkills": [
+       1001,
+       1074,
+       1075
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 2,
+      "heroId": 10002,
+      "initCards": [
+       1082
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1004,
+       1005,
+       1006
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "曹操(1)对[郭嘉(2)]使用牌[杀(1003)]",
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "targetsId": [
+      2
+     ],
+     "cards": [
+      1019
+     ],
+     "confirm": false,
+     "timeout": 1,
+     "sleepTime": 3,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "曹操(1)对[郭嘉(2)]使用牌[杀，触发鸣鸿刀",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "郭嘉(2)确认, 使用牌[闪(1082)]",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "cards": [
+      1082
+     ],
+     "confirm": true,
+     "timeout": 1,
+     "sleepTime": 1
+    },
+    {
+     "id": 3,
+     "desc": "郭嘉(2)取消",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "郭嘉出一张闪，掉1血",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 4,
+     "robotIdx": 0,
+     "action": "Sleep",
+     "confirm": false,
+     "sleepTime": 3
+    }
+   ]
+  },
+  {
+   "case": "猿臂善射1-7",
+   "desc": "出杀后被封印，杀伤害依旧+1",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1003,
+     1002,
+     1004,
+     1005,
+     1006
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10001,
+      "initCards": [
+       1019
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [
+       1101
+      ],
+      "delSkills": [
+       1001,
+       1074,
+       1075
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 2,
+      "heroId": 10002,
+      "initCards": [
+       1040
+      ],
+      "initEquips": [
+       1009,
+       4002
+      ],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1004,
+       1005,
+       1006
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "曹操(1)对[郭嘉(2)]使用牌[杀(1003)]",
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "targetsId": [
+      2
+     ],
+     "cards": [
+      1003
+     ],
+     "confirm": false,
+     "timeout": 1,
+     "sleepTime": 3,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "曹操(1)对[郭嘉(2)]使用牌[杀(1003)]",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "郭嘉(2)确认, 使用牌[杀(1040)]",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "cards": [
+      1040
+     ],
+     "confirm": true,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "郭嘉(2)确认, 使用牌[杀(1040)]",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "desc": "曹操(1)取消",
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "confirm": false
+    },
+    {
+     "id": 4,
+     "desc": "郭嘉(2)取消",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "timeout": 1,
+     "sleepTime": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "郭嘉有闪不出",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "CommonHpChange",
+       "desc": "被封印后，依旧触发伤害+1",
+       "attr": {
+        "ChangeHp": "-2"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "猿臂善射2-1",
+   "desc": "使用闪 闪避 获得1张杀",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1002,
+     1004,
+     1005,
+     1006,
+     1011,
+     1013,
+     1014
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10001,
+      "initCards": [
+       1019
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1001,
+       1074,
+       1075
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 2,
+      "heroId": 10002,
+      "initCards": [
+       1082
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [
+       1101
+      ],
+      "delSkills": [
+       1004,
+       1005,
+       1006
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "曹操(1)对[郭嘉(2)]使用牌[杀(1019)]",
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "targetsId": [
+      2
+     ],
+     "cards": [
+      1019
+     ],
+     "confirm": false,
+     "timeout": 1,
+     "sleepTime": 3,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "曹操(1)对[郭嘉(2)]使用牌[杀(1019)]",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "郭嘉(2)确认, 使用牌[闪(1082)]",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "cards": [
+      1082
+     ],
+     "confirm": true,
+     "timeout": 1,
+     "sleepTime": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "闪避成功",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "DrawCard",
+       "desc": "获得1张杀",
+       "attr": {
+        "Cards": "1011",
+        "Count": "1"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "robotIdx": 0,
+     "action": "Sleep",
+     "confirm": false,
+     "sleepTime": 3
+    }
+   ]
+  },
+  {
+   "case": "猿臂善射2-2",
+   "desc": "使用易闪避 获得1张杀",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1002,
+     1004,
+     1005,
+     1006,
+     1011,
+     1013,
+     1014
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10001,
+      "initCards": [
+       1019
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1001,
+       1074,
+       1075
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 2,
+      "heroId": 10002,
+      "initCards": [
+       1161
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [
+       1101
+      ],
+      "delSkills": [
+       1004,
+       1005,
+       1006
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "曹操(1)对[郭嘉(2)]使用牌[杀(1019)]",
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "targetsId": [
+      2
+     ],
+     "cards": [
+      1019
+     ],
+     "confirm": false,
+     "timeout": 1,
+     "sleepTime": 3,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "曹操(1)对[郭嘉(2)]使用牌[杀(1019)]",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "郭嘉(2)确认, 使用牌[易(1161)], 当作牌2打出",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "cards": [
+      1161
+     ],
+     "confirm": true,
+     "transCardSkill": 2,
+     "timeout": 1,
+     "sleepTime": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "闪避成功",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "DrawCard",
+       "desc": "不获得牌",
+       "attr": {
+        "Cards": "1011",
+        "Count": "1"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "robotIdx": 0,
+     "action": "Sleep",
+     "confirm": false,
+     "sleepTime": 3
+    }
+   ]
+  },
+  {
+   "case": "猿臂善射2-3",
+   "desc": "出奇无穷 使用轩辕剑闪避 获得1张杀",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1002,
+     1004,
+     1005,
+     1006,
+     1011,
+     1013,
+     1014
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10001,
+      "initCards": [
+       1019
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1001,
+       1074,
+       1075
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 2,
+      "heroId": 10002,
+      "initCards": [
+       1009
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [
+       1101,
+       1681
+      ],
+      "delSkills": [
+       1004,
+       1005,
+       1006
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "曹操(1)对[郭嘉(2)]使用牌[杀(1019)]",
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "targetsId": [
+      2
+     ],
+     "cards": [
+      1019
+     ],
+     "confirm": false,
+     "timeout": 1,
+     "sleepTime": 3,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "曹操(1)对[郭嘉(2)]使用牌[杀(1019)]",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "郭嘉(2)确认, 使用牌[轩辕剑(1009)], 当作闪打出",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "cards": [
+      1009
+     ],
+     "confirm": true,
+     "heroSkillUuid": 1681,
+     "transCardSkill": 2,
+     "timeout": 1,
+     "sleepTime": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "闪避成功",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "DrawCard",
+       "desc": "获得1张杀",
+       "attr": {
+        "Cards": "1011",
+        "Count": "1"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "猿臂善射2-4",
+   "desc": "藤甲抵挡伤害 不获得牌",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1002,
+     1004,
+     1005,
+     1006,
+     1011,
+     1013,
+     1014
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10001,
+      "initCards": [
+       1019
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1001,
+       1074,
+       1075
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 2,
+      "heroId": 10002,
+      "initCards": [],
+      "initEquips": [
+       1043
+      ],
+      "augurCards": [],
+      "addSkills": [
+       1101
+      ],
+      "delSkills": [
+       1004,
+       1005,
+       1006
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "曹操(1)对[郭嘉(2)]使用牌[杀(1019)]",
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "targetsId": [
+      2
+     ],
+     "cards": [
+      1019
+     ],
+     "confirm": false,
+     "timeout": 1,
+     "sleepTime": 3,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "曹操(1)对[郭嘉(2)]使用牌[杀(1019)]",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "郭嘉(2)取消",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "timeout": 1,
+     "sleepTime": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "藤甲抵挡伤害",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "GiveCard",
+       "desc": "不获得牌",
+       "attr": {
+        "Cards": "1011",
+        "UnExpect": "true"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "robotIdx": 0,
+     "action": "Sleep",
+     "confirm": false,
+     "sleepTime": 3
+    }
+   ]
+  },
+  {
+   "case": "猿臂善射2-5",
+   "desc": "桃花抵挡伤害 不获得牌",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1002,
+     1004,
+     1005,
+     1006,
+     1011,
+     1013,
+     1014
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10001,
+      "initCards": [
+       1019
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1001,
+       1074,
+       1075
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 2,
+      "heroId": 10002,
+      "initCards": [
+       2002
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [
+       1101
+      ],
+      "delSkills": [
+       1004,
+       1005,
+       1006
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "曹操(1)对[郭嘉(2)]使用牌[杀(1019)]",
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "targetsId": [
+      2
+     ],
+     "cards": [
+      1019
+     ],
+     "confirm": false,
+     "timeout": 1,
+     "sleepTime": 3
+    },
+    {
+     "id": 2,
+     "desc": "郭嘉(2)取消",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "confirm": false
+    },
+    {
+     "id": 3,
+     "desc": "郭嘉(2)确认, 使用牌[桃花(2002)]",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "cards": [
+      2002
+     ],
+     "confirm": true,
+     "timeout": 1,
+     "sleepTime": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "使用桃花抵挡伤害 ",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 4,
+     "robotIdx": 2,
+     "action": "OnlyAsset",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "DrawCard",
+       "desc": "不获得牌",
+       "attr": {
+        "Cards": "1011",
+        "Count": "1",
+        "UnExpect": "true"
+       }
+      }
+     ]
+    },
+    {
+     "id": 5,
+     "robotIdx": 0,
+     "action": "Sleep",
+     "confirm": false,
+     "sleepTime": 3
+    }
+   ]
+  },
+  {
+   "case": "猿臂善射2-6",
+   "desc": "八卦盾抵挡伤害 不获得牌",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1002,
+     1004,
+     1082,
+     1083,
+     1065,
+     1066,
+     1003
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10001,
+      "initCards": [
+       1019
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1001,
+       1074,
+       1075
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 2,
+      "heroId": 10002,
+      "initCards": [],
+      "initEquips": [
+       1145
+      ],
+      "augurCards": [],
+      "addSkills": [
+       1101
+      ],
+      "delSkills": [
+       1004,
+       1005,
+       1006
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "曹操(1)对[郭嘉(2)]使用牌[杀(1019)]",
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "targetsId": [
+      2
+     ],
+     "cards": [
+      1019
+     ],
+     "confirm": false,
+     "timeout": 1,
+     "sleepTime": 3
+    },
+    {
+     "id": 2,
+     "desc": "郭嘉(2)确认",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "confirm": true,
+     "assets": [
+      {
+       "msgName": "DrawCard",
+       "desc": "不获得牌",
+       "attr": {
+        "Cards": "1003",
+        "UnExpect": "true"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "robotIdx": 0,
+     "action": "Sleep",
+     "confirm": false,
+     "sleepTime": 3
+    }
+   ]
+  },
+  {
+   "case": "猿臂善射2-7",
+   "desc": "响应鸣鸿刀，出两张闪 摸两张杀",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1002,
+     1004,
+     1082,
+     1083,
+     1065,
+     1066,
+     1003,
+     1011
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10001,
+      "initCards": [
+       1019
+      ],
+      "initEquips": [
+       1016
+      ],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1001,
+       1074,
+       1075
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 2,
+      "heroId": 10002,
+      "initCards": [
+       1084,
+       1087
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [
+       1101
+      ],
+      "delSkills": [
+       1004,
+       1005,
+       1006
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "曹操(1)对[郭嘉(2)]使用牌[杀(1019)]",
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "targetsId": [
+      2
+     ],
+     "cards": [
+      1019
+     ],
+     "confirm": false,
+     "timeout": 1,
+     "sleepTime": 3
+    },
+    {
+     "id": 2,
+     "desc": "郭嘉(2)确认, 使用牌[闪(1087)]",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "cards": [
+      1087
+     ],
+     "confirm": true,
+     "assets": [
+      {
+       "msgName": "DrawCard",
+       "desc": "获得1张杀",
+       "attr": {
+        "Cards": "1003 1011",
+        "Count": "1",
+        "Random": "true"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "desc": "郭嘉(2)确认, 使用牌[闪(1084)]",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "cards": [
+      1084
+     ],
+     "confirm": true,
+     "assets": [
+      {
+       "msgName": "DrawCard",
+       "desc": "获得1张杀",
+       "attr": {
+        "Cards": "1011 1003",
+        "Count": "1",
+        "Random": "true"
+       }
+      }
+     ]
+    },
+    {
+     "id": 4,
+     "robotIdx": 0,
+     "action": "Sleep",
+     "confirm": false,
+     "sleepTime": 3
+    }
+   ]
+  },
+  {
+   "case": "猿臂善射2-8",
+   "desc": "闪避后牌堆无杀牌 不获得牌",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1002,
+     1004,
+     1082,
+     1083,
+     1065,
+     1066
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10001,
+      "initCards": [
+       1019
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1001,
+       1074,
+       1075
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 2,
+      "heroId": 10002,
+      "initCards": [
+       1084
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [
+       1101
+      ],
+      "delSkills": [
+       1004,
+       1005,
+       1006
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "曹操(1)对[郭嘉(2)]使用牌[杀(1019)]",
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "targetsId": [
+      2
+     ],
+     "cards": [
+      1019
+     ],
+     "confirm": false,
+     "timeout": 1,
+     "sleepTime": 3,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "曹操出牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "郭嘉(2)确认, 使用牌[闪(1084)]",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "cards": [
+      1084
+     ],
+     "confirm": true,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "郭嘉响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "DrawCard",
+       "desc": "牌堆无杀不获得牌",
+       "attr": {
+        "Cards": "",
+        "Count": "0",
+        "Random": "false",
+        "UnExpect": "false"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "猿臂善射2-9",
+   "desc": "闪避摸牌触发获得牌技能",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1002,
+     1004,
+     1082,
+     1083,
+     1065,
+     1066,
+     1003,
+     1006,
+     1005
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10001,
+      "initCards": [
+       1019,
+       1022
+      ],
+      "initEquips": [
+       4002
+      ],
+      "augurCards": [],
+      "addSkills": [
+       1034
+      ],
+      "delSkills": [
+       1001,
+       1074,
+       1075
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 2,
+      "heroId": 10002,
+      "initCards": [
+       1084,
+       1011,
+       1045
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [
+       1101
+      ],
+      "delSkills": [
+       1004,
+       1005,
+       1006
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "曹操(1)结束打牌",
+     "robotIdx": 1,
+     "action": "PlayCardOver",
+     "confirm": false
+    },
+    {
+     "id": 2,
+     "desc": "曹操(1)自动弃牌",
+     "robotIdx": 1,
+     "action": "DisCard",
+     "confirm": false,
+     "sleepTime": 3
+    },
+    {
+     "id": 3,
+     "desc": "郭嘉(2)对[郭嘉(2)]使用牌[先拔头筹(1045)]",
+     "robotIdx": 2,
+     "action": "PlayCard",
+     "targetsId": [
+      2
+     ],
+     "cards": [
+      1045
+     ],
+     "confirm": true,
+     "heroSkillUuid": 1043
+    },
+    {
+     "id": 4,
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "confirm": true
+    },
+    {
+     "id": 5,
+     "desc": "郭嘉(2)对[曹操(1)]使用牌[杀(1011)]",
+     "robotIdx": 2,
+     "action": "PlayCard",
+     "targetsId": [
+      1
+     ],
+     "cards": [
+      1011
+     ],
+     "confirm": false
+    },
+    {
+     "id": 6,
+     "desc": "曹操(1)确认对[郭嘉(2)], 使用牌[杀(1019)]",
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "targetsId": [
+      2
+     ],
+     "cards": [
+      1019
+     ],
+     "confirm": true
+    },
+    {
+     "id": 7,
+     "desc": "郭嘉(2)确认, 使用牌[闪(1084)]",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "cards": [
+      1084
+     ],
+     "confirm": true,
+     "assets": [
+      {
+       "msgName": "DrawCard",
+       "desc": "获得1张杀",
+       "attr": {
+        "Cards": "1003",
+        "Count": "1"
+       }
+      }
+     ]
+    },
+    {
+     "id": 8,
+     "desc": "曹操(1)确认对[郭嘉(2)]",
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "targetsId": [
+      2
+     ],
+     "cards": [
+      1022
+     ],
+     "confirm": true,
+     "heroSkillUuid": 1034
+    },
+    {
+     "id": 9,
+     "desc": "小乔(3)确认对[郭嘉(2)]",
+     "robotIdx": 3,
+     "action": "OptRoomAction",
+     "targetsId": [
+      2
+     ],
+     "confirm": true,
+     "heroSkillUuid": 1043
+    },
+    {
+     "id": 10,
+     "robotIdx": 0,
+     "action": "Sleep",
+     "confirm": false
+    }
+   ]
+  },
+  {
+   "case": "猿臂善射2-10",
+   "desc": "使用闪被封印后 依旧获得牌",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1002,
+     1004,
+     1005,
+     1006,
+     1011,
+     1013,
+     1014
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10001,
+      "initCards": [
+       1019,
+       1003
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [
+       1680
+      ],
+      "delSkills": [
+       1001,
+       1074,
+       1075
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 2,
+      "heroId": 10002,
+      "initCards": [
+       1082
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [
+       1101
+      ],
+      "delSkills": [
+       1004,
+       1005,
+       1006
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "曹操(1)对[郭嘉(2)]使用牌[杀(1019)]",
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "targetsId": [
+      2
+     ],
+     "cards": [
+      1019
+     ],
+     "confirm": false,
+     "timeout": 1,
+     "sleepTime": 3
+    },
+    {
+     "id": 2,
+     "desc": "郭嘉(2)确认, 使用牌[闪(1082)]",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "cards": [
+      1082
+     ],
+     "confirm": true,
+     "timeout": 1,
+     "sleepTime": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "闪避成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "desc": "曹操(1)确认对[郭嘉(2)], 使用牌[杀(1003)]",
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "targetsId": [
+      2
+     ],
+     "cards": [
+      1003
+     ],
+     "confirm": true,
+     "heroSkillUuid": 1680
+    },
+    {
+     "id": 4,
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "DrawCard",
+       "desc": "获得1张杀",
+       "attr": {
+        "Cards": "1011",
+        "Count": "1"
+       }
+      }
+     ]
+    },
+    {
+     "id": 5,
+     "robotIdx": 0,
+     "action": "Sleep",
+     "confirm": false,
+     "sleepTime": 3
+    }
+   ]
+  },
+  {
+   "case": "神亭酣战1-1",
+   "desc": "出牌阶段限1次，第二次不可触发",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1002,
+     1004,
+     1005,
+     1006
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10001,
+      "initCards": [],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [
+       1102
+      ],
+      "delSkills": [
+       1001,
+       1074,
+       1075
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 2,
+      "heroId": 10002,
+      "initCards": [
+       1001
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1004,
+       1005,
+       1006
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "曹操(1)对[郭嘉(2)], 使用技能[神亭酣战]",
+     "robotIdx": 1,
+     "action": "UseHeroSkill",
+     "targetsId": [
+      2
+     ],
+     "confirm": false,
+     "heroSkillUuid": 1102,
+     "timeout": 1,
+     "sleepTime": 3,
+     "assets": [
+      {
+       "msgName": "UseHeroSkillAck",
+       "desc": "曹操使用技能成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "曹操(1)对[郭嘉(2)], 使用技能[神亭酣战]，无法发动",
+     "robotIdx": 1,
+     "action": "UseHeroSkill",
+     "targetsId": [
+      2
+     ],
+     "confirm": false,
+     "heroSkillUuid": 1102,
+     "assets": [
+      {
+       "msgName": "UseHeroSkillAck",
+       "desc": "出牌阶段限一次 不可再次使用",
+       "attr": {
+        "Result": "1561"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "robotIdx": 0,
+     "action": "Sleep",
+     "confirm": false,
+     "sleepTime": 3
+    }
+   ]
+  },
+  {
+   "case": "神亭酣战1-2",
+   "desc": "成也回合触发后 自身回合可再次触发",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1002,
+     1004,
+     1005,
+     1006,
+     1014,
+     1015,
+     1016
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10001,
+      "initCards": [],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [
+       1315
+      ],
+      "delSkills": [
+       1001,
+       1074,
+       1075
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 2,
+      "heroId": 10002,
+      "initCards": [
+       1001
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [
+       1102
+      ],
+      "delSkills": [
+       1004,
+       1005,
+       1006
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "曹操(1)结束打牌",
+     "robotIdx": 1,
+     "action": "PlayCardOver",
+     "targetsId": [
+      2
+     ],
+     "confirm": false,
+     "heroSkillUuid": 1102,
+     "timeout": 1,
+     "sleepTime": 3,
+     "assets": [
+      {
+       "msgName": "PlayCardOverAck",
+       "desc": "曹操结束打牌",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "曹操(1)自动弃牌",
+     "robotIdx": 1,
+     "action": "DisCard",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "DisCardAck",
+       "desc": "曹操弃牌",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "desc": "曹操(1)对[郭嘉(2)], 使用技能[举贤为将]",
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "targetsId": [
+      2
+     ],
+     "confirm": true,
+     "heroSkillUuid": 1315
+    },
+    {
+     "id": 4,
+     "desc": "郭嘉(2)对[曹操(1)], 使用技能[神亭酣战]",
+     "robotIdx": 2,
+     "action": "UseHeroSkill",
+     "targetsId": [
+      1
+     ],
+     "confirm": false,
+     "heroSkillUuid": 1102
+    },
+    {
+     "id": 5,
+     "desc": "郭嘉(2)结束打牌",
+     "robotIdx": 2,
+     "action": "PlayCardOver",
+     "confirm": false
+    },
+    {
+     "id": 6,
+     "desc": "郭嘉(2)自动弃牌",
+     "robotIdx": 2,
+     "action": "DisCard",
+     "confirm": false
+    },
+    {
+     "id": 7,
+     "desc": "郭嘉(2)对[曹操(1)], 使用技能[神亭酣战]",
+     "robotIdx": 2,
+     "action": "UseHeroSkill",
+     "targetsId": [
+      1
+     ],
+     "confirm": false,
+     "heroSkillUuid": 1102
+    },
+    {
+     "id": 8,
+     "robotIdx": 0,
+     "action": "Sleep",
+     "confirm": false,
+     "sleepTime": 3
+    }
+   ]
+  },
+  {
+   "case": "神亭酣战1-3",
+   "desc": "修改后的出牌阶段可再次触发",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1002,
+     1004,
+     2001,
+     1139
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10001,
+      "initCards": [
+       1042
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [
+       1102,
+       1676
+      ],
+      "delSkills": [
+       1001,
+       1074,
+       1075
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 2,
+      "heroId": 10002,
+      "initCards": [
+       1001
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1004,
+       1005,
+       1006
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "曹操(1)对[郭嘉(2)], 使用技能[神亭酣战]",
+     "robotIdx": 1,
+     "action": "UseHeroSkill",
+     "targetsId": [
+      2
+     ],
+     "confirm": false,
+     "heroSkillUuid": 1102,
+     "timeout": 1,
+     "sleepTime": 3
+    },
+    {
+     "id": 2,
+     "desc": "曹操(1)对[曹操(1)]使用牌[多多益善(1042)]",
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "targetsId": [
+      1
+     ],
+     "cards": [
+      1042
+     ],
+     "confirm": false
+    },
+    {
+     "id": 3,
+     "desc": "曹操(1)结束打牌",
+     "robotIdx": 1,
+     "action": "PlayCardOver",
+     "confirm": false
+    },
+    {
+     "id": 4,
+     "desc": "曹操(1)确认",
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "confirm": true,
+     "heroSkillUuid": 1676
+    },
+    {
+     "id": 5,
+     "desc": "曹操(1)对[郭嘉(2)], 使用技能[神亭酣战]",
+     "robotIdx": 1,
+     "action": "UseHeroSkill",
+     "targetsId": [
+      2
+     ],
+     "confirm": false,
+     "heroSkillUuid": 1102,
+     "assets": [
+      {
+       "msgName": "UseHeroSkillAck",
+       "desc": "修改后的出牌阶段可再次触发技能",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 6,
+     "robotIdx": 0,
+     "action": "Sleep",
+     "confirm": false
+    }
+   ]
+  },
+  {
+   "case": "神亭酣战2-1",
+   "desc": "神亭酣战出杀发动装备开山斧",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1002,
+     1004,
+     1005,
+     1006
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10001,
+      "initCards": [
+       1003,
+       1009
+      ],
+      "initEquips": [
+       1008
+      ],
+      "augurCards": [],
+      "addSkills": [
+       1102
+      ],
+      "delSkills": [
+       1001,
+       1074,
+       1075
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 2,
+      "heroId": 10002,
+      "initCards": [
+       1001
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1004,
+       1005,
+       1006
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "曹操(1)对[郭嘉(2)], 使用技能[神亭酣战]",
+     "robotIdx": 1,
+     "action": "UseHeroSkill",
+     "targetsId": [
+      2
+     ],
+     "confirm": false,
+     "heroSkillUuid": 1102,
+     "timeout": 1,
+     "sleepTime": 3
+    },
+    {
+     "id": 2,
+     "desc": "曹操(1)确认, 使用牌[轩辕剑(1009)]",
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "cards": [
+      1009
+     ],
+     "confirm": true
+    },
+    {
+     "id": 3,
+     "desc": "郭嘉(2)取消",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "sleepTime": 3,
+     "assets": [
+      {
+       "msgName": "CommonHpChange",
+       "desc": "触发开山斧效果 掉2血",
+       "attr": {
+        "ChangeHp": "-2"
+       }
+      }
+     ]
+    },
+    {
+     "id": 4,
+     "robotIdx": 0,
+     "action": "Sleep",
+     "confirm": false
+    }
+   ]
+  },
+  {
+   "case": "神亭酣战2-2",
+   "desc": "神亭酣战出杀发动装备乌骓",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1002,
+     1004,
+     1005,
+     1006
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10001,
+      "initCards": [
+       1003,
+       1009
+      ],
+      "initEquips": [
+       1070
+      ],
+      "augurCards": [],
+      "addSkills": [
+       1102
+      ],
+      "delSkills": [
+       1001,
+       1074,
+       1075
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 2,
+      "heroId": 10002,
+      "initCards": [
+       1001
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1004,
+       1005,
+       1006
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "曹操(1)对[郭嘉(2)], 使用技能[神亭酣战]",
+     "robotIdx": 1,
+     "action": "UseHeroSkill",
+     "targetsId": [
+      2
+     ],
+     "confirm": false,
+     "heroSkillUuid": 1102,
+     "timeout": 1,
+     "sleepTime": 3,
+     "assets": [
+      {
+       "msgName": "DrawCard",
+       "desc": "触发乌骓 摸一张牌",
+       "attr": {
+        "Cards": "1005",
+        "Count": "1"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "robotIdx": 0,
+     "action": "Sleep",
+     "confirm": false,
+     "sleepTime": 10
+    },
+    {
+     "id": 3,
+     "robotIdx": 0,
+     "action": "Sleep",
+     "confirm": false
+    }
+   ]
+  },
+  {
+   "case": "神亭酣战2-3",
+   "desc": "神亭酣战技能期间打杀易不可用",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1002,
+     1004,
+     1011,
+     1005,
+     1006,
+     1007,
+     1008
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10108,
+      "initCards": [
+       1003,
+       1055
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [
+       1102
+      ],
+      "delSkills": [],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 2,
+      "heroId": 10006,
+      "initCards": [
+       1010,
+       1047,
+       1161
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "孙尚香(1)对[司马懿(2)], 使用技能[神亭酣战]",
+     "robotIdx": 1,
+     "action": "UseHeroSkill",
+     "targetsId": [
+      2
+     ],
+     "confirm": false,
+     "heroSkillUuid": 1102,
+     "timeout": 1,
+     "sleepTime": 3,
+     "assets": [
+      {
+       "msgName": "UseHeroSkillAck",
+       "desc": "孙尚香(1)对[司马懿(2)], 使用技能[神亭酣战]",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "司马懿(2)取消",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "司马懿(2)取消",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "CommonHpChange",
+       "desc": "司马懿掉1血",
+       "attr": {
+        "ChangeHp": "-1",
+        "CurHp": "4",
+        "MaxHp": "5"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "desc": "孙尚香(1)取消",
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "孙尚香(1)取消",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "CommonHpChange",
+       "desc": "孙尚香掉1血",
+       "attr": {
+        "ChangeHp": "-1",
+        "CurHp": "4",
+        "MaxHp": "5"
+       }
+      }
+     ]
+    },
+    {
+     "id": 4,
+     "desc": "孙尚香(1)使用牌[桃(1055)]",
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "cards": [
+      1055
+     ],
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "CommonHpChange",
+       "desc": "司马懿手牌杀 易，验证当前体力只受到一次杀伤害，易不可用",
+       "attr": {
+        "ChangeHp": "1",
+        "CurHp": "5"
+       }
+      }
+     ]
+    },
+    {
+     "id": 5,
+     "desc": "0(0)等待undefined秒",
+     "robotIdx": 0,
+     "action": "Sleep",
+     "confirm": false
+    }
+   ]
+  },
+  {
+   "case": "神亭酣战2-4",
+   "desc": "神亭酣战出杀，被动技能可发动",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1002,
+     1004,
+     1005,
+     1006,
+     1007,
+     1014,
+     1011
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10108,
+      "initCards": [
+       1003,
+       1012,
+       1084,
+       1087
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [
+       1102,
+       1101
+      ],
+      "delSkills": [],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 2,
+      "heroId": 10006,
+      "initCards": [
+       1082,
+       1010,
+       1019,
+       1083
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "孙尚香(1)对[司马懿(2)], 使用技能[神亭酣战]",
+     "robotIdx": 1,
+     "action": "UseHeroSkill",
+     "targetsId": [
+      2
+     ],
+     "confirm": false,
+     "heroSkillUuid": 1102,
+     "timeout": 1,
+     "sleepTime": 3,
+     "assets": [
+      {
+       "msgName": "UseHeroSkillAck",
+       "desc": "",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "司马懿(2)取消",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "CommonHpChange",
+       "desc": "",
+       "attr": {
+        "ChangeHp": "-1"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "desc": "孙尚香(1)确认, 使用牌[闪(1087)]",
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "cards": [
+      1087
+     ],
+     "confirm": true,
+     "heroSkillUuid": 1101,
+     "assets": [
+      {
+       "msgName": "DrawCard",
+       "desc": "被动技能可发动，猿臂善射出闪摸一张杀，验证正确",
+       "attr": {
+        "Cards": "1011",
+        "Count": "1"
+       }
+      }
+     ]
+    },
+    {
+     "id": 4,
+     "desc": "0(0)等待undefined秒",
+     "robotIdx": 0,
+     "action": "Sleep",
+     "confirm": false
+    }
+   ]
+  },
+  {
+   "case": "神亭酣战2-5",
+   "desc": "神亭酣战期间被其他技能打至重伤 不停止",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1002,
+     1004,
+     1005,
+     1006,
+     1007,
+     2001,
+     1296,
+     1289,
+     1297
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10108,
+      "initCards": [
+       1003,
+       1011,
+       1024,
+       1022,
+       1048,
+       1056
+      ],
+      "initEquips": [
+       1070
+      ],
+      "augurCards": [],
+      "addSkills": [
+       1102
+      ],
+      "delSkills": [
+       1001,
+       1074,
+       1075
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 2,
+      "heroId": 10105,
+      "initCards": [
+       1019,
+       1047,
+       1082,
+       1083,
+       1081,
+       1077,
+       1010,
+       1055,
+       1037,
+       1033,
+       1057
+      ],
+      "initEquips": [
+       1008
+      ],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "孙尚香(1)对[赵云(2)], 使用技能[神亭酣战]",
+     "robotIdx": 1,
+     "action": "UseHeroSkill",
+     "targetsId": [
+      2
+     ],
+     "confirm": false,
+     "heroSkillUuid": 1102,
+     "timeout": 1,
+     "sleepTime": 3,
+     "assets": [
+      {
+       "msgName": "UseHeroSkillAck",
+       "desc": "孙尚香(1)对[赵云(2)], 使用技能[神亭酣战]",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "赵云(2)确认",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "cards": [
+      1082
+     ],
+     "confirm": true,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "赵云闪避",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "desc": "赵云(2)确认对[孙尚香(1)], 使用牌[杀(1019)]",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "targetsId": [
+      1
+     ],
+     "cards": [
+      1019
+     ],
+     "confirm": true,
+     "heroSkillUuid": 1026,
+     "timeout": 2,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "赵云枪出如龙出杀",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 4,
+     "desc": "赵云(2)确认对[孙尚香(1)], 使用牌[无懈可击(1081)]",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "targetsId": [
+      1
+     ],
+     "cards": [
+      1081
+     ],
+     "confirm": true,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "触发开山斧 弃无懈可击",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 5,
+     "desc": "孙尚香(1)取消",
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "timeout": 2
+    },
+    {
+     "id": 6,
+     "desc": "赵云(2)确认对[孙尚香(1)], 使用牌[绝影(1077)]",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "targetsId": [
+      1
+     ],
+     "cards": [
+      1077
+     ],
+     "confirm": true,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "触发开山斧 弃绝影",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 7,
+     "desc": "孙尚香(1)取消",
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "confirm": false
+    },
+    {
+     "id": 8,
+     "desc": "孙尚香摸到符水",
+     "robotIdx": 1,
+     "action": "OnlyAsset",
+     "confirm": true,
+     "assets": [
+      {
+       "msgName": "DrawCard",
+       "desc": "摸到符水",
+       "attr": {
+        "Cards": "2001",
+        "Count": "1"
+       }
+      }
+     ]
+    },
+    {
+     "id": 9,
+     "desc": "孙尚香(1)确认, 使用牌[桃(1048)]",
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "cards": [
+      1048
+     ],
+     "confirm": true,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "孙尚香(1)确认, 使用牌[桃(1048)]",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 10,
+     "desc": "赵云(2)确认, 使用牌[闪(1083)]",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "cards": [
+      1083
+     ],
+     "confirm": true,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "赵云(2)确认, 使用牌[闪(1083)]，",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 11,
+     "desc": "赵云(2)取消",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "赵云响应成功，验证未停止",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 12,
+     "desc": "赵云(2)取消",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "赵云响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 13,
+     "desc": "孙尚香(1)取消",
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "孙尚香响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 14,
+     "desc": "赵云(2)取消",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "孙尚香响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 15,
+     "desc": "孙尚香(1)确认, 使用牌[桃(1056)]",
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "cards": [
+      1056
+     ],
+     "confirm": true,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "孙尚香响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 16,
+     "desc": "孙尚香(1)使用牌[亮银枪(1002)]",
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "cards": [
+      1002
+     ],
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "孙尚香出牌成功，验证停止",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 17,
+     "desc": "0(0)等待60秒",
+     "robotIdx": 0,
+     "action": "Sleep",
+     "confirm": false,
+     "sleepTime": 60
+    }
+   ]
+  },
+  {
+   "case": "神亭酣战2-6",
+   "desc": "神亭酣战技能打至一方重伤，技能停止",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1002,
+     1004,
+     1005,
+     1006,
+     1007,
+     1014,
+     1011
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10108,
+      "initCards": [
+       1003,
+       1032,
+       1035,
+       1037,
+       1040,
+       1038,
+       1033,
+       1048
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [
+       1102
+      ],
+      "delSkills": [],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 2,
+      "heroId": 10006,
+      "initCards": [
+       1010,
+       1019,
+       1022,
+       1024,
+       1027,
+       3014,
+       3010,
+       3011,
+       1047
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "孙尚香(1)对[司马懿(2)], 使用技能[神亭酣战]",
+     "robotIdx": 1,
+     "action": "UseHeroSkill",
+     "targetsId": [
+      2
+     ],
+     "confirm": false,
+     "heroSkillUuid": 1102,
+     "timeout": 1,
+     "sleepTime": 3,
+     "assets": [
+      {
+       "msgName": "UseHeroSkillAck",
+       "desc": "孙尚香(1)对[司马懿(2)], 使用技能[神亭酣战]",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "司马懿(2)取消",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "司马懿(2)取消",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "CommonHpChange",
+       "desc": "司马懿掉1血",
+       "attr": {
+        "ChangeHp": "-1",
+        "CurHp": "4",
+        "MaxHp": "5"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "desc": "孙尚香(1)取消",
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "孙尚香取消",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "CommonHpChange",
+       "desc": "司马懿掉1血",
+       "attr": {
+        "ChangeHp": "-1",
+        "CurHp": "4",
+        "MaxHp": "5"
+       }
+      }
+     ]
+    },
+    {
+     "id": 4,
+     "desc": "司马懿(2)取消",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "司马懿(2)取消",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "CommonHpChange",
+       "desc": "司马懿掉2血",
+       "attr": {
+        "ChangeHp": "-1",
+        "CurHp": "3",
+        "MaxHp": "5"
+       }
+      }
+     ]
+    },
+    {
+     "id": 5,
+     "desc": "孙尚香(1)取消",
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "孙尚香取消成功",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "CommonHpChange",
+       "desc": "孙尚香掉2血",
+       "attr": {
+        "ChangeHp": "-1",
+        "CurHp": "3",
+        "MaxHp": "5"
+       }
+      }
+     ]
+    },
+    {
+     "id": 6,
+     "desc": "司马懿(2)取消",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "司马懿(2)取消",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "CommonHpChange",
+       "desc": "司马懿掉3血",
+       "attr": {
+        "ChangeHp": "-1",
+        "CurHp": "2",
+        "MaxHp": "5"
+       }
+      }
+     ]
+    },
+    {
+     "id": 7,
+     "desc": "孙尚香(1)取消",
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "司马懿(2)取消",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "CommonHpChange",
+       "desc": "孙尚香掉3血",
+       "attr": {
+        "ChangeHp": "-1",
+        "CurHp": "2",
+        "MaxHp": "5"
+       }
+      }
+     ]
+    },
+    {
+     "id": 8,
+     "desc": "司马懿取消",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "司马懿(2)取消",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "CommonHpChange",
+       "desc": "司马懿4血",
+       "attr": {
+        "ChangeHp": "-1",
+        "CurHp": "1",
+        "MaxHp": "5"
+       }
+      }
+     ]
+    },
+    {
+     "id": 9,
+     "desc": "孙尚香(1)取消",
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "孙尚香(1)取消",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "CommonHpChange",
+       "desc": "孙尚香4血",
+       "attr": {
+        "ChangeHp": "-1",
+        "CurHp": "1",
+        "MaxHp": "5"
+       }
+      }
+     ]
+    },
+    {
+     "id": 10,
+     "desc": "司马懿(2)取消",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "司马懿(2)取消",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "CommonHpChange",
+       "desc": "司马懿掉5血，重伤求桃",
+       "attr": {
+        "ChangeHp": "-1",
+        "CurHp": "0",
+        "MaxHp": "5"
+       }
+      }
+     ]
+    },
+    {
+     "id": 11,
+     "desc": "孙尚香(1)取消",
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "confirm": false
+    },
+    {
+     "id": 12,
+     "desc": "司马懿(2)确认, 使用牌[桃(1047)]",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "cards": [
+      1047
+     ],
+     "confirm": true,
+     "timeout": 2,
+     "assets": [
+      {
+       "msgName": "CommonHpChange",
+       "desc": "重伤回血至1血",
+       "attr": {
+        "ChangeHp": "1",
+        "CurHp": "1",
+        "MaxHp": "5"
+       }
+      }
+     ]
+    },
+    {
+     "id": 13,
+     "desc": "孙尚香(1)使用牌[桃(1048)]",
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "cards": [
+      1048
+     ],
+     "confirm": true,
+     "assets": [
+      {
+       "msgName": "CommonHpChange",
+       "desc": "孙尚香回血，验证技能停止",
+       "attr": {
+        "ChangeHp": "1",
+        "CurHp": "2"
+       }
+      }
+     ]
+    },
+    {
+     "id": 14,
+     "desc": "0(0)等待undefined秒",
+     "robotIdx": 0,
+     "action": "Sleep",
+     "confirm": false
+    }
+   ]
+  },
+  {
+   "case": "神亭酣战2-7",
+   "desc": "神亭酣战技能一方没杀，技能停止",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1002,
+     1004,
+     1005,
+     1006,
+     1007,
+     1014,
+     1011
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10108,
+      "initCards": [
+       1003,
+       1055
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [
+       1102
+      ],
+      "delSkills": [],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 2,
+      "heroId": 10006,
+      "initCards": [
+       1010
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "孙尚香(1)对[司马懿(2)], 使用技能[神亭酣战]",
+     "robotIdx": 1,
+     "action": "UseHeroSkill",
+     "targetsId": [
+      2
+     ],
+     "confirm": false,
+     "heroSkillUuid": 1102,
+     "timeout": 1,
+     "sleepTime": 3,
+     "assets": [
+      {
+       "msgName": "UseHeroSkillAck",
+       "desc": "孙尚香(1)对[司马懿(2)], 使用技能[神亭酣战]",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "司马懿(2)取消",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "司马懿(2)取消",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "CommonHpChange",
+       "desc": "司马懿掉1血",
+       "attr": {
+        "ChangeHp": "-1",
+        "CurHp": "4",
+        "MaxHp": "5"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "desc": "孙尚香(1)取消",
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "孙尚香(1)取消",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "CommonHpChange",
+       "desc": "孙尚香掉1血",
+       "attr": {
+        "ChangeHp": "-1",
+        "CurHp": "4",
+        "MaxHp": "5"
+       }
+      }
+     ]
+    },
+    {
+     "id": 4,
+     "desc": "孙尚香(1)使用牌[桃(1055)]",
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "cards": [
+      1055
+     ],
+     "confirm": true,
+     "assets": [
+      {
+       "msgName": "CommonHpChange",
+       "desc": "孙尚香回血，验证技能停止",
+       "attr": {
+        "ChangeHp": "1"
+       }
+      }
+     ]
+    },
+    {
+     "id": 5,
+     "desc": "0(0)等待undefined秒",
+     "robotIdx": 0,
+     "action": "Sleep",
+     "confirm": false
+    }
+   ]
+  },
+  {
+   "case": "神亭酣战2-8",
+   "desc": "神亭酣战技能打至一方没杀，另一方需出完手里的全部杀",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1002,
+     1004,
+     1005,
+     1006,
+     1007,
+     1014,
+     1011
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10108,
+      "initCards": [
+       1003,
+       1038,
+       1033,
+       1055
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [
+       1102
+      ],
+      "delSkills": [],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 2,
+      "heroId": 10006,
+      "initCards": [
+       1010,
+       1047
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "孙尚香(1)对[司马懿(2)], 使用技能[神亭酣战]",
+     "robotIdx": 1,
+     "action": "UseHeroSkill",
+     "targetsId": [
+      2
+     ],
+     "confirm": false,
+     "heroSkillUuid": 1102,
+     "timeout": 1,
+     "sleepTime": 3,
+     "assets": [
+      {
+       "msgName": "UseHeroSkillAck",
+       "desc": "孙尚香(1)对[司马懿(2)], 使用技能[神亭酣战]",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "司马懿(2)取消",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "司马懿(2)取消",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "CommonHpChange",
+       "desc": "司马懿掉1血",
+       "attr": {
+        "ChangeHp": "-1",
+        "CurHp": "4",
+        "MaxHp": "5"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "desc": "孙尚香(1)取消",
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "孙尚香(1)取消",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "CommonHpChange",
+       "desc": "孙尚香掉1血",
+       "attr": {
+        "ChangeHp": "-1",
+        "CurHp": "4",
+        "MaxHp": "5"
+       }
+      }
+     ]
+    },
+    {
+     "id": 4,
+     "desc": "司马懿(2)取消",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "司马懿(2)取消",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "CommonHpChange",
+       "desc": "司马懿掉2血",
+       "attr": {
+        "ChangeHp": "-1",
+        "CurHp": "3",
+        "MaxHp": "5"
+       }
+      }
+     ]
+    },
+    {
+     "id": 5,
+     "desc": "司马懿(2)取消",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "司马懿(2)取消",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "CommonHpChange",
+       "desc": "司马懿掉3血",
+       "attr": {
+        "ChangeHp": "-1",
+        "CurHp": "2",
+        "MaxHp": "5"
+       }
+      }
+     ]
+    },
+    {
+     "id": 6,
+     "desc": "孙尚香(1)使用牌[桃(1055)]",
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "cards": [
+      1055
+     ],
+     "confirm": true,
+     "assets": [
+      {
+       "msgName": "CommonHpChange",
+       "desc": "孙尚香回血，验证技能停止",
+       "attr": {
+        "ChangeHp": "1",
+        "CurHp": "5"
+       }
+      }
+     ]
+    },
+    {
+     "id": 7,
+     "desc": "0(0)等待undefined秒",
+     "robotIdx": 0,
+     "action": "Sleep",
+     "confirm": false
+    }
+   ]
+  },
+  {
+   "case": "神亭酣战2-9",
+   "desc": "神亭酣战技能期间获得杀依然可打出",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1002,
+     1004,
+     1011,
+     1005,
+     1006,
+     1007,
+     1008
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10108,
+      "initCards": [
+       1003,
+       1038,
+       1033,
+       1055
+      ],
+      "initEquips": [
+       1070
+      ],
+      "augurCards": [],
+      "addSkills": [
+       1102
+      ],
+      "delSkills": [],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 2,
+      "heroId": 10006,
+      "initCards": [
+       1010,
+       1047
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "孙尚香(1)对[司马懿(2)], 使用技能[神亭酣战]",
+     "robotIdx": 1,
+     "action": "UseHeroSkill",
+     "targetsId": [
+      2
+     ],
+     "confirm": false,
+     "heroSkillUuid": 1102,
+     "timeout": 1,
+     "sleepTime": 3,
+     "assets": [
+      {
+       "msgName": "UseHeroSkillAck",
+       "desc": "孙尚香(1)对[司马懿(2)], 使用技能[神亭酣战]",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "孙尚香触发乌骓摸到杀",
+     "robotIdx": 1,
+     "action": "OnlyAsset",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "DrawCard",
+       "desc": "乌骓摸到杀",
+       "attr": {
+        "Cards": "1011",
+        "Count": "1"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "desc": "司马懿(2)取消",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "司马懿(2)取消",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "CommonHpChange",
+       "desc": "司马懿掉1血",
+       "attr": {
+        "ChangeHp": "-1",
+        "CurHp": "4",
+        "MaxHp": "5"
+       }
+      }
+     ]
+    },
+    {
+     "id": 4,
+     "desc": "孙尚香(1)取消",
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "孙尚香(1)取消",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "CommonHpChange",
+       "desc": "孙尚香掉1血",
+       "attr": {
+        "ChangeHp": "-1",
+        "CurHp": "4",
+        "MaxHp": "5"
+       }
+      }
+     ]
+    },
+    {
+     "id": 5,
+     "desc": "司马懿(2)取消",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "司马懿(2)取消",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "CommonHpChange",
+       "desc": "司马懿掉2血",
+       "attr": {
+        "ChangeHp": "-1",
+        "CurHp": "3",
+        "MaxHp": "5"
+       }
+      }
+     ]
+    },
+    {
+     "id": 6,
+     "desc": "司马懿(2)取消",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "司马懿(2)取消",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "CommonHpChange",
+       "desc": "司马懿掉3血",
+       "attr": {
+        "ChangeHp": "-1",
+        "CurHp": "2",
+        "MaxHp": "5"
+       }
+      }
+     ]
+    },
+    {
+     "id": 7,
+     "desc": "司马懿(2)取消",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "司马懿(2)取消",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "CommonHpChange",
+       "desc": "司马懿掉4血，孙尚香手牌只有3张杀，掉4血验证期间摸牌的杀可打出",
+       "attr": {
+        "ChangeHp": "-1",
+        "CurHp": "1",
+        "MaxHp": "5"
+       }
+      }
+     ]
+    },
+    {
+     "id": 8,
+     "desc": "0(0)等待undefined秒",
+     "robotIdx": 0,
+     "action": "Sleep",
+     "confirm": false
+    }
+   ]
+  },
+  {
+   "case": "神亭酣战2-10",
+   "desc": "神亭酣战技能期间出杀不受距离影响",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1002,
+     1004,
+     1011,
+     1005,
+     1006,
+     1007,
+     1008
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10108,
+      "initCards": [
+       1003,
+       1038,
+       1033,
+       1055
+      ],
+      "initEquips": [
+       1065
+      ],
+      "augurCards": [],
+      "addSkills": [
+       1102
+      ],
+      "delSkills": [],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 2,
+      "heroId": 10006,
+      "initCards": [
+       1010,
+       1047
+      ],
+      "initEquips": [
+       3033
+      ],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "孙尚香(1)对[司马懿(2)], 使用技能[神亭酣战]",
+     "robotIdx": 1,
+     "action": "UseHeroSkill",
+     "targetsId": [
+      2
+     ],
+     "confirm": false,
+     "heroSkillUuid": 1102,
+     "timeout": 1,
+     "sleepTime": 3,
+     "assets": [
+      {
+       "msgName": "UseHeroSkillAck",
+       "desc": "孙尚香(1)对[司马懿(2)], 使用技能[神亭酣战]",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "司马懿(2)取消",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "司马懿(2)取消",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "CommonHpChange",
+       "desc": "司马懿掉1血",
+       "attr": {
+        "ChangeHp": "-1",
+        "CurHp": "4",
+        "MaxHp": "5"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "desc": "孙尚香(1)取消",
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "孙尚香(1)取消",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "CommonHpChange",
+       "desc": "孙尚香掉1血",
+       "attr": {
+        "ChangeHp": "-1",
+        "CurHp": "4",
+        "MaxHp": "5"
+       }
+      }
+     ]
+    },
+    {
+     "id": 4,
+     "desc": "司马懿(2)取消",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "司马懿(2)取消",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "CommonHpChange",
+       "desc": "司马懿掉2血",
+       "attr": {
+        "ChangeHp": "-1",
+        "CurHp": "3",
+        "MaxHp": "5"
+       }
+      }
+     ]
+    },
+    {
+     "id": 5,
+     "desc": "司马懿(2)取消",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "司马懿(2)取消",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "CommonHpChange",
+       "desc": "司马懿掉3血验证期间杀不受距离限制",
+       "attr": {
+        "ChangeHp": "-1",
+        "CurHp": "2",
+        "MaxHp": "5"
+       }
+      }
+     ]
+    },
+    {
+     "id": 6,
+     "desc": "0(0)等待undefined秒",
+     "robotIdx": 0,
+     "action": "Sleep",
+     "confirm": false
+    }
+   ]
+  },
+  {
+   "case": "神亭酣战2-11",
+   "desc": "神亭酣战技能期间不受“不可成功杀目标”影响",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1002,
+     1004,
+     1011,
+     1005,
+     1006,
+     1007,
+     1008
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10108,
+      "initCards": [
+       1003,
+       1038,
+       1033,
+       1055,
+       2023
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [
+       1102
+      ],
+      "delSkills": [],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 2,
+      "heroId": 10006,
+      "initCards": [
+       1010,
+       1047
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "孙尚香(1)对[司马懿(2)]使用牌[白登解围(2023)]",
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "targetsId": [
+      2
+     ],
+     "cards": [
+      2023
+     ],
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "白登解围发动成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "孙尚香(1)对[司马懿(2)], 使用技能[神亭酣战]",
+     "robotIdx": 1,
+     "action": "UseHeroSkill",
+     "targetsId": [
+      2
+     ],
+     "confirm": false,
+     "heroSkillUuid": 1102,
+     "timeout": 1,
+     "sleepTime": 3,
+     "assets": [
+      {
+       "msgName": "UseHeroSkillAck",
+       "desc": "孙尚香(1)对[司马懿(2)], 使用技能[神亭酣战]",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "desc": "司马懿(2)取消",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "司马懿(2)取消",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "CommonHpChange",
+       "desc": "司马懿掉1血",
+       "attr": {
+        "ChangeHp": "-1",
+        "CurHp": "4",
+        "MaxHp": "5"
+       }
+      }
+     ]
+    },
+    {
+     "id": 4,
+     "desc": "孙尚香(1)取消",
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "孙尚香(1)取消",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "CommonHpChange",
+       "desc": "孙尚香掉1血",
+       "attr": {
+        "ChangeHp": "-1",
+        "CurHp": "4",
+        "MaxHp": "5"
+       }
+      }
+     ]
+    },
+    {
+     "id": 5,
+     "desc": "司马懿(2)取消",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "司马懿(2)取消",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "CommonHpChange",
+       "desc": "司马懿掉2血",
+       "attr": {
+        "ChangeHp": "-1",
+        "CurHp": "3",
+        "MaxHp": "5"
+       }
+      }
+     ]
+    },
+    {
+     "id": 6,
+     "desc": "司马懿(2)取消",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "司马懿(2)取消",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "CommonHpChange",
+       "desc": "司马懿掉3血验证不受“不可成功杀目标”影响",
+       "attr": {
+        "ChangeHp": "-1",
+        "CurHp": "2",
+        "MaxHp": "5"
+       }
+      }
+     ]
+    },
+    {
+     "id": 7,
+     "desc": "0(0)等待undefined秒",
+     "robotIdx": 0,
+     "action": "Sleep",
+     "confirm": false
+    }
+   ]
+  },
+  {
+   "case": "神亭酣战2-12",
+   "desc": "神亭酣战技能期间出杀被封印 后续不继续触发",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1002,
+     1004,
+     1011,
+     1005,
+     1006,
+     1007,
+     1008
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10108,
+      "initCards": [
+       1003,
+       1038,
+       1033,
+       1042
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [
+       1102
+      ],
+      "delSkills": [],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 2,
+      "heroId": 10006,
+      "initCards": [
+       1010,
+       1047,
+       1019
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [
+       1063
+      ],
+      "delSkills": [],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "孙尚香(1)对[司马懿(2)], 使用技能[神亭酣战]",
+     "robotIdx": 1,
+     "action": "UseHeroSkill",
+     "targetsId": [
+      2
+     ],
+     "confirm": false,
+     "heroSkillUuid": 1102,
+     "timeout": 1,
+     "sleepTime": 3,
+     "assets": [
+      {
+       "msgName": "UseHeroSkillAck",
+       "desc": "孙尚香(1)对[司马懿(2)], 使用技能[神亭酣战]",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "司马懿(2)取消",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "司马懿(2)取消",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "desc": "孙尚香出牌摸牌验证技能封印中断后续出杀",
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "cards": [
+      1042
+     ],
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "DrawCard",
+       "desc": "多多益善获得2张牌",
+       "attr": {
+        "Cards": "1011 1005",
+        "Count": "2"
+       }
+      }
+     ]
+    },
+    {
+     "id": 4,
+     "desc": "0(0)等待undefined秒",
+     "robotIdx": 0,
+     "action": "Sleep",
+     "confirm": false
+    }
+   ]
+  }
+ ]

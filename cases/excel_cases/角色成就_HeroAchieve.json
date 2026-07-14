@@ -1,0 +1,136 @@
+{
+ "sheet": "角色成就|HeroAchieve",
+ "managerList": {
+  "QA": [],
+  "Designer": [],
+  "Programmer": []
+ },
+ "rules": {
+  "Camp": {
+   "PropName": "Camp",
+   "PropType": "int",
+   "PropRules": []
+  },
+  "Class": {
+   "PropName": "Class",
+   "PropType": "int",
+   "PropRules": []
+  },
+  "CondParam": {
+   "PropName": "CondParam",
+   "PropType": "int[]",
+   "PropRules": []
+  },
+  "Hooker": {
+   "PropName": "Hooker",
+   "PropType": "EHookType[]",
+   "PropRules": []
+  },
+  "HookerTarget": {
+   "PropName": "HookerTarget",
+   "PropType": "EHookTarget[]",
+   "PropRules": []
+  },
+  "Id": {
+   "PropName": "Id",
+   "PropType": "EHeroAchieve",
+   "PropRules": [
+    {
+     "Type": "ALL_BASE",
+     "Uuid": "a7e92999-0b58-4216-ba8c-52b0ed0d5989",
+     "DisplayName": "",
+     "Enabled": true,
+     "Params": {
+      "allowCommit": "true",
+      "allowEmpty": "false",
+      "breakLine": "3",
+      "chsOnly": "false",
+      "increase": "false",
+      "unique": "true"
+     }
+    }
+   ]
+  },
+  "Identity": {
+   "PropName": "Identity",
+   "PropType": "int",
+   "PropRules": []
+  },
+  "IsMult": {
+   "PropName": "IsMult",
+   "PropType": "bool",
+   "PropRules": []
+  },
+  "MinPlayerNum": {
+   "PropName": "MinPlayerNum",
+   "PropType": "int",
+   "PropRules": [
+    {
+     "Type": "NUMERIC_RANGE",
+     "Uuid": "1d060bbd-edff-4775-b623-09ad30ea87e2",
+     "DisplayName": "",
+     "Enabled": true,
+     "Params": {
+      "allowCommit": "true",
+      "allowEmpty": "true",
+      "breakLine": "3",
+      "chsOnly": "false",
+      "increase": "false",
+      "maxValue": "8",
+      "minValue": "0",
+      "unique": "false"
+     }
+    }
+   ]
+  },
+  "Mode": {
+   "PropName": "Mode",
+   "PropType": "EModeRuleType[]",
+   "PropRules": [
+    {
+     "Type": "ENUM",
+     "Uuid": "b87e8d9d-9a86-4cf0-a469-e8735acb2913",
+     "DisplayName": "",
+     "Enabled": true,
+     "Params": {
+      "allowCommit": "true",
+      "allowEmpty": "true",
+      "breakLine": "3",
+      "chsOnly": "false",
+      "enums": "MRuleNull,RoomSelfSelectIdentity,RoomNianBeast,RoomArenaUnion,RoomUnion,RoomPveGuildCity",
+      "groups": "1",
+      "increase": "false",
+      "pattern": "\\s*([^,\\s]+)\\s*",
+      "unique": "false"
+     }
+    }
+   ]
+  },
+  "Name": {
+   "PropName": "Name",
+   "PropType": "string",
+   "PropRules": [
+    {
+     "Type": "ALL_BASE",
+     "Uuid": "692772f3-d9d0-4e4a-957b-3c4029c3be4e",
+     "DisplayName": "",
+     "Enabled": true,
+     "Params": {
+      "allowCommit": "true",
+      "allowEmpty": "false",
+      "breakLine": "3",
+      "chsOnly": "false",
+      "increase": "false",
+      "unique": "true"
+     }
+    }
+   ]
+  },
+  "UseHero": {
+   "PropName": "UseHero",
+   "PropType": "EHeroId",
+   "PropRules": []
+  }
+ },
+ "tableRules": []
+}

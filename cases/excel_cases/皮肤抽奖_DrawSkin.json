@@ -1,0 +1,727 @@
+{
+ "sheet": "皮肤抽奖|DrawSkin",
+ "managerList": {
+  "QA": [],
+  "Designer": [],
+  "Programmer": []
+ },
+ "rules": {
+  "ActivityId": {
+   "PropName": "ActivityId",
+   "PropType": "int",
+   "PropRules": [
+    {
+     "Type": "ENUM",
+     "Uuid": "c926b9ed-7591-4cd3-b5a4-4f3305977a37",
+     "DisplayName": "",
+     "Enabled": true,
+     "Params": {
+      "allowCommit": "true",
+      "allowEmpty": "true",
+      "breakLine": "3",
+      "chsOnly": "false",
+      "enums": "14",
+      "increase": "false",
+      "unique": "false"
+     }
+    }
+   ]
+  },
+  "BgSpinePath": {
+   "PropName": "BgSpinePath",
+   "PropType": "string",
+   "PropRules": [
+    {
+     "Type": "ALL_BASE",
+     "Uuid": "0860cd2e-e9b3-47ad-9d80-80f6bff41285",
+     "DisplayName": "",
+     "Enabled": true,
+     "Params": {
+      "allowCommit": "true",
+      "allowEmpty": "false",
+      "breakLine": "3",
+      "chsOnly": "false",
+      "groups": "",
+      "increase": "false",
+      "pattern": "",
+      "unique": "false"
+     }
+    }
+   ]
+  },
+  "BigAwardCount": {
+   "PropName": "BigAwardCount",
+   "PropType": "int",
+   "PropRules": [
+    {
+     "Type": "ENUM",
+     "Uuid": "d60d9439-a3ae-4da8-bac7-12c8d7c234f3",
+     "DisplayName": "",
+     "Enabled": true,
+     "Params": {
+      "allowCommit": "true",
+      "allowEmpty": "true",
+      "breakLine": "3",
+      "chsOnly": "false",
+      "enums": "80",
+      "increase": "false",
+      "unique": "false"
+     }
+    }
+   ]
+  },
+  "BigAwardItemId": {
+   "PropName": "BigAwardItemId",
+   "PropType": "int",
+   "PropRules": [
+    {
+     "Type": "CROSS_REFERENCE",
+     "Uuid": "1c60d798-7431-47f4-a1aa-cc7ea4beef78",
+     "DisplayName": "",
+     "Enabled": true,
+     "Params": {
+      "allowCommit": "true",
+      "allowEmpty": "true",
+      "breakLine": "3",
+      "chsOnly": "false",
+      "compareOp": "",
+      "excepts": "",
+      "filterCol": "",
+      "filterDays": "",
+      "filterIsArray": "",
+      "filterMode": "",
+      "filterVal": "",
+      "groups": "",
+      "increase": "false",
+      "isArray": "false",
+      "matchCol": "",
+      "matchRefCol": "",
+      "pattern": "",
+      "refCol": "Id",
+      "refSheet": "道具表|Item",
+      "unique": "false"
+     }
+    }
+   ]
+  },
+  "Bigemoji": {
+   "PropName": "Bigemoji",
+   "PropType": "int",
+   "PropRules": [
+    {
+     "Type": "CROSS_REFERENCE",
+     "Uuid": "55ebbcc8-ebfc-446f-8c5c-93dc493b1dda",
+     "DisplayName": "",
+     "Enabled": true,
+     "Params": {
+      "allowCommit": "true",
+      "allowEmpty": "true",
+      "breakLine": "3",
+      "chsOnly": "false",
+      "compareOp": "",
+      "excepts": "",
+      "filterCol": "",
+      "filterDays": "",
+      "filterIsArray": "",
+      "filterMode": "",
+      "filterVal": "",
+      "groups": "",
+      "increase": "false",
+      "isArray": "false",
+      "matchCol": "",
+      "matchRefCol": "",
+      "pattern": "",
+      "refCol": "Id",
+      "refSheet": "掉落分组表|DropGroup",
+      "unique": "false"
+     }
+    }
+   ]
+  },
+  "DailyLimit": {
+   "PropName": "DailyLimit",
+   "PropType": "int",
+   "PropRules": [
+    {
+     "Type": "ENUM",
+     "Uuid": "5607f0c6-483d-4658-8637-8fba240bd14f",
+     "DisplayName": "",
+     "Enabled": true,
+     "Params": {
+      "allowCommit": "true",
+      "allowEmpty": "false",
+      "breakLine": "3",
+      "chsOnly": "false",
+      "enums": "1,0",
+      "increase": "false",
+      "unique": "false"
+     }
+    }
+   ]
+  },
+  "DrawCardMulIcon": {
+   "PropName": "DrawCardMulIcon",
+   "PropType": "string",
+   "PropRules": [
+    {
+     "Type": "ENUM",
+     "Uuid": "e4131114-752b-44a4-9775-56f9496f03d1",
+     "DisplayName": "",
+     "Enabled": true,
+     "Params": {
+      "allowCommit": "true",
+      "allowEmpty": "true",
+      "breakLine": "3",
+      "chsOnly": "false",
+      "enums": "ui_s1_chouka_btn_mingjiangce_jichu",
+      "increase": "false",
+      "unique": "false"
+     }
+    }
+   ]
+  },
+  "DrawCardSingleIcon": {
+   "PropName": "DrawCardSingleIcon",
+   "PropType": "string",
+   "PropRules": [
+    {
+     "Type": "ENUM",
+     "Uuid": "d2662b91-90c9-4885-a6a4-53d4d8ed023a",
+     "DisplayName": "",
+     "Enabled": true,
+     "Params": {
+      "allowCommit": "true",
+      "allowEmpty": "true",
+      "breakLine": "3",
+      "chsOnly": "false",
+      "enums": "ui_s1_chouka_btn_mingjiangce_jichu_yici",
+      "increase": "false",
+      "unique": "false"
+     }
+    }
+   ]
+  },
+  "DrawRuleContent": {
+   "PropName": "DrawRuleContent",
+   "PropType": "string",
+   "PropRules": [
+    {
+     "Type": "ALL_BASE",
+     "Uuid": "7119a9ec-dcaa-4df5-9b3c-4ddf8768cb75",
+     "DisplayName": "",
+     "Enabled": true,
+     "Params": {
+      "allowCommit": "true",
+      "allowEmpty": "false",
+      "breakLine": "3",
+      "chsOnly": "false",
+      "groups": "",
+      "increase": "false",
+      "pattern": "",
+      "unique": "false"
+     }
+    }
+   ]
+  },
+  "DrawRuleTitle": {
+   "PropName": "DrawRuleTitle",
+   "PropType": "string",
+   "PropRules": [
+    {
+     "Type": "ALL_BASE",
+     "Uuid": "9acf6b2c-ae6b-42f2-b387-96db2940e71d",
+     "DisplayName": "",
+     "Enabled": true,
+     "Params": {
+      "allowCommit": "true",
+      "allowEmpty": "false",
+      "breakLine": "3",
+      "chsOnly": "true",
+      "groups": "",
+      "increase": "false",
+      "pattern": "",
+      "unique": "false"
+     }
+    }
+   ]
+  },
+  "EndTime": {
+   "PropName": "EndTime",
+   "PropType": "string",
+   "PropRules": [
+    {
+     "Type": "ALL_BASE",
+     "Uuid": "b6426950-00d9-4cd1-b73f-1eac524317e1",
+     "DisplayName": "",
+     "Enabled": true,
+     "Params": {
+      "allowCommit": "true",
+      "allowEmpty": "false",
+      "breakLine": "3",
+      "chsOnly": "false",
+      "groups": "",
+      "increase": "false",
+      "pattern": "",
+      "unique": "true"
+     }
+    }
+   ]
+  },
+  "EnsureCount": {
+   "PropName": "EnsureCount",
+   "PropType": "int",
+   "PropRules": []
+  },
+  "EnsureNewer": {
+   "PropName": "EnsureNewer",
+   "PropType": "int",
+   "PropRules": []
+  },
+  "FirstEnsureNewer": {
+   "PropName": "FirstEnsureNewer",
+   "PropType": "int",
+   "PropRules": []
+  },
+  "HiddenItemID": {
+   "PropName": "HiddenItemID",
+   "PropType": "int",
+   "PropRules": [
+    {
+     "Type": "CROSS_REFERENCE",
+     "Uuid": "6641dcc8-0c2e-41d6-b16d-a63001673baf",
+     "DisplayName": "",
+     "Enabled": true,
+     "Params": {
+      "allowCommit": "true",
+      "allowEmpty": "true",
+      "breakLine": "3",
+      "chsOnly": "false",
+      "compareOp": "",
+      "excepts": "",
+      "filterCol": "",
+      "filterDays": "",
+      "filterIsArray": "",
+      "filterMode": "",
+      "filterVal": "",
+      "groups": "",
+      "increase": "false",
+      "isArray": "false",
+      "matchCol": "",
+      "matchRefCol": "",
+      "pattern": "",
+      "refCol": "Id",
+      "refSheet": "道具表|Item",
+      "unique": "false"
+     }
+    }
+   ]
+  },
+  "Id": {
+   "PropName": "Id",
+   "PropType": "int",
+   "PropRules": [
+    {
+     "Type": "ALL_BASE",
+     "Uuid": "eba3927b-9f3c-4dc5-a117-34cf7286ef44",
+     "DisplayName": "",
+     "Enabled": true,
+     "Params": {
+      "allowCommit": "true",
+      "allowEmpty": "false",
+      "breakLine": "3",
+      "chsOnly": "false",
+      "groups": "",
+      "increase": "false",
+      "pattern": "",
+      "unique": "true"
+     }
+    }
+   ]
+  },
+  "Name": {
+   "PropName": "Name",
+   "PropType": "string",
+   "PropRules": [
+    {
+     "Type": "ALL_BASE",
+     "Uuid": "7888f6d1-594d-4bdd-a5a2-cc67d67725c2",
+     "DisplayName": "",
+     "Enabled": true,
+     "Params": {
+      "allowCommit": "true",
+      "allowEmpty": "false",
+      "breakLine": "3",
+      "chsOnly": "true",
+      "groups": "",
+      "increase": "false",
+      "pattern": "",
+      "unique": "true"
+     }
+    }
+   ]
+  },
+  "OnceDropRule": {
+   "PropName": "OnceDropRule",
+   "PropType": "int",
+   "PropRules": [
+    {
+     "Type": "ENUM",
+     "Uuid": "3fd893ad-a620-4793-bcb8-06fb194719dc",
+     "DisplayName": "",
+     "Enabled": true,
+     "Params": {
+      "allowCommit": "true",
+      "allowEmpty": "true",
+      "breakLine": "3",
+      "chsOnly": "false",
+      "enums": "900004",
+      "format": "2006-01-02",
+      "increase": "false",
+      "unique": "false"
+     }
+    }
+   ]
+  },
+  "OnceItemCost": {
+   "PropName": "OnceItemCost",
+   "PropType": "ItemCfg",
+   "PropRules": [
+    {
+     "Type": "REGEX",
+     "Uuid": "0ef80b61-3f96-4de3-9f22-09fa7f860773",
+     "DisplayName": "",
+     "Enabled": true,
+     "Params": {
+      "allowCommit": "true",
+      "allowEmpty": "true",
+      "breakLine": "3",
+      "chsOnly": "false",
+      "enums": "",
+      "excepts": "",
+      "groups": "",
+      "increase": "false",
+      "pattern": "4000001;1",
+      "refCol": "",
+      "refSheet": "",
+      "unique": "false"
+     }
+    }
+   ]
+  },
+  "ProbabilityContent": {
+   "PropName": "ProbabilityContent",
+   "PropType": "string",
+   "PropRules": [
+    {
+     "Type": "ALL_BASE",
+     "Uuid": "25f4ef00-bb31-4ed7-8112-dd0fe2e02b89",
+     "DisplayName": "",
+     "Enabled": true,
+     "Params": {
+      "allowCommit": "true",
+      "allowEmpty": "false",
+      "breakLine": "3",
+      "chsOnly": "false",
+      "groups": "",
+      "increase": "false",
+      "pattern": "",
+      "unique": "false"
+     }
+    }
+   ]
+  },
+  "ProbabilityTitle": {
+   "PropName": "ProbabilityTitle",
+   "PropType": "string",
+   "PropRules": [
+    {
+     "Type": "ALL_BASE",
+     "Uuid": "a5a80e6c-5637-4837-93ba-3b8aa8cf0c18",
+     "DisplayName": "",
+     "Enabled": true,
+     "Params": {
+      "allowCommit": "true",
+      "allowEmpty": "false",
+      "breakLine": "3",
+      "chsOnly": "true",
+      "groups": "",
+      "increase": "false",
+      "pattern": "",
+      "unique": "false"
+     }
+    }
+   ]
+  },
+  "SkinNameSpriteName": {
+   "PropName": "SkinNameSpriteName",
+   "PropType": "string",
+   "PropRules": [
+    {
+     "Type": "ALL_BASE",
+     "Uuid": "d26639de-bf06-4d3d-b442-e45673e7b1f3",
+     "DisplayName": "",
+     "Enabled": true,
+     "Params": {
+      "allowCommit": "true",
+      "allowEmpty": "false",
+      "breakLine": "3",
+      "chsOnly": "true",
+      "groups": "",
+      "increase": "false",
+      "pattern": "",
+      "unique": "true"
+     }
+    }
+   ]
+  },
+  "StartTime": {
+   "PropName": "StartTime",
+   "PropType": "string",
+   "PropRules": [
+    {
+     "Type": "ALL_BASE",
+     "Uuid": "d51275e9-e829-4625-ade9-ede5f93a3383",
+     "DisplayName": "",
+     "Enabled": true,
+     "Params": {
+      "allowCommit": "true",
+      "allowEmpty": "true",
+      "breakLine": "3",
+      "chsOnly": "false",
+      "groups": "",
+      "increase": "false",
+      "pattern": "",
+      "unique": "false"
+     }
+    }
+   ]
+  },
+  "TenDropRule": {
+   "PropName": "TenDropRule",
+   "PropType": "int",
+   "PropRules": [
+    {
+     "Type": "ENUM",
+     "Uuid": "cf278300-dc8e-4383-ae3c-5c79a01f79e9",
+     "DisplayName": "",
+     "Enabled": true,
+     "Params": {
+      "allowCommit": "true",
+      "allowEmpty": "true",
+      "breakLine": "3",
+      "chsOnly": "false",
+      "enums": "900004",
+      "increase": "false",
+      "unique": "false"
+     }
+    }
+   ]
+  },
+  "TenItemCost": {
+   "PropName": "TenItemCost",
+   "PropType": "ItemCfg",
+   "PropRules": [
+    {
+     "Type": "REGEX",
+     "Uuid": "fdc26951-293a-421b-bfa0-344f5abf02a1",
+     "DisplayName": "",
+     "Enabled": true,
+     "Params": {
+      "allowCommit": "true",
+      "allowEmpty": "true",
+      "breakLine": "3",
+      "chsOnly": "false",
+      "enums": "",
+      "increase": "false",
+      "pattern": "4000001;10",
+      "unique": "true"
+     }
+    }
+   ]
+  },
+  "TitleIconName": {
+   "PropName": "TitleIconName",
+   "PropType": "string",
+   "PropRules": [
+    {
+     "Type": "ALL_BASE",
+     "Uuid": "4ea1788b-263e-417a-839d-620d99fb1a00",
+     "DisplayName": "",
+     "Enabled": true,
+     "Params": {
+      "allowCommit": "true",
+      "allowEmpty": "false",
+      "breakLine": "3",
+      "chsOnly": "false",
+      "groups": "",
+      "increase": "false",
+      "pattern": "",
+      "unique": "false"
+     }
+    }
+   ]
+  },
+  "TitlePosition": {
+   "PropName": "TitlePosition",
+   "PropType": "int",
+   "PropRules": [
+    {
+     "Type": "ENUM",
+     "Uuid": "e9ef84d9-362c-47f4-85ee-475f1bf57180",
+     "DisplayName": "",
+     "Enabled": true,
+     "Params": {
+      "allowCommit": "true",
+      "allowEmpty": "true",
+      "breakLine": "3",
+      "chsOnly": "false",
+      "enums": "0,1",
+      "increase": "false",
+      "unique": "false"
+     }
+    }
+   ]
+  },
+  "byproduct": {
+   "PropName": "byproduct",
+   "PropType": "int[]",
+   "PropRules": [
+    {
+     "Type": "CROSS_REFERENCE",
+     "Uuid": "efab3a07-b85c-41d1-96c1-62bf89eb2618",
+     "DisplayName": "",
+     "Enabled": true,
+     "Params": {
+      "allowCommit": "true",
+      "allowEmpty": "true",
+      "breakLine": "3",
+      "chsOnly": "false",
+      "compareOp": "",
+      "excepts": "",
+      "filterCol": "",
+      "filterDays": "",
+      "filterIsArray": "",
+      "filterMode": "",
+      "filterVal": "",
+      "groups": "1",
+      "increase": "false",
+      "isArray": "false",
+      "matchCol": "",
+      "matchRefCol": "",
+      "pattern": "s*([^,s]+)s*",
+      "refCol": "Id",
+      "refSheet": "道具表|Item",
+      "unique": "false"
+     }
+    },
+    {
+     "Type": "ALL_BASE",
+     "Uuid": "2721141a-b153-432c-abc8-ddc59ad2a7bc",
+     "DisplayName": "",
+     "Enabled": true,
+     "Params": {
+      "allowCommit": "true",
+      "allowEmpty": "true",
+      "breakLine": "3",
+      "chsOnly": "false",
+      "groups": "1",
+      "increase": "false",
+      "pattern": "\\s*([^,\\s]+)\\s*",
+      "unique": "true"
+     }
+    },
+    {
+     "Type": "CHAIN_REFERENCE",
+     "Uuid": "9fe80770-c413-44bf-9922-a8ac46a5f6ed",
+     "DisplayName": "",
+     "Enabled": true,
+     "Params": {
+      "allowCommit": "true",
+      "allowEmpty": "false",
+      "breakLine": "3",
+      "chainCompare": "verify_exists",
+      "chainMatchCompare": "verify_must_exist",
+      "chainSteps": "{\"left\":{\"steps\":[{\"sheet\":\"\",\"preCol\":\"\",\"findVal\":\"col\",\"nextCol\":\"\",\"pattern\":\"\\\\s*([^,\\\\s]+)\\\\s*\",\"groups\":\"1\",\"filterCol\":\"StartTime\",\"filterVal\":\"\",\"isArray\":\"false\",\"filterMode\":\"withinDays\",\"filterIsArray\":\"\",\"filterDays\":\"20\"}],\"compareCol\":\"\"},\"right\":{\"steps\":[{\"sheet\":\"商品表|ShopGood\",\"preCol\":\"Item\",\"findVal\":\"col\",\"nextCol\":\"\",\"pattern\":\"{(\\\\d+);\\\\d+}\",\"groups\":\"1\",\"filterCol\":\"\",\"filterVal\":\"\",\"isArray\":\"true\"}],\"compareCol\":\"\"}}",
+      "chainWarnBefore": "0",
+      "chainWarnCol": "StartTime",
+      "chainWarnSheet": "皮肤抽奖|DrawSkin",
+      "excepts": ""
+     }
+    }
+   ]
+  },
+  "skinnamePosition": {
+   "PropName": "skinnamePosition",
+   "PropType": "int",
+   "PropRules": [
+    {
+     "Type": "ENUM",
+     "Uuid": "c3ce6e97-33e8-49a6-b656-6c8701560151",
+     "DisplayName": "",
+     "Enabled": true,
+     "Params": {
+      "allowCommit": "true",
+      "allowEmpty": "true",
+      "breakLine": "3",
+      "chsOnly": "false",
+      "enums": "0,1",
+      "increase": "false",
+      "unique": "false"
+     }
+    }
+   ]
+  }
+ },
+ "tableRules": [
+  {
+   "type": "COL_CONTINUOUS_CHECK",
+   "displayName": "列连续性检查",
+   "uuid": "b0038b5a-d807-49fc-81a4-be00daed441f",
+   "description": "检查指定列的数据连续性或唯一性。支持6种模式：严格递增、单调递增、日期间隔一致、{id;count}格式ID递增、提取数字递增、拆分后全局唯一。支持排除行号、注释行跳过、空值跳过。",
+   "params": {
+    "allowCommit": "false",
+    "allowEmpty": "true",
+    "checkMode": "SPLIT_UNIQUE",
+    "scope": "all",
+    "separator": ",",
+    "targetCol": "byproduct",
+    "tolerance": "0"
+   },
+   "enabled": true
+  },
+  {
+   "type": "COL_CONTINUOUS_CHECK",
+   "displayName": "列连续性检查",
+   "uuid": "3192c66a-adea-4435-9f3b-df2e6a6d2910",
+   "description": "检查指定列的数据连续性或唯一性。支持6种模式：严格递增、单调递增、日期间隔一致、{id;count}格式ID递增、提取数字递增、拆分后全局唯一。支持排除行号、注释行跳过、空值跳过。",
+   "params": {
+    "allowCommit": "false",
+    "allowEmpty": "true",
+    "checkMode": "DATE_CONTINUOUS",
+    "excludeRows": "1",
+    "scope": "all",
+    "separator": ",",
+    "targetCol": "StartTime",
+    "tolerance": "0"
+   },
+   "enabled": true
+  },
+  {
+   "type": "COL_CONTINUOUS_CHECK",
+   "displayName": "列连续性检查",
+   "uuid": "0416b83f-c5fd-4239-ab9d-022bc3b89bda",
+   "description": "检查指定列的数据连续性或唯一性。支持6种模式：严格递增、单调递增、日期间隔一致、{id;count}格式ID递增、提取数字递增、拆分后全局唯一。支持排除行号、注释行跳过、空值跳过。",
+   "params": {
+    "allowCommit": "false",
+    "allowEmpty": "true",
+    "checkMode": "DATE_CONTINUOUS",
+    "excludeRows": "1",
+    "scope": "all",
+    "separator": ",",
+    "targetCol": "EndTime",
+    "tolerance": "0"
+   },
+   "enabled": true
+  }
+ ]
+}

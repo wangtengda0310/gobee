@@ -1,0 +1,59 @@
+{
+ "sheet": "竞技场积分奖励表|ArenaScoreReward",
+ "managerList": {
+  "QA": [],
+  "Designer": [],
+  "Programmer": []
+ },
+ "rules": {
+  "Dan": {
+   "PropName": "Dan",
+   "PropType": "int",
+   "PropRules": []
+  },
+  "DanName": {
+   "PropName": "DanName",
+   "PropType": "string",
+   "PropRules": []
+  },
+  "Id": {
+   "PropName": "Id",
+   "PropType": "int",
+   "PropRules": []
+  },
+  "Reward": {
+   "PropName": "Reward",
+   "PropType": "ItemCfg[]",
+   "PropRules": [
+    {
+     "Type": "CROSS_REFERENCE",
+     "Uuid": "d1eb61f1-2afa-4329-8bee-2bdf04a4b2ae",
+     "DisplayName": "",
+     "Enabled": true,
+     "Params": {
+      "allowCommit": "true",
+      "allowEmpty": "true",
+      "breakLine": "3",
+      "compareOp": "",
+      "excepts": "",
+      "filterCol": "",
+      "filterVal": "",
+      "groups": "1",
+      "isArray": "false",
+      "matchCol": "",
+      "matchRefCol": "",
+      "pattern": "{(\\d+);\\d+}",
+      "refCol": "Id",
+      "refSheet": "道具表|Item"
+     }
+    }
+   ]
+  },
+  "Season": {
+   "PropName": "Season",
+   "PropType": "int",
+   "PropRules": []
+  }
+ },
+ "tableRules": []
+}
