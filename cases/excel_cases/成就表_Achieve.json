@@ -1,0 +1,225 @@
+{
+ "sheet": "成就表|Achieve",
+ "managerList": {
+  "QA": [],
+  "Designer": [],
+  "Programmer": []
+ },
+ "rules": {
+  "CompleteCondId": {
+   "PropName": "CompleteCondId",
+   "PropType": "int",
+   "PropRules": [
+    {
+     "Type": "ALL_BASE",
+     "Uuid": "c0555a0c-b08f-429a-a6ff-cfa2169cc189",
+     "DisplayName": "",
+     "Enabled": true,
+     "Params": {
+      "allowCommit": "true",
+      "allowEmpty": "false",
+      "breakLine": "3",
+      "chsOnly": "false",
+      "increase": "false",
+      "unique": "true"
+     }
+    },
+    {
+     "Type": "NUMERIC",
+     "Uuid": "dcbe326f-f8ef-45bc-9873-df80569bf777",
+     "DisplayName": "",
+     "Enabled": true,
+     "Params": {
+      "allowCommit": "true",
+      "allowEmpty": "true",
+      "breakLine": "3",
+      "chsOnly": "false",
+      "increase": "false",
+      "unique": "false"
+     }
+    },
+    {
+     "Type": "CROSS_REFERENCE",
+     "Uuid": "b39fa953-80dc-499d-ab0c-6a1f9a8ba9d4",
+     "DisplayName": "",
+     "Enabled": true,
+     "Params": {
+      "allowCommit": "true",
+      "allowEmpty": "true",
+      "breakLine": "3",
+      "chsOnly": "false",
+      "excepts": "",
+      "filterCol": "",
+      "filterVal": "",
+      "groups": "",
+      "increase": "false",
+      "pattern": "",
+      "refCol": "Id",
+      "refSheet": "任务完成条件表|TaskCompleteConditon",
+      "unique": "false"
+     }
+    }
+   ]
+  },
+  "Condition": {
+   "PropName": "Condition",
+   "PropType": "string",
+   "PropRules": [
+    {
+     "Type": "ALL_BASE",
+     "Uuid": "29f33bf3-2dc4-465d-a475-1b3b30368f24",
+     "DisplayName": "",
+     "Enabled": true,
+     "Params": {
+      "allowCommit": "true",
+      "allowEmpty": "false",
+      "breakLine": "3",
+      "chsOnly": "false",
+      "increase": "false",
+      "unique": "true"
+     }
+    }
+   ]
+  },
+  "Des": {
+   "PropName": "Des",
+   "PropType": "string",
+   "PropRules": [
+    {
+     "Type": "ALL_BASE",
+     "Uuid": "cf2d224f-2c32-4e4b-ae47-2e3adee2c1e3",
+     "DisplayName": "",
+     "Enabled": true,
+     "Params": {
+      "allowCommit": "true",
+      "allowEmpty": "true",
+      "breakLine": "3",
+      "chsOnly": "true",
+      "increase": "false",
+      "unique": "false"
+     }
+    }
+   ]
+  },
+  "HeroItemId": {
+   "PropName": "HeroItemId",
+   "PropType": "int[]",
+   "PropRules": []
+  },
+  "Id": {
+   "PropName": "Id",
+   "PropType": "int",
+   "PropRules": [
+    {
+     "Type": "ALL_BASE",
+     "Uuid": "cb11267b-0bdc-4a6e-a009-a272821e3bf9",
+     "DisplayName": "",
+     "Enabled": true,
+     "Params": {
+      "allowCommit": "true",
+      "allowEmpty": "false",
+      "breakLine": "3",
+      "chsOnly": "false",
+      "increase": "false",
+      "unique": "true"
+     }
+    }
+   ]
+  },
+  "IsHide": {
+   "PropName": "IsHide",
+   "PropType": "bool",
+   "PropRules": [
+    {
+     "Type": "ALL_BASE",
+     "Uuid": "67244622-112a-45b4-853b-81d3b8bea19c",
+     "DisplayName": "",
+     "Enabled": true,
+     "Params": {
+      "allowCommit": "true",
+      "allowEmpty": "false",
+      "breakLine": "3",
+      "chsOnly": "false",
+      "increase": "false",
+      "unique": "false"
+     }
+    },
+    {
+     "Type": "BOOLEAN",
+     "Uuid": "a3474204-f6ac-4803-bea3-9da74af28224",
+     "DisplayName": "",
+     "Enabled": true,
+     "Params": {
+      "allowCommit": "true",
+      "allowEmpty": "false",
+      "breakLine": "3",
+      "chsOnly": "false",
+      "increase": "false",
+      "unique": "false"
+     }
+    }
+   ]
+  },
+  "Name": {
+   "PropName": "Name",
+   "PropType": "string",
+   "PropRules": [
+    {
+     "Type": "ALL_BASE",
+     "Uuid": "a128e994-e1a8-4180-b443-416a19ed4937",
+     "DisplayName": "",
+     "Enabled": true,
+     "Params": {
+      "allowCommit": "true",
+      "allowEmpty": "false",
+      "breakLine": "3",
+      "chsOnly": "false",
+      "increase": "false",
+      "unique": "false"
+     }
+    }
+   ]
+  },
+  "OpenDate": {
+   "PropName": "OpenDate",
+   "PropType": "string",
+   "PropRules": []
+  },
+  "Reward": {
+   "PropName": "Reward",
+   "PropType": "ItemCfg[]",
+   "PropRules": [
+    {
+     "Type": "ALL_BASE",
+     "Uuid": "b3fc3684-102b-4b65-befb-1ce6f40243fe",
+     "DisplayName": "",
+     "Enabled": true,
+     "Params": {
+      "allowCommit": "true",
+      "allowEmpty": "false",
+      "breakLine": "3",
+      "chsOnly": "false",
+      "increase": "false",
+      "unique": "false"
+     }
+    },
+    {
+     "Type": "SPECIAL_FORMAT",
+     "Uuid": "e717961c-1b0d-4880-8890-2ac961bd178c",
+     "DisplayName": "",
+     "Enabled": true,
+     "Params": {
+      "allowCommit": "true",
+      "allowEmpty": "true",
+      "breakLine": "3",
+      "chsOnly": "false",
+      "increase": "false",
+      "isArray": "false",
+      "unique": "false"
+     }
+    }
+   ]
+  }
+ },
+ "tableRules": []
+}

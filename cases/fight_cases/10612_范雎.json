@@ -1,0 +1,488 @@
+[
+  {
+   "case": "范雎_远交近攻#19311",
+   "desc": "自己无势力的情况_无法发动",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1001,
+     1002,
+     1003,
+     1004,
+     1005,
+     1006,
+     1007,
+     1008,
+     1009
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 13,
+      "color": 97,
+      "heroId": 10002,
+      "initCards": [
+       1010
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [
+       1683
+      ],
+      "delSkills": [
+       1004,
+       1005,
+       1006
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 13,
+      "color": 97,
+      "heroId": 10005,
+      "initCards": [],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [
+       1630
+      ],
+      "delSkills": [
+       1011,
+       1012
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "郭嘉(1)对[甄宓(2)]使用牌[杀(1010)]",
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "targetsId": [
+      2
+     ],
+     "cards": [
+      1010
+     ],
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "郭嘉出牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "甄宓(2)取消",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "甄宓响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "desc": "郭嘉(1)确认, 使用牌[2]",
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "cards": [
+      2
+     ],
+     "confirm": true,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "郭嘉响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 4,
+     "desc": "郭嘉(1)结束打牌",
+     "robotIdx": 1,
+     "action": "PlayCardOver",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "PlayCardOverAck",
+       "desc": "郭嘉结束打牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 5,
+     "desc": "郭嘉(1)自动弃牌",
+     "robotIdx": 1,
+     "action": "DisCard",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "DisCardAck",
+       "desc": "郭嘉弃牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 6,
+     "desc": "甄宓(2)对[郭嘉(1)], 使用技能[远交近攻], 使用牌[杀(1003),青龙偃月刀(1004)]",
+     "robotIdx": 2,
+     "action": "UseHeroSkill",
+     "targetsId": [
+      1
+     ],
+     "cards": [
+      1003,
+      1004
+     ],
+     "confirm": false,
+     "heroSkillUuid": 1630,
+     "assets": [
+      {
+       "msgName": "UseHeroSkillAck",
+       "desc": "甄宓使用技能成功",
+       "attr": {
+        "Result": "1001"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "远交近攻_1",
+   "desc": "选择不同势力的角色发动_正常发动",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1001,
+     1002,
+     1003,
+     1004,
+     1005,
+     1006,
+     1007,
+     1008,
+     1009
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 13,
+      "color": 97,
+      "heroId": 10002,
+      "initCards": [
+       1010
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [
+       1630
+      ],
+      "delSkills": [
+       1004,
+       1005,
+       1006
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 13,
+      "color": 97,
+      "heroId": 10103,
+      "initCards": [],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1020,
+       1021,
+       1022
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "郭嘉(1)对[关羽(2)], 使用技能[远交近攻], 使用牌[万箭齐发(1001),亮银枪(1002)]",
+     "robotIdx": 1,
+     "action": "UseHeroSkill",
+     "targetsId": [
+      2
+     ],
+     "cards": [
+      1001,
+      1002
+     ],
+     "confirm": false,
+     "heroSkillUuid": 1630,
+     "assets": [
+      {
+       "msgName": "UseHeroSkillAck",
+       "desc": "郭嘉使用技能成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "远交近攻_2",
+   "desc": "选择相同势力的角色发动_不可发动",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1001,
+     1002,
+     1003,
+     1004,
+     1005,
+     1006,
+     1007,
+     1008,
+     1009
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 13,
+      "color": 97,
+      "heroId": 10002,
+      "initCards": [
+       1010
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [
+       1630
+      ],
+      "delSkills": [
+       1004,
+       1005,
+       1006
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 13,
+      "color": 97,
+      "heroId": 10005,
+      "initCards": [],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1011,
+       1012
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "郭嘉(1)对[关羽(2)], 使用技能[远交近攻], 使用牌[万箭齐发(1001),亮银枪(1002)]",
+     "robotIdx": 1,
+     "action": "UseHeroSkill",
+     "targetsId": [
+      2
+     ],
+     "cards": [
+      1001,
+      1002
+     ],
+     "confirm": false,
+     "heroSkillUuid": 1630,
+     "assets": [
+      {
+       "msgName": "UseHeroSkillAck",
+       "desc": "郭嘉使用技能成功",
+       "attr": {
+        "Result": "1530"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "远交近攻_3",
+   "desc": "选择无势力的角色发动_不可发动",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1001,
+     1002,
+     1003,
+     1004,
+     1005,
+     1006,
+     1007,
+     1008,
+     1009
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 13,
+      "color": 97,
+      "heroId": 10002,
+      "initCards": [
+       1010
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [
+       1630,
+       1683
+      ],
+      "delSkills": [
+       1004,
+       1005,
+       1006
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 13,
+      "color": 97,
+      "heroId": 10005,
+      "initCards": [],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1011,
+       1012
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "郭嘉(1)对[甄宓(2)]使用牌[杀(1010)]",
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "targetsId": [
+      2
+     ],
+     "cards": [
+      1010
+     ],
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "郭嘉出牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "甄宓(2)取消",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "甄宓响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "desc": "郭嘉(1)确认, 使用牌[2]",
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "cards": [
+      2
+     ],
+     "confirm": true,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "郭嘉响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 4,
+     "desc": "郭嘉(1)对[甄宓(2)], 使用技能[远交近攻], 使用牌[万箭齐发(1001),亮银枪(1002)]",
+     "robotIdx": 1,
+     "action": "UseHeroSkill",
+     "targetsId": [
+      2
+     ],
+     "cards": [
+      1001,
+      1002
+     ],
+     "confirm": false,
+     "heroSkillUuid": 1630,
+     "assets": [
+      {
+       "msgName": "UseHeroSkillAck",
+       "desc": "郭嘉使用技能成功",
+       "attr": {
+        "Result": "1530"
+       }
+      }
+     ]
+    }
+   ]
+  }
+ ]

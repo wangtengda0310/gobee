@@ -1,0 +1,135 @@
+[
+  {
+   "case": "呼风唤雨1-1",
+   "desc": "呼风唤雨区内超过3张牌 触发后续雷电效果",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1002,
+     1003,
+     1004,
+     1006,
+     1007,
+     1001,
+     1014,
+     1013
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10001,
+      "initCards": [],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [
+       1049
+      ],
+      "delSkills": [
+       1001,
+       1074,
+       1075
+      ],
+      "exEquips": [],
+      "skillCardsMap": {
+       "1": [],
+       "2": [],
+       "4": []
+      }
+     },
+     {
+      "identity": 1,
+      "color": 2,
+      "heroId": 10002,
+      "initCards": [],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1005,
+       1004,
+       1006
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "曹操(1)结束打牌",
+     "robotIdx": 1,
+     "action": "PlayCardOver",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "PlayCardOverAck",
+       "desc": "曹操结束打牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "曹操(1)自动弃牌",
+     "robotIdx": 1,
+     "action": "DisCard",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "DisCardAck",
+       "desc": "曹操弃牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "desc": "曹操(1)确认对[郭嘉(2)]",
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "targetsId": [
+      2
+     ],
+     "confirm": true,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "曹操响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 4,
+     "desc": "郭嘉(2)断言",
+     "robotIdx": 2,
+     "action": "OnlyAsset",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "CommonHpChange",
+       "desc": "郭嘉受到来自HarmLei的伤害, 体力变化:-2",
+       "attr": {
+        "ChangeHp": "-2",
+        "HpSrc": "HarmLei"
+       }
+      }
+     ]
+    }
+   ]
+  }
+ ]

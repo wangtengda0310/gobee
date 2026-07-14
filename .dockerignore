@@ -1,0 +1,7 @@
+.git/
+frontend/
+cases/
+*.exe
+node_modules/
+build/
+docs/

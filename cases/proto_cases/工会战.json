@@ -1,0 +1,238 @@
+{
+  "version": 1,
+  "recorded_at": "2026-06-15T07:16:05.532Z",
+  "server_addr": "10.254.114.204:18000",
+  "messages": [
+    {
+      "msg_id": 1025,
+      "msg_name": "PostUserStatusReq",
+      "seq_id": 2,
+      "payload_json": {
+        "status": 11
+      }
+    },
+    {
+      "msg_id": 4001,
+      "msg_name": "FriendListReq",
+      "seq_id": 3,
+      "payload_json": {}
+    },
+    {
+      "msg_id": 4019,
+      "msg_name": "BlackListReq",
+      "seq_id": 4,
+      "payload_json": {}
+    },
+    {
+      "msg_id": 1606,
+      "msg_name": "GiftShopListReq",
+      "seq_id": 5,
+      "payload_json": {}
+    },
+    {
+      "msg_id": 1600,
+      "msg_name": "ShopQueryReq",
+      "seq_id": 6,
+      "payload_json": {}
+    },
+    {
+      "msg_id": 1001,
+      "msg_name": "GmCommandReq",
+      "seq_id": 7,
+      "descript": "添加粮草",
+      "payload_json": {
+        "content": "//AddItem 8000003 10"
+      }
+    },
+    {
+      "msg_id": 1001,
+      "msg_name": "GmCommandReq",
+      "seq_id": 8,
+      "descript": "添加虎符",
+      "payload_json": {
+        "content": "//AddItem 1000016 10"
+      }
+    },
+    {
+      "msg_id": 15012,
+      "msg_name": "GuildEnterReq",
+      "seq_id": 9,
+      "payload_json": {
+        "guildId": 595
+      }
+    },
+    {
+      "msg_id": 7070,
+      "msg_name": "CompleteClientFuncReq",
+      "seq_id": 10,
+      "payload_json": {
+        "triggerType": 4
+      }
+    },
+    {
+      "msg_id": 16023,
+      "msg_name": "GuildCityWarDataReq",
+      "seq_id": 11,
+      "payload_json": {}
+    },
+    {
+      "msg_id": 16023,
+      "msg_name": "GuildCityWarDataReq",
+      "seq_id": 12,
+      "payload_json": {}
+    },
+    {
+      "msg_id": 2005,
+      "msg_name": "JoinRoomReq",
+      "seq_id": 13,
+      "payload_json": {
+        "isQuickJoin": true,
+        "mode": 15001
+      }
+    },
+    {
+      "msg_id": 16051,
+      "msg_name": "TeamMatchGuildCityReq",
+      "seq_id": 14,
+      "descript": "刷新匹配列表",
+      "payload_json": {}
+    },
+    {
+      "msg_id": 16055,
+      "msg_name": "TeamSelectGuildCityReq",
+      "seq_id": 16,
+      "descript": "选择城池",
+      "payload_json": {
+        "cityId": 3014
+      },
+      "field_values": {
+        "cityId": {
+          "range_value": {
+            "start": 0,
+            "step": 1,
+            "end": 10
+          },
+          "enum_value": [],
+          "combo_value": [],
+          "input_type": "variable",
+          "variable_name": "cityId"
+        }
+      }
+    },
+    {
+      "msg_id": 2031,
+      "msg_name": "RoomAddRobotReq",
+      "seq_id": 17,
+      "descript": "灵智机器人1",
+      "payload_json": {
+        "seatID": 2
+      }
+    },
+    {
+      "msg_id": 2031,
+      "msg_name": "RoomAddRobotReq",
+      "seq_id": 18,
+      "descript": "灵智机器人2",
+      "payload_json": {
+        "seatID": 3
+      }
+    },
+    {
+      "msg_id": 2188,
+      "msg_name": "SaveLeadHerosReq",
+      "seq_id": 20,
+      "descript": "设置亲兵",
+      "payload_json": {
+        "heroIds": [
+          10001,
+          10002,
+          10003
+        ]
+      }
+    },
+    {
+      "msg_id": 16023,
+      "msg_name": "GuildCityWarDataReq",
+      "seq_id": 22,
+      "payload_json": {}
+    },
+    {
+      "msg_id": 2200,
+      "msg_name": "StartBattleReq",
+      "seq_id": 23,
+      "descript": "出征",
+      "payload_json": {}
+    },
+    {
+      "msg_id": 1100,
+      "msg_name": "UseItemReq",
+      "seq_id": 24,
+      "payload_json": {
+        "itemInfo": {
+          "amount": 1,
+          "itemId": 1050002
+        }
+      }
+    },
+    {
+      "msg_id": 2206,
+      "msg_name": "ChooseBattleHeroReq",
+      "seq_id": 26,
+      "descript": "选择亲兵",
+      "payload_json": {
+        "heroId": 10001,
+        "isLeadHero": true
+      }
+    },
+    {
+      "msg_id": 2251,
+      "msg_name": "ChooceHeroCompleteReq",
+      "seq_id": 27,
+      "descript": "选择亲兵-确认",
+      "payload_json": {
+        "ntfPlayerID": 4294967952,
+        "playerId": 4294967952
+      }
+    },
+    {
+      "msg_id": 1001,
+      "msg_name": "GmCommandReq",
+      "seq_id": 31,
+      "descript": "游戏结束-胜利",
+      "payload_json": {
+        "content": "//GameOverRoomWin"
+      }
+    },
+    {
+      "msg_id": 7070,
+      "msg_name": "CompleteClientFuncReq",
+      "seq_id": 33,
+      "payload_json": {
+        "triggerType": 4
+      }
+    },
+    {
+      "msg_id": 16023,
+      "msg_name": "GuildCityWarDataReq",
+      "seq_id": 34,
+      "payload_json": {}
+    },
+    {
+      "msg_id": 1025,
+      "msg_name": "PostUserStatusReq",
+      "seq_id": 37,
+      "payload_json": {
+        "status": 11
+      }
+    },
+    {
+      "msg_id": 16228,
+      "msg_name": "GuildCityPlayerPublicInfoReq",
+      "seq_id": 80,
+      "descript": "获取玩家公共信息",
+      "payload_json": {
+        "playerID": 4294967952
+      }
+    }
+  ]
+}

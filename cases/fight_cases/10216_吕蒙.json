@@ -1,0 +1,4232 @@
+[
+  {
+   "case": "吕蒙_束军克己_1",
+   "desc": "技能触发测试_自己回合结束时_技能正常触发",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1011,
+     1019,
+     1022,
+     1024,
+     1027,
+     1021,
+     1023,
+     1025
+    ],
+    "operateTimeMs": 300000,
+    "customHeroes": [
+     {
+      "identity": 13,
+      "color": 97,
+      "heroId": 10002,
+      "initCards": [],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [
+       1107
+      ],
+      "delSkills": [
+       1004,
+       1005,
+       1006
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 13,
+      "color": 97,
+      "heroId": 10005,
+      "initCards": [
+       1010,
+       1082
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1011,
+       1012
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "郭嘉(1)结束打牌",
+     "robotIdx": 1,
+     "action": "PlayCardOver",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "PlayCardOverAck",
+       "desc": "郭嘉结束打牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "郭嘉(1)自动弃牌",
+     "robotIdx": 1,
+     "action": "DisCard",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "DisCardAck",
+       "desc": "郭嘉弃牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "DrawCard",
+       "desc": "成功：自己回合结束时  正常触发",
+       "attr": {
+        "Cards": "1022",
+        "Count": "1",
+        "Random": "true"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "吕蒙_束军克己_2",
+   "desc": "技能触发测试_其他角色回合结束时_技能正常触发",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1011,
+     1019,
+     1022,
+     1024,
+     1027,
+     1021,
+     1023,
+     1025
+    ],
+    "operateTimeMs": 300000,
+    "customHeroes": [
+     {
+      "identity": 13,
+      "color": 97,
+      "heroId": 10002,
+      "initCards": [],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1004,
+       1005,
+       1006
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 13,
+      "color": 97,
+      "heroId": 10005,
+      "initCards": [
+       1010,
+       1082
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [
+       1107
+      ],
+      "delSkills": [
+       1011,
+       1012
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "郭嘉(1)结束打牌",
+     "robotIdx": 1,
+     "action": "PlayCardOver",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "PlayCardOverAck",
+       "desc": "郭嘉结束打牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "郭嘉(1)自动弃牌",
+     "robotIdx": 1,
+     "action": "DisCard",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "DisCardAck",
+       "desc": "郭嘉弃牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "robotIdx": 2,
+     "action": "OnlyAsset",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "DrawCard",
+       "desc": "成功：其他角色回合结束  技能正常触发",
+       "attr": {
+        "Cards": "1022",
+        "Count": "1"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "吕蒙_束军克己_3",
+   "desc": "技能同时机点测试_爪黄飞电_技能优先触发",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1011,
+     1019,
+     1022,
+     1025,
+     1027,
+     1024,
+     1021,
+     1023
+    ],
+    "operateTimeMs": 300000,
+    "customHeroes": [
+     {
+      "identity": 13,
+      "color": 97,
+      "heroId": 10002,
+      "initCards": [],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [
+       1107
+      ],
+      "delSkills": [
+       1004,
+       1005,
+       1006
+      ],
+      "exEquips": [
+       1065
+      ],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 13,
+      "color": 97,
+      "heroId": 10005,
+      "initCards": [
+       1010,
+       1082
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1011,
+       1012
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "郭嘉(1)结束打牌",
+     "robotIdx": 1,
+     "action": "PlayCardOver",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "PlayCardOverAck",
+       "desc": "郭嘉结束打牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "郭嘉(1)自动弃牌",
+     "robotIdx": 1,
+     "action": "DisCard",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "DisCardAck",
+       "desc": "郭嘉弃牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "desc": "郭嘉(1)断言",
+     "robotIdx": 1,
+     "action": "OnlyAsset",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "DrawCard",
+       "desc": "成功：技能优先触发",
+       "attr": {
+        "Cards": "1022",
+        "Count": "1"
+       }
+      },
+      {
+       "msgName": "DrawCard",
+       "desc": "成功：爪黄飞电后触发",
+       "attr": {
+        "Cards": "1025",
+        "Count": "1"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "吕蒙_束军克己_4",
+   "desc": "技能触发测试_本回合弃置过牌_技能正常触发",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1011,
+     1019,
+     1022,
+     1024,
+     1027,
+     1021,
+     1023,
+     1025
+    ],
+    "operateTimeMs": 300000,
+    "customHeroes": [
+     {
+      "identity": 13,
+      "color": 97,
+      "heroId": 10002,
+      "initCards": [
+       1007
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [
+       1107
+      ],
+      "delSkills": [
+       1004,
+       1005,
+       1006
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 13,
+      "color": 97,
+      "heroId": 10005,
+      "initCards": [
+       1010,
+       1082
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1011,
+       1012
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "郭嘉弃置铁索连州",
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "cards": [
+      1007
+     ],
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "郭嘉结束打牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "DrawCard",
+       "desc": "郭嘉抽到1张牌",
+       "attr": {
+        "Count": "1"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "郭嘉(1)结束打牌",
+     "robotIdx": 1,
+     "action": "PlayCardOver",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "PlayCardOverAck",
+       "desc": "郭嘉结束打牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "desc": "郭嘉(1)自动弃牌",
+     "robotIdx": 1,
+     "action": "DisCard",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "DisCardAck",
+       "desc": "郭嘉弃牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "DrawCard",
+       "desc": "成功：回合内弃牌非打出牌  技能正常触发",
+       "attr": {
+        "Count": "1"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "吕蒙_束军克己_5",
+   "desc": "技能触发测试_洗入牌_技能正常触发",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1011,
+     1019,
+     1022,
+     1024,
+     1027,
+     1021,
+     1023,
+     1025
+    ],
+    "operateTimeMs": 300000,
+    "customHeroes": [
+     {
+      "identity": 13,
+      "color": 97,
+      "heroId": 10002,
+      "initCards": [
+       1007
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [
+       1107,
+       1040
+      ],
+      "delSkills": [
+       1004,
+       1005,
+       1006
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 13,
+      "color": 97,
+      "heroId": 10005,
+      "initCards": [
+       1010,
+       1082
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1011,
+       1012
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "郭嘉(1), 使用技能[锦帆游侠]",
+     "robotIdx": 1,
+     "action": "UseHeroSkill",
+     "confirm": false,
+     "heroSkillUuid": 1040,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "UseHeroSkillAck",
+       "desc": "郭嘉结束打牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "郭嘉(1)结束打牌",
+     "robotIdx": 1,
+     "action": "PlayCardOver",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "PlayCardOverAck",
+       "desc": "郭嘉结束打牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "desc": "郭嘉(1)自动弃牌",
+     "robotIdx": 1,
+     "action": "DisCard",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "DisCardAck",
+       "desc": "郭嘉弃牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "DrawCard",
+       "desc": "成功：回合内洗入过牌堆牌  技能正常触发",
+       "attr": {
+        "Count": "1"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "吕蒙_束军克己_6",
+   "desc": "技能触发测试_交给其他角色牌_技能正常触发",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1011,
+     1019,
+     1022,
+     1024,
+     1027,
+     1021,
+     1023,
+     1025
+    ],
+    "operateTimeMs": 300000,
+    "customHeroes": [
+     {
+      "identity": 13,
+      "color": 97,
+      "heroId": 10002,
+      "initCards": [
+       1007
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [
+       1107,
+       1015
+      ],
+      "delSkills": [
+       1004,
+       1005,
+       1006
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 13,
+      "color": 97,
+      "heroId": 10005,
+      "initCards": [
+       1010,
+       1082
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1011,
+       1012
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "郭嘉(1)对[甄宓(2)], 使用技能[惟贤惟德], 使用牌[铁索连舟(1007)]",
+     "robotIdx": 1,
+     "action": "UseHeroSkill",
+     "targetsId": [
+      2
+     ],
+     "cards": [
+      1007
+     ],
+     "confirm": false,
+     "heroSkillUuid": 1015,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "UseHeroSkillAck",
+       "desc": "郭嘉使用技能成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "郭嘉(1)结束打牌",
+     "robotIdx": 1,
+     "action": "PlayCardOver",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "PlayCardOverAck",
+       "desc": "郭嘉结束打牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "desc": "郭嘉(1)自动弃牌",
+     "robotIdx": 1,
+     "action": "DisCard",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "DisCardAck",
+       "desc": "郭嘉弃牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "DrawCard",
+       "desc": "成功：交给其他角色牌  技能正常触发",
+       "attr": {
+        "Count": "1"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "吕蒙_束军克己_7",
+   "desc": "技能触发测试_其他角色打出你的牌_技能正常触发",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1011,
+     1019,
+     1022,
+     1024,
+     1027,
+     1021,
+     1023,
+     1025
+    ],
+    "operateTimeMs": 300000,
+    "customHeroes": [
+     {
+      "identity": 13,
+      "color": 97,
+      "heroId": 10002,
+      "initCards": [
+       1007
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [
+       1107,
+       1623
+      ],
+      "delSkills": [
+       1004,
+       1005,
+       1006
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 13,
+      "color": 97,
+      "heroId": 10005,
+      "initCards": [
+       1010,
+       1082
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1011,
+       1012
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "郭嘉(1)对[甄宓(2)], 使用技能[自荐枕席]",
+     "robotIdx": 1,
+     "action": "UseHeroSkill",
+     "targetsId": [
+      2
+     ],
+     "confirm": false,
+     "heroSkillUuid": 1623,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "UseHeroSkillAck",
+       "desc": "郭嘉使用技能成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "甄宓(2)对[郭嘉(1)]使用牌[杀(1011)]",
+     "robotIdx": 2,
+     "action": "PlayCard",
+     "targetsId": [
+      1
+     ],
+     "cards": [
+      1011
+     ],
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "甄宓出牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "desc": "郭嘉(1)取消",
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "郭嘉响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "CommonHpChange",
+       "desc": "郭嘉受到来自HarmNormal的伤害, 体力变化:-1, 当前体力: [3], 最大体力: [4]",
+       "attr": {
+        "ChangeHp": "-1",
+        "CurHp": "3",
+        "HpSrc": "HarmNormal",
+        "MaxHp": "4"
+       }
+      }
+     ]
+    },
+    {
+     "id": 4,
+     "desc": "甄宓(2)结束打牌",
+     "robotIdx": 2,
+     "action": "PlayCardOver",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "PlayCardOverAck",
+       "desc": "甄宓结束打牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 5,
+     "desc": "郭嘉(1)结束打牌",
+     "robotIdx": 1,
+     "action": "PlayCardOver",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "PlayCardOverAck",
+       "desc": "郭嘉结束打牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 6,
+     "desc": "郭嘉(1)自动弃牌",
+     "robotIdx": 1,
+     "action": "DisCard",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "DisCardAck",
+       "desc": "郭嘉弃牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "DrawCard",
+       "desc": "成功：其他角色打出你的牌  技能正常触发",
+       "attr": {
+        "Count": "1"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "吕蒙_束军克己_8",
+   "desc": "技能触发测试_本回合打出过牌_技能不触发",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1011,
+     1019,
+     1022,
+     1024,
+     1027,
+     1021,
+     1023,
+     1025
+    ],
+    "operateTimeMs": 300000,
+    "customHeroes": [
+     {
+      "identity": 13,
+      "color": 97,
+      "heroId": 10002,
+      "initCards": [
+       1007
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [
+       1107,
+       1040
+      ],
+      "delSkills": [
+       1004,
+       1005,
+       1006
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 13,
+      "color": 97,
+      "heroId": 10005,
+      "initCards": [
+       1010,
+       1082
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1011,
+       1012
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "郭嘉(1)对[甄宓(2)]使用牌[铁索连舟(1007)]",
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "targetsId": [
+      2
+     ],
+     "cards": [
+      1007
+     ],
+     "confirm": false,
+     "heroSkillUuid": 1040,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "郭嘉出牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "郭嘉(1)结束打牌",
+     "robotIdx": 1,
+     "action": "PlayCardOver",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "PlayCardOverAck",
+       "desc": "郭嘉结束打牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "desc": "郭嘉(1)自动弃牌",
+     "robotIdx": 1,
+     "action": "DisCard",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "DisCardAck",
+       "desc": "郭嘉弃牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "DrawCard",
+       "desc": "成功：本回合打出过牌  技能不触发",
+       "attr": {
+        "Count": "1",
+        "UnExpect": "true"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "吕蒙_束军克己_9",
+   "desc": "技能触发测试_自动打出过牌_技能不触发",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     2001,
+     1011,
+     1019,
+     1022,
+     1024,
+     1027,
+     1021,
+     1023,
+     1025
+    ],
+    "operateTimeMs": 300000,
+    "customHeroes": [
+     {
+      "identity": 13,
+      "color": 97,
+      "heroId": 10002,
+      "initCards": [
+       1007
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [
+       1107,
+       1040
+      ],
+      "delSkills": [
+       1004,
+       1005,
+       1006
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 13,
+      "color": 97,
+      "heroId": 10005,
+      "initCards": [
+       1010,
+       1082
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1011,
+       1012
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "郭嘉(1)断言",
+     "robotIdx": 1,
+     "action": "OnlyAsset",
+     "confirm": false,
+     "timeout": 2,
+     "assets": [
+      {
+       "msgName": "CommonHpChange",
+       "desc": "郭嘉受到来自LostHp的伤害, 体力变化:-1, 当前体力: [3], 最大体力: [4]",
+       "attr": {
+        "ChangeHp": "-1",
+        "CurHp": "3",
+        "HpSrc": "LostHp",
+        "MaxHp": "4"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "郭嘉(1)结束打牌",
+     "robotIdx": 1,
+     "action": "PlayCardOver",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "PlayCardOverAck",
+       "desc": "郭嘉结束打牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "desc": "郭嘉(1)自动弃牌",
+     "robotIdx": 1,
+     "action": "DisCard",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "DisCardAck",
+       "desc": "郭嘉弃牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "DrawCard",
+       "desc": "成功：自动打出过牌  技能不触发",
+       "attr": {
+        "Count": "1",
+        "UnExpect": "true"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "吕蒙_束军克己_10",
+   "desc": "技能触发测试_替其他角色打出牌_技能不触发",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1011,
+     1019,
+     1022,
+     1024,
+     1027,
+     1021,
+     1023,
+     1025
+    ],
+    "operateTimeMs": 300000,
+    "customHeroes": [
+     {
+      "identity": 13,
+      "color": 97,
+      "heroId": 10002,
+      "initCards": [
+       1125
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1004,
+       1005,
+       1006
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 13,
+      "color": 97,
+      "heroId": 10005,
+      "initCards": [
+       1010,
+       1082
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [
+       1330
+      ],
+      "delSkills": [
+       1011,
+       1012
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 13,
+      "color": 97,
+      "heroId": 10102,
+      "initCards": [
+       1003
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [
+       1107
+      ],
+      "delSkills": [
+       1018,
+       1019
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "郭嘉(1)使用牌[烽火狼烟(1125)]",
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "cards": [
+      1125
+     ],
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "郭嘉出牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "甄宓(2)取消",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "甄宓响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "desc": "诸葛亮(3)取消",
+     "robotIdx": 3,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "郭嘉响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 4,
+     "desc": "郭嘉(1)取消",
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "郭嘉响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 5,
+     "desc": "郭嘉(1)取消",
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "郭嘉响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 6,
+     "desc": "诸葛亮(3)确认, 使用牌[杀(1003)]",
+     "robotIdx": 3,
+     "action": "OptRoomAction",
+     "cards": [
+      1003
+     ],
+     "confirm": true,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "郭嘉响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 7,
+     "desc": "郭嘉(1)取消",
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "郭嘉响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 8,
+     "desc": "甄宓(2)取消",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "甄宓响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 9,
+     "desc": "诸葛亮(3)取消",
+     "robotIdx": 3,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "诸葛亮响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 10,
+     "desc": "诸葛亮(3)取消",
+     "robotIdx": 3,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "诸葛亮响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "CommonHpChange",
+       "desc": "诸葛亮受到来自HarmNormal的伤害, 体力变化:-1, 当前体力: [3], 最大体力: [4]",
+       "attr": {
+        "ChangeHp": "-1",
+        "CurHp": "3",
+        "HpSrc": "HarmNormal",
+        "MaxHp": "4"
+       }
+      }
+     ]
+    },
+    {
+     "id": 11,
+     "desc": "郭嘉(1)结束打牌",
+     "robotIdx": 1,
+     "action": "PlayCardOver",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "PlayCardOverAck",
+       "desc": "郭嘉结束打牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 12,
+     "desc": "郭嘉(1)自动弃牌",
+     "robotIdx": 1,
+     "action": "DisCard",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "DisCardAck",
+       "desc": "郭嘉弃牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 13,
+     "robotIdx": 3,
+     "action": "OnlyAsset",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "DrawCard",
+       "desc": "成功：替其他角色打牌  技能不触发",
+       "attr": {
+        "Count": "1",
+        "UnExpect": "true"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "吕蒙_束军克己_11",
+   "desc": "技能触发测试_打出牌到处理区被反间到手牌_技能不触发",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1011,
+     1019,
+     1022,
+     1024,
+     1027,
+     1021,
+     1023,
+     1025
+    ],
+    "operateTimeMs": 300000,
+    "customHeroes": [
+     {
+      "identity": 13,
+      "color": 97,
+      "heroId": 10002,
+      "initCards": [
+       4085
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [
+       1107,
+       1040
+      ],
+      "delSkills": [
+       1004,
+       1005,
+       1006
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 13,
+      "color": 97,
+      "heroId": 10005,
+      "initCards": [
+       1010,
+       1082
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [
+       1309
+      ],
+      "delSkills": [
+       1011,
+       1012
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "郭嘉(1)对[甄宓(2)]使用牌[夺粮劫营(4085)]",
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "targetsId": [
+      2
+     ],
+     "cards": [
+      4085
+     ],
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "郭嘉出牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "甄宓(2)确认",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "confirm": true,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "甄宓响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "desc": "郭嘉(1)结束打牌",
+     "robotIdx": 1,
+     "action": "PlayCardOver",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "PlayCardOverAck",
+       "desc": "郭嘉结束打牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 4,
+     "desc": "郭嘉(1)自动弃牌",
+     "robotIdx": 1,
+     "action": "DisCard",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "DisCardAck",
+       "desc": "郭嘉弃牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "DrawCard",
+       "desc": "成功：打出牌被反间后  回合结束技能不触发",
+       "attr": {
+        "Count": "1",
+        "UnExpect": "true"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "吕蒙_束军克己_12",
+   "desc": "技能触发测试_获得该技能前打出牌  获得技能后未打出牌_回合结束技能不触发",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1011,
+     1019,
+     1022,
+     1024,
+     1027,
+     1021,
+     1023,
+     1025
+    ],
+    "operateTimeMs": 300000,
+    "customHeroes": [
+     {
+      "identity": 13,
+      "color": 97,
+      "heroId": 10002,
+      "initCards": [
+       1122,
+       2010,
+       4044
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1004,
+       1005,
+       1006
+      ],
+      "exEquips": [
+       1147
+      ],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 13,
+      "color": 97,
+      "heroId": 10005,
+      "initCards": [
+       1010,
+       1082
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1011,
+       1012
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 13,
+      "color": 97,
+      "heroId": 10216,
+      "initCards": [],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1108,
+       1109
+      ],
+      "exEquips": [
+       1043,
+       3135,
+       4043
+      ],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "郭嘉(1)使用牌[怒(4044)]",
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "cards": [
+      4044
+     ],
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "郭嘉出牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "郭嘉(1)对[吕蒙(3)]使用牌[火杀(1122)]",
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "targetsId": [
+      3
+     ],
+     "cards": [
+      1122
+     ],
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "郭嘉出牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "desc": "吕蒙(3)取消",
+     "robotIdx": 3,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "吕蒙响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "CommonHpChange",
+       "desc": "吕蒙受到来自HarmHuo的伤害, 体力变化:-6, 最大体力: [6]",
+       "attr": {
+        "ChangeHp": "-6",
+        "CurHp": "0",
+        "HpSrc": "HarmHuo",
+        "MaxHp": "6"
+       }
+      }
+     ]
+    },
+    {
+     "id": 4,
+     "desc": "郭嘉(1)取消",
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "郭嘉响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 5,
+     "desc": "甄宓(2)取消",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "甄宓响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 6,
+     "desc": "吕蒙(3)取消",
+     "robotIdx": 3,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "吕蒙响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 7,
+     "desc": "郭嘉(1)对[诸葛亮(3)]使用牌[借尸还魂(2010)]",
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "targetsId": [
+      3
+     ],
+     "cards": [
+      2010
+     ],
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "郭嘉出牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 8,
+     "desc": "郭嘉(1)确认获得束军克己",
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "cards": [
+      1107
+     ],
+     "confirm": true,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "郭嘉响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 9,
+     "desc": "郭嘉(1)结束打牌",
+     "robotIdx": 1,
+     "action": "PlayCardOver",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "PlayCardOverAck",
+       "desc": "郭嘉结束打牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 10,
+     "desc": "郭嘉(1)自动弃牌",
+     "robotIdx": 1,
+     "action": "DisCard",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "DisCardAck",
+       "desc": "郭嘉弃牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "DrawCard",
+       "desc": "成功：获得技能前打出过牌   获得技能后未打出过牌到回合结束  技能不触发",
+       "attr": {
+        "Count": "1",
+        "UnExpect": "true"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "吕蒙_束军克己_13",
+   "desc": "技能触发测试_牌堆无杀的情况_技能算发动但不获得牌",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1021,
+     1023,
+     1025,
+     1043,
+     1042,
+     1041,
+     1039
+    ],
+    "operateTimeMs": 300000,
+    "customHeroes": [
+     {
+      "identity": 13,
+      "color": 97,
+      "heroId": 10002,
+      "initCards": [],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [
+       1107
+      ],
+      "delSkills": [
+       1004,
+       1005,
+       1006
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 13,
+      "color": 97,
+      "heroId": 10005,
+      "initCards": [
+       1010,
+       1082
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [
+       1330
+      ],
+      "delSkills": [
+       1011,
+       1012
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "郭嘉(1)结束打牌",
+     "robotIdx": 1,
+     "action": "PlayCardOver",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "PlayCardOverAck",
+       "desc": "郭嘉结束打牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "郭嘉(1)自动弃牌",
+     "robotIdx": 1,
+     "action": "DisCard",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "DisCardAck",
+       "desc": "郭嘉弃牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "DrawCard",
+       "desc": "成功：牌堆无杀的情况  不获得牌  但技能算触发",
+       "attr": {
+        "ActionType": "3",
+        "ActionValue": "1107"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "吕蒙_束军克己_14",
+   "desc": "技能效果测试_从牌堆获得_从最顶上开始找 获得第一个符合条件的牌",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1021,
+     1023,
+     1025,
+     1043,
+     1030,
+     1042,
+     1041,
+     1039,
+     1003
+    ],
+    "operateTimeMs": 300000,
+    "customHeroes": [
+     {
+      "identity": 13,
+      "color": 97,
+      "heroId": 10002,
+      "initCards": [],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [
+       1107
+      ],
+      "delSkills": [
+       1004,
+       1005,
+       1006
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 13,
+      "color": 97,
+      "heroId": 10005,
+      "initCards": [
+       1010,
+       1082
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1011,
+       1012
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "郭嘉(1)结束打牌",
+     "robotIdx": 1,
+     "action": "PlayCardOver",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "PlayCardOverAck",
+       "desc": "郭嘉结束打牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "郭嘉(1)自动弃牌",
+     "robotIdx": 1,
+     "action": "DisCard",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "DisCardAck",
+       "desc": "郭嘉弃牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "desc": "郭嘉(1)断言",
+     "robotIdx": 1,
+     "action": "OnlyAsset",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "DrawCard",
+       "desc": "成功：从牌堆定开始找  获得第一张符合条件的牌",
+       "attr": {
+        "Cards": "1030",
+        "Count": "1",
+        "UnExpect": "false"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "吕蒙_束军克己_15",
+   "desc": "技能封禁测试_发动前被封禁_获得牌时被封禁  回合未打出牌  回合结束技能不生效",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1021,
+     1023,
+     1025,
+     1043,
+     1042,
+     1041,
+     1039,
+     1001,
+     1002,
+     1003,
+     1004
+    ],
+    "operateTimeMs": 300000,
+    "customHeroes": [
+     {
+      "identity": 13,
+      "color": 97,
+      "heroId": 10002,
+      "initCards": [
+       1050
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [
+       1107
+      ],
+      "delSkills": [
+       1004,
+       1005,
+       1006
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 13,
+      "color": 97,
+      "heroId": 10005,
+      "initCards": [
+       1010,
+       1082
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [
+       1034
+      ],
+      "delSkills": [
+       1011,
+       1012
+      ],
+      "exEquips": [
+       1009
+      ],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "郭嘉(1)使用牌[多多益善(1050)]",
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "cards": [
+      1050
+     ],
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "郭嘉出牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "甄宓(2)确认对[郭嘉(1)], 使用牌[杀(1010)]",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "targetsId": [
+      1
+     ],
+     "cards": [
+      1010
+     ],
+     "confirm": true,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "甄宓响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "desc": "郭嘉(1)取消",
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "郭嘉响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "CommonHpChange",
+       "desc": "郭嘉受到来自HarmNormal的伤害, 体力变化:-1, 当前体力: [3], 最大体力: [4]",
+       "attr": {
+        "ChangeHp": "-1",
+        "CurHp": "3",
+        "HpSrc": "HarmNormal",
+        "MaxHp": "4"
+       }
+      }
+     ]
+    },
+    {
+     "id": 4,
+     "desc": "郭嘉(1)结束打牌",
+     "robotIdx": 1,
+     "action": "PlayCardOver",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "PlayCardOverAck",
+       "desc": "郭嘉结束打牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 5,
+     "desc": "郭嘉(1)自动弃牌",
+     "robotIdx": 1,
+     "action": "DisCard",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "DisCardAck",
+       "desc": "郭嘉弃牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "DrawCard",
+       "desc": "成功：发动前被封禁  技能不生效",
+       "attr": {
+        "Count": "1",
+        "UnExpect": "true"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "吕蒙_束军克己_16",
+   "desc": "技能重置测试_打出过牌后被重置_回合结束时技能不触发",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1021,
+     1023,
+     1025,
+     1042,
+     1041,
+     1039,
+     1001,
+     1002,
+     1003,
+     1004,
+     1005
+    ],
+    "operateTimeMs": 300000,
+    "customHeroes": [
+     {
+      "identity": 13,
+      "color": 97,
+      "heroId": 10002,
+      "initCards": [
+       1050
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [
+       1107
+      ],
+      "delSkills": [
+       1004,
+       1005,
+       1006
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 13,
+      "color": 97,
+      "heroId": 10005,
+      "initCards": [
+       1010,
+       1082,
+       1122
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [
+       1034
+      ],
+      "delSkills": [
+       1011,
+       1012
+      ],
+      "exEquips": [
+       1147
+      ],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 13,
+      "color": 97,
+      "heroId": 10102,
+      "initCards": [],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [
+       1335
+      ],
+      "delSkills": [
+       1018,
+       1019
+      ],
+      "exEquips": [
+       1043,
+       3135
+      ],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "郭嘉(1)使用牌[多多益善(1050)]",
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "cards": [
+      1050
+     ],
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "郭嘉出牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "甄宓(2)确认对[诸葛亮(3)], 使用牌[火杀(1122)]",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "targetsId": [
+      3
+     ],
+     "cards": [
+      1122
+     ],
+     "confirm": true,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "甄宓响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "desc": "诸葛亮(3)取消",
+     "robotIdx": 3,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "诸葛亮响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "CommonHpChange",
+       "desc": "诸葛亮受到来自HarmHuo的伤害, 体力变化:-4, 最大体力: [4]",
+       "attr": {
+        "ChangeHp": "-4",
+        "CurHp": "0",
+        "HpSrc": "HarmHuo",
+        "MaxHp": "4"
+       }
+      }
+     ]
+    },
+    {
+     "id": 4,
+     "desc": "甄宓(2)取消",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "甄宓响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 5,
+     "desc": "诸葛亮(3)取消",
+     "robotIdx": 3,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "诸葛亮响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 6,
+     "desc": "郭嘉(1)取消",
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "郭嘉响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 7,
+     "desc": "诸葛亮(3)确认对[郭嘉(1)]",
+     "robotIdx": 3,
+     "action": "OptRoomAction",
+     "targetsId": [
+      1
+     ],
+     "confirm": true,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "诸葛亮响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 8,
+     "desc": "诸葛亮确认重置束军克己",
+     "robotIdx": 3,
+     "action": "OptRoomAction",
+     "cards": [
+      2,
+      3000000
+     ],
+     "confirm": true,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "郭嘉响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 9,
+     "desc": "郭嘉(1)结束打牌",
+     "robotIdx": 1,
+     "action": "PlayCardOver",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "PlayCardOverAck",
+       "desc": "郭嘉结束打牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 10,
+     "desc": "郭嘉(1)自动弃牌",
+     "robotIdx": 1,
+     "action": "DisCard",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "DisCardAck",
+       "desc": "郭嘉弃牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "DrawCard",
+       "desc": "成功：回合内打出过牌后  技能被重置  回合结束时  技能不生效",
+       "attr": {
+        "Count": "1",
+        "UnExpect": "true"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "吕蒙_束军克己_17",
+   "desc": "技能删除测试_回合内未打出牌技能被删除_回合结束时技能不触发",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1021,
+     1023,
+     1025,
+     1042,
+     1041,
+     1039,
+     1001,
+     1002,
+     1003,
+     1004,
+     1005
+    ],
+    "operateTimeMs": 300000,
+    "customHeroes": [
+     {
+      "identity": 13,
+      "color": 97,
+      "heroId": 10002,
+      "initCards": [
+       1050
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [
+       1107
+      ],
+      "delSkills": [
+       1004,
+       1005,
+       1006
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 13,
+      "color": 97,
+      "heroId": 10005,
+      "initCards": [
+       1010,
+       1082,
+       1122
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [
+       1034
+      ],
+      "delSkills": [
+       1011,
+       1012
+      ],
+      "exEquips": [
+       1147
+      ],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 13,
+      "color": 97,
+      "heroId": 10102,
+      "initCards": [],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [
+       1335
+      ],
+      "delSkills": [
+       1018,
+       1019
+      ],
+      "exEquips": [
+       1043,
+       3135
+      ],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "郭嘉(1)使用牌[多多益善(1050)]",
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "cards": [
+      1050
+     ],
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "郭嘉出牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "甄宓(2)确认对[诸葛亮(3)], 使用牌[火杀(1122)]",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "targetsId": [
+      3
+     ],
+     "cards": [
+      1122
+     ],
+     "confirm": true,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "甄宓响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "desc": "诸葛亮(3)取消",
+     "robotIdx": 3,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "诸葛亮响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "CommonHpChange",
+       "desc": "诸葛亮受到来自HarmHuo的伤害, 体力变化:-4, 最大体力: [4]",
+       "attr": {
+        "ChangeHp": "-4",
+        "CurHp": "0",
+        "HpSrc": "HarmHuo",
+        "MaxHp": "4"
+       }
+      }
+     ]
+    },
+    {
+     "id": 4,
+     "desc": "甄宓(2)取消",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "甄宓响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 5,
+     "desc": "诸葛亮(3)取消",
+     "robotIdx": 3,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "诸葛亮响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 6,
+     "desc": "郭嘉(1)取消",
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "郭嘉响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 7,
+     "desc": "诸葛亮(3)确认对[郭嘉(1)]",
+     "robotIdx": 3,
+     "action": "OptRoomAction",
+     "targetsId": [
+      1
+     ],
+     "confirm": true,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "诸葛亮响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 8,
+     "desc": "诸葛亮确认重置束军克己",
+     "robotIdx": 3,
+     "action": "OptRoomAction",
+     "cards": [
+      1,
+      3000000
+     ],
+     "confirm": true,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "郭嘉响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 9,
+     "desc": "郭嘉(1)结束打牌",
+     "robotIdx": 1,
+     "action": "PlayCardOver",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "PlayCardOverAck",
+       "desc": "郭嘉结束打牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 10,
+     "desc": "郭嘉(1)自动弃牌",
+     "robotIdx": 1,
+     "action": "DisCard",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "DisCardAck",
+       "desc": "郭嘉弃牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "DrawCard",
+       "desc": "成功：回合内未打出过牌  技能被删除  回合结束时  技能不生效",
+       "attr": {
+        "Count": "1",
+        "UnExpect": "true"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "吕蒙_束军克己_18",
+   "desc": "技能重置测试_回合内未打出过牌被重置_回合结束时正常触发",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1021,
+     1023,
+     1025,
+     1042,
+     1041,
+     1039,
+     1001,
+     1002,
+     1003,
+     1004,
+     1005,
+     1011,
+     1012
+    ],
+    "operateTimeMs": 300000,
+    "customHeroes": [
+     {
+      "identity": 13,
+      "color": 97,
+      "heroId": 10002,
+      "initCards": [
+       1050
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [
+       1107,
+       1040
+      ],
+      "delSkills": [
+       1004,
+       1005,
+       1006
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 13,
+      "color": 97,
+      "heroId": 10005,
+      "initCards": [
+       1010,
+       1082,
+       1122
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [
+       1034
+      ],
+      "delSkills": [
+       1011,
+       1012
+      ],
+      "exEquips": [
+       1147
+      ],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 13,
+      "color": 97,
+      "heroId": 10102,
+      "initCards": [],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [
+       1335
+      ],
+      "delSkills": [
+       1018,
+       1019
+      ],
+      "exEquips": [
+       1043,
+       3135
+      ],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "郭嘉(1), 使用技能[锦帆游侠]",
+     "robotIdx": 1,
+     "action": "UseHeroSkill",
+     "confirm": true,
+     "heroSkillUuid": 1040,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "UseHeroSkillAck",
+       "desc": "郭嘉使用技能成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "甄宓(2)确认对[诸葛亮(3)], 使用牌[火杀(1122)]",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "targetsId": [
+      3
+     ],
+     "cards": [
+      1122
+     ],
+     "confirm": true,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "甄宓响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "desc": "诸葛亮(3)取消",
+     "robotIdx": 3,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "诸葛亮响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "CommonHpChange",
+       "desc": "诸葛亮受到来自HarmHuo的伤害, 体力变化:-4, 最大体力: [4]",
+       "attr": {
+        "ChangeHp": "-4",
+        "CurHp": "0",
+        "HpSrc": "HarmHuo",
+        "MaxHp": "4"
+       }
+      }
+     ]
+    },
+    {
+     "id": 4,
+     "desc": "甄宓(2)取消",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "甄宓响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 5,
+     "desc": "诸葛亮(3)取消",
+     "robotIdx": 3,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "诸葛亮响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 6,
+     "desc": "郭嘉(1)取消",
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "郭嘉响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 7,
+     "desc": "诸葛亮(3)确认对[郭嘉(1)]",
+     "robotIdx": 3,
+     "action": "OptRoomAction",
+     "targetsId": [
+      1
+     ],
+     "confirm": true,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "诸葛亮响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 8,
+     "desc": "诸葛亮确认重置束军克己",
+     "robotIdx": 3,
+     "action": "OptRoomAction",
+     "cards": [
+      2,
+      3000000
+     ],
+     "confirm": true,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "郭嘉响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 9,
+     "desc": "郭嘉(1)结束打牌",
+     "robotIdx": 1,
+     "action": "PlayCardOver",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "PlayCardOverAck",
+       "desc": "郭嘉结束打牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 10,
+     "desc": "郭嘉(1)自动弃牌",
+     "robotIdx": 1,
+     "action": "DisCard",
+     "confirm": false,
+     "timeout": 2,
+     "assets": [
+      {
+       "msgName": "DisCardAck",
+       "desc": "郭嘉弃牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "DrawCard",
+       "desc": "郭嘉抽到1张牌",
+       "attr": {
+        "Count": "1",
+        "UnExpect": "false"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "吕蒙_束军克己_19",
+   "desc": "技能转移测试_本回合打出过牌 转移获得技能_回合结束  技能不触发",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1021,
+     1023,
+     1025,
+     1042,
+     1041,
+     1039,
+     1001,
+     1002,
+     1003,
+     1004,
+     1005
+    ],
+    "operateTimeMs": 300000,
+    "customHeroes": [
+     {
+      "identity": 13,
+      "color": 97,
+      "heroId": 10002,
+      "initCards": [
+       1050
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [
+       1040
+      ],
+      "delSkills": [
+       1004,
+       1005,
+       1006
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 13,
+      "color": 97,
+      "heroId": 10005,
+      "initCards": [
+       1010,
+       1082,
+       1122
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [
+       1034,
+       1365
+      ],
+      "delSkills": [
+       1011,
+       1012
+      ],
+      "exEquips": [
+       1147
+      ],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 13,
+      "color": 97,
+      "heroId": 10102,
+      "initCards": [],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [
+       1107
+      ],
+      "delSkills": [
+       1018,
+       1019
+      ],
+      "exEquips": [
+       1043,
+       3135
+      ],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "郭嘉(1), 使用技能[锦帆游侠]",
+     "robotIdx": 1,
+     "action": "UseHeroSkill",
+     "confirm": true,
+     "heroSkillUuid": 1040,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "UseHeroSkillAck",
+       "desc": "郭嘉使用技能成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "甄宓(2)确认对[诸葛亮(3)], 使用牌[火杀(1122)]",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "targetsId": [
+      3
+     ],
+     "cards": [
+      1122
+     ],
+     "confirm": true,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "甄宓响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "desc": "诸葛亮(3)取消",
+     "robotIdx": 3,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "诸葛亮响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "CommonHpChange",
+       "desc": "诸葛亮受到来自HarmHuo的伤害, 体力变化:-4, 最大体力: [4]",
+       "attr": {
+        "ChangeHp": "-4",
+        "CurHp": "0",
+        "HpSrc": "HarmHuo",
+        "MaxHp": "4"
+       }
+      }
+     ]
+    },
+    {
+     "id": 4,
+     "desc": "甄宓(2)确认",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "confirm": true,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "甄宓响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 5,
+     "desc": "甄宓(2)确认转移束军克己",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "cards": [
+      3000004
+     ],
+     "confirm": true,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "甄宓响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 6,
+     "desc": "甄宓(2)取消",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "甄宓响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 7,
+     "desc": "诸葛亮(3)取消",
+     "robotIdx": 3,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "诸葛亮响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 8,
+     "desc": "郭嘉(1)取消",
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "郭嘉响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 9,
+     "desc": "郭嘉(1)结束打牌",
+     "robotIdx": 1,
+     "action": "PlayCardOver",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "PlayCardOverAck",
+       "desc": "郭嘉结束打牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 10,
+     "desc": "郭嘉(1)自动弃牌",
+     "robotIdx": 1,
+     "action": "DisCard",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "DisCardAck",
+       "desc": "郭嘉弃牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 11,
+     "robotIdx": 2,
+     "action": "OnlyAsset",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "SkillTrigger",
+       "desc": "成功：本回合打出过牌  转移束军克己后  回合结束技能不触发",
+       "attr": {
+        "ActionValue": "1107",
+        "UnExpect": "true"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "吕蒙_束军克己_20",
+   "desc": "技能效果测试_存在多个相同技能的情况_每个技能单独处理  互不影响",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1021,
+     1023,
+     1025,
+     1043,
+     1030,
+     1042,
+     1041,
+     1039,
+     1003,
+     1011,
+     1020
+    ],
+    "operateTimeMs": 300000,
+    "customHeroes": [
+     {
+      "identity": 13,
+      "color": 97,
+      "heroId": 10002,
+      "initCards": [],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [
+       1107,
+       1107
+      ],
+      "delSkills": [
+       1004,
+       1005,
+       1006
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 13,
+      "color": 97,
+      "heroId": 10005,
+      "initCards": [
+       1010,
+       1082
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1011,
+       1012
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "郭嘉(1)结束打牌",
+     "robotIdx": 1,
+     "action": "PlayCardOver",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "PlayCardOverAck",
+       "desc": "郭嘉结束打牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "郭嘉(1)自动弃牌",
+     "robotIdx": 1,
+     "action": "DisCard",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "DisCardAck",
+       "desc": "郭嘉弃牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "desc": "郭嘉(1)断言",
+     "robotIdx": 1,
+     "action": "OnlyAsset",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "DrawCard",
+       "desc": "成功：第一次触发",
+       "attr": {
+        "Cards": "",
+        "Count": "1",
+        "UnExpect": "false"
+       }
+      },
+      {
+       "msgName": "DrawCard",
+       "desc": "成功：第二次触发",
+       "attr": {
+        "Count": "1"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "吕蒙_束军克己_21",
+   "desc": "技能效果测试_牌堆存在强化杀_正常可获得强化杀",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1021,
+     1023,
+     1025,
+     1043,
+     1042,
+     1041,
+     1039
+    ],
+    "operateTimeMs": 300000,
+    "customHeroes": [
+     {
+      "identity": 13,
+      "color": 97,
+      "heroId": 10002,
+      "initCards": [
+       1003
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [
+       1107,
+       1659
+      ],
+      "delSkills": [
+       1004,
+       1005,
+       1006
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 13,
+      "color": 97,
+      "heroId": 10005,
+      "initCards": [
+       1010,
+       1082
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1011,
+       1012
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "郭嘉(1), 使用技能[千金市骨]",
+     "robotIdx": 1,
+     "action": "UseHeroSkill",
+     "confirm": false,
+     "heroSkillUuid": 1659,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "UseHeroSkillAck",
+       "desc": "郭嘉使用技能成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "郭嘉(1)结束打牌",
+     "robotIdx": 1,
+     "action": "PlayCardOver",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "PlayCardOverAck",
+       "desc": "郭嘉结束打牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "desc": "郭嘉(1)自动弃牌",
+     "robotIdx": 1,
+     "action": "DisCard",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "DisCardAck",
+       "desc": "郭嘉弃牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 4,
+     "desc": "郭嘉(1)断言",
+     "robotIdx": 1,
+     "action": "OnlyAsset",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "DrawCard",
+       "desc": "成功：正常可获得强化的杀",
+       "attr": {
+        "Cards": "1003",
+        "Count": "1",
+        "UnExpect": "false"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "吕蒙_束军克己_22",
+   "desc": "技能机制2触发测试_自己回合开始时_效果正常触发",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1021,
+     1023,
+     1025,
+     1043,
+     1042,
+     1041,
+     1039,
+     1033,
+     1027,
+     1028
+    ],
+    "operateTimeMs": 300000,
+    "customHeroes": [
+     {
+      "identity": 13,
+      "color": 97,
+      "heroId": 10002,
+      "initCards": [
+       1003,
+       1011
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [
+       1107
+      ],
+      "delSkills": [
+       1004,
+       1005,
+       1006
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 13,
+      "color": 97,
+      "heroId": 10005,
+      "initCards": [
+       1010,
+       1082
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1011,
+       1012
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "郭嘉(1)结束打牌",
+     "robotIdx": 1,
+     "action": "PlayCardOver",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "PlayCardOverAck",
+       "desc": "郭嘉结束打牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "郭嘉(1)自动弃牌",
+     "robotIdx": 1,
+     "action": "DisCard",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "DisCardAck",
+       "desc": "郭嘉弃牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "DrawCard",
+       "desc": "郭嘉抽到1张牌牌为[1033]",
+       "attr": {
+        "ActionType": "3",
+        "ActionValue": "1107",
+        "Cards": "1033",
+        "Count": "1"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "desc": "甄宓(2)结束打牌",
+     "robotIdx": 2,
+     "action": "PlayCardOver",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "PlayCardOverAck",
+       "desc": "甄宓结束打牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 4,
+     "desc": "甄宓(2)自动弃牌",
+     "robotIdx": 2,
+     "action": "DisCard",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "DisCardAck",
+       "desc": "甄宓弃牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 5,
+     "desc": "甄宓(2)断言",
+     "robotIdx": 1,
+     "action": "OnlyAsset",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "DrawCard",
+       "desc": "成功：其他角色回合结束时摸得牌",
+       "attr": {
+        "ActionType": "0",
+        "ActionValue": "0",
+        "Cards": "1027",
+        "Count": "1"
+       }
+      },
+      {
+       "msgName": "DrawCard",
+       "desc": "成功：回合开始时技能摸得牌",
+       "attr": {
+        "ActionType": "0",
+        "ActionValue": "0",
+        "Cards": "2000000",
+        "Count": "1"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "吕蒙_束军克己_23",
+   "desc": "技能机制2触发测试_其他角色回合开始时_效果不触发",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1021,
+     1023,
+     1025,
+     1043,
+     1042,
+     1041,
+     1039,
+     1033,
+     1027,
+     1028
+    ],
+    "operateTimeMs": 300000,
+    "customHeroes": [
+     {
+      "identity": 13,
+      "color": 97,
+      "heroId": 10002,
+      "initCards": [
+       1003,
+       1011
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [
+       1107
+      ],
+      "delSkills": [
+       1004,
+       1005,
+       1006
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 13,
+      "color": 97,
+      "heroId": 10005,
+      "initCards": [
+       1010,
+       1082
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1011,
+       1012
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "郭嘉(1)结束打牌",
+     "robotIdx": 1,
+     "action": "PlayCardOver",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "PlayCardOverAck",
+       "desc": "郭嘉结束打牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "郭嘉(1)自动弃牌",
+     "robotIdx": 1,
+     "action": "DisCard",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "DisCardAck",
+       "desc": "郭嘉弃牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "robotIdx": 1,
+     "action": "OnlyAsset",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "DrawCard",
+       "desc": "成功：弃牌阶段技能摸得牌",
+       "attr": {
+        "Cards": "1033",
+        "Count": "1",
+        "UnExpect": "false"
+       }
+      },
+      {
+       "msgName": "DrawCard",
+       "desc": "成功：其他角色回合开始时  不触发技能摸牌",
+       "attr": {
+        "Cards": "2000001",
+        "Count": "1",
+        "UnExpect": "true"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "吕蒙_束军克己_24",
+   "desc": "技能机制2触发测试_回合开始时手牌中的杀\u003c2_技能不触发",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1021,
+     1023,
+     1025,
+     1043,
+     1042,
+     1041,
+     1039,
+     1033,
+     1027,
+     1028
+    ],
+    "operateTimeMs": 300000,
+    "customHeroes": [
+     {
+      "identity": 13,
+      "color": 97,
+      "heroId": 10002,
+      "initCards": [
+       1011
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [
+       1107
+      ],
+      "delSkills": [
+       1004,
+       1005,
+       1006
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 13,
+      "color": 97,
+      "heroId": 10005,
+      "initCards": [
+       1010,
+       1082
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1011,
+       1012
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "郭嘉(1)结束打牌",
+     "robotIdx": 1,
+     "action": "OnlyAsset",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "DrawCard",
+       "desc": "成功：回合开始时手牌中杀\u003c1  不触发添加牌效果",
+       "attr": {
+        "Cards": "1021 1023",
+        "Count": "2",
+        "UnExpect": "false"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "吕蒙_束军克己_25",
+   "desc": "技能机制2触发测试_回合开始时手牌中的杀\u003e=3_技能正常触发",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1021,
+     1023,
+     1025,
+     1043,
+     1042,
+     1041,
+     1039,
+     1033,
+     1027,
+     1028
+    ],
+    "operateTimeMs": 300000,
+    "customHeroes": [
+     {
+      "identity": 13,
+      "color": 97,
+      "heroId": 10002,
+      "initCards": [
+       1011,
+       1003,
+       1012
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [
+       1107
+      ],
+      "delSkills": [
+       1004,
+       1005,
+       1006
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 13,
+      "color": 97,
+      "heroId": 10005,
+      "initCards": [
+       1010,
+       1082
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1011,
+       1012
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "郭嘉(1)结束打牌",
+     "robotIdx": 1,
+     "action": "OnlyAsset",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "DrawCard",
+       "desc": "成功：回合开始时手中杀\u003e=3时  技能正常触发",
+       "attr": {
+        "ActionType": "0",
+        "ActionValue": "0",
+        "Cards": "2000000",
+        "Count": "1"
+       }
+      },
+      {
+       "msgName": "DrawCard",
+       "desc": "成功：回合开始摸牌",
+       "attr": {
+        "Cards": "1021 1023",
+        "Count": "2",
+        "UnExpect": "false"
+       }
+      }
+     ]
+    }
+   ]
+  }
+ ]

@@ -1,0 +1,9071 @@
+[
+  {
+   "case": "负鼎见胁1_1",
+   "desc": "其他角色出牌阶段限1次",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1001,
+     1002,
+     1003,
+     1004,
+     1005,
+     1006,
+     1007,
+     1008,
+     1009,
+     1010,
+     1011,
+     1012,
+     1013,
+     1014,
+     1015,
+     1016,
+     1017,
+     1018,
+     1019,
+     1020
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10105,
+      "initCards": [],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1026,
+       1027,
+       1073
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 2,
+      "heroId": 10002,
+      "initCards": [
+       1042
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [
+       1135
+      ],
+      "delSkills": [
+       1004,
+       1005,
+       1006
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "赵云(1), 使用技能[3000001], 交给牌[万箭齐发(1001)]",
+     "robotIdx": 1,
+     "action": "UseHeroSkill",
+     "cards": [
+      1001
+     ],
+     "confirm": false,
+     "heroSkillUuid": 3000001,
+     "assets": [
+      {
+       "msgName": "UseHeroSkillAck",
+       "desc": "赵云(1), 使用技能[3000001], 交给牌[万箭齐发(1001)]成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "赵云(1)确认, 使用牌[多多益善(1042)]",
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "cards": [
+      1042
+     ],
+     "confirm": true,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "赵云(1)确认, 使用牌[多多益善(1042)]成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "desc": "赵云(1), 使用技能[3000001], 交给牌[亮银枪(1002)]",
+     "robotIdx": 1,
+     "action": "UseHeroSkill",
+     "cards": [
+      1002
+     ],
+     "confirm": false,
+     "heroSkillUuid": 3000001,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "UseHeroSkillAck",
+       "desc": "赵云(1), 使用技能[3000001], 交给牌[亮银枪(1002)]失败",
+       "attr": {
+        "Result": "1561"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "负鼎见胁1_2",
+   "desc": "与你距离为1的角色——马",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1001,
+     1002,
+     1003,
+     1004,
+     1005,
+     1006,
+     1007,
+     1008,
+     1009,
+     1010,
+     1011,
+     1012,
+     1013,
+     1014,
+     1015,
+     1016,
+     1017,
+     1018,
+     1019,
+     1020
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10105,
+      "initCards": [],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1026,
+       1027,
+       1073
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 2,
+      "heroId": 10002,
+      "initCards": [
+       1042
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [
+       1135
+      ],
+      "delSkills": [
+       1004,
+       1005,
+       1006
+      ],
+      "exEquips": [
+       1077
+      ],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "赵云(1), 使用技能[3000001], 使用牌[万箭齐发(1001)]",
+     "robotIdx": 1,
+     "action": "UseHeroSkill",
+     "cards": [
+      1001
+     ],
+     "confirm": false,
+     "heroSkillUuid": 3000001,
+     "assets": [
+      {
+       "msgName": "UseHeroSkillAck",
+       "desc": "赵云使用技能失败",
+       "attr": {
+        "Result": "1527"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "负鼎见胁1_3",
+   "desc": "与你距离为1的角色——隔岸观火",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1001,
+     1002,
+     1003,
+     1004,
+     1005,
+     1006,
+     1007,
+     1008,
+     1009,
+     1010,
+     1011,
+     1012,
+     1013,
+     1014,
+     1015,
+     1016,
+     1017,
+     1018,
+     1019,
+     1020
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10105,
+      "initCards": [
+       1281
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [
+       1135
+      ],
+      "delSkills": [
+       1026,
+       1027,
+       1073
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 2,
+      "heroId": 10105,
+      "initCards": [],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1026,
+       1027,
+       1073
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "赵云(1)对[郭嘉(2)]使用牌[隔岸观火(1281)]",
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "targetsId": [
+      2
+     ],
+     "cards": [
+      1281
+     ],
+     "confirm": false,
+     "heroSkillUuid": 3000001,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "赵云(1)对[郭嘉(2)]使用牌[隔岸观火(1281)]成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "赵云(1)结束打牌",
+     "robotIdx": 1,
+     "action": "PlayCardOver",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "PlayCardOverAck",
+       "desc": "赵云(1)结束打牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "desc": "赵云(1)自动弃牌",
+     "robotIdx": 1,
+     "action": "DisCard",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "DisCardAck",
+       "desc": "赵云(1)自动弃牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 4,
+     "desc": "赵云(2), 使用技能[3000001], 使用牌[青龙偃月刀(1004)]",
+     "robotIdx": 2,
+     "action": "UseHeroSkill",
+     "cards": [
+      1004
+     ],
+     "confirm": false,
+     "heroSkillUuid": 3000001,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "UseHeroSkillAck",
+       "desc": "赵云(2), 使用技能[3000001], 使用牌[青龙偃月刀(1004)]失败",
+       "attr": {
+        "Result": "1563"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "负鼎见胁1_4",
+   "desc": "与你距离为1的角色——无法选择目标",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1001,
+     1002,
+     1003,
+     1004,
+     1005,
+     1006,
+     1007,
+     1008,
+     1009,
+     1010,
+     1011,
+     1012,
+     1013,
+     1014,
+     1015,
+     1016,
+     1017,
+     1018,
+     1019,
+     1020
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10105,
+      "initCards": [
+       2008
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1026,
+       1027,
+       1073
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 2,
+      "heroId": 10105,
+      "initCards": [],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [
+       1135
+      ],
+      "delSkills": [
+       1026,
+       1027,
+       1073
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "赵云(1)对[赵云(2)]使用牌[空城计(2008)]",
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "targetsId": [
+      2
+     ],
+     "cards": [
+      2008
+     ],
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "赵云(1)对[赵云(2)]使用牌[空城计(2008)]成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "赵云(1), 使用技能[3000001], 使用牌[亮银枪(1002)]",
+     "robotIdx": 1,
+     "action": "UseHeroSkill",
+     "cards": [
+      1002
+     ],
+     "confirm": false,
+     "heroSkillUuid": 3000001,
+     "assets": [
+      {
+       "msgName": "UseHeroSkillAck",
+       "desc": "赵云(1), 使用技能[3000001], 使用牌[亮银枪(1002)]成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "负鼎见胁1_5",
+   "desc": "交牌——装备区",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1001,
+     1002,
+     1003,
+     1004,
+     1005,
+     1006,
+     1007,
+     1008,
+     1009,
+     1010,
+     1011,
+     1012,
+     1013,
+     1014,
+     1015,
+     1016,
+     1017,
+     1018,
+     1019,
+     1020
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10105,
+      "initCards": [],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1026,
+       1027,
+       1073
+      ],
+      "exEquips": [
+       1029
+      ],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 2,
+      "heroId": 10105,
+      "initCards": [],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [
+       1135
+      ],
+      "delSkills": [
+       1026,
+       1027,
+       1073
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "赵云(1), 使用技能[3000002], 使用牌[惊羽弓(1029)]",
+     "robotIdx": 1,
+     "action": "UseHeroSkill",
+     "cards": [
+      1029
+     ],
+     "confirm": false,
+     "heroSkillUuid": 3000002,
+     "assets": [
+      {
+       "msgName": "UseHeroSkillAck",
+       "desc": "赵云(1), 使用技能[3000002], 使用牌[惊羽弓(1029)]成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "负鼎见胁1_6",
+   "desc": "交牌——卜卦区",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1001,
+     1002,
+     1003,
+     1004,
+     1005,
+     1006,
+     1007,
+     1008,
+     1009,
+     1010,
+     1011,
+     1012,
+     1013,
+     1014,
+     1015,
+     1016,
+     1017,
+     1018,
+     1019,
+     1020
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10105,
+      "initCards": [
+       1049
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [
+       1021
+      ],
+      "delSkills": [
+       1026,
+       1027,
+       1073
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 2,
+      "heroId": 10105,
+      "initCards": [],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [
+       1135,
+       1001
+      ],
+      "delSkills": [
+       1026,
+       1027,
+       1073
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "赵云(1)对[赵云(2)], 使用技能[武圣义绝], 使用牌[天雷(1049)], 当作牌杀打出",
+     "robotIdx": 1,
+     "action": "UseHeroSkill",
+     "targetsId": [
+      2
+     ],
+     "cards": [
+      1049
+     ],
+     "confirm": false,
+     "heroSkillUuid": 1021,
+     "transCardSkill": 1,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "UseHeroSkillAck",
+       "desc": "赵云(1)对[赵云(2)], 使用技能[武圣义绝], 使用牌[天雷(1049)], 当作牌杀打出",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "赵云(2)取消",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "赵云(2)取消响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "CommonHpChange",
+       "desc": "赵云(2)受到来自HarmNormal的伤害, 体力变化:-1",
+       "attr": {
+        "ChangeHp": "-1",
+        "HpSrc": "HarmNormal"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "desc": "赵云(2)确认对[赵云(1)], 使用牌[天雷(1049)]",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "targetsId": [
+      1
+     ],
+     "cards": [
+      1049
+     ],
+     "confirm": true,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "赵云(2)确认对[赵云(1)], 使用牌[天雷(1049)]成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 4,
+     "desc": "赵云(1), 使用技能[3000003]",
+     "robotIdx": 1,
+     "action": "UseHeroSkill",
+     "cards": [
+      1049
+     ],
+     "confirm": false,
+     "heroSkillUuid": 3000003,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "UseHeroSkillAck",
+       "desc": "赵云(1), 使用技能[3000003]成功",
+       "attr": {
+        "Result": "1517"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "负鼎见胁1_7",
+   "desc": "交牌——盟友区",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1001,
+     1002,
+     1003,
+     1004,
+     1005,
+     1006,
+     1007,
+     1008,
+     1009,
+     1010,
+     1011,
+     1012,
+     1013,
+     1014,
+     1015,
+     1016,
+     1017,
+     1018,
+     1019,
+     1020
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10105,
+      "initCards": [],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [
+       1135,
+       1318
+      ],
+      "delSkills": [
+       1026,
+       1027,
+       1073
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 2,
+      "heroId": 10105,
+      "initCards": [],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1026,
+       1027,
+       1073
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 3,
+      "heroId": 10105,
+      "initCards": [
+       1025
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1026,
+       1027,
+       1073
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "赵云(1)对[赵云(2),赵云(3)], 使用技能[借州缔盟]",
+     "robotIdx": 1,
+     "action": "UseHeroSkill",
+     "targetsId": [
+      2,
+      3
+     ],
+     "confirm": false,
+     "heroSkillUuid": 1318,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "UseHeroSkillAck",
+       "desc": "赵云(1)对[赵云(2),赵云(3)], 使用技能[借州缔盟]成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "赵云(1)结束打牌",
+     "robotIdx": 1,
+     "action": "PlayCardOver",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "PlayCardOverAck",
+       "desc": "赵云(1)结束打牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "desc": "赵云(1)自动弃牌",
+     "robotIdx": 1,
+     "action": "DisCard",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "DisCardAck",
+       "desc": "赵云(1)自动弃牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 4,
+     "desc": "赵云(2), 使用技能[3000002], 使用牌[银狮盔(1025)]",
+     "robotIdx": 2,
+     "action": "UseHeroSkill",
+     "cards": [
+      1025
+     ],
+     "confirm": false,
+     "heroSkillUuid": 3000002,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "UseHeroSkillAck",
+       "desc": "",
+       "attr": {
+        "Result": "1517"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "负鼎见胁1_8",
+   "desc": "交牌——郿坞",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1001,
+     1002,
+     1003,
+     1004,
+     1005,
+     1006,
+     1007,
+     1008,
+     1009,
+     1010,
+     1011,
+     1012,
+     1013,
+     1014,
+     1015,
+     1016,
+     1017,
+     1018,
+     1019,
+     1020
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10105,
+      "initCards": [],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [
+       1051
+      ],
+      "delSkills": [
+       1026,
+       1027,
+       1073
+      ],
+      "exEquips": [],
+      "skillCardsMap": {
+       "1051": [
+        1021
+       ]
+      }
+     },
+     {
+      "identity": 1,
+      "color": 2,
+      "heroId": 10105,
+      "initCards": [],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [
+       1135
+      ],
+      "delSkills": [
+       1026,
+       1027,
+       1073
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "赵云(1), 使用技能[3000002], 使用牌[阵前对决(1021)]",
+     "robotIdx": 1,
+     "action": "UseHeroSkill",
+     "cards": [
+      1021
+     ],
+     "confirm": false,
+     "heroSkillUuid": 3000002,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "UseHeroSkillAck",
+       "desc": "赵云(1), 使用技能[3000002], 给牌[阵前对决(1021)]失败",
+       "attr": {
+        "Result": "1517"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "负鼎见胁1_9",
+   "desc": "打出刘协的牌——手牌",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1001,
+     1002,
+     1003,
+     1004,
+     1005,
+     1006,
+     1007,
+     1008,
+     1009,
+     1010,
+     1011,
+     1012,
+     1013,
+     1014,
+     1015,
+     1016,
+     1017,
+     1018,
+     1019,
+     1020
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10105,
+      "initCards": [],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1026,
+       1027,
+       1073
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 2,
+      "heroId": 10105,
+      "initCards": [],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [
+       1135
+      ],
+      "delSkills": [
+       1026,
+       1027,
+       1073
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "赵云(1), 使用技能[3000001], 使用牌[亮银枪(1002)]",
+     "robotIdx": 1,
+     "action": "UseHeroSkill",
+     "cards": [
+      1002
+     ],
+     "confirm": false,
+     "heroSkillUuid": 3000001,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "UseHeroSkillAck",
+       "desc": "赵云(1), 使用技能[3000001], 使用牌[亮银枪(1002)]成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "赵云(1)确认, 使用牌[亮银枪(1002)]",
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "cards": [
+      1002
+     ],
+     "confirm": true,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "赵云(1)确认, 使用牌[亮银枪(1002)]成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "负鼎见胁1_10",
+   "desc": "打出刘协的牌——装备区的牌",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1001,
+     1002,
+     1003,
+     1004,
+     1005,
+     1006,
+     1007,
+     1008,
+     1009,
+     1010,
+     1011,
+     1012,
+     1013,
+     1014,
+     1015,
+     1016,
+     1017,
+     1018,
+     1019,
+     1020
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10105,
+      "initCards": [],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1026,
+       1027,
+       1073
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 2,
+      "heroId": 10105,
+      "initCards": [],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [
+       1135
+      ],
+      "delSkills": [
+       1026,
+       1027,
+       1073
+      ],
+      "exEquips": [
+       1025
+      ],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "赵云(1), 使用技能[3000002], 使用牌[亮银枪(1002)]",
+     "robotIdx": 1,
+     "action": "UseHeroSkill",
+     "cards": [
+      1002
+     ],
+     "confirm": false,
+     "heroSkillUuid": 3000002,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "UseHeroSkillAck",
+       "desc": "赵云(1), 使用技能[3000002], 使用牌[亮银枪(1002)]成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "赵云(1)确认, 使用牌[银狮盔(1025)]",
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "cards": [
+      1025
+     ],
+     "confirm": true,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "赵云(1)确认, 使用牌[银狮盔(1025)]失败",
+       "attr": {
+        "Result": "1001"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "负鼎见胁1_11",
+   "desc": "打出刘协的牌——卜卦区的牌",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1001,
+     1002,
+     1003,
+     1004,
+     1005,
+     1006,
+     1007,
+     1008,
+     1009,
+     1010,
+     1011,
+     1012,
+     1013,
+     1014,
+     1015,
+     1016,
+     1017,
+     1018,
+     1019,
+     1020
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10105,
+      "initCards": [],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1026,
+       1027,
+       1073
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 2,
+      "heroId": 10105,
+      "initCards": [],
+      "initEquips": [],
+      "augurCards": [
+       1049
+      ],
+      "addSkills": [
+       1135
+      ],
+      "delSkills": [
+       1026,
+       1027,
+       1073
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "赵云(1), 使用技能[3000001], 使用牌[亮银枪(1002)]",
+     "robotIdx": 1,
+     "action": "UseHeroSkill",
+     "cards": [
+      1002
+     ],
+     "confirm": false,
+     "heroSkillUuid": 3000001,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "UseHeroSkillAck",
+       "desc": "赵云(1), 使用技能[3000001], 使用牌[亮银枪(1002)]成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "赵云(1)确认, 使用牌[天雷(1049)]",
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "cards": [
+      1049
+     ],
+     "confirm": true,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "赵云(1)确认, 使用牌[天雷(1049)]失败",
+       "attr": {
+        "Result": "1001"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "负鼎见胁1_12",
+   "desc": "打出刘协的牌——打出杀可触发自己武器",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1001,
+     1002,
+     1003,
+     1004,
+     1005,
+     1006,
+     1007,
+     1008,
+     1009,
+     1010,
+     1011,
+     1012,
+     1013,
+     1014,
+     1015,
+     1016,
+     1017,
+     1018,
+     1019,
+     1020
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10105,
+      "initCards": [],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1026,
+       1027,
+       1073
+      ],
+      "exEquips": [
+       3008
+      ],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 2,
+      "heroId": 10105,
+      "initCards": [
+       1024
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [
+       1135
+      ],
+      "delSkills": [
+       1026,
+       1027,
+       1073
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "赵云(1), 使用技能[3000002], 使用牌[亮银枪(1002)]",
+     "robotIdx": 1,
+     "action": "UseHeroSkill",
+     "cards": [
+      1002
+     ],
+     "confirm": false,
+     "heroSkillUuid": 3000002,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "UseHeroSkillAck",
+       "desc": "赵云(1), 使用技能[3000002], 使用牌[亮银枪(1002)]成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "赵云(1)确认对[赵云(2)], 使用牌[杀(1024)]",
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "targetsId": [
+      2
+     ],
+     "cards": [
+      1024
+     ],
+     "confirm": true,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "赵云(1)确认对[赵云(2)], 使用牌[杀(1024)]成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "desc": "赵云(1)确认, 使用牌[万箭齐发(1001)]",
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "cards": [
+      1001
+     ],
+     "confirm": true,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "赵云(1)确认, 使用牌[万箭齐发(1001)]成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 4,
+     "desc": "赵云(2)取消",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "赵云(2)响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "CommonHpChange",
+       "desc": "赵云(2)受到来自HarmNormal的伤害, 体力变化:-2",
+       "attr": {
+        "ChangeHp": "-2",
+        "HpSrc": "HarmNormal"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "负鼎见胁1_13",
+   "desc": "打出刘协的牌——打出杀可触发自己的乌骓",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1001,
+     1002,
+     1003,
+     1004,
+     1005,
+     1006,
+     1007,
+     1008,
+     1009,
+     1010,
+     1011,
+     1012,
+     1013,
+     1014,
+     1015,
+     1016,
+     1017,
+     1018,
+     1019,
+     1020
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10105,
+      "initCards": [],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1026,
+       1027,
+       1073
+      ],
+      "exEquips": [
+       1070
+      ],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 2,
+      "heroId": 10105,
+      "initCards": [
+       1024
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [
+       1135
+      ],
+      "delSkills": [
+       1026,
+       1027,
+       1073
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "赵云(1), 使用技能[3000002], 使用牌[亮银枪(1002)]",
+     "robotIdx": 1,
+     "action": "UseHeroSkill",
+     "cards": [
+      1002
+     ],
+     "confirm": false,
+     "heroSkillUuid": 3000002,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "UseHeroSkillAck",
+       "desc": "赵云(1), 使用技能[3000002], 使用牌[亮银枪(1002)]成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "赵云(1)确认对[赵云(2)], 使用牌[杀(1024)]",
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "targetsId": [
+      2
+     ],
+     "cards": [
+      1024
+     ],
+     "confirm": true,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "赵云(1)确认对[赵云(2)], 使用牌[杀(1024)]成功",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "DrawCard",
+       "desc": "赵云(1)抽到1张牌牌为[1003]",
+       "attr": {
+        "Cards": "1003",
+        "Count": "1"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "desc": "赵云(2)取消",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "赵云(2)响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "CommonHpChange",
+       "desc": "赵云(2)受到来自HarmNormal的伤害, 体力变化:-1",
+       "attr": {
+        "ChangeHp": "-1",
+        "HpSrc": "HarmNormal"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "负鼎见胁1_14",
+   "desc": "打出刘协的牌——打出杀触发诸葛连弩是接着打自己手牌的杀",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1001,
+     1002,
+     1003,
+     1004,
+     1005,
+     1006,
+     1007,
+     1008,
+     1009,
+     1010,
+     1011,
+     1012,
+     1013,
+     1014,
+     1015,
+     1016,
+     1017,
+     1018,
+     1019,
+     1020
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10105,
+      "initCards": [
+       1022,
+       1027
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1026,
+       1027,
+       1073
+      ],
+      "exEquips": [
+       1034
+      ],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 2,
+      "heroId": 10105,
+      "initCards": [
+       1024
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [
+       1135
+      ],
+      "delSkills": [
+       1026,
+       1027,
+       1073
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "赵云(1), 使用技能[3000002], 使用牌[亮银枪(1002)]",
+     "robotIdx": 1,
+     "action": "UseHeroSkill",
+     "cards": [
+      1002
+     ],
+     "confirm": false,
+     "heroSkillUuid": 3000002,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "UseHeroSkillAck",
+       "desc": "赵云(1), 使用技能[3000002], 使用牌[亮银枪(1002)]成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "赵云(1)确认对[赵云(2)], 使用牌[杀(1024)]",
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "targetsId": [
+      2
+     ],
+     "cards": [
+      1024
+     ],
+     "confirm": true,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "赵云(1)确认对[赵云(2)], 使用牌[杀(1024)]成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "desc": "赵云(1)确认",
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "confirm": true,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "赵云(1)确认响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 4,
+     "desc": "赵云(2)取消",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "赵云(2)响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "CommonHpChange",
+       "desc": "赵云(2)受到来自HarmNormal的伤害, 体力变化:-1",
+       "attr": {
+        "ChangeHp": "-1",
+        "HpSrc": "HarmNormal"
+       }
+      }
+     ]
+    },
+    {
+     "id": 5,
+     "desc": "赵云(2)取消",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "赵云(2)响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "CommonHpChange",
+       "desc": "赵云(2)受到来自HarmNormal的伤害, 体力变化:-1",
+       "attr": {
+        "ChangeHp": "-1",
+        "HpSrc": "HarmNormal"
+       }
+      }
+     ]
+    },
+    {
+     "id": 6,
+     "desc": "赵云(2)取消",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "赵云(2)响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "CommonHpChange",
+       "desc": "赵云(2)受到来自HarmNormal的伤害, 体力变化:-1",
+       "attr": {
+        "ChangeHp": "-1",
+        "HpSrc": "HarmNormal"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "负鼎见胁1_15",
+   "desc": "打出刘协的牌——打出杀+飞连矢",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1001,
+     1002,
+     1003,
+     1004,
+     1005,
+     1006,
+     1007,
+     1008,
+     1009,
+     1010,
+     1011,
+     1012,
+     1013,
+     1014,
+     1015,
+     1016,
+     1017,
+     1018,
+     1019,
+     1020
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10105,
+      "initCards": [],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [
+       1334
+      ],
+      "delSkills": [
+       1026,
+       1027,
+       1073
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 2,
+      "heroId": 10105,
+      "initCards": [
+       1024
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [
+       1135
+      ],
+      "delSkills": [
+       1026,
+       1027,
+       1073
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 3,
+      "heroId": 10105,
+      "initCards": [],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1026,
+       1027,
+       1073
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "赵云(1), 使用技能[3000002], 使用牌[亮银枪(1002)]",
+     "robotIdx": 1,
+     "action": "UseHeroSkill",
+     "cards": [
+      1002
+     ],
+     "confirm": false,
+     "heroSkillUuid": 3000002,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "UseHeroSkillAck",
+       "desc": "赵云(1), 使用技能[3000002], 使用牌[亮银枪(1002)]成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "赵云(1)确认对[赵云(2)], 使用牌[杀(1024)]",
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "targetsId": [
+      2
+     ],
+     "cards": [
+      1024
+     ],
+     "confirm": true,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "赵云(1)确认对[赵云(2)], 使用牌[杀(1024)]成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "desc": "赵云(1)确认对[赵云(3)]",
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "targetsId": [
+      3
+     ],
+     "confirm": true,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "赵云(1)确认对[赵云(3)]成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 4,
+     "desc": "赵云(2)取消",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "赵云(2)响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "CommonHpChange",
+       "desc": "赵云(2)受到来自HarmNormal的伤害, 体力变化:-1",
+       "attr": {
+        "ChangeHp": "-1",
+        "HpSrc": "HarmNormal"
+       }
+      }
+     ]
+    },
+    {
+     "id": 5,
+     "desc": "赵云(3)取消",
+     "robotIdx": 3,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "赵云(3)取消成功",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "CommonHpChange",
+       "desc": "赵云(3)受到来自HarmNormal的伤害, 体力变化:-1",
+       "attr": {
+        "ChangeHp": "-1",
+        "HpSrc": "HarmNormal"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "负鼎见胁1_16",
+   "desc": "打出刘协的牌——打出杀+运筹帷幄",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1001,
+     1002,
+     1003,
+     1004,
+     1005,
+     1006,
+     1007,
+     1008,
+     1009,
+     1010,
+     1011,
+     1012,
+     1013,
+     1014,
+     1015,
+     1016,
+     1017,
+     1018,
+     1019,
+     1020
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10105,
+      "initCards": [],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [
+       1330
+      ],
+      "delSkills": [
+       1026,
+       1027,
+       1073
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 2,
+      "heroId": 10105,
+      "initCards": [
+       1024
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [
+       1135
+      ],
+      "delSkills": [
+       1026,
+       1027,
+       1073
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "赵云(1), 使用技能[3000002], 使用牌[亮银枪(1002)]",
+     "robotIdx": 1,
+     "action": "UseHeroSkill",
+     "cards": [
+      1002
+     ],
+     "confirm": false,
+     "heroSkillUuid": 3000002,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "UseHeroSkillAck",
+       "desc": "赵云(1), 使用技能[3000002], 使用牌[亮银枪(1002)]成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "赵云(1)确认对[赵云(2)], 使用牌[杀(1024)]",
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "cards": [
+      1024
+     ],
+     "confirm": true,
+     "transCardSkill": 25,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "赵云(1)确认对[赵云(2)], 使用牌[杀(1024)]成功",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "DrawCard",
+       "desc": "赵云(1)抽到2张牌牌为[1003,1004]",
+       "attr": {
+        "Cards": "1003 1004",
+        "Count": "2"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "负鼎见胁1_17",
+   "desc": "打出刘协的牌——选择目标",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1082,
+     1001,
+     1002,
+     1003,
+     1004,
+     1005,
+     1006,
+     1007,
+     1008,
+     1009,
+     1010,
+     1011,
+     1012,
+     1013,
+     1014,
+     1015,
+     1016,
+     1017,
+     1018,
+     1019,
+     1020
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10105,
+      "initCards": [],
+      "initEquips": [],
+      "augurCards": [
+       4088
+      ],
+      "addSkills": [],
+      "delSkills": [
+       1026,
+       1027,
+       1073
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 2,
+      "heroId": 10105,
+      "initCards": [
+       1024
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [
+       1135
+      ],
+      "delSkills": [
+       1026,
+       1027,
+       1073
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "robotIdx": 1,
+     "action": "Sleep",
+     "confirm": false,
+     "timeout": 1,
+     "sleepTime": 3
+    },
+    {
+     "id": 2,
+     "desc": "赵云(1), 使用技能[3000001], 使用牌[亮银枪(1002)]",
+     "robotIdx": 1,
+     "action": "UseHeroSkill",
+     "cards": [
+      1002
+     ],
+     "confirm": false,
+     "heroSkillUuid": 3000001,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "UseHeroSkillAck",
+       "desc": "赵云(1), 使用技能[3000001], 使用牌[亮银枪(1002)]成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "desc": "赵云(1)确认对[赵云(2)], 使用牌[杀(1024)]",
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "targetsId": [
+      2
+     ],
+     "cards": [
+      1024
+     ],
+     "confirm": true,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "赵云(1)确认对[赵云(2)], 使用牌[杀(1024)]失败",
+       "attr": {
+        "Result": "1520"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "负鼎见胁1_18",
+   "desc": "封禁——封禁刘协",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1001,
+     1002,
+     1003,
+     1004,
+     1005,
+     1006,
+     1007,
+     1008,
+     1009,
+     1010,
+     1011,
+     1012,
+     1013,
+     1014,
+     1015,
+     1016,
+     1017,
+     1018,
+     1019,
+     1020
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10105,
+      "initCards": [
+       1022
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1026,
+       1027,
+       1073
+      ],
+      "exEquips": [
+       3137
+      ],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 2,
+      "heroId": 10105,
+      "initCards": [],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [
+       1135
+      ],
+      "delSkills": [
+       1026,
+       1027,
+       1073
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "赵云(1)对[赵云(2)]使用牌[杀(1022)]",
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "targetsId": [
+      2
+     ],
+     "cards": [
+      1022
+     ],
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "赵云(1)对[赵云(2)]使用牌[杀(1022)]成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "赵云(2)取消",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "赵云响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "desc": "赵云(1), 使用技能[3000002], 使用牌[亮银枪(1002)]",
+     "robotIdx": 1,
+     "action": "UseHeroSkill",
+     "cards": [
+      1002
+     ],
+     "confirm": false,
+     "heroSkillUuid": 3000002,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "UseHeroSkillAck",
+       "desc": "赵云(1)使用技能失败",
+       "attr": {
+        "Result": "1527"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "负鼎见胁1_19",
+   "desc": "封禁——封禁其他人",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1001,
+     1002,
+     1003,
+     1004,
+     1005,
+     1006,
+     1007,
+     1008,
+     1009,
+     1010,
+     1011,
+     1012,
+     1013,
+     1014,
+     1015,
+     1016,
+     1017,
+     1018,
+     1019,
+     1020
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10105,
+      "initCards": [
+       1022
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1026,
+       1027,
+       1073
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 2,
+      "heroId": 10105,
+      "initCards": [
+       1027
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [
+       1135
+      ],
+      "delSkills": [
+       1026,
+       1027,
+       1073
+      ],
+      "exEquips": [
+       100902,
+       3134
+      ],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "赵云(1)对[赵云(2)]使用牌[杀(1022)]",
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "targetsId": [
+      2
+     ],
+     "cards": [
+      1022
+     ],
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "赵云(1)对[赵云(2)]使用牌[杀(1022)]成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "赵云(2)确认对[赵云(1)], 使用牌[杀(1027)]",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "targetsId": [
+      1
+     ],
+     "cards": [
+      1027
+     ],
+     "confirm": true,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "赵云(2)确认对[赵云(1)], 使用牌[杀(1027)]成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "desc": "赵云(1)取消",
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "赵云(1)取消成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 4,
+     "desc": "赵云(2)取消",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "赵云(2)取消响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 5,
+     "desc": "赵云(1), 使用技能[3000003], 使用牌[亮银枪(1002)]",
+     "robotIdx": 1,
+     "action": "UseHeroSkill",
+     "cards": [
+      1002
+     ],
+     "confirm": false,
+     "heroSkillUuid": 3000003,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "UseHeroSkillAck",
+       "desc": "赵云(1)使用技能成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "负鼎见胁1_20",
+   "desc": "封禁——给牌之后刘协被封禁",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1001,
+     1002,
+     1003,
+     1004,
+     1005,
+     1006,
+     1007,
+     1008,
+     1009,
+     1010,
+     1011,
+     1012,
+     1013,
+     1014,
+     1015,
+     1016,
+     1017,
+     1018,
+     1019,
+     1020
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10105,
+      "initCards": [],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1026,
+       1027,
+       1073
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 2,
+      "heroId": 10105,
+      "initCards": [
+       1027
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [
+       1135
+      ],
+      "delSkills": [
+       1026,
+       1027,
+       1073
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 3,
+      "heroId": 10105,
+      "initCards": [
+       1024,
+       1028
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [
+       1680
+      ],
+      "delSkills": [
+       1026,
+       1027,
+       1073
+      ],
+      "exEquips": [
+       3025,
+       3137
+      ],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "赵云(1)使用牌[亮银枪(1002)]",
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "cards": [
+      1002
+     ],
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "赵云出牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "赵云(1)对[赵云(2)]使用牌[杀(1022)]",
+     "robotIdx": 1,
+     "action": "UseHeroSkill",
+     "cards": [
+      1001
+     ],
+     "confirm": false,
+     "heroSkillUuid": 3000004,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "UseHeroSkillAck",
+       "desc": "赵云(1)对[赵云(2)]使用牌[杀(1022)]成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "desc": "赵云(3)确认, 使用牌[杀(1024)]",
+     "robotIdx": 3,
+     "action": "OptRoomAction",
+     "cards": [
+      1024
+     ],
+     "confirm": true,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "赵云(3)确认, 使用牌[杀(1024)]成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 4,
+     "desc": "赵云(3)确认对[赵云(2)], 弃置牌[雷杀(1028)]",
+     "robotIdx": 3,
+     "action": "OptRoomAction",
+     "targetsId": [
+      2
+     ],
+     "cards": [
+      1028
+     ],
+     "confirm": true,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "赵云(3)确认对[赵云(2)], 弃置牌[雷杀(1028)]成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 5,
+     "desc": "赵云(1)取消",
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "赵云(1)取消成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 6,
+     "desc": "赵云(1)取消",
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "赵云(1)取消成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 7,
+     "desc": "赵云(2)取消",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "赵云(2)取消成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 8,
+     "desc": "赵云(1)确认, 使用牌[万箭齐发(1001)]",
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "cards": [
+      1001
+     ],
+     "confirm": true,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "赵云(1)确认, 使用牌[万箭齐发(1001)]失败",
+       "attr": {
+        "Result": "1582"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "负鼎见胁2_1",
+   "desc": "此牌造成伤害——杀",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1001,
+     1002,
+     1003,
+     1004,
+     1005,
+     1006,
+     1007,
+     1008,
+     1009,
+     1010,
+     1011,
+     1012,
+     1013,
+     1014,
+     1015,
+     1016,
+     1017,
+     1018,
+     1019,
+     1020
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10105,
+      "initCards": [],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1026,
+       1027,
+       1073
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 2,
+      "heroId": 10002,
+      "initCards": [
+       1022
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [
+       1135
+      ],
+      "delSkills": [
+       1004,
+       1005,
+       1006
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "赵云(1), 使用技能[3000001], 交给牌[万箭齐发(1001)]",
+     "robotIdx": 1,
+     "action": "UseHeroSkill",
+     "cards": [
+      1001
+     ],
+     "confirm": false,
+     "heroSkillUuid": 3000001,
+     "assets": [
+      {
+       "msgName": "UseHeroSkillAck",
+       "desc": "赵云(1), 使用技能[3000001], 交给牌[万箭齐发(1001)]成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "赵云(1)确认对[郭嘉(2)], 使用牌[杀(1022)]",
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "targetsId": [
+      2
+     ],
+     "cards": [
+      1022
+     ],
+     "confirm": true,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "赵云(1)确认对[郭嘉(2)], 使用牌[杀(1022)]成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "desc": "郭嘉(2)取消",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "郭嘉(2)取消成功",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "CommonHpChange",
+       "desc": "郭嘉(2)受到来自HarmNormal的伤害, 体力变化:-1",
+       "attr": {
+        "ChangeHp": "-1",
+        "HpSrc": "HarmNormal"
+       }
+      },
+      {
+       "msgName": "DrawCard",
+       "desc": "郭嘉(2)抽到1张牌牌为[1003]",
+       "attr": {
+        "Cards": "1003",
+        "Count": "1"
+       }
+      }
+     ]
+    },
+    {
+     "id": 4,
+     "desc": "赵云(1)断言",
+     "robotIdx": 1,
+     "action": "OnlyAsset",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "DrawCard",
+       "desc": "赵云(1)抽到1张牌牌为[1004]",
+       "attr": {
+        "Cards": "1004",
+        "Count": "1"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "负鼎见胁2_2",
+   "desc": "此牌造成伤害——箭雨齐射",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     3001,
+     1002,
+     1003,
+     1004,
+     1005,
+     1006,
+     1007,
+     1008,
+     1009,
+     1010,
+     1011,
+     1012,
+     1013,
+     1014,
+     1015,
+     1016,
+     1017,
+     1018,
+     1019,
+     1020
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10105,
+      "initCards": [],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1026,
+       1027,
+       1073
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 2,
+      "heroId": 10002,
+      "initCards": [
+       1022
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [
+       1135
+      ],
+      "delSkills": [
+       1004,
+       1005,
+       1006
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 3,
+      "heroId": 10105,
+      "initCards": [],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1026,
+       1027,
+       1073
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "赵云(1), 使用技能[3000001], 交给牌[万箭齐发(1001)]",
+     "robotIdx": 1,
+     "action": "UseHeroSkill",
+     "cards": [
+      3001
+     ],
+     "confirm": false,
+     "heroSkillUuid": 3000001,
+     "assets": [
+      {
+       "msgName": "UseHeroSkillAck",
+       "desc": "赵云(1), 使用技能[3000001], 交给牌[万箭齐发(1001)]成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "赵云(1)确认, 使用牌[箭雨齐射(3001)]",
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "cards": [
+      3001
+     ],
+     "confirm": true,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "赵云(1)确认, 使用牌[箭雨齐射(3001)]成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "desc": "郭嘉(2)取消",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "郭嘉(2)取消成功",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "CommonHpChange",
+       "desc": "郭嘉(2)受到来自HarmNormal的伤害, 体力变化:-1",
+       "attr": {
+        "ChangeHp": "-1",
+        "HpSrc": "HarmNormal"
+       }
+      }
+     ]
+    },
+    {
+     "id": 4,
+     "desc": "郭嘉(2)断言",
+     "robotIdx": 2,
+     "action": "OnlyAsset",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "DrawCard",
+       "desc": "郭嘉(2)抽到1张牌牌为[1003]",
+       "attr": {
+        "Cards": "1003",
+        "Count": "1"
+       }
+      }
+     ]
+    },
+    {
+     "id": 5,
+     "desc": "赵云(1)断言",
+     "robotIdx": 1,
+     "action": "OnlyAsset",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "DrawCard",
+       "desc": "赵云(1)抽到1张牌",
+       "attr": {
+        "Cards": "1004",
+        "Count": "1"
+       }
+      }
+     ]
+    },
+    {
+     "id": 6,
+     "desc": "赵云(3)取消",
+     "robotIdx": 3,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "赵云(3)取消成功",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "CommonHpChange",
+       "desc": "赵云(3)受到来自HarmNormal的伤害, 体力变化:-1",
+       "attr": {
+        "ChangeHp": "-1",
+        "HpSrc": "HarmNormal"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "负鼎见胁2_3",
+   "desc": "此牌造成伤害——阵前对决",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     3001,
+     1002,
+     1003,
+     1004,
+     1005,
+     1006,
+     1007,
+     1008,
+     1009,
+     1010,
+     1011,
+     1012,
+     1013,
+     1014,
+     1015,
+     1016,
+     1017,
+     1018,
+     1019,
+     1020
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10105,
+      "initCards": [],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1026,
+       1027,
+       1073
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 2,
+      "heroId": 10002,
+      "initCards": [
+       1021
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [
+       1135
+      ],
+      "delSkills": [
+       1004,
+       1005,
+       1006
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "赵云(1), 使用技能[3000001], 交给牌[万箭齐发(1001)]",
+     "robotIdx": 1,
+     "action": "UseHeroSkill",
+     "cards": [
+      3001
+     ],
+     "confirm": false,
+     "heroSkillUuid": 3000001,
+     "assets": [
+      {
+       "msgName": "UseHeroSkillAck",
+       "desc": "赵云(1), 使用技能[3000001], 交给牌[万箭齐发(1001)]成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "赵云(1)确认对[郭嘉(2)], 使用牌[阵前对决(1021)]",
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "targetsId": [
+      2
+     ],
+     "cards": [
+      1021
+     ],
+     "confirm": true,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "赵云(1)确认对[郭嘉(2)], 使用牌[阵前对决(1021)]成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "desc": "郭嘉(2)取消",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "郭嘉(2)取消成功",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "CommonHpChange",
+       "desc": "郭嘉(2)受到来自HarmNormal的伤害, 体力变化:-1",
+       "attr": {
+        "ChangeHp": "-1",
+        "HpSrc": "HarmNormal"
+       }
+      },
+      {
+       "msgName": "DrawCard",
+       "desc": "郭嘉(2)抽到1张牌牌为[1003]",
+       "attr": {
+        "Cards": "1003",
+        "Count": "1"
+       }
+      }
+     ]
+    },
+    {
+     "id": 4,
+     "desc": "赵云(1)断言",
+     "robotIdx": 1,
+     "action": "OnlyAsset",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "DrawCard",
+       "desc": "赵云(1)抽到1张牌牌为[1004]",
+       "attr": {
+        "Cards": "1004",
+        "Count": "1"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "负鼎见胁2_4",
+   "desc": "此牌造成伤害——烽火",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     3001,
+     1002,
+     1003,
+     1004,
+     1005,
+     1006,
+     1007,
+     1008,
+     1009,
+     1010,
+     1011,
+     1012,
+     1013,
+     1014,
+     1015,
+     1016,
+     1017,
+     1018,
+     1019,
+     1020
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10105,
+      "initCards": [
+       1125
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1026,
+       1027,
+       1073
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 2,
+      "heroId": 10002,
+      "initCards": [
+       1022
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [
+       1135
+      ],
+      "delSkills": [
+       1004,
+       1005,
+       1006
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 3,
+      "heroId": 10105,
+      "initCards": [],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1026,
+       1027,
+       1073
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "赵云(1), 使用技能[3000001], 交给牌[烽火狼烟(1125)]",
+     "robotIdx": 1,
+     "action": "UseHeroSkill",
+     "cards": [
+      1125
+     ],
+     "confirm": false,
+     "heroSkillUuid": 3000001,
+     "assets": [
+      {
+       "msgName": "UseHeroSkillAck",
+       "desc": "赵云(1), 使用技能[3000001], 交给牌[烽火狼烟(1125)]成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "赵云(1)确认, 使用牌[烽火狼烟(1125)]",
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "cards": [
+      1125
+     ],
+     "confirm": true,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "赵云(1)确认, 使用牌[烽火狼烟(1125)]成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "desc": "郭嘉(2)取消",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "郭嘉(2)取消成功",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "CommonHpChange",
+       "desc": "郭嘉(2)受到来自HarmNormal的伤害, 体力变化:-1",
+       "attr": {
+        "ChangeHp": "-1",
+        "HpSrc": "HarmNormal"
+       }
+      }
+     ]
+    },
+    {
+     "id": 4,
+     "desc": "郭嘉(2)断言",
+     "robotIdx": 2,
+     "action": "OnlyAsset",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "DrawCard",
+       "desc": "郭嘉(2)抽到1张牌牌为[1003]",
+       "attr": {
+        "Cards": "1003",
+        "Count": "1"
+       }
+      }
+     ]
+    },
+    {
+     "id": 5,
+     "desc": "赵云(1)断言",
+     "robotIdx": 1,
+     "action": "OnlyAsset",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "DrawCard",
+       "desc": "赵云(1)抽到1张牌",
+       "attr": {
+        "Cards": "1004",
+        "Count": "1"
+       }
+      }
+     ]
+    },
+    {
+     "id": 6,
+     "desc": "赵云(3)取消",
+     "robotIdx": 3,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "赵云(3)取消成功",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "CommonHpChange",
+       "desc": "赵云(3)受到来自HarmNormal的伤害, 体力变化:-1",
+       "attr": {
+        "ChangeHp": "-1",
+        "HpSrc": "HarmNormal"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "负鼎见胁2_5",
+   "desc": "此牌造成伤害——烈火焚城",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     3001,
+     1002,
+     1003,
+     1004,
+     1005,
+     1006,
+     1007,
+     1008,
+     1009,
+     1010,
+     1011,
+     1012,
+     1013,
+     1014,
+     1015,
+     1016,
+     1017,
+     1018,
+     1019,
+     1020
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10105,
+      "initCards": [],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1026,
+       1027,
+       1073
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 2,
+      "heroId": 10002,
+      "initCards": [
+       1123
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [
+       1135
+      ],
+      "delSkills": [
+       1004,
+       1005,
+       1006
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "赵云(1), 使用技能[3000001], 交给牌[万箭齐发(1001)]",
+     "robotIdx": 1,
+     "action": "UseHeroSkill",
+     "cards": [
+      3001
+     ],
+     "confirm": false,
+     "heroSkillUuid": 3000001,
+     "assets": [
+      {
+       "msgName": "UseHeroSkillAck",
+       "desc": "赵云(1), 使用技能[3000001], 交给牌[万箭齐发(1001)]成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "赵云(1)确认对[郭嘉(2)], 使用牌[烽火狼烟(1125)]",
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "targetsId": [
+      2
+     ],
+     "cards": [
+      1123
+     ],
+     "confirm": true,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "赵云(1)确认对[郭嘉(2)], 使用牌[烽火狼烟(1125)]成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "desc": "赵云(1)确认, 弃置牌[亮银枪(1002)]",
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "cards": [
+      1002
+     ],
+     "confirm": true,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "赵云(1)确认, 弃置牌[亮银枪(1002)]成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 4,
+     "desc": "郭嘉(2)取消",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "郭嘉(2)取消成功",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "CommonHpChange",
+       "desc": "郭嘉(2)受到来自HarmHuo的伤害, 体力变化:-1",
+       "attr": {
+        "ChangeHp": "-1",
+        "HpSrc": "HarmHuo"
+       }
+      },
+      {
+       "msgName": "DrawCard",
+       "desc": "郭嘉(2)抽到1张牌牌为[1003]",
+       "attr": {
+        "Cards": "1003",
+        "Count": "1"
+       }
+      }
+     ]
+    },
+    {
+     "id": 5,
+     "desc": "赵云(1)断言",
+     "robotIdx": 1,
+     "action": "OnlyAsset",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "DrawCard",
+       "desc": "赵云(1)抽到1张牌牌为[1004]",
+       "attr": {
+        "Cards": "1004",
+        "Count": "1"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "负鼎见胁2_6",
+   "desc": "此牌造成伤害——上方用火",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     3001,
+     1002,
+     1003,
+     1004,
+     1005,
+     1006,
+     1007,
+     1008,
+     1009,
+     1010,
+     1011,
+     1012,
+     1013,
+     1014,
+     1015,
+     1016,
+     1017,
+     1018,
+     1019,
+     1020
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10105,
+      "initCards": [],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1026,
+       1027,
+       1073
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 2,
+      "heroId": 10002,
+      "initCards": [
+       2009
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [
+       1135
+      ],
+      "delSkills": [
+       1004,
+       1005,
+       1006
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "赵云(1), 使用技能[3000001], 交给牌[万箭齐发(1001)]",
+     "robotIdx": 1,
+     "action": "UseHeroSkill",
+     "cards": [
+      3001
+     ],
+     "confirm": false,
+     "heroSkillUuid": 3000001,
+     "assets": [
+      {
+       "msgName": "UseHeroSkillAck",
+       "desc": "赵云(1), 使用技能[3000001], 交给牌[万箭齐发(1001)]成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "赵云(1)确认对[郭嘉(2)], 使用牌[上方用火(2009)]",
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "targetsId": [
+      2
+     ],
+     "cards": [
+      2009
+     ],
+     "confirm": true,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "赵云(1)确认对[郭嘉(2)], 使用牌[上方用火(2009)]成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "robotIdx": 1,
+     "action": "Sleep",
+     "confirm": false,
+     "timeout": 1,
+     "sleepTime": 3
+    },
+    {
+     "id": 4,
+     "desc": "郭嘉(2)断言",
+     "robotIdx": 2,
+     "action": "OnlyAsset",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "CommonHpChange",
+       "desc": "郭嘉(2)受到来自HarmHuo的伤害, 体力变化:-1",
+       "attr": {
+        "ChangeHp": "-1",
+        "HpSrc": "HarmHuo"
+       }
+      },
+      {
+       "msgName": "DrawCard",
+       "desc": "郭嘉(2)抽到1张牌牌为[1004]",
+       "attr": {
+        "Cards": "1004",
+        "Count": "1"
+       }
+      }
+     ]
+    },
+    {
+     "id": 5,
+     "desc": "赵云(1)断言",
+     "robotIdx": 1,
+     "action": "OnlyAsset",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "DrawCard",
+       "desc": "赵云(1)抽到1张牌牌为[1005]",
+       "attr": {
+        "Cards": "1005",
+        "Count": "1"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "负鼎见胁2_7",
+   "desc": "此牌造成伤害——天雷",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     3001,
+     1002,
+     1004,
+     1003,
+     1005,
+     1006,
+     1007,
+     1008,
+     1009,
+     1010,
+     1011,
+     1012,
+     1013,
+     1014,
+     1015,
+     1016,
+     1017,
+     1018,
+     1019,
+     1020
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10105,
+      "initCards": [],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1026,
+       1027,
+       1073
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 2,
+      "heroId": 10105,
+      "initCards": [
+       1049
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [
+       1135
+      ],
+      "delSkills": [
+       1026,
+       1027,
+       1073
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "赵云(1), 使用技能[3000001], 交给牌[万箭齐发(1001)]",
+     "robotIdx": 1,
+     "action": "UseHeroSkill",
+     "cards": [
+      3001
+     ],
+     "confirm": false,
+     "heroSkillUuid": 3000001,
+     "assets": [
+      {
+       "msgName": "UseHeroSkillAck",
+       "desc": "赵云(1), 使用技能[3000001], 交给牌[万箭齐发(1001)]成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "赵云(1)确认对[赵云(2)], 使用牌[天雷(1049)]",
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "targetsId": [
+      2
+     ],
+     "cards": [
+      1049
+     ],
+     "confirm": true,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "赵云(1)确认对[赵云(2)], 使用牌[天雷(1049)]成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "desc": "赵云(1)结束打牌",
+     "robotIdx": 1,
+     "action": "PlayCardOver",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "PlayCardOverAck",
+       "desc": "赵云(1)结束打牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 4,
+     "desc": "赵云(1)自动弃牌",
+     "robotIdx": 1,
+     "action": "DisCard",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "DisCardAck",
+       "desc": "赵云(1)自动弃牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 5,
+     "desc": "赵云(1)等待3秒",
+     "robotIdx": 1,
+     "action": "Sleep",
+     "confirm": false,
+     "timeout": 1,
+     "sleepTime": 3
+    },
+    {
+     "id": 6,
+     "desc": "赵云(2)断言",
+     "robotIdx": 2,
+     "action": "OnlyAsset",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "CommonHpChange",
+       "desc": "赵云(2)受到来自HarmHuo的伤害, 体力变化:-4",
+       "attr": {
+        "ChangeHp": "-4",
+        "HpSrc": "HarmLei"
+       }
+      },
+      {
+       "msgName": "DrawCard",
+       "desc": "赵云(2)抽到1张牌牌为[1003]",
+       "attr": {
+        "Cards": "1003",
+        "Count": "1"
+       }
+      }
+     ]
+    },
+    {
+     "id": 7,
+     "desc": "赵云(1)断言",
+     "robotIdx": 1,
+     "action": "OnlyAsset",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "DrawCard",
+       "desc": "赵云(1)抽到1张牌牌为[1005]",
+       "attr": {
+        "Cards": "1005",
+        "Count": "1"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "负鼎见胁2_8",
+   "desc": "此牌造成伤害——捐金反间",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     3001,
+     1002,
+     1004,
+     1003,
+     1005,
+     1006,
+     1007,
+     1008,
+     1009,
+     1010,
+     1011,
+     1012,
+     1013,
+     1014,
+     1015,
+     1016,
+     1017,
+     1018,
+     1019,
+     1020
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10105,
+      "initCards": [],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1026,
+       1027,
+       1073
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 2,
+      "heroId": 10105,
+      "initCards": [
+       2018
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [
+       1135
+      ],
+      "delSkills": [
+       1026,
+       1027,
+       1073
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10105,
+      "initCards": [],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1026,
+       1027,
+       1073
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "赵云(1), 使用技能[3000001], 交给牌[万箭齐发(1001)]",
+     "robotIdx": 1,
+     "action": "UseHeroSkill",
+     "cards": [
+      3001
+     ],
+     "confirm": false,
+     "heroSkillUuid": 3000001,
+     "assets": [
+      {
+       "msgName": "UseHeroSkillAck",
+       "desc": "赵云(1), 使用技能[3000001], 交给牌[万箭齐发(1001)]成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "赵云(1)确认对[赵云(2)], 使用牌[天雷(1049)]",
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "targetsId": [
+      2,
+      3
+     ],
+     "cards": [
+      2018
+     ],
+     "confirm": true,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "赵云(1)确认对[赵云(2)], 使用牌[天雷(1049)]成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "desc": "赵云(2)断言",
+     "robotIdx": 2,
+     "action": "OnlyAsset",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "CommonHpChange",
+       "desc": "赵云(2)受到来自HarmHuo的伤害, 体力变化:-1",
+       "attr": {
+        "ChangeHp": "-1",
+        "HpSrc": "HarmNormal"
+       }
+      },
+      {
+       "msgName": "DrawCard",
+       "desc": "赵云(2)抽到1张牌牌为[2018]",
+       "attr": {
+        "Cards": "2018",
+        "Count": "1"
+       }
+      },
+      {
+       "msgName": "DrawCard",
+       "desc": "赵云(2)抽到1张牌牌为[1004]",
+       "attr": {
+        "Cards": "1004",
+        "Count": "1"
+       }
+      }
+     ]
+    },
+    {
+     "id": 4,
+     "desc": "赵云(1)断言",
+     "robotIdx": 1,
+     "action": "OnlyAsset",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "DrawCard",
+       "desc": "赵云(1)抽到1张牌牌为[1003]",
+       "attr": {
+        "Cards": "1003",
+        "Count": "1"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "负鼎见胁2_9",
+   "desc": "此牌造成伤害——方天",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1001,
+     1002,
+     1003,
+     1004,
+     1005,
+     1006,
+     1007,
+     1008,
+     1009,
+     1010,
+     1011,
+     1012,
+     1013,
+     1014,
+     1015,
+     1016,
+     1017,
+     1018,
+     1019,
+     1020
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10105,
+      "initCards": [],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1026,
+       1027,
+       1073
+      ],
+      "exEquips": [
+       3025
+      ],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 2,
+      "heroId": 10002,
+      "initCards": [
+       1022,
+       1082
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [
+       1135
+      ],
+      "delSkills": [
+       1004,
+       1005,
+       1006
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 3,
+      "heroId": 10105,
+      "initCards": [],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1026,
+       1027,
+       1073
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "赵云(1), 使用技能[3000001], 交给牌[万箭齐发(1001)]",
+     "robotIdx": 1,
+     "action": "UseHeroSkill",
+     "cards": [
+      1001
+     ],
+     "confirm": false,
+     "heroSkillUuid": 3000002,
+     "assets": [
+      {
+       "msgName": "UseHeroSkillAck",
+       "desc": "赵云(1), 使用技能[3000002], 交给牌[万箭齐发(1001)]成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "赵云(1)确认对[郭嘉(2)], 使用牌[杀(1022)]",
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "targetsId": [
+      2
+     ],
+     "cards": [
+      1022
+     ],
+     "confirm": true,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "赵云(1)确认对[郭嘉(2)], 使用牌[杀(1022)]成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "desc": "赵云(1)确认对[赵云(3)], 弃置牌[亮银枪(1002)]",
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "targetsId": [
+      3
+     ],
+     "cards": [
+      1002
+     ],
+     "confirm": true,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "赵云(1)确认对[赵云(3)], 弃置牌[亮银枪(1002)]成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 4,
+     "desc": "郭嘉(2)确认, 使用牌[闪(1082)]",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "cards": [
+      1082
+     ],
+     "confirm": true,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "郭嘉(2)确认, 使用牌[闪(1082)]成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 5,
+     "desc": "赵云(3)取消",
+     "robotIdx": 3,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "赵云(3)取消成功",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "CommonHpChange",
+       "desc": "赵云(3)受到来自HarmNormal的伤害, 体力变化:-1",
+       "attr": {
+        "ChangeHp": "-1",
+        "HpSrc": "HarmNormal"
+       }
+      }
+     ]
+    },
+    {
+     "id": 6,
+     "desc": "郭嘉(2)断言",
+     "robotIdx": 2,
+     "action": "OnlyAsset",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "DrawCard",
+       "desc": "郭嘉(2)抽到1张牌牌为[1003]",
+       "attr": {
+        "Cards": "1003",
+        "Count": "1"
+       }
+      }
+     ]
+    },
+    {
+     "id": 7,
+     "desc": "赵云(1)断言",
+     "robotIdx": 1,
+     "action": "OnlyAsset",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "DrawCard",
+       "desc": "赵云(1)抽到1张牌牌为[1004]",
+       "attr": {
+        "Cards": "1004",
+        "Count": "1"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "衣带诏1_1",
+   "desc": "限定技",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1001,
+     1002,
+     1003,
+     1004,
+     1005,
+     1006,
+     1007,
+     1008,
+     1009,
+     1010,
+     1011,
+     1012,
+     1013,
+     1015,
+     1014,
+     1016,
+     1017,
+     1018,
+     1019,
+     1020
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10105,
+      "initCards": [],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [
+       1136
+      ],
+      "delSkills": [
+       1026,
+       1027,
+       1073
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 2,
+      "heroId": 10105,
+      "initCards": [],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1026,
+       1027,
+       1073
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "赵云(1)对[赵云(2)], 使用技能[衣带诏]",
+     "robotIdx": 1,
+     "action": "UseHeroSkill",
+     "targetsId": [
+      2
+     ],
+     "confirm": false,
+     "heroSkillUuid": 1136,
+     "assets": [
+      {
+       "msgName": "UseHeroSkillAck",
+       "desc": "赵云(1)对[赵云(2)], 使用技能[衣带诏]成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "赵云(1)结束打牌",
+     "robotIdx": 1,
+     "action": "PlayCardOver",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "PlayCardOverAck",
+       "desc": "赵云(1)结束打牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "desc": "赵云(1)自动弃牌",
+     "robotIdx": 1,
+     "action": "DisCard",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "DisCardAck",
+       "desc": "赵云(1)自动弃牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 4,
+     "desc": "赵云(2)结束打牌",
+     "robotIdx": 2,
+     "action": "PlayCardOver",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "PlayCardOverAck",
+       "desc": "赵云(2)结束打牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 5,
+     "desc": "赵云(2)自动弃牌",
+     "robotIdx": 2,
+     "action": "DisCard",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "DisCardAck",
+       "desc": "赵云(2)自动弃牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 6,
+     "desc": "赵云(1)对[赵云(2)], 使用技能[衣带诏]",
+     "robotIdx": 1,
+     "action": "UseHeroSkill",
+     "targetsId": [
+      2
+     ],
+     "confirm": false,
+     "heroSkillUuid": 1136,
+     "assets": [
+      {
+       "msgName": "UseHeroSkillAck",
+       "desc": "赵云(1)对[赵云(2)], 使用技能[衣带诏]失败",
+       "attr": {
+        "Result": "1561"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "衣带诏1_2",
+   "desc": "其他角色与其距离为1",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1001,
+     1002,
+     1003,
+     1004,
+     1005,
+     1006,
+     1007,
+     1008,
+     1009,
+     1010,
+     1011,
+     1012,
+     1013,
+     1015,
+     1014,
+     1016,
+     1017,
+     1018,
+     1019,
+     1020
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10105,
+      "initCards": [
+       1022
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [
+       1136
+      ],
+      "delSkills": [
+       1026,
+       1027,
+       1073
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 2,
+      "heroId": 10105,
+      "initCards": [
+       1027
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1026,
+       1027,
+       1073
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 3,
+      "heroId": 10105,
+      "initCards": [],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1026,
+       1027,
+       1073
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 4,
+      "heroId": 10105,
+      "initCards": [],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1026,
+       1027,
+       1073
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 5,
+      "heroId": 10105,
+      "initCards": [],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1026,
+       1027,
+       1073
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "赵云(1)对[赵云(2)], 使用技能[衣带诏]",
+     "robotIdx": 1,
+     "action": "UseHeroSkill",
+     "targetsId": [
+      4
+     ],
+     "confirm": false,
+     "heroSkillUuid": 1136,
+     "assets": [
+      {
+       "msgName": "UseHeroSkillAck",
+       "desc": "赵云(1)对[赵云(2)], 使用技能[衣带诏]成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "赵云(1)对[赵云(4)]使用牌[杀(1022)]",
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "targetsId": [
+      4
+     ],
+     "cards": [
+      1022
+     ],
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "赵云(1)对[赵云(4)]使用牌[杀(1022)]成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "desc": "赵云(4)取消",
+     "robotIdx": 4,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "赵云(4)取消成功",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "CommonHpChange",
+       "desc": "赵云(4)受到来自HarmNormal的伤害, 体力变化:-1",
+       "attr": {
+        "ChangeHp": "-1",
+        "HpSrc": "HarmNormal"
+       }
+      }
+     ]
+    },
+    {
+     "id": 4,
+     "desc": "赵云(1)结束打牌",
+     "robotIdx": 1,
+     "action": "PlayCardOver",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "PlayCardOverAck",
+       "desc": "赵云(1)结束打牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 5,
+     "desc": "赵云(1)自动弃牌",
+     "robotIdx": 1,
+     "action": "DisCard",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "DisCardAck",
+       "desc": "赵云(1)自动弃牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 6,
+     "desc": "赵云(2)对[赵云(4)]使用牌[杀(1027)]",
+     "robotIdx": 2,
+     "action": "PlayCard",
+     "targetsId": [
+      4
+     ],
+     "cards": [
+      1027
+     ],
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "赵云(2)对[赵云(4)]使用牌[杀(1027)]成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 7,
+     "desc": "赵云(4)取消",
+     "robotIdx": 4,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "赵云(4)取消成功",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "CommonHpChange",
+       "desc": "赵云(4)受到来自HarmNormal的伤害, 体力变化:-1",
+       "attr": {
+        "ChangeHp": "-1",
+        "HpSrc": "HarmNormal"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "衣带诏1_3",
+   "desc": "其他角色与其距离为1——马加",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1001,
+     1002,
+     1003,
+     1004,
+     1005,
+     1006,
+     1007,
+     1008,
+     1009,
+     1010,
+     1011,
+     1012,
+     1013,
+     1015,
+     1014,
+     1016,
+     1017,
+     1018,
+     1019,
+     1020
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10105,
+      "initCards": [],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [
+       1136
+      ],
+      "delSkills": [
+       1026,
+       1027,
+       1073
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 2,
+      "heroId": 10105,
+      "initCards": [
+       1022
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1026,
+       1027,
+       1073
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 3,
+      "heroId": 10105,
+      "initCards": [],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1026,
+       1027,
+       1073
+      ],
+      "exEquips": [
+       1063
+      ],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "赵云(1)对[赵云(3)], 使用技能[衣带诏]",
+     "robotIdx": 1,
+     "action": "UseHeroSkill",
+     "targetsId": [
+      3
+     ],
+     "confirm": false,
+     "heroSkillUuid": 1136,
+     "assets": [
+      {
+       "msgName": "UseHeroSkillAck",
+       "desc": "赵云(1)对[赵云(3)], 使用技能[衣带诏]成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "赵云(1)结束打牌",
+     "robotIdx": 1,
+     "action": "PlayCardOver",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "PlayCardOverAck",
+       "desc": "赵云(1)结束打牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "desc": "赵云(1)自动弃牌",
+     "robotIdx": 1,
+     "action": "DisCard",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "DisCardAck",
+       "desc": "赵云(1)自动弃牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 4,
+     "desc": "赵云(2)对[赵云(3)]使用牌[杀(1022)]",
+     "robotIdx": 2,
+     "action": "PlayCard",
+     "targetsId": [
+      3
+     ],
+     "cards": [
+      1022
+     ],
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "赵云(2)对[赵云(3)]使用牌[杀(1022)]成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 5,
+     "desc": "赵云(3)取消",
+     "robotIdx": 3,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "赵云(3)取消响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "CommonHpChange",
+       "desc": "赵云(3)受到来自HarmNormal的伤害, 体力变化:-1",
+       "attr": {
+        "ChangeHp": "-1",
+        "HpSrc": "HarmNormal"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "衣带诏1_4",
+   "desc": "其他角色与其距离为1——马加",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1001,
+     1002,
+     1003,
+     1004,
+     1005,
+     1006,
+     1007,
+     1008,
+     1009,
+     1010,
+     1011,
+     1012,
+     1013,
+     1015,
+     1014,
+     1016,
+     1017,
+     1018,
+     1019,
+     1020
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10105,
+      "initCards": [],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [
+       1136
+      ],
+      "delSkills": [
+       1026,
+       1027,
+       1073
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 2,
+      "heroId": 10105,
+      "initCards": [
+       1022
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1026,
+       1027,
+       1073
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 3,
+      "heroId": 10105,
+      "initCards": [],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1026,
+       1027,
+       1073
+      ],
+      "exEquips": [
+       1070
+      ],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "赵云(1)对[赵云(3)], 使用技能[衣带诏]",
+     "robotIdx": 1,
+     "action": "UseHeroSkill",
+     "targetsId": [
+      3
+     ],
+     "confirm": false,
+     "heroSkillUuid": 1136,
+     "assets": [
+      {
+       "msgName": "UseHeroSkillAck",
+       "desc": "赵云(1)对[赵云(3)], 使用技能[衣带诏]成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "赵云(1)结束打牌",
+     "robotIdx": 1,
+     "action": "PlayCardOver",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "PlayCardOverAck",
+       "desc": "赵云(1)结束打牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "desc": "赵云(1)自动弃牌",
+     "robotIdx": 1,
+     "action": "DisCard",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "DisCardAck",
+       "desc": "赵云(1)自动弃牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 4,
+     "desc": "赵云(2)对[赵云(3)]使用牌[杀(1022)]",
+     "robotIdx": 2,
+     "action": "PlayCard",
+     "targetsId": [
+      3
+     ],
+     "cards": [
+      1022
+     ],
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "赵云(2)对[赵云(3)]使用牌[杀(1022)]成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 5,
+     "desc": "赵云(3)取消",
+     "robotIdx": 3,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "赵云(3)取消响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "CommonHpChange",
+       "desc": "赵云(3)受到来自HarmNormal的伤害, 体力变化:-1",
+       "attr": {
+        "ChangeHp": "-1",
+        "HpSrc": "HarmNormal"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "衣带诏1_5",
+   "desc": "其他角色与其距离为1——隔岸观火",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1001,
+     1002,
+     1003,
+     1004,
+     1005,
+     1006,
+     1007,
+     1008,
+     1009,
+     1010,
+     1011,
+     1012,
+     1013,
+     1015,
+     1014,
+     1016,
+     1017,
+     1018,
+     1019,
+     1020
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10105,
+      "initCards": [
+       1281
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1026,
+       1027,
+       1073
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 2,
+      "heroId": 10105,
+      "initCards": [],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [
+       1136
+      ],
+      "delSkills": [
+       1026,
+       1027,
+       1073
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 3,
+      "heroId": 10105,
+      "initCards": [
+       1022
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1026,
+       1027,
+       1073
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "赵云(1)使用牌[隔岸观火(1281)]",
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "cards": [
+      1281
+     ],
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "赵云(1)使用牌[隔岸观火(1281)]成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "赵云(1)结束打牌",
+     "robotIdx": 1,
+     "action": "PlayCardOver",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "PlayCardOverAck",
+       "desc": "赵云(1)结束打牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "desc": "赵云(1)自动弃牌",
+     "robotIdx": 1,
+     "action": "DisCard",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "DisCardAck",
+       "desc": "赵云(1)自动弃牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 4,
+     "desc": "赵云(2)对[赵云(1)], 使用技能[衣带诏]",
+     "robotIdx": 2,
+     "action": "UseHeroSkill",
+     "targetsId": [
+      1
+     ],
+     "confirm": false,
+     "heroSkillUuid": 1136,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "UseHeroSkillAck",
+       "desc": "赵云(2)对[赵云(1)], 使用技能[衣带诏]成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 5,
+     "desc": "赵云(2)结束打牌",
+     "robotIdx": 2,
+     "action": "PlayCardOver",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "PlayCardOverAck",
+       "desc": "赵云(2)结束打牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 6,
+     "desc": "赵云(2)自动弃牌",
+     "robotIdx": 2,
+     "action": "DisCard",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "DisCardAck",
+       "desc": "赵云(2)自动弃牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 7,
+     "desc": "赵云(3)对[赵云(1)]使用牌[杀(1022)]",
+     "robotIdx": 3,
+     "action": "PlayCard",
+     "targetsId": [
+      1
+     ],
+     "cards": [
+      1022
+     ],
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "赵云(3)对[赵云(1)]使用牌[杀(1022)]成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 8,
+     "desc": "赵云(1)取消",
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "赵云(1)取消响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "CommonHpChange",
+       "desc": "赵云(1)受到来自HarmNormal的伤害, 体力变化:-1",
+       "attr": {
+        "ChangeHp": "-1",
+        "HpSrc": "HarmNormal"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "衣带诏1_6",
+   "desc": "其他角色与其距离为1——换座",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1001,
+     1002,
+     1003,
+     1004,
+     1005,
+     1006,
+     1007,
+     1008,
+     1009,
+     1010,
+     1011,
+     1012,
+     1013,
+     1015,
+     1014,
+     1016,
+     1017,
+     1018,
+     1019,
+     1020
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10105,
+      "initCards": [
+       2015
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [
+       1136
+      ],
+      "delSkills": [
+       1026,
+       1027,
+       1073
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 2,
+      "heroId": 10105,
+      "initCards": [],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1026,
+       1027,
+       1073
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 3,
+      "heroId": 10105,
+      "initCards": [
+       1022
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1026,
+       1027,
+       1073
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 4,
+      "heroId": 10105,
+      "initCards": [],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1026,
+       1027,
+       1073
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "赵云(1)对[赵云(2)], 使用技能[衣带诏]",
+     "robotIdx": 1,
+     "action": "UseHeroSkill",
+     "targetsId": [
+      2
+     ],
+     "confirm": false,
+     "heroSkillUuid": 1136,
+     "assets": [
+      {
+       "msgName": "UseHeroSkillAck",
+       "desc": "赵云(1)对[赵云(2)], 使用技能[衣带诏]成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "赵云(1)对[赵云(3),赵云(4)]使用牌[豹韬(2015)]",
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "targetsId": [
+      3,
+      4
+     ],
+     "cards": [
+      2015
+     ],
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "赵云(1)对[赵云(3),赵云(4)]使用牌[豹韬(2015)]成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "desc": "赵云(1)结束打牌",
+     "robotIdx": 1,
+     "action": "PlayCardOver",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "PlayCardOverAck",
+       "desc": "赵云(1)结束打牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 4,
+     "desc": "赵云(1)自动弃牌",
+     "robotIdx": 1,
+     "action": "DisCard",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "DisCardAck",
+       "desc": "赵云(1)自动弃牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 5,
+     "desc": "赵云(2)结束打牌",
+     "robotIdx": 2,
+     "action": "PlayCardOver",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "PlayCardOverAck",
+       "desc": "赵云(2)结束打牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 6,
+     "desc": "赵云(2)自动弃牌",
+     "robotIdx": 2,
+     "action": "DisCard",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "DisCardAck",
+       "desc": "赵云(2)自动弃牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 7,
+     "desc": "赵云(4)对[赵云(2)]使用牌[杀(1022)]",
+     "robotIdx": 4,
+     "action": "PlayCard",
+     "targetsId": [
+      2
+     ],
+     "cards": [
+      1022
+     ],
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "赵云(4)对[赵云(2)]使用牌[杀(1022)]成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 8,
+     "desc": "赵云(2)取消",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "赵云(2)取消响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "CommonHpChange",
+       "desc": "赵云(2)受到来自HarmNormal的伤害, 体力变化:-1",
+       "attr": {
+        "ChangeHp": "-1",
+        "HpSrc": "HarmNormal"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "衣带诏1_7",
+   "desc": "其他角色与其距离为1——单向",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1001,
+     1002,
+     1003,
+     1004,
+     1005,
+     1006,
+     1007,
+     1008,
+     1009,
+     1010,
+     1011,
+     1012,
+     1013,
+     1015,
+     1014,
+     1016,
+     1017,
+     1018,
+     1019,
+     1020
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10105,
+      "initCards": [],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [
+       1136
+      ],
+      "delSkills": [
+       1026,
+       1027,
+       1073
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 2,
+      "heroId": 10105,
+      "initCards": [
+       1027
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1026,
+       1027,
+       1073
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 3,
+      "heroId": 10105,
+      "initCards": [],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1026,
+       1027,
+       1073
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 4,
+      "heroId": 10105,
+      "initCards": [],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1026,
+       1027,
+       1073
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 5,
+      "heroId": 10105,
+      "initCards": [],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1026,
+       1027,
+       1073
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "赵云(1)对[赵云(2)], 使用技能[衣带诏]",
+     "robotIdx": 1,
+     "action": "UseHeroSkill",
+     "targetsId": [
+      2
+     ],
+     "confirm": false,
+     "heroSkillUuid": 1136,
+     "assets": [
+      {
+       "msgName": "UseHeroSkillAck",
+       "desc": "赵云(1)对[赵云(2)], 使用技能[衣带诏]成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "赵云(1)结束打牌",
+     "robotIdx": 1,
+     "action": "PlayCardOver",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "PlayCardOverAck",
+       "desc": "赵云(1)结束打牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "desc": "赵云(1)自动弃牌",
+     "robotIdx": 1,
+     "action": "DisCard",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "DisCardAck",
+       "desc": "赵云(1)自动弃牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 4,
+     "desc": "赵云(2)对[赵云(4)]使用牌[杀(1027)]",
+     "robotIdx": 2,
+     "action": "PlayCard",
+     "targetsId": [
+      4
+     ],
+     "cards": [
+      1027
+     ],
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "赵云(2)对[赵云(4)]使用牌[杀(1027)]失败",
+       "attr": {
+        "Result": "1530"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "衣带诏1_8",
+   "desc": "目标选择限制——霜冻",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1001,
+     1002,
+     1003,
+     1004,
+     1005,
+     1006,
+     1007,
+     1008,
+     1009,
+     1010,
+     1011,
+     1012,
+     1013,
+     1015,
+     1014,
+     1016,
+     1017,
+     1018,
+     1019,
+     1020
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10105,
+      "initCards": [],
+      "initEquips": [],
+      "augurCards": [
+       4088
+      ],
+      "addSkills": [
+       1136
+      ],
+      "delSkills": [
+       1026,
+       1027,
+       1073
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 2,
+      "heroId": 10105,
+      "initCards": [],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1026,
+       1027,
+       1073
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "赵云(1)等待3秒",
+     "robotIdx": 1,
+     "action": "Sleep",
+     "confirm": false,
+     "timeout": 1,
+     "sleepTime": 3
+    },
+    {
+     "id": 2,
+     "desc": "赵云(1)对[赵云(2)], 使用技能[衣带诏]",
+     "robotIdx": 1,
+     "action": "UseHeroSkill",
+     "targetsId": [
+      2
+     ],
+     "confirm": false,
+     "heroSkillUuid": 1136,
+     "assets": [
+      {
+       "msgName": "UseHeroSkillAck",
+       "desc": "赵云(1)对[赵云(2)], 使用技能[衣带诏]失败",
+       "attr": {
+        "Result": "1520"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "衣带诏1_9",
+   "desc": "目标选择限制——空城计",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1001,
+     1002,
+     1003,
+     1004,
+     1005,
+     1006,
+     1007,
+     1008,
+     1009,
+     1010,
+     1011,
+     1012,
+     1013,
+     1015,
+     1014,
+     1016,
+     1017,
+     1018,
+     1019,
+     1020
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10105,
+      "initCards": [
+       2008
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [
+       1136
+      ],
+      "delSkills": [
+       1026,
+       1027,
+       1073
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 2,
+      "heroId": 10105,
+      "initCards": [],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1026,
+       1027,
+       1073
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "赵云(1)对[赵云(2)]使用牌[空城计(2008)]",
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "targetsId": [
+      2
+     ],
+     "cards": [
+      2008
+     ],
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "赵云(1)对[赵云(2)]使用牌[空城计(2008)]成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "赵云(1)对[赵云(2)], 使用技能[衣带诏]",
+     "robotIdx": 1,
+     "action": "UseHeroSkill",
+     "targetsId": [
+      2
+     ],
+     "confirm": false,
+     "heroSkillUuid": 1136,
+     "assets": [
+      {
+       "msgName": "UseHeroSkillAck",
+       "desc": "赵云(1)对[赵云(2)], 使用技能[衣带诏]失败",
+       "attr": {
+        "Result": "1530"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "衣带诏1_10",
+   "desc": "目标选择限制——调虎离山",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1001,
+     1002,
+     1003,
+     1004,
+     1005,
+     1006,
+     1007,
+     1008,
+     1009,
+     1010,
+     1011,
+     1012,
+     1013,
+     1015,
+     1014,
+     1016,
+     1017,
+     1018,
+     1019,
+     1020
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10105,
+      "initCards": [
+       1251
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1026,
+       1027,
+       1073
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 2,
+      "heroId": 10105,
+      "initCards": [],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [
+       1136
+      ],
+      "delSkills": [
+       1026,
+       1027,
+       1073
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "赵云(1)对[赵云(2)]使用牌[调虎离山(1251)]",
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "targetsId": [
+      2
+     ],
+     "cards": [
+      1251
+     ],
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "赵云(1)对[赵云(2)]使用牌[调虎离山(1251)]成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "赵云(1)结束打牌",
+     "robotIdx": 1,
+     "action": "PlayCardOver",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "PlayCardOverAck",
+       "desc": "赵云(1)结束打牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "desc": "赵云(1)自动弃牌",
+     "robotIdx": 1,
+     "action": "DisCard",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "DisCardAck",
+       "desc": "赵云(1)自动弃牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 4,
+     "desc": "赵云(2)对[赵云(1)], 使用技能[衣带诏]",
+     "robotIdx": 2,
+     "action": "UseHeroSkill",
+     "targetsId": [
+      1
+     ],
+     "confirm": false,
+     "heroSkillUuid": 1136,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "UseHeroSkillAck",
+       "desc": "赵云(2)对[赵云(1)], 使用技能[衣带诏]失败",
+       "attr": {
+        "Result": "1530"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "衣带诏1_11",
+   "desc": "目标选择限制——大雾（当前结果不对）",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1001,
+     1002,
+     1003,
+     1004,
+     1005,
+     1006,
+     1007,
+     1008,
+     1009,
+     1010,
+     1011,
+     1012,
+     1013,
+     1015,
+     1014,
+     1016,
+     1017,
+     1018,
+     1019,
+     1020
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10105,
+      "initCards": [
+       1249
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [
+       1136
+      ],
+      "delSkills": [
+       1026,
+       1027,
+       1073
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 2,
+      "heroId": 10105,
+      "initCards": [],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1026,
+       1027,
+       1073
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 3,
+      "heroId": 10105,
+      "initCards": [],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1026,
+       1027,
+       1073
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 4,
+      "heroId": 10105,
+      "initCards": [],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1026,
+       1027,
+       1073
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "赵云(1)对[赵云(2)]使用牌[祈晴祷雨(1249)]",
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "targetsId": [
+      2
+     ],
+     "cards": [
+      1249
+     ],
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "赵云(1)对[赵云(2)]使用牌[祈晴祷雨(1249)]成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "赵云(1)确认, 选择大雾",
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "cards": [
+      7
+     ],
+     "confirm": true,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "赵云(1)确认, 选择大雾成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "desc": "赵云(1)对[赵云(3)], 使用技能[衣带诏]",
+     "robotIdx": 1,
+     "action": "UseHeroSkill",
+     "targetsId": [
+      3
+     ],
+     "confirm": false,
+     "heroSkillUuid": 1136,
+     "assets": [
+      {
+       "msgName": "UseHeroSkillAck",
+       "desc": "赵云(1)对[赵云(3)], 使用技能[衣带诏]成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "衣带诏1_12",
+   "desc": "发动前被封禁",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1001,
+     1002,
+     1003,
+     1004,
+     1005,
+     1006,
+     1007,
+     1008,
+     1009,
+     1010,
+     1011,
+     1012,
+     1013,
+     1015,
+     1014,
+     1016,
+     1017,
+     1018,
+     1019,
+     1020
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10105,
+      "initCards": [
+       1024
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [
+       1136
+      ],
+      "delSkills": [
+       1026,
+       1027,
+       1073
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 2,
+      "heroId": 10105,
+      "initCards": [
+       1022
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1026,
+       1027,
+       1073
+      ],
+      "exEquips": [
+       1002,
+       3137
+      ],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 3,
+      "heroId": 10105,
+      "initCards": [],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1026,
+       1027,
+       1073
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 4,
+      "heroId": 10105,
+      "initCards": [],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1026,
+       1027,
+       1073
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "赵云(1)对[赵云(2)]使用牌[杀(1024)]",
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "targetsId": [
+      2
+     ],
+     "cards": [
+      1024
+     ],
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "赵云(1)对[赵云(2)]使用牌[杀(1024)]成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "赵云(2)确认对[赵云(1)], 使用牌[杀(1022)]",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "targetsId": [
+      1
+     ],
+     "cards": [
+      1022
+     ],
+     "confirm": true,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "赵云(2)确认对[赵云(1)], 使用牌[杀(1022)]成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "desc": "赵云(1)取消",
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "赵云(1)取消",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "CommonHpChange",
+       "desc": "赵云(1)受到来自HarmNormal的伤害, 体力变化:-1",
+       "attr": {
+        "ChangeHp": "-1",
+        "HpSrc": "HarmNormal"
+       }
+      }
+     ]
+    },
+    {
+     "id": 4,
+     "desc": "赵云(2)取消",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "赵云(2)取消成功",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "CommonHpChange",
+       "desc": "赵云(2)受到来自HarmNormal的伤害, 体力变化:-1",
+       "attr": {
+        "ChangeHp": "-1",
+        "HpSrc": "HarmNormal"
+       }
+      }
+     ]
+    },
+    {
+     "id": 5,
+     "desc": "赵云(1)对[赵云(3)], 使用技能[衣带诏]",
+     "robotIdx": 1,
+     "action": "UseHeroSkill",
+     "targetsId": [
+      3
+     ],
+     "confirm": false,
+     "heroSkillUuid": 1136,
+     "assets": [
+      {
+       "msgName": "UseHeroSkillAck",
+       "desc": "赵云(1)对[赵云(3)], 使用技能[衣带诏]失败",
+       "attr": {
+        "Result": "1527"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "衣带诏1_13",
+   "desc": "发动后被封禁",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1001,
+     1002,
+     1003,
+     1004,
+     1005,
+     1006,
+     1007,
+     1008,
+     1009,
+     1010,
+     1011,
+     1012,
+     1013,
+     1015,
+     1014,
+     1016,
+     1017,
+     1018,
+     1019,
+     1020
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10105,
+      "initCards": [
+       1082
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [
+       1136
+      ],
+      "delSkills": [
+       1026,
+       1027,
+       1073
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 2,
+      "heroId": 10105,
+      "initCards": [
+       1022
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1026,
+       1027,
+       1073
+      ],
+      "exEquips": [
+       3137,
+       3004
+      ],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 3,
+      "heroId": 10105,
+      "initCards": [],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1026,
+       1027,
+       1073
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 4,
+      "heroId": 10105,
+      "initCards": [],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1026,
+       1027,
+       1073
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "赵云(1)对[赵云(4)], 使用技能[衣带诏]",
+     "robotIdx": 1,
+     "action": "UseHeroSkill",
+     "targetsId": [
+      4
+     ],
+     "confirm": false,
+     "heroSkillUuid": 1136,
+     "assets": [
+      {
+       "msgName": "UseHeroSkillAck",
+       "desc": "赵云(1)对[赵云(4)], 使用技能[衣带诏]成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "赵云(1)结束打牌",
+     "robotIdx": 1,
+     "action": "PlayCardOver",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "PlayCardOverAck",
+       "desc": "赵云(1)结束打牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "desc": "赵云(1)自动弃牌",
+     "robotIdx": 1,
+     "action": "DisCard",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "DisCardAck",
+       "desc": "赵云(1)自动弃牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 4,
+     "desc": "赵云(2)对[赵云(1)]使用牌[杀(1003)]",
+     "robotIdx": 2,
+     "action": "PlayCard",
+     "targetsId": [
+      1
+     ],
+     "cards": [
+      1003
+     ],
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "赵云(2)对[赵云(1)]使用牌[杀(1003)]成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 5,
+     "desc": "赵云(1)确认, 使用牌[闪(1082)]",
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "cards": [
+      1082
+     ],
+     "confirm": true,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "赵云(1)确认, 使用牌[闪(1082)]成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 6,
+     "desc": "赵云(2)对[赵云(4)]使用牌[杀(1022)]",
+     "robotIdx": 2,
+     "action": "PlayCard",
+     "targetsId": [
+      4
+     ],
+     "cards": [
+      1022
+     ],
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "赵云(2)对[赵云(4)]使用牌[杀(1022)]成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 7,
+     "desc": "赵云(4)取消",
+     "robotIdx": 4,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "赵云(4)取消成功",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "CommonHpChange",
+       "desc": "赵云(4)受到来自HarmNormal的伤害, 体力变化:-1",
+       "attr": {
+        "ChangeHp": "-1",
+        "HpSrc": "HarmNormal"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "衣带诏1_14",
+   "desc": "发动前被重置",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1001,
+     1002,
+     1003,
+     1004,
+     1005,
+     1006,
+     1007,
+     1008,
+     1009,
+     1010,
+     1011,
+     1012,
+     1013,
+     1015,
+     1014,
+     1016,
+     1017,
+     1018,
+     1019,
+     1020
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10105,
+      "initCards": [
+       1024,
+       1123
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [
+       1136,
+       1377
+      ],
+      "delSkills": [
+       1026,
+       1027,
+       1073
+      ],
+      "exEquips": [
+       2024
+      ],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 2,
+      "heroId": 10105,
+      "initCards": [
+       1022
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1026,
+       1027,
+       1073
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 3,
+      "heroId": 10105,
+      "initCards": [],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1026,
+       1027,
+       1073
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 4,
+      "heroId": 10105,
+      "initCards": [],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1026,
+       1027,
+       1073
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "赵云(1)对[赵云(2)]使用牌[烈火焚城(1123)]",
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "targetsId": [
+      2
+     ],
+     "cards": [
+      1123
+     ],
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "赵云(1)对[赵云(2)]使用牌[烈火焚城(1123)]成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "赵云(1)确认, 使用牌[武刚车(2024)]",
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "cards": [
+      2024
+     ],
+     "confirm": true,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "赵云(1)确认, 使用牌[武刚车(2024)]成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "desc": "赵云(2)取消",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "赵云(2)取消成功",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "CommonHpChange",
+       "desc": "赵云(2)受到来自HarmHuo的伤害, 体力变化:-1",
+       "attr": {
+        "ChangeHp": "-1",
+        "HpSrc": "HarmHuo"
+       }
+      }
+     ]
+    },
+    {
+     "id": 4,
+     "desc": "赵云(1)对[赵云(3)], 使用技能[衣带诏]",
+     "robotIdx": 1,
+     "action": "UseHeroSkill",
+     "targetsId": [
+      3
+     ],
+     "confirm": false,
+     "heroSkillUuid": 1136,
+     "assets": [
+      {
+       "msgName": "UseHeroSkillAck",
+       "desc": "赵云(1)对[赵云(3)], 使用技能[衣带诏]成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "衣带诏1_15",
+   "desc": "发动后被重置",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1001,
+     1002,
+     1003,
+     1004,
+     1005,
+     1006,
+     1007,
+     1008,
+     1009,
+     1010,
+     1011,
+     1012,
+     1013,
+     1015,
+     1014,
+     1016,
+     1017,
+     1018,
+     1019,
+     1020
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10105,
+      "initCards": [
+       1024,
+       1123
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [
+       1136,
+       1377
+      ],
+      "delSkills": [
+       1026,
+       1027,
+       1073
+      ],
+      "exEquips": [
+       2024
+      ],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 2,
+      "heroId": 10105,
+      "initCards": [
+       1022
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1026,
+       1027,
+       1073
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 3,
+      "heroId": 10105,
+      "initCards": [],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1026,
+       1027,
+       1073
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 4,
+      "heroId": 10105,
+      "initCards": [],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1026,
+       1027,
+       1073
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "赵云(1)对[赵云(4)], 使用技能[衣带诏]",
+     "robotIdx": 1,
+     "action": "UseHeroSkill",
+     "targetsId": [
+      4
+     ],
+     "confirm": false,
+     "heroSkillUuid": 1136,
+     "assets": [
+      {
+       "msgName": "UseHeroSkillAck",
+       "desc": "赵云(1)对[赵云(4)], 使用技能[衣带诏]成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "赵云(1)对[赵云(2)]使用牌[烈火焚城(1123)]",
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "targetsId": [
+      2
+     ],
+     "cards": [
+      1123
+     ],
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "赵云(1)对[赵云(2)]使用牌[烈火焚城(1123)]成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "desc": "赵云(1)确认, 使用牌[武刚车(2024)]",
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "cards": [
+      2024
+     ],
+     "confirm": true,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "赵云(1)确认, 使用牌[武刚车(2024)]成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 4,
+     "desc": "赵云(2)取消",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "赵云(2)取消成功",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "CommonHpChange",
+       "desc": "赵云(2)受到来自HarmHuo的伤害, 体力变化:-1",
+       "attr": {
+        "ChangeHp": "-1",
+        "HpSrc": "HarmHuo"
+       }
+      }
+     ]
+    },
+    {
+     "id": 5,
+     "desc": "赵云(1)对[赵云(4)], 使用技能[3000003]",
+     "robotIdx": 1,
+     "action": "UseHeroSkill",
+     "targetsId": [
+      4
+     ],
+     "confirm": false,
+     "heroSkillUuid": 3000003,
+     "assets": [
+      {
+       "msgName": "UseHeroSkillAck",
+       "desc": "赵云(1)对[赵云(4)], 使用技能[3000003]成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 6,
+     "desc": "赵云(1)结束打牌",
+     "robotIdx": 1,
+     "action": "PlayCardOver",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "PlayCardOverAck",
+       "desc": "赵云(1)结束打牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 7,
+     "desc": "赵云(1)自动弃牌",
+     "robotIdx": 1,
+     "action": "DisCard",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "DisCardAck",
+       "desc": "赵云(1)自动弃牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 8,
+     "desc": "赵云(2)对[赵云(4)]使用牌[杀(1003)]",
+     "robotIdx": 2,
+     "action": "PlayCard",
+     "targetsId": [
+      4
+     ],
+     "cards": [
+      1003
+     ],
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "赵云(2)对[赵云(4)]使用牌[杀(1003)]成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "衣带诏1_16",
+   "desc": "发动后被删除",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1001,
+     1002,
+     1003,
+     1004,
+     1005,
+     1006,
+     1007,
+     1008,
+     1009,
+     1010,
+     1011,
+     1012,
+     1013,
+     1015,
+     1014,
+     1016,
+     1017,
+     1018,
+     1019,
+     1020
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10105,
+      "initCards": [
+       1024
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [
+       1136,
+       1665
+      ],
+      "delSkills": [
+       1026,
+       1027,
+       1073
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 2,
+      "heroId": 10105,
+      "initCards": [
+       1022
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1026,
+       1027,
+       1073
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 3,
+      "heroId": 10105,
+      "initCards": [],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1026,
+       1027,
+       1073
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 4,
+      "heroId": 10105,
+      "initCards": [],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1026,
+       1027,
+       1073
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "赵云(1)对[赵云(4)], 使用技能[衣带诏]",
+     "robotIdx": 1,
+     "action": "UseHeroSkill",
+     "targetsId": [
+      4
+     ],
+     "confirm": false,
+     "heroSkillUuid": 1136,
+     "assets": [
+      {
+       "msgName": "UseHeroSkillAck",
+       "desc": "赵云(1)对[赵云(4)], 使用技能[衣带诏]成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "赵云(1), 使用技能[迎归甘泉]",
+     "robotIdx": 1,
+     "action": "UseHeroSkill",
+     "confirm": false,
+     "heroSkillUuid": 1665,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "UseHeroSkillAck",
+       "desc": "赵云(1), 使用技能[迎归甘泉]成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "desc": "赵云(1)结束打牌",
+     "robotIdx": 1,
+     "action": "PlayCardOver",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "PlayCardOverAck",
+       "desc": "赵云(1)结束打牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 4,
+     "desc": "赵云(1)自动弃牌",
+     "robotIdx": 1,
+     "action": "DisCard",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "DisCardAck",
+       "desc": "赵云(1)自动弃牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 5,
+     "desc": "赵云(2)对[赵云(4)]使用牌[杀(1003)]",
+     "robotIdx": 2,
+     "action": "PlayCard",
+     "targetsId": [
+      4
+     ],
+     "cards": [
+      1003
+     ],
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "赵云(2)对[赵云(4)]使用牌[杀(1003)]失败",
+       "attr": {
+        "Result": "1530"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "衣带诏2_1",
+   "desc": "受到伤害——杀+方天",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1001,
+     1002,
+     1003,
+     1004,
+     1005,
+     1006,
+     1007,
+     1008,
+     1009,
+     1010,
+     1011,
+     1012,
+     1013,
+     1015,
+     1014,
+     1016,
+     1017,
+     1018,
+     1019,
+     1020
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10105,
+      "initCards": [
+       1022
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [
+       1136
+      ],
+      "delSkills": [
+       1026,
+       1027,
+       1073
+      ],
+      "exEquips": [
+       3025
+      ],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 2,
+      "heroId": 10105,
+      "initCards": [],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1026,
+       1027,
+       1073
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 3,
+      "heroId": 10105,
+      "initCards": [],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1026,
+       1027,
+       1073
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "赵云(1)对[赵云(3)], 使用技能[衣带诏]",
+     "robotIdx": 1,
+     "action": "UseHeroSkill",
+     "targetsId": [
+      3
+     ],
+     "confirm": false,
+     "heroSkillUuid": 1136,
+     "assets": [
+      {
+       "msgName": "UseHeroSkillAck",
+       "desc": "赵云(1)对[赵云(3)], 使用技能[衣带诏]成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "赵云(1)对[赵云(2)]使用牌[杀(1022)]",
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "targetsId": [
+      2
+     ],
+     "cards": [
+      1022
+     ],
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "赵云(1)对[赵云(2)]使用牌[杀(1022)]成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "desc": "赵云(1)确认对[赵云(3)], 使用牌[万箭齐发(1001)]",
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "targetsId": [
+      3
+     ],
+     "cards": [
+      1001
+     ],
+     "confirm": true,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "赵云(1)确认对[赵云(3)], 使用牌[万箭齐发(1001)]成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 4,
+     "desc": "赵云(2)取消",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "赵云(2)取消成功",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "CommonHpChange",
+       "desc": "赵云(2)受到来自HarmNormal的伤害, 体力变化:-1",
+       "attr": {
+        "ChangeHp": "-1",
+        "HpSrc": "HarmNormal"
+       }
+      }
+     ]
+    },
+    {
+     "id": 5,
+     "desc": "赵云(3)取消",
+     "robotIdx": 3,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "赵云(3)取消响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "CommonHpChange",
+       "desc": "赵云(3)受到来自HarmNormal的伤害, 体力变化:-1",
+       "attr": {
+        "ChangeHp": "-1",
+        "HpSrc": "HarmNormal"
+       }
+      }
+     ]
+    },
+    {
+     "id": 6,
+     "desc": "赵云(1)断言",
+     "robotIdx": 1,
+     "action": "OnlyAsset",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "DrawCard",
+       "desc": "赵云(1)抽到1张牌牌为[1003]",
+       "attr": {
+        "Cards": "1003",
+        "Count": "1"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "衣带诏2_2",
+   "desc": "受到伤害——杀",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1001,
+     1002,
+     1003,
+     1004,
+     1005,
+     1006,
+     1007,
+     1008,
+     1009,
+     1010,
+     1011,
+     1012,
+     1013,
+     1015,
+     1014,
+     1016,
+     1017,
+     1018,
+     1019,
+     1020
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10105,
+      "initCards": [],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [
+       1136
+      ],
+      "delSkills": [
+       1026,
+       1027,
+       1073
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 2,
+      "heroId": 10105,
+      "initCards": [],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1026,
+       1027,
+       1073
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 3,
+      "heroId": 10105,
+      "initCards": [],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1026,
+       1027,
+       1073
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "赵云(1)对[赵云(3)], 使用技能[衣带诏]",
+     "robotIdx": 1,
+     "action": "UseHeroSkill",
+     "targetsId": [
+      3
+     ],
+     "confirm": false,
+     "heroSkillUuid": 1136,
+     "assets": [
+      {
+       "msgName": "UseHeroSkillAck",
+       "desc": "赵云(1)对[赵云(3)], 使用技能[衣带诏]成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "赵云(1)结束打牌",
+     "robotIdx": 1,
+     "action": "PlayCardOver",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "PlayCardOverAck",
+       "desc": "赵云(1)结束打牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "desc": "赵云(1)自动弃牌",
+     "robotIdx": 1,
+     "action": "DisCard",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "DisCardAck",
+       "desc": "赵云(1)自动弃牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 4,
+     "desc": "赵云(2)对[赵云(3)]使用牌[杀(1003)]",
+     "robotIdx": 2,
+     "action": "PlayCard",
+     "targetsId": [
+      3
+     ],
+     "cards": [
+      1003
+     ],
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "赵云(2)对[赵云(3)]使用牌[杀(1003)]成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 5,
+     "desc": "赵云(3)取消",
+     "robotIdx": 3,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "赵云(3)取消响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "CommonHpChange",
+       "desc": "赵云(3)受到来自HarmNormal的伤害, 体力变化:-1",
+       "attr": {
+        "ChangeHp": "-1",
+        "HpSrc": "HarmNormal"
+       }
+      }
+     ]
+    },
+    {
+     "id": 6,
+     "desc": "赵云(2)断言",
+     "robotIdx": 2,
+     "action": "OnlyAsset",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "DrawCard",
+       "desc": "赵云(2)抽到1张牌牌为[1005]",
+       "attr": {
+        "Cards": "1005",
+        "Count": "1"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "衣带诏2_3",
+   "desc": "受到伤害——阵前对决",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1001,
+     1002,
+     1003,
+     1004,
+     1005,
+     1006,
+     1007,
+     1008,
+     1009,
+     1010,
+     1011,
+     1012,
+     1013,
+     1015,
+     1014,
+     1016,
+     1017,
+     1018,
+     1019,
+     1020
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10105,
+      "initCards": [
+       1021
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [
+       1136
+      ],
+      "delSkills": [
+       1026,
+       1027,
+       1073
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 2,
+      "heroId": 10105,
+      "initCards": [],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1026,
+       1027,
+       1073
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "赵云(1)对[赵云(2)], 使用技能[衣带诏]",
+     "robotIdx": 1,
+     "action": "UseHeroSkill",
+     "targetsId": [
+      2
+     ],
+     "confirm": false,
+     "heroSkillUuid": 1136,
+     "assets": [
+      {
+       "msgName": "UseHeroSkillAck",
+       "desc": "赵云(1)对[赵云(2)], 使用技能[衣带诏]成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "赵云(1)对[赵云(2)]使用牌[阵前对决(1021)]",
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "targetsId": [
+      2
+     ],
+     "cards": [
+      1021
+     ],
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "赵云(1)对[赵云(2)]使用牌[阵前对决(1021)]成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "desc": "赵云(2)取消",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "赵云(2)取消响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 4,
+     "desc": "赵云(1)断言",
+     "robotIdx": 1,
+     "action": "OnlyAsset",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "DrawCard",
+       "desc": "赵云(1)抽到1张牌牌为[1003]",
+       "attr": {
+        "Cards": "1003",
+        "Count": "1"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "衣带诏2_4",
+   "desc": "受到伤害——烈火焚城",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1001,
+     1002,
+     1003,
+     1004,
+     1005,
+     1006,
+     1007,
+     1008,
+     1009,
+     1010,
+     1011,
+     1012,
+     1013,
+     1015,
+     1014,
+     1016,
+     1017,
+     1018,
+     1019,
+     1020
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10105,
+      "initCards": [
+       1123
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [
+       1136
+      ],
+      "delSkills": [
+       1026,
+       1027,
+       1073
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 2,
+      "heroId": 10105,
+      "initCards": [
+       1021
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1026,
+       1027,
+       1073
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "赵云(1)对[赵云(2)], 使用技能[衣带诏]",
+     "robotIdx": 1,
+     "action": "UseHeroSkill",
+     "targetsId": [
+      2
+     ],
+     "confirm": false,
+     "heroSkillUuid": 1136,
+     "assets": [
+      {
+       "msgName": "UseHeroSkillAck",
+       "desc": "赵云(1)对[赵云(2)], 使用技能[衣带诏]成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "赵云(1)对[赵云(2)]使用牌[烈火焚城(1123)]",
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "targetsId": [
+      2
+     ],
+     "cards": [
+      1123
+     ],
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "赵云(1)对[赵云(2)]使用牌[烈火焚城(1123)]成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "desc": "赵云(1)确认, 弃置牌[万箭齐发(1001)]",
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "cards": [
+      1001
+     ],
+     "confirm": true,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "赵云(1)确认, 弃置牌[万箭齐发(1001)]成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 4,
+     "desc": "赵云(2)取消",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "赵云(2)取消响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "CommonHpChange",
+       "desc": "赵云(2)受到来自HarmHuo的伤害, 体力变化:-1",
+       "attr": {
+        "ChangeHp": "-1",
+        "HpSrc": "HarmHuo"
+       }
+      }
+     ]
+    },
+    {
+     "id": 5,
+     "desc": "赵云(1)断言",
+     "robotIdx": 1,
+     "action": "OnlyAsset",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "DrawCard",
+       "desc": "赵云(1)抽到1张牌牌为[1003]",
+       "attr": {
+        "Cards": "1003",
+        "Count": "1"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "衣带诏2_5",
+   "desc": "受到伤害——烽火狼烟",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1001,
+     1002,
+     1003,
+     1004,
+     1005,
+     1006,
+     1007,
+     1008,
+     1009,
+     1010,
+     1011,
+     1012,
+     1013,
+     1015,
+     1014,
+     1016,
+     1017,
+     1018,
+     1019,
+     1020
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10105,
+      "initCards": [
+       1125
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [
+       1136
+      ],
+      "delSkills": [
+       1026,
+       1027,
+       1073
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 2,
+      "heroId": 10105,
+      "initCards": [],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1026,
+       1027,
+       1073
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "赵云(1)对[赵云(2)], 使用技能[衣带诏]",
+     "robotIdx": 1,
+     "action": "UseHeroSkill",
+     "targetsId": [
+      2
+     ],
+     "confirm": false,
+     "heroSkillUuid": 1136,
+     "assets": [
+      {
+       "msgName": "UseHeroSkillAck",
+       "desc": "赵云(1)对[赵云(2)], 使用技能[衣带诏]成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "赵云(1)对[赵云(2)]使用牌[烽火狼烟(1125)]",
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "targetsId": [
+      2
+     ],
+     "cards": [
+      1125
+     ],
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "赵云(1)对[赵云(2)]使用牌[烽火狼烟(1125)]成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "desc": "赵云(2)取消",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "赵云(2)取消响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 4,
+     "desc": "赵云(1)断言",
+     "robotIdx": 1,
+     "action": "OnlyAsset",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "DrawCard",
+       "desc": "赵云(1)抽到1张牌牌为[1003]",
+       "attr": {
+        "Cards": "1003",
+        "Count": "1"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "衣带诏2_6",
+   "desc": "受到伤害——箭雨齐射",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1001,
+     1002,
+     1003,
+     1004,
+     1005,
+     1006,
+     1007,
+     1008,
+     1009,
+     1010,
+     1011,
+     1012,
+     1013,
+     1015,
+     1014,
+     1016,
+     1017,
+     1018,
+     1019,
+     1020
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10105,
+      "initCards": [
+       1125
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [
+       1136
+      ],
+      "delSkills": [
+       1026,
+       1027,
+       1073
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 2,
+      "heroId": 10105,
+      "initCards": [],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1026,
+       1027,
+       1073
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "赵云(1)对[赵云(2)], 使用技能[衣带诏]",
+     "robotIdx": 1,
+     "action": "UseHeroSkill",
+     "targetsId": [
+      2
+     ],
+     "confirm": false,
+     "heroSkillUuid": 1136,
+     "assets": [
+      {
+       "msgName": "UseHeroSkillAck",
+       "desc": "赵云(1)对[赵云(2)], 使用技能[衣带诏]成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "赵云(1)对[赵云(2)]使用牌[万箭齐发(1001)]",
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "targetsId": [
+      2
+     ],
+     "cards": [
+      1001
+     ],
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "赵云(1)对[赵云(2)]使用牌[万箭齐发(1001)]成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "desc": "赵云(2)取消",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "赵云(2)取消响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 4,
+     "desc": "赵云(1)断言",
+     "robotIdx": 1,
+     "action": "OnlyAsset",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "DrawCard",
+       "desc": "赵云(1)抽到1张牌牌为[1003]",
+       "attr": {
+        "Cards": "1003",
+        "Count": "1"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "衣带诏2_7",
+   "desc": "受到伤害——上方用火",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1001,
+     1002,
+     1003,
+     1004,
+     1005,
+     1006,
+     1007,
+     1008,
+     1009,
+     1010,
+     1011,
+     1012,
+     1013,
+     1015,
+     1014,
+     1016,
+     1017,
+     1018,
+     1019,
+     1020
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10105,
+      "initCards": [
+       2009
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [
+       1136
+      ],
+      "delSkills": [
+       1026,
+       1027,
+       1073
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 2,
+      "heroId": 10105,
+      "initCards": [],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1026,
+       1027,
+       1073
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "赵云(1)对[赵云(2)], 使用技能[衣带诏]",
+     "robotIdx": 1,
+     "action": "UseHeroSkill",
+     "targetsId": [
+      2
+     ],
+     "confirm": false,
+     "heroSkillUuid": 1136,
+     "assets": [
+      {
+       "msgName": "UseHeroSkillAck",
+       "desc": "赵云(1)对[赵云(2)], 使用技能[衣带诏]成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "赵云(1)对[赵云(2)]使用牌[上方用火(2009)]",
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "targetsId": [
+      2
+     ],
+     "cards": [
+      2009
+     ],
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "赵云(1)对[赵云(2)]使用牌[上方用火(2009)]成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "robotIdx": 1,
+     "action": "Sleep",
+     "confirm": false,
+     "timeout": 1,
+     "sleepTime": 3
+    },
+    {
+     "id": 4,
+     "desc": "赵云(1)断言",
+     "robotIdx": 1,
+     "action": "OnlyAsset",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "DrawCard",
+       "desc": "赵云(1)抽到1张牌牌为[1004]",
+       "attr": {
+        "Cards": "1004",
+        "Count": "1"
+       }
+      }
+     ]
+    }
+   ]
+  }
+ ]

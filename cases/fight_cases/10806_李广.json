@@ -1,0 +1,6731 @@
+[
+  {
+   "case": "飞将慑虏1-1",
+   "desc": "箭雨造成2次伤害时，翻牌打出其中所有杀",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1002,
+     1003,
+     1010,
+     1011,
+     1013,
+     1014,
+     1015,
+     1016,
+     1017,
+     1018
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10001,
+      "initCards": [
+       4001
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1001,
+       1074,
+       1075
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 2,
+      "heroId": 10004,
+      "initCards": [],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1009,
+       1010
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 3,
+      "heroId": 10806,
+      "initCards": [],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1390
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "cards": [
+      4001
+     ],
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "曹操打出万箭",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "张辽不出闪，受伤",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "成功：张辽不出闪，受伤",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "CommonHpChange",
+       "desc": "张辽掉1滴血",
+       "attr": {
+        "ChangeHp": "-1",
+        "CurHp": "6",
+        "HpSrc": "HarmNormal",
+        "MaxHp": "7"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "desc": "李广不出闪，受伤",
+     "robotIdx": 3,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "成功：李广不出闪，受伤",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "CommonHpChange",
+       "desc": "李广掉1滴血",
+       "attr": {
+        "ChangeHp": "-1",
+        "CurHp": "6",
+        "HpSrc": "HarmNormal",
+        "MaxHp": "7"
+       }
+      }
+     ]
+    },
+    {
+     "id": 4,
+     "desc": "李广发动飞将慑虏，对曹操打杀",
+     "robotIdx": 3,
+     "action": "OptRoomAction",
+     "confirm": true,
+     "heroSkillUuid": 1389,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "李广翻牌出杀成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 5,
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "曹操响应不出闪，受伤",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "CommonHpChange",
+       "desc": "",
+       "attr": {
+        "ChangeHp": "-1",
+        "CurHp": "5",
+        "HpSrc": "HarmNormal",
+        "MaxHp": "6"
+       }
+      }
+     ]
+    },
+    {
+     "id": 6,
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "曹操响应不出闪，受伤",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "CommonHpChange",
+       "desc": "",
+       "attr": {
+        "ChangeHp": "-1",
+        "CurHp": "4",
+        "HpSrc": "HarmNormal",
+        "MaxHp": "6"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "飞将慑虏1-2",
+   "desc": "烽火造成2次伤害时，翻牌打出其中所有杀",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1002,
+     1003,
+     1010,
+     1011,
+     1013,
+     1014,
+     1015,
+     1016,
+     1017,
+     1018
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10001,
+      "initCards": [
+       1125
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1001,
+       1074,
+       1075
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 2,
+      "heroId": 10004,
+      "initCards": [],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1009,
+       1010
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 3,
+      "heroId": 10806,
+      "initCards": [],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1390
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "cards": [
+      1125
+     ],
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "曹操打出烽火",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "张辽不出杀，受伤",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "成功：张辽不出杀，受伤",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "CommonHpChange",
+       "desc": "张辽掉1滴血",
+       "attr": {
+        "ChangeHp": "-1",
+        "CurHp": "6",
+        "HpSrc": "HarmNormal",
+        "MaxHp": "7"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "desc": "李广不出杀，受伤",
+     "robotIdx": 3,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "成功：李广不出杀，受伤",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "CommonHpChange",
+       "desc": "李广掉1滴血",
+       "attr": {
+        "ChangeHp": "-1",
+        "CurHp": "6",
+        "HpSrc": "HarmNormal",
+        "MaxHp": "7"
+       }
+      }
+     ]
+    },
+    {
+     "id": 4,
+     "desc": "李广发动飞将慑虏，对曹操打杀",
+     "robotIdx": 3,
+     "action": "OptRoomAction",
+     "confirm": true,
+     "heroSkillUuid": 1389,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "李广翻牌出杀成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 5,
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "曹操响应不出闪，受伤",
+       "attr": {}
+      },
+      {
+       "msgName": "CommonHpChange",
+       "desc": "",
+       "attr": {
+        "ChangeHp": "-1",
+        "CurHp": "5",
+        "HpSrc": "HarmNormal",
+        "MaxHp": "6"
+       }
+      }
+     ]
+    },
+    {
+     "id": 6,
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "曹操响应不出闪，受伤",
+       "attr": {}
+      },
+      {
+       "msgName": "CommonHpChange",
+       "desc": "",
+       "attr": {
+        "ChangeHp": "-1",
+        "CurHp": "4",
+        "HpSrc": "HarmNormal",
+        "MaxHp": "6"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "飞将慑虏1-3",
+   "desc": "阵前造成2次伤害时，翻牌打出其中所有杀",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1002,
+     1003,
+     1010,
+     1011,
+     1013,
+     1014,
+     1015,
+     1016,
+     1017,
+     1018
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10001,
+      "initCards": [
+       1005,
+       1021
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1001,
+       1074,
+       1075
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 2,
+      "heroId": 10004,
+      "initCards": [],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1009,
+       1010
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 3,
+      "heroId": 10806,
+      "initCards": [],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1390
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "targetsId": [
+      2
+     ],
+     "cards": [
+      1005
+     ],
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "曹操对张辽打出阵前",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "张辽不出杀，受伤",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "成功：张辽不出杀，受伤",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "CommonHpChange",
+       "desc": "张辽掉1滴血",
+       "attr": {
+        "ChangeHp": "-1",
+        "CurHp": "6",
+        "HpSrc": "HarmNormal",
+        "MaxHp": "7"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "targetsId": [
+      3
+     ],
+     "cards": [
+      1021
+     ],
+     "confirm": false
+    },
+    {
+     "id": 4,
+     "desc": "李广不出杀，受伤",
+     "robotIdx": 3,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "成功：李广不出杀，受伤",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "CommonHpChange",
+       "desc": "李广掉1滴血",
+       "attr": {
+        "ChangeHp": "-1",
+        "CurHp": "6",
+        "HpSrc": "HarmNormal",
+        "MaxHp": "7"
+       }
+      }
+     ]
+    },
+    {
+     "id": 5,
+     "desc": "李广发动飞将慑虏，对曹操打杀",
+     "robotIdx": 3,
+     "action": "OptRoomAction",
+     "confirm": true,
+     "heroSkillUuid": 1389,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "李广翻牌出杀成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 6,
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "曹操响应不出闪，受伤",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "CommonHpChange",
+       "desc": "",
+       "attr": {
+        "ChangeHp": "-1",
+        "CurHp": "5",
+        "HpSrc": "HarmNormal",
+        "MaxHp": "6"
+       }
+      }
+     ]
+    },
+    {
+     "id": 7,
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "曹操响应不出闪，受伤",
+       "attr": {}
+      },
+      {
+       "msgName": "CommonHpChange",
+       "desc": "",
+       "attr": {
+        "ChangeHp": "-1",
+        "CurHp": "4",
+        "HpSrc": "HarmNormal",
+        "MaxHp": "6"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "飞将慑虏1-4",
+   "desc": "阵前造成2次伤害时，翻牌打出其中所有杀",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1002,
+     1003,
+     1010,
+     1011,
+     1013,
+     1014,
+     1015,
+     1016,
+     1017,
+     1018
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10001,
+      "initCards": [
+       1005,
+       1021
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1001,
+       1074,
+       1075
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 2,
+      "heroId": 10004,
+      "initCards": [],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1009,
+       1010
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 3,
+      "heroId": 10806,
+      "initCards": [],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1390
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "targetsId": [
+      2
+     ],
+     "cards": [
+      1005
+     ],
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "曹操对张辽打出阵前",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "张辽不出杀，受伤",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "成功：张辽不出杀，受伤",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "CommonHpChange",
+       "desc": "张辽掉1滴血",
+       "attr": {
+        "ChangeHp": "-1",
+        "CurHp": "6",
+        "HpSrc": "HarmNormal",
+        "MaxHp": "7"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "targetsId": [
+      3
+     ],
+     "cards": [
+      1021
+     ],
+     "confirm": false
+    },
+    {
+     "id": 4,
+     "desc": "李广不出杀，受伤",
+     "robotIdx": 3,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "成功：李广不出杀，受伤",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "CommonHpChange",
+       "desc": "李广掉1滴血",
+       "attr": {
+        "ChangeHp": "-1",
+        "CurHp": "6",
+        "HpSrc": "HarmNormal",
+        "MaxHp": "7"
+       }
+      }
+     ]
+    },
+    {
+     "id": 5,
+     "desc": "李广发动飞将慑虏，对曹操打杀",
+     "robotIdx": 3,
+     "action": "OptRoomAction",
+     "confirm": true,
+     "heroSkillUuid": 1389,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "李广翻牌出杀成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 6,
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "曹操响应不出闪，受伤",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "CommonHpChange",
+       "desc": "",
+       "attr": {
+        "ChangeHp": "-1",
+        "CurHp": "5",
+        "HpSrc": "HarmNormal",
+        "MaxHp": "6"
+       }
+      }
+     ]
+    },
+    {
+     "id": 7,
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "曹操响应不出闪，受伤",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "CommonHpChange",
+       "desc": "",
+       "attr": {
+        "ChangeHp": "-1",
+        "CurHp": "4",
+        "HpSrc": "HarmNormal",
+        "MaxHp": "6"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "飞将慑虏1-5",
+   "desc": "方天出杀造成2次伤害时，翻牌打出其中所有杀",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1002,
+     1003,
+     1010,
+     1011,
+     1013,
+     1014,
+     1015,
+     1016,
+     1017,
+     1018
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10001,
+      "initCards": [
+       1019
+      ],
+      "initEquips": [
+       3025
+      ],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1001,
+       1074,
+       1075
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 2,
+      "heroId": 10004,
+      "initCards": [],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1009,
+       1010
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 3,
+      "heroId": 10806,
+      "initCards": [],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1390
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "targetsId": [
+      2
+     ],
+     "cards": [
+      1019
+     ],
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "曹操打出杀",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "targetsId": [
+      3
+     ],
+     "cards": [
+      1002
+     ],
+     "confirm": true,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "方天出杀成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "desc": "张辽不出闪，受伤",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "成功：张辽不出闪，受伤",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "CommonHpChange",
+       "desc": "张辽掉1滴血",
+       "attr": {
+        "ChangeHp": "-1",
+        "CurHp": "6",
+        "HpSrc": "HarmNormal",
+        "MaxHp": "7"
+       }
+      }
+     ]
+    },
+    {
+     "id": 4,
+     "desc": "李广不出闪，受伤",
+     "robotIdx": 3,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "成功：李广不出闪，受伤",
+       "attr": {}
+      },
+      {
+       "msgName": "CommonHpChange",
+       "desc": "李广掉1滴血",
+       "attr": {
+        "ChangeHp": "-1",
+        "CurHp": "6",
+        "HpSrc": "HarmNormal",
+        "MaxHp": "7"
+       }
+      }
+     ]
+    },
+    {
+     "id": 5,
+     "desc": "李广发动飞将慑虏，对曹操打杀",
+     "robotIdx": 3,
+     "action": "OptRoomAction",
+     "confirm": true,
+     "heroSkillUuid": 1389,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "李广翻牌出杀成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 6,
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "曹操响应不出闪，受伤",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "CommonHpChange",
+       "desc": "",
+       "attr": {
+        "ChangeHp": "-1",
+        "CurHp": "5",
+        "HpSrc": "HarmNormal",
+        "MaxHp": "6"
+       }
+      }
+     ]
+    },
+    {
+     "id": 7,
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "曹操响应不出闪，受伤",
+       "attr": {}
+      },
+      {
+       "msgName": "CommonHpChange",
+       "desc": "",
+       "attr": {
+        "ChangeHp": "-1",
+        "CurHp": "4",
+        "HpSrc": "HarmNormal",
+        "MaxHp": "6"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "飞将慑虏1-6",
+   "desc": "诸葛连弩出杀造成2次伤害时，翻牌打出其中所有杀",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1003,
+     1010,
+     1011,
+     1022,
+     1024,
+     1027,
+     1030
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10007,
+      "initCards": [
+       1019,
+       1034
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 2,
+      "heroId": 10004,
+      "initCards": [],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1009,
+       1010
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 3,
+      "heroId": 10806,
+      "initCards": [],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1390
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "典韦(1)使用牌[诸葛连弩(1034)]",
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "cards": [
+      1034
+     ],
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "典韦打出诸葛连弩",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "曹操(1)对[张辽(2)]使用牌[杀(1003)]",
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "targetsId": [
+      2
+     ],
+     "cards": [
+      1003
+     ],
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "desc": "曹操确定发动诸葛连弩",
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "confirm": true,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 4,
+     "desc": "张辽不出闪，受伤",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "成功：张辽不出闪，受伤",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "CommonHpChange",
+       "desc": "张辽掉1滴血",
+       "attr": {
+        "ChangeHp": "-1",
+        "CurHp": "6",
+        "HpSrc": "HarmNormal",
+        "MaxHp": "7"
+       }
+      }
+     ]
+    },
+    {
+     "id": 5,
+     "desc": "张辽不出闪，受伤",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "成功：张辽不出闪，受伤",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "CommonHpChange",
+       "desc": "张辽掉1滴血",
+       "attr": {
+        "ChangeHp": "-1",
+        "CurHp": "5",
+        "HpSrc": "HarmNormal",
+        "MaxHp": "7"
+       }
+      }
+     ]
+    },
+    {
+     "id": 6,
+     "desc": "李广插入发动飞将慑虏，对曹操打杀",
+     "robotIdx": 3,
+     "action": "OptRoomAction",
+     "confirm": true,
+     "heroSkillUuid": 1389,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "李广翻牌出杀成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 7,
+     "desc": "典韦(1)取消",
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "曹操响应不出闪，受伤",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "CommonHpChange",
+       "desc": "",
+       "attr": {
+        "ChangeHp": "-1",
+        "CurHp": "6",
+        "HpSrc": "HarmNormal",
+        "MaxHp": "7"
+       }
+      }
+     ]
+    },
+    {
+     "id": 8,
+     "desc": "典韦(1)取消",
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "曹操响应不出闪，受伤",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "CommonHpChange",
+       "desc": "",
+       "attr": {
+        "ChangeHp": "-1",
+        "CurHp": "5",
+        "HpSrc": "HarmNormal",
+        "MaxHp": "7"
+       }
+      }
+     ]
+    },
+    {
+     "id": 9,
+     "desc": "典韦(1)取消",
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "曹操响应不出闪，受伤",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "CommonHpChange",
+       "desc": "",
+       "attr": {
+        "ChangeHp": "-1",
+        "CurHp": "4",
+        "HpSrc": "HarmNormal",
+        "MaxHp": "7"
+       }
+      }
+     ]
+    },
+    {
+     "id": 10,
+     "desc": "张辽(2)取消",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "CommonHpChange",
+       "desc": "张辽受到来自HarmNormal的伤害, 体力变化:-4, 当前体力: [2], 最大体力: [7]",
+       "attr": {
+        "ChangeHp": "-4",
+        "CurHp": "1",
+        "HpSrc": "HarmNormal",
+        "MaxHp": "7"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "飞将慑虏1-7",
+   "desc": "对铁索出属性杀造成2次伤害时，翻牌打出其中所有杀",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1003,
+     1010,
+     1011,
+     1022,
+     1024,
+     1027,
+     1030
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10007,
+      "initCards": [
+       1122,
+       1007
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1064,
+       1065
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 2,
+      "heroId": 10004,
+      "initCards": [],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1009,
+       1010
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 3,
+      "heroId": 10806,
+      "initCards": [],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1390
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "典韦(1)使用牌[诸葛连弩(1034)]",
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "targetsId": [
+      2,
+      3
+     ],
+     "cards": [
+      1007
+     ],
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "典韦打出铁索",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "典韦(1)对[张辽(2)]使用牌[火杀(1122)]",
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "targetsId": [
+      2
+     ],
+     "cards": [
+      1122
+     ],
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "desc": "张辽不出闪，受伤",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "成功：张辽不出闪，受伤",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "CommonHpChange",
+       "desc": "张辽掉1滴血",
+       "attr": {
+        "ChangeHp": "-1",
+        "HpSrc": "HarmHuo"
+       }
+      }
+     ]
+    },
+    {
+     "id": 4,
+     "desc": "李广(3)断言",
+     "robotIdx": 3,
+     "action": "OnlyAsset",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "CommonHpChange",
+       "desc": "李广受到来自HarmHuo的伤害, 体力变化:-1",
+       "attr": {
+        "ChangeHp": "-1",
+        "HpSrc": "HarmHuo"
+       }
+      }
+     ]
+    },
+    {
+     "id": 5,
+     "desc": "李广插入发动飞将慑虏，对曹操打杀",
+     "robotIdx": 3,
+     "action": "OptRoomAction",
+     "confirm": true,
+     "heroSkillUuid": 1389,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "李广响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 6,
+     "desc": "典韦(1)取消",
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "典韦响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "CommonHpChange",
+       "desc": "典韦受到来自HarmNormal的伤害, 体力变化:-1",
+       "attr": {
+        "ChangeHp": "-1",
+        "HpSrc": "HarmNormal"
+       }
+      }
+     ]
+    },
+    {
+     "id": 7,
+     "desc": "典韦(1)取消",
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "典韦响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "CommonHpChange",
+       "desc": "典韦受到来自HarmNormal的伤害, 体力变化:-1, 当前体力: [5], 最大体力: [7]",
+       "attr": {
+        "ChangeHp": "-1",
+        "CurHp": "5",
+        "HpSrc": "HarmNormal",
+        "MaxHp": "7"
+       }
+      }
+     ]
+    },
+    {
+     "id": 8,
+     "desc": "典韦(1)取消",
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "典韦响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "CommonHpChange",
+       "desc": "典韦受到来自HarmNormal的伤害, 体力变化:-1",
+       "attr": {
+        "ChangeHp": "-1",
+        "HpSrc": "HarmNormal"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "飞将慑虏1-8",
+   "desc": "箭雨造成2次伤害时，翻牌对超出距离的打出其中所有杀",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1002,
+     1003,
+     1010,
+     1011,
+     1013,
+     1014,
+     1015,
+     1016,
+     1017,
+     1018
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10001,
+      "initCards": [
+       4001
+      ],
+      "initEquips": [
+       1065,
+       1063
+      ],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1001,
+       1074,
+       1075
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 2,
+      "heroId": 10004,
+      "initCards": [],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1009,
+       1010
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 3,
+      "heroId": 10806,
+      "initCards": [],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1390
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "cards": [
+      4001
+     ],
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "曹操打出万箭",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "张辽不出闪，受伤",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "成功：张辽不出闪，受伤",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "CommonHpChange",
+       "desc": "张辽掉1滴血",
+       "attr": {
+        "ChangeHp": "-1",
+        "CurHp": "6",
+        "HpSrc": "HarmNormal",
+        "MaxHp": "7"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "desc": "李广不出闪，受伤",
+     "robotIdx": 3,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "成功：李广不出闪，受伤",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "CommonHpChange",
+       "desc": "李广掉1滴血",
+       "attr": {
+        "ChangeHp": "-1",
+        "CurHp": "6",
+        "HpSrc": "HarmNormal",
+        "MaxHp": "7"
+       }
+      }
+     ]
+    },
+    {
+     "id": 4,
+     "desc": "李广发动飞将慑虏，对曹操打杀",
+     "robotIdx": 3,
+     "action": "OptRoomAction",
+     "confirm": true,
+     "heroSkillUuid": 1389,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "李广翻牌出杀成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 5,
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "曹操响应不出闪，受伤",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "CommonHpChange",
+       "desc": "",
+       "attr": {
+        "ChangeHp": "-1",
+        "CurHp": "5",
+        "HpSrc": "HarmNormal",
+        "MaxHp": "6"
+       }
+      }
+     ]
+    },
+    {
+     "id": 6,
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "曹操响应不出闪，受伤",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "CommonHpChange",
+       "desc": "",
+       "attr": {
+        "ChangeHp": "-1",
+        "CurHp": "4",
+        "HpSrc": "HarmNormal",
+        "MaxHp": "6"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "飞将慑虏1-9",
+   "desc": "翻牌对超出距离的打出其中所有杀时，可以打出，且易无法当作杀打出",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1002,
+     1003,
+     1161,
+     1010,
+     1011,
+     1013,
+     1014,
+     1015,
+     1016,
+     1017,
+     1018
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10001,
+      "initCards": [
+       4001
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1001,
+       1074,
+       1075
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 2,
+      "heroId": 10004,
+      "initCards": [],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1009,
+       1010
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 3,
+      "heroId": 10806,
+      "initCards": [],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1390
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "cards": [
+      4001
+     ],
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "曹操打出万箭",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "张辽不出闪，受伤",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "成功：张辽不出闪，受伤",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "CommonHpChange",
+       "desc": "张辽掉1滴血",
+       "attr": {
+        "ChangeHp": "-1",
+        "CurHp": "6",
+        "HpSrc": "HarmNormal",
+        "MaxHp": "7"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "desc": "李广不出闪，受伤",
+     "robotIdx": 3,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "成功：李广不出闪，受伤",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "CommonHpChange",
+       "desc": "李广掉1滴血",
+       "attr": {
+        "ChangeHp": "-1",
+        "CurHp": "6",
+        "HpSrc": "HarmNormal",
+        "MaxHp": "7"
+       }
+      }
+     ]
+    },
+    {
+     "id": 4,
+     "desc": "李广发动飞将慑虏，对曹操打杀",
+     "robotIdx": 3,
+     "action": "OptRoomAction",
+     "confirm": true,
+     "heroSkillUuid": 1389,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "李广翻牌出杀成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 5,
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "曹操响应不出闪，受伤",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "CommonHpChange",
+       "desc": "",
+       "attr": {
+        "ChangeHp": "-1",
+        "CurHp": "5",
+        "HpSrc": "HarmNormal",
+        "MaxHp": "6"
+       }
+      }
+     ]
+    },
+    {
+     "id": 6,
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "曹操响应不出闪，受伤",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "CommonHpChange",
+       "desc": "",
+       "attr": {
+        "ChangeHp": "-1",
+        "CurHp": "4",
+        "HpSrc": "HarmNormal",
+        "MaxHp": "6"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "飞将慑虏1-10",
+   "desc": "技能伤害也能触发-火烧联营",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1002,
+     1003,
+     1161,
+     1010,
+     1011,
+     1013,
+     1014,
+     1015,
+     1016,
+     1017,
+     1018
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10207,
+      "initCards": [
+       1001,
+       1019
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 2,
+      "heroId": 10004,
+      "initCards": [
+       1004,
+       1008,
+       1012
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1009,
+       1010
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 3,
+      "heroId": 10806,
+      "initCards": [],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1390
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "targetsId": [
+      2
+     ],
+     "cards": [
+      1019
+     ],
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "张辽不出闪，受伤",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "成功：张辽不出闪，受伤",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "CommonHpChange",
+       "desc": "张辽掉1滴血",
+       "attr": {
+        "ChangeHp": "-1",
+        "CurHp": "6",
+        "HpSrc": "HarmNormal",
+        "MaxHp": "7"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "robotIdx": 1,
+     "action": "UseHeroSkill",
+     "targetsId": [
+      2
+     ],
+     "cards": [
+      1001
+     ],
+     "confirm": false,
+     "heroSkillUuid": 1045,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "UseHeroSkillAck",
+       "desc": "",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 4,
+     "desc": "张辽(2)断言",
+     "robotIdx": 2,
+     "action": "OnlyAsset",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "CommonHpChange",
+       "desc": "张辽受到来自HarmHuo的伤害, 体力变化:-1",
+       "attr": {
+        "ChangeHp": "-1",
+        "HpSrc": "HarmHuo"
+       }
+      }
+     ]
+    },
+    {
+     "id": 5,
+     "desc": "李广发动飞将慑虏，对曹操打杀",
+     "robotIdx": 3,
+     "action": "OptRoomAction",
+     "confirm": true,
+     "heroSkillUuid": 1389,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "李广翻牌出杀成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 6,
+     "desc": "陆逊(1)取消",
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "陆逊响应不出闪，受伤",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "CommonHpChange",
+       "desc": "",
+       "attr": {
+        "ChangeHp": "-1",
+        "CurHp": "4",
+        "HpSrc": "HarmNormal",
+        "MaxHp": "5"
+       }
+      }
+     ]
+    },
+    {
+     "id": 7,
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "曹操响应不出闪，受伤",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "CommonHpChange",
+       "desc": "",
+       "attr": {
+        "ChangeHp": "-1",
+        "CurHp": "3",
+        "HpSrc": "HarmNormal",
+        "MaxHp": "5"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "飞将慑虏1-11",
+   "desc": "翻牌打出所有杀时，被喝断当阳，打断后续出杀",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1002,
+     1018,
+     1003,
+     1010,
+     1011,
+     1024,
+     1019,
+     1022,
+     1013,
+     1014,
+     1015,
+     1016,
+     1017
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10104,
+      "initCards": [
+       1037,
+       1032,
+       1082
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 3,
+      "heroId": 10806,
+      "initCards": [],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "张飞(1)使用牌[杀(1037)]",
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "targetsId": [
+      2
+     ],
+     "cards": [
+      1037
+     ],
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "1号出杀",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "李广(2)取消",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "成功：2不出闪，受伤",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "CommonHpChange",
+       "desc": "2掉1滴血",
+       "attr": {
+        "ChangeHp": "-1"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "targetsId": [
+      2
+     ],
+     "cards": [
+      1032
+     ],
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 4,
+     "desc": "李广不出闪，受伤",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "成功：李广不出闪，受伤",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "CommonHpChange",
+       "desc": "李广掉1滴血",
+       "attr": {
+        "ChangeHp": "-1"
+       }
+      }
+     ]
+    },
+    {
+     "id": 5,
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "targetsId": [
+      1
+     ],
+     "confirm": true,
+     "heroSkillUuid": 1389,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 6,
+     "desc": "李广发动飞将慑虏，对曹操打杀",
+     "robotIdx": 3,
+     "action": "OptRoomAction",
+     "confirm": true,
+     "heroSkillUuid": 1389,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "UseHeroSkillAck",
+       "desc": "李广翻牌出杀成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 7,
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "cards": [
+      1082
+     ],
+     "confirm": true,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "喝断，出闪，受伤",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "CommonHpChange",
+       "desc": "",
+       "attr": {
+        "ChangeHp": "-2",
+        "HpSrc": "HarmNormal"
+       }
+      }
+     ]
+    },
+    {
+     "id": 8,
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "飞将慑虏1-12",
+   "desc": "翻牌打出所有杀时，被封禁打断",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1018,
+     1003,
+     1010,
+     1011,
+     1024,
+     1019,
+     1022,
+     1013,
+     1014,
+     1015,
+     1016,
+     1017
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10307,
+      "initCards": [
+       1005,
+       1021,
+       1002
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1062
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 3,
+      "heroId": 10806,
+      "initCards": [],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "张飞(1)使用牌[杀(1037)]",
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "targetsId": [
+      2
+     ],
+     "cards": [
+      1005
+     ],
+     "confirm": false
+    },
+    {
+     "id": 2,
+     "desc": "李广(2)取消",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "成功：2不出杀，受伤",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "CommonHpChange",
+       "desc": "2掉1滴血",
+       "attr": {
+        "ChangeHp": "-1"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "targetsId": [
+      2
+     ],
+     "cards": [
+      1021
+     ],
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 4,
+     "desc": "李广不出闪，受伤",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "成功：李广不出杀，受伤",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "CommonHpChange",
+       "desc": "李广掉1滴血",
+       "attr": {
+        "ChangeHp": "-1"
+       }
+      }
+     ]
+    },
+    {
+     "id": 5,
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "targetsId": [
+      1
+     ],
+     "confirm": true,
+     "heroSkillUuid": 1389,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 6,
+     "desc": "李广发动飞将慑虏，对曹操打杀",
+     "robotIdx": 3,
+     "action": "OptRoomAction",
+     "confirm": true,
+     "heroSkillUuid": 1389,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "李广翻牌出杀成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 7,
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "喝断，出闪，受伤",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "CommonHpChange",
+       "desc": "",
+       "attr": {
+        "ChangeHp": "-3"
+       }
+      }
+     ]
+    },
+    {
+     "id": 8,
+     "desc": "蔡文姬(1)对[undefined(1002)]使用牌[undefined]",
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "cards": [
+      1002
+     ],
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "蔡文姬出牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "飞将慑虏2-1",
+   "desc": "飞将慑虏出杀，可以触发装备效果-乌骓",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1002,
+     1003,
+     1010,
+     1013,
+     1014,
+     1015,
+     1016,
+     1017,
+     1018
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10007,
+      "initCards": [
+       4001
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1064,
+       1065
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 2,
+      "heroId": 10004,
+      "initCards": [],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1009,
+       1010
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 3,
+      "heroId": 10806,
+      "initCards": [],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1390
+      ],
+      "exEquips": [
+       1070
+      ],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "cards": [
+      4001
+     ],
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "曹操打出万箭",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "张辽不出闪，受伤",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "成功：张辽不出闪，受伤",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "CommonHpChange",
+       "desc": "张辽掉1滴血",
+       "attr": {
+        "ChangeHp": "-1",
+        "HpSrc": "HarmNormal"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "desc": "李广不出闪，受伤",
+     "robotIdx": 3,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "成功：李广不出闪，受伤",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "CommonHpChange",
+       "desc": "李广掉1滴血",
+       "attr": {
+        "ChangeHp": "-1",
+        "HpSrc": "HarmNormal"
+       }
+      }
+     ]
+    },
+    {
+     "id": 4,
+     "desc": "李广发动飞将慑虏，对曹操打杀",
+     "robotIdx": 3,
+     "action": "OptRoomAction",
+     "confirm": true,
+     "heroSkillUuid": 1389,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "李广翻牌出杀成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 5,
+     "robotIdx": 3,
+     "action": "OnlyAsset",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "DrawCard",
+       "desc": "李广抽到1张牌牌为[1015]",
+       "attr": {
+        "Cards": "1015",
+        "Count": "1"
+       }
+      }
+     ]
+    },
+    {
+     "id": 6,
+     "desc": "典韦(1)取消",
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "典韦响应不出闪，受伤",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "CommonHpChange",
+       "desc": "典韦受到来自HarmNormal的伤害, 体力变化:-1",
+       "attr": {
+        "ChangeHp": "-1",
+        "HpSrc": "HarmNormal"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "飞将慑虏2-2",
+   "desc": "飞将慑虏出杀，可以触发装备效果-开山斧",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1002,
+     1003,
+     1010,
+     1013,
+     1014,
+     1015,
+     1016,
+     1017,
+     1018
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10007,
+      "initCards": [
+       4001
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1064,
+       1065
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 2,
+      "heroId": 10004,
+      "initCards": [],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1009,
+       1010
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 3,
+      "heroId": 10806,
+      "initCards": [
+       1048
+      ],
+      "initEquips": [
+       1008
+      ],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1390
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "cards": [
+      4001
+     ],
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "典韦打出万箭",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "张辽不出闪，受伤",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "成功：张辽不出闪，受伤",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "CommonHpChange",
+       "desc": "张辽掉1滴血",
+       "attr": {
+        "ChangeHp": "-1",
+        "HpSrc": "HarmNormal"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "desc": "李广不出闪，受伤",
+     "robotIdx": 3,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "成功：李广不出闪，受伤",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "CommonHpChange",
+       "desc": "李广掉1滴血",
+       "attr": {
+        "ChangeHp": "-1",
+        "HpSrc": "HarmNormal"
+       }
+      }
+     ]
+    },
+    {
+     "id": 4,
+     "desc": "李广发动飞将慑虏，对曹操打杀",
+     "robotIdx": 3,
+     "action": "OptRoomAction",
+     "confirm": true,
+     "heroSkillUuid": 1389,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "李广翻牌出杀成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 5,
+     "robotIdx": 3,
+     "action": "OptRoomAction",
+     "targetsId": [
+      1
+     ],
+     "cards": [
+      1048
+     ],
+     "confirm": true
+    },
+    {
+     "id": 6,
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "典韦响应不出闪，受伤",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "CommonHpChange",
+       "desc": "",
+       "attr": {
+        "ChangeHp": "-2",
+        "HpSrc": "HarmNormal"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "飞将慑虏2-3",
+   "desc": "飞将慑虏出杀，可以触发装备效果-方天画戟",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1002,
+     1003,
+     1010,
+     1013,
+     1014,
+     1015,
+     1016,
+     1018
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10007,
+      "initCards": [
+       4001
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1064,
+       1065
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 2,
+      "heroId": 10004,
+      "initCards": [],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1009,
+       1010
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 3,
+      "heroId": 10806,
+      "initCards": [
+       1048
+      ],
+      "initEquips": [
+       1017
+      ],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1390
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "cards": [
+      4001
+     ],
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "典韦打出万箭",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "张辽不出闪，受伤",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "成功：张辽不出闪，受伤",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "CommonHpChange",
+       "desc": "张辽掉1滴血",
+       "attr": {
+        "ChangeHp": "-1",
+        "HpSrc": "HarmNormal"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "desc": "李广不出闪，受伤",
+     "robotIdx": 3,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "成功：李广不出闪，受伤",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "CommonHpChange",
+       "desc": "李广掉1滴血",
+       "attr": {
+        "ChangeHp": "-1",
+        "HpSrc": "HarmNormal"
+       }
+      }
+     ]
+    },
+    {
+     "id": 4,
+     "desc": "李广发动飞将慑虏，对曹操打杀",
+     "robotIdx": 3,
+     "action": "OptRoomAction",
+     "confirm": true,
+     "heroSkillUuid": 1389,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "李广翻牌出杀成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 5,
+     "desc": "李广(3)确认对[张辽(2)], 使用牌[桃(1048)]",
+     "robotIdx": 3,
+     "action": "OptRoomAction",
+     "targetsId": [
+      2
+     ],
+     "cards": [
+      1048
+     ],
+     "confirm": true
+    },
+    {
+     "id": 6,
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "典韦响应不出闪，受伤",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "CommonHpChange",
+       "desc": "",
+       "attr": {
+        "ChangeHp": "-1",
+        "HpSrc": "HarmNormal"
+       }
+      }
+     ]
+    },
+    {
+     "id": 7,
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "CommonHpChange",
+       "desc": "",
+       "attr": {
+        "ChangeHp": "-1",
+        "HpSrc": "HarmNormal"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "飞将慑虏2-4",
+   "desc": "飞将慑虏出杀，其他人可以触发装备效果-干将莫邪",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1002,
+     1003,
+     1010,
+     1022,
+     1013,
+     1014,
+     1015,
+     1016,
+     1012,
+     1009,
+     1020,
+     1021,
+     1023
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10007,
+      "initCards": [
+       4001
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1064,
+       1065
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 2,
+      "heroId": 10004,
+      "initCards": [
+       1019
+      ],
+      "initEquips": [
+       1018
+      ],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1009,
+       1010
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 3,
+      "heroId": 10806,
+      "initCards": [
+       1048
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1390
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "典韦(1)使用牌[箭雨齐射(4001)]",
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "cards": [
+      4001
+     ],
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "典韦打出万箭",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "张辽不出闪，受伤",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "成功：张辽不出闪，受伤",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "CommonHpChange",
+       "desc": "张辽掉1滴血",
+       "attr": {
+        "ChangeHp": "-1",
+        "HpSrc": "HarmNormal"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "desc": "李广不出闪，受伤",
+     "robotIdx": 3,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "成功：李广不出闪，受伤",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "CommonHpChange",
+       "desc": "李广掉1滴血",
+       "attr": {
+        "ChangeHp": "-1",
+        "HpSrc": "HarmNormal"
+       }
+      }
+     ]
+    },
+    {
+     "id": 4,
+     "desc": "李广发动飞将慑虏，对曹操打杀",
+     "robotIdx": 3,
+     "action": "OptRoomAction",
+     "confirm": true,
+     "heroSkillUuid": 1389,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "李广翻牌出杀成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 5,
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "典韦响应不出闪，受伤",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "CommonHpChange",
+       "desc": "",
+       "attr": {
+        "ChangeHp": "-1",
+        "HpSrc": "HarmNormal"
+       }
+      }
+     ]
+    },
+    {
+     "id": 6,
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "targetsId": [
+      1
+     ],
+     "cards": [
+      1019
+     ],
+     "confirm": true,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 7,
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "CommonHpChange",
+       "desc": "",
+       "attr": {
+        "ChangeHp": "-1",
+        "HpSrc": "HarmNormal"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "飞将慑虏2-5",
+   "desc": "被封禁，无法发动飞将慑虏",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1002,
+     1003,
+     1010,
+     1011,
+     1013,
+     1014,
+     1015,
+     1016,
+     1017,
+     1018
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10001,
+      "initCards": [
+       1019,
+       1025
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1001,
+       1074,
+       1075
+      ],
+      "exEquips": [
+       3025,
+       1009
+      ],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 2,
+      "heroId": 10004,
+      "initCards": [],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1009,
+       1010
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 3,
+      "heroId": 10806,
+      "initCards": [],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1390
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "曹操(1)对[张辽(2)]使用牌[杀(1019)]",
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "targetsId": [
+      2
+     ],
+     "cards": [
+      1019
+     ],
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "曹操出牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "曹操(1)确认对[李广(3)], 使用牌[亮银枪(1002)]",
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "targetsId": [
+      3
+     ],
+     "cards": [
+      1002
+     ],
+     "confirm": true,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "方天出杀成功、轩辕剑封禁成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "desc": "张辽不出闪，受伤",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "成功：张辽不出闪，受伤",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "CommonHpChange",
+       "desc": "张辽掉1滴血",
+       "attr": {
+        "ChangeHp": "-1",
+        "HpSrc": "HarmNormal"
+       }
+      }
+     ]
+    },
+    {
+     "id": 4,
+     "desc": "李广不出闪，受伤",
+     "robotIdx": 3,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "成功：李广不出闪，受伤",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "CommonHpChange",
+       "desc": "李广掉1滴血",
+       "attr": {
+        "ChangeHp": "-1",
+        "HpSrc": "HarmNormal"
+       }
+      }
+     ]
+    },
+    {
+     "id": 5,
+     "desc": "曹操(1)使用牌[银狮盔(1025)]",
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "cards": [
+      1025
+     ],
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "飞将慑虏-10822",
+   "desc": "李广被击杀后，不可发动飞将慑虏",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1002,
+     1003,
+     1010,
+     1011,
+     1013,
+     1014,
+     1015,
+     1016,
+     1017,
+     1018
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10001,
+      "initCards": [
+       1005
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1001,
+       1074,
+       1075
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 2,
+      "heroId": 10004,
+      "initCards": [],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1009,
+       1010
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 9,
+      "color": 65,
+      "heroId": 10806,
+      "initCards": [],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [
+       1061
+      ],
+      "delSkills": [
+       1390
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "robotIdx": 3,
+     "action": "OnlyAsset",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "AttrChange",
+       "desc": "李广, 当前生命: 2",
+       "attr": {
+        "CurHp": "2",
+        "UnExpect": "false"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "曹操(1)对[李广(3)]使用牌[阵前对决(1005)]",
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "targetsId": [
+      3
+     ],
+     "cards": [
+      1005
+     ],
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "曹操出牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "desc": "李广(3)取消",
+     "robotIdx": 3,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "李广响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "CommonHpChange",
+       "desc": "李广掉1滴血",
+       "attr": {
+        "ChangeHp": "-1",
+        "HpSrc": "HarmNormal"
+       }
+      }
+     ]
+    },
+    {
+     "id": 4,
+     "desc": "曹操(1)对[李广(3)]使用牌[杀(1010)]",
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "targetsId": [
+      3
+     ],
+     "cards": [
+      1010
+     ],
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "曹操出牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 5,
+     "robotIdx": 3,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "李广响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "CommonHpChange",
+       "desc": "李广, 体力变化:-1",
+       "attr": {
+        "ChangeHp": "-1"
+       }
+      }
+     ]
+    },
+    {
+     "id": 6,
+     "desc": "曹操(1)取消",
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "曹操响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 7,
+     "desc": "张辽(2)取消",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "张辽响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 8,
+     "desc": "李广(3)取消",
+     "robotIdx": 3,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "曹操响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 9,
+     "desc": "李广发动飞将慑虏，对曹操打杀",
+     "robotIdx": 3,
+     "action": "OptRoomAction",
+     "confirm": true,
+     "heroSkillUuid": 1389,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "李广翻牌出杀成功",
+       "attr": {
+        "Result": "1582"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "射石搏虎1-1",
+   "desc": "怒杀被闪，伤害为1",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1004,
+     1005,
+     1006,
+     1007,
+     1008,
+     1009,
+     1010,
+     1012,
+     1013
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10806,
+      "initCards": [
+       4044,
+       1003
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1389
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 2,
+      "heroId": 10007,
+      "initCards": [
+       1082
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1064,
+       1065
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "targetsId": [
+      2
+     ],
+     "cards": [
+      4044
+     ],
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "targetsId": [
+      2
+     ],
+     "cards": [
+      1003
+     ],
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "cards": [
+      1082
+     ],
+     "confirm": true,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "CommonHpChange",
+       "desc": "",
+       "attr": {
+        "ChangeHp": "-1",
+        "HpSrc": "HarmNormal"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "射石搏虎1-2",
+   "desc": "开山斧杀被闪，伤害为1",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1004,
+     1005,
+     1006,
+     1007,
+     1009,
+     1010,
+     1012,
+     1013
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10806,
+      "initCards": [
+       4044,
+       1003
+      ],
+      "initEquips": [
+       1008
+      ],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1389
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 2,
+      "heroId": 10007,
+      "initCards": [
+       1082
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1064,
+       1065
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "targetsId": [
+      2
+     ],
+     "cards": [
+      1003
+     ],
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "cards": [
+      4044
+     ],
+     "confirm": true,
+     "assets": [
+      {
+       "msgName": "DisCard",
+       "desc": "",
+       "attr": {}
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "cards": [
+      1082
+     ],
+     "confirm": true,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "CommonHpChange",
+       "desc": "",
+       "attr": {
+        "ChangeHp": "-1",
+        "HpSrc": "HarmNormal"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "射石搏虎1-3",
+   "desc": "羽扇火杀被闪，伤害为0",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1004,
+     1005,
+     1006,
+     1007,
+     1009,
+     1010,
+     1012,
+     1013
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10806,
+      "initCards": [
+       1122,
+       1147
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1389
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 2,
+      "heroId": 10007,
+      "initCards": [
+       1082
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1064,
+       1065
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "targetsId": [
+      1
+     ],
+     "cards": [
+      1147
+     ],
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "targetsId": [
+      2
+     ],
+     "cards": [
+      1122
+     ],
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "cards": [
+      1082
+     ],
+     "confirm": true,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "射石搏虎2-1",
+   "desc": "受到阵前伤害，出杀被闪，伤害为1",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1002,
+     1014,
+     1015,
+     1016,
+     1017,
+     1018,
+     1012,
+     1025,
+     1026,
+     1027
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10508,
+      "initCards": [
+       1005,
+       1003
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [
+       1390
+      ],
+      "delSkills": [],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 2,
+      "heroId": 10001,
+      "initCards": [
+       1010,
+       1082
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "targetsId": [
+      2
+     ],
+     "cards": [
+      1005
+     ],
+     "confirm": false
+    },
+    {
+     "id": 2,
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "cards": [
+      1010
+     ],
+     "confirm": true
+    },
+    {
+     "id": 3,
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "CommonHpChange",
+       "desc": "",
+       "attr": {
+        "ChangeHp": "-1"
+       }
+      }
+     ]
+    },
+    {
+     "id": 4,
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "targetsId": [
+      2
+     ],
+     "cards": [
+      1003
+     ],
+     "confirm": false
+    },
+    {
+     "id": 5,
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "cards": [
+      1082
+     ],
+     "confirm": true,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "CommonHpChange",
+       "desc": "",
+       "attr": {
+        "ChangeHp": "-1"
+       }
+      }
+     ]
+    },
+    {
+     "id": 6,
+     "desc": "李广发动飞将慑虏，对曹操打杀",
+     "robotIdx": 3,
+     "action": "OptRoomAction",
+     "confirm": true,
+     "heroSkillUuid": 1389,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "UseHeroSkillAck",
+       "desc": "李广翻牌出杀成功",
+       "attr": {}
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "射石搏虎2-2",
+   "desc": "受到箭雨伤害，出杀被闪，伤害为1",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1002,
+     1014,
+     1015,
+     1016,
+     1017,
+     1018,
+     1012,
+     1025,
+     1026,
+     1027
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 2,
+      "heroId": 10001,
+      "initCards": [
+       4001,
+       1082
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10508,
+      "initCards": [
+       1003
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [
+       1390
+      ],
+      "delSkills": [],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "targetsId": [
+      2
+     ],
+     "cards": [
+      4001
+     ],
+     "confirm": false
+    },
+    {
+     "id": 2,
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "CommonHpChange",
+       "desc": "",
+       "attr": {
+        "ChangeHp": "-1"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "robotIdx": 1,
+     "action": "PlayCardOver",
+     "confirm": false
+    },
+    {
+     "id": 4,
+     "robotIdx": 1,
+     "action": "DisCard",
+     "confirm": false
+    },
+    {
+     "id": 5,
+     "robotIdx": 2,
+     "action": "PlayCard",
+     "targetsId": [
+      1
+     ],
+     "cards": [
+      1003
+     ],
+     "confirm": false
+    },
+    {
+     "id": 6,
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "cards": [
+      1082
+     ],
+     "confirm": true,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "CommonHpChange",
+       "desc": "",
+       "attr": {
+        "ChangeHp": "-1"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "射石搏虎2-3",
+   "desc": "受到烽火伤害，出杀被闪，伤害为1",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1002,
+     1014,
+     1015,
+     1016,
+     1017,
+     1018,
+     1012,
+     1025,
+     1026,
+     1027
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 2,
+      "heroId": 10001,
+      "initCards": [
+       1082,
+       1125
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10508,
+      "initCards": [
+       1003
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [
+       1390
+      ],
+      "delSkills": [],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "targetsId": [
+      2
+     ],
+     "cards": [
+      1125
+     ],
+     "confirm": false
+    },
+    {
+     "id": 2,
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "CommonHpChange",
+       "desc": "",
+       "attr": {
+        "ChangeHp": "-1"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "robotIdx": 1,
+     "action": "PlayCardOver",
+     "confirm": false
+    },
+    {
+     "id": 4,
+     "robotIdx": 1,
+     "action": "DisCard",
+     "confirm": false
+    },
+    {
+     "id": 5,
+     "robotIdx": 2,
+     "action": "PlayCard",
+     "targetsId": [
+      1
+     ],
+     "cards": [
+      1003
+     ],
+     "confirm": false
+    },
+    {
+     "id": 6,
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "cards": [
+      1082
+     ],
+     "confirm": true,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "CommonHpChange",
+       "desc": "",
+       "attr": {
+        "ChangeHp": "-1"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "射石搏虎2-4",
+   "desc": "受到烈火伤害，出杀被闪，伤害为1",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1002,
+     1014,
+     1015,
+     1027,
+     1016,
+     1017,
+     1018,
+     1012,
+     1025,
+     1026
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 2,
+      "heroId": 10001,
+      "initCards": [
+       1082,
+       1123,
+       1049
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10508,
+      "initCards": [
+       1003
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [
+       1390
+      ],
+      "delSkills": [],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "targetsId": [
+      2
+     ],
+     "cards": [
+      1123
+     ],
+     "confirm": false
+    },
+    {
+     "id": 2,
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "cards": [
+      1049
+     ],
+     "confirm": true
+    },
+    {
+     "id": 3,
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "CommonHpChange",
+       "desc": "",
+       "attr": {
+        "ChangeHp": "-1"
+       }
+      }
+     ]
+    },
+    {
+     "id": 4,
+     "robotIdx": 1,
+     "action": "PlayCardOver",
+     "confirm": false
+    },
+    {
+     "id": 5,
+     "robotIdx": 1,
+     "action": "DisCard",
+     "confirm": false
+    },
+    {
+     "id": 6,
+     "robotIdx": 2,
+     "action": "PlayCard",
+     "targetsId": [
+      1
+     ],
+     "cards": [
+      1027
+     ],
+     "confirm": false
+    },
+    {
+     "id": 7,
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "cards": [
+      1082
+     ],
+     "confirm": true,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "CommonHpChange",
+       "desc": "",
+       "attr": {
+        "ChangeHp": "-1"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "射石搏虎2-5",
+   "desc": "受到2点伤害，出杀伤害也只加1",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1002,
+     1014,
+     1015,
+     1016,
+     1017,
+     1018,
+     1012,
+     1025,
+     1026,
+     1027
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 2,
+      "heroId": 10001,
+      "initCards": [
+       1122,
+       1147
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10508,
+      "initCards": [
+       1003
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [
+       1390
+      ],
+      "delSkills": [],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "targetsId": [
+      1
+     ],
+     "cards": [
+      1147
+     ],
+     "confirm": false
+    },
+    {
+     "id": 2,
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "targetsId": [
+      2
+     ],
+     "cards": [
+      1122
+     ],
+     "confirm": false
+    },
+    {
+     "id": 3,
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "CommonHpChange",
+       "desc": "",
+       "attr": {
+        "ChangeHp": "-2"
+       }
+      }
+     ]
+    },
+    {
+     "id": 4,
+     "robotIdx": 1,
+     "action": "PlayCardOver",
+     "confirm": false
+    },
+    {
+     "id": 5,
+     "robotIdx": 1,
+     "action": "DisCard",
+     "confirm": false
+    },
+    {
+     "id": 6,
+     "robotIdx": 2,
+     "action": "PlayCard",
+     "targetsId": [
+      1
+     ],
+     "cards": [
+      1003
+     ],
+     "confirm": false
+    },
+    {
+     "id": 7,
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "CommonHpChange",
+       "desc": "",
+       "attr": {
+        "ChangeHp": "-2"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "射石搏虎3-1",
+   "desc": "失去体力不加伤",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     2001,
+     1002,
+     1014,
+     1015,
+     1016,
+     1017,
+     1018,
+     1012,
+     1025,
+     1026,
+     1027
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10508,
+      "initCards": [
+       1003
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [
+       1390
+      ],
+      "delSkills": [],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 2,
+      "heroId": 10001,
+      "initCards": [],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "targetsId": [
+      2
+     ],
+     "cards": [
+      1003
+     ],
+     "confirm": false
+    },
+    {
+     "id": 2,
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "CommonHpChange",
+       "desc": "",
+       "attr": {
+        "ChangeHp": "-1"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "desc": "李广发动飞将慑虏，对曹操打杀",
+     "robotIdx": 3,
+     "action": "OptRoomAction",
+     "confirm": true,
+     "heroSkillUuid": 1389,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "李广翻牌出杀成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "射石搏虎3-2",
+   "desc": "受到0点伤害，不加伤-藤甲",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1002,
+     1014,
+     1015,
+     1016,
+     1017,
+     1018,
+     1012,
+     1025,
+     1026,
+     1027
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10508,
+      "initCards": [
+       1043,
+       1005,
+       1003
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [
+       1390
+      ],
+      "delSkills": [],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 2,
+      "heroId": 10001,
+      "initCards": [
+       1010
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "targetsId": [
+      1
+     ],
+     "cards": [
+      1043
+     ],
+     "confirm": false
+    },
+    {
+     "id": 2,
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "targetsId": [
+      2
+     ],
+     "cards": [
+      1005
+     ],
+     "confirm": false
+    },
+    {
+     "id": 3,
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "cards": [
+      1010
+     ],
+     "confirm": true
+    },
+    {
+     "id": 4,
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 5,
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "targetsId": [
+      2
+     ],
+     "cards": [
+      1003
+     ],
+     "confirm": false
+    },
+    {
+     "id": 6,
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "CommonHpChange",
+       "desc": "",
+       "attr": {
+        "ChangeHp": "-1"
+       }
+      }
+     ]
+    },
+    {
+     "id": 7,
+     "desc": "李广发动飞将慑虏，对曹操打杀",
+     "robotIdx": 3,
+     "action": "OptRoomAction",
+     "confirm": true,
+     "heroSkillUuid": 1389,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "UseHeroSkillAck",
+       "desc": "李广翻牌出杀成功",
+       "attr": {}
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "射石搏虎3-3",
+   "desc": "受到伤害，打出战法不加伤-阵前",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1002,
+     1014,
+     1015,
+     1016,
+     1017,
+     1018,
+     1012,
+     1025,
+     1026,
+     1027
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10508,
+      "initCards": [
+       1005,
+       1013
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [
+       1390
+      ],
+      "delSkills": [],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 2,
+      "heroId": 10001,
+      "initCards": [
+       1010,
+       1082
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "targetsId": [
+      2
+     ],
+     "cards": [
+      1005
+     ],
+     "confirm": false
+    },
+    {
+     "id": 2,
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "cards": [
+      1010
+     ],
+     "confirm": true
+    },
+    {
+     "id": 3,
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "CommonHpChange",
+       "desc": "",
+       "attr": {
+        "ChangeHp": "-1"
+       }
+      }
+     ]
+    },
+    {
+     "id": 4,
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "targetsId": [
+      2
+     ],
+     "cards": [
+      1013
+     ],
+     "confirm": false
+    },
+    {
+     "id": 5,
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "CommonHpChange",
+       "desc": "",
+       "attr": {
+        "ChangeHp": "-1"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "射石搏虎3-4",
+   "desc": "受到伤害，打出战法不加伤-烽火",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1002,
+     1014,
+     1015,
+     1016,
+     1017,
+     1018,
+     1012,
+     1025,
+     1026,
+     1027
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10508,
+      "initCards": [
+       1005,
+       1125
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [
+       1390
+      ],
+      "delSkills": [],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 2,
+      "heroId": 10001,
+      "initCards": [
+       1010,
+       1082
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "targetsId": [
+      2
+     ],
+     "cards": [
+      1005
+     ],
+     "confirm": false
+    },
+    {
+     "id": 2,
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "cards": [
+      1010
+     ],
+     "confirm": true
+    },
+    {
+     "id": 3,
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "CommonHpChange",
+       "desc": "",
+       "attr": {
+        "ChangeHp": "-1"
+       }
+      }
+     ]
+    },
+    {
+     "id": 4,
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "targetsId": [
+      2
+     ],
+     "cards": [
+      1125
+     ],
+     "confirm": false
+    },
+    {
+     "id": 5,
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "CommonHpChange",
+       "desc": "",
+       "attr": {
+        "ChangeHp": "-1"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "射石搏虎3-5",
+   "desc": "受到伤害，打出战法不加伤-箭雨",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1002,
+     1014,
+     1015,
+     1016,
+     1017,
+     1018,
+     1012,
+     1025,
+     1026,
+     1027
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10508,
+      "initCards": [
+       1005,
+       1001
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [
+       1390
+      ],
+      "delSkills": [],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 2,
+      "heroId": 10001,
+      "initCards": [
+       1010,
+       1082
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "targetsId": [
+      2
+     ],
+     "cards": [
+      1005
+     ],
+     "confirm": false
+    },
+    {
+     "id": 2,
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "cards": [
+      1010
+     ],
+     "confirm": true
+    },
+    {
+     "id": 3,
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "CommonHpChange",
+       "desc": "",
+       "attr": {
+        "ChangeHp": "-1"
+       }
+      }
+     ]
+    },
+    {
+     "id": 4,
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "targetsId": [
+      2
+     ],
+     "cards": [
+      1001
+     ],
+     "confirm": false
+    },
+    {
+     "id": 5,
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "CommonHpChange",
+       "desc": "",
+       "attr": {
+        "ChangeHp": "-1"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "射石搏虎3-6",
+   "desc": "受到伤害，打出战法不加伤-烈火",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1002,
+     1014,
+     1015,
+     1016,
+     1017,
+     1018,
+     1012,
+     1025,
+     1026,
+     1027
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10508,
+      "initCards": [
+       1005,
+       1123,
+       1120
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [
+       1390
+      ],
+      "delSkills": [],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 2,
+      "heroId": 10001,
+      "initCards": [
+       1010,
+       1004
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "targetsId": [
+      2
+     ],
+     "cards": [
+      1005
+     ],
+     "confirm": false
+    },
+    {
+     "id": 2,
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "cards": [
+      1010
+     ],
+     "confirm": true
+    },
+    {
+     "id": 3,
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "CommonHpChange",
+       "desc": "",
+       "attr": {
+        "ChangeHp": "-1"
+       }
+      }
+     ]
+    },
+    {
+     "id": 4,
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "targetsId": [
+      2
+     ],
+     "cards": [
+      1123
+     ],
+     "confirm": false
+    },
+    {
+     "id": 5,
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "cards": [
+      1120
+     ],
+     "confirm": true
+    },
+    {
+     "id": 6,
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "CommonHpChange",
+       "desc": "",
+       "attr": {
+        "ChangeHp": "-1"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "射石搏虎3-7",
+   "desc": "受伤被封禁，不加伤",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1002,
+     1014,
+     1015,
+     1016,
+     1017,
+     1018,
+     1012,
+     1025,
+     1026,
+     1027
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10106,
+      "initCards": [
+       1003
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 2,
+      "heroId": 10508,
+      "initCards": [
+       1010
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "targetsId": [
+      2
+     ],
+     "cards": [
+      1003
+     ],
+     "confirm": false
+    },
+    {
+     "id": 2,
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "CommonHpChange",
+       "desc": "",
+       "attr": {
+        "ChangeHp": "-1"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "robotIdx": 1,
+     "action": "PlayCardOver",
+     "confirm": false
+    },
+    {
+     "id": 4,
+     "robotIdx": 1,
+     "action": "DisCard",
+     "confirm": false
+    },
+    {
+     "id": 5,
+     "robotIdx": 2,
+     "action": "PlayCard",
+     "targetsId": [
+      1
+     ],
+     "cards": [
+      1010
+     ],
+     "confirm": false
+    },
+    {
+     "id": 6,
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "CommonHpChange",
+       "desc": "只造成1点伤害",
+       "attr": {
+        "ChangeHp": "-1"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "射石搏虎3-8",
+   "desc": "先受伤，再被封禁，正常加伤",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1002,
+     1014,
+     1015,
+     1016,
+     1017,
+     1018,
+     1012,
+     1025,
+     1026,
+     1027
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10407,
+      "initCards": [
+       1003,
+       1011,
+       1009
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 2,
+      "heroId": 10508,
+      "initCards": [
+       1010,
+       1082
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [
+       1390
+      ],
+      "delSkills": [],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "targetsId": [
+      2
+     ],
+     "cards": [
+      1003
+     ],
+     "confirm": false
+    },
+    {
+     "id": 2,
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "CommonHpChange",
+       "desc": "",
+       "attr": {
+        "ChangeHp": "-1"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 4,
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "targetsId": [
+      1
+     ],
+     "cards": [
+      1009
+     ],
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 5,
+     "robotIdx": 1,
+     "action": "PlayCardOver",
+     "confirm": false
+    },
+    {
+     "id": 6,
+     "robotIdx": 1,
+     "action": "DisCard",
+     "confirm": false
+    },
+    {
+     "id": 7,
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "targetsId": [
+      2
+     ],
+     "cards": [
+      1011
+     ],
+     "confirm": true,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 8,
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "cards": [
+      1082
+     ],
+     "confirm": true,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "周勃响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 9,
+     "robotIdx": 2,
+     "action": "PlayCard",
+     "targetsId": [
+      1
+     ],
+     "cards": [
+      1010
+     ],
+     "confirm": false
+    },
+    {
+     "id": 10,
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "CommonHpChange",
+       "desc": "只造成1点伤害",
+       "attr": {
+        "ChangeHp": "-1"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "射石搏虎4-1",
+   "desc": "无效出杀-阵前，不会消耗buff",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1002,
+     1014,
+     1015,
+     1016,
+     1017,
+     1018,
+     1012,
+     1025,
+     1026,
+     1027
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10508,
+      "initCards": [
+       1005,
+       1013,
+       1003,
+       1011
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [
+       1390
+      ],
+      "delSkills": [],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 2,
+      "heroId": 10001,
+      "initCards": [
+       1010,
+       1019
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "targetsId": [
+      2
+     ],
+     "cards": [
+      1005
+     ],
+     "confirm": false
+    },
+    {
+     "id": 2,
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "cards": [
+      1010
+     ],
+     "confirm": true
+    },
+    {
+     "id": 3,
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "CommonHpChange",
+       "desc": "",
+       "attr": {
+        "ChangeHp": "-1"
+       }
+      }
+     ]
+    },
+    {
+     "id": 4,
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "targetsId": [
+      2
+     ],
+     "cards": [
+      1013
+     ],
+     "confirm": false
+    },
+    {
+     "id": 5,
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "cards": [
+      1019
+     ],
+     "confirm": true
+    },
+    {
+     "id": 6,
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "cards": [
+      1011
+     ],
+     "confirm": true
+    },
+    {
+     "id": 7,
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "CommonHpChange",
+       "desc": "",
+       "attr": {
+        "ChangeHp": "-1"
+       }
+      }
+     ]
+    },
+    {
+     "id": 8,
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "confirm": false
+    },
+    {
+     "id": 9,
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "targetsId": [
+      2
+     ],
+     "cards": [
+      1003
+     ],
+     "confirm": false
+    },
+    {
+     "id": 10,
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "CommonHpChange",
+       "desc": "",
+       "attr": {
+        "ChangeHp": "-2"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "射石搏虎4-2",
+   "desc": "无效出杀-烽火，不会消耗buff",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1002,
+     1014,
+     1015,
+     1016,
+     1017,
+     1018,
+     1012,
+     1025,
+     1026,
+     1027
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 2,
+      "heroId": 10603,
+      "initCards": [
+       1010,
+       1125
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1323
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10508,
+      "initCards": [
+       1003,
+       1011
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [
+       1390
+      ],
+      "delSkills": [],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "蒙恬(1)对[周勃(2)]使用牌[杀(1010)]",
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "targetsId": [
+      2
+     ],
+     "cards": [
+      1010
+     ],
+     "confirm": false
+    },
+    {
+     "id": 2,
+     "desc": "周勃(2)取消",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "CommonHpChange",
+       "desc": "",
+       "attr": {
+        "ChangeHp": "-1"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "desc": "蒙恬(1)对[周勃(2)]使用牌[烽火狼烟(1125)]",
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "targetsId": [
+      2
+     ],
+     "cards": [
+      1125
+     ],
+     "confirm": false
+    },
+    {
+     "id": 4,
+     "desc": "周勃(2)确认, 使用牌[杀(1003)]",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "cards": [
+      1003
+     ],
+     "confirm": true
+    },
+    {
+     "id": 5,
+     "desc": "蒙恬(1)结束打牌",
+     "robotIdx": 1,
+     "action": "PlayCardOver",
+     "confirm": false
+    },
+    {
+     "id": 6,
+     "desc": "蒙恬(1)自动弃牌",
+     "robotIdx": 1,
+     "action": "DisCard",
+     "confirm": false
+    },
+    {
+     "id": 7,
+     "desc": "周勃(2)对[蒙恬(1)]使用牌[杀(1011)]",
+     "robotIdx": 2,
+     "action": "PlayCard",
+     "targetsId": [
+      1
+     ],
+     "cards": [
+      1011
+     ],
+     "confirm": false
+    },
+    {
+     "id": 8,
+     "desc": "蒙恬(1)取消",
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "CommonHpChange",
+       "desc": "",
+       "attr": {
+        "ChangeHp": "-2"
+       }
+      }
+     ]
+    }
+   ]
+  }
+ ]

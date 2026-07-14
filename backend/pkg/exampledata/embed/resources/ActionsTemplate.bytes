@@ -1,0 +1,34 @@
+
+DrawCardAction"1,1,0
+AddOneShaTimeAction"33,1
+#DrawZhanFaCardAction"2,1,0,2
+AddBuffAction"3,47
+
+NullAction
+CreateHarmNode"1,2
+AddSkillUseTimes
+ BroadcastHarmEffectTrigger
+#	AddGuZhiELaiHarmAddBuff"3,15
+'
+UpdateBuffIsCasterSeeToFalse"1,0
+DrawCardAction"3(
+BroadcastUserAttrChange	
+CommonWaitOpt1Node0
+CommonWaitOpt1Node08
+CommonCanEffect1Node0
+CommonCanEffect1Node08
+AddBuffAction"3,187
+"BroadcastConfirmSkillTrigger
+
+BroadcastSkillTrigger
+%BrunEquipCradsAction"	1,2,200,0
+(DestoryEquipCardsAction"	2,2,205,1
+#AddBeGuanChuanBuffAction"6,4
+!AddBeFengjinBuffAction"6,6
+AddHanZhanBuff"3,73
+CommonCanEffectNode0
+CommonCanEffectNode08
++AddQiangHuaBeFengjinBuffAction"6,115
+'AddSkillXiaoPingZhuLvAction"1357
+CommonWaitOpt2Node0
+CommonWaitOpt2Node08

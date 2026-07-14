@@ -1,0 +1,112 @@
+[
+  {
+   "case": "司马懿_狼顾鹰视_1",
+   "desc": "技能效果测试_场上存在2个没有杀且没有闪的角色_体力上限+2 手牌上限+2 本回合出杀次数+2",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1001,
+     1002,
+     1003,
+     1004,
+     1005,
+     1006,
+     1007,
+     1008,
+     1009,
+     1010,
+     1011
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 13,
+      "color": 97,
+      "heroId": 10002,
+      "initCards": [],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [
+       1013
+      ],
+      "delSkills": [
+       1004,
+       1005,
+       1006
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 13,
+      "color": 97,
+      "heroId": 10005,
+      "initCards": [],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1011,
+       1012
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 13,
+      "color": 97,
+      "heroId": 10102,
+      "initCards": [],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1018,
+       1019
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "郭嘉(1)断言",
+     "robotIdx": 1,
+     "action": "OnlyAsset",
+     "confirm": false,
+     "timeout": 3,
+     "assets": [
+      {
+       "msgName": "AttrChange",
+       "desc": "成功：场上存在2个未有杀和闪的角色  效果正常叠加",
+       "attr": {
+        "AttackRange": "1",
+        "CurHp": "4",
+        "DistDecr": "0",
+        "DistIncr": "0",
+        "EquipLimit": "3",
+        "HandLimit": "7",
+        "MaxHp": "6",
+        "ShaCount": "0"
+       }
+      },
+      {
+       "msgName": "AttrChange",
+       "desc": "成功：出牌阶段  出杀次数正常加上",
+       "attr": {
+        "AttackRange": "1",
+        "CurHp": "4",
+        "EquipLimit": "3",
+        "HandLimit": "7",
+        "MaxHp": "6",
+        "ShaCount": "3"
+       }
+      }
+     ]
+    }
+   ]
+  }
+ ]

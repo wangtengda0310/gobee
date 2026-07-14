@@ -1,0 +1,33 @@
+{
+  "version": 1,
+  "recorded_at": "2026-06-17T06:36:12.644Z",
+  "server_addr": "10.254.114.204:18000",
+  "messages": [
+    {
+      "msg_id": 7114,
+      "msg_name": "CommonActHandleReq",
+      "seq_id": 170,
+      "descript": "购买粽子",
+      "payload_json": {
+        "actId": 1105,
+        "params": [
+          10001,
+          3
+        ]
+      }
+    },
+    {
+      "msg_id": 7114,
+      "msg_name": "CommonActHandleReq",
+      "seq_id": 172,
+      "descript": "购买五彩绳",
+      "payload_json": {
+        "actId": 1105,
+        "params": [
+          10002,
+          10
+        ]
+      }
+    }
+  ]
+}

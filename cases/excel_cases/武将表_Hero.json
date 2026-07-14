@@ -1,0 +1,116 @@
+{
+ "sheet": "武将表|Hero",
+ "managerList": {
+  "QA": [],
+  "Designer": [],
+  "Programmer": []
+ },
+ "rules": {
+  "BelongExpansionPack": {
+   "PropName": "BelongExpansionPack",
+   "PropType": "EHeroExpansionPackType",
+   "PropRules": []
+  },
+  "Buff": {
+   "PropName": "Buff",
+   "PropType": "EBuffId[]",
+   "PropRules": []
+  },
+  "CanMelt": {
+   "PropName": "CanMelt",
+   "PropType": "bool",
+   "PropRules": []
+  },
+  "Country": {
+   "PropName": "Country",
+   "PropType": "ECountry",
+   "PropRules": []
+  },
+  "EquipLimit": {
+   "PropName": "EquipLimit",
+   "PropType": "int",
+   "PropRules": []
+  },
+  "ExcludeIdentity": {
+   "PropName": "ExcludeIdentity",
+   "PropType": "int[]",
+   "PropRules": []
+  },
+  "Gender": {
+   "PropName": "Gender",
+   "PropType": "int",
+   "PropRules": []
+  },
+  "HandLimit": {
+   "PropName": "HandLimit",
+   "PropType": "int",
+   "PropRules": []
+  },
+  "HeroType": {
+   "PropName": "HeroType",
+   "PropType": "EHeroType",
+   "PropRules": []
+  },
+  "HpLimit": {
+   "PropName": "HpLimit",
+   "PropType": "int",
+   "PropRules": []
+  },
+  "Id": {
+   "PropName": "Id",
+   "PropType": "EHeroId",
+   "PropRules": []
+  },
+  "IsAlwaysZhuGong": {
+   "PropName": "IsAlwaysZhuGong",
+   "PropType": "bool",
+   "PropRules": []
+  },
+  "IsGacha": {
+   "PropName": "IsGacha",
+   "PropType": "bool",
+   "PropRules": []
+  },
+  "IsNewHero": {
+   "PropName": "IsNewHero",
+   "PropType": "bool",
+   "PropRules": []
+  },
+  "IsOpen": {
+   "PropName": "IsOpen",
+   "PropType": "bool",
+   "PropRules": []
+  },
+  "MeltName": {
+   "PropName": "MeltName",
+   "PropType": "string[]",
+   "PropRules": []
+  },
+  "Name": {
+   "PropName": "Name",
+   "PropType": "string",
+   "PropRules": []
+  },
+  "NotUseModeType": {
+   "PropName": "NotUseModeType",
+   "PropType": "EModeRuleType[]",
+   "PropRules": []
+  },
+  "OpenDate": {
+   "PropName": "OpenDate",
+   "PropType": "string",
+   "PropRules": []
+  },
+  "Point": {
+   "PropName": "Point",
+   "PropType": "int",
+   "PropRules": []
+  },
+  "Skill": {
+   "PropName": "Skill",
+   "PropType": "ESkillId[]",
+   "PropRules": []
+  }
+ },
+ "tableRules": []
+}

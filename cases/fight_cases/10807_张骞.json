@@ -1,0 +1,3002 @@
+[
+  {
+   "case": "丝绸之路1-1",
+   "desc": "张骞 使用技能[丝绸之路]，展示并交换一张卡牌",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1001,
+     1002,
+     1004,
+     1005,
+     1003,
+     1006,
+     1007,
+     1008,
+     1009,
+     1010,
+     1011,
+     1012,
+     1013,
+     1014,
+     1015
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10807,
+      "initCards": [
+       1023,
+       1024,
+       1025,
+       1026,
+       1027,
+       1028,
+       1029
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 2,
+      "heroId": 10007,
+      "initCards": [
+       1016,
+       1017,
+       1018,
+       1019,
+       1020,
+       1021,
+       1022
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "张骞(1), 使用技能[丝绸之路]",
+     "robotIdx": 1,
+     "action": "UseHeroSkill",
+     "confirm": true,
+     "heroSkillUuid": 1394,
+     "assets": [
+      {
+       "msgName": "UseHeroSkillAck",
+       "desc": "张骞使用技能成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "张骞(1)确认, 使用牌[铁索连舟(1023)]",
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "cards": [
+      1023
+     ],
+     "confirm": true,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "张骞响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "desc": "典韦(2)确认, 使用牌[鸣鸿刀(1016)]",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "cards": [
+      1016
+     ],
+     "confirm": true,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "典韦响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 4,
+     "desc": "张骞(1)确认对[典韦(2)]",
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "targetsId": [
+      2
+     ],
+     "confirm": true,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "张骞响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 5,
+     "desc": "典韦(2)断言",
+     "robotIdx": 2,
+     "action": "OnlyAsset",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "GiveCard",
+       "desc": "典韦给1张牌牌为[1023]",
+       "attr": {
+        "Cards": "1023",
+        "Count": "1"
+       }
+      }
+     ]
+    },
+    {
+     "id": 6,
+     "robotIdx": 1,
+     "action": "OnlyAsset",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "GiveCard",
+       "desc": "张骞给1张牌牌为[1016]",
+       "attr": {
+        "Cards": "1016",
+        "Count": "1"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "丝绸之路1-2",
+   "desc": "多换少，张骞获得少，抽两张牌",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1001,
+     1002,
+     1004,
+     1005,
+     1003,
+     1006,
+     1007,
+     1008,
+     1009,
+     1010,
+     1011,
+     1012,
+     1013,
+     1014,
+     1015
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10807,
+      "initCards": [
+       1023,
+       1024,
+       1025,
+       1026,
+       1027,
+       1028,
+       1029
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 2,
+      "heroId": 10007,
+      "initCards": [
+       1016,
+       1017,
+       1018,
+       1019,
+       1020,
+       1021,
+       1022
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "张骞(1), 使用技能[丝绸之路]",
+     "robotIdx": 1,
+     "action": "UseHeroSkill",
+     "confirm": true,
+     "heroSkillUuid": 1394,
+     "assets": [
+      {
+       "msgName": "UseHeroSkillAck",
+       "desc": "张骞使用技能成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "张骞(1)确认, 使用牌[铁索连舟(1023),杀(1024)]",
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "cards": [
+      1023,
+      1024
+     ],
+     "confirm": true,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "张骞响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "desc": "典韦(2)确认, 使用牌[鸣鸿刀(1016)]",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "cards": [
+      1016
+     ],
+     "confirm": true,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "典韦响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 4,
+     "desc": "张骞(1)确认对[典韦(2)]",
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "targetsId": [
+      2
+     ],
+     "confirm": true,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "张骞响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 5,
+     "desc": "典韦(2)断言",
+     "robotIdx": 2,
+     "action": "OnlyAsset",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "GiveCard",
+       "desc": "典韦给2张牌牌为[1023,1024]",
+       "attr": {
+        "Cards": "1023 1024",
+        "Count": "2"
+       }
+      }
+     ]
+    },
+    {
+     "id": 6,
+     "desc": "张骞(1)断言",
+     "robotIdx": 1,
+     "action": "OnlyAsset",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "GiveCard",
+       "desc": "张骞给1张牌牌为[1016]",
+       "attr": {
+        "Cards": "1016",
+        "Count": "1"
+       }
+      },
+      {
+       "msgName": "DrawCard",
+       "desc": "张骞抽到2张牌",
+       "attr": {
+        "Count": "2"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "丝绸之路1-3",
+   "desc": "多换0，张骞获得少，抽两张牌",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1001,
+     1002,
+     1004,
+     1005,
+     1003,
+     1006,
+     1007,
+     1008,
+     1009,
+     1010,
+     1011,
+     1012,
+     1013,
+     1014,
+     1015
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10807,
+      "initCards": [
+       1023,
+       1024,
+       1025,
+       1026,
+       1027,
+       1028,
+       1029
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 2,
+      "heroId": 10007,
+      "initCards": [
+       1016,
+       1017,
+       1018,
+       1019,
+       1020,
+       1021,
+       1022
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "张骞(1), 使用技能[丝绸之路]",
+     "robotIdx": 1,
+     "action": "UseHeroSkill",
+     "confirm": true,
+     "heroSkillUuid": 1394,
+     "assets": [
+      {
+       "msgName": "UseHeroSkillAck",
+       "desc": "张骞使用技能成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "张骞(1)确认, 使用牌[铁索连舟(1023),杀(1024)]",
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "cards": [
+      1023,
+      1024
+     ],
+     "confirm": true,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "张骞响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "desc": "典韦(2)取消",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "典韦响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 4,
+     "desc": "张骞(1)确认对[典韦(2)]",
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "targetsId": [
+      2
+     ],
+     "confirm": true,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "张骞响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 5,
+     "desc": "典韦(2)断言",
+     "robotIdx": 2,
+     "action": "OnlyAsset",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "GiveCard",
+       "desc": "典韦给2张牌牌为[1023,1024]",
+       "attr": {
+        "Cards": "1023 1024",
+        "Count": "2"
+       }
+      }
+     ]
+    },
+    {
+     "id": 6,
+     "desc": "张骞(1)断言",
+     "robotIdx": 1,
+     "action": "OnlyAsset",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "DrawCard",
+       "desc": "张骞抽到2张牌",
+       "attr": {
+        "Count": "2"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "丝绸之路1-4",
+   "desc": "多换0，张骞抽牌，触发摸牌技能",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1001,
+     1002,
+     1004,
+     1005,
+     1003,
+     1006,
+     1007,
+     1008,
+     1009,
+     1010,
+     1011,
+     1012,
+     1013,
+     1014,
+     1015
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10807,
+      "initCards": [
+       1023,
+       1024,
+       1025,
+       1026,
+       1027,
+       1028,
+       1029
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 2,
+      "heroId": 10007,
+      "initCards": [
+       1016,
+       1017,
+       1018,
+       1019,
+       1020,
+       1021,
+       1022
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [
+       1043
+      ],
+      "delSkills": [],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "targetsId": [
+      1
+     ],
+     "confirm": true,
+     "heroSkillUuid": 1043,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "张骞(1), 使用技能[丝绸之路]",
+     "robotIdx": 1,
+     "action": "UseHeroSkill",
+     "confirm": true,
+     "heroSkillUuid": 1394,
+     "assets": [
+      {
+       "msgName": "UseHeroSkillAck",
+       "desc": "张骞使用技能成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "desc": "张骞(1)确认, 使用牌[铁索连舟(1023),杀(1024)]",
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "cards": [
+      1023,
+      1024
+     ],
+     "confirm": true,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "张骞响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 4,
+     "desc": "典韦(2)取消",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "典韦响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 5,
+     "desc": "张骞(1)确认对[典韦(2)]",
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "targetsId": [
+      2
+     ],
+     "confirm": true,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "张骞响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 6,
+     "desc": "典韦(2)断言",
+     "robotIdx": 2,
+     "action": "OnlyAsset",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "GiveCard",
+       "desc": "典韦给2张牌牌为[1023,1024]",
+       "attr": {
+        "Cards": "1023 1024",
+        "Count": "2"
+       }
+      }
+     ]
+    },
+    {
+     "id": 7,
+     "desc": "张骞(1)断言",
+     "robotIdx": 1,
+     "action": "OnlyAsset",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "DrawCard",
+       "desc": "张骞抽到2张牌",
+       "attr": {
+        "Count": "2"
+       }
+      }
+     ]
+    },
+    {
+     "id": 8,
+     "desc": "典韦(2)断言",
+     "robotIdx": 2,
+     "action": "OnlyAsset",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "DrawCard",
+       "desc": "",
+       "attr": {
+        "Count": "1"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "丝绸之路1-5",
+   "desc": "张骞 使用技能[丝绸之路]，双方展示0张，后续不生效",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1001,
+     1002,
+     1004,
+     1005,
+     1003,
+     1006,
+     1007,
+     1008,
+     1009,
+     1010,
+     1011,
+     1012,
+     1013,
+     1014,
+     1015
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10807,
+      "initCards": [
+       1023,
+       1024,
+       1025,
+       1026,
+       1027,
+       1028,
+       1029
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 2,
+      "heroId": 10007,
+      "initCards": [
+       1016,
+       1017,
+       1018,
+       1019,
+       1020,
+       1021,
+       1022
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "张骞(1), 使用技能[丝绸之路], 使用牌[铁索连舟(1023)]",
+     "robotIdx": 1,
+     "action": "UseHeroSkill",
+     "confirm": true,
+     "heroSkillUuid": 1394,
+     "assets": [
+      {
+       "msgName": "UseHeroSkillAck",
+       "desc": "张骞使用技能成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "confirm": true,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "张骞响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "desc": "典韦(2)确认, 使用牌[鸣鸿刀(1016)]",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "典韦响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 4,
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "targetsId": [
+      2
+     ],
+     "confirm": true,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 5,
+     "robotIdx": 1,
+     "action": "OnlyAsset",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "GiveCard",
+       "desc": "",
+       "attr": {
+        "Count": "1",
+        "UnExpect": "true"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "丝绸之路1-6",
+   "desc": "多人响应技能，选择其中一人交换，且摸2牌",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1001,
+     1002,
+     1004,
+     1005,
+     1003,
+     1006,
+     1007,
+     1008,
+     1009,
+     1010,
+     1011,
+     1012,
+     1013,
+     1014,
+     1015
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10807,
+      "initCards": [
+       1023,
+       1024,
+       1025,
+       1026,
+       1027,
+       1028,
+       1029
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 2,
+      "heroId": 10007,
+      "initCards": [
+       1016,
+       1017,
+       1018,
+       1019,
+       1020,
+       1021,
+       1022
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 3,
+      "heroId": 10105,
+      "initCards": [
+       1030,
+       1031,
+       1032
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "张骞(1), 使用技能[丝绸之路], 使用牌[铁索连舟(1023)]",
+     "robotIdx": 1,
+     "action": "UseHeroSkill",
+     "confirm": true,
+     "heroSkillUuid": 1394,
+     "assets": [
+      {
+       "msgName": "UseHeroSkillAck",
+       "desc": "张骞使用技能成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "cards": [
+      1023
+     ],
+     "confirm": true,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "张骞响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "desc": "典韦(2)确认, 使用牌[鸣鸿刀(1016)]",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "cards": [
+      1016
+     ],
+     "confirm": true,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "典韦响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 4,
+     "robotIdx": 3,
+     "action": "OptRoomAction",
+     "cards": [
+      1030,
+      1031,
+      1032
+     ],
+     "confirm": true,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 5,
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "targetsId": [
+      3
+     ],
+     "confirm": true,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 6,
+     "desc": "赵云(3)断言",
+     "robotIdx": 3,
+     "action": "OnlyAsset",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "GiveCard",
+       "desc": "赵云给1张牌牌为[1023]",
+       "attr": {
+        "Cards": "1023",
+        "Count": "1"
+       }
+      }
+     ]
+    },
+    {
+     "id": 7,
+     "robotIdx": 1,
+     "action": "OnlyAsset",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "GiveCard",
+       "desc": "张骞给1张牌牌为[1016]",
+       "attr": {
+        "Cards": "1030 1031 1032",
+        "Count": "3"
+       }
+      }
+     ]
+    },
+    {
+     "id": 8,
+     "robotIdx": 3,
+     "action": "OnlyAsset",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "DrawCard",
+       "desc": "赵云给2张牌",
+       "attr": {
+        "Count": "2"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "丝绸之路1-7",
+   "desc": "张骞 被封禁，无法发动技能",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1001,
+     1002,
+     1004,
+     1005,
+     1003,
+     1006,
+     1007,
+     1008,
+     1010,
+     1011,
+     1012,
+     1013,
+     1014,
+     1015
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10807,
+      "initCards": [
+       1023,
+       1024
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 2,
+      "heroId": 10407,
+      "initCards": [
+       1019,
+       1021,
+       1022
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [],
+      "exEquips": [
+       1009
+      ],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "项梁(2)确认对[张骞(1)], 使用牌[杀(1019)]",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "targetsId": [
+      1
+     ],
+     "cards": [
+      1019
+     ],
+     "confirm": true,
+     "heroSkillUuid": 1346
+    },
+    {
+     "id": 2,
+     "desc": "张骞(1)取消",
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "张骞响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "CommonHpChange",
+       "desc": "张骞受到来自HarmNormal的伤害, 体力变化:-1",
+       "attr": {
+        "ChangeHp": "-1",
+        "HpSrc": "HarmNormal"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "desc": "项梁(2)取消",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "confirm": false
+    },
+    {
+     "id": 4,
+     "desc": "张骞(1), 使用技能[丝绸之路]",
+     "robotIdx": 1,
+     "action": "UseHeroSkill",
+     "confirm": true,
+     "heroSkillUuid": 1394,
+     "assets": [
+      {
+       "msgName": "UseHeroSkillAck",
+       "desc": "张骞使用技能成功",
+       "attr": {
+        "Result": "1527"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "丝绸之路1-8",
+   "desc": "张骞交换牌后被封禁，后续不摸牌",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1001,
+     1002,
+     1004,
+     1005,
+     1003,
+     1006,
+     1007,
+     1008,
+     1009,
+     1010,
+     1011,
+     1012,
+     1013,
+     1014,
+     1015
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10807,
+      "initCards": [
+       1023,
+       1024,
+       1025,
+       1026,
+       1027,
+       1028,
+       1029
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 2,
+      "heroId": 10007,
+      "initCards": [
+       1016,
+       1017,
+       1018,
+       1019,
+       1020,
+       1021,
+       1022
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [
+       1034
+      ],
+      "delSkills": [],
+      "exEquips": [
+       3137
+      ],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "张骞(1), 使用技能[丝绸之路]",
+     "robotIdx": 1,
+     "action": "UseHeroSkill",
+     "confirm": true,
+     "heroSkillUuid": 1394,
+     "assets": [
+      {
+       "msgName": "UseHeroSkillAck",
+       "desc": "张骞使用技能成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "张骞(1)确认, 使用牌[铁索连舟(1023),杀(1024)]",
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "cards": [
+      1023,
+      1024
+     ],
+     "confirm": true,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "张骞响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "desc": "典韦(2)确认, 使用牌[鸣鸿刀(1016)]",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "cards": [
+      1016,
+      1017,
+      1018
+     ],
+     "confirm": true,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "典韦响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 4,
+     "desc": "张骞(1)确认对[典韦(2)]",
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "targetsId": [
+      2
+     ],
+     "confirm": true,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "张骞响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 5,
+     "desc": "典韦(2)断言",
+     "robotIdx": 2,
+     "action": "OnlyAsset",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "GiveCard",
+       "desc": "典韦给2张牌牌为[1023,1024]",
+       "attr": {
+        "Cards": "1023 1024",
+        "Count": "2"
+       }
+      }
+     ]
+    },
+    {
+     "id": 6,
+     "desc": "张骞(1)断言",
+     "robotIdx": 1,
+     "action": "OnlyAsset",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "GiveCard",
+       "desc": "张骞给1张牌牌为[1016]",
+       "attr": {
+        "Cards": "1016 1017 1018",
+        "Count": "3"
+       }
+      }
+     ]
+    },
+    {
+     "id": 7,
+     "desc": "典韦(2)确认对[张骞(1)], 使用牌[杀(1019)]",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "targetsId": [
+      1
+     ],
+     "cards": [
+      1019
+     ],
+     "confirm": true,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "典韦响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 8,
+     "desc": "张骞(1)取消",
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "CommonHpChange",
+       "desc": "",
+       "attr": {
+        "ChangeHp": "-1"
+       }
+      }
+     ]
+    },
+    {
+     "id": 9,
+     "robotIdx": 1,
+     "action": "UseHeroSkill",
+     "confirm": false,
+     "heroSkillUuid": 1394,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "UseHeroSkillAck",
+       "desc": "张骞使用技能失败",
+       "attr": {
+        "Result": "1527"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "丝绸之路2-1",
+   "desc": "张骞 使用技能[丝绸之路]，多人响应",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1001,
+     1002,
+     1004,
+     1005,
+     1003,
+     1006,
+     1007,
+     1008,
+     1009,
+     1010,
+     1011,
+     1012,
+     1013,
+     1014,
+     1015
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10807,
+      "initCards": [
+       1023,
+       1024,
+       1025,
+       1026,
+       1027,
+       1028,
+       1029
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 2,
+      "heroId": 10007,
+      "initCards": [
+       1016,
+       1017,
+       1018,
+       1019,
+       1020,
+       1021,
+       1022
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 3,
+      "heroId": 10105,
+      "initCards": [
+       1030,
+       1031
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "张骞(1), 使用技能[丝绸之路], 使用牌[铁索连舟(1023)]",
+     "robotIdx": 1,
+     "action": "UseHeroSkill",
+     "confirm": true,
+     "heroSkillUuid": 1394,
+     "assets": [
+      {
+       "msgName": "UseHeroSkillAck",
+       "desc": "张骞 使用技能[丝绸之路]，展示并交换一张卡牌",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "张骞(1)确认, 使用牌[铁索连舟(1023)]",
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "cards": [
+      1023
+     ],
+     "confirm": true,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "张骞响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "desc": "典韦(2)确认, 使用牌[鸣鸿刀(1016)]",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "cards": [
+      1016
+     ],
+     "confirm": true,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "典韦响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 4,
+     "desc": "赵云(3)确认, 使用牌[杀(1030)]",
+     "robotIdx": 3,
+     "action": "OptRoomAction",
+     "cards": [
+      1030
+     ],
+     "confirm": true,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "赵云响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 5,
+     "desc": "张骞(1)确认对[典韦(2)]",
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "targetsId": [
+      2
+     ],
+     "confirm": true,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "张骞(1)确认对[典韦(2)]",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 6,
+     "desc": "典韦(2)断言",
+     "robotIdx": 2,
+     "action": "OnlyAsset",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "GiveCard",
+       "desc": "典韦(2)断言",
+       "attr": {
+        "Cards": "1023",
+        "Count": "1"
+       }
+      }
+     ]
+    },
+    {
+     "id": 7,
+     "desc": "张骞(1)断言",
+     "robotIdx": 1,
+     "action": "OnlyAsset",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "GiveCard",
+       "desc": "张骞给1张牌牌为[1016]",
+       "attr": {
+        "Cards": "1016",
+        "Count": "1"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "凿空西域1-1",
+   "desc": "获得八张牌，技能变化",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1001,
+     1002,
+     1004,
+     1005,
+     1003,
+     1006,
+     1007,
+     1008,
+     1009,
+     1010,
+     1011,
+     1012,
+     1013,
+     1014,
+     1015
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10807,
+      "initCards": [
+       1023,
+       1024,
+       1025,
+       1026,
+       1027,
+       1028,
+       1029
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 2,
+      "heroId": 10007,
+      "initCards": [
+       1016,
+       1017,
+       1018,
+       1019,
+       1020,
+       1021,
+       1022,
+       1030,
+       1031,
+       1032,
+       1033,
+       1034
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "张骞(1), 使用技能[丝绸之路], 使用牌[铁索连舟(1023)]",
+     "robotIdx": 1,
+     "action": "UseHeroSkill",
+     "confirm": true,
+     "heroSkillUuid": 1394,
+     "assets": [
+      {
+       "msgName": "UseHeroSkillAck",
+       "desc": "张骞 使用技能[丝绸之路]，展示并交换一张卡牌",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "张骞(1)确认, 使用牌[铁索连舟(1023)]",
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "cards": [
+      1023
+     ],
+     "confirm": true,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "张骞响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "desc": "典韦(2)确认, 使用牌[鸣鸿刀(1016),方天画戟(1017),干将莫邪(1018),杀(1019),雷杀(1020),阵前对决(1021),杀(1022),杀(1030)]",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "cards": [
+      1016,
+      1017,
+      1018,
+      1019,
+      1020,
+      1021,
+      1022,
+      1030
+     ],
+     "confirm": true,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "典韦响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 4,
+     "desc": "张骞(1)确认对[典韦(2)]",
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "targetsId": [
+      2
+     ],
+     "confirm": true,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "张骞(1)确认对[典韦(2)]",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 5,
+     "desc": "典韦(2)断言",
+     "robotIdx": 2,
+     "action": "OnlyAsset",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "GiveCard",
+       "desc": "典韦(2)断言",
+       "attr": {
+        "Cards": "1023",
+        "Count": "1"
+       }
+      }
+     ]
+    },
+    {
+     "id": 6,
+     "robotIdx": 1,
+     "action": "OnlyAsset",
+     "confirm": false,
+     "sleepTime": 2,
+     "assets": [
+      {
+       "msgName": "GiveCard",
+       "desc": "张骞给8张牌牌为[1016,1017,1018,1019,1020,1021,1022,1023]",
+       "attr": {
+        "Cards": "1016 1017 1018 1019 1020 1021 1022 1030",
+        "Count": "8"
+       }
+      }
+     ]
+    },
+    {
+     "id": 7,
+     "robotIdx": 2,
+     "action": "OnlyAsset",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "DrawCard",
+       "desc": "",
+       "attr": {
+        "Cards": "",
+        "Count": "2",
+        "Random": "false"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "凿空西域1-2",
+   "desc": "其他方式获得牌，也能触发技能变化--顺手牵羊",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1001,
+     1002,
+     1004,
+     1005,
+     1003,
+     1006,
+     1007,
+     1008,
+     1009,
+     1010,
+     1011,
+     1012,
+     1013,
+     1014,
+     1015
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10807,
+      "initCards": [
+       1023,
+       1024,
+       1025,
+       1026,
+       1027,
+       1028,
+       1029,
+       4085
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 2,
+      "heroId": 10007,
+      "initCards": [
+       1016,
+       1017,
+       1018,
+       1019,
+       1020,
+       1021,
+       1022,
+       1030
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "张骞(1), 使用技能[丝绸之路], 使用牌[铁索连舟(1023)]",
+     "robotIdx": 1,
+     "action": "UseHeroSkill",
+     "confirm": true,
+     "heroSkillUuid": 1394,
+     "assets": [
+      {
+       "msgName": "UseHeroSkillAck",
+       "desc": "张骞 使用技能[丝绸之路]，展示并交换一张卡牌",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "张骞(1)确认, 使用牌[铁索连舟(1023)]",
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "cards": [
+      1023
+     ],
+     "confirm": true,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "张骞响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "desc": "典韦(2)确认, 使用牌[鸣鸿刀(1016),方天画戟(1017),干将莫邪(1018),杀(1019),雷杀(1020),阵前对决(1021),杀(1022),杀(1030)]",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "cards": [
+      1016,
+      1017,
+      1018,
+      1019,
+      1020,
+      1021,
+      1022
+     ],
+     "confirm": true,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "典韦响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 4,
+     "desc": "张骞(1)确认对[典韦(2)]",
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "targetsId": [
+      2
+     ],
+     "confirm": true,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "张骞(1)确认对[典韦(2)]",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 5,
+     "desc": "典韦(2)断言",
+     "robotIdx": 2,
+     "action": "OnlyAsset",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "GiveCard",
+       "desc": "典韦(2)断言",
+       "attr": {
+        "Cards": "1023",
+        "Count": "1"
+       }
+      }
+     ]
+    },
+    {
+     "id": 6,
+     "robotIdx": 1,
+     "action": "OnlyAsset",
+     "confirm": false,
+     "sleepTime": 2,
+     "assets": [
+      {
+       "msgName": "GiveCard",
+       "desc": "张骞给8张牌牌为[1016,1017,1018,1019,1020,1021,1022,1023]",
+       "attr": {
+        "Cards": "1016 1017 1018 1019 1020 1021 1022",
+        "Count": "7"
+       }
+      }
+     ]
+    },
+    {
+     "id": 7,
+     "desc": "典韦(2)断言",
+     "robotIdx": 2,
+     "action": "OnlyAsset",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "DrawCard",
+       "desc": "典韦抽到2张牌牌为[]",
+       "attr": {
+        "Cards": "",
+        "Count": "2",
+        "Random": "false"
+       }
+      }
+     ]
+    },
+    {
+     "id": 8,
+     "desc": "张骞(1)对[典韦(2)]使用牌[夺粮劫营(4085)]",
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "targetsId": [
+      2
+     ],
+     "cards": [
+      4085
+     ],
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "张骞出牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 9,
+     "desc": "张骞(1)确认对[典韦(2)]",
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "targetsId": [
+      2
+     ],
+     "confirm": true,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "GiveCard",
+       "desc": "张骞",
+       "attr": {
+        "Cards": "1023 1030 1005",
+        "Count": "1",
+        "Random": "true",
+        "UnExpect": "false"
+       }
+      },
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "张骞响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "凿空西域1-3",
+   "desc": "再获得八张牌，技能变化，可以再发动一次",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1001,
+     1002,
+     1004,
+     1005,
+     1003,
+     1006,
+     1007,
+     1008,
+     1009,
+     1010,
+     1011,
+     1012,
+     1013,
+     1014,
+     1015
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10807,
+      "initCards": [
+       1023,
+       1024,
+       1025,
+       1026,
+       1027,
+       1028,
+       1029
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 2,
+      "heroId": 10007,
+      "initCards": [
+       1016,
+       1017,
+       1018,
+       1019,
+       1020,
+       1021,
+       1022,
+       1030,
+       1031,
+       1032,
+       1033,
+       1034,
+       1035,
+       1036
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "张骞(1), 使用技能[丝绸之路], 使用牌[铁索连舟(1023)]",
+     "robotIdx": 1,
+     "action": "UseHeroSkill",
+     "confirm": true,
+     "heroSkillUuid": 1394,
+     "assets": [
+      {
+       "msgName": "UseHeroSkillAck",
+       "desc": "张骞 使用技能[丝绸之路]，展示并交换一张卡牌",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "张骞(1)确认, 使用牌[铁索连舟(1023)]",
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "cards": [
+      1023
+     ],
+     "confirm": true,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "张骞响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "desc": "典韦(2)确认, 使用牌[鸣鸿刀(1016),方天画戟(1017),干将莫邪(1018),杀(1019),雷杀(1020),阵前对决(1021),杀(1022),杀(1030)]",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "cards": [
+      1016,
+      1017,
+      1018,
+      1019,
+      1020,
+      1021,
+      1022,
+      1030
+     ],
+     "confirm": true,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "典韦响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 4,
+     "desc": "张骞(1)确认对[典韦(2)]",
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "targetsId": [
+      2
+     ],
+     "confirm": true,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "张骞(1)确认对[典韦(2)]",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 5,
+     "desc": "典韦(2)断言",
+     "robotIdx": 2,
+     "action": "OnlyAsset",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "GiveCard",
+       "desc": "典韦(2)断言",
+       "attr": {
+        "Cards": "1023",
+        "Count": "1"
+       }
+      }
+     ]
+    },
+    {
+     "id": 6,
+     "robotIdx": 1,
+     "action": "OnlyAsset",
+     "confirm": false,
+     "sleepTime": 2,
+     "assets": [
+      {
+       "msgName": "GiveCard",
+       "desc": "张骞给8张牌牌为[1016,1017,1018,1019,1020,1021,1022,1023]",
+       "attr": {
+        "Cards": "1016 1017 1018 1019 1020 1021 1022 1030",
+        "Count": "8"
+       }
+      }
+     ]
+    },
+    {
+     "id": 7,
+     "robotIdx": 2,
+     "action": "OnlyAsset",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "DrawCard",
+       "desc": "典韦抽到2张牌牌为[1004,1005]",
+       "attr": {
+        "Cards": "1004 1005",
+        "Count": "2",
+        "Random": "false"
+       }
+      }
+     ]
+    },
+    {
+     "id": 8,
+     "desc": "张骞(1), 使用技能[丝绸之路]",
+     "robotIdx": 1,
+     "action": "UseHeroSkill",
+     "confirm": false,
+     "heroSkillUuid": 1394,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "UseHeroSkillAck",
+       "desc": "张骞使用技能成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 9,
+     "desc": "张骞(1)确认",
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "cards": [
+      1024
+     ],
+     "confirm": true,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "张骞响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 10,
+     "desc": "典韦(2)确认",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "cards": [
+      1031,
+      1032,
+      1033,
+      1034,
+      1035,
+      1036,
+      1005,
+      1004
+     ],
+     "confirm": true,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "典韦响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 11,
+     "desc": "张骞(1)确认对[典韦(2)]",
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "targetsId": [
+      2
+     ],
+     "confirm": true,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "张骞响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 12,
+     "desc": "典韦(2)断言",
+     "robotIdx": 2,
+     "action": "OnlyAsset",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "GiveCard",
+       "desc": "典韦给1张牌牌为[1024]",
+       "attr": {
+        "Cards": "1024",
+        "Count": "1"
+       }
+      }
+     ]
+    },
+    {
+     "id": 13,
+     "desc": "张骞(1)断言",
+     "robotIdx": 1,
+     "action": "OnlyAsset",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "GiveCard",
+       "desc": "张骞给8张牌牌为[1031,1032,1033,1034,1035,1036,1005,1004]",
+       "attr": {
+        "Cards": "1031 1032 1033 1034 1035 1036 1005 1004",
+        "Count": "8"
+       }
+      }
+     ]
+    },
+    {
+     "id": 14,
+     "desc": "典韦(2)断言",
+     "robotIdx": 2,
+     "action": "OnlyAsset",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "DrawCard",
+       "desc": "典韦抽到2张牌",
+       "attr": {
+        "Count": "2"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "凿空西域1-4",
+   "desc": "再获得八张牌，装备上限+1",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1001,
+     1002,
+     1004,
+     1005,
+     1003,
+     1006,
+     1007,
+     1008,
+     1009,
+     1010,
+     1011,
+     1012,
+     1013,
+     1014,
+     1015
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10807,
+      "initCards": [
+       1023,
+       1024,
+       1025,
+       1026,
+       1027,
+       1028,
+       1029
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 2,
+      "heroId": 10007,
+      "initCards": [
+       1016,
+       1017,
+       1018,
+       1019,
+       1020,
+       1021,
+       1022,
+       1030,
+       1031,
+       1032,
+       1033,
+       1034,
+       1035,
+       1036
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "张骞(1), 使用技能[丝绸之路], 使用牌[铁索连舟(1023)]",
+     "robotIdx": 1,
+     "action": "UseHeroSkill",
+     "confirm": true,
+     "heroSkillUuid": 1394,
+     "assets": [
+      {
+       "msgName": "UseHeroSkillAck",
+       "desc": "张骞 使用技能[丝绸之路]，展示并交换一张卡牌",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "张骞(1)确认, 使用牌[铁索连舟(1023)]",
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "cards": [
+      1023
+     ],
+     "confirm": true,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "张骞响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "desc": "典韦(2)确认, 使用牌[鸣鸿刀(1016),方天画戟(1017),干将莫邪(1018),杀(1019),雷杀(1020),阵前对决(1021),杀(1022),杀(1030)]",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "cards": [
+      1016,
+      1017,
+      1018,
+      1019,
+      1020,
+      1021,
+      1022,
+      1030
+     ],
+     "confirm": true,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "典韦响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 4,
+     "desc": "张骞(1)确认对[典韦(2)]",
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "targetsId": [
+      2
+     ],
+     "confirm": true,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "张骞(1)确认对[典韦(2)]",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 5,
+     "desc": "典韦(2)断言",
+     "robotIdx": 2,
+     "action": "OnlyAsset",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "GiveCard",
+       "desc": "典韦(2)断言",
+       "attr": {
+        "Cards": "1023",
+        "Count": "1"
+       }
+      }
+     ]
+    },
+    {
+     "id": 6,
+     "robotIdx": 1,
+     "action": "OnlyAsset",
+     "confirm": false,
+     "sleepTime": 2,
+     "assets": [
+      {
+       "msgName": "GiveCard",
+       "desc": "张骞给8张牌牌为[1016,1017,1018,1019,1020,1021,1022,1023]",
+       "attr": {
+        "Cards": "1016 1017 1018 1019 1020 1021 1022 1030",
+        "Count": "8"
+       }
+      }
+     ]
+    },
+    {
+     "id": 7,
+     "robotIdx": 2,
+     "action": "OnlyAsset",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "DrawCard",
+       "desc": "典韦抽到2张牌牌为[1004,1005]",
+       "attr": {
+        "Cards": "1004 1005",
+        "Count": "2",
+        "Random": "false"
+       }
+      }
+     ]
+    },
+    {
+     "id": 8,
+     "desc": "张骞(1), 使用技能[丝绸之路]",
+     "robotIdx": 1,
+     "action": "UseHeroSkill",
+     "confirm": false,
+     "heroSkillUuid": 1394,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "UseHeroSkillAck",
+       "desc": "张骞使用技能成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 9,
+     "desc": "张骞(1)确认",
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "cards": [
+      1024
+     ],
+     "confirm": true,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "张骞响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 10,
+     "desc": "典韦(2)确认",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "cards": [
+      1031,
+      1032,
+      1033,
+      1034,
+      1035,
+      1036,
+      1005,
+      1004
+     ],
+     "confirm": true,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "典韦响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 11,
+     "desc": "张骞(1)确认对[典韦(2)]",
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "targetsId": [
+      2
+     ],
+     "confirm": true,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "张骞响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 12,
+     "desc": "典韦(2)断言",
+     "robotIdx": 2,
+     "action": "OnlyAsset",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "GiveCard",
+       "desc": "典韦给1张牌牌为[1024]",
+       "attr": {
+        "Cards": "1024",
+        "Count": "1"
+       }
+      }
+     ]
+    },
+    {
+     "id": 13,
+     "desc": "张骞(1)断言",
+     "robotIdx": 1,
+     "action": "OnlyAsset",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "GiveCard",
+       "desc": "张骞给8张牌牌为[1031,1032,1033,1034,1035,1036,1005,1004]",
+       "attr": {
+        "Cards": "1031 1032 1033 1034 1035 1036 1005 1004",
+        "Count": "8"
+       }
+      }
+     ]
+    },
+    {
+     "id": 14,
+     "desc": "典韦(2)断言",
+     "robotIdx": 2,
+     "action": "OnlyAsset",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "DrawCard",
+       "desc": "典韦抽到2张牌",
+       "attr": {
+        "Count": "2"
+       }
+      }
+     ]
+    },
+    {
+     "id": 15,
+     "desc": "张骞(1)对[张骞(1)]使用牌[亮银枪(1002)]",
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "targetsId": [
+      1
+     ],
+     "cards": [
+      1002
+     ],
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "张骞出牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 16,
+     "desc": "张骞(1)对[张骞(1)]使用牌[青龙偃月刀(1004)]",
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "targetsId": [
+      1
+     ],
+     "cards": [
+      1004
+     ],
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "张骞出牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 17,
+     "desc": "张骞(1)对[张骞(1)]使用牌[诸葛连弩(1034)]",
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "targetsId": [
+      1
+     ],
+     "cards": [
+      1034
+     ],
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "张骞出牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 18,
+     "desc": "张骞(1)对[张骞(1)]使用牌[鸣鸿刀(1016)]",
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "targetsId": [
+      1
+     ],
+     "cards": [
+      1029
+     ],
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "张骞出牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 19,
+     "desc": "张骞(1)等待3秒",
+     "robotIdx": 1,
+     "action": "Sleep",
+     "confirm": false,
+     "timeout": 1,
+     "sleepTime": 3
+    }
+   ]
+  }
+ ]

@@ -1,0 +1,3065 @@
+[
+  {
+   "case": "金屋藏娇_1",
+   "desc": "交给我任意张牌（暂时不写）",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1001,
+     1002,
+     1004,
+     1005,
+     1006,
+     1007,
+     1003,
+     1009,
+     1008
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10001,
+      "initCards": [],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1001,
+       1074,
+       1075
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 3,
+      "heroId": 10802,
+      "initCards": [],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1363
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "陈阿娇(2)等待600秒",
+     "robotIdx": 1,
+     "action": "Sleep",
+     "confirm": false
+    },
+    {
+     "id": 2,
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "曹操等待出牌",
+       "attr": {
+        "Result": "1001"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "千金买赋_1",
+   "desc": "手中有单张牌时交牌",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1001,
+     1002,
+     1004,
+     1005,
+     1006,
+     1007,
+     1003,
+     1009,
+     1008
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10001,
+      "initCards": [
+       4044
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1001,
+       1074,
+       1075
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 3,
+      "heroId": 10802,
+      "initCards": [
+       1024
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "targetsId": [
+      2
+     ],
+     "cards": [
+      1001
+     ],
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "CommonHpChange",
+       "desc": "",
+       "attr": {
+        "ChangeHp": "-1",
+        "HpSrc": "HarmNormal"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "desc": "曹操(1)结束打牌",
+     "robotIdx": 1,
+     "action": "PlayCardOver",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "PlayCardOverAck",
+       "desc": "曹操结束打牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 4,
+     "robotIdx": 1,
+     "action": "DisCard",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "DisCardAck",
+       "desc": "",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 5,
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "targetsId": [
+      1
+     ],
+     "cards": [
+      1024
+     ],
+     "confirm": true,
+     "heroSkillUuid": 1363,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "陈阿娇响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 6,
+     "desc": "曹操(1)断言",
+     "robotIdx": 1,
+     "action": "OnlyAsset",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "GiveCard",
+       "desc": "曹操给1张牌牌为[1024]",
+       "attr": {
+        "Cards": "1024",
+        "Count": "1"
+       }
+      }
+     ]
+    },
+    {
+     "id": 7,
+     "robotIdx": 2,
+     "action": "Sleep",
+     "confirm": false,
+     "sleepTime": 30
+    }
+   ]
+  },
+  {
+   "case": "千金买赋_2",
+   "desc": "手中有多张牌时交牌",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1001,
+     1002,
+     1004,
+     1005,
+     1006,
+     1007,
+     1003,
+     1009,
+     1008
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10001,
+      "initCards": [
+       4044
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1001,
+       1074,
+       1075
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 3,
+      "heroId": 10802,
+      "initCards": [
+       1024,
+       1047,
+       1043
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "targetsId": [
+      2
+     ],
+     "cards": [
+      1001
+     ],
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "CommonHpChange",
+       "desc": "",
+       "attr": {
+        "ChangeHp": "-1",
+        "HpSrc": "HarmNormal"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "desc": "曹操(1)结束打牌",
+     "robotIdx": 1,
+     "action": "PlayCardOver",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "PlayCardOverAck",
+       "desc": "曹操结束打牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 4,
+     "robotIdx": 1,
+     "action": "DisCard",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "DisCardAck",
+       "desc": "",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 5,
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "targetsId": [
+      1
+     ],
+     "cards": [
+      1024,
+      1047,
+      1043
+     ],
+     "confirm": true,
+     "heroSkillUuid": 1363,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "陈阿娇响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 6,
+     "desc": "曹操(1)断言",
+     "robotIdx": 1,
+     "action": "OnlyAsset",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "GiveCard",
+       "desc": "曹操给1张牌牌为[1024]",
+       "attr": {
+        "Cards": "1024 1047 1043",
+        "Count": "3"
+       }
+      }
+     ]
+    },
+    {
+     "id": 7,
+     "robotIdx": 2,
+     "action": "Sleep",
+     "confirm": false,
+     "sleepTime": 30
+    }
+   ]
+  },
+  {
+   "case": "千金买赋_3",
+   "desc": "手中无牌不触发交牌",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1001,
+     1002,
+     1004,
+     1005,
+     1006,
+     1007,
+     1003,
+     1009,
+     1008
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10001,
+      "initCards": [
+       4044
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1001,
+       1074,
+       1075
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 3,
+      "heroId": 10802,
+      "initCards": [],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "targetsId": [
+      2
+     ],
+     "cards": [
+      1001
+     ],
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "CommonHpChange",
+       "desc": "",
+       "attr": {
+        "ChangeHp": "-1",
+        "HpSrc": "HarmNormal"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "desc": "曹操(1)结束打牌",
+     "robotIdx": 1,
+     "action": "PlayCardOver",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "PlayCardOverAck",
+       "desc": "曹操结束打牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 4,
+     "robotIdx": 1,
+     "action": "DisCard",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "DisCardAck",
+       "desc": "",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 5,
+     "desc": "曹操(1)断言",
+     "robotIdx": 2,
+     "action": "PlayCard",
+     "targetsId": [
+      2
+     ],
+     "cards": [
+      1004
+     ],
+     "confirm": true,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "曹操给1张牌牌为[1024]",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 6,
+     "robotIdx": 2,
+     "action": "Sleep",
+     "confirm": false,
+     "sleepTime": 30
+    }
+   ]
+  },
+  {
+   "case": "千金买赋_4",
+   "desc": "手中无牌装备区有牌不可交牌",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1001,
+     1002,
+     1004,
+     1005,
+     1006,
+     1007,
+     1003,
+     1009,
+     1008
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10001,
+      "initCards": [
+       4044
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1001,
+       1074,
+       1075
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 3,
+      "heroId": 10802,
+      "initCards": [],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [],
+      "exEquips": [
+       1017
+      ],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "targetsId": [
+      2
+     ],
+     "cards": [
+      1001
+     ],
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "CommonHpChange",
+       "desc": "",
+       "attr": {
+        "ChangeHp": "-1",
+        "HpSrc": "HarmNormal"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "desc": "曹操(1)结束打牌",
+     "robotIdx": 1,
+     "action": "PlayCardOver",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "PlayCardOverAck",
+       "desc": "曹操结束打牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 4,
+     "robotIdx": 1,
+     "action": "DisCard",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "DisCardAck",
+       "desc": "",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 5,
+     "desc": "曹操(1)断言",
+     "robotIdx": 2,
+     "action": "PlayCard",
+     "targetsId": [
+      2
+     ],
+     "cards": [
+      1004
+     ],
+     "confirm": true,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "曹操给1张牌牌为[1024]",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 6,
+     "robotIdx": 2,
+     "action": "Sleep",
+     "confirm": false,
+     "sleepTime": 30
+    }
+   ]
+  },
+  {
+   "case": "千金买赋_5",
+   "desc": "手中有牌被乐不思蜀打中后不可交牌",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1088,
+     1001,
+     1002,
+     1004,
+     1005,
+     1006,
+     1007,
+     1003,
+     1009,
+     1008
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10001,
+      "initCards": [
+       4044
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1001,
+       1074,
+       1075
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 3,
+      "heroId": 10802,
+      "initCards": [
+       1024,
+       1047,
+       1043
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "targetsId": [
+      2
+     ],
+     "cards": [
+      1088
+     ],
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "曹操(1)结束打牌",
+     "robotIdx": 1,
+     "action": "PlayCardOver",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "PlayCardOverAck",
+       "desc": "曹操结束打牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "robotIdx": 1,
+     "action": "DisCard",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "DisCardAck",
+       "desc": "",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 4,
+     "desc": "陈阿娇(2)取消",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "陈阿娇无法出牌",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 5,
+     "robotIdx": 2,
+     "action": "Sleep",
+     "confirm": false,
+     "sleepTime": 10
+    }
+   ]
+  },
+  {
+   "case": "千金买赋_6",
+   "desc": "获得对方本回合打出牌的复制（行动牌）",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1001,
+     1002,
+     1004,
+     1005,
+     1006,
+     1007,
+     1003,
+     1009,
+     1008
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10001,
+      "initCards": [
+       4044,
+       1010
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1001,
+       1074,
+       1075
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 3,
+      "heroId": 10802,
+      "initCards": [
+       1024,
+       1047
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "曹操(1)对[曹操(1)]使用牌[怒(4044)]",
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "targetsId": [
+      1
+     ],
+     "cards": [
+      4044
+     ],
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "曹操出牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "曹操(1)对[陈阿娇(2)]使用牌[杀(1010)]",
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "targetsId": [
+      2
+     ],
+     "cards": [
+      1010
+     ],
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "曹操出杀",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "CommonHpChange",
+       "desc": "",
+       "attr": {
+        "ChangeHp": "-2",
+        "HpSrc": "HarmNormal"
+       }
+      }
+     ]
+    },
+    {
+     "id": 4,
+     "desc": "曹操(1)结束打牌",
+     "robotIdx": 1,
+     "action": "PlayCardOver",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "PlayCardOverAck",
+       "desc": "曹操结束打牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 5,
+     "robotIdx": 1,
+     "action": "DisCard",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "DisCardAck",
+       "desc": "",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 6,
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "targetsId": [
+      1
+     ],
+     "cards": [
+      1024,
+      1047
+     ],
+     "confirm": true,
+     "heroSkillUuid": 1363,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "陈阿娇响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 7,
+     "desc": "曹操(1)断言",
+     "robotIdx": 1,
+     "action": "OnlyAsset",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "GiveCard",
+       "desc": "曹操给1张牌牌为[1024]",
+       "attr": {
+        "Cards": "1024 1047",
+        "Count": "2"
+       }
+      }
+     ]
+    },
+    {
+     "id": 8,
+     "robotIdx": 2,
+     "action": "Sleep",
+     "confirm": false,
+     "sleepTime": 5
+    }
+   ]
+  },
+  {
+   "case": "千金买赋_7",
+   "desc": "获得对方本回合打出牌的复制（装备牌）",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1001,
+     1002,
+     1004,
+     1005,
+     1006,
+     1007,
+     1003,
+     1009,
+     1008
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10001,
+      "initCards": [
+       4044
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1001,
+       1074,
+       1075
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 3,
+      "heroId": 10802,
+      "initCards": [
+       1024,
+       1047
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "曹操(1)使用牌[亮银枪(1002)]",
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "cards": [
+      1002
+     ],
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "曹操装备成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "曹操(1)结束打牌",
+     "robotIdx": 1,
+     "action": "PlayCardOver",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "PlayCardOverAck",
+       "desc": "曹操结束打牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "robotIdx": 1,
+     "action": "DisCard",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "DisCardAck",
+       "desc": "",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 4,
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "targetsId": [
+      1
+     ],
+     "cards": [
+      1024,
+      1047
+     ],
+     "confirm": true,
+     "heroSkillUuid": 1363,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "陈阿娇响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 5,
+     "desc": "曹操(1)断言",
+     "robotIdx": 1,
+     "action": "OnlyAsset",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "GiveCard",
+       "desc": "曹操给1张牌牌为[1024]",
+       "attr": {
+        "Cards": "1024 1047",
+        "Count": "2"
+       }
+      }
+     ]
+    },
+    {
+     "id": 6,
+     "desc": "陈阿娇(2)断言",
+     "robotIdx": 2,
+     "action": "OnlyAsset",
+     "confirm": false,
+     "sleepTime": 30,
+     "assets": [
+      {
+       "msgName": "DrawCard",
+       "desc": "陈阿娇获得装备牌",
+       "attr": {
+        "Cards": "2000000",
+        "Count": "1"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "千金买赋_8",
+   "desc": "获得对方本回合打出牌的复制（战法牌）",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1001,
+     1002,
+     1004,
+     1005,
+     1006,
+     1007,
+     1003,
+     1009,
+     1008
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10001,
+      "initCards": [
+       4044
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1001,
+       1074,
+       1075
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 3,
+      "heroId": 10802,
+      "initCards": [
+       1024,
+       1047
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "曹操(1)使用牌[亮银枪(1002)]",
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "cards": [
+      1002
+     ],
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "曹操装备成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "曹操(1)结束打牌",
+     "robotIdx": 1,
+     "action": "PlayCardOver",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "PlayCardOverAck",
+       "desc": "曹操结束打牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "robotIdx": 1,
+     "action": "DisCard",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "DisCardAck",
+       "desc": "",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 4,
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "targetsId": [
+      1
+     ],
+     "cards": [
+      1024,
+      1047
+     ],
+     "confirm": true,
+     "heroSkillUuid": 1363,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "陈阿娇响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 5,
+     "desc": "曹操(1)断言",
+     "robotIdx": 1,
+     "action": "OnlyAsset",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "GiveCard",
+       "desc": "曹操给1张牌为[1024]",
+       "attr": {
+        "Cards": "1024 1047",
+        "Count": "2"
+       }
+      }
+     ]
+    },
+    {
+     "id": 6,
+     "desc": "陈阿娇(2)断言",
+     "robotIdx": 2,
+     "action": "OnlyAsset",
+     "confirm": false,
+     "sleepTime": 30,
+     "assets": [
+      {
+       "msgName": "DrawCard",
+       "desc": "陈阿娇获得战法牌",
+       "attr": {
+        "Cards": "2000000",
+        "Count": "1"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "千金买赋_9",
+   "desc": "获得对方本回合打出牌的复制（符水）",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     2001,
+     1001,
+     1002,
+     1004,
+     1005,
+     1006,
+     1007,
+     1003,
+     1009,
+     1008
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10001,
+      "initCards": [
+       4044,
+       1010
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1001,
+       1074,
+       1075
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 3,
+      "heroId": 10802,
+      "initCards": [
+       1024,
+       1047
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1362
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "曹操(1)断言",
+     "robotIdx": 1,
+     "action": "OnlyAsset",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "CommonHpChange",
+       "desc": "曹操受到来自符水体力变化:-1",
+       "attr": {
+        "ChangeHp": "-1",
+        "HpSrc": "LostHp"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "曹操(1)结束打牌",
+     "robotIdx": 1,
+     "action": "PlayCardOver",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "PlayCardOverAck",
+       "desc": "曹操结束打牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "robotIdx": 1,
+     "action": "DisCard",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "DisCardAck",
+       "desc": "",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 4,
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "targetsId": [
+      1
+     ],
+     "cards": [
+      1024,
+      1047
+     ],
+     "confirm": true,
+     "heroSkillUuid": 1363,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "陈阿娇响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 5,
+     "desc": "曹操(1)断言",
+     "robotIdx": 1,
+     "action": "OnlyAsset",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "GiveCard",
+       "desc": "曹操给1张牌牌为[1024]",
+       "attr": {
+        "Cards": "1024 1047",
+        "Count": "2"
+       }
+      }
+     ]
+    },
+    {
+     "id": 6,
+     "robotIdx": 2,
+     "action": "Sleep",
+     "confirm": false,
+     "sleepTime": 5
+    }
+   ]
+  },
+  {
+   "case": "千金买赋_10",
+   "desc": "获得对方本回合打出牌的复制（狐鸣）",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     2017,
+     1001,
+     1002,
+     1004,
+     1005,
+     1006,
+     1007,
+     1003,
+     1009,
+     1008
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10001,
+      "initCards": [
+       4044
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1001,
+       1074,
+       1075
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 3,
+      "heroId": 10802,
+      "initCards": [
+       1024,
+       1047
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "曹操(1)断言",
+     "robotIdx": 1,
+     "action": "OnlyAsset",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "DisCard",
+       "desc": "曹操受到来自符水体力变化:-1",
+       "attr": {
+        "Cards": "1001 4044",
+        "Count": "2"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "曹操(1)结束打牌",
+     "robotIdx": 1,
+     "action": "PlayCardOver",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "PlayCardOverAck",
+       "desc": "曹操结束打牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "robotIdx": 1,
+     "action": "DisCard",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "DisCardAck",
+       "desc": "",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 4,
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "targetsId": [
+      1
+     ],
+     "cards": [
+      1024,
+      1047
+     ],
+     "confirm": true,
+     "heroSkillUuid": 1363,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "陈阿娇响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 5,
+     "desc": "曹操(1)断言",
+     "robotIdx": 1,
+     "action": "OnlyAsset",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "GiveCard",
+       "desc": "曹操给1张牌牌为[1024]",
+       "attr": {
+        "Cards": "1024 1047",
+        "Count": "2"
+       }
+      }
+     ]
+    },
+    {
+     "id": 6,
+     "desc": "陈阿娇(2)断言",
+     "robotIdx": 2,
+     "action": "OnlyAsset",
+     "confirm": false,
+     "sleepTime": 5,
+     "assets": [
+      {
+       "msgName": "DrawCard",
+       "desc": "陈阿娇获得狐鸣",
+       "attr": {
+        "Cards": "2000000",
+        "Count": "1"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "千金买赋_11",
+   "desc": "获得对方本回合打出牌的复制（转换牌）",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1001,
+     1002,
+     1004,
+     1005,
+     1006,
+     1007,
+     1003,
+     1009,
+     1008
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10001,
+      "initCards": [
+       1049
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [
+       1021
+      ],
+      "delSkills": [
+       1001,
+       1074,
+       1075
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 3,
+      "heroId": 10802,
+      "initCards": [
+       1024,
+       1047
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "曹操(1)对[陈阿娇(2)], 使用技能[武圣义绝], 使用牌[万箭齐发(1001)]",
+     "robotIdx": 1,
+     "action": "UseHeroSkill",
+     "targetsId": [
+      2
+     ],
+     "cards": [
+      1001
+     ],
+     "confirm": false,
+     "heroSkillUuid": 1021,
+     "assets": [
+      {
+       "msgName": "UseHeroSkillAck",
+       "desc": "曹操使用技能成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "CommonHpChange",
+       "desc": "",
+       "attr": {
+        "ChangeHp": "-1",
+        "HpSrc": "HarmNormal"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "desc": "曹操(1)结束打牌",
+     "robotIdx": 1,
+     "action": "PlayCardOver",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "PlayCardOverAck",
+       "desc": "曹操结束打牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 4,
+     "robotIdx": 1,
+     "action": "DisCard",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "DisCardAck",
+       "desc": "",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 5,
+     "desc": "陈阿娇(2)确认对[曹操(1)], 使用牌[杀(1024),桃(1047)]",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "targetsId": [
+      1
+     ],
+     "cards": [
+      1024,
+      1047
+     ],
+     "confirm": true,
+     "heroSkillUuid": 1363,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "陈阿娇响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 6,
+     "desc": "曹操(1)断言",
+     "robotIdx": 1,
+     "action": "OnlyAsset",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "GiveCard",
+       "desc": "曹操给1张牌为[1024]",
+       "attr": {
+        "Cards": "1024 1047",
+        "Count": "2"
+       }
+      }
+     ]
+    },
+    {
+     "id": 7,
+     "desc": "陈阿娇(2)断言",
+     "robotIdx": 2,
+     "action": "OnlyAsset",
+     "confirm": false,
+     "sleepTime": 30,
+     "assets": [
+      {
+       "msgName": "DrawCard",
+       "desc": "陈阿娇获得转换牌",
+       "attr": {
+        "Cards": "2000000",
+        "Count": "1"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "千金买赋_12",
+   "desc": "发动前封禁技能不发动",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1001,
+     1002,
+     1004,
+     1005,
+     1006,
+     1007,
+     1003,
+     1009,
+     1008
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10001,
+      "initCards": [
+       1122
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [
+       1021
+      ],
+      "delSkills": [
+       1001,
+       1074,
+       1075
+      ],
+      "exEquips": [
+       4009
+      ],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 3,
+      "heroId": 10802,
+      "initCards": [
+       1024,
+       1047
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "曹操(1)对[陈阿娇(2)], 使用技能[武圣义绝], 使用牌[万箭齐发(1001)]",
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "targetsId": [
+      2
+     ],
+     "cards": [
+      1122
+     ],
+     "confirm": false,
+     "heroSkillUuid": 1021,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "曹操使用技能成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "CommonHpChange",
+       "desc": "",
+       "attr": {
+        "ChangeHp": "-1",
+        "HpSrc": "HarmHuo"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "desc": "曹操(1)结束打牌",
+     "robotIdx": 1,
+     "action": "PlayCardOver",
+     "confirm": false,
+     "timeout": 3,
+     "assets": [
+      {
+       "msgName": "PlayCardOverAck",
+       "desc": "曹操结束打牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 4,
+     "desc": "曹操(1)自动弃牌",
+     "robotIdx": 1,
+     "action": "DisCard",
+     "confirm": false,
+     "timeout": 3,
+     "assets": [
+      {
+       "msgName": "DisCardAck",
+       "desc": "曹操弃牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 5,
+     "desc": "陈阿娇(2)取消",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "confirm": true,
+     "timeout": 3,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "陈阿娇响应后技能不发动",
+       "attr": {
+        "Result": "1582"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "千金买赋_13",
+   "desc": "交牌期间封禁，后续效果不发动",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1001,
+     1002,
+     1004,
+     1005,
+     1006,
+     1007,
+     1003,
+     1009,
+     1008
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10001,
+      "initCards": [
+       4044,
+       1010,
+       1011
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [
+       1680
+      ],
+      "delSkills": [
+       1001,
+       1074,
+       1075
+      ],
+      "exEquips": [
+       4009
+      ],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 3,
+      "heroId": 10802,
+      "initCards": [
+       1024,
+       1047
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "曹操(1)对[曹操(1)]使用牌[怒(4044)]",
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "targetsId": [
+      1
+     ],
+     "cards": [
+      4044
+     ],
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "曹操出牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "曹操(1)结束打牌",
+     "robotIdx": 1,
+     "action": "PlayCardOver",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "PlayCardOverAck",
+       "desc": "曹操结束打牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "robotIdx": 1,
+     "action": "DisCard",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "DisCardAck",
+       "desc": "",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 4,
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "targetsId": [
+      1
+     ],
+     "cards": [
+      1024,
+      1047
+     ],
+     "confirm": true,
+     "heroSkillUuid": 1363,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "陈阿娇交牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 5,
+     "desc": "曹操(1)断言",
+     "robotIdx": 1,
+     "action": "OnlyAsset",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "GiveCard",
+       "desc": "曹操给1张牌牌为[1024]",
+       "attr": {
+        "Cards": "1024 1047",
+        "Count": "2"
+       }
+      }
+     ]
+    },
+    {
+     "id": 6,
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "targetsId": [
+      2
+     ],
+     "cards": [
+      1011
+     ],
+     "confirm": true,
+     "heroSkillUuid": 1680,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "发动期间拦截",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 7,
+     "desc": "陈阿娇(2)取消",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "CommonHpChange",
+       "desc": "陈阿娇受到来自HarmNormal的伤害, 体力变化:-2 封禁成功",
+       "attr": {
+        "ChangeHp": "-2",
+        "HpSrc": "HarmNormal"
+       }
+      }
+     ]
+    },
+    {
+     "id": 8,
+     "desc": "陈阿娇(2)取消",
+     "robotIdx": 2,
+     "action": "PlayCardOver",
+     "confirm": false,
+     "timeout": 3,
+     "sleepTime": 5,
+     "assets": [
+      {
+       "msgName": "PlayCardOverAck",
+       "desc": "",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "千金买赋_14",
+   "desc": "技能重置",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1001,
+     1002,
+     1004,
+     1127,
+     1005,
+     1016,
+     1017,
+     1122,
+     1124,
+     1128,
+     1130,
+     1132,
+     1131,
+     1125
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10001,
+      "initCards": [
+       4052
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1001,
+       1074,
+       1075
+      ],
+      "exEquips": [
+       1147
+      ],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 3,
+      "heroId": 10802,
+      "initCards": [
+       1024,
+       1047
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1362
+      ],
+      "exEquips": [
+       4147
+      ],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 9,
+      "color": 65,
+      "heroId": 10108,
+      "initCards": [
+       1030
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [
+       1335
+      ],
+      "delSkills": [
+       1030,
+       1031
+      ],
+      "exEquips": [
+       1043,
+       4043
+      ],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "曹操(1)结束打牌",
+     "robotIdx": 1,
+     "action": "PlayCardOver",
+     "targetsId": [
+      3
+     ],
+     "cards": [
+      1126
+     ],
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "PlayCardOverAck",
+       "desc": "曹操结束打牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "曹操(1)自动弃牌",
+     "robotIdx": 1,
+     "action": "DisCard",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "DisCardAck",
+       "desc": "曹操弃牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "targetsId": [
+      1
+     ],
+     "cards": [
+      1024,
+      1047
+     ],
+     "confirm": true,
+     "heroSkillUuid": 1363,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "陈阿娇交牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 4,
+     "desc": "孙尚香(3)取消",
+     "robotIdx": 2,
+     "action": "PlayCard",
+     "targetsId": [
+      3
+     ],
+     "cards": [
+      1127
+     ],
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 5,
+     "desc": "孙尚香(3)取消",
+     "robotIdx": 3,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "孙尚香响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "CommonHpChange",
+       "desc": "孙尚香受到来自HarmHuo的伤害, 体力变化:-4",
+       "attr": {
+        "ChangeHp": "-4",
+        "HpSrc": "HarmHuo"
+       }
+      }
+     ]
+    },
+    {
+     "id": 6,
+     "desc": "陈阿娇(2)取消",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "陈阿娇响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 7,
+     "desc": "孙尚香(3)取消",
+     "robotIdx": 3,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "孙尚香响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 8,
+     "desc": "曹操(1)取消",
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "曹操响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 9,
+     "desc": "曹操(1)自动弃牌",
+     "robotIdx": 3,
+     "action": "OptRoomAction",
+     "targetsId": [
+      2
+     ],
+     "confirm": true,
+     "heroSkillUuid": 1335,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "曹操弃牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 10,
+     "robotIdx": 3,
+     "action": "OptRoomAction",
+     "cards": [
+      2,
+      3000000
+     ],
+     "confirm": true,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "孙尚香响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 11,
+     "desc": "陈阿娇(2)结束打牌",
+     "robotIdx": 2,
+     "action": "PlayCardOver",
+     "confirm": false,
+     "sleepTime": 30,
+     "assets": [
+      {
+       "msgName": "PlayCardOverAck",
+       "desc": "陈阿娇结束打牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 12,
+     "desc": "曹操(1)自动弃牌",
+     "robotIdx": 2,
+     "action": "DisCard",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "DisCardAck",
+       "desc": "曹操弃牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 13,
+     "desc": "曹操(1)结束打牌",
+     "robotIdx": 1,
+     "action": "PlayCardOver",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "PlayCardOverAck",
+       "desc": "曹操结束打牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 14,
+     "robotIdx": 1,
+     "action": "DisCard",
+     "cards": [
+      1024,
+      1047,
+      4052
+     ],
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "DisCard",
+       "desc": "曹操弃掉2张牌",
+       "attr": {
+        "Cards": "1024 1047 4052",
+        "Count": "3"
+       }
+      }
+     ]
+    },
+    {
+     "id": 15,
+     "desc": "陈阿娇(2)确认对[曹操(1)], 使用牌[青龙偃月刀(1004)]",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "targetsId": [
+      1
+     ],
+     "cards": [
+      1004
+     ],
+     "confirm": true,
+     "heroSkillUuid": 1363,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "陈阿娇响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "千金买赋_15",
+   "desc": "技能删除",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1001,
+     1002,
+     1004,
+     1127,
+     1005,
+     1016,
+     1017,
+     1122,
+     1124,
+     1128,
+     1130,
+     1132,
+     1131,
+     1125
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10001,
+      "initCards": [
+       4052
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1001,
+       1074,
+       1075
+      ],
+      "exEquips": [
+       1147
+      ],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 3,
+      "heroId": 10802,
+      "initCards": [
+       1024,
+       1047
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1362
+      ],
+      "exEquips": [
+       4147
+      ],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 9,
+      "color": 65,
+      "heroId": 10108,
+      "initCards": [
+       1030
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [
+       1335
+      ],
+      "delSkills": [
+       1030,
+       1031
+      ],
+      "exEquips": [
+       1043,
+       4043
+      ],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "曹操(1)结束打牌",
+     "robotIdx": 1,
+     "action": "PlayCardOver",
+     "targetsId": [
+      3
+     ],
+     "cards": [
+      1126
+     ],
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "PlayCardOverAck",
+       "desc": "曹操结束打牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "曹操(1)自动弃牌",
+     "robotIdx": 1,
+     "action": "DisCard",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "DisCardAck",
+       "desc": "曹操弃牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "targetsId": [
+      1
+     ],
+     "cards": [
+      1024,
+      1047
+     ],
+     "confirm": true,
+     "heroSkillUuid": 1363,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "陈阿娇交牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 4,
+     "desc": "孙尚香(3)取消",
+     "robotIdx": 2,
+     "action": "PlayCard",
+     "targetsId": [
+      3
+     ],
+     "cards": [
+      1127
+     ],
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 5,
+     "desc": "孙尚香(3)取消",
+     "robotIdx": 3,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "孙尚香响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "CommonHpChange",
+       "desc": "孙尚香受到来自HarmHuo的伤害, 体力变化:-4",
+       "attr": {
+        "ChangeHp": "-4",
+        "HpSrc": "HarmHuo"
+       }
+      }
+     ]
+    },
+    {
+     "id": 6,
+     "desc": "陈阿娇(2)取消",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "陈阿娇响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 7,
+     "desc": "孙尚香(3)取消",
+     "robotIdx": 3,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "孙尚香响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 8,
+     "desc": "曹操(1)取消",
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "曹操响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 9,
+     "desc": "孙尚香(3)确认对[陈阿娇(2)]",
+     "robotIdx": 3,
+     "action": "OptRoomAction",
+     "targetsId": [
+      2
+     ],
+     "confirm": true,
+     "heroSkillUuid": 1335,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "孙尚香响应删除",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 10,
+     "desc": "孙尚香(3)确认, 使用牌[3000000,1]",
+     "robotIdx": 3,
+     "action": "OptRoomAction",
+     "cards": [
+      1,
+      3000000
+     ],
+     "confirm": true,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "孙尚香响应删除成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 11,
+     "desc": "陈阿娇(2)结束打牌",
+     "robotIdx": 2,
+     "action": "PlayCardOver",
+     "confirm": false,
+     "sleepTime": 30,
+     "assets": [
+      {
+       "msgName": "PlayCardOverAck",
+       "desc": "陈阿娇结束打牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 12,
+     "desc": "曹操(1)自动弃牌",
+     "robotIdx": 2,
+     "action": "DisCard",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "DisCardAck",
+       "desc": "曹操弃牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 13,
+     "desc": "曹操(1)结束打牌",
+     "robotIdx": 1,
+     "action": "PlayCardOver",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "PlayCardOverAck",
+       "desc": "曹操结束打牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 14,
+     "robotIdx": 1,
+     "action": "DisCard",
+     "cards": [
+      1024,
+      1047,
+      4052
+     ],
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "DisCard",
+       "desc": "曹操弃掉2张牌",
+       "attr": {
+        "Cards": "1024 1047 4052",
+        "Count": "3"
+       }
+      }
+     ]
+    },
+    {
+     "id": 15,
+     "desc": "陈阿娇(2)确认对[曹操(1)], 使用牌[青龙偃月刀(1004)]",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "targetsId": [
+      1
+     ],
+     "cards": [
+      1004
+     ],
+     "confirm": true,
+     "heroSkillUuid": 1363,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "陈阿娇响应成功",
+       "attr": {
+        "Result": "1582"
+       }
+      }
+     ]
+    }
+   ]
+  }
+ ]

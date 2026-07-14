@@ -1,0 +1,6518 @@
+[
+  {
+   "case": "天人感应_1",
+   "desc": "回合内触发卜卦牌",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1012,
+     1047,
+     1048,
+     1055,
+     1088,
+     1096,
+     2002,
+     1296,
+     1297,
+     1305
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10805,
+      "initCards": [
+       1144
+      ],
+      "initEquips": [],
+      "augurCards": [
+       4051
+      ],
+      "addSkills": [],
+      "delSkills": [
+       1378,
+       1380
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 9,
+      "color": 65,
+      "heroId": 10106,
+      "initCards": [
+       1003
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "robotIdx": 1,
+     "action": "Sleep",
+     "confirm": false,
+     "sleepTime": 3
+    },
+    {
+     "id": 2,
+     "desc": "董仲舒(1)断言",
+     "robotIdx": 1,
+     "action": "OnlyAsset",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "DrawCard",
+       "desc": "董仲舒出牌成功",
+       "attr": {
+        "Cards": "2000000",
+        "Count": "1"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "天人感应_2",
+   "desc": "获得卜卦牌的复制",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1012,
+     1047,
+     1048,
+     1055,
+     1088,
+     1096,
+     2002,
+     1296,
+     1297,
+     1305
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10805,
+      "initCards": [
+       1144
+      ],
+      "initEquips": [],
+      "augurCards": [
+       4051
+      ],
+      "addSkills": [],
+      "delSkills": [
+       1378,
+       1380
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 4,
+      "heroId": 10106,
+      "initCards": [
+       1003
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1028,
+       1029
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "robotIdx": 1,
+     "action": "Sleep",
+     "confirm": false,
+     "sleepTime": 3
+    },
+    {
+     "id": 2,
+     "desc": "董仲舒(1)断言",
+     "robotIdx": 1,
+     "action": "OnlyAsset",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "DrawCard",
+       "desc": "董仲舒抽到1张牌牌为[2000000]",
+       "attr": {
+        "Cards": "2000000",
+        "Count": "1"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "robotIdx": 1,
+     "action": "Sleep",
+     "confirm": false,
+     "timeout": 1,
+     "sleepTime": 10
+    }
+   ]
+  },
+  {
+   "case": "天人感应_3",
+   "desc": "无法弃置装备区的牌",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1012,
+     1047,
+     1048,
+     1055,
+     1088,
+     1096,
+     2002,
+     1296,
+     1297,
+     1305
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10106,
+      "initCards": [
+       1003
+      ],
+      "initEquips": [],
+      "augurCards": [
+       4051
+      ],
+      "addSkills": [],
+      "delSkills": [],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 3,
+      "heroId": 10805,
+      "initCards": [
+       1144
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1378,
+       1380
+      ],
+      "exEquips": [
+       1120
+      ],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "robotIdx": 1,
+     "action": "Sleep",
+     "confirm": false,
+     "sleepTime": 3
+    },
+    {
+     "id": 2,
+     "desc": "董仲舒(1)断言",
+     "robotIdx": 2,
+     "action": "OnlyAsset",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "DrawCard",
+       "desc": "获得卜卦牌的复制成功",
+       "attr": {
+        "Cards": "2000000",
+        "Count": "1"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "cards": [
+      1120
+     ],
+     "confirm": true,
+     "heroSkillUuid": 1379,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "",
+       "attr": {
+        "Result": "1518"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "天人感应_4",
+   "desc": "金（被生）弃置水，金生水，自己下回合摸牌+1",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1028,
+     1047,
+     1048,
+     1055,
+     1088,
+     1096,
+     2002,
+     1296,
+     1297,
+     1305
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10106,
+      "initCards": [],
+      "initEquips": [],
+      "augurCards": [
+       4051
+      ],
+      "addSkills": [],
+      "delSkills": [
+       1028,
+       1029
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 3,
+      "heroId": 10805,
+      "initCards": [
+       1082
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1378,
+       1380
+      ],
+      "exEquips": [
+       1120
+      ],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "robotIdx": 1,
+     "action": "Sleep",
+     "confirm": false,
+     "sleepTime": 3
+    },
+    {
+     "id": 2,
+     "desc": "董仲舒(1)断言",
+     "robotIdx": 2,
+     "action": "OnlyAsset",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "DrawCard",
+       "desc": "获得卜卦牌的复制成功",
+       "attr": {
+        "Cards": "2000000",
+        "Count": "1"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "desc": "董仲舒(2)确认, 使用牌[闪(1082)]",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "cards": [
+      1082
+     ],
+     "confirm": true,
+     "heroSkillUuid": 1379,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "金生水 弃牌",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 4,
+     "desc": "马超(1)结束打牌",
+     "robotIdx": 1,
+     "action": "PlayCardOver",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "PlayCardOverAck",
+       "desc": "马超结束打牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 5,
+     "desc": "马超(1)自动弃牌",
+     "robotIdx": 1,
+     "action": "DisCard",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "DisCardAck",
+       "desc": "马超弃牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 6,
+     "desc": "董仲舒(2)断言",
+     "robotIdx": 2,
+     "action": "OnlyAsset",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "DrawCard",
+       "desc": "董仲舒抽到3张牌牌为[1055,1088,1096]",
+       "attr": {
+        "Cards": "1055 1088 1096",
+        "Count": "3"
+       }
+      }
+     ]
+    },
+    {
+     "id": 7,
+     "robotIdx": 1,
+     "action": "Sleep",
+     "confirm": false
+    }
+   ]
+  },
+  {
+   "case": "天人感应_5",
+   "desc": "金（相生）弃置土，土生金  ，对方下回合摸牌+1",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1012,
+     1047,
+     1048,
+     1055,
+     1088,
+     1096,
+     2002,
+     1296,
+     1297,
+     1305
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10106,
+      "initCards": [],
+      "initEquips": [],
+      "augurCards": [
+       4051
+      ],
+      "addSkills": [],
+      "delSkills": [
+       1028,
+       1029
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 3,
+      "heroId": 10805,
+      "initCards": [
+       1161
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1378,
+       1380
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "robotIdx": 1,
+     "action": "Sleep",
+     "confirm": false,
+     "sleepTime": 3
+    },
+    {
+     "id": 2,
+     "desc": "董仲舒(1)断言",
+     "robotIdx": 2,
+     "action": "OnlyAsset",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "DrawCard",
+       "desc": "获得卜卦牌的复制成功",
+       "attr": {
+        "Cards": "2000000",
+        "Count": "1"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "desc": "董仲舒(2)确认, 使用牌[易(1161)]",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "cards": [
+      1161
+     ],
+     "confirm": true,
+     "heroSkillUuid": 1379,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "董仲舒响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 4,
+     "robotIdx": 1,
+     "action": "OnlyAsset",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "DrawCard",
+       "desc": "马超抽到2张牌",
+       "attr": {
+        "Cards": "1047 1048",
+        "Count": "2"
+       }
+      }
+     ]
+    },
+    {
+     "id": 5,
+     "desc": "马超(1)结束打牌",
+     "robotIdx": 1,
+     "action": "PlayCardOver",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "PlayCardOverAck",
+       "desc": "马超结束打牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 6,
+     "desc": "马超(1)自动弃牌",
+     "robotIdx": 1,
+     "action": "DisCard",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "DisCardAck",
+       "desc": "马超弃牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 7,
+     "desc": "董仲舒(2)结束打牌",
+     "robotIdx": 2,
+     "action": "PlayCardOver",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "PlayCardOverAck",
+       "desc": "董仲舒结束打牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 8,
+     "desc": "董仲舒(2)自动弃牌",
+     "robotIdx": 2,
+     "action": "DisCard",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "DisCardAck",
+       "desc": "董仲舒弃牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 9,
+     "desc": "马超(1)断言",
+     "robotIdx": 1,
+     "action": "OnlyAsset",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "DrawCard",
+       "desc": "",
+       "attr": {
+        "Cards": "1096 2002 1296",
+        "Count": "3"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "天人感应_6",
+   "desc": "金（相克）弃置火，火克金  ，对方下回合摸牌-1",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1012,
+     1047,
+     1048,
+     1055,
+     1088,
+     1096,
+     2002,
+     1296,
+     1297,
+     1305
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10106,
+      "initCards": [],
+      "initEquips": [],
+      "augurCards": [
+       4051
+      ],
+      "addSkills": [],
+      "delSkills": [
+       1028,
+       1029
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 3,
+      "heroId": 10805,
+      "initCards": [
+       1122
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1378,
+       1380
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "robotIdx": 1,
+     "action": "Sleep",
+     "confirm": false,
+     "sleepTime": 3
+    },
+    {
+     "id": 2,
+     "desc": "董仲舒(1)断言",
+     "robotIdx": 2,
+     "action": "OnlyAsset",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "DrawCard",
+       "desc": "获得卜卦牌的复制成功",
+       "attr": {
+        "Cards": "2000000",
+        "Count": "1"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "desc": "董仲舒(2)确认, 使用牌[火杀(1122)]",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "cards": [
+      1122
+     ],
+     "confirm": true,
+     "heroSkillUuid": 1379,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "董仲舒响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 4,
+     "desc": "马超(1)断言",
+     "robotIdx": 1,
+     "action": "OnlyAsset",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "DrawCard",
+       "desc": "马超抽到2张牌",
+       "attr": {
+        "Cards": "1047 1048",
+        "Count": "2"
+       }
+      }
+     ]
+    },
+    {
+     "id": 5,
+     "desc": "马超(1)结束打牌",
+     "robotIdx": 1,
+     "action": "PlayCardOver",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "PlayCardOverAck",
+       "desc": "马超结束打牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 6,
+     "desc": "马超(1)自动弃牌",
+     "robotIdx": 1,
+     "action": "DisCard",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "DisCardAck",
+       "desc": "马超弃牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 7,
+     "desc": "董仲舒(2)结束打牌",
+     "robotIdx": 2,
+     "action": "PlayCardOver",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "PlayCardOverAck",
+       "desc": "董仲舒结束打牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 8,
+     "desc": "董仲舒(2)自动弃牌",
+     "robotIdx": 2,
+     "action": "DisCard",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "DisCardAck",
+       "desc": "董仲舒弃牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 9,
+     "desc": "马超(1)断言",
+     "robotIdx": 1,
+     "action": "OnlyAsset",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "DrawCard",
+       "desc": "",
+       "attr": {
+        "Cards": "1096",
+        "Count": "1"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "天人感应_7",
+   "desc": "金（被克）弃置木，金克木，自己下回合摸牌-1",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1028,
+     1047,
+     1048,
+     1055,
+     1088,
+     1096,
+     2002,
+     1296,
+     1297,
+     1305
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10106,
+      "initCards": [],
+      "initEquips": [],
+      "augurCards": [
+       4051
+      ],
+      "addSkills": [],
+      "delSkills": [
+       1028,
+       1029
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 3,
+      "heroId": 10805,
+      "initCards": [
+       1056
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1378,
+       1380
+      ],
+      "exEquips": [
+       1120
+      ],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "robotIdx": 1,
+     "action": "Sleep",
+     "confirm": false,
+     "sleepTime": 3
+    },
+    {
+     "id": 2,
+     "desc": "董仲舒(1)断言",
+     "robotIdx": 2,
+     "action": "OnlyAsset",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "DrawCard",
+       "desc": "获得卜卦牌的复制成功",
+       "attr": {
+        "Cards": "2000000",
+        "Count": "1"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "desc": "董仲舒(2)确认, 使用牌[闪(1082)]",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "cards": [
+      1056
+     ],
+     "confirm": true,
+     "heroSkillUuid": 1379,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "金生水 弃牌",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 4,
+     "desc": "马超(1)结束打牌",
+     "robotIdx": 1,
+     "action": "PlayCardOver",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "PlayCardOverAck",
+       "desc": "马超结束打牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 5,
+     "desc": "马超(1)自动弃牌",
+     "robotIdx": 1,
+     "action": "DisCard",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "DisCardAck",
+       "desc": "马超弃牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 6,
+     "desc": "董仲舒(2)断言",
+     "robotIdx": 2,
+     "action": "OnlyAsset",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "DrawCard",
+       "desc": "董仲舒抽到1张牌牌为[1055]",
+       "attr": {
+        "Cards": "1055",
+        "Count": "1"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "天人感应_8",
+   "desc": "木（被生）弃置火，木生火，自己下回合摸牌+1",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1041,
+     1047,
+     1048,
+     1055,
+     1088,
+     1096,
+     2002,
+     1296,
+     1297,
+     1305
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10106,
+      "initCards": [],
+      "initEquips": [],
+      "augurCards": [
+       4051
+      ],
+      "addSkills": [],
+      "delSkills": [
+       1028,
+       1029
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 3,
+      "heroId": 10805,
+      "initCards": [
+       1122
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1378,
+       1380
+      ],
+      "exEquips": [
+       1120
+      ],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "robotIdx": 1,
+     "action": "Sleep",
+     "confirm": false,
+     "sleepTime": 3
+    },
+    {
+     "id": 2,
+     "desc": "董仲舒(1)断言",
+     "robotIdx": 2,
+     "action": "OnlyAsset",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "DrawCard",
+       "desc": "获得卜卦牌的复制成功",
+       "attr": {
+        "Cards": "2000000",
+        "Count": "1"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "desc": "董仲舒(2)确认, 使用牌[火杀(1122)]",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "cards": [
+      1122
+     ],
+     "confirm": true,
+     "heroSkillUuid": 1379,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "董仲舒弃置火",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 4,
+     "desc": "马超(1)结束打牌",
+     "robotIdx": 1,
+     "action": "PlayCardOver",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "PlayCardOverAck",
+       "desc": "马超结束打牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 5,
+     "desc": "马超(1)自动弃牌",
+     "robotIdx": 1,
+     "action": "DisCard",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "DisCardAck",
+       "desc": "马超弃牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 6,
+     "desc": "董仲舒(2)断言",
+     "robotIdx": 2,
+     "action": "OnlyAsset",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "DrawCard",
+       "desc": "董仲舒抽到3张牌牌为[1047,1048,1055]",
+       "attr": {
+        "Cards": "1047 1048 1055",
+        "Count": "3"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "天人感应_9",
+   "desc": "木（相生）弃置水，水生木，对方下回合摸牌+1",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1047,
+     1048,
+     1055,
+     1088,
+     1096,
+     2002,
+     1296,
+     1297,
+     1305
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10106,
+      "initCards": [],
+      "initEquips": [],
+      "augurCards": [
+       4051
+      ],
+      "addSkills": [],
+      "delSkills": [
+       1028,
+       1029
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 3,
+      "heroId": 10805,
+      "initCards": [
+       1082
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1378,
+       1380
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "董仲舒(1)断言",
+     "robotIdx": 2,
+     "action": "OnlyAsset",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "DrawCard",
+       "desc": "获得卜卦牌的复制成功",
+       "attr": {
+        "Cards": "2000000",
+        "Count": "1"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "董仲舒(2)确认, 使用牌[易(1161)]",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "cards": [
+      1082
+     ],
+     "confirm": true,
+     "heroSkillUuid": 1379,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "董仲舒响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "desc": "马超(1)结束打牌",
+     "robotIdx": 1,
+     "action": "PlayCardOver",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "PlayCardOverAck",
+       "desc": "马超结束打牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 4,
+     "desc": "马超(1)自动弃牌",
+     "robotIdx": 1,
+     "action": "DisCard",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "DisCardAck",
+       "desc": "马超弃牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 5,
+     "desc": "董仲舒(2)结束打牌",
+     "robotIdx": 2,
+     "action": "PlayCardOver",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "PlayCardOverAck",
+       "desc": "董仲舒结束打牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 6,
+     "desc": "董仲舒(2)自动弃牌",
+     "robotIdx": 2,
+     "action": "DisCard",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "DisCardAck",
+       "desc": "董仲舒弃牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 7,
+     "desc": "马超(1)断言",
+     "robotIdx": 1,
+     "action": "OnlyAsset",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "DrawCard",
+       "desc": "",
+       "attr": {
+        "Cards": "1096 2002 1088",
+        "Count": "3"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "天人感应_10",
+   "desc": "木（被克）弃置土，木克土 ，自身下回合摸牌-1",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1047,
+     1048,
+     1055,
+     1088,
+     1096,
+     2002,
+     1296,
+     1297,
+     1305
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10106,
+      "initCards": [],
+      "initEquips": [],
+      "augurCards": [
+       4051
+      ],
+      "addSkills": [],
+      "delSkills": [
+       1028,
+       1029
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 3,
+      "heroId": 10805,
+      "initCards": [
+       1162
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1378,
+       1380
+      ],
+      "exEquips": [
+       1120
+      ],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "董仲舒(1)断言",
+     "robotIdx": 2,
+     "action": "OnlyAsset",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "DrawCard",
+       "desc": "获得卜卦牌的复制成功",
+       "attr": {
+        "Cards": "2000000",
+        "Count": "1"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "董仲舒(2)确认, 使用牌[闪(1082)]",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "cards": [
+      1162
+     ],
+     "confirm": true,
+     "heroSkillUuid": 1379,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "金生水 弃牌",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "desc": "马超(1)结束打牌",
+     "robotIdx": 1,
+     "action": "PlayCardOver",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "PlayCardOverAck",
+       "desc": "马超结束打牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 4,
+     "desc": "马超(1)自动弃牌",
+     "robotIdx": 1,
+     "action": "DisCard",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "DisCardAck",
+       "desc": "马超弃牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 5,
+     "desc": "董仲舒(2)断言",
+     "robotIdx": 2,
+     "action": "OnlyAsset",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "DrawCard",
+       "desc": "董仲舒抽到1张牌牌为[1048]",
+       "attr": {
+        "Cards": "1048",
+        "Count": "1"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "天人感应_11",
+   "desc": "水（被生）弃置木，水生木，自己下回合摸牌+1",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1082,
+     1047,
+     1048,
+     1055,
+     1088,
+     1096,
+     2002,
+     1296,
+     1297,
+     1305
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10106,
+      "initCards": [],
+      "initEquips": [],
+      "augurCards": [
+       4051
+      ],
+      "addSkills": [],
+      "delSkills": [
+       1028,
+       1029
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 3,
+      "heroId": 10805,
+      "initCards": [
+       1056
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1378,
+       1380
+      ],
+      "exEquips": [
+       1120
+      ],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "董仲舒(1)断言",
+     "robotIdx": 2,
+     "action": "OnlyAsset",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "DrawCard",
+       "desc": "获得卜卦牌的复制成功 ",
+       "attr": {
+        "Cards": "2000000",
+        "Count": "1"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "董仲舒(2)确认, 使用牌[火杀(1122)]",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "cards": [
+      1056
+     ],
+     "confirm": true,
+     "heroSkillUuid": 1379,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "董仲舒弃置木",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "desc": "马超(1)结束打牌",
+     "robotIdx": 1,
+     "action": "PlayCardOver",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "PlayCardOverAck",
+       "desc": "马超结束打牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 4,
+     "desc": "马超(1)自动弃牌",
+     "robotIdx": 1,
+     "action": "DisCard",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "DisCardAck",
+       "desc": "马超弃牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 5,
+     "desc": "董仲舒(2)断言",
+     "robotIdx": 2,
+     "action": "OnlyAsset",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "DrawCard",
+       "desc": "董仲舒抽到3张牌",
+       "attr": {
+        "Cards": "",
+        "Count": "3"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "天人感应_12",
+   "desc": "水（相生）弃置金，金生水，对方下回合摸牌+1",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1083,
+     1047,
+     1048,
+     1055,
+     1088,
+     1096,
+     2002,
+     1296,
+     1297,
+     1305
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10106,
+      "initCards": [],
+      "initEquips": [],
+      "augurCards": [
+       4051
+      ],
+      "addSkills": [],
+      "delSkills": [
+       1028,
+       1029
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 3,
+      "heroId": 10805,
+      "initCards": [
+       1004
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1378,
+       1380
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "robotIdx": 1,
+     "action": "Sleep",
+     "confirm": false,
+     "sleepTime": 3
+    },
+    {
+     "id": 2,
+     "desc": "董仲舒(1)断言",
+     "robotIdx": 2,
+     "action": "OnlyAsset",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "DrawCard",
+       "desc": "获得卜卦牌的复制成功",
+       "attr": {
+        "Cards": "2000000",
+        "Count": "1"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "desc": "董仲舒(2)确认, 使用牌[易(1161)]",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "cards": [
+      1004
+     ],
+     "confirm": true,
+     "heroSkillUuid": 1379,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "董仲舒响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 4,
+     "desc": "马超(1)结束打牌",
+     "robotIdx": 1,
+     "action": "PlayCardOver",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "PlayCardOverAck",
+       "desc": "马超结束打牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 5,
+     "desc": "马超(1)自动弃牌",
+     "robotIdx": 1,
+     "action": "DisCard",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "DisCardAck",
+       "desc": "马超弃牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 6,
+     "desc": "董仲舒(2)结束打牌",
+     "robotIdx": 2,
+     "action": "PlayCardOver",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "PlayCardOverAck",
+       "desc": "董仲舒结束打牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 7,
+     "desc": "董仲舒(2)自动弃牌",
+     "robotIdx": 2,
+     "action": "DisCard",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "DisCardAck",
+       "desc": "董仲舒弃牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 8,
+     "desc": "马超(1)断言",
+     "robotIdx": 1,
+     "action": "OnlyAsset",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "DrawCard",
+       "desc": "马超抽到3张牌牌为[1096,2002,1296]",
+       "attr": {
+        "Cards": "1096 2002 1296",
+        "Count": "3"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "天人感应_13",
+   "desc": "水（被克）弃置火，水克火 ，自身下回合摸牌-1",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1082,
+     1047,
+     1048,
+     1055,
+     1088,
+     1096,
+     2002,
+     1296,
+     1297,
+     1305
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10106,
+      "initCards": [],
+      "initEquips": [],
+      "augurCards": [
+       4088
+      ],
+      "addSkills": [],
+      "delSkills": [
+       1028,
+       1029
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 3,
+      "heroId": 10805,
+      "initCards": [
+       1122
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1378,
+       1380
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "董仲舒(1)断言",
+     "robotIdx": 2,
+     "action": "OnlyAsset",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "DrawCard",
+       "desc": "获得卜卦牌的复制成功",
+       "attr": {
+        "Cards": "2000000",
+        "Count": "1"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "董仲舒(2)确认, 使用牌[闪(1082)]",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "cards": [
+      1122
+     ],
+     "confirm": true,
+     "heroSkillUuid": 1379,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "水克火",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "desc": "马超(1)结束打牌",
+     "robotIdx": 1,
+     "action": "PlayCardOver",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "PlayCardOverAck",
+       "desc": "马超结束打牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 4,
+     "desc": "马超(1)自动弃牌",
+     "robotIdx": 1,
+     "action": "DisCard",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "DisCardAck",
+       "desc": "马超弃牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 5,
+     "desc": "董仲舒(2)断言",
+     "robotIdx": 2,
+     "action": "OnlyAsset",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "DrawCard",
+       "desc": "董仲舒抽到1张牌牌为[1048]",
+       "attr": {
+        "Cards": "1055",
+        "Count": "1"
+       }
+      }
+     ]
+    },
+    {
+     "id": 6,
+     "robotIdx": 1,
+     "action": "Sleep",
+     "confirm": false,
+     "sleepTime": 1
+    }
+   ]
+  },
+  {
+   "case": "天人感应_14",
+   "desc": "水（相克）弃置土，土克水  ，对方下回合摸牌-1",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1082,
+     1047,
+     1048,
+     1055,
+     1088,
+     1096,
+     2002,
+     1296,
+     1297,
+     1305
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10106,
+      "initCards": [],
+      "initEquips": [],
+      "augurCards": [
+       4088
+      ],
+      "addSkills": [],
+      "delSkills": [
+       1028,
+       1029
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 3,
+      "heroId": 10805,
+      "initCards": [
+       1162
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1378,
+       1380
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "robotIdx": 1,
+     "action": "Sleep",
+     "confirm": false,
+     "sleepTime": 3
+    },
+    {
+     "id": 2,
+     "desc": "董仲舒(1)断言",
+     "robotIdx": 2,
+     "action": "OnlyAsset",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "DrawCard",
+       "desc": "获得卜卦牌的复制成功",
+       "attr": {
+        "Cards": "2000000",
+        "Count": "1"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "desc": "董仲舒(2)确认, 使用牌[火杀(1122)]",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "cards": [
+      1162
+     ],
+     "confirm": true,
+     "heroSkillUuid": 1379,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "董仲舒响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 4,
+     "desc": "马超(1)断言",
+     "robotIdx": 1,
+     "action": "OnlyAsset",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "DrawCard",
+       "desc": "马超抽到2张牌",
+       "attr": {
+        "Cards": "1047 1048",
+        "Count": "2"
+       }
+      }
+     ]
+    },
+    {
+     "id": 5,
+     "desc": "马超(1)结束打牌",
+     "robotIdx": 1,
+     "action": "PlayCardOver",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "PlayCardOverAck",
+       "desc": "马超结束打牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 6,
+     "desc": "马超(1)自动弃牌",
+     "robotIdx": 1,
+     "action": "DisCard",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "DisCardAck",
+       "desc": "马超弃牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 7,
+     "desc": "董仲舒(2)结束打牌",
+     "robotIdx": 2,
+     "action": "PlayCardOver",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "PlayCardOverAck",
+       "desc": "董仲舒结束打牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 8,
+     "desc": "董仲舒(2)自动弃牌",
+     "robotIdx": 2,
+     "action": "DisCard",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "DisCardAck",
+       "desc": "董仲舒弃牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 9,
+     "desc": "马超(1)断言",
+     "robotIdx": 1,
+     "action": "OnlyAsset",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "DrawCard",
+       "desc": "",
+       "attr": {
+        "Cards": "1096",
+        "Count": "1"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "天人感应_15",
+   "desc": "火（被生）弃置土，火生土，自己下回合摸牌+1",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1122,
+     1082,
+     1047,
+     1048,
+     1055,
+     1088,
+     1096,
+     2002,
+     1296,
+     1297,
+     1305
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10106,
+      "initCards": [],
+      "initEquips": [],
+      "augurCards": [
+       4051
+      ],
+      "addSkills": [],
+      "delSkills": [
+       1028,
+       1029
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 3,
+      "heroId": 10805,
+      "initCards": [
+       1162
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1378,
+       1380
+      ],
+      "exEquips": [
+       1120
+      ],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "董仲舒(1)断言",
+     "robotIdx": 2,
+     "action": "OnlyAsset",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "DrawCard",
+       "desc": "获得卜卦牌的复制成功",
+       "attr": {
+        "Cards": "2000000",
+        "Count": "1"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "董仲舒(2)确认, 使用牌[火杀(1122)]",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "cards": [
+      1162
+     ],
+     "confirm": true,
+     "heroSkillUuid": 1379,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "董仲舒弃置土",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "desc": "马超(1)结束打牌",
+     "robotIdx": 1,
+     "action": "PlayCardOver",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "PlayCardOverAck",
+       "desc": "马超结束打牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 4,
+     "desc": "马超(1)自动弃牌",
+     "robotIdx": 1,
+     "action": "DisCard",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "DisCardAck",
+       "desc": "马超弃牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 5,
+     "desc": "董仲舒(2)断言",
+     "robotIdx": 2,
+     "action": "OnlyAsset",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "DrawCard",
+       "desc": "董仲舒抽到3张牌牌为[1048,1082,1047]",
+       "attr": {
+        "Cards": "1048 1082 1047",
+        "Count": "3"
+       }
+      }
+     ]
+    },
+    {
+     "id": 6,
+     "robotIdx": 1,
+     "action": "Sleep",
+     "confirm": false,
+     "sleepTime": 6
+    }
+   ]
+  },
+  {
+   "case": "天人感应_16",
+   "desc": "火（相生）弃置木，木生火，对方下回合摸牌+1",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1122,
+     1083,
+     1047,
+     1048,
+     1055,
+     1088,
+     1096,
+     2002,
+     1296,
+     1297,
+     1305
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10106,
+      "initCards": [],
+      "initEquips": [],
+      "augurCards": [
+       4088
+      ],
+      "addSkills": [],
+      "delSkills": [
+       1028,
+       1029
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 3,
+      "heroId": 10805,
+      "initCards": [
+       1056
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1378,
+       1380
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "robotIdx": 1,
+     "action": "Sleep",
+     "confirm": false,
+     "sleepTime": 3
+    },
+    {
+     "id": 2,
+     "desc": "董仲舒(1)断言",
+     "robotIdx": 2,
+     "action": "OnlyAsset",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "DrawCard",
+       "desc": "获得卜卦牌的复制成功",
+       "attr": {
+        "Cards": "2000000",
+        "Count": "1"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "desc": "董仲舒(2)确认, 使用牌[易(1161)]",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "cards": [
+      1056
+     ],
+     "confirm": true,
+     "heroSkillUuid": 1379,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "董仲舒响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 4,
+     "desc": "马超(1)结束打牌",
+     "robotIdx": 1,
+     "action": "PlayCardOver",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "PlayCardOverAck",
+       "desc": "马超结束打牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 5,
+     "desc": "马超(1)自动弃牌",
+     "robotIdx": 1,
+     "action": "DisCard",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "DisCardAck",
+       "desc": "马超弃牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 6,
+     "desc": "董仲舒(2)结束打牌",
+     "robotIdx": 2,
+     "action": "PlayCardOver",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "PlayCardOverAck",
+       "desc": "董仲舒结束打牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 7,
+     "desc": "董仲舒(2)自动弃牌",
+     "robotIdx": 2,
+     "action": "DisCard",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "DisCardAck",
+       "desc": "董仲舒弃牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 8,
+     "desc": "马超(1)断言",
+     "robotIdx": 1,
+     "action": "OnlyAsset",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "DrawCard",
+       "desc": "马超抽到3张牌牌为[1096,2002,1296]",
+       "attr": {
+        "Cards": "1096 1088 2002",
+        "Count": "3"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "天人感应_17",
+   "desc": "火（被克）弃置金，火克金，自身下回合摸牌-1",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1151,
+     1047,
+     1048,
+     1055,
+     1088,
+     1096,
+     2002,
+     1296,
+     1297,
+     1305
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10106,
+      "initCards": [],
+      "initEquips": [],
+      "augurCards": [
+       4088
+      ],
+      "addSkills": [],
+      "delSkills": [
+       1028,
+       1029
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 3,
+      "heroId": 10805,
+      "initCards": [
+       1002
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1378,
+       1380
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "robotIdx": 1,
+     "action": "Sleep",
+     "confirm": false,
+     "sleepTime": 3
+    },
+    {
+     "id": 2,
+     "desc": "董仲舒(1)断言",
+     "robotIdx": 2,
+     "action": "OnlyAsset",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "DrawCard",
+       "desc": "获得卜卦牌的复制成功",
+       "attr": {
+        "Cards": "2000000",
+        "Count": "1"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "desc": "董仲舒(2)确认, 使用牌[闪(1082)]",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "cards": [
+      1002
+     ],
+     "confirm": true,
+     "heroSkillUuid": 1379,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "水克火",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 4,
+     "desc": "马超(1)结束打牌",
+     "robotIdx": 1,
+     "action": "PlayCardOver",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "PlayCardOverAck",
+       "desc": "马超结束打牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 5,
+     "desc": "马超(1)自动弃牌",
+     "robotIdx": 1,
+     "action": "DisCard",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "DisCardAck",
+       "desc": "马超弃牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 6,
+     "desc": "董仲舒(2)断言",
+     "robotIdx": 2,
+     "action": "OnlyAsset",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "DrawCard",
+       "desc": "董仲舒抽到1张牌牌为[1055]",
+       "attr": {
+        "Cards": "1055",
+        "Count": "1"
+       }
+      }
+     ]
+    },
+    {
+     "id": 7,
+     "robotIdx": 1,
+     "action": "Sleep",
+     "confirm": false,
+     "sleepTime": 6
+    }
+   ]
+  },
+  {
+   "case": "天人感应_18",
+   "desc": "火（相克）弃置水，水克火  ，对方下回合摸牌-1",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1122,
+     1082,
+     1047,
+     1048,
+     1055,
+     1088,
+     1096,
+     2002,
+     1296,
+     1297,
+     1305
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10106,
+      "initCards": [],
+      "initEquips": [],
+      "augurCards": [
+       4088
+      ],
+      "addSkills": [],
+      "delSkills": [
+       1028,
+       1029
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 3,
+      "heroId": 10805,
+      "initCards": [
+       1083
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1378,
+       1380
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "robotIdx": 1,
+     "action": "Sleep",
+     "confirm": false,
+     "sleepTime": 3
+    },
+    {
+     "id": 2,
+     "desc": "董仲舒(1)断言",
+     "robotIdx": 2,
+     "action": "OnlyAsset",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "DrawCard",
+       "desc": "获得卜卦牌的复制成功",
+       "attr": {
+        "Cards": "2000000",
+        "Count": "1"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "desc": "董仲舒(2)确认, 使用牌[火杀(1122)]",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "cards": [
+      1083
+     ],
+     "confirm": true,
+     "heroSkillUuid": 1379,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "董仲舒弃闪",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 4,
+     "desc": "马超(1)断言",
+     "robotIdx": 1,
+     "action": "OnlyAsset",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "DrawCard",
+       "desc": "马超抽到2张牌",
+       "attr": {
+        "Cards": "1047 1082",
+        "Count": "2"
+       }
+      }
+     ]
+    },
+    {
+     "id": 5,
+     "desc": "马超(1)结束打牌",
+     "robotIdx": 1,
+     "action": "PlayCardOver",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "PlayCardOverAck",
+       "desc": "马超结束打牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 6,
+     "desc": "马超(1)自动弃牌",
+     "robotIdx": 1,
+     "action": "DisCard",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "DisCardAck",
+       "desc": "马超弃牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 7,
+     "desc": "董仲舒(2)结束打牌",
+     "robotIdx": 2,
+     "action": "PlayCardOver",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "PlayCardOverAck",
+       "desc": "董仲舒结束打牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 8,
+     "desc": "董仲舒(2)自动弃牌",
+     "robotIdx": 2,
+     "action": "DisCard",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "DisCardAck",
+       "desc": "董仲舒弃牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 9,
+     "desc": "马超(1)断言",
+     "robotIdx": 1,
+     "action": "OnlyAsset",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "DrawCard",
+       "desc": "马超抽到1张牌牌为[1096]",
+       "attr": {
+        "Cards": "1088",
+        "Count": "1"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "天人感应_19",
+   "desc": "土（被生）弃置火，火生土，对方下回合摸牌+1",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1162,
+     1122,
+     1083,
+     1047,
+     1048,
+     1055,
+     1088,
+     1096,
+     2002,
+     1296,
+     1297,
+     1305
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10106,
+      "initCards": [],
+      "initEquips": [],
+      "augurCards": [
+       4088
+      ],
+      "addSkills": [],
+      "delSkills": [
+       1028,
+       1029
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 3,
+      "heroId": 10805,
+      "initCards": [
+       1124
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1378,
+       1380
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "robotIdx": 1,
+     "action": "Sleep",
+     "confirm": false,
+     "sleepTime": 3
+    },
+    {
+     "id": 2,
+     "desc": "董仲舒(1)断言",
+     "robotIdx": 2,
+     "action": "OnlyAsset",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "DrawCard",
+       "desc": "获得卜卦牌的复制成功",
+       "attr": {
+        "Cards": "2000000",
+        "Count": "1"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "desc": "董仲舒(2)确认, 使用牌[易(1161)]",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "cards": [
+      1124
+     ],
+     "confirm": true,
+     "heroSkillUuid": 1379,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "董仲舒弃置火杀",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 4,
+     "desc": "马超(1)结束打牌",
+     "robotIdx": 1,
+     "action": "PlayCardOver",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "PlayCardOverAck",
+       "desc": "马超结束打牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 5,
+     "desc": "马超(1)自动弃牌",
+     "robotIdx": 1,
+     "action": "DisCard",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "DisCardAck",
+       "desc": "马超弃牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 6,
+     "desc": "董仲舒(2)结束打牌",
+     "robotIdx": 2,
+     "action": "PlayCardOver",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "PlayCardOverAck",
+       "desc": "董仲舒结束打牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 7,
+     "desc": "董仲舒(2)自动弃牌",
+     "robotIdx": 2,
+     "action": "DisCard",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "DisCardAck",
+       "desc": "董仲舒弃牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 8,
+     "desc": "马超(1)断言",
+     "robotIdx": 1,
+     "action": "OnlyAsset",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "DrawCard",
+       "desc": "马超抽到3张牌牌为[1096,2002,1296]",
+       "attr": {
+        "Cards": "1096 1088 1055",
+        "Count": "3"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "天人感应_20",
+   "desc": "土（相生）弃置金，土生金，自身下回合摸牌+1",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     4161,
+     1122,
+     1082,
+     1047,
+     1048,
+     1055,
+     1088,
+     1096,
+     2002,
+     1296,
+     1297,
+     1305
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10106,
+      "initCards": [],
+      "initEquips": [],
+      "augurCards": [
+       4088
+      ],
+      "addSkills": [],
+      "delSkills": [
+       1028,
+       1029
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 3,
+      "heroId": 10805,
+      "initCards": [
+       1002
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1378,
+       1380
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "董仲舒(1)断言",
+     "robotIdx": 2,
+     "action": "OnlyAsset",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "DrawCard",
+       "desc": "董仲舒抽到1张牌牌为[2000000]",
+       "attr": {
+        "Cards": "2000000",
+        "Count": "1"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "董仲舒(2)确认, 使用牌[亮银枪(1002)]",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "cards": [
+      1002
+     ],
+     "confirm": true,
+     "heroSkillUuid": 1379,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "董仲舒弃置金",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "desc": "马超(1)结束打牌",
+     "robotIdx": 1,
+     "action": "PlayCardOver",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "PlayCardOverAck",
+       "desc": "马超结束打牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 4,
+     "desc": "马超(1)自动弃牌",
+     "robotIdx": 1,
+     "action": "DisCard",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "DisCardAck",
+       "desc": "马超弃牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 5,
+     "desc": "董仲舒(2)断言",
+     "robotIdx": 2,
+     "action": "OnlyAsset",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "DrawCard",
+       "desc": "董仲舒抽到3张牌牌为[1048,1082,1047] ",
+       "attr": {
+        "Cards": "1048 1047 1055",
+        "Count": "3"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "天人感应_21",
+   "desc": "获得一张牌的复制",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     4161,
+     1122,
+     1082,
+     1047,
+     1048,
+     1055,
+     1088,
+     1096,
+     2002,
+     1296,
+     1297,
+     1305
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10106,
+      "initCards": [],
+      "initEquips": [],
+      "augurCards": [
+       4088
+      ],
+      "addSkills": [],
+      "delSkills": [
+       1028,
+       1029
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 3,
+      "heroId": 10805,
+      "initCards": [
+       1002
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1378,
+       1380
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "robotIdx": 1,
+     "action": "Sleep",
+     "confirm": false,
+     "sleepTime": 2
+    },
+    {
+     "id": 2,
+     "desc": "董仲舒获得复制牌",
+     "robotIdx": 2,
+     "action": "OnlyAsset",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "DrawCard",
+       "desc": "董仲舒抽到1张牌牌为[2000000]",
+       "attr": {
+        "Cards": "2000000",
+        "Count": "1"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "desc": "董仲舒(2)确认, 使用牌[亮银枪(1002)]",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "cards": [
+      1002
+     ],
+     "confirm": true,
+     "heroSkillUuid": 1379,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "董仲舒弃置金",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 4,
+     "desc": "马超(1)结束打牌",
+     "robotIdx": 1,
+     "action": "PlayCardOver",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "PlayCardOverAck",
+       "desc": "马超结束打牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 5,
+     "desc": "马超(1)自动弃牌",
+     "robotIdx": 1,
+     "action": "DisCard",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "DisCardAck",
+       "desc": "马超弃牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "天人感应_22",
+   "desc": "发动前被封印不触发",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     4161,
+     1122,
+     1082,
+     1047,
+     1048,
+     1055,
+     1088,
+     1096,
+     2002,
+     1296,
+     1297,
+     1305,
+     1281,
+     1259,
+     1288,
+     1289
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 6,
+      "heroId": 10105,
+      "initCards": [
+       1010
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1026,
+       1027,
+       1073
+      ],
+      "exEquips": [
+       1009
+      ],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10106,
+      "initCards": [],
+      "initEquips": [],
+      "augurCards": [
+       4088
+      ],
+      "addSkills": [],
+      "delSkills": [
+       1028,
+       1029
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 3,
+      "heroId": 10805,
+      "initCards": [
+       1002
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1378,
+       1380
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "赵云(1)对[董仲舒(3)]使用牌[杀(1010)]",
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "targetsId": [
+      3
+     ],
+     "cards": [
+      1010
+     ],
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "赵云出牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "董仲舒(3)取消",
+     "robotIdx": 3,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "董仲舒响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "CommonHpChange",
+       "desc": "董仲舒, 体力变化:-1",
+       "attr": {
+        "ChangeHp": "-1",
+        "HpSrc": "HarmNormal"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "desc": "赵云(1)结束打牌",
+     "robotIdx": 1,
+     "action": "PlayCardOver",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "PlayCardOverAck",
+       "desc": "赵云结束打牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 4,
+     "desc": "赵云(1)自动弃牌",
+     "robotIdx": 1,
+     "action": "DisCard",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "DisCardAck",
+       "desc": "赵云弃牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 5,
+     "robotIdx": 2,
+     "action": "Sleep",
+     "confirm": false,
+     "sleepTime": 2
+    },
+    {
+     "id": 6,
+     "desc": "董仲舒(3)确认, 使用牌[亮银枪(1002)]",
+     "robotIdx": 3,
+     "action": "OptRoomAction",
+     "cards": [
+      1002
+     ],
+     "confirm": true,
+     "heroSkillUuid": 1379,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "董仲舒响应失败",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 7,
+     "robotIdx": 2,
+     "action": "Sleep",
+     "confirm": false,
+     "sleepTime": 300
+    }
+   ]
+  },
+  {
+   "case": "天人感应_23",
+   "desc": "发动期间被封禁可以触发",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     4161,
+     1122,
+     1082,
+     1047,
+     1048,
+     1055,
+     1088,
+     1096,
+     2002,
+     1296,
+     1297,
+     1305
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10106,
+      "initCards": [
+       1003
+      ],
+      "initEquips": [],
+      "augurCards": [
+       4088
+      ],
+      "addSkills": [],
+      "delSkills": [
+       1028,
+       1029
+      ],
+      "exEquips": [
+       1009
+      ],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 3,
+      "heroId": 10805,
+      "initCards": [
+       1002
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1378,
+       1380
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "董仲舒(1)断言",
+     "robotIdx": 2,
+     "action": "OnlyAsset",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "DrawCard",
+       "desc": "董仲舒抽到1张牌牌为[2000000]",
+       "attr": {
+        "Cards": "2000000",
+        "Count": "1"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "董仲舒(2)确认, 使用牌[亮银枪(1002)]",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "cards": [
+      1002
+     ],
+     "confirm": true,
+     "heroSkillUuid": 1379,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "董仲舒响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "targetsId": [
+      2
+     ],
+     "cards": [
+      1003
+     ],
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "马超出牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 4,
+     "desc": "董仲舒(2)取消",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "董仲舒响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "CommonHpChange",
+       "desc": "董仲舒受到来自HarmNormal的伤害, 体力变化:-1",
+       "attr": {
+        "ChangeHp": "-1",
+        "HpSrc": "HarmNormal"
+       }
+      }
+     ]
+    },
+    {
+     "id": 5,
+     "desc": "马超(1)结束打牌",
+     "robotIdx": 1,
+     "action": "PlayCardOver",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "PlayCardOverAck",
+       "desc": "马超结束打牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 6,
+     "desc": "马超(1)自动弃牌",
+     "robotIdx": 1,
+     "action": "DisCard",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "DisCardAck",
+       "desc": "马超弃牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 7,
+     "desc": "董仲舒(2)断言",
+     "robotIdx": 2,
+     "action": "OnlyAsset",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "DrawCard",
+       "desc": "董仲舒抽到3张牌牌为[1048,1082,1047]",
+       "attr": {
+        "Cards": "1048 1047 1055",
+        "Count": "3"
+       }
+      }
+     ]
+    },
+    {
+     "id": 8,
+     "robotIdx": 1,
+     "action": "Sleep",
+     "confirm": false,
+     "sleepTime": 6
+    }
+   ]
+  },
+  {
+   "case": "天人感应_24",
+   "desc": "占卜到符水正常可触发",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     2001,
+     1122,
+     1082,
+     1047,
+     1048,
+     1055,
+     1088,
+     1096,
+     2002,
+     1296,
+     1297,
+     1305
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10106,
+      "initCards": [
+       1001,
+       1003
+      ],
+      "initEquips": [],
+      "augurCards": [
+       4088
+      ],
+      "addSkills": [],
+      "delSkills": [
+       1028,
+       1029
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 3,
+      "heroId": 10805,
+      "initCards": [
+       1002
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1378,
+       1380
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "董仲舒(1)断言",
+     "robotIdx": 1,
+     "action": "OnlyAsset",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "RoomGameActionAsset",
+       "desc": "霜冻的卜卦",
+       "attr": {
+        "ActionType": "8",
+        "ActionValue": "410"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "robotIdx": 2,
+     "action": "OnlyAsset",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "DrawCard",
+       "desc": "正常触发天人感应获得复制的符水",
+       "attr": {
+        "ActionType": "3",
+        "ActionValue": "1379",
+        "Cards": "2000000",
+        "Count": "1"
+       }
+      },
+      {
+       "msgName": "RoomGameActionAsset",
+       "desc": "符水效果正常生效",
+       "attr": {
+        "ActionType": "2",
+        "ActionValue": "6"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "desc": "董仲舒(2)确认对[马超(1)]",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "targetsId": [
+      1
+     ],
+     "confirm": true,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "董仲舒响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "天人感应_25",
+   "desc": "占卜到狐鸣弃置2张牌正常触发",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     2017,
+     1122,
+     1082,
+     1047,
+     1048,
+     1055,
+     1088,
+     1096,
+     2002,
+     1296,
+     1297,
+     1305
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10106,
+      "initCards": [
+       1001,
+       1003
+      ],
+      "initEquips": [],
+      "augurCards": [
+       4088
+      ],
+      "addSkills": [],
+      "delSkills": [
+       1028,
+       1029
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 3,
+      "heroId": 10805,
+      "initCards": [
+       1002,
+       1004
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1378,
+       1380
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "robotIdx": 1,
+     "action": "OnlyAsset",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "RoomGameActionAsset",
+       "desc": "正常霜冻卜卦",
+       "attr": {
+        "ActionType": "8",
+        "ActionValue": "410"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "董仲舒(1)断言",
+     "robotIdx": 2,
+     "action": "OnlyAsset",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "DrawCard",
+       "desc": "董仲舒抽到1张牌牌为[2000000]",
+       "attr": {
+        "ActionType": "3",
+        "ActionValue": "1379",
+        "Cards": "2000000",
+        "Count": "1"
+       }
+      },
+      {
+       "msgName": "PlayCard",
+       "desc": "董仲舒自动打出狐鸣",
+       "attr": {
+        "Cards": "2000000",
+        "Count": "1"
+       }
+      },
+      {
+       "msgName": "DisCard",
+       "desc": "复制的狐鸣不会触发随机弃牌",
+       "attr": {
+        "Count": "2",
+        "UnExpect": "true"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "desc": "马超(1)取消",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "马超响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 4,
+     "robotIdx": 1,
+     "action": "OnlyAsset",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "RoomGameActionAsset",
+       "desc": "正常回到出牌阶段",
+       "attr": {
+        "ActionType": "1",
+        "ActionValue": "2"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "罢黜百家_1",
+   "desc": "手中有牌时，战法牌转化",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     2001,
+     1122,
+     1082,
+     1047,
+     1048,
+     1055,
+     1088,
+     1096,
+     2002,
+     1296,
+     1297,
+     1305
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 3,
+      "heroId": 10805,
+      "initCards": [
+       1005,
+       1042,
+       1045
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1379,
+       1380
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10106,
+      "initCards": [
+       1001,
+       1041,
+       1039
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1028,
+       1029
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "董仲舒(1), 使用技能[罢黜百家], 使用牌[30]",
+     "robotIdx": 1,
+     "action": "UseHeroSkill",
+     "cards": [
+      30
+     ],
+     "confirm": false,
+     "heroSkillUuid": 1378,
+     "sleepTime": 2,
+     "assets": [
+      {
+       "msgName": "UseHeroSkillAck",
+       "desc": "董仲舒转换牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "robotIdx": 1,
+     "action": "Sleep",
+     "confirm": false,
+     "sleepTime": 300
+    }
+   ]
+  },
+  {
+   "case": "罢黜百家_2",
+   "desc": "全场手中无战法牌时，转化为空，技能可发动",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1122,
+     1082,
+     1047,
+     1048,
+     1055,
+     1088,
+     1096,
+     2002,
+     1296,
+     1297,
+     1305
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 3,
+      "heroId": 10805,
+      "initCards": [],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1379,
+       1380
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10106,
+      "initCards": [],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1028,
+       1029
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "董仲舒(1), 使用技能[罢黜百家], 使用牌[30]",
+     "robotIdx": 1,
+     "action": "UseHeroSkill",
+     "cards": [
+      30
+     ],
+     "confirm": false,
+     "heroSkillUuid": 1378,
+     "sleepTime": 2,
+     "assets": [
+      {
+       "msgName": "UseHeroSkillAck",
+       "desc": "董仲舒转换牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "robotIdx": 1,
+     "action": "Sleep",
+     "confirm": false,
+     "sleepTime": 300
+    }
+   ]
+  },
+  {
+   "case": "罢黜百家_3",
+   "desc": "自己手中战法牌牌，场中其他人有战法牌，可发动",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1122,
+     1082,
+     1047,
+     1048,
+     1055,
+     1088,
+     1096,
+     2002,
+     1296,
+     1297,
+     1305
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 3,
+      "heroId": 10805,
+      "initCards": [],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1379,
+       1380
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10106,
+      "initCards": [
+       1004
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1028,
+       1029
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "董仲舒(1), 使用技能[罢黜百家], 使用牌[30]",
+     "robotIdx": 1,
+     "action": "UseHeroSkill",
+     "cards": [
+      30
+     ],
+     "confirm": false,
+     "heroSkillUuid": 1378,
+     "sleepTime": 2,
+     "assets": [
+      {
+       "msgName": "UseHeroSkillAck",
+       "desc": "董仲舒转换牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "robotIdx": 1,
+     "action": "Sleep",
+     "confirm": false,
+     "sleepTime": 300
+    }
+   ]
+  },
+  {
+   "case": "罢黜百家_4",
+   "desc": "手中有牌时，武将专属牌转化",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1122,
+     1082,
+     1047,
+     1048,
+     1055,
+     1088,
+     1096,
+     2002,
+     1296,
+     1297,
+     1305
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 3,
+      "heroId": 10805,
+      "initCards": [
+       2005
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1379,
+       1380
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10106,
+      "initCards": [
+       1004
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1028,
+       1029
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "董仲舒(1), 使用技能[罢黜百家], 使用牌[30]",
+     "robotIdx": 1,
+     "action": "UseHeroSkill",
+     "cards": [
+      30
+     ],
+     "confirm": false,
+     "heroSkillUuid": 1378,
+     "sleepTime": 2,
+     "assets": [
+      {
+       "msgName": "UseHeroSkillAck",
+       "desc": "董仲舒转换牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "robotIdx": 1,
+     "action": "Sleep",
+     "confirm": false,
+     "sleepTime": 300
+    }
+   ]
+  },
+  {
+   "case": "罢黜百家_5",
+   "desc": "自己手中有转化战法牌，转化战法牌也可转化",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     2002,
+     1122,
+     1082,
+     1047,
+     1048,
+     1055,
+     1088,
+     1096,
+     1296,
+     1297,
+     1305
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 3,
+      "heroId": 10805,
+      "initCards": [
+       1005
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1379,
+       1380
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10106,
+      "initCards": [
+       1004
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1028,
+       1029
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "董仲舒(1), 使用技能[罢黜百家], 使用牌[30]",
+     "robotIdx": 1,
+     "action": "UseHeroSkill",
+     "cards": [
+      30
+     ],
+     "confirm": false,
+     "heroSkillUuid": 1378,
+     "sleepTime": 2,
+     "assets": [
+      {
+       "msgName": "UseHeroSkillAck",
+       "desc": "董仲舒转换牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "robotIdx": 1,
+     "action": "Sleep",
+     "confirm": false,
+     "sleepTime": 300
+    }
+   ]
+  },
+  {
+   "case": "罢黜百家_6",
+   "desc": "自己手中有转化非战法牌，转化战法牌不可被转化",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     2002,
+     1122,
+     1082,
+     1047,
+     1048,
+     1055,
+     1088,
+     1096,
+     1296,
+     1297,
+     1305
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 3,
+      "heroId": 10805,
+      "initCards": [
+       1005,
+       2031
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1379,
+       1380
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10106,
+      "initCards": [
+       1004
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1028,
+       1029
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "董仲舒(1), 使用技能[罢黜百家], 使用牌[30]",
+     "robotIdx": 1,
+     "action": "UseHeroSkill",
+     "cards": [
+      30
+     ],
+     "confirm": false,
+     "heroSkillUuid": 1378,
+     "sleepTime": 2,
+     "assets": [
+      {
+       "msgName": "UseHeroSkillAck",
+       "desc": "董仲舒转换牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "robotIdx": 1,
+     "action": "Sleep",
+     "confirm": false,
+     "sleepTime": 300
+    }
+   ]
+  },
+  {
+   "case": "罢黜百家_7",
+   "desc": "发动前封禁",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     2002,
+     1122,
+     1082,
+     1047,
+     1048,
+     1055,
+     1088,
+     1096,
+     1296,
+     1297,
+     1305
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10106,
+      "initCards": [
+       1003
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1028,
+       1029
+      ],
+      "exEquips": [
+       1009
+      ],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 3,
+      "heroId": 10805,
+      "initCards": [
+       1005
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1379,
+       1380
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "马超(1)对[董仲舒(2)]使用牌[杀(1003)]",
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "targetsId": [
+      2
+     ],
+     "cards": [
+      1003
+     ],
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "马超出牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "董仲舒(2)断言",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "董仲舒响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "CommonHpChange",
+       "desc": "董仲舒受到来自HarmNormal的伤害, 体力变化:-1",
+       "attr": {
+        "ChangeHp": "-1",
+        "HpSrc": "HarmNormal"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "desc": "马超(1)结束打牌",
+     "robotIdx": 1,
+     "action": "PlayCardOver",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "PlayCardOverAck",
+       "desc": "马超结束打牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 4,
+     "desc": "马超(1)自动弃牌",
+     "robotIdx": 1,
+     "action": "DisCard",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "DisCardAck",
+       "desc": "马超弃牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 5,
+     "desc": "董仲舒(1), 使用技能[罢黜百家], 使用牌[30]",
+     "robotIdx": 2,
+     "action": "UseHeroSkill",
+     "confirm": false,
+     "heroSkillUuid": 1378,
+     "sleepTime": 2,
+     "assets": [
+      {
+       "msgName": "UseHeroSkillAck",
+       "desc": "董仲舒发动失败",
+       "attr": {
+        "Result": "1001"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "罢黜百家_8",
+   "desc": "技能删除",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     2002,
+     1122,
+     1082,
+     1047,
+     1048,
+     1055,
+     1088,
+     1096,
+     1296,
+     1297,
+     1305
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 3,
+      "heroId": 10805,
+      "initCards": [
+       1005
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1379,
+       1380
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10106,
+      "initCards": [
+       1124
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1028,
+       1029
+      ],
+      "exEquips": [
+       1147
+      ],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 2,
+      "heroId": 10307,
+      "initCards": [],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [
+       1335
+      ],
+      "delSkills": [
+       1062,
+       1063
+      ],
+      "exEquips": [
+       1043,
+       4043,
+       104301,
+       104302
+      ],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "robotIdx": 1,
+     "action": "UseHeroSkill",
+     "cards": [
+      30
+     ],
+     "confirm": false,
+     "heroSkillUuid": 1378,
+     "assets": [
+      {
+       "msgName": "UseHeroSkillAck",
+       "desc": "董仲舒使用技能成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "董仲舒(1)结束打牌",
+     "robotIdx": 1,
+     "action": "PlayCardOver",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "PlayCardOverAck",
+       "desc": "董仲舒结束打牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "desc": "董仲舒(1)自动弃牌",
+     "robotIdx": 1,
+     "action": "DisCard",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "DisCardAck",
+       "desc": "董仲舒弃牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 4,
+     "desc": "马超(1)对[董仲舒(2)]使用牌[杀(1003)]",
+     "robotIdx": 2,
+     "action": "PlayCard",
+     "targetsId": [
+      3
+     ],
+     "cards": [
+      1124
+     ],
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "马超出牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 5,
+     "desc": "蔡文姬(3)取消",
+     "robotIdx": 3,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "蔡文姬响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "CommonHpChange",
+       "desc": "蔡文姬受到来自HarmHuo的伤害, 体力变化:-5",
+       "attr": {
+        "ChangeHp": "-5",
+        "HpSrc": "HarmHuo"
+       }
+      }
+     ]
+    },
+    {
+     "id": 6,
+     "desc": "马超(2)取消",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "马超响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 7,
+     "desc": "董仲舒(1)取消",
+     "robotIdx": 3,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "董仲舒响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 8,
+     "desc": "蔡文姬(3)取消",
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "蔡文姬响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 9,
+     "desc": "蔡文姬(3)确认对[董仲舒(1)]",
+     "robotIdx": 3,
+     "action": "OptRoomAction",
+     "targetsId": [
+      1
+     ],
+     "confirm": true,
+     "heroSkillUuid": 1335,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "蔡文姬响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 10,
+     "desc": "蔡文姬(3)确认对[董仲舒(1)], 使用牌[1]",
+     "robotIdx": 3,
+     "action": "OptRoomAction",
+     "targetsId": [
+      1
+     ],
+     "cards": [
+      1,
+      3000000
+     ],
+     "confirm": true,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "蔡文姬响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 11,
+     "robotIdx": 1,
+     "action": "Sleep",
+     "confirm": false,
+     "sleepTime": 300
+    }
+   ]
+  },
+  {
+   "case": "罢黜百家_9",
+   "desc": "技能重置",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     2002,
+     1122,
+     1082,
+     1047,
+     1048,
+     1055,
+     1088,
+     1096,
+     1296,
+     1297,
+     1305
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 3,
+      "heroId": 10805,
+      "initCards": [
+       1005
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1379,
+       1380
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10106,
+      "initCards": [
+       1124
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1028,
+       1029
+      ],
+      "exEquips": [
+       1147
+      ],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 2,
+      "heroId": 10307,
+      "initCards": [],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [
+       1335
+      ],
+      "delSkills": [
+       1062,
+       1063
+      ],
+      "exEquips": [
+       1043,
+       4043,
+       104301,
+       104302
+      ],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "robotIdx": 1,
+     "action": "UseHeroSkill",
+     "cards": [
+      30
+     ],
+     "confirm": false,
+     "heroSkillUuid": 1378,
+     "assets": [
+      {
+       "msgName": "UseHeroSkillAck",
+       "desc": "董仲舒使用技能成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "董仲舒(1)结束打牌",
+     "robotIdx": 1,
+     "action": "PlayCardOver",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "PlayCardOverAck",
+       "desc": "董仲舒结束打牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "desc": "董仲舒(1)自动弃牌",
+     "robotIdx": 1,
+     "action": "DisCard",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "DisCardAck",
+       "desc": "董仲舒弃牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 4,
+     "desc": "马超(1)对[董仲舒(2)]使用牌[杀(1003)]",
+     "robotIdx": 2,
+     "action": "PlayCard",
+     "targetsId": [
+      3
+     ],
+     "cards": [
+      1124
+     ],
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "马超出牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 5,
+     "desc": "蔡文姬(3)取消",
+     "robotIdx": 3,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "蔡文姬响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "CommonHpChange",
+       "desc": "蔡文姬受到来自HarmHuo的伤害, 体力变化:-5",
+       "attr": {
+        "ChangeHp": "-5",
+        "HpSrc": "HarmHuo"
+       }
+      }
+     ]
+    },
+    {
+     "id": 6,
+     "desc": "马超(2)取消",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "马超响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 7,
+     "desc": "董仲舒(1)取消",
+     "robotIdx": 3,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "董仲舒响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 8,
+     "desc": "蔡文姬(3)取消",
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "蔡文姬响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 9,
+     "desc": "蔡文姬(3)确认对[董仲舒(1)]",
+     "robotIdx": 3,
+     "action": "OptRoomAction",
+     "targetsId": [
+      1
+     ],
+     "confirm": true,
+     "heroSkillUuid": 1335,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "蔡文姬响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 10,
+     "desc": "蔡文姬(3)确认对[董仲舒(1)], 使用牌[1]",
+     "robotIdx": 3,
+     "action": "OptRoomAction",
+     "targetsId": [
+      1
+     ],
+     "cards": [
+      2,
+      3000000
+     ],
+     "confirm": true,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "蔡文姬响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "春秋繁露_1",
+   "desc": "自身有手牌可复制",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1122,
+     2002,
+     1126,
+     1047,
+     1048,
+     1055,
+     1088,
+     1096,
+     1296,
+     1297,
+     1305
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 3,
+      "heroId": 10805,
+      "initCards": [
+       1005
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1379,
+       1378
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10106,
+      "initCards": [
+       1124
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1028,
+       1029
+      ],
+      "exEquips": [
+       1147
+      ],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "董仲舒(1)对[董仲舒(1)], 使用技能[春秋繁露]",
+     "robotIdx": 1,
+     "action": "UseHeroSkill",
+     "targetsId": [
+      1
+     ],
+     "confirm": false,
+     "heroSkillUuid": 1380,
+     "assets": [
+      {
+       "msgName": "UseHeroSkillAck",
+       "desc": "董仲舒使用技能成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "董仲舒(1)确认对[董仲舒(1)], 使用牌[桃花(2002)]",
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "confirm": true,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "董仲舒响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "cards": [
+      1005
+     ],
+     "confirm": true,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "董仲舒响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "DrawCard",
+       "desc": "董仲舒抽到1张牌牌为[2000000]",
+       "attr": {
+        "Cards": "2000000",
+        "Count": "1"
+       }
+      }
+     ]
+    },
+    {
+     "id": 4,
+     "robotIdx": 1,
+     "action": "Sleep",
+     "confirm": false,
+     "sleepTime": 3
+    }
+   ]
+  },
+  {
+   "case": "春秋繁露_2",
+   "desc": "场中其余人有手牌可复制",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1122,
+     2002,
+     1126,
+     1047,
+     1048,
+     1055,
+     1088,
+     1096,
+     1296,
+     1297,
+     1305
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 3,
+      "heroId": 10805,
+      "initCards": [
+       1005
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1379,
+       1378
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10106,
+      "initCards": [
+       1124
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1028,
+       1029
+      ],
+      "exEquips": [
+       1147
+      ],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "董仲舒(1)对[董仲舒(1)], 使用技能[春秋繁露]",
+     "robotIdx": 1,
+     "action": "UseHeroSkill",
+     "targetsId": [
+      2
+     ],
+     "confirm": false,
+     "heroSkillUuid": 1380,
+     "assets": [
+      {
+       "msgName": "UseHeroSkillAck",
+       "desc": "董仲舒使用技能成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "董仲舒(1)确认",
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "confirm": true,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "董仲舒响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "cards": [
+      1124
+     ],
+     "confirm": true,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "马超响应复制牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "DrawCard",
+       "desc": "马超抽到1张牌牌为[2000000]",
+       "attr": {
+        "Cards": "2000000",
+        "Count": "1"
+       }
+      }
+     ]
+    },
+    {
+     "id": 4,
+     "robotIdx": 1,
+     "action": "Sleep",
+     "confirm": false,
+     "sleepTime": 3
+    }
+   ]
+  },
+  {
+   "case": "春秋繁露_3",
+   "desc": "卜卦结果为火，则复制",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1122,
+     2002,
+     1126,
+     1047,
+     1048,
+     1055,
+     1088,
+     1096,
+     1296,
+     1297,
+     1305
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 3,
+      "heroId": 10805,
+      "initCards": [
+       1123
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1379,
+       1378
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10106,
+      "initCards": [
+       1124
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1028,
+       1029
+      ],
+      "exEquips": [
+       1147
+      ],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "董仲舒(1)对[董仲舒(1)], 使用技能[春秋繁露]",
+     "robotIdx": 1,
+     "action": "UseHeroSkill",
+     "targetsId": [
+      2
+     ],
+     "confirm": false,
+     "heroSkillUuid": 1380,
+     "assets": [
+      {
+       "msgName": "UseHeroSkillAck",
+       "desc": "董仲舒使用技能成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "董仲舒(1)确认",
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "confirm": true,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "董仲舒响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "cards": [
+      1124
+     ],
+     "confirm": true,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "马超响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "DrawCard",
+       "desc": "马超抽到1张牌牌为[2000000]",
+       "attr": {
+        "Cards": "2000000",
+        "Count": "1"
+       }
+      }
+     ]
+    },
+    {
+     "id": 4,
+     "robotIdx": 1,
+     "action": "Sleep",
+     "confirm": false,
+     "sleepTime": 3
+    }
+   ]
+  },
+  {
+   "case": "春秋繁露_4",
+   "desc": "卜卦结果为木，则复制",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1122,
+     2002,
+     1126,
+     1047,
+     1048,
+     1055,
+     1088,
+     1096,
+     1296,
+     1297,
+     1305
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 3,
+      "heroId": 10805,
+      "initCards": [
+       1123
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1379,
+       1378
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10106,
+      "initCards": [
+       1057
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1028,
+       1029
+      ],
+      "exEquips": [
+       1147
+      ],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "董仲舒(1)对[董仲舒(1)], 使用技能[春秋繁露]",
+     "robotIdx": 1,
+     "action": "UseHeroSkill",
+     "targetsId": [
+      2
+     ],
+     "confirm": false,
+     "heroSkillUuid": 1380,
+     "assets": [
+      {
+       "msgName": "UseHeroSkillAck",
+       "desc": "董仲舒使用技能成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "董仲舒(1)确认",
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "confirm": true,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "董仲舒响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "cards": [
+      1057
+     ],
+     "confirm": true,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "马超响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "DrawCard",
+       "desc": "马超抽到1张牌牌为[2000000]",
+       "attr": {
+        "Cards": "2000000",
+        "Count": "1"
+       }
+      }
+     ]
+    },
+    {
+     "id": 4,
+     "robotIdx": 1,
+     "action": "Sleep",
+     "confirm": false,
+     "sleepTime": 3
+    }
+   ]
+  },
+  {
+   "case": "春秋繁露_5",
+   "desc": "卜卦结果为水，则销毁",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1122,
+     2002,
+     1082,
+     1002,
+     1126,
+     1047,
+     1048,
+     1055,
+     1088,
+     1096,
+     1296,
+     1297,
+     1305
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 3,
+      "heroId": 10805,
+      "initCards": [
+       1123
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1379,
+       1378
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10106,
+      "initCards": [
+       1057,
+       1036
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1028,
+       1029
+      ],
+      "exEquips": [
+       1147
+      ],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "董仲舒(1)对[董仲舒(1)], 使用技能[春秋繁露]",
+     "robotIdx": 1,
+     "action": "UseHeroSkill",
+     "targetsId": [
+      2
+     ],
+     "confirm": false,
+     "heroSkillUuid": 1380,
+     "timeout": 5,
+     "assets": [
+      {
+       "msgName": "UseHeroSkillAck",
+       "desc": "董仲舒使用技能成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "cards": [
+      0
+     ],
+     "confirm": true,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "董仲舒响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "desc": "马超(2)断言",
+     "robotIdx": 2,
+     "action": "OnlyAsset",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "DisCard",
+       "desc": "马超弃掉1张牌",
+       "attr": {
+        "Count": "1"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "春秋繁露_6",
+   "desc": "卜卦结果为金，则销毁",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1122,
+     2002,
+     1002,
+     1082,
+     1126,
+     1047,
+     1048,
+     1055,
+     1088,
+     1096,
+     1296,
+     1297,
+     1305
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 3,
+      "heroId": 10805,
+      "initCards": [
+       1123
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1379,
+       1378
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10106,
+      "initCards": [
+       1057,
+       1036
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1028,
+       1029
+      ],
+      "exEquips": [
+       1147
+      ],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "董仲舒(1)对[董仲舒(1)], 使用技能[春秋繁露]",
+     "robotIdx": 1,
+     "action": "UseHeroSkill",
+     "targetsId": [
+      2
+     ],
+     "confirm": false,
+     "heroSkillUuid": 1380,
+     "timeout": 5,
+     "assets": [
+      {
+       "msgName": "UseHeroSkillAck",
+       "desc": "董仲舒使用技能成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "cards": [
+      0
+     ],
+     "confirm": true,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "董仲舒响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "desc": "马超(2)断言",
+     "robotIdx": 2,
+     "action": "OnlyAsset",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "DisCard",
+       "desc": "马超弃掉1张牌",
+       "attr": {
+        "Count": "1"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "春秋繁露_7",
+   "desc": "技能发动前封禁，无法发动",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1048,
+     1055,
+     1002,
+     4086,
+     1126,
+     1122,
+     1047,
+     1088,
+     1082,
+     1096,
+     1296,
+     1297,
+     1305
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 3,
+      "heroId": 10805,
+      "initCards": [
+       1010
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1379,
+       1378
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10105,
+      "initCards": [
+       1011
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1026,
+       1027,
+       1073
+      ],
+      "exEquips": [
+       1009
+      ],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 2,
+      "heroId": 10106,
+      "initCards": [
+       1003
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1028,
+       1029
+      ],
+      "exEquips": [
+       1147
+      ],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "董仲舒(1)结束打牌",
+     "robotIdx": 1,
+     "action": "PlayCardOver",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "PlayCardOverAck",
+       "desc": "董仲舒结束打牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "董仲舒(1)自动弃牌",
+     "robotIdx": 1,
+     "action": "DisCard",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "DisCardAck",
+       "desc": "董仲舒弃牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "desc": "赵云(1)对[董仲舒(2)]使用牌[杀(1011)]",
+     "robotIdx": 2,
+     "action": "PlayCard",
+     "targetsId": [
+      1
+     ],
+     "cards": [
+      1011
+     ],
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "赵云出牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 4,
+     "desc": "董仲舒(2)取消",
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "董仲舒响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "CommonHpChange",
+       "desc": "董仲舒受到来自HarmNormal的伤害, 体力变化:-1",
+       "attr": {
+        "ChangeHp": "-1",
+        "HpSrc": "HarmNormal"
+       }
+      }
+     ]
+    },
+    {
+     "id": 5,
+     "desc": "赵云(1)结束打牌",
+     "robotIdx": 2,
+     "action": "PlayCardOver",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "PlayCardOverAck",
+       "desc": "赵云结束打牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 6,
+     "desc": "赵云(1)自动弃牌",
+     "robotIdx": 2,
+     "action": "DisCard",
+     "confirm": false,
+     "timeout": 3,
+     "assets": [
+      {
+       "msgName": "DisCardAck",
+       "desc": "赵云弃牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 7,
+     "robotIdx": 1,
+     "action": "Sleep",
+     "confirm": false,
+     "sleepTime": 300
+    }
+   ]
+  },
+  {
+   "case": "春秋繁露_8",
+   "desc": "技能删除不可发动",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     2002,
+     1122,
+     1082,
+     1047,
+     1048,
+     1055,
+     1088,
+     1096,
+     1296,
+     1297,
+     1305
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 3,
+      "heroId": 10805,
+      "initCards": [
+       1005
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1379,
+       1378
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10106,
+      "initCards": [
+       1124
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1028,
+       1029
+      ],
+      "exEquips": [
+       1147
+      ],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 2,
+      "heroId": 10307,
+      "initCards": [],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [
+       1335
+      ],
+      "delSkills": [
+       1062,
+       1063
+      ],
+      "exEquips": [
+       1043,
+       4043,
+       104301,
+       104302
+      ],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "董仲舒(1)结束打牌",
+     "robotIdx": 1,
+     "action": "PlayCardOver",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "PlayCardOverAck",
+       "desc": "董仲舒结束打牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "董仲舒(1)自动弃牌",
+     "robotIdx": 1,
+     "action": "DisCard",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "DisCardAck",
+       "desc": "董仲舒弃牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "desc": "马超(1)对[董仲舒(2)]使用牌[杀(1003)]",
+     "robotIdx": 2,
+     "action": "PlayCard",
+     "targetsId": [
+      3
+     ],
+     "cards": [
+      1124
+     ],
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "马超出牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 4,
+     "desc": "蔡文姬(3)取消",
+     "robotIdx": 3,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "蔡文姬响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "CommonHpChange",
+       "desc": "蔡文姬受到来自HarmHuo的伤害, 体力变化:-5",
+       "attr": {
+        "ChangeHp": "-5",
+        "HpSrc": "HarmHuo"
+       }
+      }
+     ]
+    },
+    {
+     "id": 5,
+     "desc": "马超(2)取消",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "马超响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 6,
+     "desc": "董仲舒(1)取消",
+     "robotIdx": 3,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "董仲舒响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 7,
+     "desc": "蔡文姬(3)取消",
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "蔡文姬响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 8,
+     "desc": "蔡文姬(3)确认对[董仲舒(1)]",
+     "robotIdx": 3,
+     "action": "OptRoomAction",
+     "targetsId": [
+      1
+     ],
+     "confirm": true,
+     "heroSkillUuid": 1335,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "蔡文姬响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 9,
+     "desc": "蔡文姬(3)确认对[董仲舒(1)], 使用牌[1]",
+     "robotIdx": 3,
+     "action": "OptRoomAction",
+     "targetsId": [
+      1
+     ],
+     "cards": [
+      1,
+      3000000
+     ],
+     "confirm": true,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "蔡文姬响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 10,
+     "robotIdx": 1,
+     "action": "Sleep",
+     "confirm": false,
+     "sleepTime": 10
+    }
+   ]
+  }
+ ]

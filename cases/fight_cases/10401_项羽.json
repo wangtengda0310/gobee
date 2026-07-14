@@ -1,0 +1,4741 @@
+[
+  {
+   "case": "破釜沉舟1",
+   "desc": "销毁手牌，每回合发动一次",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1001,
+     1002,
+     1003,
+     1004,
+     1012,
+     1011,
+     1010
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10401,
+      "initCards": [
+       100101,
+       1030,
+       1026
+      ],
+      "initEquips": [
+       1120,
+       1145,
+       1147,
+       1046
+      ],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1302
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 2,
+      "heroId": 10001,
+      "initCards": [
+       1019,
+       1047,
+       1043
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1001,
+       1074,
+       1075
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "项羽(1), 使用技能[破釜沉舟]",
+     "robotIdx": 1,
+     "action": "UseHeroSkill",
+     "confirm": false,
+     "heroSkillUuid": 1301,
+     "assets": [
+      {
+       "msgName": "UseHeroSkillAck",
+       "desc": "项羽使用技能成功",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "DisCard",
+       "desc": "项羽弃掉7张牌",
+       "attr": {
+        "Count": "7"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "项羽(1)确认",
+     "robotIdx": 1,
+     "action": "OnlyAsset",
+     "confirm": true,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "DrawCard",
+       "desc": "项羽抽到3张牌",
+       "attr": {
+        "Count": "3"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "desc": "项羽(1), 使用技能[破釜沉舟]",
+     "robotIdx": 1,
+     "action": "UseHeroSkill",
+     "confirm": false,
+     "heroSkillUuid": 1301,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "UseHeroSkillAck",
+       "desc": "项羽无法使用技能",
+       "attr": {
+        "Result": "1561"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "破釜沉舟2",
+   "desc": "销毁销毁手牌区的行动牌",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1001,
+     1002,
+     1003,
+     1004,
+     1012,
+     1011,
+     1010
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10401,
+      "initCards": [
+       100101,
+       1030,
+       1026
+      ],
+      "initEquips": [
+       1120,
+       1145,
+       1147,
+       1046
+      ],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1302
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 2,
+      "heroId": 10001,
+      "initCards": [
+       1019,
+       1047,
+       1043
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1001,
+       1074,
+       1075
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "项羽(1), 使用技能[破釜沉舟]",
+     "robotIdx": 1,
+     "action": "UseHeroSkill",
+     "confirm": false,
+     "heroSkillUuid": 1301,
+     "assets": [
+      {
+       "msgName": "UseHeroSkillAck",
+       "desc": "项羽使用技能成功",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "DisCard",
+       "desc": "项羽弃掉7张牌",
+       "attr": {
+        "Count": "7"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "项羽(1)确认",
+     "robotIdx": 1,
+     "action": "OnlyAsset",
+     "confirm": true,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "DrawCard",
+       "desc": "项羽抽到3张牌",
+       "attr": {
+        "Count": "3"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "desc": "项羽(1)结束打牌",
+     "robotIdx": 1,
+     "action": "PlayCardOver",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "PlayCardOverAck",
+       "desc": "项羽结束打牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 4,
+     "desc": "项羽(1)自动弃牌",
+     "robotIdx": 1,
+     "action": "DisCard",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "DisCardAck",
+       "desc": "项羽弃牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 5,
+     "desc": "项羽(1)等待30秒",
+     "robotIdx": 1,
+     "action": "Sleep",
+     "confirm": false,
+     "timeout": 1,
+     "sleepTime": 2,
+     "assets": [
+      {
+       "msgName": "UseHeroSkillAck",
+       "desc": "项羽等待成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "破釜沉舟3",
+   "desc": "销毁销毁手牌区的战法牌",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1001,
+     1002,
+     1003,
+     1004,
+     1012,
+     1011,
+     1010
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10401,
+      "initCards": [
+       100101,
+       1030,
+       1026
+      ],
+      "initEquips": [
+       1120,
+       1145,
+       1147,
+       1046
+      ],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1302
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 2,
+      "heroId": 10001,
+      "initCards": [
+       1019,
+       1047,
+       1043
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1001,
+       1074,
+       1075
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "项羽(1), 使用技能[破釜沉舟]",
+     "robotIdx": 1,
+     "action": "UseHeroSkill",
+     "confirm": false,
+     "heroSkillUuid": 1301,
+     "assets": [
+      {
+       "msgName": "UseHeroSkillAck",
+       "desc": "项羽使用技能成功",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "DisCard",
+       "desc": "项羽弃掉7张牌",
+       "attr": {
+        "Count": "7"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "项羽(1)确认",
+     "robotIdx": 1,
+     "action": "OnlyAsset",
+     "confirm": true,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "DrawCard",
+       "desc": "项羽抽到3张牌",
+       "attr": {
+        "Count": "3"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "desc": "项羽(1)结束打牌",
+     "robotIdx": 1,
+     "action": "PlayCardOver",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "PlayCardOverAck",
+       "desc": "项羽结束打牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 4,
+     "desc": "项羽(1)自动弃牌",
+     "robotIdx": 1,
+     "action": "DisCard",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "DisCardAck",
+       "desc": "项羽弃牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 5,
+     "desc": "项羽(1)等待30秒",
+     "robotIdx": 1,
+     "action": "Sleep",
+     "confirm": false,
+     "timeout": 1,
+     "sleepTime": 30,
+     "assets": [
+      {
+       "msgName": "UseHeroSkillAck",
+       "desc": "项羽等待成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "破釜沉舟4",
+   "desc": "销毁手牌区的装备牌",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1001,
+     1002,
+     1003,
+     1004,
+     1012,
+     1011,
+     1010
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10401,
+      "initCards": [
+       100101,
+       1030,
+       1026
+      ],
+      "initEquips": [
+       1120,
+       1145,
+       1147,
+       1046
+      ],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1302
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 2,
+      "heroId": 10001,
+      "initCards": [
+       1019,
+       1047,
+       1043
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1001,
+       1074,
+       1075
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "项羽(1), 使用技能[破釜沉舟]",
+     "robotIdx": 1,
+     "action": "UseHeroSkill",
+     "confirm": false,
+     "heroSkillUuid": 1301,
+     "assets": [
+      {
+       "msgName": "UseHeroSkillAck",
+       "desc": "项羽使用技能成功",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "DisCard",
+       "desc": "项羽弃掉7张牌",
+       "attr": {
+        "Count": "7"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "项羽(1)确认",
+     "robotIdx": 1,
+     "action": "OnlyAsset",
+     "confirm": true,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "DrawCard",
+       "desc": "项羽抽到3张牌",
+       "attr": {
+        "Count": "3"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "desc": "项羽(1)结束打牌",
+     "robotIdx": 1,
+     "action": "PlayCardOver",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "PlayCardOverAck",
+       "desc": "项羽结束打牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 4,
+     "desc": "项羽(1)自动弃牌",
+     "robotIdx": 1,
+     "action": "DisCard",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "DisCardAck",
+       "desc": "项羽弃牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 5,
+     "desc": "项羽(1)等待30秒",
+     "robotIdx": 1,
+     "action": "Sleep",
+     "confirm": false,
+     "timeout": 1,
+     "sleepTime": 30,
+     "assets": [
+      {
+       "msgName": "UseHeroSkillAck",
+       "desc": "项羽等待成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "破釜沉舟5",
+   "desc": "销毁手牌区的转换牌",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1001,
+     1002,
+     1003,
+     1004,
+     1012,
+     1011,
+     1010
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10401,
+      "initCards": [
+       100101,
+       1026,
+       2002
+      ],
+      "initEquips": [
+       1120,
+       1145,
+       1147,
+       1046
+      ],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1302
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 2,
+      "heroId": 10001,
+      "initCards": [
+       1019,
+       1047,
+       1043
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1001,
+       1074,
+       1075
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "项羽(1), 使用技能[破釜沉舟]",
+     "robotIdx": 1,
+     "action": "UseHeroSkill",
+     "confirm": false,
+     "heroSkillUuid": 1301,
+     "assets": [
+      {
+       "msgName": "UseHeroSkillAck",
+       "desc": "项羽使用技能成功",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "DisCard",
+       "desc": "项羽弃掉7张牌",
+       "attr": {
+        "Count": "7"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "项羽(1)确认",
+     "robotIdx": 1,
+     "action": "OnlyAsset",
+     "confirm": true,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "DrawCard",
+       "desc": "项羽抽到3张牌",
+       "attr": {
+        "Count": "3"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "desc": "项羽(1)结束打牌",
+     "robotIdx": 1,
+     "action": "PlayCardOver",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "PlayCardOverAck",
+       "desc": "项羽结束打牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 4,
+     "desc": "项羽(1)自动弃牌",
+     "robotIdx": 1,
+     "action": "DisCard",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "DisCardAck",
+       "desc": "项羽弃牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 5,
+     "desc": "项羽(1)等待30秒",
+     "robotIdx": 1,
+     "action": "Sleep",
+     "confirm": false,
+     "timeout": 1,
+     "sleepTime": 30,
+     "assets": [
+      {
+       "msgName": "UseHeroSkillAck",
+       "desc": "项羽等待成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "破釜沉舟6",
+   "desc": "销毁手牌区的专属战法牌",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1001,
+     1002,
+     1003,
+     1004,
+     1012,
+     1011,
+     1010
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10401,
+      "initCards": [
+       100101,
+       2008,
+       3104
+      ],
+      "initEquips": [
+       1120,
+       1145,
+       1147,
+       1046
+      ],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1302
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 2,
+      "heroId": 10001,
+      "initCards": [
+       1019,
+       1047,
+       1043
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1001,
+       1074,
+       1075
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "项羽(1), 使用技能[破釜沉舟]",
+     "robotIdx": 1,
+     "action": "UseHeroSkill",
+     "confirm": false,
+     "heroSkillUuid": 1301,
+     "assets": [
+      {
+       "msgName": "UseHeroSkillAck",
+       "desc": "项羽使用技能成功",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "DisCard",
+       "desc": "项羽弃掉7张牌",
+       "attr": {
+        "Count": "7"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "项羽(1)确认",
+     "robotIdx": 1,
+     "action": "OnlyAsset",
+     "confirm": true,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "DrawCard",
+       "desc": "项羽抽到3张牌",
+       "attr": {
+        "Count": "3"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "desc": "项羽(1)结束打牌",
+     "robotIdx": 1,
+     "action": "PlayCardOver",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "PlayCardOverAck",
+       "desc": "项羽结束打牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 4,
+     "desc": "项羽(1)自动弃牌",
+     "robotIdx": 1,
+     "action": "DisCard",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "DisCardAck",
+       "desc": "项羽弃牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 5,
+     "desc": "项羽(1)等待30秒",
+     "robotIdx": 1,
+     "action": "Sleep",
+     "confirm": false,
+     "timeout": 1,
+     "sleepTime": 30,
+     "assets": [
+      {
+       "msgName": "UseHeroSkillAck",
+       "desc": "项羽等待成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "破釜沉舟7",
+   "desc": "装备区的武器牌不销毁",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1001,
+     1002,
+     1003,
+     1004,
+     1012,
+     1011,
+     1010
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10401,
+      "initCards": [
+       100101,
+       2008,
+       3104
+      ],
+      "initEquips": [
+       1120,
+       1145,
+       1147,
+       1046
+      ],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1302
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 2,
+      "heroId": 10001,
+      "initCards": [
+       1019,
+       1047,
+       1043
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1001,
+       1074,
+       1075
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "项羽(1), 使用技能[破釜沉舟]",
+     "robotIdx": 1,
+     "action": "UseHeroSkill",
+     "confirm": false,
+     "heroSkillUuid": 1301,
+     "assets": [
+      {
+       "msgName": "UseHeroSkillAck",
+       "desc": "项羽使用技能成功",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "DisCard",
+       "desc": "项羽弃掉7张牌",
+       "attr": {
+        "Count": "7"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "项羽(1)确认",
+     "robotIdx": 1,
+     "action": "OnlyAsset",
+     "confirm": true,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "DrawCard",
+       "desc": "项羽抽到3张牌",
+       "attr": {
+        "Count": "3"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "desc": "项羽(1)结束打牌",
+     "robotIdx": 1,
+     "action": "PlayCardOver",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "PlayCardOverAck",
+       "desc": "项羽结束打牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 4,
+     "desc": "项羽(1)自动弃牌",
+     "robotIdx": 1,
+     "action": "DisCard",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "DisCardAck",
+       "desc": "项羽弃牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 5,
+     "desc": "项羽(1)等待30秒",
+     "robotIdx": 1,
+     "action": "Sleep",
+     "confirm": false,
+     "timeout": 1,
+     "sleepTime": 30,
+     "assets": [
+      {
+       "msgName": "UseHeroSkillAck",
+       "desc": "项羽等待成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "破釜沉舟8",
+   "desc": "装备区的坐骑牌不销毁",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1001,
+     1002,
+     1003,
+     1004,
+     1012,
+     1011,
+     1010
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10401,
+      "initCards": [
+       100101,
+       2008,
+       3104
+      ],
+      "initEquips": [
+       1120,
+       1145,
+       1147,
+       1046
+      ],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1302
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 2,
+      "heroId": 10001,
+      "initCards": [
+       1019,
+       1047,
+       1043
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1001,
+       1074,
+       1075
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "项羽(1), 使用技能[破釜沉舟]",
+     "robotIdx": 1,
+     "action": "UseHeroSkill",
+     "confirm": false,
+     "heroSkillUuid": 1301,
+     "assets": [
+      {
+       "msgName": "UseHeroSkillAck",
+       "desc": "项羽使用技能成功",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "DisCard",
+       "desc": "项羽弃掉7张牌",
+       "attr": {
+        "Count": "7"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "项羽(1)确认",
+     "robotIdx": 1,
+     "action": "OnlyAsset",
+     "confirm": true,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "DrawCard",
+       "desc": "项羽抽到3张牌",
+       "attr": {
+        "Count": "3"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "desc": "项羽(1)结束打牌",
+     "robotIdx": 1,
+     "action": "PlayCardOver",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "PlayCardOverAck",
+       "desc": "项羽结束打牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 4,
+     "desc": "项羽(1)自动弃牌",
+     "robotIdx": 1,
+     "action": "DisCard",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "DisCardAck",
+       "desc": "项羽弃牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 5,
+     "desc": "项羽(1)等待30秒",
+     "robotIdx": 1,
+     "action": "Sleep",
+     "confirm": false,
+     "timeout": 1,
+     "sleepTime": 30,
+     "assets": [
+      {
+       "msgName": "UseHeroSkillAck",
+       "desc": "项羽等待成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "破釜沉舟9",
+   "desc": "装备区的专属武器牌不销毁",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1001,
+     1002,
+     1003,
+     1004,
+     1012,
+     1011,
+     1010
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10401,
+      "initCards": [
+       100101,
+       2008,
+       3104
+      ],
+      "initEquips": [
+       1120,
+       1145,
+       1147,
+       2027
+      ],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1302
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 2,
+      "heroId": 10001,
+      "initCards": [
+       1019,
+       1047,
+       1043
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1001,
+       1074,
+       1075
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "项羽(1), 使用技能[破釜沉舟]",
+     "robotIdx": 1,
+     "action": "UseHeroSkill",
+     "confirm": false,
+     "heroSkillUuid": 1301,
+     "assets": [
+      {
+       "msgName": "UseHeroSkillAck",
+       "desc": "项羽使用技能成功",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "DisCard",
+       "desc": "项羽弃掉7张牌",
+       "attr": {
+        "Count": "7"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "项羽(1)确认",
+     "robotIdx": 1,
+     "action": "OnlyAsset",
+     "confirm": true,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "DrawCard",
+       "desc": "项羽抽到3张牌",
+       "attr": {
+        "Count": "3"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "desc": "项羽(1)结束打牌",
+     "robotIdx": 1,
+     "action": "PlayCardOver",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "PlayCardOverAck",
+       "desc": "项羽结束打牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 4,
+     "desc": "项羽(1)自动弃牌",
+     "robotIdx": 1,
+     "action": "DisCard",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "DisCardAck",
+       "desc": "项羽弃牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 5,
+     "desc": "项羽(1)等待30秒",
+     "robotIdx": 1,
+     "action": "Sleep",
+     "confirm": false,
+     "timeout": 1,
+     "sleepTime": 30,
+     "assets": [
+      {
+       "msgName": "UseHeroSkillAck",
+       "desc": "项羽等待成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "破釜沉舟10",
+   "desc": "装备区的专属坐骑牌不销毁",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1001,
+     1002,
+     1003,
+     1004,
+     1012,
+     1011,
+     1010
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10401,
+      "initCards": [
+       100101,
+       2008,
+       3104
+      ],
+      "initEquips": [
+       1120,
+       1145,
+       1147,
+       2024
+      ],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1302
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 2,
+      "heroId": 10001,
+      "initCards": [
+       1019,
+       1047,
+       1043
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1001,
+       1074,
+       1075
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "项羽(1), 使用技能[破釜沉舟]",
+     "robotIdx": 1,
+     "action": "UseHeroSkill",
+     "confirm": false,
+     "heroSkillUuid": 1301,
+     "assets": [
+      {
+       "msgName": "UseHeroSkillAck",
+       "desc": "项羽使用技能成功",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "DisCard",
+       "desc": "项羽弃掉7张牌",
+       "attr": {
+        "Count": "7"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "项羽(1)确认",
+     "robotIdx": 1,
+     "action": "OnlyAsset",
+     "confirm": true,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "DrawCard",
+       "desc": "项羽抽到3张牌",
+       "attr": {
+        "Count": "3"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "desc": "项羽(1)结束打牌",
+     "robotIdx": 1,
+     "action": "PlayCardOver",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "PlayCardOverAck",
+       "desc": "项羽结束打牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 4,
+     "desc": "项羽(1)自动弃牌",
+     "robotIdx": 1,
+     "action": "DisCard",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "DisCardAck",
+       "desc": "项羽弃牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 5,
+     "desc": "项羽(1)等待30秒",
+     "robotIdx": 1,
+     "action": "Sleep",
+     "confirm": false,
+     "timeout": 1,
+     "sleepTime": 30,
+     "assets": [
+      {
+       "msgName": "UseHeroSkillAck",
+       "desc": "项羽等待成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "破釜沉舟11",
+   "desc": "销毁装备区的普通防具牌",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1001,
+     1002,
+     1003,
+     1004,
+     1012,
+     1011,
+     1010
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10401,
+      "initCards": [
+       100101,
+       2008,
+       3104
+      ],
+      "initEquips": [
+       1120,
+       1145,
+       1147,
+       2024
+      ],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1302
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 2,
+      "heroId": 10001,
+      "initCards": [
+       1019,
+       1047,
+       1043
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1001,
+       1074,
+       1075
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "项羽(1), 使用技能[破釜沉舟]",
+     "robotIdx": 1,
+     "action": "UseHeroSkill",
+     "confirm": false,
+     "heroSkillUuid": 1301,
+     "assets": [
+      {
+       "msgName": "UseHeroSkillAck",
+       "desc": "项羽使用技能成功",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "DisCard",
+       "desc": "项羽弃掉7张牌",
+       "attr": {
+        "Count": "7"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "项羽(1)确认",
+     "robotIdx": 1,
+     "action": "OnlyAsset",
+     "confirm": true,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "DrawCard",
+       "desc": "项羽抽到3张牌",
+       "attr": {
+        "Count": "3"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "desc": "项羽(1)结束打牌",
+     "robotIdx": 1,
+     "action": "PlayCardOver",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "PlayCardOverAck",
+       "desc": "项羽结束打牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 4,
+     "desc": "项羽(1)自动弃牌",
+     "robotIdx": 1,
+     "action": "DisCard",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "DisCardAck",
+       "desc": "项羽弃牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 5,
+     "desc": "项羽(1)等待30秒",
+     "robotIdx": 1,
+     "action": "Sleep",
+     "confirm": false,
+     "timeout": 1,
+     "sleepTime": 30,
+     "assets": [
+      {
+       "msgName": "UseHeroSkillAck",
+       "desc": "项羽等待成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "破釜沉舟12",
+   "desc": "销毁装备区的强化防具牌",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1001,
+     1002,
+     1003,
+     1004,
+     1012,
+     1011,
+     1010
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10401,
+      "initCards": [
+       100101,
+       2008,
+       3104
+      ],
+      "initEquips": [
+       1120,
+       1145,
+       1147,
+       2024
+      ],
+      "augurCards": [],
+      "addSkills": [
+       1607
+      ],
+      "delSkills": [
+       1302
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 2,
+      "heroId": 10001,
+      "initCards": [
+       1019,
+       1047,
+       1043
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1001,
+       1074,
+       1075
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "robotIdx": 1,
+     "action": "UseHeroSkill",
+     "targetsId": [
+      1
+     ],
+     "cards": [
+      1145
+     ],
+     "confirm": false,
+     "heroSkillUuid": 1607,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "UseHeroSkillAck",
+       "desc": "项羽使用技能成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "项羽(1), 使用技能[破釜沉舟]",
+     "robotIdx": 1,
+     "action": "UseHeroSkill",
+     "confirm": false,
+     "heroSkillUuid": 1301,
+     "assets": [
+      {
+       "msgName": "UseHeroSkillAck",
+       "desc": "项羽使用技能成功",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "DisCard",
+       "desc": "项羽弃掉7张牌",
+       "attr": {
+        "Count": "7"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "desc": "项羽(1)确认",
+     "robotIdx": 1,
+     "action": "OnlyAsset",
+     "confirm": true,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "DrawCard",
+       "desc": "项羽抽到3张牌",
+       "attr": {
+        "Count": "3"
+       }
+      }
+     ]
+    },
+    {
+     "id": 4,
+     "desc": "项羽(1)结束打牌",
+     "robotIdx": 1,
+     "action": "PlayCardOver",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "PlayCardOverAck",
+       "desc": "项羽结束打牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 5,
+     "desc": "项羽(1)自动弃牌",
+     "robotIdx": 1,
+     "action": "DisCard",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "DisCardAck",
+       "desc": "项羽弃牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 6,
+     "desc": "项羽(1)等待30秒",
+     "robotIdx": 1,
+     "action": "Sleep",
+     "confirm": false,
+     "timeout": 1,
+     "sleepTime": 2,
+     "assets": [
+      {
+       "msgName": "UseHeroSkillAck",
+       "desc": "项羽等待成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "破釜沉舟13",
+   "desc": "装备区的强化武器牌不销毁",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1001,
+     1002,
+     1003,
+     1004,
+     1012,
+     1011,
+     1010
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10401,
+      "initCards": [
+       100101,
+       2008,
+       3104
+      ],
+      "initEquips": [
+       1120,
+       1145,
+       1147,
+       2024
+      ],
+      "augurCards": [],
+      "addSkills": [
+       1607
+      ],
+      "delSkills": [
+       1302
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 2,
+      "heroId": 10001,
+      "initCards": [
+       1019,
+       1047,
+       1043
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1001,
+       1074,
+       1075
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "robotIdx": 1,
+     "action": "UseHeroSkill",
+     "targetsId": [
+      1
+     ],
+     "cards": [
+      1147
+     ],
+     "confirm": false,
+     "heroSkillUuid": 1607,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "UseHeroSkillAck",
+       "desc": "项羽使用技能成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "项羽(1), 使用技能[破釜沉舟]",
+     "robotIdx": 1,
+     "action": "UseHeroSkill",
+     "confirm": false,
+     "heroSkillUuid": 1301,
+     "assets": [
+      {
+       "msgName": "UseHeroSkillAck",
+       "desc": "项羽使用技能成功",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "DisCard",
+       "desc": "项羽弃掉7张牌",
+       "attr": {
+        "Count": "7"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "desc": "项羽(1)确认",
+     "robotIdx": 1,
+     "action": "OnlyAsset",
+     "confirm": true,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "DrawCard",
+       "desc": "项羽抽到3张牌",
+       "attr": {
+        "Count": "3"
+       }
+      }
+     ]
+    },
+    {
+     "id": 4,
+     "desc": "项羽(1)结束打牌",
+     "robotIdx": 1,
+     "action": "PlayCardOver",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "PlayCardOverAck",
+       "desc": "项羽结束打牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 5,
+     "desc": "项羽(1)自动弃牌",
+     "robotIdx": 1,
+     "action": "DisCard",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "DisCardAck",
+       "desc": "项羽弃牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 6,
+     "desc": "项羽(1)等待30秒",
+     "robotIdx": 1,
+     "action": "Sleep",
+     "confirm": false,
+     "timeout": 1,
+     "sleepTime": 2,
+     "assets": [
+      {
+       "msgName": "UseHeroSkillAck",
+       "desc": "项羽等待成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "破釜沉舟14",
+   "desc": "销毁手牌区的强化武器牌",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1001,
+     1002,
+     1003,
+     1004,
+     1012,
+     1011,
+     1010
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10401,
+      "initCards": [
+       100101,
+       2008,
+       3104,
+       1009
+      ],
+      "initEquips": [
+       1120,
+       1145,
+       1147,
+       2024
+      ],
+      "augurCards": [],
+      "addSkills": [
+       1607
+      ],
+      "delSkills": [
+       1302
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 2,
+      "heroId": 10001,
+      "initCards": [
+       1019,
+       1047,
+       1043
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1001,
+       1074,
+       1075
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "robotIdx": 1,
+     "action": "UseHeroSkill",
+     "targetsId": [
+      1
+     ],
+     "cards": [
+      1147
+     ],
+     "confirm": false,
+     "heroSkillUuid": 1607,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "UseHeroSkillAck",
+       "desc": "项羽使用技能成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "项羽(1), 使用技能[破釜沉舟]",
+     "robotIdx": 1,
+     "action": "UseHeroSkill",
+     "confirm": false,
+     "heroSkillUuid": 1301,
+     "assets": [
+      {
+       "msgName": "UseHeroSkillAck",
+       "desc": "项羽使用技能成功",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "DisCard",
+       "desc": "项羽弃掉7张牌",
+       "attr": {
+        "Count": "8"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "desc": "项羽(1)确认",
+     "robotIdx": 1,
+     "action": "OnlyAsset",
+     "confirm": true,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "DrawCard",
+       "desc": "项羽抽到3张牌",
+       "attr": {
+        "Count": "3"
+       }
+      }
+     ]
+    },
+    {
+     "id": 4,
+     "desc": "项羽(1)结束打牌",
+     "robotIdx": 1,
+     "action": "PlayCardOver",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "PlayCardOverAck",
+       "desc": "项羽结束打牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 5,
+     "desc": "项羽(1)自动弃牌",
+     "robotIdx": 1,
+     "action": "DisCard",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "DisCardAck",
+       "desc": "项羽弃牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 6,
+     "desc": "项羽(1)等待30秒",
+     "robotIdx": 1,
+     "action": "Sleep",
+     "confirm": false,
+     "timeout": 1,
+     "sleepTime": 2,
+     "assets": [
+      {
+       "msgName": "UseHeroSkillAck",
+       "desc": "项羽等待成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "破釜沉舟15",
+   "desc": "销毁装备区的专属防具牌",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1001,
+     1002,
+     1003,
+     1004,
+     1012,
+     1011,
+     1010
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10401,
+      "initCards": [
+       100101,
+       2008,
+       3104
+      ],
+      "initEquips": [
+       1120,
+       1145,
+       1147,
+       2025
+      ],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1302
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 2,
+      "heroId": 10001,
+      "initCards": [
+       1019,
+       1047,
+       1043
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1001,
+       1074,
+       1075
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "项羽(1), 使用技能[破釜沉舟]",
+     "robotIdx": 1,
+     "action": "UseHeroSkill",
+     "confirm": false,
+     "heroSkillUuid": 1301,
+     "assets": [
+      {
+       "msgName": "UseHeroSkillAck",
+       "desc": "项羽使用技能成功",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "DisCard",
+       "desc": "项羽弃掉7张牌",
+       "attr": {
+        "Count": "7"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "项羽(1)确认",
+     "robotIdx": 1,
+     "action": "OnlyAsset",
+     "confirm": true,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "DrawCard",
+       "desc": "项羽抽到3张牌",
+       "attr": {
+        "Count": "3"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "desc": "项羽(1)结束打牌",
+     "robotIdx": 1,
+     "action": "PlayCardOver",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "PlayCardOverAck",
+       "desc": "项羽结束打牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 4,
+     "desc": "项羽(1)自动弃牌",
+     "robotIdx": 1,
+     "action": "DisCard",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "DisCardAck",
+       "desc": "项羽弃牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 5,
+     "desc": "项羽(1)等待30秒",
+     "robotIdx": 1,
+     "action": "Sleep",
+     "confirm": false,
+     "timeout": 1,
+     "sleepTime": 2,
+     "assets": [
+      {
+       "msgName": "UseHeroSkillAck",
+       "desc": "项羽等待成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "破釜沉舟16",
+   "desc": "专属防具牌（传国玉玺）无法销毁",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1001,
+     1002,
+     1003,
+     1004,
+     1012,
+     1011,
+     1010
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10401,
+      "initCards": [
+       100101,
+       2008,
+       3104
+      ],
+      "initEquips": [
+       1120,
+       1145,
+       1147,
+       2042
+      ],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1302
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 2,
+      "heroId": 10001,
+      "initCards": [
+       1019,
+       1047,
+       1043
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1001,
+       1074,
+       1075
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "项羽(1), 使用技能[破釜沉舟]",
+     "robotIdx": 1,
+     "action": "UseHeroSkill",
+     "confirm": false,
+     "heroSkillUuid": 1301,
+     "assets": [
+      {
+       "msgName": "UseHeroSkillAck",
+       "desc": "项羽使用技能成功",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "DisCard",
+       "desc": "项羽弃掉7张牌",
+       "attr": {
+        "Count": "7"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "项羽(1)确认",
+     "robotIdx": 1,
+     "action": "OnlyAsset",
+     "confirm": true,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "DrawCard",
+       "desc": "项羽抽到3张牌",
+       "attr": {
+        "Count": "3"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "desc": "项羽(1)结束打牌",
+     "robotIdx": 1,
+     "action": "PlayCardOver",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "PlayCardOverAck",
+       "desc": "项羽结束打牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 4,
+     "desc": "项羽(1)自动弃牌",
+     "robotIdx": 1,
+     "action": "DisCard",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "DisCardAck",
+       "desc": "项羽弃牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 5,
+     "desc": "项羽(1)等待30秒",
+     "robotIdx": 1,
+     "action": "Sleep",
+     "confirm": false,
+     "timeout": 1,
+     "sleepTime": 2,
+     "assets": [
+      {
+       "msgName": "UseHeroSkillAck",
+       "desc": "项羽等待成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "破釜沉舟17",
+   "desc": "发动过技能后造成杀伤+1",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1001,
+     1002,
+     1003,
+     1004,
+     1012,
+     1011,
+     1010
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10401,
+      "initCards": [
+       100101,
+       1022,
+       1005
+      ],
+      "initEquips": [
+       1120,
+       1145,
+       1147,
+       2042
+      ],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1302
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 2,
+      "heroId": 10001,
+      "initCards": [
+       1047,
+       1029
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1001,
+       1074,
+       1075
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "项羽(1), 使用技能[破釜沉舟]",
+     "robotIdx": 1,
+     "action": "UseHeroSkill",
+     "confirm": false,
+     "heroSkillUuid": 1301,
+     "assets": [
+      {
+       "msgName": "UseHeroSkillAck",
+       "desc": "项羽使用技能成功",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "DisCard",
+       "desc": "项羽弃掉7张牌",
+       "attr": {
+        "Count": "7"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "项羽(1)确认",
+     "robotIdx": 1,
+     "action": "OnlyAsset",
+     "confirm": true,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "DrawCard",
+       "desc": "项羽抽到3张牌",
+       "attr": {
+        "Count": "3"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "desc": "项羽(1)对[曹操(2)]使用牌[杀(1022)]",
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "targetsId": [
+      2
+     ],
+     "cards": [
+      1003
+     ],
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "项羽出牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 4,
+     "desc": "曹操(2)取消",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "曹操响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "CommonHpChange",
+       "desc": "曹操受到来自HarmNormal的伤害, 体力变化:2",
+       "attr": {
+        "ChangeHp": "-2",
+        "HpSrc": "HarmNormal"
+       }
+      }
+     ]
+    },
+    {
+     "id": 5,
+     "desc": "项羽(1)等待30秒",
+     "robotIdx": 1,
+     "action": "Sleep",
+     "confirm": false,
+     "timeout": 1,
+     "sleepTime": 2,
+     "assets": [
+      {
+       "msgName": "UseHeroSkillAck",
+       "desc": "项羽等待成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "破釜沉舟18",
+   "desc": "发动过技能后造成战法伤害+1",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1001,
+     1002,
+     1003,
+     1013,
+     1004,
+     1012,
+     1011,
+     1010
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10401,
+      "initCards": [
+       100101,
+       1022,
+       1005
+      ],
+      "initEquips": [
+       1120,
+       1145,
+       1147,
+       2042
+      ],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1302
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 2,
+      "heroId": 10001,
+      "initCards": [
+       1047,
+       1029
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1001,
+       1074,
+       1075
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "项羽(1), 使用技能[破釜沉舟]",
+     "robotIdx": 1,
+     "action": "UseHeroSkill",
+     "confirm": false,
+     "heroSkillUuid": 1301,
+     "assets": [
+      {
+       "msgName": "UseHeroSkillAck",
+       "desc": "项羽使用技能成功",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "DisCard",
+       "desc": "项羽弃掉7张牌",
+       "attr": {
+        "Count": "7"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "项羽(1)确认",
+     "robotIdx": 1,
+     "action": "OnlyAsset",
+     "confirm": true,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "DrawCard",
+       "desc": "项羽抽到3张牌",
+       "attr": {
+        "Count": "3"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "desc": "项羽(1)对[曹操(2)]使用牌[杀(1022)]",
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "targetsId": [
+      2
+     ],
+     "cards": [
+      1013
+     ],
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "项羽出牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 4,
+     "desc": "曹操(2)取消",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "曹操响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "CommonHpChange",
+       "desc": "曹操受到来自HarmNormal的伤害, 体力变化:2",
+       "attr": {
+        "ChangeHp": "-2",
+        "HpSrc": "HarmNormal"
+       }
+      }
+     ]
+    },
+    {
+     "id": 5,
+     "desc": "项羽(1)等待30秒",
+     "robotIdx": 1,
+     "action": "Sleep",
+     "confirm": false,
+     "timeout": 1,
+     "sleepTime": 2,
+     "assets": [
+      {
+       "msgName": "UseHeroSkillAck",
+       "desc": "项羽等待成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "破釜沉舟19",
+   "desc": "发动过技能后损失一点体力出杀次数+1",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1001,
+     1002,
+     1003,
+     1013,
+     1004,
+     1012,
+     1011,
+     1010
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10401,
+      "initCards": [
+       100101,
+       1022,
+       1005
+      ],
+      "initEquips": [
+       1120,
+       1145,
+       1147,
+       2042
+      ],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1302
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 2,
+      "heroId": 10001,
+      "initCards": [
+       1020,
+       1125
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1001,
+       1074,
+       1075
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "项羽(1), 使用技能[破釜沉舟]",
+     "robotIdx": 1,
+     "action": "UseHeroSkill",
+     "confirm": false,
+     "heroSkillUuid": 1301,
+     "assets": [
+      {
+       "msgName": "UseHeroSkillAck",
+       "desc": "项羽使用技能成功",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "DisCard",
+       "desc": "项羽弃掉7张牌",
+       "attr": {
+        "Count": "7"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "项羽(1)确认",
+     "robotIdx": 1,
+     "action": "OnlyAsset",
+     "confirm": true,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "DrawCard",
+       "desc": "项羽抽到3张牌",
+       "attr": {
+        "Count": "3"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "desc": "项羽(1)对[曹操(2)]使用牌[杀(1022)]",
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "targetsId": [
+      2
+     ],
+     "cards": [
+      1013
+     ],
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "项羽出牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 4,
+     "desc": "曹操(2)取消",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "曹操响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "CommonHpChange",
+       "desc": "曹操受到来自HarmNormal的伤害, 体力变化:2",
+       "attr": {
+        "ChangeHp": "-2",
+        "HpSrc": "HarmNormal"
+       }
+      }
+     ]
+    },
+    {
+     "id": 5,
+     "desc": "项羽(1)结束打牌",
+     "robotIdx": 1,
+     "action": "PlayCardOver",
+     "confirm": false,
+     "timeout": 1,
+     "sleepTime": 2,
+     "assets": [
+      {
+       "msgName": "PlayCardOverAck",
+       "desc": "项羽结束打牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 6,
+     "desc": "项羽(1)自动弃牌",
+     "robotIdx": 1,
+     "action": "DisCard",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "DisCardAck",
+       "desc": "项羽弃牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 7,
+     "desc": "曹操(2)对[项羽(1)]使用牌[雷杀(1020)]",
+     "robotIdx": 2,
+     "action": "PlayCard",
+     "targetsId": [
+      1
+     ],
+     "cards": [
+      1020
+     ],
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "曹操出牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 8,
+     "desc": "项羽(1)断言",
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "项羽响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "CommonHpChange",
+       "desc": "项羽受到来自HarmNormal的伤害, 体力变化:-1",
+       "attr": {
+        "ChangeHp": "-1",
+        "HpSrc": "HarmLei"
+       }
+      }
+     ]
+    },
+    {
+     "id": 9,
+     "desc": "曹操(2)对[项羽(1)]使用牌[烽火狼烟(1125)]",
+     "robotIdx": 2,
+     "action": "PlayCard",
+     "targetsId": [
+      1
+     ],
+     "cards": [
+      1125
+     ],
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "曹操出牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 10,
+     "desc": "项羽(1)断言",
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "项羽响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "CommonHpChange",
+       "desc": "项羽受到来自HarmNormal的伤害, 体力变化:-1",
+       "attr": {
+        "ChangeHp": "-1",
+        "HpSrc": "HarmNormal"
+       }
+      }
+     ]
+    },
+    {
+     "id": 11,
+     "desc": "曹操(2)结束打牌",
+     "robotIdx": 2,
+     "action": "PlayCardOver",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "PlayCardOverAck",
+       "desc": "曹操结束打牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 12,
+     "desc": "曹操(2)自动弃牌",
+     "robotIdx": 2,
+     "action": "DisCard",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "DisCardAck",
+       "desc": "曹操弃牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 13,
+     "robotIdx": 1,
+     "action": "Sleep",
+     "confirm": false,
+     "timeout": 1,
+     "sleepTime": 30
+    }
+   ]
+  },
+  {
+   "case": "破釜沉舟20",
+   "desc": "发动过技能后损失2点体力出杀次数+2",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1001,
+     1002,
+     1003,
+     1013,
+     1004,
+     1012,
+     1011,
+     1010
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10401,
+      "initCards": [
+       100101,
+       1022,
+       1005
+      ],
+      "initEquips": [
+       1120,
+       1145,
+       1147,
+       2042
+      ],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1302
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 2,
+      "heroId": 10001,
+      "initCards": [
+       1020,
+       1125
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1001,
+       1074,
+       1075
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "项羽(1), 使用技能[破釜沉舟]",
+     "robotIdx": 1,
+     "action": "UseHeroSkill",
+     "confirm": false,
+     "heroSkillUuid": 1301,
+     "assets": [
+      {
+       "msgName": "UseHeroSkillAck",
+       "desc": "项羽使用技能成功",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "DisCard",
+       "desc": "项羽弃掉7张牌",
+       "attr": {
+        "Count": "7"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "项羽(1)确认",
+     "robotIdx": 1,
+     "action": "OnlyAsset",
+     "confirm": true,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "DrawCard",
+       "desc": "项羽抽到3张牌",
+       "attr": {
+        "Count": "3"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "desc": "项羽(1)对[曹操(2)]使用牌[杀(1022)]",
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "targetsId": [
+      2
+     ],
+     "cards": [
+      1013
+     ],
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "项羽出牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 4,
+     "desc": "曹操(2)取消",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "曹操响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "CommonHpChange",
+       "desc": "曹操受到来自HarmNormal的伤害, 体力变化:2",
+       "attr": {
+        "ChangeHp": "-2",
+        "HpSrc": "HarmNormal"
+       }
+      }
+     ]
+    },
+    {
+     "id": 5,
+     "desc": "项羽(1)结束打牌",
+     "robotIdx": 1,
+     "action": "PlayCardOver",
+     "confirm": false,
+     "timeout": 1,
+     "sleepTime": 2,
+     "assets": [
+      {
+       "msgName": "PlayCardOverAck",
+       "desc": "项羽结束打牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 6,
+     "desc": "项羽(1)自动弃牌",
+     "robotIdx": 1,
+     "action": "DisCard",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "DisCardAck",
+       "desc": "项羽弃牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 7,
+     "desc": "曹操(2)对[项羽(1)]使用牌[雷杀(1020)]",
+     "robotIdx": 2,
+     "action": "PlayCard",
+     "targetsId": [
+      1
+     ],
+     "cards": [
+      1020
+     ],
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "曹操出牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 8,
+     "desc": "项羽(1)断言",
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "项羽响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "CommonHpChange",
+       "desc": "项羽受到来自HarmNormal的伤害, 体力变化:-1",
+       "attr": {
+        "ChangeHp": "-1",
+        "HpSrc": "HarmLei"
+       }
+      }
+     ]
+    },
+    {
+     "id": 9,
+     "desc": "曹操(2)对[项羽(1)]使用牌[烽火狼烟(1125)]",
+     "robotIdx": 2,
+     "action": "PlayCard",
+     "targetsId": [
+      1
+     ],
+     "cards": [
+      1125
+     ],
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "曹操出牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 10,
+     "desc": "项羽(1)断言",
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "项羽响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "CommonHpChange",
+       "desc": "项羽受到来自HarmNormal的伤害, 体力变化:-1",
+       "attr": {
+        "ChangeHp": "-1",
+        "HpSrc": "HarmNormal"
+       }
+      }
+     ]
+    },
+    {
+     "id": 11,
+     "desc": "曹操(2)结束打牌",
+     "robotIdx": 2,
+     "action": "PlayCardOver",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "PlayCardOverAck",
+       "desc": "曹操结束打牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 12,
+     "desc": "曹操(2)自动弃牌",
+     "robotIdx": 2,
+     "action": "DisCard",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "DisCardAck",
+       "desc": "曹操弃牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 13,
+     "robotIdx": 1,
+     "action": "Sleep",
+     "confirm": false,
+     "timeout": 1,
+     "sleepTime": 30
+    }
+   ]
+  },
+  {
+   "case": "破釜沉舟21",
+   "desc": "发动前封禁不可发动",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1001,
+     1002,
+     1003,
+     1004,
+     1005,
+     1006,
+     1007,
+     1011,
+     1012,
+     1013,
+     1014
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 3,
+      "heroId": 10105,
+      "initCards": [
+       3009,
+       1010,
+       1021
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1026,
+       1027,
+       1073
+      ],
+      "exEquips": [
+       1009
+      ],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 2,
+      "heroId": 10001,
+      "initCards": [
+       1082,
+       1083,
+       1084,
+       1087
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [
+       1301
+      ],
+      "delSkills": [
+       1001,
+       1074,
+       1075
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "曹操(1)使用牌[万箭齐发(3001)]",
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "cards": [
+      1001
+     ],
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "曹操出牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "曹操(2)确认, 使用牌[闪(1082)]",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "cards": [
+      1082
+     ],
+     "confirm": true,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "曹操响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "desc": "赵云(1)使用牌[万箭齐发(3009)]",
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "cards": [
+      3009
+     ],
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "赵云出牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 4,
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "cards": [
+      1083
+     ],
+     "confirm": true,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "曹操响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 5,
+     "desc": "赵云(1)对[曹操(2)]使用牌[杀(1010)]",
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "targetsId": [
+      2
+     ],
+     "cards": [
+      1010
+     ],
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "赵云出牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 6,
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "cards": [
+      1084
+     ],
+     "confirm": true,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "封禁成功，未触发技能效果",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 7,
+     "robotIdx": 2,
+     "action": "Sleep",
+     "confirm": false,
+     "timeout": 1,
+     "sleepTime": 20
+    }
+   ]
+  },
+  {
+   "case": "破釜沉舟22",
+   "desc": "发动前转移，效果不发动",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1001,
+     1003,
+     1043,
+     1004,
+     1005,
+     1006,
+     1007,
+     1008,
+     1009,
+     1010,
+     1011
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 13,
+      "color": 97,
+      "heroId": 10002,
+      "initCards": [
+       1013,
+       1021,
+       3005
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [
+       1365
+      ],
+      "delSkills": [
+       1004,
+       1005,
+       1006
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 13,
+      "color": 97,
+      "heroId": 10005,
+      "initCards": [
+       1047
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [
+       1301
+      ],
+      "delSkills": [
+       1011,
+       1012
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "郭嘉(1)对[甄宓(2)]使用牌[阵前对决(1013)]",
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "targetsId": [
+      2
+     ],
+     "cards": [
+      1013
+     ],
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "成功：郭嘉(1)对[甄宓(2)]使用牌[阵前对决(1013)]",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "甄宓(2)取消",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "甄宓(2)取消",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "CommonHpChange",
+       "desc": "受到1点伤害",
+       "attr": {
+        "ChangeHp": "-1",
+        "CurHp": "3",
+        "MaxHp": "4"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "desc": "郭嘉(1)对[甄宓(2)]使用牌[阵前对决(1021)]",
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "targetsId": [
+      2
+     ],
+     "cards": [
+      1021
+     ],
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "成功：郭嘉(1)对[甄宓(2)]使用牌[阵前对决(1021)]",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 4,
+     "desc": "甄宓(2)取消",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "甄宓(2)取消",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "CommonHpChange",
+       "desc": "受到1点伤害",
+       "attr": {
+        "ChangeHp": "-1",
+        "CurHp": "2",
+        "MaxHp": "4"
+       }
+      }
+     ]
+    },
+    {
+     "id": 5,
+     "desc": "郭嘉(1)对[甄宓(2)]使用牌[阵前对决(3005)]",
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "targetsId": [
+      2
+     ],
+     "cards": [
+      3005
+     ],
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "成功：郭嘉(1)对[甄宓(2)]使用牌[阵前对决(3005)]",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 6,
+     "desc": "甄宓(2)取消",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "甄宓(2)取消",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "CommonHpChange",
+       "desc": "受到1点伤害",
+       "attr": {
+        "ChangeHp": "-1",
+        "CurHp": "1",
+        "MaxHp": "4"
+       }
+      }
+     ]
+    },
+    {
+     "id": 7,
+     "desc": "郭嘉(1)对[甄宓(2)]使用牌[杀(1003)]",
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "targetsId": [
+      2
+     ],
+     "cards": [
+      1003
+     ],
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "成功：郭嘉(1)对[甄宓(2)]使用牌[杀(1003)]",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 8,
+     "desc": "甄宓(2)取消",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "甄宓(2)取消",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "CommonHpChange",
+       "desc": "受到1点伤害",
+       "attr": {
+        "ChangeHp": "-1",
+        "CurHp": "0",
+        "MaxHp": "4"
+       }
+      }
+     ]
+    },
+    {
+     "id": 9,
+     "desc": "郭嘉(1)确认",
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "confirm": true,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "郭嘉(1)确认",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 10,
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "cards": [
+      1
+     ],
+     "confirm": true,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "技能转移成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 11,
+     "desc": "郭嘉(1)取消求援",
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "郭嘉(1)取消求援",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 12,
+     "desc": "甄宓(2)确认, 使用牌[桃(1047)]",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "cards": [
+      1047
+     ],
+     "confirm": true,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "成功：甄宓(2)确认, 使用牌[桃(1047)]",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "CommonHpChange",
+       "desc": "",
+       "attr": {
+        "ChangeHp": "1",
+        "CurHp": "1",
+        "MaxHp": "4"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "破釜沉舟23",
+   "desc": "处于封禁状态转移，后续不发动",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1001,
+     1003,
+     1043,
+     1004,
+     1005,
+     1006,
+     1007,
+     1008,
+     1009,
+     1010,
+     1011
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 13,
+      "color": 97,
+      "heroId": 10002,
+      "initCards": [
+       1013,
+       1021,
+       3005,
+       1055
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [
+       1365
+      ],
+      "delSkills": [
+       1004,
+       1005,
+       1006
+      ],
+      "exEquips": [
+       4009
+      ],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 13,
+      "color": 97,
+      "heroId": 10005,
+      "initCards": [],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [
+       1301
+      ],
+      "delSkills": [
+       1011,
+       1012
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "郭嘉(1)对[甄宓(2)]使用牌[阵前对决(1013)]",
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "targetsId": [
+      2
+     ],
+     "cards": [
+      1013
+     ],
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "成功：郭嘉(1)对[甄宓(2)]使用牌[阵前对决(1013)]",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "甄宓(2)取消",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "甄宓(2)取消",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "CommonHpChange",
+       "desc": "受到1点伤害",
+       "attr": {
+        "ChangeHp": "-1",
+        "CurHp": "3",
+        "MaxHp": "4"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "desc": "郭嘉(1)对[甄宓(2)]使用牌[阵前对决(1021)]",
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "targetsId": [
+      2
+     ],
+     "cards": [
+      1021
+     ],
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "成功：郭嘉(1)对[甄宓(2)]使用牌[阵前对决(1021)]",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 4,
+     "desc": "甄宓(2)取消",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "甄宓(2)取消",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "CommonHpChange",
+       "desc": "受到1点伤害",
+       "attr": {
+        "ChangeHp": "-1",
+        "CurHp": "2",
+        "MaxHp": "4"
+       }
+      }
+     ]
+    },
+    {
+     "id": 5,
+     "desc": "郭嘉(1)对[甄宓(2)]使用牌[阵前对决(3005)]",
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "targetsId": [
+      2
+     ],
+     "cards": [
+      3005
+     ],
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "成功：郭嘉(1)对[甄宓(2)]使用牌[阵前对决(3005)]",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 6,
+     "desc": "甄宓(2)取消",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "甄宓(2)取消",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "CommonHpChange",
+       "desc": "受到1点伤害",
+       "attr": {
+        "ChangeHp": "-1",
+        "CurHp": "1",
+        "MaxHp": "4"
+       }
+      }
+     ]
+    },
+    {
+     "id": 7,
+     "desc": "郭嘉(1)对[甄宓(2)]使用牌[杀(1003)]",
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "targetsId": [
+      2
+     ],
+     "cards": [
+      1003
+     ],
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "成功：郭嘉(1)对[甄宓(2)]使用牌[杀(1003)]",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 8,
+     "desc": "甄宓(2)取消",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "甄宓(2)取消",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "CommonHpChange",
+       "desc": "甄宓受到来自HarmNormal的伤害, 体力变化:-1, 最大体力: [4]",
+       "attr": {
+        "ChangeHp": "-1",
+        "CurHp": "0",
+        "HpSrc": "HarmNormal",
+        "MaxHp": "4"
+       }
+      }
+     ]
+    },
+    {
+     "id": 9,
+     "desc": "封狼居胥触发",
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "confirm": true,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "成功：封狼居胥触发",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 10,
+     "desc": "封狼居胥发动",
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "cards": [
+      1
+     ],
+     "confirm": true,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "成功：封狼居胥发动",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 11,
+     "desc": "郭嘉(1)确认, 使用牌[桃(1055)]",
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "cards": [
+      1055
+     ],
+     "confirm": true,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "郭嘉(1)确认, 使用牌[桃(1055)]",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 12,
+     "desc": "甄宓(2)断言回复1点体力",
+     "robotIdx": 2,
+     "action": "OnlyAsset",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "CommonHpChange",
+       "desc": "甄宓(2)断言回复1点体力",
+       "attr": {
+        "ChangeHp": "1",
+        "CurHp": "1",
+        "HpSrc": "CureHp",
+        "MaxHp": "4"
+       }
+      }
+     ]
+    },
+    {
+     "id": 13,
+     "desc": "郭嘉(1), 使用技能[破釜沉舟]",
+     "robotIdx": 1,
+     "action": "UseHeroSkill",
+     "confirm": false,
+     "heroSkillUuid": 1301,
+     "assets": [
+      {
+       "msgName": "UseHeroSkillAck",
+       "desc": "释盟据守转移成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 14,
+     "robotIdx": 1,
+     "action": "Sleep",
+     "confirm": false,
+     "sleepTime": 60
+    }
+   ]
+  },
+  {
+   "case": "破釜沉舟24",
+   "desc": "发动前技能删除，技能消失",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1001,
+     1002,
+     1003,
+     1004,
+     1005,
+     1006,
+     1007,
+     1008,
+     1009,
+     1010
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 13,
+      "color": 97,
+      "heroId": 10002,
+      "initCards": [
+       1122,
+       1044
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [
+       1301
+      ],
+      "delSkills": [
+       1004,
+       1005,
+       1006
+      ],
+      "exEquips": [
+       1147
+      ],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 13,
+      "color": 97,
+      "heroId": 10005,
+      "initCards": [],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1011,
+       1012
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 13,
+      "color": 97,
+      "heroId": 10102,
+      "initCards": [],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [
+       1335
+      ],
+      "delSkills": [
+       1018,
+       1019
+      ],
+      "exEquips": [
+       1043
+      ],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "郭嘉(1)使用牌[酒(1044)]",
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "cards": [
+      1044
+     ],
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "郭嘉出牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "郭嘉(1)对[诸葛亮(3)]使用牌[火杀(1122)]",
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "targetsId": [
+      3
+     ],
+     "cards": [
+      1122
+     ],
+     "confirm": false,
+     "heroSkillUuid": 1085,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "郭嘉出牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "desc": "诸葛亮(3)取消",
+     "robotIdx": 3,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "诸葛亮响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "CommonHpChange",
+       "desc": "诸葛亮受到来自HarmHuo的伤害, 体力变化:-4, 最大体力: [4]",
+       "attr": {
+        "ChangeHp": "-4",
+        "CurHp": "0",
+        "HpSrc": "HarmHuo",
+        "MaxHp": "4"
+       }
+      }
+     ]
+    },
+    {
+     "id": 4,
+     "desc": "郭嘉(1)取消",
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "郭嘉响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 5,
+     "desc": "甄宓(2)取消",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "甄宓响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 6,
+     "desc": "诸葛亮(3)取消",
+     "robotIdx": 3,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "诸葛亮响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 7,
+     "desc": "诸葛亮(3)确认对[郭嘉(1)]发动骨鲠之臣",
+     "robotIdx": 3,
+     "action": "OptRoomAction",
+     "targetsId": [
+      1
+     ],
+     "confirm": true,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "诸葛亮响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 8,
+     "desc": "诸葛亮(3)确认删除巧手匠心",
+     "robotIdx": 3,
+     "action": "OptRoomAction",
+     "cards": [
+      1,
+      3000000
+     ],
+     "confirm": true,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "诸葛亮成功删除技能天人将军",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 9,
+     "desc": "郭嘉(1)对[郭嘉(1)], 使用技能[巧手匠心]",
+     "robotIdx": 1,
+     "action": "UseHeroSkill",
+     "targetsId": [
+      1
+     ],
+     "confirm": false,
+     "heroSkillUuid": 3000004,
+     "transCardSkill": 1001,
+     "assets": [
+      {
+       "msgName": "UseHeroSkillAck",
+       "desc": "郭嘉使用技能成功",
+       "attr": {
+        "Result": "1527"
+       }
+      }
+     ]
+    }
+   ]
+  }
+ ]

@@ -1,0 +1,172 @@
+{
+  "version": 1,
+  "recorded_at": "2026-06-11T13:50:10.275Z",
+  "server_addr": "10.254.114.204:18000",
+  "messages": [
+    {
+      "msg_id": 1001,
+      "msg_name": "GmCommandReq",
+      "seq_id": 11,
+      "descript": "添加黄金",
+      "payload_json": {
+        "content": "//AddItem 1000001 10000000"
+      }
+    },
+    {
+      "msg_id": 1001,
+      "msg_name": "GmCommandReq",
+      "seq_id": 19,
+      "descript": "添加阅历",
+      "payload_json": {
+        "content": "//AddItem 1000009 1000"
+      }
+    },
+    {
+      "msg_id": 15001,
+      "msg_name": "GetGuildListReq",
+      "seq_id": 22,
+      "payload_json": {
+        "index": 497
+      }
+    },
+    {
+      "msg_id": 1047,
+      "msg_name": "CountryHistoryReq",
+      "seq_id": 26,
+      "payload_json": {}
+    },
+    {
+      "msg_id": 1012,
+      "msg_name": "ModifyCountryReq",
+      "seq_id": 28,
+      "payload_json": {
+        "country": 13
+      }
+    },
+    {
+      "msg_id": 15007,
+      "msg_name": "GuildCreateReq",
+      "seq_id": 35,
+      "descript": "创建工会",
+      "payload_json": {
+        "country": 13,
+        "declaration": "test1112",
+        "flag": 1,
+        "name": "test1112"
+      }
+    },
+    {
+      "msg_id": 15012,
+      "msg_name": "GuildEnterReq",
+      "seq_id": 36,
+      "descript": "加入工会",
+      "payload_json": {
+        "guildId": 599
+      }
+    },
+    {
+      "msg_id": 1001,
+      "msg_name": "GmCommandReq",
+      "seq_id": 46,
+      "descript": "添加所有武将",
+      "payload_json": {
+        "content": "//AddAllHero"
+      }
+    },
+    {
+      "msg_id": 16023,
+      "msg_name": "GuildCityWarDataReq",
+      "seq_id": 11,
+      "payload_json": {}
+    },
+    {
+      "msg_id": 16003,
+      "msg_name": "GuildCityCreateReq",
+      "seq_id": 22,
+      "descript": "重建工会城池",
+      "payload_json": {}
+    },
+    {
+      "msg_id": 16003,
+      "msg_name": "GuildCityCreateReq",
+      "seq_id": 24,
+      "descript": "创建工会城池",
+      "payload_json": {}
+    },
+    {
+      "msg_id": 16017,
+      "msg_name": "GuildCityGarrisonReq",
+      "seq_id": 27,
+      "descript": "城池1派兵",
+      "payload_json": {
+        "garrisonUnits": [
+          {
+            "id": 10001,
+            "type": 2
+          },
+          {
+            "id": 10002,
+            "type": 2
+          },
+          {
+            "id": 10003,
+            "type": 2
+          }
+        ],
+        "guildCityId": 4481
+      }
+    },
+    {
+      "msg_id": 16017,
+      "msg_name": "GuildCityGarrisonReq",
+      "seq_id": 32,
+      "descript": "城池2派兵",
+      "payload_json": {
+        "garrisonUnits": [
+          {
+            "id": 10007,
+            "type": 2
+          },
+          {
+            "id": 10008,
+            "type": 2
+          },
+          {
+            "id": 10009,
+            "type": 2
+          }
+        ],
+        "guildCityId": 4482
+      }
+    },
+    {
+      "msg_id": 16017,
+      "msg_name": "GuildCityGarrisonReq",
+      "seq_id": 35,
+      "descript": "城池3派兵",
+      "payload_json": {
+        "garrisonUnits": [
+          {
+            "id": 10013,
+            "type": 2
+          },
+          {
+            "id": 10014,
+            "type": 2
+          },
+          {
+            "id": 10015,
+            "type": 2
+          }
+        ],
+        "guildCityId": 4483
+      }
+    },
+    {
+      "msg_id": 16023,
+      "msg_name": "GuildCityWarDataReq",
+      "seq_id": 48,
+      "payload_json": {}
+    }
+  ]
+}

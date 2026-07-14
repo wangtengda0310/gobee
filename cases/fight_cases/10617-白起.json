@@ -1,0 +1,8263 @@
+[
+  {
+   "case": "料敌合变1-1",
+   "desc": "触发阶段 回合内",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1001,
+     1002,
+     1003,
+     1004,
+     1005
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10617,
+      "initCards": [
+       1010,
+       3070
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1681,
+       1682
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 2,
+      "heroId": 10001,
+      "initCards": [
+       1006
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1001,
+       1074,
+       1075
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "白起(1)对[曹操(2)]使用牌[破阵卸甲(3070)]",
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "targetsId": [
+      2
+     ],
+     "cards": [
+      3070
+     ],
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "白起出牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "白起(1)确认",
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "confirm": true,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "白起响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "desc": "白起(1)确认, 使用牌[杀(1010)]",
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "cards": [
+      1010
+     ],
+     "confirm": true,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "白起响应成功，验证发动成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 4,
+     "desc": "曹操(2)取消",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "曹操响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "CommonHpChange",
+       "desc": "曹操, 体力变化:-1",
+       "attr": {
+        "ChangeHp": "-1"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "料敌合变1-2",
+   "desc": "触发阶段 回合外",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1001,
+     1002,
+     1003,
+     1004,
+     1005
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10617,
+      "initCards": [
+       1010
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1681,
+       1682
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 2,
+      "heroId": 10001,
+      "initCards": [
+       1006
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [
+       1040
+      ],
+      "delSkills": [
+       1001,
+       1074,
+       1075
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "白起(1)结束打牌",
+     "robotIdx": 1,
+     "action": "PlayCardOver",
+     "targetsId": [
+      2
+     ],
+     "cards": [
+      3070
+     ],
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "PlayCardOverAck",
+       "desc": "白起结束打牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "白起(1)自动弃牌",
+     "robotIdx": 1,
+     "action": "DisCard",
+     "confirm": true,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "DisCardAck",
+       "desc": "白起弃牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "desc": "曹操(2), 使用技能[锦帆游侠]",
+     "robotIdx": 2,
+     "action": "UseHeroSkill",
+     "confirm": false,
+     "heroSkillUuid": 1040,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "UseHeroSkillAck",
+       "desc": "曹操使用技能成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 4,
+     "desc": "白起(1)确认, 使用牌[杀(1010)]",
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "cards": [
+      1010
+     ],
+     "confirm": true,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "白起响应成功，验证发动成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 5,
+     "desc": "曹操(2)取消",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "曹操响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "CommonHpChange",
+       "desc": "曹操, 体力变化:-1",
+       "attr": {
+        "ChangeHp": "-1"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "料敌合变1-3",
+   "desc": "失去最后手牌，使用技能锦帆游侠失去",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1001,
+     1002,
+     1003,
+     1004,
+     1005
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10617,
+      "initCards": [
+       1010
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1681,
+       1682
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 2,
+      "heroId": 10001,
+      "initCards": [
+       1006
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [
+       1040
+      ],
+      "delSkills": [
+       1001,
+       1074,
+       1075
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "白起(1)结束打牌",
+     "robotIdx": 1,
+     "action": "PlayCardOver",
+     "targetsId": [
+      2
+     ],
+     "cards": [
+      3070
+     ],
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "PlayCardOverAck",
+       "desc": "白起结束打牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "白起(1)自动弃牌",
+     "robotIdx": 1,
+     "action": "DisCard",
+     "confirm": true,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "DisCardAck",
+       "desc": "白起弃牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "desc": "曹操(2), 使用技能[锦帆游侠]",
+     "robotIdx": 2,
+     "action": "UseHeroSkill",
+     "confirm": false,
+     "heroSkillUuid": 1040,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "UseHeroSkillAck",
+       "desc": "曹操使用技能成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 4,
+     "desc": "白起(1)确认, 使用牌[杀(1010)]",
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "cards": [
+      1010
+     ],
+     "confirm": true,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "白起响应成功，验证发动成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 5,
+     "desc": "曹操(2)取消",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "曹操响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "CommonHpChange",
+       "desc": "曹操, 体力变化:-1",
+       "attr": {
+        "ChangeHp": "-1"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "料敌合变1-4",
+   "desc": "失去最后手牌 被拆失去",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1001,
+     1002,
+     1003,
+     1004,
+     1005
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10617,
+      "initCards": [
+       1010,
+       3070
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1681,
+       1682
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 2,
+      "heroId": 10001,
+      "initCards": [
+       1006
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1001,
+       1074,
+       1075
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "白起(1)对[曹操(2)]使用牌[破阵卸甲(3070)]",
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "targetsId": [
+      2
+     ],
+     "cards": [
+      3070
+     ],
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "白起出牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "白起(1)确认",
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "confirm": true,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "白起响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "desc": "白起(1)确认, 使用牌[杀(1010)]",
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "cards": [
+      1010
+     ],
+     "confirm": true,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "白起响应成功，验证发动成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 4,
+     "desc": "曹操(2)取消",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "曹操响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "CommonHpChange",
+       "desc": "曹操, 体力变化:-1",
+       "attr": {
+        "ChangeHp": "-1"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "料敌合变1-5",
+   "desc": "失去最后手牌 打出牌失去",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1001,
+     1002,
+     1003,
+     1004,
+     1005
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10617,
+      "initCards": [
+       1010,
+       3070,
+       1011,
+       1007
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1681,
+       1682
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 2,
+      "heroId": 10001,
+      "initCards": [
+       1082
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1001,
+       1074,
+       1075
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "白起(1)对[曹操(2)]使用牌[杀(1011)]",
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "targetsId": [
+      2
+     ],
+     "cards": [
+      1011
+     ],
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "白起出牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "曹操(2)确认, 使用牌[闪(1082)]",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "cards": [
+      1082
+     ],
+     "confirm": true,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "曹操响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "desc": "白起(1)确认, 使用牌[杀(1010)]",
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "cards": [
+      1010
+     ],
+     "confirm": true,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "白起响应成功，验证发动成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 4,
+     "desc": "曹操(2)取消",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "曹操响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "CommonHpChange",
+       "desc": "曹操, 体力变化:-1",
+       "attr": {
+        "ChangeHp": "-1"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "料敌合变1-6",
+   "desc": "失去最后手牌，火牛阵打出手牌",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1003,
+     1025,
+     1002,
+     1004,
+     1005
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 2,
+      "heroId": 10001,
+      "initCards": [],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [
+       1637
+      ],
+      "delSkills": [
+       1001,
+       1074,
+       1075
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10617,
+      "initCards": [
+       1010,
+       3070
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1681,
+       1682
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "曹操(1)对[白起(2)]使用牌[杀(1003)]",
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "targetsId": [
+      2
+     ],
+     "cards": [
+      1003
+     ],
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "曹操出牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "白起(2)取消",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "白起响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "desc": "曹操(1)结束打牌",
+     "robotIdx": 1,
+     "action": "PlayCardOver",
+     "targetsId": [
+      2
+     ],
+     "cards": [
+      3070
+     ],
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "PlayCardOverAck",
+       "desc": "曹操结束打牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 4,
+     "desc": "曹操(1)自动弃牌",
+     "robotIdx": 1,
+     "action": "DisCard",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "DisCardAck",
+       "desc": "曹操弃牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 5,
+     "desc": "曹操(1)确认对[白起(2)]",
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "targetsId": [
+      2
+     ],
+     "confirm": true,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "曹操响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 6,
+     "desc": "白起(2)确认, 使用牌[杀(1010)]",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "cards": [
+      1010
+     ],
+     "confirm": true,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "白起响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 7,
+     "desc": "曹操(1)取消",
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "曹操响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "CommonHpChange",
+       "desc": "曹操, 体力变化:-1",
+       "attr": {
+        "ChangeHp": "-1"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "料敌合变1-7",
+   "desc": "失去最后手牌，火牛阵打出装备区",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1003,
+     1025,
+     1002,
+     1004,
+     1005
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 2,
+      "heroId": 10001,
+      "initCards": [],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [
+       1637
+      ],
+      "delSkills": [
+       1001,
+       1074,
+       1075
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10617,
+      "initCards": [
+       1010,
+       3070,
+       3072
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1681,
+       1682
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "曹操(1)对[白起(2)]使用牌[杀(1003)]",
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "targetsId": [
+      2
+     ],
+     "cards": [
+      1003
+     ],
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "曹操出牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "白起(2)取消",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "白起响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "desc": "曹操(1)使用牌[银狮盔(1025)]",
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "cards": [
+      1025
+     ],
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "曹操出牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 4,
+     "desc": "白起(2)取消",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "白起响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 5,
+     "desc": "曹操(1)结束打牌",
+     "robotIdx": 1,
+     "action": "PlayCardOver",
+     "targetsId": [
+      2
+     ],
+     "cards": [
+      3070
+     ],
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "PlayCardOverAck",
+       "desc": "曹操结束打牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 6,
+     "desc": "曹操(1)自动弃牌",
+     "robotIdx": 1,
+     "action": "DisCard",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "DisCardAck",
+       "desc": "曹操弃牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 7,
+     "desc": "曹操(1)确认对[白起(2)]",
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "targetsId": [
+      2
+     ],
+     "confirm": true,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "曹操响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 8,
+     "desc": "白起(2)取消",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "白起响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 9,
+     "desc": "白起(2)使用牌[云锦袍(3072)]",
+     "robotIdx": 2,
+     "action": "PlayCard",
+     "cards": [
+      3072
+     ],
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "白起出牌成功，验证不触发",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "料敌合变1-8",
+   "desc": "钟无艳失去最后手牌 白起处于自荐枕席期间 无法打出",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1001,
+     1002,
+     1003,
+     1004,
+     1005
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 2,
+      "heroId": 10618,
+      "initCards": [],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [
+       1623
+      ],
+      "delSkills": [
+       1683,
+       1684,
+       1685
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10617,
+      "initCards": [
+       3070,
+       1011,
+       1007
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1681,
+       1682
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "嬴政(1)对[白起(2)], 使用技能[自荐枕席]",
+     "robotIdx": 1,
+     "action": "UseHeroSkill",
+     "targetsId": [
+      2
+     ],
+     "confirm": false,
+     "heroSkillUuid": 1623,
+     "assets": [
+      {
+       "msgName": "UseHeroSkillAck",
+       "desc": "嬴政使用技能成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "白起(2)使用牌[万箭齐发(1001)]",
+     "robotIdx": 2,
+     "action": "PlayCard",
+     "cards": [
+      1001
+     ],
+     "confirm": true,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "白起出牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "desc": "嬴政(1)取消",
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "嬴政响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 4,
+     "desc": "白起(2)使用牌[亮银枪(1002)]",
+     "robotIdx": 2,
+     "action": "PlayCard",
+     "cards": [
+      1002
+     ],
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "白起出牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 5,
+     "desc": "白起(2)确认, 使用牌[杀(1011)]",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "cards": [
+      1011
+     ],
+     "confirm": true,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "白起无法出牌，处于自荐枕席期间无法打出自己手牌",
+       "attr": {
+        "Result": "1517"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "料敌合变1-9",
+   "desc": "其他人失去最后手牌 白起处于自荐枕席期间 可以打出钟无艳的杀",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1002,
+     1003,
+     1004,
+     1005
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 2,
+      "heroId": 10618,
+      "initCards": [
+       3078,
+       1010
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [
+       1623
+      ],
+      "delSkills": [
+       1683,
+       1684,
+       1685
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10617,
+      "initCards": [
+       3070,
+       1011,
+       1007
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1681,
+       1682
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10105,
+      "initCards": [
+       1013
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1026,
+       1027,
+       1073
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "嬴政(1)对[白起(2)], 使用技能[自荐枕席]",
+     "robotIdx": 1,
+     "action": "UseHeroSkill",
+     "targetsId": [
+      2
+     ],
+     "confirm": false,
+     "heroSkillUuid": 1623,
+     "assets": [
+      {
+       "msgName": "UseHeroSkillAck",
+       "desc": "嬴政使用技能成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "白起(2)使用牌[破阵卸甲(3078)]",
+     "robotIdx": 2,
+     "action": "PlayCard",
+     "targetsId": [
+      3
+     ],
+     "cards": [
+      3078
+     ],
+     "confirm": true,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "白起出牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "desc": "白起(2)确认, 使用牌[阵前对决(1013)]",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "cards": [
+      1013
+     ],
+     "confirm": true,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "白起响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 4,
+     "desc": "白起(2)确认, 使用牌[杀(1010)]",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "cards": [
+      1010
+     ],
+     "confirm": true,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "白起响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "料敌合变1-10",
+   "desc": "失去最后手牌，打出丈八",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1001,
+     1002,
+     1003,
+     1004,
+     1005
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10617,
+      "initCards": [
+       1010,
+       1026
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [
+       1315
+      ],
+      "delSkills": [
+       1681,
+       1682
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 2,
+      "heroId": 10001,
+      "initCards": [],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [
+       1040
+      ],
+      "delSkills": [
+       1001,
+       1074,
+       1075
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "白起(1)结束打牌",
+     "robotIdx": 1,
+     "action": "PlayCardOver",
+     "targetsId": [
+      2
+     ],
+     "cards": [
+      3070
+     ],
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "PlayCardOverAck",
+       "desc": "白起结束打牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "白起(1)弃牌[万箭齐发(1001)]",
+     "robotIdx": 1,
+     "action": "DisCard",
+     "cards": [
+      1001
+     ],
+     "confirm": true,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "DisCardAck",
+       "desc": "白起弃牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "desc": "白起(1)确认对[曹操(2)], 使用牌[丈八蛇矛(1026)]",
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "targetsId": [
+      2
+     ],
+     "cards": [
+      1026
+     ],
+     "confirm": true,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "白起响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 4,
+     "desc": "曹操(2)使用牌[丈八蛇矛(1026)]",
+     "robotIdx": 2,
+     "action": "PlayCard",
+     "cards": [
+      1026
+     ],
+     "confirm": false,
+     "heroSkillUuid": 1040,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "曹操出牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 5,
+     "desc": "白起(1)确认, 使用牌[杀(1010)]",
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "cards": [
+      1010
+     ],
+     "confirm": true,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "白起响应成功，验证发动成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 6,
+     "desc": "曹操(2)取消",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "曹操响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "CommonHpChange",
+       "desc": "曹操, 体力变化:-1",
+       "attr": {
+        "ChangeHp": "-1"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "料敌合变1-11",
+   "desc": "失去最后手牌，被移除",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1001,
+     1002,
+     1003,
+     1004,
+     1005
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10617,
+      "initCards": [
+       1010,
+       3070,
+       1011
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [
+       1057
+      ],
+      "delSkills": [
+       1681,
+       1682
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 2,
+      "heroId": 10001,
+      "initCards": [
+       1006
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1001,
+       1074,
+       1075
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "白起(1)对[曹操(2)]使用牌[杀(1011)]",
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "targetsId": [
+      2
+     ],
+     "cards": [
+      1011
+     ],
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "白起出牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "曹操(2)取消",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "曹操响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "desc": "白起(1)确认",
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "confirm": true,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "白起响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 4,
+     "desc": "白起(1)确认, 使用牌[杀(1010)]",
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "cards": [
+      1010
+     ],
+     "confirm": true,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "白起响应成功，验证发动成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 5,
+     "desc": "曹操(2)取消",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "曹操响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "CommonHpChange",
+       "desc": "曹操, 体力变化:-1",
+       "attr": {
+        "ChangeHp": "-1"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "料敌合变1-12",
+   "desc": "失去最后手牌，被销毁",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1001,
+     1002,
+     1003,
+     1004,
+     1005
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10617,
+      "initCards": [
+       1010
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [
+       1613
+      ],
+      "delSkills": [
+       1681,
+       1682
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 2,
+      "heroId": 10001,
+      "initCards": [
+       1006
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [
+       1301
+      ],
+      "delSkills": [
+       1001,
+       1074,
+       1075
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "白起(1)结束打牌",
+     "robotIdx": 1,
+     "action": "PlayCardOver",
+     "confirm": false,
+     "timeout": 1,
+     "sleepTime": 1,
+     "assets": [
+      {
+       "msgName": "PlayCardOverAck",
+       "desc": "白起结束打牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "白起(1)自动弃牌",
+     "robotIdx": 1,
+     "action": "DisCard",
+     "targetsId": [
+      2
+     ],
+     "confirm": false,
+     "heroSkillUuid": 1613,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "DisCardAck",
+       "desc": "白起弃牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "desc": "曹操(2), 使用技能[破釜沉舟]",
+     "robotIdx": 2,
+     "action": "UseHeroSkill",
+     "confirm": true,
+     "heroSkillUuid": 1301,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "UseHeroSkillAck",
+       "desc": "曹操使用技能成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 4,
+     "desc": "白起(1)确认, 使用牌[杀(1010)]",
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "cards": [
+      1010
+     ],
+     "confirm": true,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "白起响应成功，验证发动成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 5,
+     "desc": "曹操(2)取消",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "曹操响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "CommonHpChange",
+       "desc": "曹操, 体力变化:-1",
+       "attr": {
+        "ChangeHp": "-1"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "料敌合变1-13",
+   "desc": "失去最后手牌，交给牌",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1001,
+     1002,
+     1003,
+     1004,
+     1005
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 2,
+      "heroId": 10001,
+      "initCards": [],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [
+       1015
+      ],
+      "delSkills": [
+       1001,
+       1074,
+       1075
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10617,
+      "initCards": [
+       1010
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [
+       1613
+      ],
+      "delSkills": [
+       1681,
+       1682
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "曹操(1)对[白起(2)], 使用技能[惟贤惟德], 使用牌[万箭齐发(1001),亮银枪(1002)]",
+     "robotIdx": 1,
+     "action": "UseHeroSkill",
+     "targetsId": [
+      2
+     ],
+     "cards": [
+      1001,
+      1002
+     ],
+     "confirm": false,
+     "heroSkillUuid": 1015,
+     "timeout": 1,
+     "sleepTime": 1,
+     "assets": [
+      {
+       "msgName": "UseHeroSkillAck",
+       "desc": "曹操使用技能成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "白起(2)确认, 使用牌[杀(1010)]",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "cards": [
+      1010
+     ],
+     "confirm": true,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "白起响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "desc": "曹操(1)取消",
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "曹操响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "CommonHpChange",
+       "desc": "曹操, 体力变化:-1",
+       "attr": {
+        "ChangeHp": "-1"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "料敌合变1-14",
+   "desc": "失去最后手牌，被烧毁",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1001,
+     1002,
+     1003,
+     1004,
+     1005
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10617,
+      "initCards": [
+       1010,
+       1123
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [
+       1613
+      ],
+      "delSkills": [
+       1681,
+       1682
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 2,
+      "heroId": 10001,
+      "initCards": [
+       1006
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [
+       1301
+      ],
+      "delSkills": [
+       1001,
+       1074,
+       1075
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "白起(1)对[曹操(2)]使用牌[烈火焚城(1123)]",
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "targetsId": [
+      2
+     ],
+     "cards": [
+      1123
+     ],
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "白起出牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "白起(1)确认, 使用牌[万箭齐发(1001)]",
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "cards": [
+      1001
+     ],
+     "confirm": true,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "白起响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "desc": "曹操(2)取消",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "曹操响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 4,
+     "desc": "白起(1)确认, 使用牌[杀(1010)]",
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "cards": [
+      1010
+     ],
+     "confirm": true,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "白起响应成功，验证发动成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 5,
+     "desc": "曹操(2)取消",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "曹操响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "CommonHpChange",
+       "desc": "曹操, 体力变化:-1",
+       "attr": {
+        "ChangeHp": "-1"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "料敌合变1-15",
+   "desc": "失去最后手牌，牌放入技能牌区",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1001,
+     1002,
+     1003,
+     1004,
+     1005
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 2,
+      "heroId": 10001,
+      "initCards": [
+       1006
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [
+       1319
+      ],
+      "delSkills": [
+       1001,
+       1074,
+       1075
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10617,
+      "initCards": [
+       1010,
+       1123
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [
+       1613
+      ],
+      "delSkills": [
+       1681,
+       1682
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "曹操(1), 使用技能[十面埋伏], 使用牌[万箭齐发(1001),亮银枪(1002),借刀杀人(1006)]",
+     "robotIdx": 1,
+     "action": "UseHeroSkill",
+     "cards": [
+      1001,
+      1002,
+      1006
+     ],
+     "confirm": false,
+     "heroSkillUuid": 1319,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "UseHeroSkillAck",
+       "desc": "曹操使用技能成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "白起(2)确认, 使用牌[杀(1010)]",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "cards": [
+      1010
+     ],
+     "confirm": true,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "白起响应成功，验证发动成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "desc": "曹操(1)取消",
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "曹操响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "CommonHpChange",
+       "desc": "曹操, 体力变化:-1",
+       "attr": {
+        "ChangeHp": "-1"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "料敌合变2-1",
+   "desc": "打出杀，不限距离",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1001,
+     1002,
+     1003,
+     1004,
+     1005
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 2,
+      "heroId": 10001,
+      "initCards": [
+       1006,
+       1046
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [
+       1319
+      ],
+      "delSkills": [
+       1001,
+       1074,
+       1075
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10617,
+      "initCards": [
+       1123,
+       1161
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [
+       1613
+      ],
+      "delSkills": [
+       1681,
+       1682
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "曹操(1)使用牌[的卢(1046)]",
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "cards": [
+      1046
+     ],
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "曹操出牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "曹操(1), 使用技能[十面埋伏], 使用牌[万箭齐发(1001),亮银枪(1002),借刀杀人(1006)]",
+     "robotIdx": 1,
+     "action": "UseHeroSkill",
+     "cards": [
+      1001,
+      1002,
+      1006
+     ],
+     "confirm": false,
+     "heroSkillUuid": 1319,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "UseHeroSkillAck",
+       "desc": "曹操使用技能成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "desc": "白起(2)确认, 使用牌[易(1161)], 当作牌杀打出",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "cards": [
+      1161
+     ],
+     "confirm": true,
+     "transCardSkill": 1,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "白起响应成功，验证发动成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 4,
+     "desc": "曹操(1)取消",
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "曹操响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "CommonHpChange",
+       "desc": "曹操, 体力变化:-1",
+       "attr": {
+        "ChangeHp": "-1"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "料敌合变2-2",
+   "desc": "打出杀，易当杀",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1001,
+     1002,
+     1003,
+     1004,
+     1005
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 2,
+      "heroId": 10001,
+      "initCards": [
+       1006
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [
+       1319
+      ],
+      "delSkills": [
+       1001,
+       1074,
+       1075
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10617,
+      "initCards": [
+       1123,
+       1161
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [
+       1613
+      ],
+      "delSkills": [
+       1681,
+       1682
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "曹操(1), 使用技能[十面埋伏], 使用牌[万箭齐发(1001),亮银枪(1002),借刀杀人(1006)]",
+     "robotIdx": 1,
+     "action": "UseHeroSkill",
+     "cards": [
+      1001,
+      1002,
+      1006
+     ],
+     "confirm": false,
+     "heroSkillUuid": 1319,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "UseHeroSkillAck",
+       "desc": "曹操使用技能成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "白起(2)确认, 使用牌[易(1161)], 当作牌杀打出",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "cards": [
+      1161
+     ],
+     "confirm": true,
+     "transCardSkill": 1,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "白起响应成功，验证发动成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "desc": "曹操(1)取消",
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "曹操响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "CommonHpChange",
+       "desc": "曹操, 体力变化:-1",
+       "attr": {
+        "ChangeHp": "-1"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "料敌合变2-3",
+   "desc": "打出杀，杀当杀",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1001,
+     1002,
+     1003,
+     1004,
+     1005
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 2,
+      "heroId": 10001,
+      "initCards": [
+       1006,
+       1046
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [
+       1319
+      ],
+      "delSkills": [
+       1001,
+       1074,
+       1075
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10617,
+      "initCards": [
+       1123,
+       1010
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [
+       1021
+      ],
+      "delSkills": [
+       1681,
+       1682
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "曹操(1)使用牌[的卢(1046)]",
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "cards": [
+      1046
+     ],
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "曹操出牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "曹操(1), 使用技能[十面埋伏], 使用牌[万箭齐发(1001),亮银枪(1002),借刀杀人(1006)]",
+     "robotIdx": 1,
+     "action": "UseHeroSkill",
+     "cards": [
+      1001,
+      1002,
+      1006
+     ],
+     "confirm": false,
+     "heroSkillUuid": 1319,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "UseHeroSkillAck",
+       "desc": "曹操使用技能成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "desc": "白起(2)确认, 使用牌[杀(1010)], 当作牌杀打出",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "cards": [
+      1010
+     ],
+     "confirm": true,
+     "heroSkillUuid": 1021,
+     "transCardSkill": 1,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "白起响应成功，验证发动成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 4,
+     "desc": "曹操(1)取消",
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "曹操响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "CommonHpChange",
+       "desc": "曹操, 体力变化:-1",
+       "attr": {
+        "ChangeHp": "-1"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "料敌合变2-4",
+   "desc": "打出杀，打出转化杀",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1001,
+     1002,
+     1003,
+     1004,
+     1005
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 2,
+      "heroId": 10001,
+      "initCards": [],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [
+       1319,
+       1052,
+       1015
+      ],
+      "delSkills": [
+       1001,
+       1074,
+       1075
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10617,
+      "initCards": [
+       1123,
+       1010
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [
+       1021
+      ],
+      "delSkills": [
+       1681,
+       1682
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "曹操(1)等待1秒",
+     "robotIdx": 1,
+     "action": "Sleep",
+     "confirm": false,
+     "timeout": 1,
+     "sleepTime": 1
+    },
+    {
+     "id": 2,
+     "desc": "曹操(1)对[白起(2)], 使用技能[惟贤惟德], 使用牌[2000000,万箭齐发(1001)]",
+     "robotIdx": 1,
+     "action": "UseHeroSkill",
+     "targetsId": [
+      2
+     ],
+     "cards": [
+      2000000,
+      1001
+     ],
+     "confirm": false,
+     "heroSkillUuid": 1015,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "UseHeroSkillAck",
+       "desc": "曹操使用技能成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "desc": "曹操(1), 使用技能[十面埋伏], 使用牌[亮银枪(1002)]",
+     "robotIdx": 1,
+     "action": "UseHeroSkill",
+     "cards": [
+      1002
+     ],
+     "confirm": false,
+     "heroSkillUuid": 1319,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "UseHeroSkillAck",
+       "desc": "曹操使用技能成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 4,
+     "desc": "白起(2)确认, 使用牌[2000000]",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "cards": [
+      2000000
+     ],
+     "confirm": true,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "白起响应成功，验证发动成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 5,
+     "desc": "曹操(1)取消",
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "曹操响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "CommonHpChange",
+       "desc": "曹操, 体力变化:-1",
+       "attr": {
+        "ChangeHp": "-1"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "料敌合变2-5",
+   "desc": "不可成为杀目标，可打出杀",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1001,
+     1002,
+     1003,
+     1004,
+     1005
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 2,
+      "heroId": 10001,
+      "initCards": [
+       1006,
+       1251
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [
+       1319
+      ],
+      "delSkills": [
+       1001,
+       1074,
+       1075
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10617,
+      "initCards": [
+       1123,
+       1161
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [
+       1613
+      ],
+      "delSkills": [
+       1681,
+       1682
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "曹操(1)对[白起(2)]使用牌[调虎离山(1251)]",
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "targetsId": [
+      2
+     ],
+     "cards": [
+      1251
+     ],
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "曹操出牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "曹操(1), 使用技能[十面埋伏], 使用牌[万箭齐发(1001),亮银枪(1002),借刀杀人(1006)]",
+     "robotIdx": 1,
+     "action": "UseHeroSkill",
+     "cards": [
+      1001,
+      1002,
+      1006
+     ],
+     "confirm": false,
+     "heroSkillUuid": 1319,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "UseHeroSkillAck",
+       "desc": "曹操使用技能成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "desc": "白起(2)确认, 使用牌[易(1161)], 当作牌杀打出",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "cards": [
+      1161
+     ],
+     "confirm": true,
+     "transCardSkill": 1,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "白起响应成功，验证发动成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 4,
+     "desc": "曹操(1)取消",
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "曹操响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "CommonHpChange",
+       "desc": "曹操, 体力变化:-1",
+       "attr": {
+        "ChangeHp": "-1"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "料敌合变2-6",
+   "desc": "空城，可打出杀",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1001,
+     1002,
+     1003,
+     1004,
+     1005
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 2,
+      "heroId": 10001,
+      "initCards": [
+       1006,
+       2008
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [
+       1319
+      ],
+      "delSkills": [
+       1001,
+       1074,
+       1075
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10617,
+      "initCards": [
+       1123,
+       1161
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [
+       1613
+      ],
+      "delSkills": [
+       1681,
+       1682
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "曹操(1)对[曹操(1)]使用牌[空城计(2008)]",
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "targetsId": [
+      1
+     ],
+     "cards": [
+      2008
+     ],
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "曹操出牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "曹操(1), 使用技能[十面埋伏], 使用牌[万箭齐发(1001),亮银枪(1002),借刀杀人(1006)]",
+     "robotIdx": 1,
+     "action": "UseHeroSkill",
+     "cards": [
+      1001,
+      1002,
+      1006
+     ],
+     "confirm": false,
+     "heroSkillUuid": 1319,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "UseHeroSkillAck",
+       "desc": "曹操使用技能成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "desc": "白起(2)确认, 使用牌[易(1161)], 当作牌杀打出",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "cards": [
+      1161
+     ],
+     "confirm": true,
+     "transCardSkill": 1,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "白起响应成功，验证发动成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 4,
+     "desc": "曹操(1)取消",
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "曹操响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "CommonHpChange",
+       "desc": "曹操, 体力变化:-1",
+       "attr": {
+        "ChangeHp": "-1"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "料敌合变2-7",
+   "desc": "打出杀 处于霜冻",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1087,
+     1001,
+     1002,
+     1003,
+     1004,
+     1011,
+     1005
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10617,
+      "initCards": [
+       1010,
+       1042
+      ],
+      "initEquips": [],
+      "augurCards": [
+       4088
+      ],
+      "addSkills": [],
+      "delSkills": [
+       1681,
+       1682
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 2,
+      "heroId": 10001,
+      "initCards": [],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [
+       1034
+      ],
+      "delSkills": [
+       1001,
+       1074,
+       1075
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "白起(1)等待1秒",
+     "robotIdx": 1,
+     "action": "Sleep",
+     "confirm": false,
+     "timeout": 1,
+     "sleepTime": 1
+    },
+    {
+     "id": 2,
+     "desc": "白起(1)使用牌[多多益善(1042)]",
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "cards": [
+      1042
+     ],
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "白起出牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "desc": "曹操(2)确认对[白起(1)], 使用牌[杀(1011)]",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "targetsId": [
+      1
+     ],
+     "cards": [
+      1011
+     ],
+     "confirm": true,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "曹操响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 4,
+     "desc": "白起(1)确认, 使用牌[杀(1010)]",
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "cards": [
+      1010
+     ],
+     "confirm": true,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "白起响应成功，验证发动成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 5,
+     "desc": "曹操(2)取消",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "曹操响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "CommonHpChange",
+       "desc": "曹操, 体力变化:-1",
+       "attr": {
+        "ChangeHp": "-1"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "料敌合变2-8",
+   "desc": "存在多个技能，触发多次",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1001,
+     1002,
+     1003,
+     1004,
+     1005
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 2,
+      "heroId": 10001,
+      "initCards": [
+       1006
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [
+       1319
+      ],
+      "delSkills": [
+       1001,
+       1074,
+       1075
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10617,
+      "initCards": [
+       1123,
+       1161,
+       1010
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [
+       1680
+      ],
+      "delSkills": [
+       1681,
+       1682
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "曹操(1), 使用技能[十面埋伏], 使用牌[万箭齐发(1001),亮银枪(1002),借刀杀人(1006)]",
+     "robotIdx": 1,
+     "action": "UseHeroSkill",
+     "cards": [
+      1001,
+      1002,
+      1006
+     ],
+     "confirm": false,
+     "heroSkillUuid": 1319,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "UseHeroSkillAck",
+       "desc": "曹操使用技能成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "白起(2)确认, 使用牌[易(1161)], 当作牌杀打出",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "cards": [
+      1161
+     ],
+     "confirm": true,
+     "transCardSkill": 1,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "白起响应成功，验证发动成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "desc": "曹操(1)取消",
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "曹操响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "CommonHpChange",
+       "desc": "曹操, 体力变化:-1",
+       "attr": {
+        "ChangeHp": "-1"
+       }
+      }
+     ]
+    },
+    {
+     "id": 4,
+     "desc": "白起(2)确认, 使用牌[杀(1010)]",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "cards": [
+      1010
+     ],
+     "confirm": true,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "白起响应成功，验证发动成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 5,
+     "desc": "曹操(1)取消",
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "曹操响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "CommonHpChange",
+       "desc": "曹操, 体力变化:-1",
+       "attr": {
+        "ChangeHp": "-1"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "料敌合变2-9",
+   "desc": "带锁牌  无法打出杀",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1001,
+     1002,
+     1003,
+     1004,
+     1005
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10617,
+      "initCards": [
+       1123,
+       1010,
+       1011
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1681,
+       1682
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 2,
+      "heroId": 10001,
+      "initCards": [],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [
+       1319,
+       1015,
+       1076
+      ],
+      "delSkills": [
+       1001,
+       1074,
+       1075
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "白起(1)结束打牌",
+     "robotIdx": 1,
+     "action": "PlayCardOver",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "PlayCardOverAck",
+       "desc": "白起结束打牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "白起(1)弃牌[杀(1010),杀(1011)]",
+     "robotIdx": 1,
+     "action": "DisCard",
+     "cards": [
+      1010,
+      1011
+     ],
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "DisCardAck",
+       "desc": "",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "desc": "白起(1)确认",
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "confirm": true,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "白起响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 4,
+     "desc": "曹操(2)对[白起(1)], 使用技能[惟贤惟德], 使用牌[杀(1010),杀(1011)]",
+     "robotIdx": 2,
+     "action": "UseHeroSkill",
+     "targetsId": [
+      1
+     ],
+     "cards": [
+      1010,
+      1011
+     ],
+     "confirm": false,
+     "heroSkillUuid": 1015,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "UseHeroSkillAck",
+       "desc": "曹操使用技能成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 5,
+     "desc": "曹操(2), 使用技能[十面埋伏], 使用牌[杀(1003),青龙偃月刀(1004)]",
+     "robotIdx": 2,
+     "action": "UseHeroSkill",
+     "cards": [
+      1003,
+      1004
+     ],
+     "confirm": false,
+     "heroSkillUuid": 1319,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "UseHeroSkillAck",
+       "desc": "曹操使用技能成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 6,
+     "desc": "白起(1)确认, 使用牌[杀(1010)]",
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "cards": [
+      1010
+     ],
+     "confirm": true,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "白起响应成功，验证无法打出",
+       "attr": {
+        "Result": "1513"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "出奇无穷1-1 ",
+   "desc": "每个回合限一次，第二次不触发询问",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1001,
+     1002,
+     1003,
+     1004,
+     1005
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 2,
+      "heroId": 10001,
+      "initCards": [
+       1010,
+       1013,
+       1008
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1001,
+       1074,
+       1075
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10617,
+      "initCards": [
+       1123,
+       1117
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1682,
+       1680
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "曹操(1)对[白起(2)]使用牌[阵前对决(1013)]",
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "targetsId": [
+      2
+     ],
+     "cards": [
+      1013
+     ],
+     "confirm": false,
+     "heroSkillUuid": 1319,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "曹操出牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "白起(2)确认, 使用牌[烈火焚城(1123)], 当作牌杀打出",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "cards": [
+      1123
+     ],
+     "confirm": true,
+     "heroSkillUuid": 1681,
+     "transCardSkill": 1,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "白起响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "desc": "曹操(1)取消",
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "曹操响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 4,
+     "desc": "曹操(1)对[白起(2)]使用牌[杀(1010)]",
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "targetsId": [
+      2
+     ],
+     "cards": [
+      1010
+     ],
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "曹操出牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 5,
+     "desc": "白起(2)确认, 使用牌[顺手牵羊(1117)], 当作牌识破打出",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "cards": [
+      1117
+     ],
+     "confirm": true,
+     "heroSkillUuid": 1681,
+     "transCardSkill": 411,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "无法响应",
+       "attr": {
+        "Result": "1527"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "出奇无穷1-3",
+   "desc": "打出后，获得1张杀，牌堆无杀 不获得",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1001,
+     1002,
+     1004,
+     1005
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 2,
+      "heroId": 10001,
+      "initCards": [
+       1010
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1001,
+       1074,
+       1075
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10617,
+      "initCards": [
+       1123,
+       1117
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1682,
+       1680
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "曹操(1)对[白起(2)]使用牌[杀(1010)]",
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "targetsId": [
+      2
+     ],
+     "cards": [
+      1010
+     ],
+     "confirm": false,
+     "heroSkillUuid": 1319,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "曹操出牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "白起(2)确认, 使用牌[烈火焚城(1123)], 当作牌闪打出",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "cards": [
+      1123
+     ],
+     "confirm": true,
+     "heroSkillUuid": 1681,
+     "transCardSkill": 2,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "白起响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "desc": "白起(2)断言",
+     "robotIdx": 2,
+     "action": "OnlyAsset",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "DrawCard",
+       "desc": "白起抽到[]",
+       "attr": {
+        "Cards": "",
+        "Count": "0"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "出奇无穷1-4",
+   "desc": "打出闪，获得1张杀",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1001,
+     1002,
+     1003,
+     1004,
+     1005
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 2,
+      "heroId": 10001,
+      "initCards": [
+       1010
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1001,
+       1074,
+       1075
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10617,
+      "initCards": [
+       1123,
+       1117
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1682,
+       1680
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "曹操(1)使用牌[万箭齐发(1001)]",
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "cards": [
+      1001
+     ],
+     "confirm": false,
+     "heroSkillUuid": 1319,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "曹操使用技能成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "白起(2)确认, 使用牌[烈火焚城(1123)], 当作牌闪打出",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "cards": [
+      1123
+     ],
+     "confirm": true,
+     "heroSkillUuid": 1681,
+     "transCardSkill": 2,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "白起响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "desc": "白起(2)断言",
+     "robotIdx": 2,
+     "action": "OnlyAsset",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "DrawCard",
+       "desc": "白起抽到1张牌牌为[1003]",
+       "attr": {
+        "Cards": "1003",
+        "Count": "1"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "出奇无穷1-5",
+   "desc": "打出桃，获得1张杀",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1001,
+     1002,
+     1003,
+     1004,
+     1005
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 2,
+      "heroId": 10001,
+      "initCards": [
+       1010,
+       1011,
+       1019,
+       1020,
+       1022,
+       1027,
+       1028
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1001,
+       1074,
+       1075
+      ],
+      "exEquips": [
+       1034
+      ],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 4,
+      "heroId": 10617,
+      "initCards": [
+       1123,
+       1117
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1682,
+       1680
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 3,
+      "heroId": 10005,
+      "initCards": [],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1011,
+       1012
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "曹操(1)对[甄宓(3)]使用牌[杀(1010)]",
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "targetsId": [
+      3
+     ],
+     "cards": [
+      1010
+     ],
+     "confirm": false,
+     "heroSkillUuid": 1319,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "曹操出牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "曹操(1)确认",
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "confirm": true,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "曹操响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "desc": "甄宓(3)取消",
+     "robotIdx": 3,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "甄宓响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 4,
+     "desc": "甄宓(3)取消",
+     "robotIdx": 3,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "甄宓响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 5,
+     "desc": "甄宓(3)取消",
+     "robotIdx": 3,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "甄宓响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 6,
+     "desc": "甄宓(3)取消",
+     "robotIdx": 3,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "甄宓响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 7,
+     "desc": "甄宓(3)取消",
+     "robotIdx": 3,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "甄宓响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 8,
+     "desc": "曹操(1)取消",
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "曹操响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 9,
+     "desc": "白起(2)确认, 使用牌[烈火焚城(1123)], 当作牌桃打出",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "cards": [
+      1123
+     ],
+     "confirm": true,
+     "heroSkillUuid": 1681,
+     "transCardSkill": 3,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "白起响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 10,
+     "desc": "白起(2)断言",
+     "robotIdx": 2,
+     "action": "OnlyAsset",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "DrawCard",
+       "desc": "白起抽到1张牌牌为[1003]",
+       "attr": {
+        "Cards": "1003",
+        "Count": "1"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "出奇无穷1-6",
+   "desc": "打出怒，获得1张杀",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1001,
+     1002,
+     1003,
+     1004,
+     1005
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 2,
+      "heroId": 10001,
+      "initCards": [
+       1010,
+       1011,
+       1019,
+       1020,
+       1022,
+       1027,
+       1028
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1001,
+       1074,
+       1075
+      ],
+      "exEquips": [
+       1034
+      ],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 4,
+      "heroId": 10617,
+      "initCards": [
+       1123,
+       1117
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1682,
+       1680
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 3,
+      "heroId": 10005,
+      "initCards": [],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1011,
+       1012
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "曹操(1)对[白起(2)]使用牌[杀(1010)]",
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "targetsId": [
+      2
+     ],
+     "cards": [
+      1010
+     ],
+     "confirm": false,
+     "heroSkillUuid": 1319,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "曹操出牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "曹操(1)确认",
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "confirm": true,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "曹操响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "desc": "白起(2)取消",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "甄宓响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 4,
+     "desc": "白起(2)取消",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "甄宓响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 5,
+     "desc": "白起(2)取消",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "甄宓响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 6,
+     "desc": "白起(2)取消",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "甄宓响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 7,
+     "desc": "白起(2)取消",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "甄宓响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 8,
+     "desc": "白起(2)取消",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "甄宓响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 9,
+     "desc": "白起(2)取消",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "甄宓响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 10,
+     "desc": "曹操(1)取消",
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "曹操响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 11,
+     "desc": "白起(2)确认, 使用牌[烈火焚城(1123)], 当作牌怒气打出",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "cards": [
+      1123
+     ],
+     "confirm": true,
+     "heroSkillUuid": 1681,
+     "transCardSkill": 401,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "白起响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 12,
+     "desc": "白起(2)断言",
+     "robotIdx": 2,
+     "action": "OnlyAsset",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "DrawCard",
+       "desc": "白起抽到1张牌牌为[1003]",
+       "attr": {
+        "Cards": "1003",
+        "Count": "1"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "出奇无穷1-7",
+   "desc": "被封印 不询问",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1001,
+     1002,
+     1003,
+     1004,
+     1005
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 2,
+      "heroId": 10001,
+      "initCards": [
+       1010,
+       1042
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1001,
+       1074,
+       1075
+      ],
+      "exEquips": [
+       1009
+      ],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10617,
+      "initCards": [
+       1123,
+       2016
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1682,
+       1680
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "曹操(1)对[白起(2)]使用牌[杀(1010)]",
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "targetsId": [
+      2
+     ],
+     "cards": [
+      1010
+     ],
+     "confirm": false,
+     "heroSkillUuid": 1319,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "曹操出牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "白起(2)确认, 使用牌[易(1161)], 当作牌识破打出",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "cards": [
+      2016
+     ],
+     "confirm": true,
+     "heroSkillUuid": 1681,
+     "transCardSkill": 411,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "白起被封印 不响应",
+       "attr": {
+        "Result": "1527"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "desc": "白起(2)取消",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "白起响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 4,
+     "desc": "曹操(1)使用牌[亮银枪(1002)]",
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "cards": [
+      1002
+     ],
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "曹操出牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "歼灭1-1",
+   "desc": "出杀销毁其他玩家1张牌",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1001,
+     1002,
+     1003,
+     1004,
+     1005
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10617,
+      "initCards": [
+       1011
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1680,
+       1681
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 2,
+      "heroId": 10001,
+      "initCards": [
+       1010,
+       1006
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1001,
+       1074,
+       1075
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "白起(1)对[曹操(2)]使用牌[杀(1011)]",
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "targetsId": [
+      2
+     ],
+     "cards": [
+      1011
+     ],
+     "confirm": false,
+     "heroSkillUuid": 1319,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "白起出牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "白起(1)确认对[曹操(2)]",
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "targetsId": [
+      2
+     ],
+     "confirm": true,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "白起响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "desc": "白起(1)确认, 使用牌[杀(1010)]",
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "cards": [
+      1010
+     ],
+     "confirm": true,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "白起响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 4,
+     "desc": "曹操(2)取消",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "曹操响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 5,
+     "desc": "白起(1)确认对[曹操(2)]",
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "targetsId": [
+      2
+     ],
+     "confirm": true,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "白起响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 6,
+     "desc": "白起(1)确认, 使用牌[借刀杀人(1006)]",
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "cards": [
+      1006
+     ],
+     "confirm": true,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "白起响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 7,
+     "desc": "曹操(2)断言",
+     "robotIdx": 2,
+     "action": "OnlyAsset",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "DisCard",
+       "desc": "曹操弃掉1张牌牌为[1006]",
+       "attr": {
+        "Cards": "1006",
+        "Count": "1"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "歼灭1-2",
+   "desc": "杀伤销毁其他玩家1张牌",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1001,
+     1002,
+     1003,
+     1004,
+     1005
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10617,
+      "initCards": [
+       1011
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1680,
+       1681
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 2,
+      "heroId": 10001,
+      "initCards": [
+       1010,
+       1006
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1001,
+       1074,
+       1075
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "白起(1)对[曹操(2)]使用牌[杀(1011)]",
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "targetsId": [
+      2
+     ],
+     "cards": [
+      1011
+     ],
+     "confirm": false,
+     "heroSkillUuid": 1319,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "白起出牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "白起(1)取消",
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "白起响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "desc": "曹操(2)取消",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "曹操响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 4,
+     "desc": "白起(1)确认对[曹操(2)]",
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "targetsId": [
+      2
+     ],
+     "confirm": true,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "白起响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 5,
+     "desc": "白起(1)确认, 使用牌[借刀杀人(1006)]",
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "cards": [
+      1006
+     ],
+     "confirm": true,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "白起响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 6,
+     "desc": "曹操(2)断言",
+     "robotIdx": 2,
+     "action": "OnlyAsset",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "DisCard",
+       "desc": "曹操弃掉1张牌牌为[1006]",
+       "attr": {
+        "Cards": "1006",
+        "Count": "1"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "歼灭1-3",
+   "desc": "杀当杀打出",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1001,
+     1002,
+     1003,
+     1004,
+     1005
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10617,
+      "initCards": [
+       1011
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [
+       1021
+      ],
+      "delSkills": [
+       1680,
+       1681
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 2,
+      "heroId": 10001,
+      "initCards": [
+       1010,
+       1006
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1001,
+       1074,
+       1075
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "白起(1)对[曹操(2)], 使用技能[武圣义绝], 使用牌[杀(1011)]",
+     "robotIdx": 1,
+     "action": "UseHeroSkill",
+     "targetsId": [
+      2
+     ],
+     "cards": [
+      1011
+     ],
+     "confirm": false,
+     "heroSkillUuid": 1021,
+     "transCardSkill": 1,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "UseHeroSkillAck",
+       "desc": "白起使用技能成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "白起(1)确认对[曹操(2)]",
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "targetsId": [
+      2
+     ],
+     "confirm": true,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "白起响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "desc": "白起(1)确认, 使用牌[杀(1010)]",
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "cards": [
+      1010
+     ],
+     "confirm": true,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "白起响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 4,
+     "desc": "曹操(2)取消",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "曹操响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 5,
+     "desc": "白起(1)确认对[曹操(2)]",
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "targetsId": [
+      2
+     ],
+     "confirm": true,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "白起响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 6,
+     "desc": "白起(1)确认, 使用牌[借刀杀人(1006)]",
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "cards": [
+      1006
+     ],
+     "confirm": true,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "白起响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 7,
+     "desc": "曹操(2)断言",
+     "robotIdx": 2,
+     "action": "OnlyAsset",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "DisCard",
+       "desc": "曹操弃掉1张牌牌为[1006]",
+       "attr": {
+        "Cards": "1006",
+        "Count": "1"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "歼灭1-4",
+   "desc": "替张良出杀",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1001,
+     1002,
+     1003,
+     1004,
+     1005
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10617,
+      "initCards": [
+       1011,
+       1125,
+       1010
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1680,
+       1681
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 2,
+      "heroId": 10505,
+      "initCards": [
+       1006
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1331,
+       1329
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "白起(1)使用牌[烽火狼烟(1125)]",
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "cards": [
+      1125
+     ],
+     "confirm": false,
+     "heroSkillUuid": 1021,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "白起使用技能成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "白起(1)确认, 使用牌[杀(1011)]",
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "cards": [
+      1011
+     ],
+     "confirm": true,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "白起响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "desc": "白起(1)确认对[张良(2)], 使用牌[借刀杀人(1006)]",
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "targetsId": [
+      2
+     ],
+     "cards": [
+      1006
+     ],
+     "confirm": true,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "白起响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "歼灭1-5",
+   "desc": "神庭酣战出杀",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1001,
+     1002,
+     1003,
+     1004,
+     1005
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10105,
+      "initCards": [
+       1012,
+       1007
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [
+       1102
+      ],
+      "delSkills": [
+       1026,
+       1027,
+       1073
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10617,
+      "initCards": [
+       1011,
+       1125,
+       1010
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1680,
+       1681
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 2,
+      "heroId": 10505,
+      "initCards": [
+       1006
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1331,
+       1329
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "赵云(1)对[白起(2)], 使用技能[神亭酣战], 使用牌[雷杀(1012)]",
+     "robotIdx": 1,
+     "action": "UseHeroSkill",
+     "targetsId": [
+      2
+     ],
+     "cards": [
+      1012
+     ],
+     "confirm": false,
+     "heroSkillUuid": 1102,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "UseHeroSkillAck",
+       "desc": "白起使用技能成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "白起(2)取消",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "白起响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "desc": "白起(2)确认对[赵云(1)]",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "targetsId": [
+      1
+     ],
+     "confirm": true,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "白起响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 4,
+     "desc": "白起(2)确认对[赵云(1)], 使用牌[铁索连舟(1007)]",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "cards": [
+      1007
+     ],
+     "confirm": true,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "赵云响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "歼灭1-6",
+   "desc": "对决出杀",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1001,
+     1002,
+     1003,
+     1004,
+     1005
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10105,
+      "initCards": [
+       1012,
+       1013
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1026,
+       1027,
+       1073
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10617,
+      "initCards": [
+       1011,
+       1125,
+       1010
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1680,
+       1681
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 2,
+      "heroId": 10505,
+      "initCards": [
+       1006
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1331,
+       1329
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "赵云(1)对[白起(2)]使用牌[阵前对决(1013)]",
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "targetsId": [
+      2
+     ],
+     "cards": [
+      1013
+     ],
+     "confirm": false,
+     "heroSkillUuid": 1102,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "赵云出牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "白起(2)确认, 使用牌[杀(1011)]",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "cards": [
+      1011
+     ],
+     "confirm": true,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "白起响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "desc": "白起(2)确认对[赵云(1)]",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "targetsId": [
+      1
+     ],
+     "confirm": true,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "白起响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 4,
+     "desc": "白起(2)确认, 使用牌[雷杀(1012)]",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "cards": [
+      1012
+     ],
+     "confirm": true,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "赵云响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 5,
+     "desc": "赵云(1)断言",
+     "robotIdx": 1,
+     "action": "OnlyAsset",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "DisCard",
+       "desc": "赵云弃掉1张牌牌为[1012]",
+       "attr": {
+        "Cards": "1012",
+        "Count": "1"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "歼灭1-7",
+   "desc": "烽火出杀",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1001,
+     1002,
+     1003,
+     1004,
+     1005
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10105,
+      "initCards": [
+       1012,
+       1133
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1026,
+       1027,
+       1073
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10617,
+      "initCards": [
+       1011,
+       1125,
+       1010
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1680,
+       1681
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 2,
+      "heroId": 10505,
+      "initCards": [
+       1006
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1331,
+       1329
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "赵云(1)对[白起(2)]使用牌[烽火狼烟(1133)]",
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "cards": [
+      1133
+     ],
+     "confirm": false,
+     "heroSkillUuid": 1102,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "赵云出牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "白起(2)确认, 使用牌[杀(1011)]",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "cards": [
+      1011
+     ],
+     "confirm": true,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "白起响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "desc": "白起(2)确认对[赵云(1)]",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "targetsId": [
+      1
+     ],
+     "confirm": true,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "白起响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 4,
+     "desc": "白起(2)确认, 使用牌[雷杀(1012)]",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "cards": [
+      1012
+     ],
+     "confirm": true,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "赵云响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 5,
+     "desc": "赵云(1)断言",
+     "robotIdx": 1,
+     "action": "OnlyAsset",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "DisCard",
+       "desc": "赵云弃掉1张牌牌为[1012]",
+       "attr": {
+        "Cards": "1012",
+        "Count": "1"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "歼灭1-8",
+   "desc": "易当杀",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1001,
+     1002,
+     1003,
+     1004,
+     1005
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10105,
+      "initCards": [
+       1012,
+       1133
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1026,
+       1027,
+       1073
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10617,
+      "initCards": [
+       1011,
+       1125,
+       1010,
+       1161
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1680,
+       1681
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 2,
+      "heroId": 10505,
+      "initCards": [
+       1006
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1331,
+       1329
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "赵云(1)对[白起(2)]使用牌[烽火狼烟(1133)]",
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "cards": [
+      1133
+     ],
+     "confirm": false,
+     "heroSkillUuid": 1102,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "赵云出牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "白起(2)确认, 使用牌[易(1161)], 当作牌杀打出",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "cards": [
+      1161
+     ],
+     "confirm": true,
+     "transCardSkill": 1,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "白起响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "desc": "白起(2)确认对[赵云(1)]",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "targetsId": [
+      1
+     ],
+     "confirm": true,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "白起响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 4,
+     "desc": "白起(2)确认, 使用牌[雷杀(1012)]",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "cards": [
+      1012
+     ],
+     "confirm": true,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "赵云响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 5,
+     "desc": "赵云(1)断言",
+     "robotIdx": 1,
+     "action": "OnlyAsset",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "DisCard",
+       "desc": "赵云弃掉1张牌牌为[1012]",
+       "attr": {
+        "Cards": "1012",
+        "Count": "1"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "歼灭1-9",
+   "desc": "背水出杀",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1001,
+     1002,
+     1003,
+     1004,
+     1005
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10105,
+      "initCards": [
+       1012,
+       1133
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1026,
+       1027,
+       1073
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10617,
+      "initCards": [
+       1161
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [
+       1320
+      ],
+      "delSkills": [
+       1680,
+       1681
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 2,
+      "heroId": 10505,
+      "initCards": [
+       1006
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1331,
+       1329
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "赵云(1)对[白起(2)]使用牌[烽火狼烟(1133)]",
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "cards": [
+      1133
+     ],
+     "confirm": false,
+     "heroSkillUuid": 1102,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "赵云出牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "白起(2)确认, 使用牌[易(1161)], 当作牌杀打出",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "cards": [
+      1161
+     ],
+     "confirm": true,
+     "heroSkillUuid": 1320,
+     "transCardSkill": 1,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "白起响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "desc": "白起(2)确认对[赵云(1)]",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "targetsId": [
+      1
+     ],
+     "confirm": true,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "白起响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 4,
+     "desc": "白起(2)确认, 使用牌[雷杀(1012)]",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "cards": [
+      1012
+     ],
+     "confirm": true,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "赵云响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 5,
+     "desc": "赵云(1)断言",
+     "robotIdx": 1,
+     "action": "OnlyAsset",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "DisCard",
+       "desc": "赵云弃掉1张牌牌为[1012]",
+       "attr": {
+        "Cards": "1012",
+        "Count": "1"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "歼灭1-10",
+   "desc": "巧解玉环转换杀只触发杀伤节点",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1001,
+     1002,
+     1003,
+     1004,
+     1005
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10617,
+      "initCards": [
+       3070
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1680,
+       1681
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 2,
+      "heroId": 10001,
+      "initCards": [
+       1010,
+       1006
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [
+       1919
+      ],
+      "delSkills": [
+       1001,
+       1074,
+       1075
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "白起(1)对[曹操(2)]使用牌[破阵卸甲(3070)]",
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "targetsId": [
+      2
+     ],
+     "cards": [
+      3070
+     ],
+     "confirm": false,
+     "heroSkillUuid": 1319,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "白起出牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "曹操(2)确认",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "confirm": true,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "曹操响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "desc": "曹操(2)取消",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "曹操响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 4,
+     "desc": "白起(1)确认对[曹操(2)]",
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "targetsId": [
+      2
+     ],
+     "confirm": true,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "白起响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 5,
+     "desc": "白起(1)确认, 使用牌[借刀杀人(1006)]",
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "cards": [
+      1006
+     ],
+     "confirm": true,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "白起响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 6,
+     "desc": "曹操(2)断言",
+     "robotIdx": 2,
+     "action": "OnlyAsset",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "DisCard",
+       "desc": "曹操弃掉1张牌牌为[1006]",
+       "attr": {
+        "Cards": "1006",
+        "Count": "1"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "歼灭1-11",
+   "desc": "玄武盾出杀",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1001,
+     1002,
+     1003,
+     1004,
+     1005
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10105,
+      "initCards": [
+       1012,
+       1011
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1026,
+       1027,
+       1073
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10617,
+      "initCards": [
+       1010
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [
+       1320
+      ],
+      "delSkills": [
+       1680,
+       1681
+      ],
+      "exEquips": [
+       1134
+      ],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 2,
+      "heroId": 10505,
+      "initCards": [
+       1006
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1331,
+       1329
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "赵云(1)对[白起(2)]使用牌[杀(1011)]",
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "targetsId": [
+      2
+     ],
+     "cards": [
+      1011
+     ],
+     "confirm": false,
+     "heroSkillUuid": 1102,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "赵云出牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "白起(2)确认, 使用牌[杀(1010)]",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "cards": [
+      1010
+     ],
+     "confirm": true,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "白起响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "desc": "白起(2)确认对[赵云(1)]",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "targetsId": [
+      1
+     ],
+     "confirm": true,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "白起响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 4,
+     "desc": "白起(2)确认, 使用牌[雷杀(1012)]",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "cards": [
+      1012
+     ],
+     "confirm": true,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "赵云响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 5,
+     "desc": "赵云(1)断言",
+     "robotIdx": 1,
+     "action": "OnlyAsset",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "DisCard",
+       "desc": "赵云弃掉1张牌牌为[1012]",
+       "attr": {
+        "Cards": "1012",
+        "Count": "1"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "歼灭1-12",
+   "desc": "秦弩齐射出杀",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1001,
+     1002,
+     1003,
+     1004,
+     1005,
+     1007,
+     1009,
+     1008,
+     1012,
+     1013
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10617,
+      "initCards": [],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [
+       1684
+      ],
+      "delSkills": [
+       1680,
+       1681
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 2,
+      "heroId": 10001,
+      "initCards": [
+       1010,
+       1006
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1001,
+       1074,
+       1075
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "白起(1), 使用技能[秦弩齐射]",
+     "robotIdx": 1,
+     "action": "UseHeroSkill",
+     "confirm": false,
+     "heroSkillUuid": 1684,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "UseHeroSkillAck",
+       "desc": "白起使用技能成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "白起(1)确认对[曹操(2)], 使用牌[杀(1003)]",
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "targetsId": [
+      2
+     ],
+     "cards": [
+      1003
+     ],
+     "confirm": true,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "白起响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "desc": "白起(1)确认对[曹操(2)], 使用牌[杀(1010)]",
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "targetsId": [
+      2
+     ],
+     "confirm": true,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "白起响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 4,
+     "desc": "白起(1)确认, 使用牌[杀(1010)]",
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "cards": [
+      1010
+     ],
+     "confirm": true,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "白起响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 5,
+     "desc": "曹操(2)取消",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "曹操响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 6,
+     "desc": "白起(1)确认对[曹操(2)]",
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "targetsId": [
+      2
+     ],
+     "confirm": true,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "白起响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 7,
+     "desc": "白起(1)确认, 使用牌[借刀杀人(1006)]",
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "cards": [
+      1006
+     ],
+     "confirm": true,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "白起响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 8,
+     "desc": "曹操(2)断言",
+     "robotIdx": 2,
+     "action": "OnlyAsset",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "DisCard",
+       "desc": "曹操弃掉1张牌牌为[1006]",
+       "attr": {
+        "Cards": "1006",
+        "Count": "1"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "歼灭1-13",
+   "desc": "自荐枕席出杀",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1001,
+     1002,
+     1003,
+     1004,
+     1005,
+     1007,
+     1009,
+     1008,
+     1012,
+     1013
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 2,
+      "heroId": 11601,
+      "initCards": [
+       1010,
+       1006
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [
+       1623
+      ],
+      "delSkills": [
+       1901,
+       1902,
+       1903
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10617,
+      "initCards": [],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1680,
+       1681
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "王翦(1)对[白起(2)], 使用技能[自荐枕席]",
+     "robotIdx": 1,
+     "action": "UseHeroSkill",
+     "targetsId": [
+      2
+     ],
+     "confirm": false,
+     "heroSkillUuid": 1623,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "UseHeroSkillAck",
+       "desc": "白起使用技能成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "白起(2)对[王翦(1)]使用牌[杀(1010)]",
+     "robotIdx": 2,
+     "action": "PlayCard",
+     "targetsId": [
+      1
+     ],
+     "cards": [
+      1010
+     ],
+     "confirm": true,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "白起出牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "desc": "白起(2)确认对[王翦(1)]",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "targetsId": [
+      1
+     ],
+     "confirm": true,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "白起响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 4,
+     "desc": "白起(2)确认, 使用牌[借刀杀人(1006)]",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "cards": [
+      1006
+     ],
+     "confirm": true,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "白起响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 5,
+     "desc": "王翦(1)断言",
+     "robotIdx": 1,
+     "action": "OnlyAsset",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "DisCard",
+       "desc": "王翦弃掉1张牌牌为[1006]",
+       "attr": {
+        "Cards": "1006",
+        "Count": "1"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "歼灭1-14",
+   "desc": "被调虎离山 出杀后无法选目标",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1001,
+     1002,
+     1003,
+     1004,
+     1005
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10105,
+      "initCards": [
+       1012,
+       1013,
+       1251
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1026,
+       1027,
+       1073
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10617,
+      "initCards": [
+       1011,
+       1125,
+       1010
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1680,
+       1681
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 2,
+      "heroId": 10505,
+      "initCards": [
+       1006
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1331,
+       1329
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "赵云(1)对[白起(2)]使用牌[调虎离山(1251)]",
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "targetsId": [
+      2
+     ],
+     "cards": [
+      1251
+     ],
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "赵云出牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "赵云(1)对[张良(3)]使用牌[阵前对决(1013)]",
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "targetsId": [
+      3
+     ],
+     "cards": [
+      1013
+     ],
+     "confirm": false,
+     "heroSkillUuid": 1102,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "赵云出牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "desc": "白起(2)确认, 使用牌[杀(1011)]",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "cards": [
+      1011
+     ],
+     "confirm": true,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "白起响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 4,
+     "desc": "白起(2)确认对[赵云(1)]",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "targetsId": [
+      1
+     ],
+     "confirm": true,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "白起响应成功",
+       "attr": {
+        "Result": "1001"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "歼灭1-15",
+   "desc": "杀当闪 不算出杀",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1001,
+     1002,
+     1003,
+     1004,
+     1005
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 2,
+      "heroId": 10001,
+      "initCards": [
+       1010,
+       1006
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1001,
+       1074,
+       1075
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10617,
+      "initCards": [
+       1011
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [
+       1027
+      ],
+      "delSkills": [
+       1680,
+       1681
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "曹操(1)对[白起(2)]使用牌[杀(1010)]",
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "targetsId": [
+      2
+     ],
+     "cards": [
+      1010
+     ],
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "曹操出牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "白起(2)确认, 使用牌[杀(1011)], 当作牌闪打出",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "cards": [
+      1011
+     ],
+     "confirm": true,
+     "heroSkillUuid": 1027,
+     "transCardSkill": 2,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "白起响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "desc": "白起(2)取消",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "白起响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 4,
+     "desc": "曹操(1)使用牌[亮银枪(1002)]",
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "cards": [
+      1002
+     ],
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "曹操出牌成功，验证正确",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "歼灭2-1",
+   "desc": "杀伤销毁其他玩家1张牌",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1001,
+     1002,
+     1003,
+     1004,
+     1005
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10617,
+      "initCards": [
+       1011
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1680,
+       1681
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 2,
+      "heroId": 10001,
+      "initCards": [
+       1010,
+       1006
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1001,
+       1074,
+       1075
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "白起(1)对[曹操(2)]使用牌[杀(1011)]",
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "targetsId": [
+      2
+     ],
+     "cards": [
+      1011
+     ],
+     "confirm": false,
+     "heroSkillUuid": 1319,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "白起出牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "白起(1)取消",
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "白起响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "desc": "曹操(2)取消",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "曹操响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 4,
+     "desc": "白起(1)确认对[曹操(2)]",
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "targetsId": [
+      2
+     ],
+     "confirm": true,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "白起响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 5,
+     "desc": "白起(1)确认, 使用牌[借刀杀人(1006)]",
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "cards": [
+      1006
+     ],
+     "confirm": true,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "白起响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 6,
+     "desc": "曹操(2)断言",
+     "robotIdx": 2,
+     "action": "OnlyAsset",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "DisCard",
+       "desc": "曹操弃掉1张牌牌为[1006]",
+       "attr": {
+        "Cards": "1006",
+        "Count": "1"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "歼灭2-2",
+   "desc": "桃花抵消伤害不触发",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1001,
+     1002,
+     1003,
+     1004,
+     1005
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10617,
+      "initCards": [
+       1011,
+       1008
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1680,
+       1681
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 2,
+      "heroId": 10001,
+      "initCards": [
+       1010,
+       1006,
+       2002
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1001,
+       1074,
+       1075
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "白起(1)对[曹操(2)]使用牌[杀(1011)]",
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "targetsId": [
+      2
+     ],
+     "cards": [
+      1011
+     ],
+     "confirm": false,
+     "heroSkillUuid": 1319,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "白起出牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "白起(1)取消",
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "白起响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "desc": "曹操(2)取消",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "曹操响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 4,
+     "desc": "曹操(2)确认, 使用牌[桃花(2002)]",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "cards": [
+      2002
+     ],
+     "confirm": true,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "曹操响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 5,
+     "desc": "白起(1)使用牌[开山斧(1008)]",
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "cards": [
+      1008
+     ],
+     "confirm": true,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "白起出牌成功，验证正确",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "歼灭2-3",
+   "desc": "藤甲抵消伤害不触发",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1001,
+     1002,
+     1003,
+     1004,
+     1005
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10617,
+      "initCards": [
+       1011,
+       1008
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1680,
+       1681
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 2,
+      "heroId": 10001,
+      "initCards": [
+       1010,
+       1006
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1001,
+       1074,
+       1075
+      ],
+      "exEquips": [
+       1043
+      ],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "白起(1)对[曹操(2)]使用牌[杀(1011)]",
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "targetsId": [
+      2
+     ],
+     "cards": [
+      1011
+     ],
+     "confirm": false,
+     "heroSkillUuid": 1319,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "白起出牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "白起(1)取消",
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "白起响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "desc": "曹操(2)取消",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "曹操响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 4,
+     "desc": "白起(1)使用牌[开山斧(1008)]",
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "cards": [
+      1008
+     ],
+     "confirm": true,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "白起出牌成功，验证正确",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "歼灭2-5",
+   "desc": "杀伤传导伤害，触发",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1001,
+     1002,
+     1003,
+     1004,
+     1005
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10617,
+      "initCards": [
+       1012,
+       1007
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1680,
+       1681
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 2,
+      "heroId": 10001,
+      "initCards": [
+       1010,
+       1006
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1001,
+       1074,
+       1075
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10105,
+      "initCards": [
+       1008
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1026,
+       1027,
+       1073
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "白起(1)对[曹操(2),赵云(3)]使用牌[铁索连舟(1007)]",
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "targetsId": [
+      2,
+      3
+     ],
+     "cards": [
+      1007
+     ],
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "白起出牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "白起(1)对[曹操(2)]使用牌[雷杀(1012)]",
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "targetsId": [
+      2
+     ],
+     "cards": [
+      1012
+     ],
+     "confirm": false,
+     "heroSkillUuid": 1319,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "白起出牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "desc": "白起(1)取消",
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "白起响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 4,
+     "desc": "曹操(2)取消",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "曹操响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 5,
+     "desc": "白起(1)确认对[曹操(2)]",
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "targetsId": [
+      2
+     ],
+     "confirm": true,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "白起响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 6,
+     "desc": "白起(1)确认, 使用牌[借刀杀人(1006)]",
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "cards": [
+      1006
+     ],
+     "confirm": true,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "白起响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 7,
+     "desc": "曹操(2)断言",
+     "robotIdx": 2,
+     "action": "OnlyAsset",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "DisCard",
+       "desc": "曹操弃掉1张牌牌为[1006]",
+       "attr": {
+        "Cards": "1006",
+        "Count": "1"
+       }
+      }
+     ]
+    },
+    {
+     "id": 8,
+     "desc": "白起(1)确认对[赵云(3)]",
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "targetsId": [
+      3
+     ],
+     "confirm": true,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "白起响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 9,
+     "desc": "白起(1)确认对[赵云(3)], 使用牌[开山斧(1008)]",
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "targetsId": [
+      3
+     ],
+     "cards": [
+      1008
+     ],
+     "confirm": true,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "白起响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    }
+   ]
+  }
+ ]

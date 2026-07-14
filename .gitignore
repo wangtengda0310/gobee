@@ -1,0 +1,56 @@
+.idea
+.task
+bin
+!.claude/skills/*/bin/
+frontend/dist
+frontend/node_modules
+build/windows/nsis/MicrosoftEdgeWebview2Setup.exe
+
+.rain-qa-func.json
+*.syso
+
+# Playwright MCP 日志
+.playwright-mcp/
+rain-qa-func.exe~
+# rain-excel-checker Windows 本地产物（源码入口 cmd/rain-excel-checker/，go build 默认输出到 cwd；不影响提交的 Linux 二进制 docker/rain-excel-checker）
+rain-excel-checker.exe
+
+# Playwright 测试结果
+frontend/test-results/
+frontend/playwright-report/
+frontend/.last-run.json
+
+# Claude Code 本地配置
+.claude/scheduled_tasks.json
+.claude/scheduled_tasks.lock
+.codegraph/codegraph.lock
+tmp/
+
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+dev-debug.log
+# Dependency directories
+node_modules/
+# Environment variables
+.env
+# Editor directories and files
+.vscode
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+# OS specific
+.DS_Store
+
+# Task files
+# tasks.json
+# tasks/ 
+.taskmaster/
+
+# 录制产生的临时文件（录制数据驻留内存，由"保存为用例"手动持久化）
+record_*.json

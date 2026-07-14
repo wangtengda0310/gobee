@@ -1,0 +1,7267 @@
+[
+  {
+   "case": "关羽_万军取首",
+   "desc": "[定制战斗] 创建房间 设置自定义身份 加入房间 ",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1078,
+     1079,
+     1080,
+     1099
+    ],
+    "operateTimeMs": 300000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10103,
+      "initCards": [
+       1003,
+       1010,
+       1090,
+       1091
+      ],
+      "initEquips": [
+       1004
+      ],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 9,
+      "color": 65,
+      "heroId": 10108,
+      "initCards": [
+       1092,
+       1095,
+       1098
+      ],
+      "initEquips": [
+       1009
+      ],
+      "augurCards": [
+       1049
+      ],
+      "addSkills": [],
+      "delSkills": [
+       1030,
+       1031
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "关羽对孙尚香打出一张杀",
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "targetsId": [
+      2
+     ],
+     "cards": [
+      1003
+     ],
+     "confirm": false,
+     "transCardSkill": 1,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "关羽出杀成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "孙尚香响应杀：出闪",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "targetsId": [
+      0
+     ],
+     "cards": [
+      1092
+     ],
+     "confirm": true,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "孙尚香出闪成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "desc": "关羽空等待节点",
+     "robotIdx": 1,
+     "action": "OnlyAsset",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "DrawCard",
+       "desc": "关羽随机从牌堆获得一张♠牌",
+       "attr": {
+        "Cards": "1099",
+        "Count": "1"
+       }
+      }
+     ]
+    },
+    {
+     "id": 4,
+     "desc": "关羽对孙尚香打出一张杀",
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "targetsId": [
+      2
+     ],
+     "cards": [
+      1010
+     ],
+     "confirm": false,
+     "transCardSkill": 1,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "关羽出杀成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 5,
+     "desc": "孙尚香响应杀：不出闪",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "targetsId": [
+      0
+     ],
+     "cards": [
+      1095
+     ],
+     "confirm": true,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "孙尚香出闪成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 6,
+     "desc": "关羽丢弃三张♠牌，对孙尚香发动技能水淹七军",
+     "robotIdx": 1,
+     "action": "UseHeroSkill",
+     "targetsId": [
+      2
+     ],
+     "cards": [
+      1090,
+      1091,
+      1099
+     ],
+     "confirm": false,
+     "heroSkillUuid": 1022,
+     "transCardSkill": 1,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "DisCard",
+       "desc": "关羽丢弃3张黑桃牌",
+       "attr": {
+        "Cards": "1090 1091 1099",
+        "Count": "3"
+       }
+      },
+      {
+       "msgName": "UseHeroSkillAck",
+       "desc": "关羽技能发动成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 7,
+     "desc": "空等待节点",
+     "robotIdx": 2,
+     "action": "OnlyAsset",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "DisCard",
+       "desc": "孙尚香丢弃所有手牌、装备牌",
+       "attr": {
+        "Cards": "1098 1009",
+        "Count": "2"
+       }
+      },
+      {
+       "msgName": "CommonHpChange",
+       "desc": "孙尚香掉1点血",
+       "attr": {
+        "ChangeHp": "-1",
+        "CurHp": "3",
+        "HpSrc": "HarmNormal",
+        "MaxHp": "4"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "关羽_武胜义绝1",
+   "desc": "把行动牌当杀打出",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1078,
+     1079,
+     1080
+    ],
+    "operateTimeMs": 300000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10103,
+      "initCards": [
+       1072,
+       1087
+      ],
+      "initEquips": [
+       1004
+      ],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 9,
+      "color": 65,
+      "heroId": 10108,
+      "initCards": [
+       1090,
+       1091
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1030,
+       1031
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "关羽发动武圣,把桃当杀打出",
+     "robotIdx": 1,
+     "action": "UseHeroSkill",
+     "targetsId": [
+      2
+     ],
+     "cards": [
+      1072
+     ],
+     "confirm": false,
+     "heroSkillUuid": 1021,
+     "transCardSkill": 1,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "UseHeroSkillAck",
+       "desc": "关羽出杀成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "孙尚香响应杀：出闪",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "targetsId": [
+      0
+     ],
+     "cards": [
+      1090
+     ],
+     "confirm": true,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "孙尚香出闪成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "desc": "关羽空等待节点",
+     "robotIdx": 1,
+     "action": "OnlyAsset",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "AttrChange",
+       "desc": "关羽发动青龙偃月刀，出杀次数+1",
+       "attr": {
+        "ShaCount": "1"
+       }
+      }
+     ]
+    },
+    {
+     "id": 4,
+     "desc": "关羽发动武圣，把装备区的青龙偃月刀当杀打出",
+     "robotIdx": 1,
+     "action": "UseHeroSkill",
+     "targetsId": [
+      2
+     ],
+     "cards": [
+      1004
+     ],
+     "confirm": false,
+     "heroSkillUuid": 1021,
+     "transCardSkill": 1,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "UseHeroSkillAck",
+       "desc": "关羽出杀成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 5,
+     "desc": "孙尚香响应杀：不出闪",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "targetsId": [
+      0
+     ],
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "孙尚香响不出闪成功",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "CommonHpChange",
+       "desc": "孙尚香掉1点血",
+       "attr": {
+        "ChangeHp": "-1",
+        "CurHp": "3",
+        "HpSrc": "HarmNormal",
+        "MaxHp": "4"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "关羽_武胜义绝2",
+   "desc": "把装备牌当杀打出",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1078,
+     1079,
+     1080
+    ],
+    "operateTimeMs": 300000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10103,
+      "initCards": [
+       1072,
+       1087
+      ],
+      "initEquips": [
+       1004
+      ],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 9,
+      "color": 65,
+      "heroId": 10108,
+      "initCards": [
+       1090,
+       1091
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1030,
+       1031
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "关羽发动武圣,把桃当杀打出",
+     "robotIdx": 1,
+     "action": "UseHeroSkill",
+     "targetsId": [
+      2
+     ],
+     "cards": [
+      1072
+     ],
+     "confirm": false,
+     "heroSkillUuid": 1021,
+     "transCardSkill": 1,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "UseHeroSkillAck",
+       "desc": "关羽出杀成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "孙尚香响应杀：出闪",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "targetsId": [
+      0
+     ],
+     "cards": [
+      1090
+     ],
+     "confirm": true,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "孙尚香出闪成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "desc": "关羽空等待节点",
+     "robotIdx": 1,
+     "action": "OnlyAsset",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "AttrChange",
+       "desc": "关羽发动青龙偃月刀，出杀次数+1",
+       "attr": {
+        "ShaCount": "1"
+       }
+      }
+     ]
+    },
+    {
+     "id": 4,
+     "desc": "关羽发动武圣，把装备区的青龙偃月刀当杀打出",
+     "robotIdx": 1,
+     "action": "UseHeroSkill",
+     "targetsId": [
+      2
+     ],
+     "cards": [
+      1004
+     ],
+     "confirm": false,
+     "heroSkillUuid": 1021,
+     "transCardSkill": 1,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "UseHeroSkillAck",
+       "desc": "关羽出杀成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 5,
+     "desc": "孙尚香响应杀：不出闪",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "targetsId": [
+      0
+     ],
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "孙尚香响不出闪成功",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "CommonHpChange",
+       "desc": "孙尚香掉1点血",
+       "attr": {
+        "ChangeHp": "-1",
+        "CurHp": "3",
+        "HpSrc": "HarmNormal",
+        "MaxHp": "4"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "关羽_武胜义绝3",
+   "desc": "把战法牌当杀打出",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1078,
+     1079,
+     1080
+    ],
+    "operateTimeMs": 300000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10103,
+      "initCards": [
+       1072,
+       1087,
+       1066
+      ],
+      "initEquips": [
+       1004
+      ],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 9,
+      "color": 65,
+      "heroId": 10108,
+      "initCards": [
+       1090,
+       1091
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1030,
+       1031
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "关羽(1)对[孙尚香(2)], 使用技能[武圣义绝], 使用牌[多多益善(1066)], 当作牌杀打出",
+     "robotIdx": 1,
+     "action": "UseHeroSkill",
+     "targetsId": [
+      2
+     ],
+     "cards": [
+      1066
+     ],
+     "confirm": false,
+     "heroSkillUuid": 1021,
+     "transCardSkill": 1,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "UseHeroSkillAck",
+       "desc": "关羽出杀成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "孙尚香响应杀：出闪",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "targetsId": [
+      0
+     ],
+     "cards": [
+      1090
+     ],
+     "confirm": true,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "孙尚香出闪成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "desc": "关羽空等待节点",
+     "robotIdx": 1,
+     "action": "OnlyAsset",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "AttrChange",
+       "desc": "关羽发动青龙偃月刀，出杀次数+1",
+       "attr": {
+        "ShaCount": "1"
+       }
+      }
+     ]
+    },
+    {
+     "id": 4,
+     "desc": "关羽发动武圣，把装备区的青龙偃月刀当杀打出",
+     "robotIdx": 1,
+     "action": "UseHeroSkill",
+     "targetsId": [
+      2
+     ],
+     "cards": [
+      1004
+     ],
+     "confirm": false,
+     "heroSkillUuid": 1021,
+     "transCardSkill": 1,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "UseHeroSkillAck",
+       "desc": "关羽出杀成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 5,
+     "desc": "孙尚香响应杀：不出闪",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "targetsId": [
+      0
+     ],
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "孙尚香响不出闪成功",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "CommonHpChange",
+       "desc": "孙尚香掉1点血",
+       "attr": {
+        "ChangeHp": "-1",
+        "CurHp": "3",
+        "HpSrc": "HarmNormal",
+        "MaxHp": "4"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "关羽_武胜义绝4",
+   "desc": "把专属战法牌当杀打出",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1078,
+     1079,
+     1080
+    ],
+    "operateTimeMs": 300000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10103,
+      "initCards": [
+       1072,
+       1087,
+       2008
+      ],
+      "initEquips": [
+       1004
+      ],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 9,
+      "color": 65,
+      "heroId": 10108,
+      "initCards": [
+       1090,
+       1091
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1030,
+       1031
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "关羽(1)对[孙尚香(2)], 使用技能[武圣义绝], 使用牌[空城计(2008)], 当作牌杀打出",
+     "robotIdx": 1,
+     "action": "UseHeroSkill",
+     "targetsId": [
+      2
+     ],
+     "cards": [
+      2008
+     ],
+     "confirm": false,
+     "heroSkillUuid": 1021,
+     "transCardSkill": 1,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "UseHeroSkillAck",
+       "desc": "关羽出杀成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "孙尚香响应杀：出闪",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "targetsId": [
+      0
+     ],
+     "cards": [
+      1090
+     ],
+     "confirm": true,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "孙尚香出闪成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "desc": "关羽空等待节点",
+     "robotIdx": 1,
+     "action": "OnlyAsset",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "AttrChange",
+       "desc": "关羽发动青龙偃月刀，出杀次数+1",
+       "attr": {
+        "ShaCount": "1"
+       }
+      }
+     ]
+    },
+    {
+     "id": 4,
+     "desc": "关羽发动武圣，把装备区的青龙偃月刀当杀打出",
+     "robotIdx": 1,
+     "action": "UseHeroSkill",
+     "targetsId": [
+      2
+     ],
+     "cards": [
+      1004
+     ],
+     "confirm": false,
+     "heroSkillUuid": 1021,
+     "transCardSkill": 1,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "UseHeroSkillAck",
+       "desc": "关羽出杀成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 5,
+     "desc": "孙尚香响应杀：不出闪",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "targetsId": [
+      0
+     ],
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "孙尚香响不出闪成功",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "CommonHpChange",
+       "desc": "孙尚香掉1点血",
+       "attr": {
+        "ChangeHp": "-1",
+        "CurHp": "3",
+        "HpSrc": "HarmNormal",
+        "MaxHp": "4"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "关羽_武胜义绝5",
+   "desc": "把（无属性）转化牌当杀打出",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1078,
+     1079,
+     1080
+    ],
+    "operateTimeMs": 300000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10103,
+      "initCards": [
+       1072,
+       1087,
+       2031
+      ],
+      "initEquips": [
+       1004
+      ],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 9,
+      "color": 65,
+      "heroId": 10108,
+      "initCards": [
+       1090,
+       1091
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1030,
+       1031
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "关羽(1)对[孙尚香(2)], 使用技能[武圣义绝], 使用牌[笞(2031)], 当作牌杀打出",
+     "robotIdx": 1,
+     "action": "UseHeroSkill",
+     "targetsId": [
+      2
+     ],
+     "cards": [
+      2031
+     ],
+     "confirm": false,
+     "heroSkillUuid": 1021,
+     "transCardSkill": 1,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "UseHeroSkillAck",
+       "desc": "关羽出杀成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "孙尚香响应杀：出闪",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "targetsId": [
+      0
+     ],
+     "cards": [
+      1090
+     ],
+     "confirm": true,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "孙尚香出闪成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "desc": "关羽空等待节点",
+     "robotIdx": 1,
+     "action": "OnlyAsset",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "AttrChange",
+       "desc": "关羽发动青龙偃月刀，出杀次数+1",
+       "attr": {
+        "ShaCount": "1"
+       }
+      }
+     ]
+    },
+    {
+     "id": 4,
+     "desc": "关羽发动武圣，把装备区的青龙偃月刀当杀打出",
+     "robotIdx": 1,
+     "action": "UseHeroSkill",
+     "targetsId": [
+      2
+     ],
+     "cards": [
+      1004
+     ],
+     "confirm": false,
+     "heroSkillUuid": 1021,
+     "transCardSkill": 1,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "UseHeroSkillAck",
+       "desc": "关羽出杀成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 5,
+     "desc": "孙尚香响应杀：不出闪",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "targetsId": [
+      0
+     ],
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "孙尚香响不出闪成功",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "CommonHpChange",
+       "desc": "孙尚香掉1点血",
+       "attr": {
+        "ChangeHp": "-1",
+        "CurHp": "3",
+        "HpSrc": "HarmNormal",
+        "MaxHp": "4"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "关羽_武胜义绝6",
+   "desc": "把（有属性）转化牌当杀打出",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1078,
+     1079,
+     1080
+    ],
+    "operateTimeMs": 300000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10103,
+      "initCards": [
+       1072,
+       1087,
+       2002
+      ],
+      "initEquips": [
+       1004
+      ],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 9,
+      "color": 65,
+      "heroId": 10108,
+      "initCards": [
+       1090,
+       1091
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1030,
+       1031
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "关羽(1)对[孙尚香(2)], 使用技能[武圣义绝], 使用牌[桃花(2002)], 当作牌杀打出",
+     "robotIdx": 1,
+     "action": "UseHeroSkill",
+     "targetsId": [
+      2
+     ],
+     "cards": [
+      2002
+     ],
+     "confirm": false,
+     "heroSkillUuid": 1021,
+     "transCardSkill": 1,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "UseHeroSkillAck",
+       "desc": "关羽出杀成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "孙尚香响应杀：出闪",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "targetsId": [
+      0
+     ],
+     "cards": [
+      1090
+     ],
+     "confirm": true,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "孙尚香出闪成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "desc": "关羽空等待节点",
+     "robotIdx": 1,
+     "action": "OnlyAsset",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "AttrChange",
+       "desc": "关羽发动青龙偃月刀，出杀次数+1",
+       "attr": {
+        "ShaCount": "1"
+       }
+      }
+     ]
+    },
+    {
+     "id": 4,
+     "desc": "关羽发动武圣，把装备区的青龙偃月刀当杀打出",
+     "robotIdx": 1,
+     "action": "UseHeroSkill",
+     "targetsId": [
+      2
+     ],
+     "cards": [
+      1004
+     ],
+     "confirm": false,
+     "heroSkillUuid": 1021,
+     "transCardSkill": 1,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "UseHeroSkillAck",
+       "desc": "关羽出杀成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 5,
+     "desc": "孙尚香响应杀：不出闪",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "targetsId": [
+      0
+     ],
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "孙尚香响不出闪成功",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "CommonHpChange",
+       "desc": "孙尚香掉1点血",
+       "attr": {
+        "ChangeHp": "-1",
+        "CurHp": "3",
+        "HpSrc": "HarmNormal",
+        "MaxHp": "4"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "关羽_武胜义绝7",
+   "desc": "把凭空获得的牌（先拔头筹）当杀打出",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1078,
+     1079,
+     1080,
+     1075,
+     1077,
+     1033,
+     1032
+    ],
+    "operateTimeMs": 300000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10103,
+      "initCards": [
+       1087,
+       1045
+      ],
+      "initEquips": [
+       1004
+      ],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 9,
+      "color": 65,
+      "heroId": 10108,
+      "initCards": [
+       1090,
+       1091
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1030,
+       1031
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "关羽(1)使用牌[先拔头筹(1045)]",
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "cards": [
+      1045
+     ],
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "关羽出牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "关羽(1)确认, 使用牌[桃(1080)]",
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "cards": [
+      1080
+     ],
+     "confirm": true,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "XianBaTouChou",
+       "desc": "关羽先拔头筹拿到1张牌",
+       "attr": {
+        "Count": "1"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "desc": "关羽(1)对[孙尚香(2)], 使用技能[武圣义绝], 使用牌[桃(1080)], 当作牌杀打出",
+     "robotIdx": 1,
+     "action": "UseHeroSkill",
+     "targetsId": [
+      2
+     ],
+     "cards": [
+      1080
+     ],
+     "confirm": false,
+     "heroSkillUuid": 1021,
+     "transCardSkill": 1,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "UseHeroSkillAck",
+       "desc": "关羽出杀成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 4,
+     "desc": "孙尚香响应杀：出闪",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "targetsId": [
+      0
+     ],
+     "cards": [
+      1090
+     ],
+     "confirm": true,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "孙尚香出闪成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 5,
+     "desc": "关羽空等待节点",
+     "robotIdx": 1,
+     "action": "OnlyAsset",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "AttrChange",
+       "desc": "关羽发动青龙偃月刀，出杀次数+1",
+       "attr": {
+        "ShaCount": "1"
+       }
+      }
+     ]
+    },
+    {
+     "id": 6,
+     "desc": "关羽发动武圣，把装备区的青龙偃月刀当杀打出",
+     "robotIdx": 1,
+     "action": "UseHeroSkill",
+     "targetsId": [
+      2
+     ],
+     "cards": [
+      1004
+     ],
+     "confirm": false,
+     "heroSkillUuid": 1021,
+     "transCardSkill": 1,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "UseHeroSkillAck",
+       "desc": "关羽出杀成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 7,
+     "desc": "孙尚香响应杀：不出闪",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "targetsId": [
+      0
+     ],
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "孙尚香响不出闪成功",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "CommonHpChange",
+       "desc": "孙尚香掉1点血",
+       "attr": {
+        "ChangeHp": "-1",
+        "CurHp": "3",
+        "HpSrc": "HarmNormal",
+        "MaxHp": "4"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "关羽_武胜义绝8",
+   "desc": "把装备区装备当杀打出",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1078,
+     1079,
+     1080
+    ],
+    "operateTimeMs": 300000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10103,
+      "initCards": [
+       1072,
+       1087,
+       2002
+      ],
+      "initEquips": [
+       1004,
+       1002
+      ],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 9,
+      "color": 65,
+      "heroId": 10108,
+      "initCards": [
+       1090,
+       1091
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1030,
+       1031
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "关羽(1)对[孙尚香(2)], 使用技能[武圣义绝], 使用牌[亮银枪(1002)], 当作牌杀打出",
+     "robotIdx": 1,
+     "action": "UseHeroSkill",
+     "targetsId": [
+      2
+     ],
+     "cards": [
+      1002
+     ],
+     "confirm": false,
+     "heroSkillUuid": 1021,
+     "transCardSkill": 1,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "UseHeroSkillAck",
+       "desc": "关羽出杀成功",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "AttrChange",
+       "desc": "关羽出杀成功，出杀次数变为0",
+       "attr": {
+        "ShaCount": "1"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "孙尚香响应杀：出闪",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "targetsId": [
+      0
+     ],
+     "cards": [
+      1090
+     ],
+     "confirm": true,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "孙尚香出闪成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "desc": "关羽空等待节点",
+     "robotIdx": 1,
+     "action": "OnlyAsset",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "AttrChange",
+       "desc": "关羽发动青龙偃月刀，出杀次数+1",
+       "attr": {
+        "ShaCount": "1"
+       }
+      }
+     ]
+    },
+    {
+     "id": 4,
+     "desc": "关羽发动武圣，把装备区的青龙偃月刀当杀打出",
+     "robotIdx": 1,
+     "action": "UseHeroSkill",
+     "targetsId": [
+      2
+     ],
+     "cards": [
+      1004
+     ],
+     "confirm": false,
+     "heroSkillUuid": 1021,
+     "transCardSkill": 1,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "UseHeroSkillAck",
+       "desc": "关羽出杀成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 5,
+     "desc": "孙尚香响应杀：不出闪",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "targetsId": [
+      0
+     ],
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "孙尚香响不出闪成功",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "CommonHpChange",
+       "desc": "孙尚香掉1点血",
+       "attr": {
+        "ChangeHp": "-1",
+        "CurHp": "3",
+        "HpSrc": "HarmNormal",
+        "MaxHp": "4"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "关羽_武胜义绝9",
+   "desc": "把强化行动牌当杀打出",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1078,
+     1079,
+     1080,
+     1077,
+     1076,
+     1075,
+     1074,
+     1073
+    ],
+    "operateTimeMs": 300000,
+    "customHeroes": [
+     {
+      "identity": 9,
+      "color": 65,
+      "heroId": 10108,
+      "initCards": [
+       1090,
+       1091
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [
+       1607
+      ],
+      "delSkills": [
+       1030,
+       1031
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10103,
+      "initCards": [
+       1072,
+       1087,
+       2002
+      ],
+      "initEquips": [
+       1004,
+       1002
+      ],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "孙尚香(1)对[关羽(2)], 使用技能[合纵]",
+     "robotIdx": 1,
+     "action": "UseHeroSkill",
+     "targetsId": [
+      2
+     ],
+     "confirm": false,
+     "heroSkillUuid": 1607,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "UseHeroSkillAck",
+       "desc": "孙尚香使用技能成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "孙尚香(1)确认, 使用牌[桃(1072)]",
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "cards": [
+      1072
+     ],
+     "confirm": true,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "孙尚香响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "desc": "孙尚香(1)结束打牌",
+     "robotIdx": 1,
+     "action": "PlayCardOver",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "PlayCardOverAck",
+       "desc": "孙尚香结束打牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 4,
+     "desc": "孙尚香(1)自动弃牌",
+     "robotIdx": 1,
+     "action": "DisCard",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "DisCardAck",
+       "desc": "孙尚香弃牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 5,
+     "desc": "关羽(2)对[孙尚香(1)], 使用技能[武圣义绝], 使用牌[桃(1072)], 当作牌杀打出",
+     "robotIdx": 2,
+     "action": "UseHeroSkill",
+     "targetsId": [
+      1
+     ],
+     "cards": [
+      1072
+     ],
+     "confirm": false,
+     "heroSkillUuid": 1021,
+     "transCardSkill": 1,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "UseHeroSkillAck",
+       "desc": "关羽使用技能成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 6,
+     "desc": "孙尚香响应杀：出闪",
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "targetsId": [
+      0
+     ],
+     "cards": [
+      1090
+     ],
+     "confirm": true,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "孙尚香出闪成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 7,
+     "desc": "关羽空等待节点",
+     "robotIdx": 2,
+     "action": "OnlyAsset",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "AttrChange",
+       "desc": "关羽发动青龙偃月刀，出杀次数+1",
+       "attr": {
+        "ShaCount": "1"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "关羽_武胜义绝10",
+   "desc": "把强化装备牌当杀打出",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1078,
+     1079,
+     1080,
+     1077,
+     1076,
+     1075,
+     1074,
+     1073
+    ],
+    "operateTimeMs": 300000,
+    "customHeroes": [
+     {
+      "identity": 9,
+      "color": 65,
+      "heroId": 10108,
+      "initCards": [
+       1090,
+       1091
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [
+       1607
+      ],
+      "delSkills": [
+       1030,
+       1031
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10103,
+      "initCards": [
+       1072,
+       1087,
+       1121
+      ],
+      "initEquips": [
+       1004,
+       1002
+      ],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "孙尚香(1)对[关羽(2)], 使用技能[合纵]",
+     "robotIdx": 1,
+     "action": "UseHeroSkill",
+     "targetsId": [
+      2
+     ],
+     "confirm": false,
+     "heroSkillUuid": 1607,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "UseHeroSkillAck",
+       "desc": "孙尚香使用技能成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "孙尚香(1)确认, 使用牌[桃(1072)]",
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "cards": [
+      1121
+     ],
+     "confirm": true,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "孙尚香响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "desc": "孙尚香(1)结束打牌",
+     "robotIdx": 1,
+     "action": "PlayCardOver",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "PlayCardOverAck",
+       "desc": "孙尚香结束打牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 4,
+     "desc": "孙尚香(1)自动弃牌",
+     "robotIdx": 1,
+     "action": "DisCard",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "DisCardAck",
+       "desc": "孙尚香弃牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 5,
+     "desc": "关羽(2)对[孙尚香(1)], 使用技能[武圣义绝], 使用牌[桃(1072)], 当作牌杀打出",
+     "robotIdx": 2,
+     "action": "UseHeroSkill",
+     "targetsId": [
+      1
+     ],
+     "cards": [
+      1121
+     ],
+     "confirm": false,
+     "heroSkillUuid": 1021,
+     "transCardSkill": 1,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "UseHeroSkillAck",
+       "desc": "关羽使用技能成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 6,
+     "desc": "孙尚香响应杀：出闪",
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "targetsId": [
+      0
+     ],
+     "cards": [
+      1090
+     ],
+     "confirm": true,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "孙尚香出闪成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 7,
+     "desc": "关羽空等待节点",
+     "robotIdx": 2,
+     "action": "OnlyAsset",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "AttrChange",
+       "desc": "关羽发动青龙偃月刀，出杀次数+1",
+       "attr": {
+        "ShaCount": "1"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "关羽_武胜义绝11",
+   "desc": "把强化战法牌当杀打出",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1078,
+     1079,
+     1080,
+     1077,
+     1076,
+     1075,
+     1074,
+     1073
+    ],
+    "operateTimeMs": 300000,
+    "customHeroes": [
+     {
+      "identity": 9,
+      "color": 65,
+      "heroId": 10108,
+      "initCards": [
+       1090,
+       1091
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [
+       1607
+      ],
+      "delSkills": [
+       1030,
+       1031
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10103,
+      "initCards": [
+       1072,
+       1087,
+       1013
+      ],
+      "initEquips": [
+       1004,
+       1002
+      ],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "孙尚香(1)对[关羽(2)], 使用技能[合纵]",
+     "robotIdx": 1,
+     "action": "UseHeroSkill",
+     "targetsId": [
+      2
+     ],
+     "confirm": false,
+     "heroSkillUuid": 1607,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "UseHeroSkillAck",
+       "desc": "孙尚香使用技能成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "孙尚香(1)确认, 使用牌[桃(1072)]",
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "cards": [
+      1013
+     ],
+     "confirm": true,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "孙尚香响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "desc": "孙尚香(1)结束打牌",
+     "robotIdx": 1,
+     "action": "PlayCardOver",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "PlayCardOverAck",
+       "desc": "孙尚香结束打牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 4,
+     "desc": "孙尚香(1)自动弃牌",
+     "robotIdx": 1,
+     "action": "DisCard",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "DisCardAck",
+       "desc": "孙尚香弃牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 5,
+     "desc": "关羽(2)对[孙尚香(1)], 使用技能[武圣义绝], 使用牌[桃(1072)], 当作牌杀打出",
+     "robotIdx": 2,
+     "action": "UseHeroSkill",
+     "targetsId": [
+      1
+     ],
+     "cards": [
+      1013
+     ],
+     "confirm": false,
+     "heroSkillUuid": 1021,
+     "transCardSkill": 1,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "UseHeroSkillAck",
+       "desc": "关羽使用技能成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 6,
+     "desc": "孙尚香响应杀：出闪",
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "targetsId": [
+      0
+     ],
+     "cards": [
+      1090
+     ],
+     "confirm": true,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "孙尚香出闪成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 7,
+     "desc": "关羽空等待节点",
+     "robotIdx": 2,
+     "action": "OnlyAsset",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "AttrChange",
+       "desc": "关羽发动青龙偃月刀，出杀次数+1",
+       "attr": {
+        "ShaCount": "1"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "关羽_武胜义绝12",
+   "desc": "把强化转化牌当杀打出",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1078,
+     1079,
+     1080,
+     1077,
+     1076,
+     1075,
+     1074,
+     1073
+    ],
+    "operateTimeMs": 300000,
+    "customHeroes": [
+     {
+      "identity": 9,
+      "color": 65,
+      "heroId": 10108,
+      "initCards": [
+       1090,
+       1091
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [
+       1607
+      ],
+      "delSkills": [
+       1030,
+       1031
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10103,
+      "initCards": [
+       1072,
+       1087,
+       2002
+      ],
+      "initEquips": [
+       1004,
+       1002
+      ],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "孙尚香(1)对[关羽(2)], 使用技能[合纵]",
+     "robotIdx": 1,
+     "action": "UseHeroSkill",
+     "targetsId": [
+      2
+     ],
+     "confirm": false,
+     "heroSkillUuid": 1607,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "UseHeroSkillAck",
+       "desc": "孙尚香使用技能成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "孙尚香(1)确认, 使用牌[桃(1072)]",
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "cards": [
+      2002
+     ],
+     "confirm": true,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "孙尚香响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "desc": "孙尚香(1)结束打牌",
+     "robotIdx": 1,
+     "action": "PlayCardOver",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "PlayCardOverAck",
+       "desc": "孙尚香结束打牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 4,
+     "desc": "孙尚香(1)自动弃牌",
+     "robotIdx": 1,
+     "action": "DisCard",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "DisCardAck",
+       "desc": "孙尚香弃牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 5,
+     "desc": "关羽(2)对[孙尚香(1)], 使用技能[武圣义绝], 使用牌[桃(1072)], 当作牌杀打出",
+     "robotIdx": 2,
+     "action": "UseHeroSkill",
+     "targetsId": [
+      1
+     ],
+     "cards": [
+      2002
+     ],
+     "confirm": false,
+     "heroSkillUuid": 1021,
+     "transCardSkill": 1,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "UseHeroSkillAck",
+       "desc": "关羽使用技能成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 6,
+     "desc": "孙尚香响应杀：出闪",
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "targetsId": [
+      0
+     ],
+     "cards": [
+      1090
+     ],
+     "confirm": true,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "孙尚香出闪成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 7,
+     "desc": "关羽空等待节点",
+     "robotIdx": 2,
+     "action": "OnlyAsset",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "AttrChange",
+       "desc": "关羽发动青龙偃月刀，出杀次数+1",
+       "attr": {
+        "ShaCount": "1"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "关羽_万军取首1",
+   "desc": "目标距离为1对其出杀",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1011,
+     1019,
+     1022,
+     1024,
+     1027
+    ],
+    "operateTimeMs": 300000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10103,
+      "initCards": [
+       1003
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 9,
+      "color": 65,
+      "heroId": 10108,
+      "initCards": [
+       1010
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1030,
+       1031
+      ],
+      "exEquips": [
+       1063
+      ],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "关羽对孙尚香打出一张杀",
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "targetsId": [
+      2
+     ],
+     "cards": [
+      1003
+     ],
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "出杀成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "孙尚香响应杀：不出闪",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "targetsId": [
+      0
+     ],
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "不出闪",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "CommonHpChange",
+       "desc": "掉2点血",
+       "attr": {
+        "ChangeHp": "-2",
+        "CurHp": "2",
+        "HpSrc": "HarmNormal",
+        "MaxHp": "4"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "关羽_万军取首2",
+   "desc": "目标距离大于1时出杀",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1078,
+     1079,
+     1080,
+     1099,
+     1082,
+     1083,
+     1084,
+     1067,
+     1068
+    ],
+    "operateTimeMs": 300000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10103,
+      "initCards": [
+       1003,
+       1010,
+       1090,
+       1091
+      ],
+      "initEquips": [
+       1004
+      ],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 9,
+      "color": 65,
+      "heroId": 10108,
+      "initCards": [
+       1092,
+       1095,
+       1098
+      ],
+      "initEquips": [
+       1065,
+       1077,
+       1046
+      ],
+      "augurCards": [
+       1049
+      ],
+      "addSkills": [],
+      "delSkills": [
+       1030,
+       1031
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "关羽对孙尚香打出一张杀",
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "targetsId": [
+      2
+     ],
+     "cards": [
+      1003
+     ],
+     "confirm": false,
+     "transCardSkill": 1,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "关羽出杀成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "孙尚香响应杀：出闪",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "targetsId": [
+      0
+     ],
+     "cards": [
+      1092
+     ],
+     "confirm": true,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "孙尚香出闪成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "desc": "关羽空等待节点",
+     "robotIdx": 1,
+     "action": "OnlyAsset",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "DrawCard",
+       "desc": "关羽随机从牌堆获得一张♠牌",
+       "attr": {
+        "Cards": "1099",
+        "Count": "1"
+       }
+      }
+     ]
+    },
+    {
+     "id": 4,
+     "desc": "关羽对孙尚香打出一张杀",
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "targetsId": [
+      2
+     ],
+     "cards": [
+      1010
+     ],
+     "confirm": false,
+     "transCardSkill": 1,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "关羽出杀成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 5,
+     "desc": "孙尚香响应杀：不出闪",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "targetsId": [
+      0
+     ],
+     "cards": [
+      1095
+     ],
+     "confirm": true,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "孙尚香出闪成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 6,
+     "desc": "关羽丢弃三张♠牌，对孙尚香发动技能水淹七军",
+     "robotIdx": 1,
+     "action": "UseHeroSkill",
+     "targetsId": [
+      2
+     ],
+     "cards": [
+      1090,
+      1091,
+      1099
+     ],
+     "confirm": false,
+     "heroSkillUuid": 1022,
+     "transCardSkill": 1,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "DisCard",
+       "desc": "关羽丢弃3张黑桃牌",
+       "attr": {
+        "Cards": "1090 1091 1099",
+        "Count": "3"
+       }
+      },
+      {
+       "msgName": "UseHeroSkillAck",
+       "desc": "关羽技能发动成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 7,
+     "desc": "空等待节点",
+     "robotIdx": 2,
+     "action": "OnlyAsset",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "DisCard",
+       "desc": "孙尚香丢弃所有手牌、装备牌",
+       "attr": {
+        "Cards": "",
+        "Count": "6"
+       }
+      },
+      {
+       "msgName": "CommonHpChange",
+       "desc": "孙尚香掉1点血",
+       "attr": {
+        "ChangeHp": "-1",
+        "CurHp": "3",
+        "HpSrc": "HarmNormal",
+        "MaxHp": "4"
+       }
+      }
+     ]
+    },
+    {
+     "id": 8,
+     "robotIdx": 2,
+     "action": "Sleep",
+     "confirm": false,
+     "timeout": 1,
+     "sleepTime": 30
+    }
+   ]
+  },
+  {
+   "case": "关羽_万军取首3",
+   "desc": "给自己加距离出杀",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1078,
+     1079,
+     1080,
+     1099,
+     1082,
+     1083,
+     1084,
+     1067,
+     1068
+    ],
+    "operateTimeMs": 300000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10103,
+      "initCards": [
+       1003,
+       1010,
+       1090,
+       1091
+      ],
+      "initEquips": [
+       1004
+      ],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 9,
+      "color": 65,
+      "heroId": 10108,
+      "initCards": [
+       1092,
+       1095,
+       1098
+      ],
+      "initEquips": [
+       1065,
+       1077,
+       1046
+      ],
+      "augurCards": [
+       1049
+      ],
+      "addSkills": [],
+      "delSkills": [
+       1030,
+       1031
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "关羽对孙尚香打出一张杀",
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "targetsId": [
+      2
+     ],
+     "cards": [
+      1003
+     ],
+     "confirm": false,
+     "transCardSkill": 1,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "关羽出杀成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "孙尚香响应杀：出闪",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "targetsId": [
+      0
+     ],
+     "cards": [
+      1092
+     ],
+     "confirm": true,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "孙尚香出闪成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "desc": "关羽空等待节点",
+     "robotIdx": 1,
+     "action": "OnlyAsset",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "DrawCard",
+       "desc": "关羽随机从牌堆获得一张♠牌",
+       "attr": {
+        "Cards": "1099",
+        "Count": "1"
+       }
+      }
+     ]
+    },
+    {
+     "id": 4,
+     "desc": "关羽对孙尚香打出一张杀",
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "targetsId": [
+      2
+     ],
+     "cards": [
+      1010
+     ],
+     "confirm": false,
+     "transCardSkill": 1,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "关羽出杀成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 5,
+     "desc": "孙尚香响应杀：不出闪",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "targetsId": [
+      0
+     ],
+     "cards": [
+      1095
+     ],
+     "confirm": true,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "孙尚香出闪成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 6,
+     "desc": "关羽丢弃三张♠牌，对孙尚香发动技能水淹七军",
+     "robotIdx": 1,
+     "action": "UseHeroSkill",
+     "targetsId": [
+      2
+     ],
+     "cards": [
+      1090,
+      1091,
+      1099
+     ],
+     "confirm": false,
+     "heroSkillUuid": 1022,
+     "transCardSkill": 1,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "DisCard",
+       "desc": "关羽丢弃3张黑桃牌",
+       "attr": {
+        "Cards": "1090 1091 1099",
+        "Count": "3"
+       }
+      },
+      {
+       "msgName": "UseHeroSkillAck",
+       "desc": "关羽技能发动成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 7,
+     "desc": "空等待节点",
+     "robotIdx": 2,
+     "action": "OnlyAsset",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "DisCard",
+       "desc": "孙尚香丢弃所有手牌、装备牌",
+       "attr": {
+        "Cards": "",
+        "Count": "6"
+       }
+      },
+      {
+       "msgName": "CommonHpChange",
+       "desc": "孙尚香掉1点血",
+       "attr": {
+        "ChangeHp": "-1",
+        "CurHp": "3",
+        "HpSrc": "HarmNormal",
+        "MaxHp": "4"
+       }
+      }
+     ]
+    },
+    {
+     "id": 8,
+     "robotIdx": 2,
+     "action": "Sleep",
+     "confirm": false,
+     "timeout": 1,
+     "sleepTime": 30
+    }
+   ]
+  },
+  {
+   "case": "关羽_万军取首4",
+   "desc": "给自己减距离出杀",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1078,
+     1079,
+     1080,
+     1099,
+     1082,
+     1083,
+     1084,
+     1067,
+     1068
+    ],
+    "operateTimeMs": 300000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10103,
+      "initCards": [
+       1003,
+       1010,
+       1090,
+       1091
+      ],
+      "initEquips": [
+       1004,
+       1120,
+       1061,
+       1069,
+       3037
+      ],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 9,
+      "color": 65,
+      "heroId": 10108,
+      "initCards": [
+       1092,
+       1095,
+       1098
+      ],
+      "initEquips": [
+       1065,
+       1046,
+       1070
+      ],
+      "augurCards": [
+       1049
+      ],
+      "addSkills": [],
+      "delSkills": [
+       1030,
+       1031
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "关羽对孙尚香打出一张杀",
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "targetsId": [
+      2
+     ],
+     "cards": [
+      1003
+     ],
+     "confirm": false,
+     "transCardSkill": 1,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "关羽出杀成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "孙尚香响应杀：出闪",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "targetsId": [
+      0
+     ],
+     "cards": [
+      1092
+     ],
+     "confirm": true,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "孙尚香出闪成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "desc": "关羽空等待节点",
+     "robotIdx": 1,
+     "action": "OnlyAsset",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "DrawCard",
+       "desc": "关羽随机从牌堆获得一张♠牌",
+       "attr": {
+        "Cards": "1099",
+        "Count": "1"
+       }
+      }
+     ]
+    },
+    {
+     "id": 4,
+     "desc": "关羽对孙尚香打出一张杀",
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "targetsId": [
+      2
+     ],
+     "cards": [
+      1010
+     ],
+     "confirm": false,
+     "transCardSkill": 1,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "关羽出杀成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 5,
+     "desc": "孙尚香响应杀：不出闪",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "targetsId": [
+      0
+     ],
+     "cards": [
+      1095
+     ],
+     "confirm": true,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "孙尚香出闪成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 6,
+     "desc": "关羽丢弃三张♠牌，对孙尚香发动技能水淹七军",
+     "robotIdx": 1,
+     "action": "UseHeroSkill",
+     "targetsId": [
+      2
+     ],
+     "cards": [
+      1090,
+      1091,
+      1099
+     ],
+     "confirm": false,
+     "heroSkillUuid": 1022,
+     "transCardSkill": 1,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "DisCard",
+       "desc": "关羽丢弃3张黑桃牌",
+       "attr": {
+        "Cards": "1090 1091 1099",
+        "Count": "3"
+       }
+      },
+      {
+       "msgName": "UseHeroSkillAck",
+       "desc": "关羽技能发动成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 7,
+     "desc": "空等待节点",
+     "robotIdx": 2,
+     "action": "OnlyAsset",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "DisCard",
+       "desc": "孙尚香丢弃所有手牌、装备牌",
+       "attr": {
+        "Cards": "",
+        "Count": "4"
+       }
+      },
+      {
+       "msgName": "CommonHpChange",
+       "desc": "孙尚香掉1点血",
+       "attr": {
+        "ChangeHp": "-1",
+        "CurHp": "3",
+        "HpSrc": "HarmNormal",
+        "MaxHp": "4"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "关羽_万军取首5",
+   "desc": "对方手中1张杀",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1078,
+     1079,
+     1080,
+     1099,
+     1082,
+     1083,
+     1084,
+     1067,
+     1068
+    ],
+    "operateTimeMs": 300000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10103,
+      "initCards": [
+       1003,
+       1010,
+       1090,
+       1091
+      ],
+      "initEquips": [
+       1004,
+       1120,
+       1061,
+       1069,
+       3037
+      ],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 9,
+      "color": 65,
+      "heroId": 10108,
+      "initCards": [
+       1092,
+       1095,
+       1098,
+       1011
+      ],
+      "initEquips": [
+       1065,
+       1046,
+       1070
+      ],
+      "augurCards": [
+       1049
+      ],
+      "addSkills": [],
+      "delSkills": [
+       1030,
+       1031
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "关羽对孙尚香打出一张杀",
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "targetsId": [
+      2
+     ],
+     "cards": [
+      1003
+     ],
+     "confirm": false,
+     "transCardSkill": 1,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "关羽出杀成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "孙尚香响应杀：出闪",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "targetsId": [
+      0
+     ],
+     "cards": [
+      1092
+     ],
+     "confirm": true,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "孙尚香出闪成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "desc": "关羽空等待节点",
+     "robotIdx": 1,
+     "action": "OnlyAsset",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "DrawCard",
+       "desc": "关羽随机从牌堆获得一张♠牌",
+       "attr": {
+        "Cards": "1099",
+        "Count": "1"
+       }
+      }
+     ]
+    },
+    {
+     "id": 4,
+     "desc": "关羽对孙尚香打出一张杀",
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "targetsId": [
+      2
+     ],
+     "cards": [
+      1010
+     ],
+     "confirm": false,
+     "transCardSkill": 1,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "关羽出杀成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 5,
+     "desc": "孙尚香响应杀：不出闪",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "targetsId": [
+      0
+     ],
+     "cards": [
+      1095
+     ],
+     "confirm": true,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "孙尚香出闪成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 6,
+     "desc": "关羽丢弃三张♠牌，对孙尚香发动技能水淹七军",
+     "robotIdx": 1,
+     "action": "UseHeroSkill",
+     "targetsId": [
+      2
+     ],
+     "cards": [
+      1090,
+      1091,
+      1099
+     ],
+     "confirm": false,
+     "heroSkillUuid": 1022,
+     "transCardSkill": 1,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "DisCard",
+       "desc": "关羽丢弃3张黑桃牌",
+       "attr": {
+        "Cards": "1090 1091 1099",
+        "Count": "3"
+       }
+      },
+      {
+       "msgName": "UseHeroSkillAck",
+       "desc": "关羽技能发动成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 7,
+     "desc": "空等待节点",
+     "robotIdx": 2,
+     "action": "OnlyAsset",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "DisCard",
+       "desc": "孙尚香丢弃所有手牌、装备牌",
+       "attr": {
+        "Cards": "",
+        "Count": "5"
+       }
+      },
+      {
+       "msgName": "CommonHpChange",
+       "desc": "孙尚香掉1点血",
+       "attr": {
+        "ChangeHp": "-1",
+        "CurHp": "3",
+        "HpSrc": "HarmNormal",
+        "MaxHp": "4"
+       }
+      }
+     ]
+    },
+    {
+     "id": 8,
+     "robotIdx": 2,
+     "action": "Sleep",
+     "confirm": false,
+     "timeout": 1,
+     "sleepTime": 30
+    }
+   ]
+  },
+  {
+   "case": "关羽_万军取首6",
+   "desc": "对方手中多张杀",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1078,
+     1079,
+     1080,
+     1099,
+     1082,
+     1083,
+     1084,
+     1067,
+     1068
+    ],
+    "operateTimeMs": 300000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10103,
+      "initCards": [
+       1003,
+       1010,
+       1090,
+       1091
+      ],
+      "initEquips": [
+       1004,
+       1120,
+       1061,
+       1069,
+       3037
+      ],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 9,
+      "color": 65,
+      "heroId": 10108,
+      "initCards": [
+       1092,
+       1095,
+       1098,
+       1011,
+       1012,
+       1027
+      ],
+      "initEquips": [
+       1065,
+       1046,
+       1070
+      ],
+      "augurCards": [
+       1049
+      ],
+      "addSkills": [],
+      "delSkills": [
+       1030,
+       1031
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "关羽对孙尚香打出一张杀",
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "targetsId": [
+      2
+     ],
+     "cards": [
+      1003
+     ],
+     "confirm": false,
+     "transCardSkill": 1,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "关羽出杀成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "孙尚香(2)确认对[undefined(0)]",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "孙尚香响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "CommonHpChange",
+       "desc": "孙尚香受到来自HarmNormal的伤害, 体力变化:4",
+       "attr": {
+        "ChangeHp": "-4",
+        "HpSrc": "HarmNormal"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "关羽_万军取首7",
+   "desc": "对方手中多张杀",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1078,
+     1079,
+     1080,
+     1099,
+     1082,
+     1083,
+     1084,
+     1067,
+     1068
+    ],
+    "operateTimeMs": 300000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10103,
+      "initCards": [
+       1003,
+       1010,
+       1090,
+       1091
+      ],
+      "initEquips": [
+       1004,
+       1120,
+       1061,
+       1069,
+       3037
+      ],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 9,
+      "color": 65,
+      "heroId": 10108,
+      "initCards": [
+       1092,
+       1095,
+       1098,
+       1011,
+       1012,
+       1027
+      ],
+      "initEquips": [
+       1065,
+       1046,
+       1070
+      ],
+      "augurCards": [
+       1049
+      ],
+      "addSkills": [],
+      "delSkills": [
+       1030,
+       1031
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "关羽对孙尚香打出一张杀",
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "targetsId": [
+      2
+     ],
+     "cards": [
+      1003
+     ],
+     "confirm": false,
+     "transCardSkill": 1,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "关羽出杀成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "孙尚香(2)确认对[undefined(0)]",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "孙尚香响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "CommonHpChange",
+       "desc": "孙尚香受到来自HarmNormal的伤害, 体力变化:4",
+       "attr": {
+        "ChangeHp": "-4",
+        "HpSrc": "HarmNormal"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "关羽_万军取首8",
+   "desc": "对方手中杀超过体力上限，出杀重伤",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1078,
+     1079,
+     1080,
+     1099,
+     1082,
+     1083,
+     1084,
+     1067,
+     1068
+    ],
+    "operateTimeMs": 300000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10103,
+      "initCards": [
+       1003,
+       1010,
+       1090,
+       1091
+      ],
+      "initEquips": [
+       1004,
+       1120,
+       1061,
+       1069,
+       3037
+      ],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 9,
+      "color": 65,
+      "heroId": 10108,
+      "initCards": [
+       1092,
+       1095,
+       1098,
+       1011,
+       1012,
+       1027,
+       1022,
+       1024
+      ],
+      "initEquips": [
+       1065,
+       1046,
+       1070
+      ],
+      "augurCards": [
+       1049
+      ],
+      "addSkills": [],
+      "delSkills": [
+       1030,
+       1031
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "关羽对孙尚香打出一张杀",
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "targetsId": [
+      2
+     ],
+     "cards": [
+      1003
+     ],
+     "confirm": false,
+     "transCardSkill": 1,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "关羽出杀成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "孙尚香(2)确认对[undefined(0)]",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "孙尚香响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "CommonHpChange",
+       "desc": "孙尚香受到来自HarmNormal的伤害, 体力变化:4",
+       "attr": {
+        "ChangeHp": "-6",
+        "HpSrc": "HarmNormal"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "robotIdx": 2,
+     "action": "Sleep",
+     "confirm": false,
+     "timeout": 1,
+     "sleepTime": 30
+    }
+   ]
+  },
+  {
+   "case": "关羽_万军取首9",
+   "desc": "发动前封禁不可发动",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1001,
+     1002,
+     1003,
+     1004,
+     1005,
+     1006,
+     1007,
+     1011,
+     1012,
+     1013,
+     1014
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 3,
+      "heroId": 10105,
+      "initCards": [
+       3009,
+       1010,
+       1021
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1026,
+       1027,
+       1073
+      ],
+      "exEquips": [
+       1009
+      ],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 2,
+      "heroId": 10001,
+      "initCards": [
+       1082,
+       1083,
+       1084,
+       1087
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [
+       1020
+      ],
+      "delSkills": [
+       1001,
+       1074,
+       1075
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "曹操(1)使用牌[万箭齐发(3001)]",
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "cards": [
+      1001
+     ],
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "曹操出牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "曹操(2)确认, 使用牌[闪(1082)]",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "cards": [
+      1082
+     ],
+     "confirm": true,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "曹操响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "desc": "赵云(1)使用牌[万箭齐发(3009)]",
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "cards": [
+      3009
+     ],
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "赵云出牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 4,
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "cards": [
+      1083
+     ],
+     "confirm": true,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "曹操响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 5,
+     "desc": "赵云(1)对[曹操(2)]使用牌[杀(1010)]",
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "targetsId": [
+      2
+     ],
+     "cards": [
+      1010
+     ],
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "赵云出牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 6,
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "cards": [
+      1084
+     ],
+     "confirm": true,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "封禁成功，未触发技能效果",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 7,
+     "robotIdx": 2,
+     "action": "Sleep",
+     "confirm": false,
+     "timeout": 1,
+     "sleepTime": 20
+    }
+   ]
+  },
+  {
+   "case": "关羽_万军取首10",
+   "desc": "发动前转移，效果不发动",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1001,
+     1003,
+     1043,
+     1004,
+     1005,
+     1006,
+     1007,
+     1008,
+     1009,
+     1010,
+     1011
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 13,
+      "color": 97,
+      "heroId": 10002,
+      "initCards": [
+       1013,
+       1021,
+       3005
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [
+       1365
+      ],
+      "delSkills": [
+       1004,
+       1005,
+       1006
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 13,
+      "color": 97,
+      "heroId": 10005,
+      "initCards": [
+       1047
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [
+       1020
+      ],
+      "delSkills": [
+       1011,
+       1012
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "郭嘉(1)对[甄宓(2)]使用牌[阵前对决(1013)]",
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "targetsId": [
+      2
+     ],
+     "cards": [
+      1013
+     ],
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "成功：郭嘉(1)对[甄宓(2)]使用牌[阵前对决(1013)]",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "甄宓(2)取消",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "甄宓(2)取消",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "CommonHpChange",
+       "desc": "受到1点伤害",
+       "attr": {
+        "ChangeHp": "-1",
+        "CurHp": "3",
+        "MaxHp": "4"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "desc": "郭嘉(1)对[甄宓(2)]使用牌[阵前对决(1021)]",
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "targetsId": [
+      2
+     ],
+     "cards": [
+      1021
+     ],
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "成功：郭嘉(1)对[甄宓(2)]使用牌[阵前对决(1021)]",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 4,
+     "desc": "甄宓(2)取消",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "甄宓(2)取消",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "CommonHpChange",
+       "desc": "受到1点伤害",
+       "attr": {
+        "ChangeHp": "-1",
+        "CurHp": "2",
+        "MaxHp": "4"
+       }
+      }
+     ]
+    },
+    {
+     "id": 5,
+     "desc": "郭嘉(1)对[甄宓(2)]使用牌[阵前对决(3005)]",
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "targetsId": [
+      2
+     ],
+     "cards": [
+      3005
+     ],
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "成功：郭嘉(1)对[甄宓(2)]使用牌[阵前对决(3005)]",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 6,
+     "desc": "甄宓(2)取消",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "甄宓(2)取消",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "CommonHpChange",
+       "desc": "受到1点伤害",
+       "attr": {
+        "ChangeHp": "-1",
+        "CurHp": "1",
+        "MaxHp": "4"
+       }
+      }
+     ]
+    },
+    {
+     "id": 7,
+     "desc": "郭嘉(1)对[甄宓(2)]使用牌[杀(1003)]",
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "targetsId": [
+      2
+     ],
+     "cards": [
+      1003
+     ],
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "成功：郭嘉(1)对[甄宓(2)]使用牌[杀(1003)]",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 8,
+     "desc": "甄宓(2)取消",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "甄宓(2)取消",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "CommonHpChange",
+       "desc": "受到1点伤害",
+       "attr": {
+        "ChangeHp": "-1",
+        "CurHp": "0",
+        "MaxHp": "4"
+       }
+      }
+     ]
+    },
+    {
+     "id": 9,
+     "desc": "郭嘉(1)确认",
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "confirm": true,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "郭嘉(1)确认",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 10,
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "cards": [
+      1
+     ],
+     "confirm": true,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "技能转移成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 11,
+     "desc": "郭嘉(1)取消求援",
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "郭嘉(1)取消求援",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 12,
+     "desc": "甄宓(2)确认, 使用牌[桃(1047)]",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "cards": [
+      1047
+     ],
+     "confirm": true,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "成功：甄宓(2)确认, 使用牌[桃(1047)]",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "CommonHpChange",
+       "desc": "",
+       "attr": {
+        "ChangeHp": "1",
+        "CurHp": "1",
+        "MaxHp": "4"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "关羽_万军取首11",
+   "desc": "处于封禁状态转移，后续不发动",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1001,
+     1003,
+     1043,
+     1004,
+     1005,
+     1006,
+     1007,
+     1008,
+     1009,
+     1010,
+     1011
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 13,
+      "color": 97,
+      "heroId": 10002,
+      "initCards": [
+       1013,
+       1021,
+       3005,
+       1055
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [
+       1365
+      ],
+      "delSkills": [
+       1004,
+       1005,
+       1006
+      ],
+      "exEquips": [
+       4009
+      ],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 13,
+      "color": 97,
+      "heroId": 10005,
+      "initCards": [],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [
+       1020
+      ],
+      "delSkills": [
+       1011,
+       1012
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "郭嘉(1)对[甄宓(2)]使用牌[阵前对决(1013)]",
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "targetsId": [
+      2
+     ],
+     "cards": [
+      1013
+     ],
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "成功：郭嘉(1)对[甄宓(2)]使用牌[阵前对决(1013)]",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "甄宓(2)取消",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "甄宓(2)取消",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "CommonHpChange",
+       "desc": "受到1点伤害",
+       "attr": {
+        "ChangeHp": "-1",
+        "CurHp": "3",
+        "MaxHp": "4"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "desc": "郭嘉(1)对[甄宓(2)]使用牌[阵前对决(1021)]",
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "targetsId": [
+      2
+     ],
+     "cards": [
+      1021
+     ],
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "成功：郭嘉(1)对[甄宓(2)]使用牌[阵前对决(1021)]",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 4,
+     "desc": "甄宓(2)取消",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "甄宓(2)取消",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "CommonHpChange",
+       "desc": "受到1点伤害",
+       "attr": {
+        "ChangeHp": "-1",
+        "CurHp": "2",
+        "MaxHp": "4"
+       }
+      }
+     ]
+    },
+    {
+     "id": 5,
+     "desc": "郭嘉(1)对[甄宓(2)]使用牌[阵前对决(3005)]",
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "targetsId": [
+      2
+     ],
+     "cards": [
+      3005
+     ],
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "成功：郭嘉(1)对[甄宓(2)]使用牌[阵前对决(3005)]",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 6,
+     "desc": "甄宓(2)取消",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "甄宓(2)取消",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "CommonHpChange",
+       "desc": "受到1点伤害",
+       "attr": {
+        "ChangeHp": "-1",
+        "CurHp": "1",
+        "MaxHp": "4"
+       }
+      }
+     ]
+    },
+    {
+     "id": 7,
+     "desc": "郭嘉(1)对[甄宓(2)]使用牌[杀(1003)]",
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "targetsId": [
+      2
+     ],
+     "cards": [
+      1003
+     ],
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "成功：郭嘉(1)对[甄宓(2)]使用牌[杀(1003)]",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 8,
+     "desc": "甄宓(2)取消",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "甄宓(2)取消",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "CommonHpChange",
+       "desc": "甄宓受到来自HarmNormal的伤害, 体力变化:-1, 最大体力: [4]",
+       "attr": {
+        "ChangeHp": "-1",
+        "CurHp": "0",
+        "HpSrc": "HarmNormal",
+        "MaxHp": "4"
+       }
+      }
+     ]
+    },
+    {
+     "id": 9,
+     "desc": "封狼居胥触发",
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "confirm": true,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "成功：封狼居胥触发",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 10,
+     "desc": "封狼居胥发动",
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "cards": [
+      1
+     ],
+     "confirm": true,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "成功：封狼居胥发动",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 11,
+     "desc": "郭嘉(1)确认, 使用牌[桃(1055)]",
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "cards": [
+      1055
+     ],
+     "confirm": true,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "郭嘉(1)确认, 使用牌[桃(1055)]",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 12,
+     "desc": "甄宓(2)断言回复1点体力",
+     "robotIdx": 2,
+     "action": "OnlyAsset",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "CommonHpChange",
+       "desc": "甄宓(2)断言回复1点体力",
+       "attr": {
+        "ChangeHp": "1",
+        "CurHp": "1",
+        "HpSrc": "CureHp",
+        "MaxHp": "4"
+       }
+      }
+     ]
+    },
+    {
+     "id": 13,
+     "desc": "郭嘉(1), 使用技能[破釜沉舟]",
+     "robotIdx": 1,
+     "action": "UseHeroSkill",
+     "confirm": false,
+     "heroSkillUuid": 1301,
+     "assets": [
+      {
+       "msgName": "UseHeroSkillAck",
+       "desc": "释盟据守转移成功",
+       "attr": {
+        "Result": "1527"
+       }
+      }
+     ]
+    },
+    {
+     "id": 14,
+     "robotIdx": 1,
+     "action": "Sleep",
+     "confirm": false,
+     "sleepTime": 60
+    }
+   ]
+  },
+  {
+   "case": "关羽_万军取首12",
+   "desc": "发动前技能删除，技能消失",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1001,
+     1002,
+     1003,
+     1004,
+     1005,
+     1006,
+     1007,
+     1008,
+     1009,
+     1010
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 13,
+      "color": 97,
+      "heroId": 10002,
+      "initCards": [
+       1122,
+       1044
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [
+       1020
+      ],
+      "delSkills": [
+       1004,
+       1005,
+       1006
+      ],
+      "exEquips": [
+       1147
+      ],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 13,
+      "color": 97,
+      "heroId": 10005,
+      "initCards": [],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1011,
+       1012
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 13,
+      "color": 97,
+      "heroId": 10102,
+      "initCards": [],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [
+       1335
+      ],
+      "delSkills": [
+       1018,
+       1019
+      ],
+      "exEquips": [
+       1043
+      ],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "郭嘉(1)使用牌[酒(1044)]",
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "cards": [
+      1044
+     ],
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "郭嘉出牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "郭嘉(1)对[诸葛亮(3)]使用牌[火杀(1122)]",
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "targetsId": [
+      3
+     ],
+     "cards": [
+      1122
+     ],
+     "confirm": false,
+     "heroSkillUuid": 1085,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "郭嘉出牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "desc": "诸葛亮(3)取消",
+     "robotIdx": 3,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "诸葛亮响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "CommonHpChange",
+       "desc": "诸葛亮受到来自HarmHuo的伤害, 体力变化:-4, 最大体力: [4]",
+       "attr": {
+        "ChangeHp": "-4",
+        "CurHp": "0",
+        "HpSrc": "HarmHuo",
+        "MaxHp": "4"
+       }
+      }
+     ]
+    },
+    {
+     "id": 4,
+     "desc": "郭嘉(1)取消",
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "郭嘉响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 5,
+     "desc": "甄宓(2)取消",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "甄宓响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 6,
+     "desc": "诸葛亮(3)取消",
+     "robotIdx": 3,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "诸葛亮响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 7,
+     "desc": "诸葛亮(3)确认对[郭嘉(1)]发动骨鲠之臣",
+     "robotIdx": 3,
+     "action": "OptRoomAction",
+     "targetsId": [
+      1
+     ],
+     "confirm": true,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "诸葛亮响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 8,
+     "desc": "诸葛亮(3)确认删除巧手匠心",
+     "robotIdx": 3,
+     "action": "OptRoomAction",
+     "cards": [
+      1,
+      3000000
+     ],
+     "confirm": true,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "诸葛亮成功删除技能天人将军",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 9,
+     "desc": "郭嘉(1)对[郭嘉(1)], 使用技能[巧手匠心]",
+     "robotIdx": 1,
+     "action": "UseHeroSkill",
+     "targetsId": [
+      1
+     ],
+     "confirm": false,
+     "heroSkillUuid": 3000004,
+     "transCardSkill": 1001,
+     "assets": [
+      {
+       "msgName": "UseHeroSkillAck",
+       "desc": "郭嘉使用技能成功",
+       "attr": {
+        "Result": "1527"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "关羽_水淹七军1",
+   "desc": "每回合限一次",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1078,
+     1079,
+     1080,
+     1099,
+     1082,
+     1083,
+     1084,
+     1067,
+     1068
+    ],
+    "operateTimeMs": 300000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10103,
+      "initCards": [
+       1003,
+       1010,
+       1090,
+       1091
+      ],
+      "initEquips": [
+       1004
+      ],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 9,
+      "color": 65,
+      "heroId": 10108,
+      "initCards": [
+       1092,
+       1095,
+       1098
+      ],
+      "initEquips": [
+       1065,
+       1077,
+       1046
+      ],
+      "augurCards": [
+       1049
+      ],
+      "addSkills": [],
+      "delSkills": [
+       1030,
+       1031
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "关羽对孙尚香打出一张杀",
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "targetsId": [
+      2
+     ],
+     "cards": [
+      1003
+     ],
+     "confirm": false,
+     "transCardSkill": 1,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "关羽出杀成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "孙尚香响应杀：出闪",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "targetsId": [
+      0
+     ],
+     "cards": [
+      1092
+     ],
+     "confirm": true,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "孙尚香出闪成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "desc": "关羽空等待节点",
+     "robotIdx": 1,
+     "action": "OnlyAsset",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "DrawCard",
+       "desc": "关羽随机从牌堆获得一张♠牌",
+       "attr": {
+        "Cards": "1099",
+        "Count": "1"
+       }
+      }
+     ]
+    },
+    {
+     "id": 4,
+     "desc": "关羽对孙尚香打出一张杀",
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "targetsId": [
+      2
+     ],
+     "cards": [
+      1010
+     ],
+     "confirm": false,
+     "transCardSkill": 1,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "关羽出杀成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 5,
+     "desc": "孙尚香响应杀：不出闪",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "targetsId": [
+      0
+     ],
+     "cards": [
+      1095
+     ],
+     "confirm": true,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "孙尚香出闪成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 6,
+     "desc": "关羽丢弃三张♠牌，对孙尚香发动技能水淹七军",
+     "robotIdx": 1,
+     "action": "UseHeroSkill",
+     "targetsId": [
+      2
+     ],
+     "cards": [
+      1090,
+      1091,
+      1099
+     ],
+     "confirm": false,
+     "heroSkillUuid": 1022,
+     "transCardSkill": 1,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "DisCard",
+       "desc": "关羽丢弃3张黑桃牌",
+       "attr": {
+        "Cards": "1090 1091 1099",
+        "Count": "3"
+       }
+      },
+      {
+       "msgName": "UseHeroSkillAck",
+       "desc": "关羽技能发动成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 7,
+     "desc": "空等待节点",
+     "robotIdx": 2,
+     "action": "OnlyAsset",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "DisCard",
+       "desc": "孙尚香丢弃所有手牌、装备牌",
+       "attr": {
+        "Cards": "",
+        "Count": "6"
+       }
+      },
+      {
+       "msgName": "CommonHpChange",
+       "desc": "孙尚香掉1点血",
+       "attr": {
+        "ChangeHp": "-1",
+        "CurHp": "3",
+        "HpSrc": "HarmNormal",
+        "MaxHp": "4"
+       }
+      }
+     ]
+    },
+    {
+     "id": 8,
+     "robotIdx": 2,
+     "action": "Sleep",
+     "confirm": false,
+     "timeout": 1,
+     "sleepTime": 30
+    }
+   ]
+  },
+  {
+   "case": "关羽_水淹七军2",
+   "desc": "使用后此技能消失，不可再发动",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1078,
+     1079,
+     1080,
+     1099,
+     1082,
+     1083,
+     1084,
+     1067,
+     1068
+    ],
+    "operateTimeMs": 300000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10103,
+      "initCards": [
+       1003,
+       1010,
+       1090,
+       1091
+      ],
+      "initEquips": [
+       1004
+      ],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 9,
+      "color": 65,
+      "heroId": 10108,
+      "initCards": [
+       1092,
+       1095,
+       1098
+      ],
+      "initEquips": [
+       1065,
+       1077,
+       1046
+      ],
+      "augurCards": [
+       1049
+      ],
+      "addSkills": [],
+      "delSkills": [
+       1030,
+       1031
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "关羽对孙尚香打出一张杀",
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "targetsId": [
+      2
+     ],
+     "cards": [
+      1003
+     ],
+     "confirm": false,
+     "transCardSkill": 1,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "关羽出杀成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "孙尚香响应杀：出闪",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "targetsId": [
+      0
+     ],
+     "cards": [
+      1092
+     ],
+     "confirm": true,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "孙尚香出闪成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "desc": "关羽空等待节点",
+     "robotIdx": 1,
+     "action": "OnlyAsset",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "DrawCard",
+       "desc": "关羽随机从牌堆获得一张♠牌",
+       "attr": {
+        "Cards": "1099",
+        "Count": "1"
+       }
+      }
+     ]
+    },
+    {
+     "id": 4,
+     "desc": "关羽对孙尚香打出一张杀",
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "targetsId": [
+      2
+     ],
+     "cards": [
+      1010
+     ],
+     "confirm": false,
+     "transCardSkill": 1,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "关羽出杀成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 5,
+     "desc": "孙尚香响应杀：不出闪",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "targetsId": [
+      0
+     ],
+     "cards": [
+      1095
+     ],
+     "confirm": true,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "孙尚香出闪成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 6,
+     "desc": "关羽丢弃三张♠牌，对孙尚香发动技能水淹七军",
+     "robotIdx": 1,
+     "action": "UseHeroSkill",
+     "targetsId": [
+      2
+     ],
+     "cards": [
+      1090,
+      1091,
+      1099
+     ],
+     "confirm": false,
+     "heroSkillUuid": 1022,
+     "transCardSkill": 1,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "DisCard",
+       "desc": "关羽丢弃3张黑桃牌",
+       "attr": {
+        "Cards": "1090 1091 1099",
+        "Count": "3"
+       }
+      },
+      {
+       "msgName": "UseHeroSkillAck",
+       "desc": "关羽技能发动成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 7,
+     "desc": "空等待节点",
+     "robotIdx": 2,
+     "action": "OnlyAsset",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "DisCard",
+       "desc": "孙尚香丢弃所有手牌、装备牌",
+       "attr": {
+        "Cards": "",
+        "Count": "6"
+       }
+      },
+      {
+       "msgName": "CommonHpChange",
+       "desc": "孙尚香掉1点血",
+       "attr": {
+        "ChangeHp": "-1",
+        "CurHp": "3",
+        "HpSrc": "HarmNormal",
+        "MaxHp": "4"
+       }
+      }
+     ]
+    },
+    {
+     "id": 8,
+     "robotIdx": 2,
+     "action": "Sleep",
+     "confirm": false,
+     "timeout": 1,
+     "sleepTime": 30
+    }
+   ]
+  },
+  {
+   "case": "关羽_水淹七军3",
+   "desc": "出杀成功不摸牌",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1078,
+     1079,
+     1080,
+     1099,
+     1082,
+     1083,
+     1084,
+     1067,
+     1068
+    ],
+    "operateTimeMs": 300000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10103,
+      "initCards": [
+       1003,
+       1090,
+       1091,
+       1087
+      ],
+      "initEquips": [
+       1004
+      ],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 9,
+      "color": 65,
+      "heroId": 10108,
+      "initCards": [
+       1092,
+       1095,
+       1098
+      ],
+      "initEquips": [
+       1065,
+       1077,
+       1046
+      ],
+      "augurCards": [
+       1049
+      ],
+      "addSkills": [],
+      "delSkills": [
+       1030,
+       1031
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "关羽对孙尚香打出一张杀",
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "targetsId": [
+      2
+     ],
+     "cards": [
+      1003
+     ],
+     "confirm": false,
+     "transCardSkill": 1,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "关羽出杀成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "孙尚香(2)取消",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "孙尚香响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "CommonHpChange",
+       "desc": "孙尚香受到来自HarmNormal的伤害, 体力变化:-1",
+       "attr": {
+        "ChangeHp": "-1",
+        "HpSrc": "HarmNormal"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "desc": "关羽丢弃三张♠牌，对孙尚香发动技能水淹七军",
+     "robotIdx": 1,
+     "action": "UseHeroSkill",
+     "targetsId": [
+      2
+     ],
+     "cards": [
+      1090,
+      1091,
+      1087
+     ],
+     "confirm": false,
+     "heroSkillUuid": 1022,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "DisCard",
+       "desc": "关羽丢弃3张黑桃牌",
+       "attr": {
+        "Cards": "1090 1091 1087",
+        "Count": "3"
+       }
+      },
+      {
+       "msgName": "UseHeroSkillAck",
+       "desc": "关羽技能发动成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 4,
+     "desc": "空等待节点",
+     "robotIdx": 2,
+     "action": "OnlyAsset",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "DisCard",
+       "desc": "孙尚香丢弃所有手牌、装备牌",
+       "attr": {
+        "Cards": "",
+        "Count": "9"
+       }
+      },
+      {
+       "msgName": "CommonHpChange",
+       "desc": "孙尚香掉1点血",
+       "attr": {
+        "ChangeHp": "-1",
+        "CurHp": "2",
+        "HpSrc": "HarmNormal",
+        "MaxHp": "4"
+       }
+      }
+     ]
+    },
+    {
+     "id": 5,
+     "robotIdx": 2,
+     "action": "Sleep",
+     "confirm": false,
+     "timeout": 1,
+     "sleepTime": 30
+    }
+   ]
+  },
+  {
+   "case": "关羽_水淹七军4",
+   "desc": "杀被闪抵消获得牌",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1078,
+     1079,
+     1080,
+     1099,
+     1082,
+     1083,
+     1084,
+     1067,
+     1068
+    ],
+    "operateTimeMs": 300000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10103,
+      "initCards": [
+       1003,
+       1010,
+       1090,
+       1091
+      ],
+      "initEquips": [
+       1004
+      ],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 9,
+      "color": 65,
+      "heroId": 10108,
+      "initCards": [
+       1092,
+       1095,
+       1098
+      ],
+      "initEquips": [
+       1065,
+       1077,
+       1046
+      ],
+      "augurCards": [
+       1049
+      ],
+      "addSkills": [],
+      "delSkills": [
+       1030,
+       1031
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "关羽对孙尚香打出一张杀",
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "targetsId": [
+      2
+     ],
+     "cards": [
+      1003
+     ],
+     "confirm": false,
+     "transCardSkill": 1,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "关羽出杀成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "孙尚香响应杀：出闪",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "targetsId": [
+      0
+     ],
+     "cards": [
+      1092
+     ],
+     "confirm": true,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "孙尚香出闪成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "desc": "关羽空等待节点",
+     "robotIdx": 1,
+     "action": "OnlyAsset",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "DrawCard",
+       "desc": "关羽随机从牌堆获得一张♠牌",
+       "attr": {
+        "Cards": "1099",
+        "Count": "1"
+       }
+      }
+     ]
+    },
+    {
+     "id": 4,
+     "desc": "关羽对孙尚香打出一张杀",
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "targetsId": [
+      2
+     ],
+     "cards": [
+      1010
+     ],
+     "confirm": false,
+     "transCardSkill": 1,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "关羽出杀成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 5,
+     "desc": "孙尚香响应杀：不出闪",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "targetsId": [
+      0
+     ],
+     "cards": [
+      1095
+     ],
+     "confirm": true,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "孙尚香出闪成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 6,
+     "desc": "关羽丢弃三张♠牌，对孙尚香发动技能水淹七军",
+     "robotIdx": 1,
+     "action": "UseHeroSkill",
+     "targetsId": [
+      2
+     ],
+     "cards": [
+      1090,
+      1091,
+      1099
+     ],
+     "confirm": false,
+     "heroSkillUuid": 1022,
+     "transCardSkill": 1,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "DisCard",
+       "desc": "关羽丢弃3张黑桃牌",
+       "attr": {
+        "Cards": "1090 1091 1099",
+        "Count": "3"
+       }
+      },
+      {
+       "msgName": "UseHeroSkillAck",
+       "desc": "关羽技能发动成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 7,
+     "desc": "空等待节点",
+     "robotIdx": 2,
+     "action": "OnlyAsset",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "DisCard",
+       "desc": "孙尚香丢弃所有手牌、装备牌",
+       "attr": {
+        "Cards": "",
+        "Count": "6"
+       }
+      },
+      {
+       "msgName": "CommonHpChange",
+       "desc": "孙尚香掉1点血",
+       "attr": {
+        "ChangeHp": "-1",
+        "CurHp": "3",
+        "HpSrc": "HarmNormal",
+        "MaxHp": "4"
+       }
+      }
+     ]
+    },
+    {
+     "id": 8,
+     "robotIdx": 2,
+     "action": "Sleep",
+     "confirm": false,
+     "timeout": 1,
+     "sleepTime": 30
+    }
+   ]
+  },
+  {
+   "case": "关羽_水淹七军5",
+   "desc": "发动前封禁不可发动",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1001,
+     1002,
+     1003,
+     1004,
+     1005,
+     1006,
+     1007,
+     1011,
+     1012,
+     1013,
+     1014,
+     1023,
+     1022,
+     1025
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 3,
+      "heroId": 10105,
+      "initCards": [
+       3009,
+       1010,
+       1021
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1026,
+       1027,
+       1073
+      ],
+      "exEquips": [
+       1009
+      ],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 2,
+      "heroId": 10001,
+      "initCards": [
+       1082,
+       1083,
+       1084,
+       1087
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [
+       1022
+      ],
+      "delSkills": [
+       1001,
+       1074,
+       1075
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "曹操(1)使用牌[万箭齐发(3001)]",
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "cards": [
+      1001
+     ],
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "曹操出牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "曹操(2)确认, 使用牌[闪(1082)]",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "cards": [
+      1082
+     ],
+     "confirm": true,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "曹操响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "desc": "赵云(1)使用牌[万箭齐发(3009)]",
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "cards": [
+      3009
+     ],
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "赵云出牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 4,
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "cards": [
+      1083
+     ],
+     "confirm": true,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "曹操响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 5,
+     "desc": "赵云(1)对[曹操(2)]使用牌[杀(1010)]",
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "targetsId": [
+      2
+     ],
+     "cards": [
+      1010
+     ],
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "赵云出牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 6,
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "cards": [
+      1084
+     ],
+     "confirm": true,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "封禁成功，未触发技能效果",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 7,
+     "robotIdx": 2,
+     "action": "Sleep",
+     "confirm": false,
+     "timeout": 1,
+     "sleepTime": 2,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "",
+       "attr": {}
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "关羽_水淹七军6",
+   "desc": "发动前转移，效果不发动",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1001,
+     1003,
+     1043,
+     1004,
+     1005,
+     1006,
+     1007,
+     1008,
+     1009,
+     1010,
+     1011
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 13,
+      "color": 97,
+      "heroId": 10002,
+      "initCards": [
+       1013,
+       1021,
+       3005
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [
+       1365
+      ],
+      "delSkills": [
+       1004,
+       1005,
+       1006
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 13,
+      "color": 97,
+      "heroId": 10005,
+      "initCards": [
+       1047
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [
+       1022
+      ],
+      "delSkills": [
+       1011,
+       1012
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "郭嘉(1)对[甄宓(2)]使用牌[阵前对决(1013)]",
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "targetsId": [
+      2
+     ],
+     "cards": [
+      1013
+     ],
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "成功：郭嘉(1)对[甄宓(2)]使用牌[阵前对决(1013)]",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "甄宓(2)取消",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "甄宓(2)取消",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "CommonHpChange",
+       "desc": "受到1点伤害",
+       "attr": {
+        "ChangeHp": "-1",
+        "CurHp": "3",
+        "MaxHp": "4"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "desc": "郭嘉(1)对[甄宓(2)]使用牌[阵前对决(1021)]",
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "targetsId": [
+      2
+     ],
+     "cards": [
+      1021
+     ],
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "成功：郭嘉(1)对[甄宓(2)]使用牌[阵前对决(1021)]",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 4,
+     "desc": "甄宓(2)取消",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "甄宓(2)取消",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "CommonHpChange",
+       "desc": "受到1点伤害",
+       "attr": {
+        "ChangeHp": "-1",
+        "CurHp": "2",
+        "MaxHp": "4"
+       }
+      }
+     ]
+    },
+    {
+     "id": 5,
+     "desc": "郭嘉(1)对[甄宓(2)]使用牌[阵前对决(3005)]",
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "targetsId": [
+      2
+     ],
+     "cards": [
+      3005
+     ],
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "成功：郭嘉(1)对[甄宓(2)]使用牌[阵前对决(3005)]",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 6,
+     "desc": "甄宓(2)取消",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "甄宓(2)取消",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "CommonHpChange",
+       "desc": "受到1点伤害",
+       "attr": {
+        "ChangeHp": "-1",
+        "CurHp": "1",
+        "MaxHp": "4"
+       }
+      }
+     ]
+    },
+    {
+     "id": 7,
+     "desc": "郭嘉(1)对[甄宓(2)]使用牌[杀(1003)]",
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "targetsId": [
+      2
+     ],
+     "cards": [
+      1003
+     ],
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "成功：郭嘉(1)对[甄宓(2)]使用牌[杀(1003)]",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 8,
+     "desc": "甄宓(2)取消",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "甄宓(2)取消",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "CommonHpChange",
+       "desc": "受到1点伤害",
+       "attr": {
+        "ChangeHp": "-1",
+        "CurHp": "0",
+        "MaxHp": "4"
+       }
+      }
+     ]
+    },
+    {
+     "id": 9,
+     "desc": "郭嘉(1)确认",
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "confirm": true,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "郭嘉(1)确认",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 10,
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "cards": [
+      1
+     ],
+     "confirm": true,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "技能转移成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 11,
+     "desc": "郭嘉(1)取消求援",
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "郭嘉(1)取消求援",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 12,
+     "desc": "甄宓(2)确认, 使用牌[桃(1047)]",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "cards": [
+      1047
+     ],
+     "confirm": true,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "成功：甄宓(2)确认, 使用牌[桃(1047)]",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "CommonHpChange",
+       "desc": "",
+       "attr": {
+        "ChangeHp": "1",
+        "CurHp": "1",
+        "MaxHp": "4"
+       }
+      }
+     ]
+    },
+    {
+     "id": 13,
+     "robotIdx": 1,
+     "action": "Sleep",
+     "confirm": false,
+     "timeout": 1,
+     "sleepTime": 2
+    }
+   ]
+  },
+  {
+   "case": "关羽_水淹七军7",
+   "desc": "处于封禁状态转移，后续不发动",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1001,
+     1003,
+     1043,
+     1004,
+     1005,
+     1006,
+     1007,
+     1008,
+     1009,
+     1010,
+     1011
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 13,
+      "color": 97,
+      "heroId": 10002,
+      "initCards": [
+       1013,
+       1021,
+       3005,
+       1055
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [
+       1365
+      ],
+      "delSkills": [
+       1004,
+       1005,
+       1006
+      ],
+      "exEquips": [
+       4009
+      ],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 13,
+      "color": 97,
+      "heroId": 10005,
+      "initCards": [],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [
+       1022
+      ],
+      "delSkills": [
+       1011,
+       1012
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "郭嘉(1)对[甄宓(2)]使用牌[阵前对决(1013)]",
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "targetsId": [
+      2
+     ],
+     "cards": [
+      1013
+     ],
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "成功：郭嘉(1)对[甄宓(2)]使用牌[阵前对决(1013)]",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "甄宓(2)取消",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "甄宓(2)取消",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "CommonHpChange",
+       "desc": "受到1点伤害",
+       "attr": {
+        "ChangeHp": "-1",
+        "CurHp": "3",
+        "MaxHp": "4"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "desc": "郭嘉(1)对[甄宓(2)]使用牌[阵前对决(1021)]",
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "targetsId": [
+      2
+     ],
+     "cards": [
+      1021
+     ],
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "成功：郭嘉(1)对[甄宓(2)]使用牌[阵前对决(1021)]",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 4,
+     "desc": "甄宓(2)取消",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "甄宓(2)取消",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "CommonHpChange",
+       "desc": "受到1点伤害",
+       "attr": {
+        "ChangeHp": "-1",
+        "CurHp": "2",
+        "MaxHp": "4"
+       }
+      }
+     ]
+    },
+    {
+     "id": 5,
+     "desc": "郭嘉(1)对[甄宓(2)]使用牌[阵前对决(3005)]",
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "targetsId": [
+      2
+     ],
+     "cards": [
+      3005
+     ],
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "成功：郭嘉(1)对[甄宓(2)]使用牌[阵前对决(3005)]",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 6,
+     "desc": "甄宓(2)取消",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "甄宓(2)取消",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "CommonHpChange",
+       "desc": "受到1点伤害",
+       "attr": {
+        "ChangeHp": "-1",
+        "CurHp": "1",
+        "MaxHp": "4"
+       }
+      }
+     ]
+    },
+    {
+     "id": 7,
+     "desc": "郭嘉(1)对[甄宓(2)]使用牌[杀(1003)]",
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "targetsId": [
+      2
+     ],
+     "cards": [
+      1003
+     ],
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "成功：郭嘉(1)对[甄宓(2)]使用牌[杀(1003)]",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 8,
+     "desc": "甄宓(2)取消",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "甄宓(2)取消",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "CommonHpChange",
+       "desc": "甄宓受到来自HarmNormal的伤害, 体力变化:-1, 最大体力: [4]",
+       "attr": {
+        "ChangeHp": "-1",
+        "CurHp": "0",
+        "HpSrc": "HarmNormal",
+        "MaxHp": "4"
+       }
+      }
+     ]
+    },
+    {
+     "id": 9,
+     "desc": "封狼居胥触发",
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "confirm": true,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "成功：封狼居胥触发",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 10,
+     "desc": "封狼居胥发动",
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "cards": [
+      1
+     ],
+     "confirm": true,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "成功：封狼居胥发动",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 11,
+     "desc": "郭嘉(1)确认, 使用牌[桃(1055)]",
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "cards": [
+      1055
+     ],
+     "confirm": true,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "郭嘉(1)确认, 使用牌[桃(1055)]",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 12,
+     "desc": "甄宓(2)断言回复1点体力",
+     "robotIdx": 2,
+     "action": "OnlyAsset",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "CommonHpChange",
+       "desc": "甄宓(2)断言回复1点体力",
+       "attr": {
+        "ChangeHp": "1",
+        "CurHp": "1",
+        "HpSrc": "CureHp",
+        "MaxHp": "4"
+       }
+      }
+     ]
+    },
+    {
+     "id": 13,
+     "desc": "郭嘉(1), 使用技能[破釜沉舟]",
+     "robotIdx": 1,
+     "action": "UseHeroSkill",
+     "confirm": false,
+     "heroSkillUuid": 1301,
+     "assets": [
+      {
+       "msgName": "UseHeroSkillAck",
+       "desc": "释盟据守转移成功",
+       "attr": {
+        "Result": "1527"
+       }
+      }
+     ]
+    },
+    {
+     "id": 14,
+     "robotIdx": 1,
+     "action": "Sleep",
+     "confirm": false,
+     "sleepTime": 2
+    }
+   ]
+  },
+  {
+   "case": "关羽_万军取首8",
+   "desc": "发动前技能删除，技能消失",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1001,
+     1002,
+     1003,
+     1004,
+     1005,
+     1006,
+     1007,
+     1008,
+     1009,
+     1010
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 13,
+      "color": 97,
+      "heroId": 10002,
+      "initCards": [
+       1122,
+       1044
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [
+       1022
+      ],
+      "delSkills": [
+       1004,
+       1005,
+       1006
+      ],
+      "exEquips": [
+       1147
+      ],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 13,
+      "color": 97,
+      "heroId": 10005,
+      "initCards": [],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1011,
+       1012
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 13,
+      "color": 97,
+      "heroId": 10102,
+      "initCards": [],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [
+       1335
+      ],
+      "delSkills": [
+       1018,
+       1019
+      ],
+      "exEquips": [
+       1043
+      ],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "郭嘉(1)使用牌[酒(1044)]",
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "cards": [
+      1044
+     ],
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "郭嘉出牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "郭嘉(1)对[诸葛亮(3)]使用牌[火杀(1122)]",
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "targetsId": [
+      3
+     ],
+     "cards": [
+      1122
+     ],
+     "confirm": false,
+     "heroSkillUuid": 1085,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "郭嘉出牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "desc": "诸葛亮(3)取消",
+     "robotIdx": 3,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "诸葛亮响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "CommonHpChange",
+       "desc": "诸葛亮受到来自HarmHuo的伤害, 体力变化:-4, 最大体力: [4]",
+       "attr": {
+        "ChangeHp": "-4",
+        "CurHp": "0",
+        "HpSrc": "HarmHuo",
+        "MaxHp": "4"
+       }
+      }
+     ]
+    },
+    {
+     "id": 4,
+     "desc": "郭嘉(1)取消",
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "郭嘉响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 5,
+     "desc": "甄宓(2)取消",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "甄宓响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 6,
+     "desc": "诸葛亮(3)取消",
+     "robotIdx": 3,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "诸葛亮响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 7,
+     "desc": "诸葛亮(3)确认对[郭嘉(1)]发动骨鲠之臣",
+     "robotIdx": 3,
+     "action": "OptRoomAction",
+     "targetsId": [
+      1
+     ],
+     "confirm": true,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "诸葛亮响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 8,
+     "desc": "诸葛亮(3)确认删除巧手匠心",
+     "robotIdx": 3,
+     "action": "OptRoomAction",
+     "cards": [
+      1,
+      3000000
+     ],
+     "confirm": true,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "诸葛亮成功删除技能天人将军",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 9,
+     "desc": "郭嘉(1)对[郭嘉(1)], 使用技能[巧手匠心]",
+     "robotIdx": 1,
+     "action": "UseHeroSkill",
+     "targetsId": [
+      1
+     ],
+     "confirm": false,
+     "heroSkillUuid": 3000004,
+     "transCardSkill": 1001,
+     "assets": [
+      {
+       "msgName": "UseHeroSkillAck",
+       "desc": "郭嘉使用技能成功",
+       "attr": {
+        "Result": "1527"
+       }
+      }
+     ]
+    }
+   ]
+  }
+ ]

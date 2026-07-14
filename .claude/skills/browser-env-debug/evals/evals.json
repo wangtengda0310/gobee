@@ -1,0 +1,23 @@
+{
+  "skill_name": "browser-env-debug",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "我的 Vue 3 项目用了 Monaco Editor，初始化后 editor.getModel() 返回 undefined，但控制台没有报错。在 StackBlitz 上同样的代码可以正常工作。项目用 Vite 构建。",
+      "expected_output": "AI 应该识别这可能是 Vue reactive 包装干扰、Vite 缓存、或 ESM/CJS 兼容问题，并建议用隔离测试（page.evaluate）定位根因",
+      "files": []
+    },
+    {
+      "id": 2,
+      "prompt": "项目里用了 pdf.js，本地 dev 正常但 build 后报 Cannot read properties of undefined (reading 'workerSrc')。Vite 构建配置没有特殊处理 pdf.js。",
+      "expected_output": "AI 应该识别 Vite 预构建/生产构建差异问题，检查 worker 文件是否正确处理，建议检查 optimizeDeps 配置和 worker 文件路径",
+      "files": []
+    },
+    {
+      "id": 3,
+      "prompt": "我的 React 项目集成了 WebRTC 库 peerjs，用户报告说点击「连接」按钮后偶尔会卡死，控制台显示 WebSocket connection to 'wss://xxx' failed: Error in connection establishment: net::ERR_TIMED_OUT，但刷新后又能连上。Node 里写单元测试连接 peerjs server 完全正常。",
+      "expected_output": "AI 应该识别这是浏览器环境特有问题（WebSocket/网络环境差异），建议在浏览器中隔离测试而非依赖 Node 单元测试，检查浏览器 WebSocket 生命周期和 React 状态管理的交互",
+      "files": []
+    }
+  ]
+}

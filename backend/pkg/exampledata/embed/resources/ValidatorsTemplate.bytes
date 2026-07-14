@@ -1,0 +1,41 @@
+
+ZhanFaCardValidator"1,2
+ShanCardValidator"2,2
+TrueValidator"10000
+FalseValidator"0
+EquipCardValidator"1,3
+HarmFireValidator"2,0
+ShaValidator"2,1(0
+HuoShaValidator"2,11(0	
+	LeiShaValidator"2,12
+
+PropertyMaxValidator"41
+,NoZhuIdentityClassValidator"5,1(08
+'NoHouZhuIdentityValidator"5,218
+$CardTargetSingleValidator"1,1
+ NodeFromHeroSkillValidator
+(ZhuIdentityClassValidator"1,1(0
+IdentityColorValidator	"1
+$NodeRelateToOtherNodeValidator
+
+'BeiShuiYiZhanShaValidator"1320,1
+!WuShengShaValidator"1021,1
+(QiangChuRuLongShaValidator"1026,1
+'YiShenShiDanShanValidator"1027,2
+&ShiJiuRuMingJiuValidator"1025,4
+HarmValueValidator"0,1
+CircleValidator"2
+MuAttrValidator"3,2
+ShuiAttrValidator"3,3
+5"QingGuoQingChengWuXieKeJiValidator"1011,35(0 
+PlayCardStageEndValidator
+#JiaoTuSanKuValidator"1,2(0
+1YunChouWeiWoWuXieKeJiValidator"1330,35(0
+*YunChouWeiWoShiPoValidator"1330,411
+2 QingGuoQingChengShiPoValidator"1011,411(0
+/!SuanWuYiCeWuXieKeJiValidator"1137,35(0"
+("SuanWuYiCeShiPoValidator"1137,411
+ #XingDongCardValidator"1,1
+*$XingDongZhanFaCardValidator"1,1(0
+%ShiPoValidator"2,411
+"&WuXieKeJiValidator"2,35(0%

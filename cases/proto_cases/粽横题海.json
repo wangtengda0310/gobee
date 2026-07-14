@@ -1,0 +1,17 @@
+{
+  "version": 1,
+  "recorded_at": "2026-06-17T06:24:55.189Z",
+  "server_addr": "10.254.114.204:18000",
+  "messages": [
+    {
+      "msg_id": 7082,
+      "msg_name": "DailyAskAnswerQuestionReq",
+      "seq_id": 9,
+      "descript": "答题",
+      "payload_json": {
+        "actId": 1104,
+        "userAnswer": 10
+      }
+    }
+  ]
+}

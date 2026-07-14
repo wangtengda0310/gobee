@@ -1,0 +1,262 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "fight_cases.schema.json",
+  "title": "战斗测试用例 Schema",
+  "description": "QA功能测试用例的JSON Schema定义，用于验证测试用例文件格式",
+  "type": "array",
+  "items": {
+    "$ref": "#/$defs/QAFuncCase"
+  },
+  "$defs": {
+    "QAFuncCase": {
+      "type": "object",
+      "required": ["case", "initYanWu", "steps"],
+      "additionalProperties": false,
+      "properties": {
+        "case": {
+          "type": "string",
+          "description": "用例唯一标识，格式建议: 武将名_技能名_序号"
+        },
+        "desc": {
+          "type": "string",
+          "description": "用例描述，说明测试目的和预期结果"
+        },
+        "manager": {
+          "type": "string",
+          "description": "用例负责人(可选)"
+        },
+        "initYanWu": {
+          "$ref": "#/$defs/InitYanWu"
+        },
+        "steps": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/Step"
+          },
+          "minItems": 1,
+          "description": "执行步骤列表"
+        }
+      }
+    },
+    "InitYanWu": {
+      "type": "object",
+      "required": ["presentId", "cardPile", "cards", "operateTimeMs", "customHeroes"],
+      "additionalProperties": false,
+      "properties": {
+        "presentId": {
+          "type": "integer",
+          "description": "场景ID"
+        },
+        "cardPile": {
+          "type": "integer",
+          "description": "牌堆类型"
+        },
+        "cards": {
+          "type": "array",
+          "items": {
+            "type": "integer"
+          },
+          "description": "初始牌堆卡牌ID列表"
+        },
+        "operateTimeMs": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "操作超时时间(毫秒)"
+        },
+        "customHeroes": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/CustomHero"
+          },
+          "description": "自定义英雄列表"
+        }
+      }
+    },
+    "CustomHero": {
+      "type": "object",
+      "required": ["identity", "color", "heroId"],
+      "additionalProperties": false,
+      "properties": {
+        "identity": {
+          "type": "integer",
+          "description": "身份标识"
+        },
+        "color": {
+          "type": "integer",
+          "description": "阵营颜色"
+        },
+        "heroId": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "英雄配置ID"
+        },
+        "initCards": {
+          "type": "array",
+          "items": {
+            "type": "integer"
+          },
+          "description": "初始手牌ID列表"
+        },
+        "initEquips": {
+          "type": "array",
+          "items": {
+            "type": "integer"
+          },
+          "description": "初始装备ID列表"
+        },
+        "augurCards": {
+          "type": "array",
+          "items": {
+            "type": "integer"
+          },
+          "description": "卜卦牌ID列表"
+        },
+        "addSkills": {
+          "type": "array",
+          "items": {
+            "type": "integer"
+          },
+          "description": "添加技能ID列表"
+        },
+        "delSkills": {
+          "type": "array",
+          "items": {
+            "type": "integer"
+          },
+          "description": "移除技能ID列表"
+        },
+        "exEquips": {
+          "type": "array",
+          "items": {
+            "type": "integer"
+          },
+          "description": "扩展装备ID列表"
+        },
+        "skillCardsMap": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "array",
+            "items": {
+              "type": "integer"
+            }
+          },
+          "description": "技能卡牌映射，key为技能ID，value为卡牌ID列表"
+        }
+      }
+    },
+    "Step": {
+      "type": "object",
+      "required": ["robotIdx", "action"],
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "type": "integer",
+          "description": "步骤编号，用于问题排查"
+        },
+        "desc": {
+          "type": "string",
+          "description": "步骤描述"
+        },
+        "robotIdx": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "机器人索引，对应局内seatId"
+        },
+        "action": {
+          "type": "string",
+          "enum": [
+            "Sleep",
+            "LeaveRoom",
+            "CreateRoom",
+            "JoinRoom",
+            "StartCustomGame",
+            "WaitStartBattleFinal",
+            "WaitAction",
+            "PlayCard",
+            "DisCard",
+            "OptRoomAction",
+            "UseHeroSkill",
+            "PlayCardOver",
+            "EndTheGame",
+            "WaitGameOver",
+            "OnlyAsset"
+          ],
+          "description": "动作类型"
+        },
+        "targetsId": {
+          "type": "array",
+          "items": {
+            "type": "integer"
+          },
+          "description": "目标玩家ID列表"
+        },
+        "cards": {
+          "type": "array",
+          "items": {
+            "type": "integer"
+          },
+          "description": "使用的卡牌ID列表"
+        },
+        "cardsConcat": {
+          "type": "array",
+          "items": {
+            "type": "integer"
+          },
+          "description": "卡牌拼接，用于多张牌的操作"
+        },
+        "confirm": {
+          "type": "boolean",
+          "default": false,
+          "description": "是否确认，用于OptRoomAction"
+        },
+        "heroSkillUuid": {
+          "type": "integer",
+          "description": "英雄技能UUID"
+        },
+        "transCardSkill": {
+          "type": "integer",
+          "description": "转化技能ID"
+        },
+        "timeout": {
+          "type": "number",
+          "minimum": 0,
+          "description": "超时时间(秒)"
+        },
+        "sleepTime": {
+          "type": "number",
+          "minimum": 0,
+          "description": "等待时间(秒)"
+        },
+        "assets": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/Asset"
+          },
+          "description": "断言列表"
+        }
+      }
+    },
+    "Asset": {
+      "type": "object",
+      "required": ["msgName"],
+      "additionalProperties": false,
+      "properties": {
+        "msgName": {
+          "type": "string",
+          "description": "消息名称，如 AttrChange, PlayCardAck, DrawCard 等"
+        },
+        "desc": {
+          "type": "string",
+          "description": "断言描述"
+        },
+        "attr": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          },
+          "description": "属性键值对断言，所有值都是字符串类型"
+        }
+      }
+    }
+  }
+}

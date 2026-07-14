@@ -1,0 +1,36 @@
+{
+  "version": 1,
+  "recorded_at": "2026-06-16T12:33:53.653Z",
+  "server_addr": "10.254.114.204:18000",
+  "messages": [
+    {
+      "msg_id": 1001,
+      "msg_name": "GmCommandReq",
+      "seq_id": 1,
+      "descript": "添加粽子",
+      "payload_json": {
+        "content": "//AddItem 6000008 10000"
+      }
+    },
+    {
+      "msg_id": 5041,
+      "msg_name": "StartMatchReq",
+      "seq_id": 2,
+      "descript": "参赛",
+      "payload_json": {
+        "teamType": 10007
+      }
+    },
+    {
+      "msg_id": 1100,
+      "msg_name": "UseItemReq",
+      "seq_id": 3,
+      "payload_json": {
+        "itemInfo": {
+          "amount": 1,
+          "itemId": 1050001
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,31 @@
+{
+ "sheet": "商店类型表|EShopType",
+ "managerList": {
+  "QA": [],
+  "Designer": [],
+  "Programmer": []
+ },
+ "rules": {
+  "description": {
+   "PropName": "description",
+   "PropType": "",
+   "PropRules": []
+  },
+  "name": {
+   "PropName": "name",
+   "PropType": "",
+   "PropRules": []
+  },
+  "sign": {
+   "PropName": "sign",
+   "PropType": "",
+   "PropRules": []
+  },
+  "value": {
+   "PropName": "value",
+   "PropType": "",
+   "PropRules": []
+  }
+ },
+ "tableRules": []
+}

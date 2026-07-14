@@ -1,0 +1,176 @@
+{
+ "sheet": "赛季战令表|SeasonPass",
+ "managerList": {
+  "QA": [],
+  "Designer": [],
+  "Programmer": []
+ },
+ "rules": {
+  "EndTime": {
+   "PropName": "EndTime",
+   "PropType": "string",
+   "PropRules": []
+  },
+  "ExpPerLevel": {
+   "PropName": "ExpPerLevel",
+   "PropType": "int",
+   "PropRules": []
+  },
+  "ExpShowItemId": {
+   "PropName": "ExpShowItemId",
+   "PropType": "int",
+   "PropRules": []
+  },
+  "ExtTime": {
+   "PropName": "ExtTime",
+   "PropType": "string",
+   "PropRules": []
+  },
+  "GoldBagId": {
+   "PropName": "GoldBagId",
+   "PropType": "int",
+   "PropRules": []
+  },
+  "HeroId": {
+   "PropName": "HeroId",
+   "PropType": "int",
+   "PropRules": []
+  },
+  "HighLuckyBag": {
+   "PropName": "HighLuckyBag",
+   "PropType": "ItemCfg[]",
+   "PropRules": []
+  },
+  "Id": {
+   "PropName": "Id",
+   "PropType": "int",
+   "PropRules": []
+  },
+  "LevelLimit": {
+   "PropName": "LevelLimit",
+   "PropType": "int",
+   "PropRules": []
+  },
+  "LoopExp": {
+   "PropName": "LoopExp",
+   "PropType": "int",
+   "PropRules": []
+  },
+  "MailId": {
+   "PropName": "MailId",
+   "PropType": "int",
+   "PropRules": []
+  },
+  "Name": {
+   "PropName": "Name",
+   "PropType": "string",
+   "PropRules": []
+  },
+  "NormalLuckyBag": {
+   "PropName": "NormalLuckyBag",
+   "PropType": "ItemCfg[]",
+   "PropRules": []
+  },
+  "PerLevelBuyCost": {
+   "PropName": "PerLevelBuyCost",
+   "PropType": "ItemCfg[]",
+   "PropRules": []
+  },
+  "RechargeGoldId": {
+   "PropName": "RechargeGoldId",
+   "PropType": "int",
+   "PropRules": []
+  },
+  "RechargeTreasureId": {
+   "PropName": "RechargeTreasureId",
+   "PropType": "int",
+   "PropRules": []
+  },
+  "RechargeUpTreasureId": {
+   "PropName": "RechargeUpTreasureId",
+   "PropType": "int",
+   "PropRules": []
+  },
+  "SeasonBg": {
+   "PropName": "SeasonBg",
+   "PropType": "string",
+   "PropRules": []
+  },
+  "SeasonGoldBg": {
+   "PropName": "SeasonGoldBg",
+   "PropType": "string",
+   "PropRules": []
+  },
+  "SeasonIcon": {
+   "PropName": "SeasonIcon",
+   "PropType": "string",
+   "PropRules": []
+  },
+  "SeasonStartIcon": {
+   "PropName": "SeasonStartIcon",
+   "PropType": "string",
+   "PropRules": []
+  },
+  "SeasonTreasureBg": {
+   "PropName": "SeasonTreasureBg",
+   "PropType": "string",
+   "PropRules": []
+  },
+  "SkinId": {
+   "PropName": "SkinId",
+   "PropType": "int",
+   "PropRules": []
+  },
+  "StartTime": {
+   "PropName": "StartTime",
+   "PropType": "string",
+   "PropRules": []
+  },
+  "TreasureBagId": {
+   "PropName": "TreasureBagId",
+   "PropType": "int",
+   "PropRules": []
+  },
+  "WeekExpLimit": {
+   "PropName": "WeekExpLimit",
+   "PropType": "int",
+   "PropRules": []
+  }
+ },
+ "tableRules": [
+  {
+   "type": "COL_CONTINUOUS_CHECK",
+   "displayName": "列连续性检查",
+   "uuid": "58f10ec1-e578-44cc-8875-2ce6848aeb69",
+   "description": "检查指定列的数据连续性或唯一性。支持7种模式：严格递增、单调递增、日期间隔一致、{id;count}格式ID递增、提取数字递增、拆分后全局唯一、日期月模式（月顺延、日/时一致）。支持排除行号、注释行跳过、空值跳过。",
+   "params": {
+    "allowCommit": "false",
+    "allowEmpty": "false",
+    "checkMode": "DATE_MONTHLY_PATTERN",
+    "excludeRows": "1",
+    "scope": "all",
+    "separator": ",",
+    "targetCol": "StartTime",
+    "tolerance": "0"
+   },
+   "enabled": true
+  },
+  {
+   "type": "COL_CONTINUOUS_CHECK",
+   "displayName": "列连续性检查",
+   "uuid": "828d3906-27ec-422c-87b2-5a0dc0282173",
+   "description": "检查指定列的数据连续性或唯一性。支持7种模式：严格递增、单调递增、日期间隔一致、{id;count}格式ID递增、提取数字递增、拆分后全局唯一、日期月模式（月顺延、日/时一致）。支持排除行号、注释行跳过、空值跳过。",
+   "params": {
+    "allowCommit": "false",
+    "allowEmpty": "false",
+    "checkMode": "DATE_MONTHLY_PATTERN",
+    "excludeRows": "1",
+    "scope": "all",
+    "separator": ",",
+    "targetCol": "EndTime",
+    "tolerance": "0"
+   },
+   "enabled": true
+  }
+ ]
+}

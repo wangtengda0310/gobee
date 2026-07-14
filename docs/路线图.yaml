@@ -1,0 +1,70 @@
+# 路线图配置文件
+# 用于管理 QA 工具的功能开发计划和用户建议
+
+version: "1.0"
+
+items:
+  # 示例数据
+  - id: "1"
+    title: "战斗测试用例可视化编辑器"
+    description: |
+      提供拖拽式界面，方便QA配置复杂的战斗测试场景。
+
+      功能要点：
+      - 支持技能选择和配置
+      - 属性配置（攻击力、防御力等）
+      - 战力设置和验证
+      - 场景预览和调试
+    status: "planning"  # planning | in_progress | completed | rejected
+    priority: "high"    # low | medium | high
+    author: "系统"
+    created_at: 1744560000
+    updated_at: 1744560000
+    votes:
+      up: 5
+      down: 0
+    comments: []
+
+  - id: "2"
+    title: "配表检查规则可视化配置"
+    description: |
+      通过界面配置配表检查规则，无需修改代码，支持自定义校验逻辑。
+
+      功能要点：
+      - 规则类型选择（表级/列级/单元格级）
+      - 条件表达式编辑器
+      - 错误消息模板
+      - 规则测试和验证
+    status: "in_progress"
+    priority: "medium"
+    author: "系统"
+    created_at: 1744473600
+    updated_at: 1744473600
+    votes:
+      up: 3
+      down: 0
+    comments:
+      - id: "c1"
+        author: "测试用户"
+        content: "这个功能很实用，期待早日完成！"
+        created_at: 1744526400
+
+  - id: "3"
+    title: "测试报告自动生成"
+    description: |
+      自动生成美观的测试报告，支持导出PDF、Excel格式，包含图表和统计数据。
+
+      功能要点：
+      - 报告模板选择
+      - 图表可视化（饼图、柱状图等）
+      - 多格式导出（PDF、Excel、HTML）
+      - 历史报告对比
+    status: "planning"
+    priority: "low"
+    author: "系统"
+    created_at: 1744387200
+    updated_at: 1744387200
+    votes:
+      up: 8
+      down: 1
+    comments: []

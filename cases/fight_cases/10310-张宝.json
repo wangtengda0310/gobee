@@ -1,0 +1,3453 @@
+[
+  {
+   "case": "三十六方1-1",
+   "desc": "出牌阶段限1次，修改后的出牌阶段可触发",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     2001,
+     1006,
+     1007,
+     1008,
+     1009,
+     1013,
+     1014,
+     1015,
+     1016,
+     1017,
+     1018
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10310,
+      "initCards": [
+       1023,
+       1024,
+       1029,
+       1030
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [
+       1676
+      ],
+      "delSkills": [
+       1134
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 2,
+      "heroId": 10002,
+      "initCards": [
+       1019,
+       1020,
+       1025,
+       1026
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "张宝(1)对[郭嘉(2)], 使用技能[三十六方], 使用牌[铁索连舟(1023),杀(1024)]",
+     "robotIdx": 1,
+     "action": "UseHeroSkill",
+     "targetsId": [
+      2
+     ],
+     "cards": [
+      1023,
+      1024
+     ],
+     "confirm": false,
+     "heroSkillUuid": 1133,
+     "assets": [
+      {
+       "msgName": "UseHeroSkillAck",
+       "desc": "张宝使用技能成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "郭嘉(2)确认, 使用牌[杀(1019),雷杀(1020)]",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "cards": [
+      1019,
+      1020
+     ],
+     "confirm": true,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "郭嘉响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "desc": "张宝(1)结束打牌",
+     "robotIdx": 1,
+     "action": "PlayCardOver",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "PlayCardOverAck",
+       "desc": "张宝结束打牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 4,
+     "desc": "张宝(1)取消",
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "confirm": true,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "张宝响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 5,
+     "desc": "张宝(1)对[郭嘉(2)], 使用技能[三十六方]",
+     "robotIdx": 1,
+     "action": "UseHeroSkill",
+     "targetsId": [
+      2
+     ],
+     "cards": [
+      1029,
+      1030
+     ],
+     "confirm": false,
+     "heroSkillUuid": 1133,
+     "assets": [
+      {
+       "msgName": "UseHeroSkillAck",
+       "desc": "张宝使用技能成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 6,
+     "desc": "郭嘉(2)确认, 使用牌[银狮盔(1025),丈八蛇矛(1026)]",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "cards": [
+      1025,
+      1026
+     ],
+     "confirm": true,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "郭嘉响应成功，发动第二次验证正确",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "三十六方1-2",
+   "desc": "出牌阶段限1次，成也可触发",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1006,
+     1007,
+     1008,
+     1009,
+     1013,
+     1014,
+     1015,
+     1016,
+     1017,
+     1018
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 2,
+      "heroId": 10002,
+      "initCards": [
+       1019,
+       1020
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [
+       1315
+      ],
+      "delSkills": [
+       1004,
+       1005,
+       1006
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10310,
+      "initCards": [
+       1029,
+       1030,
+       1025,
+       1026
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [
+       1676
+      ],
+      "delSkills": [
+       1134
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "郭嘉(1)结束打牌",
+     "robotIdx": 1,
+     "action": "PlayCardOver",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "PlayCardOverAck",
+       "desc": "郭嘉结束打牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "郭嘉(1)自动弃牌",
+     "robotIdx": 1,
+     "action": "DisCard",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "DisCardAck",
+       "desc": "郭嘉弃牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "desc": "郭嘉(1)确认对[张宝(2)]",
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "targetsId": [
+      2
+     ],
+     "cards": [
+      1019
+     ],
+     "confirm": true,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "郭嘉响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 4,
+     "desc": "张宝(2)对[郭嘉(1)], 使用技能[三十六方], 使用牌[惊羽弓(1029),杀(1030)]",
+     "robotIdx": 2,
+     "action": "UseHeroSkill",
+     "targetsId": [
+      1
+     ],
+     "cards": [
+      1029,
+      1030
+     ],
+     "confirm": false,
+     "heroSkillUuid": 1133,
+     "assets": [
+      {
+       "msgName": "UseHeroSkillAck",
+       "desc": "张宝使用技能成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 5,
+     "desc": "郭嘉(1)确认, 使用牌[铁索连舟(1007),借刀杀人(1006)]",
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "cards": [
+      1007,
+      1006
+     ],
+     "confirm": true,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "郭嘉响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 6,
+     "desc": "张宝(2)结束打牌",
+     "robotIdx": 2,
+     "action": "PlayCardOver",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "PlayCardOverAck",
+       "desc": "张宝结束打牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 7,
+     "desc": "张宝(2)对[郭嘉(1)], 使用技能[三十六方], 使用牌[丈八蛇矛(1026)]",
+     "robotIdx": 2,
+     "action": "UseHeroSkill",
+     "targetsId": [
+      1
+     ],
+     "cards": [
+      1026
+     ],
+     "confirm": false,
+     "heroSkillUuid": 1133,
+     "assets": [
+      {
+       "msgName": "UseHeroSkillAck",
+       "desc": "张宝使用技能成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 8,
+     "desc": "郭嘉(1)确认, 使用牌[雷杀(1020)]",
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "cards": [
+      1020
+     ],
+     "confirm": true,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "郭嘉响应成功，发动第二次验证正确",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 9,
+     "robotIdx": 0,
+     "action": "Sleep",
+     "confirm": false
+    }
+   ]
+  },
+  {
+   "case": "三十六方1-3",
+   "desc": "弃牌数为1 对方弃1张",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1006,
+     1007,
+     1008,
+     1009,
+     1013,
+     1018,
+     1016
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10310,
+      "initCards": [
+       1003
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1134
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 2,
+      "heroId": 10006,
+      "initCards": [
+       1001,
+       1002
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "张宝(1)对[司马懿(2)], 使用技能[三十六方], 使用牌[杀(1003)]",
+     "robotIdx": 1,
+     "action": "UseHeroSkill",
+     "targetsId": [
+      2
+     ],
+     "cards": [
+      1003
+     ],
+     "confirm": false,
+     "heroSkillUuid": 1133,
+     "assets": [
+      {
+       "msgName": "UseHeroSkillAck",
+       "desc": "张宝使用技能成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "司马懿(2)确认, 使用牌[万箭齐发(1001)]",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "cards": [
+      1001
+     ],
+     "confirm": true,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "司马懿响应成功，验证正确",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "三十六方1-4",
+   "desc": "弃牌数为2 对方弃2张",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1006,
+     1007,
+     1008,
+     1009,
+     1013,
+     1018,
+     1016
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10310,
+      "initCards": [
+       1003,
+       1004
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1134
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 2,
+      "heroId": 10006,
+      "initCards": [
+       1001,
+       1002
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "张宝(1)对[司马懿(2)], 使用技能[三十六方], 使用牌[杀(1003)]",
+     "robotIdx": 1,
+     "action": "UseHeroSkill",
+     "targetsId": [
+      2
+     ],
+     "cards": [
+      1003,
+      1004
+     ],
+     "confirm": false,
+     "heroSkillUuid": 1133,
+     "assets": [
+      {
+       "msgName": "UseHeroSkillAck",
+       "desc": "张宝使用技能成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "司马懿(2)确认, 使用牌[万箭齐发(1001)]",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "cards": [
+      1001,
+      1002
+     ],
+     "confirm": true,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "司马懿响应成功，验证正确",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "三十六方1-5",
+   "desc": "弃牌数为1 吕氏春秋不可弃",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1006,
+     1007,
+     1008,
+     1009,
+     1013,
+     1018,
+     1016
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10310,
+      "initCards": [
+       1003
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1134
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 2,
+      "heroId": 10006,
+      "initCards": [
+       2026
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "张宝(1)对[司马懿(2)], 使用技能[三十六方], 使用牌[杀(1003)]",
+     "robotIdx": 1,
+     "action": "UseHeroSkill",
+     "targetsId": [
+      2
+     ],
+     "cards": [
+      1003
+     ],
+     "confirm": false,
+     "heroSkillUuid": 1133,
+     "assets": [
+      {
+       "msgName": "UseHeroSkillAck",
+       "desc": "张宝使用技能成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "司马懿(2)确认, 使用牌[吕氏春秋(2026)]",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "cards": [
+      2026
+     ],
+     "confirm": true,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "司马懿响应成功，验证正确",
+       "attr": {
+        "Result": "1588"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "三十六方1-6",
+   "desc": "弃牌数为2 对方弃2张",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1006,
+     1007,
+     1008,
+     1009,
+     1013,
+     1018,
+     1016
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10310,
+      "initCards": [
+       1003
+      ],
+      "initEquips": [
+       1004
+      ],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1134
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 2,
+      "heroId": 10006,
+      "initCards": [
+       1001
+      ],
+      "initEquips": [
+       1002
+      ],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "张宝(1)对[司马懿(2)], 使用技能[三十六方], 使用牌[杀(1003)]",
+     "robotIdx": 1,
+     "action": "UseHeroSkill",
+     "targetsId": [
+      2
+     ],
+     "cards": [
+      1003,
+      1004
+     ],
+     "confirm": false,
+     "heroSkillUuid": 1133,
+     "assets": [
+      {
+       "msgName": "UseHeroSkillAck",
+       "desc": "张宝使用技能成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "司马懿(2)确认, 使用牌[万箭齐发(1001)]",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "cards": [
+      1001,
+      1002
+     ],
+     "confirm": true,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "司马懿响应成功，验证正确",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "三十六方1-7",
+   "desc": "选择一名其他角色，不可成为技能目标 不能选",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1006,
+     1007,
+     1008,
+     1009,
+     1013,
+     1018,
+     1016
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 2,
+      "heroId": 10006,
+      "initCards": [
+       1001,
+       1251
+      ],
+      "initEquips": [
+       1002
+      ],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10310,
+      "initCards": [
+       1003
+      ],
+      "initEquips": [
+       1004
+      ],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1134
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "司马懿(1)对[张宝(2)]使用牌[调虎离山(1251)]",
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "targetsId": [
+      2
+     ],
+     "cards": [
+      1251
+     ],
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "司马懿出牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "司马懿(1)结束打牌",
+     "robotIdx": 1,
+     "action": "PlayCardOver",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "PlayCardOverAck",
+       "desc": "司马懿结束打牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "desc": "司马懿(1)自动弃牌",
+     "robotIdx": 1,
+     "action": "DisCard",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "DisCardAck",
+       "desc": "司马懿弃牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 4,
+     "desc": "张宝(2)对[司马懿(1)], 使用技能[三十六方], 使用牌[杀(1003),青龙偃月刀(1004)]",
+     "robotIdx": 2,
+     "action": "UseHeroSkill",
+     "cards": [
+      1003,
+      1004
+     ],
+     "confirm": false,
+     "heroSkillUuid": 1133,
+     "assets": [
+      {
+       "msgName": "UseHeroSkillAck",
+       "desc": "张宝使用技能成功",
+       "attr": {
+        "Result": "1001"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "三十六方1-8",
+   "desc": "处于霜冻状态 不可选",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1006,
+     1007,
+     1082,
+     1008,
+     1009,
+     1013,
+     1018,
+     1016
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 2,
+      "heroId": 10006,
+      "initCards": [
+       1001,
+       4088
+      ],
+      "initEquips": [
+       1002
+      ],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10310,
+      "initCards": [
+       1003
+      ],
+      "initEquips": [
+       1004
+      ],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1134
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "司马懿(1)对[张宝(2)]使用牌[霜冻(4088)]",
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "targetsId": [
+      2
+     ],
+     "cards": [
+      4088
+     ],
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "司马懿出牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "司马懿(1)结束打牌",
+     "robotIdx": 1,
+     "action": "PlayCardOver",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "PlayCardOverAck",
+       "desc": "司马懿结束打牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "desc": "司马懿(1)自动弃牌",
+     "robotIdx": 1,
+     "action": "DisCard",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "DisCardAck",
+       "desc": "司马懿弃牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 4,
+     "desc": "张宝(2)等待3秒",
+     "robotIdx": 2,
+     "action": "Sleep",
+     "confirm": false,
+     "sleepTime": 3
+    },
+    {
+     "id": 5,
+     "desc": "张宝(2)对[司马懿(1)], 使用技能[三十六方], 使用牌[杀(1003),青龙偃月刀(1004)]",
+     "robotIdx": 2,
+     "action": "UseHeroSkill",
+     "cards": [
+      1003,
+      1004
+     ],
+     "confirm": false,
+     "heroSkillUuid": 1133,
+     "assets": [
+      {
+       "msgName": "UseHeroSkillAck",
+       "desc": "张宝无法使用技能",
+       "attr": {
+        "Result": "1001"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "三十六方1-9",
+   "desc": "张宝弃牌后被封印，对方不触发弃牌",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1006,
+     1007,
+     1008,
+     1009,
+     1013,
+     1018,
+     1016
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10310,
+      "initCards": [],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [
+       1133
+      ],
+      "delSkills": [
+       1134
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 2,
+      "heroId": 10006,
+      "initCards": [
+       1001,
+       1010
+      ],
+      "initEquips": [
+       1002
+      ],
+      "augurCards": [],
+      "addSkills": [
+       1680
+      ],
+      "delSkills": [],
+      "exEquips": [
+       3137
+      ],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "张宝(1)对[司马懿(2)], 使用技能[三十六方], 使用牌[杀(1003)]",
+     "robotIdx": 1,
+     "action": "UseHeroSkill",
+     "targetsId": [
+      2
+     ],
+     "cards": [
+      1006,
+      1007
+     ],
+     "confirm": false,
+     "heroSkillUuid": 1133,
+     "assets": [
+      {
+       "msgName": "UseHeroSkillAck",
+       "desc": "张宝使用技能成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "司马懿(2)确认, 使用牌[杀(1010)]",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "targetsId": [
+      1
+     ],
+     "cards": [
+      1010
+     ],
+     "confirm": true,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "司马懿响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "desc": "张宝(1), 使用技能[三十六方]",
+     "robotIdx": 1,
+     "action": "UseHeroSkill",
+     "confirm": true,
+     "heroSkillUuid": 1133,
+     "assets": [
+      {
+       "msgName": "UseHeroSkillAck",
+       "desc": "张宝无法发动 验证正确",
+       "attr": {
+        "Result": "1513"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "三十六方1-10",
+   "desc": "弃牌区域 装备区可弃",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1006,
+     1007,
+     1008,
+     1009,
+     1013,
+     1018,
+     1016
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10310,
+      "initCards": [
+       1003
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1134
+      ],
+      "exEquips": [
+       1004
+      ],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 2,
+      "heroId": 10006,
+      "initCards": [
+       1001,
+       1002
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "张宝(1)对[司马懿(2)], 使用技能[三十六方], 使用牌[杀(1003)]",
+     "robotIdx": 1,
+     "action": "UseHeroSkill",
+     "targetsId": [
+      2
+     ],
+     "cards": [
+      1004
+     ],
+     "confirm": false,
+     "heroSkillUuid": 1133,
+     "assets": [
+      {
+       "msgName": "UseHeroSkillAck",
+       "desc": "张宝使用技能成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "司马懿(2)确认, 使用牌[万箭齐发(1001)]",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "cards": [
+      1001
+     ],
+     "confirm": true,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "司马懿响应成功，验证正确",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "三十六方1-11",
+   "desc": "弃牌区域 技能牌区不可弃",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1006,
+     1007,
+     1008,
+     1009,
+     1013,
+     1018,
+     1016
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10310,
+      "initCards": [
+       1003
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [
+       1051
+      ],
+      "delSkills": [
+       1134
+      ],
+      "exEquips": [
+       1004
+      ],
+      "skillCardsMap": {
+       "1051": [
+        1005
+       ]
+      }
+     },
+     {
+      "identity": 1,
+      "color": 2,
+      "heroId": 10006,
+      "initCards": [
+       1001,
+       1002
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "张宝(1)对[司马懿(2)], 使用技能[三十六方], 使用牌[杀(1003)]",
+     "robotIdx": 1,
+     "action": "UseHeroSkill",
+     "targetsId": [
+      2
+     ],
+     "cards": [
+      1005
+     ],
+     "confirm": false,
+     "heroSkillUuid": 1133,
+     "assets": [
+      {
+       "msgName": "UseHeroSkillAck",
+       "desc": "技能牌区不可弃，验证正确",
+       "attr": {
+        "Result": "1588"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "三十六方1-12",
+   "desc": "选择目标 不可选自己",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1006,
+     1007,
+     1008,
+     1009,
+     1013,
+     1018,
+     1016
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10310,
+      "initCards": [
+       1003
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1134
+      ],
+      "exEquips": [
+       1004
+      ],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 2,
+      "heroId": 10006,
+      "initCards": [
+       1001,
+       1002
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "张宝(1)对[张宝(1)], 使用技能[三十六方], 使用牌[青龙偃月刀(1004)]",
+     "robotIdx": 1,
+     "action": "UseHeroSkill",
+     "targetsId": [
+      1
+     ],
+     "cards": [
+      1004
+     ],
+     "confirm": false,
+     "heroSkillUuid": 1133,
+     "assets": [
+      {
+       "msgName": "UseHeroSkillAck",
+       "desc": "不可选自己",
+       "attr": {
+        "Result": "1001"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "三十六方1-13",
+   "desc": "弃牌 对方无牌 可发动 ",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1006,
+     1007,
+     1008,
+     1009,
+     1013,
+     1018,
+     1016
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10310,
+      "initCards": [
+       1003,
+       1004
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1134
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 2,
+      "heroId": 10006,
+      "initCards": [],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "张宝(1)对[司马懿(2)], 使用技能[三十六方], 使用牌[杀(1003)]",
+     "robotIdx": 1,
+     "action": "UseHeroSkill",
+     "targetsId": [
+      2
+     ],
+     "cards": [
+      1003,
+      1004
+     ],
+     "confirm": false,
+     "heroSkillUuid": 1133,
+     "assets": [
+      {
+       "msgName": "UseHeroSkillAck",
+       "desc": "张宝使用技能成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "司马懿(2)确认",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "confirm": true,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "司马懿响应成功，验证正确",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "三十六方2-1",
+   "desc": "自身点数和敌方点数都累计",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1006,
+     1007,
+     1008,
+     1009,
+     1013,
+     1018,
+     1016
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10310,
+      "initCards": [
+       1024,
+       1032
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1134
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 2,
+      "heroId": 10006,
+      "initCards": [
+       1039,
+       1040
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "张宝(1)对[司马懿(2)], 使用技能[三十六方], 使用牌[杀(1024),杀(1032)]",
+     "robotIdx": 1,
+     "action": "UseHeroSkill",
+     "targetsId": [
+      2
+     ],
+     "cards": [
+      1024,
+      1032
+     ],
+     "confirm": false,
+     "heroSkillUuid": 1133,
+     "assets": [
+      {
+       "msgName": "UseHeroSkillAck",
+       "desc": "张宝使用技能成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "司马懿(2)确认, 使用牌[铁索连舟(1039),杀(1040)]",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "cards": [
+      1039,
+      1040
+     ],
+     "confirm": true,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "司马懿响应成功，验证正确",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "desc": "张宝(1)结束打牌",
+     "robotIdx": 1,
+     "action": "PlayCardOver",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "PlayCardOverAck",
+       "desc": "张宝结束打牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 4,
+     "desc": "张宝(1)自动弃牌",
+     "robotIdx": 1,
+     "action": "DisCard",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "DisCardAck",
+       "desc": "张宝弃牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 5,
+     "desc": "司马懿(2)结束打牌",
+     "robotIdx": 2,
+     "action": "PlayCardOver",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "PlayCardOverAck",
+       "desc": "司马懿结束打牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 6,
+     "desc": "司马懿(2)自动弃牌",
+     "robotIdx": 2,
+     "action": "DisCard",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "DisCardAck",
+       "desc": "司马懿弃牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 7,
+     "desc": "张宝(1)对[司马懿(2)], 使用技能[三十六方], 使用牌[借刀杀人(1006),铁索连舟(1007)]",
+     "robotIdx": 1,
+     "action": "UseHeroSkill",
+     "targetsId": [
+      2
+     ],
+     "cards": [
+      1006,
+      1007
+     ],
+     "confirm": false,
+     "heroSkillUuid": 1133,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "UseHeroSkillAck",
+       "desc": "张宝使用技能成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 8,
+     "desc": "司马懿(2)确认, 使用牌[开山斧(1008),轩辕剑(1009)]",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "cards": [
+      1008,
+      1009
+     ],
+     "confirm": true,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "司马懿响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 9,
+     "desc": "张宝(1)确认对[张宝(1)]",
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "targetsId": [
+      1
+     ],
+     "confirm": true,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "CommonHpChange",
+       "desc": "张宝, 体力变化:-2，验证正确",
+       "attr": {
+        "ChangeHp": "-2"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "三十六方2-2",
+   "desc": "伤害为雷属性伤害可传导",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1006,
+     1007,
+     1008,
+     1009,
+     1013,
+     1018,
+     1016
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10310,
+      "initCards": [
+       1024,
+       1032,
+       1031
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1134
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 2,
+      "heroId": 10006,
+      "initCards": [
+       1039,
+       1040
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "张宝(1)对[司马懿(2)], 使用技能[三十六方], 使用牌[杀(1024),杀(1032)]",
+     "robotIdx": 1,
+     "action": "UseHeroSkill",
+     "targetsId": [
+      2
+     ],
+     "cards": [
+      1024,
+      1032
+     ],
+     "confirm": false,
+     "heroSkillUuid": 1133,
+     "assets": [
+      {
+       "msgName": "UseHeroSkillAck",
+       "desc": "张宝使用技能成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "司马懿(2)确认, 使用牌[铁索连舟(1039),杀(1040)]",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "cards": [
+      1039,
+      1040
+     ],
+     "confirm": true,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "司马懿响应成功，验证正确",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "desc": "张宝(1)对[司马懿(2)]使用牌[铁索连舟(1031)]",
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "targetsId": [
+      2,
+      1
+     ],
+     "cards": [
+      1031
+     ],
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "张宝出牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 4,
+     "desc": "张宝(1)结束打牌",
+     "robotIdx": 1,
+     "action": "PlayCardOver",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "PlayCardOverAck",
+       "desc": "张宝结束打牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 5,
+     "desc": "张宝(1)自动弃牌",
+     "robotIdx": 1,
+     "action": "DisCard",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "DisCardAck",
+       "desc": "张宝弃牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 6,
+     "desc": "司马懿(2)结束打牌",
+     "robotIdx": 2,
+     "action": "PlayCardOver",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "PlayCardOverAck",
+       "desc": "司马懿结束打牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 7,
+     "desc": "司马懿(2)自动弃牌",
+     "robotIdx": 2,
+     "action": "DisCard",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "DisCardAck",
+       "desc": "司马懿弃牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 8,
+     "desc": "张宝(1), 使用技能[三十六方], 使用牌[阵前对决(1013),干将莫邪(1018)]",
+     "robotIdx": 1,
+     "action": "UseHeroSkill",
+     "targetsId": [
+      2
+     ],
+     "cards": [
+      1013,
+      1018
+     ],
+     "confirm": false,
+     "heroSkillUuid": 1133,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "UseHeroSkillAck",
+       "desc": "张宝使用技能成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 9,
+     "desc": "司马懿(2)确认, 使用牌[开山斧(1008),轩辕剑(1009)]",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "cards": [
+      1008,
+      1009
+     ],
+     "confirm": true,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "司马懿响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 10,
+     "desc": "张宝(1)确认对[张宝(1)]",
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "targetsId": [
+      1
+     ],
+     "confirm": true,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "CommonHpChange",
+       "desc": "张宝, 体力变化:-2，验证正确",
+       "attr": {
+        "ChangeHp": "-2"
+       }
+      }
+     ]
+    },
+    {
+     "id": 11,
+     "desc": "司马懿(2)断言",
+     "robotIdx": 2,
+     "action": "OnlyAsset",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "CommonHpChange",
+       "desc": "司马懿, 体力变化:-2，验证正确",
+       "attr": {
+        "ChangeHp": "-2"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "黄天妖法1-1",
+   "desc": "获得杀转化为雷杀",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1012,
+     1003,
+     1008,
+     1001,
+     1004,
+     1005,
+     1006,
+     1007,
+     1013,
+     1009
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10310,
+      "initCards": [],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1133
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 2,
+      "heroId": 10006,
+      "initCards": [],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "robotIdx": 1,
+     "action": "Sleep",
+     "confirm": false,
+     "sleepTime": 3
+    },
+    {
+     "id": 2,
+     "robotIdx": 1,
+     "action": "OnlyAsset",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "ReplaceCard",
+       "desc": "",
+       "attr": {
+        "ReplaceCards_ChangeCards": "1012 1003",
+        "ReplaceCards_ChangeCardsToAttrTypes": "1003:1 1012:1",
+        "ReplaceCards_ChangeCardsToCards": "1003:12 1012:12",
+        "ReplaceCards_ChangeCardsToPoints": "1003:4 1012:4"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "黄天妖法1-2",
+   "desc": "给牌获得的杀会转换为雷杀",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1012,
+     1003,
+     1008,
+     1001,
+     1004,
+     1005,
+     1006,
+     1007,
+     1013,
+     1009
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 2,
+      "heroId": 10006,
+      "initCards": [
+       1122,
+       1020
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [
+       1015
+      ],
+      "delSkills": [],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10310,
+      "initCards": [],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1133
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "robotIdx": 1,
+     "action": "UseHeroSkill",
+     "targetsId": [
+      2
+     ],
+     "cards": [
+      1012,
+      1122
+     ],
+     "confirm": false,
+     "heroSkillUuid": 1015,
+     "sleepTime": 3,
+     "assets": [
+      {
+       "msgName": "UseHeroSkillAck",
+       "desc": "司马懿使用技能成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "张宝(2)断言",
+     "robotIdx": 2,
+     "action": "OnlyAsset",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "ReplaceCard",
+       "desc": "",
+       "attr": {
+        "ReplaceCards_ChangeCards": "1012 1122",
+        "ReplaceCards_ChangeCardsToAttrTypes": "1012:1 1122:1",
+        "ReplaceCards_ChangeCardsToCards": "1012:12 1122:12",
+        "ReplaceCards_ChangeCardsToPoints": "1012:4 1122:4",
+        "ReplaceCards_DrawCards": ""
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "黄天妖法1-3",
+   "desc": "初始手牌获得的杀会转换为雷杀",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1012,
+     1003,
+     1008,
+     1001,
+     1004,
+     1005,
+     1006,
+     1007,
+     1013,
+     1009
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10310,
+      "initCards": [],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1133
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 2,
+      "heroId": 10006,
+      "initCards": [
+       1122,
+       1020
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [
+       1015
+      ],
+      "delSkills": [],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "张宝(2)断言",
+     "robotIdx": 1,
+     "action": "OnlyAsset",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "ReplaceCard",
+       "desc": "张宝替换卡牌:[雷杀(1012) 替换为: [12], 点数:[4], 属性[1] ]; [杀(1003) 替换为: [12], 点数:[4], 属性[1] ]",
+       "attr": {
+        "ReplaceCards_ChangeCards": "1012 1003",
+        "ReplaceCards_ChangeCardsToAttrTypes": "1003:1 1012:1",
+        "ReplaceCards_ChangeCardsToCards": "1003:12 1012:12",
+        "ReplaceCards_ChangeCardsToPoints": "1003:4 1012:4",
+        "ReplaceCards_DrawCards": ""
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "黄天妖法1-4",
+   "desc": "顺手牵羊获得的杀会转换为雷杀",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1012,
+     1003,
+     1008,
+     1001,
+     1004,
+     1005,
+     1006,
+     1007,
+     1013,
+     1009
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10310,
+      "initCards": [
+       3069
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1133
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 2,
+      "heroId": 10006,
+      "initCards": [
+       1122,
+       1020
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [
+       1015
+      ],
+      "delSkills": [],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "张宝(1)对[司马懿(2)]使用牌[夺粮劫营(3069)]",
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "targetsId": [
+      2
+     ],
+     "cards": [
+      3069
+     ],
+     "confirm": false,
+     "sleepTime": 3,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "张宝出牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "张宝(1)确认, 使用牌[火杀(1122)]",
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "cards": [
+      1122
+     ],
+     "confirm": true,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "张宝响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "desc": "张宝(1)断言",
+     "robotIdx": 1,
+     "action": "OnlyAsset",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "ReplaceCard",
+       "desc": "",
+       "attr": {
+        "ReplaceCards_ChangeCards": "1122",
+        "ReplaceCards_ChangeCardsToAttrTypes": "1122:1",
+        "ReplaceCards_ChangeCardsToCards": "1122:12",
+        "ReplaceCards_ChangeCardsToPoints": "1122:4",
+        "ReplaceCards_DrawCards": ""
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "黄天妖法1-5",
+   "desc": "强化杀也会转换为普通雷杀",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1012,
+     1003,
+     1008,
+     1001,
+     1004,
+     1005,
+     1006,
+     1007,
+     1013,
+     1009
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 2,
+      "heroId": 11101,
+      "initCards": [
+       1122,
+       1020
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [
+       1015
+      ],
+      "delSkills": [],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10310,
+      "initCards": [
+       3069
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1133
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "苏秦(1)取消",
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "苏秦响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "苏秦(1)对[苏秦(1)], 使用技能[合纵], 使用牌[火杀(1122)]",
+     "robotIdx": 1,
+     "action": "UseHeroSkill",
+     "targetsId": [
+      1
+     ],
+     "cards": [
+      1122
+     ],
+     "confirm": false,
+     "heroSkillUuid": 1607,
+     "sleepTime": 3,
+     "assets": [
+      {
+       "msgName": "UseHeroSkillAck",
+       "desc": "苏秦使用技能成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "desc": "苏秦(1)结束打牌",
+     "robotIdx": 1,
+     "action": "PlayCardOver",
+     "confirm": false,
+     "timeout": 1,
+     "sleepTime": 2,
+     "assets": [
+      {
+       "msgName": "PlayCardOverAck",
+       "desc": "苏秦结束打牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 4,
+     "desc": "苏秦(1)自动弃牌",
+     "robotIdx": 1,
+     "action": "DisCard",
+     "targetsId": [
+      2
+     ],
+     "confirm": false,
+     "heroSkillUuid": 1015,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "DisCardAck",
+       "desc": "苏秦使用技能成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 5,
+     "desc": "张宝(2)对[苏秦(1)]使用牌[夺粮劫营(3069)]",
+     "robotIdx": 2,
+     "action": "PlayCard",
+     "targetsId": [
+      1
+     ],
+     "cards": [
+      3069
+     ],
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "张宝出牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 6,
+     "desc": "张宝(2)确认",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "cards": [
+      1122
+     ],
+     "confirm": true,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "张宝响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 7,
+     "desc": "张宝(2)断言",
+     "robotIdx": 2,
+     "action": "OnlyAsset",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "ReplaceCard",
+       "desc": "苏秦替换卡牌:[火杀(1122) 替换为: [12], 点数:[4], 属性[1] ]",
+       "attr": {
+        "ReplaceCards_ChangeCards": "1122",
+        "ReplaceCards_ChangeCardsToAttrTypes": "1122:1",
+        "ReplaceCards_ChangeCardsToCards": "1122:12",
+        "ReplaceCards_ChangeCardsToPoints": "1122:4",
+        "ReplaceCards_DrawCards": ""
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "黄天妖法1-6",
+   "desc": "转换后的杀带标记",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1008,
+     1001,
+     4059,
+     1004,
+     1005,
+     1006,
+     1007,
+     1013,
+     1009
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10310,
+      "initCards": [],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [
+       1632
+      ],
+      "delSkills": [
+       1133
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 2,
+      "heroId": 11101,
+      "initCards": [
+       1122,
+       1020
+      ],
+      "initEquips": [],
+      "augurCards": [
+       4051
+      ],
+      "addSkills": [
+       1015
+      ],
+      "delSkills": [
+       1608
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "张宝(1)对[苏秦(2)], 使用技能[负荆请罪]",
+     "robotIdx": 1,
+     "action": "UseHeroSkill",
+     "targetsId": [
+      2
+     ],
+     "confirm": false,
+     "heroSkillUuid": 1632,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "UseHeroSkillAck",
+       "desc": "张宝使用技能成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "张宝(1)确认, 使用牌[火杀(1122),杀(1022)]",
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "cards": [
+      1122,
+      1020
+     ],
+     "confirm": true,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "张宝响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "desc": "张宝(1)断言",
+     "robotIdx": 1,
+     "action": "OnlyAsset",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "ReplaceCard",
+       "desc": "张宝替换卡牌:[火杀(1122) 替换为: [12], 点数:[4], 属性[1] ]; [杀(1022) 替换为: [12], 属性[1] ]",
+       "attr": {
+        "ReplaceCards_ChangeCards": "1122 1020",
+        "ReplaceCards_ChangeCardsToAttrTypes": "1020:1 1122:1",
+        "ReplaceCards_ChangeCardsToCards": "1020:12 1122:12",
+        "ReplaceCards_ChangeCardsToPoints": "1020:4 1122:4",
+        "ReplaceCards_DrawCards": ""
+       }
+      }
+     ]
+    },
+    {
+     "id": 4,
+     "desc": "张宝(1)结束打牌",
+     "robotIdx": 1,
+     "action": "PlayCardOver",
+     "confirm": false,
+     "timeout": 1,
+     "sleepTime": 2,
+     "assets": [
+      {
+       "msgName": "PlayCardOverAck",
+       "desc": "张宝结束打牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 5,
+     "desc": "张宝(1)自动弃牌",
+     "robotIdx": 1,
+     "action": "DisCard",
+     "targetsId": [
+      2
+     ],
+     "confirm": false,
+     "heroSkillUuid": 1015,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "DisCardAck",
+       "desc": "张宝弃牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 6,
+     "desc": "苏秦(2)断言",
+     "robotIdx": 2,
+     "action": "OnlyAsset",
+     "targetsId": [
+      1
+     ],
+     "cards": [
+      3069
+     ],
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "GiveCard",
+       "desc": "苏秦抽到2张牌牌为[1020,1122]",
+       "attr": {
+        "Cards": "1020 1122",
+        "Count": "2",
+        "Random": "true"
+       }
+      }
+     ]
+    },
+    {
+     "id": 7,
+     "robotIdx": 1,
+     "action": "Sleep",
+     "confirm": false,
+     "timeout": 1
+    },
+    {
+     "id": 8,
+     "robotIdx": 1,
+     "action": "Sleep",
+     "confirm": false,
+     "timeout": 1,
+     "sleepTime": 100
+    }
+   ]
+  },
+  {
+   "case": "黄天妖法1-7",
+   "desc": "有角色受到雷电伤害时摸1张牌，自己受到也摸，传导伤害也摸",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1012,
+     1003,
+     1008,
+     1001,
+     1004,
+     1005,
+     1006,
+     1007,
+     1013,
+     1009
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10310,
+      "initCards": [
+       1015
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1133
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 2,
+      "heroId": 10006,
+      "initCards": [
+       1122,
+       1020
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [
+       1015
+      ],
+      "delSkills": [],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "张宝(1)对[司马懿(2),张宝(1)]使用牌[铁索连舟(1015)]",
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "targetsId": [
+      2,
+      1
+     ],
+     "cards": [
+      1015
+     ],
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "张宝出牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "张宝(1)对[司马懿(2)]使用牌[雷杀(1012)]",
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "targetsId": [
+      2
+     ],
+     "cards": [
+      1012
+     ],
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "张宝出牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "desc": "司马懿(2)取消",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "司马懿响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 4,
+     "desc": "张宝(1)断言",
+     "robotIdx": 1,
+     "action": "OnlyAsset",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "CommonHpChange",
+       "desc": "张宝, 体力变化:-1",
+       "attr": {
+        "ChangeHp": "-1"
+       }
+      }
+     ]
+    },
+    {
+     "id": 5,
+     "desc": "张宝(1)断言",
+     "robotIdx": 1,
+     "action": "OnlyAsset",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "DrawCard",
+       "desc": "张宝抽到1张牌牌为[1001,1008]",
+       "attr": {
+        "Cards": "1001",
+        "Count": "1"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "黄天妖法1-8",
+   "desc": "天雷伤害 摸牌",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1012,
+     1003,
+     1008,
+     1001,
+     1004,
+     1005,
+     1006,
+     1007,
+     1013,
+     1009
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10310,
+      "initCards": [
+       1015
+      ],
+      "initEquips": [],
+      "augurCards": [
+       1049
+      ],
+      "addSkills": [],
+      "delSkills": [
+       1133
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 2,
+      "heroId": 10006,
+      "initCards": [
+       1122,
+       1020
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [
+       1015
+      ],
+      "delSkills": [],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "张宝(1)等待2秒",
+     "robotIdx": 1,
+     "action": "Sleep",
+     "confirm": false,
+     "timeout": 1,
+     "sleepTime": 2
+    },
+    {
+     "id": 2,
+     "desc": "张宝(1)断言",
+     "robotIdx": 1,
+     "action": "OnlyAsset",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "CommonHpChange",
+       "desc": "张宝, 体力变化:-4",
+       "attr": {
+        "ChangeHp": "-4"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "desc": "张宝(1)断言",
+     "robotIdx": 1,
+     "action": "OnlyAsset",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "DrawCard",
+       "desc": "张宝抽到1张牌牌为[1003]",
+       "attr": {
+        "Cards": "1003",
+        "Count": "1"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "黄天妖法1-9",
+   "desc": "多个技能摸多张",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1012,
+     1003,
+     1008,
+     1001,
+     1004,
+     1005,
+     1006,
+     1007,
+     1013,
+     1009
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10310,
+      "initCards": [
+       1015
+      ],
+      "initEquips": [],
+      "augurCards": [
+       1049
+      ],
+      "addSkills": [
+       1134
+      ],
+      "delSkills": [
+       1133
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 2,
+      "heroId": 10006,
+      "initCards": [
+       1122,
+       1020
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [
+       1015
+      ],
+      "delSkills": [],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "张宝(1)等待2秒",
+     "robotIdx": 1,
+     "action": "Sleep",
+     "confirm": false,
+     "timeout": 1,
+     "sleepTime": 2
+    },
+    {
+     "id": 2,
+     "desc": "张宝(1)断言",
+     "robotIdx": 1,
+     "action": "OnlyAsset",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "CommonHpChange",
+       "desc": "张宝, 体力变化:-4",
+       "attr": {
+        "ChangeHp": "-4"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "desc": "张宝(1)断言",
+     "robotIdx": 1,
+     "action": "OnlyAsset",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "DrawCard",
+       "desc": "张宝抽到1张牌牌为[1003]",
+       "attr": {
+        "Cards": "1003",
+        "Count": "1"
+       }
+      }
+     ]
+    },
+    {
+     "id": 4,
+     "desc": "张宝(1)断言",
+     "robotIdx": 1,
+     "action": "OnlyAsset",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "DrawCard",
+       "desc": "张宝抽到1张牌牌为[1008]",
+       "attr": {
+        "Cards": "1008",
+        "Count": "1"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "黄天妖法1-10",
+   "desc": "被封印后 牌不会转换，封印解除 牌不转换",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1012,
+     1003,
+     1008,
+     1001,
+     1004,
+     1005,
+     1006,
+     1007,
+     1013,
+     1009
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 2,
+      "heroId": 10006,
+      "initCards": [
+       1122,
+       1020,
+       1019
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [
+       1015
+      ],
+      "delSkills": [],
+      "exEquips": [
+       3137
+      ],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10310,
+      "initCards": [],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1133
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "司马懿(1)对[张宝(2)]使用牌[杀(1019)]",
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "targetsId": [
+      2
+     ],
+     "cards": [
+      1019
+     ],
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "司马懿出牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "张宝(2)取消",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "张宝响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "desc": "司马懿(1)对[张宝(2)], 使用技能[惟贤惟德], 使用牌[雷杀(1012),火杀(1122)]",
+     "robotIdx": 1,
+     "action": "UseHeroSkill",
+     "targetsId": [
+      2
+     ],
+     "cards": [
+      1012,
+      1122
+     ],
+     "confirm": false,
+     "heroSkillUuid": 1015,
+     "sleepTime": 3,
+     "assets": [
+      {
+       "msgName": "UseHeroSkillAck",
+       "desc": "司马懿使用技能成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 4,
+     "desc": "司马懿(1)结束打牌",
+     "robotIdx": 1,
+     "action": "PlayCardOver",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "PlayCardOverAck",
+       "desc": "司马懿结束打牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 5,
+     "desc": "司马懿(1)自动弃牌",
+     "robotIdx": 1,
+     "action": "DisCard",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "DisCardAck",
+       "desc": "司马懿弃牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 6,
+     "desc": "张宝(2)使用牌[火杀(1122)]",
+     "robotIdx": 2,
+     "action": "PlayCard",
+     "targetsId": [
+      1
+     ],
+     "cards": [
+      1122
+     ],
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "张宝出牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 7,
+     "desc": "司马懿(1)取消",
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "司马懿响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 8,
+     "desc": "司马懿(1)断言",
+     "robotIdx": 1,
+     "action": "OnlyAsset",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "CommonHpChange",
+       "desc": "司马懿受到来自HarmHuo的伤害, 体力变化:-1，受到火杀伤害 验证卡牌未转换",
+       "attr": {
+        "ChangeHp": "-1",
+        "HpSrc": "HarmHuo"
+       }
+      }
+     ]
+    }
+   ]
+  }
+ ]

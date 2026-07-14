@@ -1,0 +1,17 @@
+{
+  "skill_name": "frontend-layout-docs",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "为活动Wiki检查页面(activity-wiki-check)生成布局文档，页面位于 frontend/src/pages/activity-wiki-check/",
+      "expected_output": "生成 activity-wiki-check 页面的完整布局文档，包含 ASCII 布局图、组件映射、数据流图",
+      "files": []
+    },
+    {
+      "id": 2,
+      "prompt": "配表测试页面的左侧树形导航新增了右键打开Excel功能，更新对应的布局文档",
+      "expected_output": "更新 excel-test 页面布局文档中的交互部分，补充右键菜单功能描述",
+      "files": []
+    }
+  ]
+}

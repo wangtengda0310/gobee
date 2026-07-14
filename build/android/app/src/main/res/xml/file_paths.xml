@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<paths>
+    <!-- Camera captures are written here and shared with the camera app via the
+         FileProvider. -->
+    <cache-path name="captures" path="captures/" />
+    <!-- 自动更新:Go 后端下载的新 APK 存 files/updates/,经 FileProvider 生成 content:// URI
+         供 ACTION_VIEW Intent 调系统安装器。files-path 对应 app 私有 files/ 目录。 -->
+    <files-path name="updates" path="updates/" />
+</paths>

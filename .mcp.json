@@ -1,0 +1,9 @@
+{
+  "mcpServers": {
+    "rain-qa-func": {
+      "type": "http",
+      "url": "http://127.0.0.1:8765",
+      "description": "Rain QA Func MCP Server - 功能测试、Excel检查、游戏数据查询"
+    }
+  }
+}

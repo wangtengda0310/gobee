@@ -1,0 +1,5835 @@
+[
+  {
+   "case": "才高八斗1-1",
+   "desc": "回合内打出酒，翻开牌堆顶的1张牌，打出",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1004,
+     1006,
+     1008,
+     1009,
+     1010,
+     1017,
+     1018,
+     1016,
+     1029,
+     1028,
+     1026
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10014,
+      "initCards": [
+       1044
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1121
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 2,
+      "heroId": 10002,
+      "initCards": [],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "曹植(1)使用牌[酒(1044)]",
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "cards": [
+      1044
+     ],
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "曹植出牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "曹植(1)确认",
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "confirm": true,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "曹植响应成功，回合内打出牌堆顶的牌",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "才高八斗1-2",
+   "desc": "回合外打出酒，翻开牌堆顶的1张牌，打出",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1004,
+     1006,
+     1008,
+     1009,
+     1010,
+     1017,
+     1018,
+     1016,
+     1029,
+     1028,
+     1026
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 2,
+      "heroId": 10006,
+      "initCards": [
+       1003,
+       1011,
+       1012,
+       1019,
+       1024,
+       1022,
+       1027
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [],
+      "exEquips": [
+       1034
+      ],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10014,
+      "initCards": [
+       1044
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1121
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "司马懿(1)对[曹植(2)]使用牌[杀(1003)]",
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "targetsId": [
+      2
+     ],
+     "cards": [
+      1003
+     ],
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "曹植出牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "司马懿(1)确认",
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "confirm": true,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "司马懿响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "desc": "曹植(2)取消",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "曹植响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 4,
+     "desc": "曹植(2)取消",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "曹植响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 5,
+     "desc": "曹植(2)取消",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "曹植响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 6,
+     "desc": "曹植(2)取消",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "曹植响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 7,
+     "desc": "曹植(2)取消",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "曹植响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 8,
+     "desc": "司马懿(1)取消",
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "司马懿响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 9,
+     "desc": "曹植(2)确认, 使用牌[酒(1044)]",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "cards": [
+      1044
+     ],
+     "confirm": true,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "曹植响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 10,
+     "desc": "曹植(2)确认",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "confirm": true,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "曹植响应成功，回合外打出牌堆顶的一张牌",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "才高八斗1-3",
+   "desc": "杀当酒打出，触发",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1004,
+     1006,
+     1008,
+     1009,
+     1010,
+     1017,
+     1018,
+     1016,
+     1029,
+     1028,
+     1026
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10014,
+      "initCards": [
+       1003
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [
+       1025
+      ],
+      "delSkills": [
+       1121
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 2,
+      "heroId": 10002,
+      "initCards": [],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "曹植(1), 使用技能[嗜酒如命], 使用牌[杀(1003)]",
+     "robotIdx": 1,
+     "action": "UseHeroSkill",
+     "cards": [
+      1003
+     ],
+     "confirm": false,
+     "heroSkillUuid": 1025,
+     "assets": [
+      {
+       "msgName": "UseHeroSkillAck",
+       "desc": "曹植使用技能成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "曹植(1)确认",
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "confirm": true,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "曹植响应成功，杀当酒打出 触发技能",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "才高八斗1-4",
+   "desc": "酒当杀打，不触发",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1004,
+     1006,
+     1008,
+     1009,
+     1010,
+     1017,
+     1018,
+     1016,
+     1029,
+     1028,
+     1026
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10014,
+      "initCards": [
+       1044
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [
+       1021
+      ],
+      "delSkills": [
+       1121
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 2,
+      "heroId": 10006,
+      "initCards": [],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "曹植(1)对[司马懿(2)], 使用技能[武圣义绝], 使用牌[酒(1044)]",
+     "robotIdx": 1,
+     "action": "UseHeroSkill",
+     "targetsId": [
+      2
+     ],
+     "cards": [
+      1044
+     ],
+     "confirm": false,
+     "heroSkillUuid": 1021,
+     "assets": [
+      {
+       "msgName": "UseHeroSkillAck",
+       "desc": "曹植使用技能成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "司马懿(2)取消",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "司马懿响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "desc": "曹植(1)使用牌[青龙偃月刀(1004)]",
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "cards": [
+      1004
+     ],
+     "confirm": true,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "曹植出牌，验证未触发技能",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "才高八斗1-5",
+   "desc": "添加自己为酒的目标，不触发",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1004,
+     1006,
+     1008,
+     1009,
+     1010,
+     1017,
+     1018,
+     1016,
+     1029,
+     1028,
+     1026
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 2,
+      "heroId": 10002,
+      "initCards": [
+       1052
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1004,
+       1005,
+       1006
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10014,
+      "initCards": [
+       1044
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [
+       1610
+      ],
+      "delSkills": [
+       1121
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "郭嘉(1)使用牌[酒(1052)]",
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "cards": [
+      1052
+     ],
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "郭嘉出牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "曹植(2)确认",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "confirm": true,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "曹植响应成功，添加自己为酒的目标",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "desc": "郭嘉(1)使用牌[青龙偃月刀(1004)]",
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "cards": [
+      1004
+     ],
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "郭嘉出牌成功，验证添加自己为酒的目标不会触发技能",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "才高八斗2-1",
+   "desc": "处于霜冻状态，翻开牌堆 无法打出选择目标牌",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1082,
+     1004,
+     1006,
+     1021,
+     1008,
+     1009,
+     1010,
+     1017,
+     1018,
+     1016,
+     1029,
+     1028,
+     1026
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10014,
+      "initCards": [
+       1044
+      ],
+      "initEquips": [],
+      "augurCards": [
+       4088
+      ],
+      "addSkills": [],
+      "delSkills": [
+       1121
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 2,
+      "heroId": 10002,
+      "initCards": [],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "robotIdx": 1,
+     "action": "Sleep",
+     "confirm": false,
+     "sleepTime": 3
+    },
+    {
+     "id": 2,
+     "desc": "曹植(1)使用牌[酒(1044)]",
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "cards": [
+      1044
+     ],
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "曹植出牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "desc": "曹植(1)确认",
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "confirm": true,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "无法打出，验证正确",
+       "attr": {
+        "Result": "1513"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "才高八斗2-2",
+   "desc": "处于霜冻状态，翻开牌堆 无法打出选择目标牌",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     4096,
+     1004,
+     1006,
+     1021,
+     1008,
+     1009,
+     1010,
+     1017,
+     1018,
+     1016,
+     1029,
+     1028,
+     1026
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10014,
+      "initCards": [
+       1044
+      ],
+      "initEquips": [],
+      "augurCards": [
+       4088
+      ],
+      "addSkills": [
+       31
+      ],
+      "delSkills": [
+       1121
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 2,
+      "heroId": 10002,
+      "initCards": [],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "曹植(1)使用牌[酒(1044)]",
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "cards": [
+      1044
+     ],
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "曹植出牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "曹植(1)确认",
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "confirm": true,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "无法打出，验证正确",
+       "attr": {
+        "Result": "1513"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "才高八斗2-3",
+   "desc": "翻开 打出行动牌 杀",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1004,
+     1006,
+     1019,
+     1008,
+     1009,
+     1010,
+     1017,
+     1018,
+     1016,
+     1029,
+     1028,
+     1026
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10014,
+      "initCards": [
+       1044
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1121
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 2,
+      "heroId": 10006,
+      "initCards": [],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "曹植(1)使用牌[酒(1044)]",
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "cards": [
+      1044
+     ],
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "曹植出牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "曹植(1)确认对[司马懿(2)]",
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "targetsId": [
+      2
+     ],
+     "confirm": true,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "曹植响应成功，打出杀，验证正确",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "desc": "司马懿(2)取消",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "司马懿响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "才高八斗2-4",
+   "desc": "翻开 打出行动牌 易",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1004,
+     1006,
+     1161,
+     1019,
+     1008,
+     1009,
+     1010,
+     1017,
+     1018,
+     1016,
+     1029,
+     1028,
+     1026
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10014,
+      "initCards": [
+       1044
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1121
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 2,
+      "heroId": 10006,
+      "initCards": [],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "曹植(1)使用牌[酒(1044)]",
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "cards": [
+      1044
+     ],
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "曹植出牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "曹植(1)确认对[司马懿(2)]",
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "targetsId": [
+      2
+     ],
+     "confirm": true,
+     "transCardSkill": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "曹植响应成功，打出杀，验证正确",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "desc": "司马懿(2)取消",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "司马懿响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "才高八斗2-5",
+   "desc": "翻开 打出行动牌 怒",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1004,
+     1006,
+     4044,
+     1161,
+     1019,
+     1008,
+     1009,
+     1010,
+     1017,
+     1018,
+     1016,
+     1029,
+     1028,
+     1026
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10014,
+      "initCards": [
+       1044,
+       1037
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1121
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 2,
+      "heroId": 10006,
+      "initCards": [],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "曹植(1)使用牌[酒(1044)]",
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "cards": [
+      1044
+     ],
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "曹植出牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "曹植(1)确认",
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "confirm": true,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "曹植响应成功，打出怒，验证正确",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "desc": "曹植(1)对[司马懿(2)]使用牌[杀(1037)]",
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "targetsId": [
+      2
+     ],
+     "cards": [
+      1037
+     ],
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "曹植出牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 4,
+     "desc": "司马懿(2)取消",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "CommonHpChange",
+       "desc": "司马懿, 体力变化:-3，验证怒气正确",
+       "attr": {
+        "ChangeHp": "-3"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "才高八斗2-6",
+   "desc": "翻开 打出行动牌 桃，满血",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1004,
+     1006,
+     1047,
+     1019,
+     1008,
+     1009,
+     1010,
+     1017,
+     1018,
+     1016,
+     1029,
+     1028,
+     1026
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10014,
+      "initCards": [
+       1044
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1121
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 2,
+      "heroId": 10006,
+      "initCards": [],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "曹植(1)使用牌[酒(1044)]",
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "cards": [
+      1044
+     ],
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "曹植出牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "曹植(1)确认",
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "confirm": true,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "曹植满血无法打桃，验证正确",
+       "attr": {
+        "Result": "1513"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "才高八斗2-7",
+   "desc": "翻开 打出行动牌 桃，残血",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     2001,
+     1004,
+     1047,
+     1019,
+     1008,
+     1009,
+     1010,
+     1017,
+     1018,
+     1016,
+     1029,
+     1028,
+     1026
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10014,
+      "initCards": [
+       1044
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1121
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 2,
+      "heroId": 10006,
+      "initCards": [],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "robotIdx": 1,
+     "action": "Sleep",
+     "confirm": false,
+     "sleepTime": 2
+    },
+    {
+     "id": 2,
+     "desc": "曹植(1)使用牌[酒(1044)]",
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "cards": [
+      1044
+     ],
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "曹植出牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "desc": "曹植(1)确认",
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "confirm": true,
+     "assets": [
+      {
+       "msgName": "CommonHpChange",
+       "desc": "曹植, 体力变化:1，验证正确",
+       "attr": {
+        "ChangeHp": "1"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "才高八斗2-8",
+   "desc": "翻开 打出行动牌 闪，不可打出",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1004,
+     1006,
+     1082,
+     1019,
+     1008,
+     1009,
+     1010,
+     1017,
+     1018,
+     1016,
+     1029,
+     1028,
+     1026
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10014,
+      "initCards": [
+       1044
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1121
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 2,
+      "heroId": 10006,
+      "initCards": [],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "曹植(1)使用牌[酒(1044)]",
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "cards": [
+      1044
+     ],
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "曹植出牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "曹植(1)确认对[司马懿(2)]",
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "confirm": true,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "曹植响应成功，无法打出闪，验证正确",
+       "attr": {
+        "Result": "1513"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "才高八斗2-9",
+   "desc": "翻开 打出行动牌 杀 距离不足，不可打出",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1004,
+     1006,
+     1019,
+     1082,
+     1008,
+     1009,
+     1010,
+     1017,
+     1018,
+     1016,
+     1029,
+     1028,
+     1026
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10014,
+      "initCards": [
+       1044
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1121
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 2,
+      "heroId": 10006,
+      "initCards": [],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [],
+      "exEquips": [
+       1046
+      ],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "曹植(1)使用牌[酒(1044)]",
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "cards": [
+      1044
+     ],
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "曹植出牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "曹植(1)确认对[司马懿(2)]",
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "targetsId": [
+      2
+     ],
+     "confirm": true,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "曹植响应成功，无法打出杀 距离不足，验证正确",
+       "attr": {
+        "Result": "1513"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "才高八斗2-10",
+   "desc": "翻开 打出行动牌 杀 不可成为杀的目标 不可打出",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1004,
+     1006,
+     1008,
+     1009,
+     1010,
+     1017,
+     1018,
+     1016,
+     1029,
+     1028,
+     1026
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10105,
+      "initCards": [
+       1251
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10014,
+      "initCards": [
+       1044
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1121
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 2,
+      "heroId": 10006,
+      "initCards": [],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "赵云(1)对[曹植(2)]使用牌[调虎离山(1251)]",
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "targetsId": [
+      2
+     ],
+     "cards": [
+      1251
+     ],
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "赵云出牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "赵云(1)结束打牌",
+     "robotIdx": 1,
+     "action": "PlayCardOver",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "PlayCardOverAck",
+       "desc": "赵云结束打牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "desc": "赵云(1)自动弃牌",
+     "robotIdx": 1,
+     "action": "DisCard",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "DisCardAck",
+       "desc": "赵云弃牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 4,
+     "desc": "曹植(1)使用牌[酒(1044)]",
+     "robotIdx": 2,
+     "action": "PlayCard",
+     "cards": [
+      1044
+     ],
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "曹植出牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 5,
+     "desc": "曹植(2)确认对[赵云(1)]",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "targetsId": [
+      1
+     ],
+     "confirm": true,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "曹植响应成功，无法打出，验证正确",
+       "attr": {
+        "Result": "1530"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "才高八斗2-11",
+   "desc": "翻开 打出行动牌 杀 大雾，不可打出",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1004,
+     1006,
+     1019,
+     1082,
+     1008,
+     1009,
+     1010,
+     1017,
+     1018,
+     1016,
+     1029,
+     1028,
+     1026
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10014,
+      "initCards": [
+       1044,
+       1249
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1121
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 2,
+      "heroId": 10006,
+      "initCards": [],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [],
+      "exEquips": [
+       1046
+      ],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "曹植(1)使用牌[祈晴祷雨(1249)]",
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "cards": [
+      1249
+     ],
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "曹植出牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "曹植(1)确认, 使用牌[7]",
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "cards": [
+      7
+     ],
+     "confirm": true,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "曹植响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "desc": "曹植(1)使用牌[酒(1044)]",
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "cards": [
+      1044
+     ],
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "曹植出牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 4,
+     "desc": "曹植(1)确认对[司马懿(2)]",
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "targetsId": [
+      2
+     ],
+     "confirm": true,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "曹植响应成功，无法打出杀 大雾不可选中，验证正确",
+       "attr": {
+        "Result": "1513"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "才高八斗2-12",
+   "desc": "翻开 打出行动牌 杀 无出杀次数 可打出",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1004,
+     1006,
+     1019,
+     1008,
+     1009,
+     1010,
+     1017,
+     1018,
+     1016,
+     1029,
+     1028,
+     1026
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10014,
+      "initCards": [
+       1044,
+       1038
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1121
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 2,
+      "heroId": 10006,
+      "initCards": [],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "曹植(1)使用牌[杀(1038)]",
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "targetsId": [
+      2
+     ],
+     "cards": [
+      1038
+     ],
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "曹植出牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "司马懿(2)取消",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "司马懿响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "desc": "曹植(1)使用牌[酒(1044)]",
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "cards": [
+      1044
+     ],
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "曹植出牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 4,
+     "desc": "曹植(1)确认对[司马懿(2)]",
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "targetsId": [
+      2
+     ],
+     "confirm": true,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "曹植响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "才高八斗2-13",
+   "desc": "翻开 打出战法牌 烽火狼烟",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1004,
+     1006,
+     1125,
+     1019,
+     1008,
+     1009,
+     1010,
+     1017,
+     1018,
+     1016,
+     1029,
+     1028,
+     1026
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10014,
+      "initCards": [
+       1044
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1121
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 2,
+      "heroId": 10006,
+      "initCards": [],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "曹植(1)使用牌[酒(1044)]",
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "cards": [
+      1044
+     ],
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "曹植出牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "曹植(1)确认",
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "confirm": true,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "曹植响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "desc": "司马懿(2)取消",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "司马懿响应成功，打出烽火狼烟正确",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "才高八斗2-14",
+   "desc": "翻开 打出战法牌 阵前对决",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1004,
+     1006,
+     1005,
+     1125,
+     1019,
+     1008,
+     1009,
+     1010,
+     1017,
+     1018,
+     1016,
+     1029,
+     1028,
+     1026
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10014,
+      "initCards": [
+       1044
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1121
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 2,
+      "heroId": 10006,
+      "initCards": [],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "曹植(1)使用牌[酒(1044)]",
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "cards": [
+      1044
+     ],
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "曹植出牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "曹植(1)确认对[司马懿(2)]",
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "targetsId": [
+      2
+     ],
+     "confirm": true,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "曹植响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "desc": "司马懿(2)取消",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "司马懿响应成功，打出阵前对决正确",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "才高八斗2-15",
+   "desc": "翻开 打出专属战法牌  犬韬",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1004,
+     1006,
+     2016,
+     1005,
+     1125,
+     1019,
+     1008,
+     1009,
+     1010,
+     1017,
+     1018,
+     1016,
+     1029,
+     1028,
+     1026
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10014,
+      "initCards": [
+       1044,
+       1038
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1121
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 2,
+      "heroId": 10006,
+      "initCards": [],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "曹植(1)使用牌[酒(1044)]",
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "cards": [
+      1044
+     ],
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "曹植出牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "曹植(1)确认",
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "confirm": true,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "曹植响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "desc": "曹植(1)对[司马懿(2)]使用牌[杀(1038)]",
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "targetsId": [
+      2
+     ],
+     "cards": [
+      1038
+     ],
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "曹植出牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 4,
+     "desc": "司马懿(2)取消",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "司马懿响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 5,
+     "desc": "司马懿(2)取消",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "司马懿响应成功，验证犬韬生效",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "才高八斗2-16",
+   "desc": "翻开 打出战法牌  识破 不可打出",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1004,
+     1006,
+     4081,
+     2016,
+     1005,
+     1125,
+     1019,
+     1008,
+     1009,
+     1010,
+     1017,
+     1018,
+     1016,
+     1029,
+     1028,
+     1026
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10014,
+      "initCards": [
+       1044,
+       1038
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1121
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 2,
+      "heroId": 10006,
+      "initCards": [],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "曹植(1)使用牌[酒(1044)]",
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "cards": [
+      1044
+     ],
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "曹植出牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "曹植(1)确认",
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "confirm": true,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "曹植响应成功，识破不可打出",
+       "attr": {
+        "Result": "1513"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "才高八斗2-17",
+   "desc": "翻开 打出战法牌  金蝉脱壳 不可打出",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1004,
+     1006,
+     1241,
+     4081,
+     2016,
+     1005,
+     1125,
+     1019,
+     1008,
+     1009,
+     1010,
+     1017,
+     1018,
+     1016,
+     1029,
+     1028,
+     1026
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10014,
+      "initCards": [
+       1044,
+       1038
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1121
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 2,
+      "heroId": 10006,
+      "initCards": [],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "曹植(1)使用牌[酒(1044)]",
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "cards": [
+      1044
+     ],
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "曹植出牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "曹植(1)确认",
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "confirm": true,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "曹植响应成功，金蝉脱壳不可打出",
+       "attr": {
+        "Result": "1513"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "才高八斗2-18",
+   "desc": "翻开 打出战法牌  无可选目标  不可打出",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1004,
+     1006,
+     4088,
+     1007,
+     1241,
+     4081,
+     2016,
+     1005,
+     1125,
+     1019,
+     1008,
+     1009,
+     1010,
+     1017,
+     1018,
+     1016,
+     1029,
+     1028,
+     1026
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10014,
+      "initCards": [
+       1044,
+       1038
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1121
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 2,
+      "heroId": 10006,
+      "initCards": [],
+      "initEquips": [],
+      "augurCards": [
+       4096
+      ],
+      "addSkills": [],
+      "delSkills": [],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "曹植(1)使用牌[酒(1044)]",
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "cards": [
+      1044
+     ],
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "曹植出牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "曹植(1)确认",
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "confirm": true,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "曹植响应成功，无可选目标不可打出",
+       "attr": {
+        "Result": "1513"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "才高八斗2-19",
+   "desc": "翻开 打出 战法牌 不可成为战法牌的目标 不可打出",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1004,
+     1006,
+     1005,
+     1008,
+     1009,
+     1010,
+     1017,
+     1018,
+     1016,
+     1029,
+     1028,
+     1026
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10014,
+      "initCards": [
+       1044
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1121
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 2,
+      "heroId": 10006,
+      "initCards": [],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [
+       1355
+      ],
+      "delSkills": [],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "曹植(1)使用牌[酒(1044)]",
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "cards": [
+      1044
+     ],
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "曹植出牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "曹植(1)确认对[司马懿(2)]",
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "targetsId": [
+      2
+     ],
+     "confirm": true,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "曹植响应成功，无法打出，验证正确",
+       "attr": {
+        "Result": "1513"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "才高八斗2-20",
+   "desc": "翻开 打出装备牌 顶牌",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1004,
+     1006,
+     1026,
+     4044,
+     1161,
+     1019,
+     1008,
+     1009,
+     1010,
+     1017,
+     1018,
+     1016,
+     1029,
+     1028
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10014,
+      "initCards": [
+       1044,
+       1037
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1121
+      ],
+      "exEquips": [
+       1002,
+       1025,
+       1043
+      ],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 2,
+      "heroId": 10006,
+      "initCards": [],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "曹植(1)使用牌[酒(1044)]",
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "cards": [
+      1044
+     ],
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "曹植出牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "曹植(1)确认",
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "confirm": true,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "曹植响应成功，顶牌正确",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "desc": "曹植(1)确认",
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "confirm": true,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "曹植响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "才高八斗2-21",
+   "desc": "翻开 打出符水",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1004,
+     1006,
+     2001,
+     1026,
+     4044,
+     1161,
+     1019,
+     1008,
+     1009,
+     1010,
+     1017,
+     1018,
+     1016,
+     1029,
+     1028
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10014,
+      "initCards": [
+       1044,
+       1037
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1121
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 2,
+      "heroId": 10006,
+      "initCards": [],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "曹植(1)使用牌[酒(1044)]",
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "cards": [
+      1044
+     ],
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "曹植出牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "曹植(1)确认",
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "confirm": true,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "曹植响应成功，打出符水",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "robotIdx": 1,
+     "action": "Sleep",
+     "confirm": false,
+     "sleepTime": 3
+    }
+   ]
+  },
+  {
+   "case": "才高八斗2-22",
+   "desc": "翻开 桃花 满血 无法打出",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1004,
+     1006,
+     2002,
+     2001,
+     1026,
+     4044,
+     1161,
+     1019,
+     1008,
+     1009,
+     1010,
+     1017,
+     1018,
+     1016,
+     1029,
+     1028
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10014,
+      "initCards": [
+       1044,
+       1037
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1121
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 2,
+      "heroId": 10006,
+      "initCards": [],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "曹植(1)使用牌[酒(1044)]",
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "cards": [
+      1044
+     ],
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "曹植出牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "曹植(1)确认",
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "confirm": true,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "曹植响应成功，满血打出桃花 无法打出验证正确",
+       "attr": {
+        "Result": "1513"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "才高八斗2-23",
+   "desc": "翻开 无丹砂使用次数 摸到可打出",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1004,
+     1006,
+     2028,
+     2002,
+     2001,
+     1026,
+     4044,
+     1161,
+     1019,
+     1008,
+     1009,
+     1010,
+     1017,
+     1018,
+     1016,
+     1029
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10014,
+      "initCards": [
+       1044,
+       1037
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [
+       1657,
+       1656
+      ],
+      "delSkills": [
+       1121
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 2,
+      "heroId": 10006,
+      "initCards": [
+       1003,
+       1001
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "曹植(1)对[司马懿(2)]使用牌[2000000]",
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "targetsId": [
+      2
+     ],
+     "cards": [
+      2000000
+     ],
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "曹植出牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "曹植(1)确认",
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "confirm": true,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "曹植响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "desc": "曹植(1)使用牌[酒(1044)]",
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "cards": [
+      1044
+     ],
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "曹植出牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 4,
+     "desc": "曹植(1)确认",
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "confirm": true,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "曹植响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "七步七哀1-1",
+   "desc": "梅花战法牌当酒打",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1004,
+     1006,
+     1019,
+     1008,
+     1009,
+     1010,
+     1017,
+     1018,
+     1016,
+     1029,
+     1028,
+     1026
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10014,
+      "initCards": [
+       1044,
+       1041,
+       1003
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1120
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 2,
+      "heroId": 10006,
+      "initCards": [],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "曹植(1), 使用技能[七步七哀], 使用牌[休养生息(1041)]",
+     "robotIdx": 1,
+     "action": "UseHeroSkill",
+     "cards": [
+      1041
+     ],
+     "confirm": false,
+     "heroSkillUuid": 1121,
+     "assets": [
+      {
+       "msgName": "UseHeroSkillAck",
+       "desc": "曹植使用技能成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "曹植(1)对[司马懿(2)]使用牌[杀(1003)]",
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "targetsId": [
+      2
+     ],
+     "cards": [
+      1003
+     ],
+     "confirm": true,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "曹植出牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "desc": "司马懿(2)取消",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "司马懿响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "CommonHpChange",
+       "desc": "司马懿, 体力变化:-2，验证梅花战法牌当酒打出生效",
+       "attr": {
+        "ChangeHp": "-2"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "七步七哀1-2",
+   "desc": "梅花行动牌当酒打",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1004,
+     1006,
+     1019,
+     1008,
+     1009,
+     1010,
+     1017,
+     1018,
+     1016,
+     1029,
+     1028,
+     1026
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10014,
+      "initCards": [
+       1044,
+       1003,
+       1047
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1120
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 2,
+      "heroId": 10006,
+      "initCards": [],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "曹植(1), 使用技能[七步七哀], 使用牌[桃(1047)]",
+     "robotIdx": 1,
+     "action": "UseHeroSkill",
+     "cards": [
+      1047
+     ],
+     "confirm": false,
+     "heroSkillUuid": 1121,
+     "assets": [
+      {
+       "msgName": "UseHeroSkillAck",
+       "desc": "曹植使用技能成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "曹植(1)对[司马懿(2)]使用牌[杀(1003)]",
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "targetsId": [
+      2
+     ],
+     "cards": [
+      1003
+     ],
+     "confirm": true,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "曹植出牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "desc": "司马懿(2)取消",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "司马懿响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "CommonHpChange",
+       "desc": "司马懿, 体力变化:-2，验证梅花行动派牌当酒打出生效",
+       "attr": {
+        "ChangeHp": "-2"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "七步七哀1-3",
+   "desc": "梅花装备牌当酒打",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1004,
+     1006,
+     1019,
+     1008,
+     1009,
+     1010,
+     1017,
+     1018,
+     1016,
+     1029,
+     1028,
+     1026
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10014,
+      "initCards": [
+       1044,
+       1003,
+       1043
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1120
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 2,
+      "heroId": 10006,
+      "initCards": [],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "曹植(1), 使用技能[七步七哀], 使用牌[桃(1047)]",
+     "robotIdx": 1,
+     "action": "UseHeroSkill",
+     "cards": [
+      1043
+     ],
+     "confirm": false,
+     "heroSkillUuid": 1121,
+     "assets": [
+      {
+       "msgName": "UseHeroSkillAck",
+       "desc": "曹植使用技能成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "曹植(1)对[司马懿(2)]使用牌[杀(1003)]",
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "targetsId": [
+      2
+     ],
+     "cards": [
+      1003
+     ],
+     "confirm": true,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "曹植出牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "desc": "司马懿(2)取消",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "司马懿响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "CommonHpChange",
+       "desc": "司马懿, 体力变化:-2，验证梅花装备牌当酒打出生效",
+       "attr": {
+        "ChangeHp": "-2"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "七步七哀1-4",
+   "desc": "装备区装备牌当酒打",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1004,
+     1006,
+     1019,
+     1008,
+     1009,
+     1010,
+     1017,
+     1018,
+     1016,
+     1029,
+     1028,
+     1026
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10014,
+      "initCards": [
+       1044,
+       1003
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1120
+      ],
+      "exEquips": [
+       1043
+      ],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 2,
+      "heroId": 10006,
+      "initCards": [],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "曹植(1), 使用技能[七步七哀], 使用牌[桃(1047)]",
+     "robotIdx": 1,
+     "action": "UseHeroSkill",
+     "cards": [
+      1043
+     ],
+     "confirm": false,
+     "heroSkillUuid": 1121,
+     "assets": [
+      {
+       "msgName": "UseHeroSkillAck",
+       "desc": "曹植使用技能成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "曹植(1)对[司马懿(2)]使用牌[杀(1003)]",
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "targetsId": [
+      2
+     ],
+     "cards": [
+      1003
+     ],
+     "confirm": true,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "曹植出牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "desc": "司马懿(2)取消",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "司马懿响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "CommonHpChange",
+       "desc": "司马懿, 体力变化:-2，验证装备区装备牌当酒打出生效",
+       "attr": {
+        "ChangeHp": "-2"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "七步七哀1-5",
+   "desc": "技能区梅花牌当酒打 不可打出",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1004,
+     1006,
+     1019,
+     1008,
+     1009,
+     1010,
+     1017,
+     1018,
+     1016,
+     1029,
+     1028,
+     1026
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10014,
+      "initCards": [
+       1044,
+       1003
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [
+       1051
+      ],
+      "delSkills": [
+       1120
+      ],
+      "exEquips": [],
+      "skillCardsMap": {
+       "1051": [
+        1043
+       ]
+      }
+     },
+     {
+      "identity": 1,
+      "color": 2,
+      "heroId": 10006,
+      "initCards": [],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "曹植(1), 使用技能[七步七哀], 使用牌[桃(1047)]",
+     "robotIdx": 1,
+     "action": "UseHeroSkill",
+     "cards": [
+      1043
+     ],
+     "confirm": false,
+     "heroSkillUuid": 1121,
+     "assets": [
+      {
+       "msgName": "UseHeroSkillAck",
+       "desc": "技能牌区内的牌无法打出",
+       "attr": {
+        "Result": "1518"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "七步七哀1-6",
+   "desc": "梅花特殊牌当酒打",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1004,
+     1006,
+     1019,
+     1008,
+     1009,
+     1010,
+     1017,
+     1018,
+     1016,
+     1029,
+     1028,
+     1026
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10014,
+      "initCards": [
+       1044,
+       1003,
+       1043,
+       2002
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1120
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 2,
+      "heroId": 10006,
+      "initCards": [],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "曹植(1), 使用技能[七步七哀], 使用牌[桃花(2002)]",
+     "robotIdx": 1,
+     "action": "UseHeroSkill",
+     "cards": [
+      2002
+     ],
+     "confirm": false,
+     "heroSkillUuid": 1121,
+     "assets": [
+      {
+       "msgName": "UseHeroSkillAck",
+       "desc": "曹植使用技能成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "曹植(1)对[司马懿(2)]使用牌[杀(1003)]",
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "targetsId": [
+      2
+     ],
+     "cards": [
+      1003
+     ],
+     "confirm": true,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "曹植出牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "desc": "司马懿(2)取消",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "司马懿响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "CommonHpChange",
+       "desc": "司马懿, 体力变化:-2，验证桃花牌当酒打出生效",
+       "attr": {
+        "ChangeHp": "-2"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "七步七哀1-7",
+   "desc": "酒当酒打",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1004,
+     1006,
+     1019,
+     1008,
+     1009,
+     1010,
+     1017,
+     1018,
+     1016,
+     1029,
+     1028,
+     1026
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10014,
+      "initCards": [
+       1044,
+       1003,
+       1043,
+       1052
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1120
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 2,
+      "heroId": 10006,
+      "initCards": [],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "曹植(1), 使用技能[七步七哀], 使用牌[酒(1052)]",
+     "robotIdx": 1,
+     "action": "UseHeroSkill",
+     "cards": [
+      1052
+     ],
+     "confirm": false,
+     "heroSkillUuid": 1121,
+     "assets": [
+      {
+       "msgName": "UseHeroSkillAck",
+       "desc": "曹植使用技能成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "曹植(1)对[司马懿(2)]使用牌[杀(1003)]",
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "targetsId": [
+      2
+     ],
+     "cards": [
+      1003
+     ],
+     "confirm": true,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "曹植出牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "desc": "司马懿(2)取消",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "司马懿响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "CommonHpChange",
+       "desc": "司马懿, 体力变化:-2，验证桃花牌当酒打出生效",
+       "attr": {
+        "ChangeHp": "-2"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "七步七哀1-8",
+   "desc": "已打出过酒，第二张酒触发弃牌",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1004,
+     1006,
+     1019,
+     1008,
+     1009,
+     1010,
+     1017,
+     1018,
+     1016,
+     1029,
+     1028,
+     1026
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10014,
+      "initCards": [
+       1044,
+       1043,
+       1052
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1120
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 2,
+      "heroId": 10006,
+      "initCards": [],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "曹植(1)使用牌[酒(1044)]",
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "cards": [
+      1044
+     ],
+     "confirm": false,
+     "heroSkillUuid": 1121,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "曹植出牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "曹植(1), 使用技能[七步七哀], 使用牌[酒(1052)]",
+     "robotIdx": 1,
+     "action": "UseHeroSkill",
+     "cards": [
+      1052
+     ],
+     "confirm": false,
+     "heroSkillUuid": 1121,
+     "assets": [
+      {
+       "msgName": "UseHeroSkillAck",
+       "desc": "曹植使用技能成功",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "DisCard",
+       "desc": "曹植弃掉1张牌牌为[1043]，验证已打出过酒，第二张酒触发弃牌正确",
+       "attr": {
+        "Cards": "1043 1004 1006",
+        "Count": "1",
+        "Random": "true"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "七步七哀1-9",
+   "desc": "重伤其他牌当酒打 ",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1004,
+     1006,
+     1019,
+     1008,
+     1009,
+     1010,
+     1017,
+     1018,
+     1016,
+     1029,
+     1028,
+     1026
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 2,
+      "heroId": 10006,
+      "initCards": [
+       1003,
+       1011,
+       1012,
+       1022,
+       1024
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [],
+      "exEquips": [
+       1034
+      ],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10014,
+      "initCards": [
+       1041
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1120
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "司马懿(1)对[曹植(2)]使用牌[杀(1003)]",
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "targetsId": [
+      2
+     ],
+     "cards": [
+      1003
+     ],
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "司马懿(1)确认",
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "confirm": true,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "司马懿响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "desc": "曹植(2)取消",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "曹植响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 4,
+     "desc": "曹植(2)取消",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "曹植响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 5,
+     "desc": "曹植(2)取消",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "曹植响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 6,
+     "desc": "曹植(2)取消",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "曹植响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 7,
+     "desc": "曹植(2)取消",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "曹植响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 8,
+     "desc": "司马懿(1)取消",
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "曹植响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 9,
+     "desc": "曹植(2), 使用技能[七步七哀], 使用牌[休养生息(1041)]",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "cards": [
+      1041
+     ],
+     "confirm": true,
+     "heroSkillUuid": 1121,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "曹植使用技能成功",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "CommonHpChange",
+       "desc": "曹植, 体力变化:1重伤其他牌当酒打 验证正确",
+       "attr": {
+        "ChangeHp": "1"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "七步七哀2-1",
+   "desc": " 出牌阶段弃牌时 摸1张牌",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1004,
+     1006,
+     1019,
+     1008,
+     1009,
+     1010,
+     1017,
+     1018,
+     1016,
+     1029,
+     1028,
+     1026
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10014,
+      "initCards": [
+       1044,
+       1043,
+       1052
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1120
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 2,
+      "heroId": 10006,
+      "initCards": [],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "曹植(1)使用牌[酒(1044)]",
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "cards": [
+      1044
+     ],
+     "confirm": false,
+     "heroSkillUuid": 1121,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "曹植出牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "曹植(1), 使用技能[七步七哀], 使用牌[酒(1052)]",
+     "robotIdx": 1,
+     "action": "UseHeroSkill",
+     "cards": [
+      1052
+     ],
+     "confirm": false,
+     "heroSkillUuid": 1121,
+     "assets": [
+      {
+       "msgName": "UseHeroSkillAck",
+       "desc": "曹植使用技能成功",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "DisCard",
+       "desc": "曹植弃掉1张牌牌为[1043]，验证已打出过酒，第二张酒触发弃牌正确",
+       "attr": {
+        "Cards": "1043 1004 1006",
+        "Count": "1",
+        "Random": "true"
+       }
+      },
+      {
+       "msgName": "DrawCard",
+       "desc": "摸牌正确",
+       "attr": {
+        "Cards": "1019",
+        "Count": "1"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "desc": "曹植(1)等待1秒",
+     "robotIdx": 1,
+     "action": "Sleep",
+     "confirm": false,
+     "sleepTime": 1
+    }
+   ]
+  },
+  {
+   "case": "七步七哀2-2",
+   "desc": "修改后的出牌阶段弃牌时 触发",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     2001,
+     1047,
+     1004,
+     1006,
+     1019,
+     1008,
+     1009,
+     1010,
+     1017,
+     1018,
+     1016,
+     1029,
+     1028
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10014,
+      "initCards": [
+       1044,
+       1052,
+       1054,
+       1060,
+       1057,
+       1056,
+       1055,
+       1058,
+       1059,
+       1063,
+       1062,
+       1061
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [
+       1676
+      ],
+      "delSkills": [
+       1120
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 2,
+      "heroId": 10006,
+      "initCards": [],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "曹植(1)使用牌[酒(1044)]",
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "cards": [
+      1044
+     ],
+     "confirm": false,
+     "heroSkillUuid": 1121,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "曹植出牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "曹植(1), 使用技能[七步七哀], 使用牌[酒(1052)]",
+     "robotIdx": 1,
+     "action": "UseHeroSkill",
+     "cards": [
+      1052
+     ],
+     "confirm": false,
+     "heroSkillUuid": 1121,
+     "assets": [
+      {
+       "msgName": "UseHeroSkillAck",
+       "desc": "曹植使用技能成功",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "DrawCard",
+       "desc": "摸牌正确",
+       "attr": {
+        "Cards": "1004",
+        "Count": "1"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "desc": "曹植(1)结束打牌",
+     "robotIdx": 1,
+     "action": "PlayCardOver",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "PlayCardOverAck",
+       "desc": "曹植结束打牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 4,
+     "desc": "曹植(1)确认",
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "confirm": true,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "曹植响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 5,
+     "desc": "曹植(1)使用牌[酒(1054)]",
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "cards": [
+      1054
+     ],
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "曹植出牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 6,
+     "desc": "曹植(1)使用牌[酒(1060)]",
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "cards": [
+      1060
+     ],
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "曹植出牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "DrawCard",
+       "desc": "曹植抽到1张牌牌为[1019]",
+       "attr": {
+        "Cards": "1019",
+        "Count": "1"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "七步七哀2-3",
+   "desc": "鸣鸿刀弃牌 触发技能",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1004,
+     1006,
+     1019,
+     1008,
+     1009,
+     1010,
+     1017,
+     1018,
+     1029,
+     1028,
+     1026
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10014,
+      "initCards": [
+       1003
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1120
+      ],
+      "exEquips": [
+       1016
+      ],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 2,
+      "heroId": 10006,
+      "initCards": [
+       1082,
+       1083
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "曹植(1)对[司马懿(2)]使用牌[杀(1003)]",
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "targetsId": [
+      2
+     ],
+     "cards": [
+      1003
+     ],
+     "confirm": false,
+     "heroSkillUuid": 1121,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "曹植出牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "司马懿(2)确认, 使用牌[闪(1082)]",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "cards": [
+      1082
+     ],
+     "confirm": true,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "司马懿响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "desc": "司马懿(2)确认, 使用牌[闪(1082)]",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "cards": [
+      1083
+     ],
+     "confirm": true,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "司马懿响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 4,
+     "robotIdx": 1,
+     "action": "OnlyAsset",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "DisCard",
+       "desc": "曹植弃掉1张牌",
+       "attr": {
+        "Cards": "1004 1006",
+        "Count": "1",
+        "Random": "true"
+       }
+      },
+      {
+       "msgName": "DrawCard",
+       "desc": "曹植抽到1张牌牌为[1019]，验证正确",
+       "attr": {
+        "Cards": "1019",
+        "Count": "1"
+       }
+      }
+     ]
+    },
+    {
+     "id": 5,
+     "desc": "曹植(1)等待1秒",
+     "robotIdx": 1,
+     "action": "Sleep",
+     "confirm": false,
+     "sleepTime": 1
+    }
+   ]
+  },
+  {
+   "case": "七步七哀2-4",
+   "desc": "龙舌弓弃牌 触发技能",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1004,
+     1006,
+     1019,
+     1008,
+     1009,
+     1010,
+     1017,
+     1018,
+     1029,
+     1028,
+     1026
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10014,
+      "initCards": [
+       1003
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1120
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 2,
+      "heroId": 10006,
+      "initCards": [
+       1082,
+       1083,
+       1011
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [],
+      "exEquips": [
+       1153,
+       1002
+      ],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "曹植(1)对[司马懿(2)]使用牌[杀(1003)]",
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "targetsId": [
+      2
+     ],
+     "cards": [
+      1003
+     ],
+     "confirm": false,
+     "heroSkillUuid": 1121,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "曹植出牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "司马懿(2)确认, 使用牌[杀(1011)]",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "cards": [
+      1011
+     ],
+     "confirm": true,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "desc": "曹植(1)取消",
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "曹植响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 4,
+     "desc": "司马懿(2)确认",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "confirm": true,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "司马懿响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 5,
+     "desc": "司马懿(2)确认, 使用牌[借刀杀人(1014)]",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "cards": [
+      1014
+     ],
+     "confirm": true,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "司马懿响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 6,
+     "desc": "曹植(1)断言",
+     "robotIdx": 1,
+     "action": "OnlyAsset",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "DisCard",
+       "desc": "曹植弃掉1张牌",
+       "attr": {
+        "Cards": "1004 1006",
+        "Count": "1",
+        "Random": "true"
+       }
+      },
+      {
+       "msgName": "DrawCard",
+       "desc": "曹植抽到1张牌牌为[1019]，验证正确",
+       "attr": {
+        "Cards": "1019",
+        "Count": "1"
+       }
+      }
+     ]
+    },
+    {
+     "id": 7,
+     "desc": "司马懿(2)取消",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "司马懿响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 8,
+     "desc": "曹植(1)等待1秒",
+     "robotIdx": 1,
+     "action": "Sleep",
+     "confirm": false,
+     "sleepTime": 1
+    }
+   ]
+  },
+  {
+   "case": "七步七哀2-5",
+   "desc": "的卢8点 触发技能",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1004,
+     1006,
+     4056,
+     1019,
+     1008,
+     1009,
+     1010,
+     1017,
+     1018,
+     1029,
+     1028
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10014,
+      "initCards": [
+       1003
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1120
+      ],
+      "exEquips": [
+       1046
+      ],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 2,
+      "heroId": 10006,
+      "initCards": [
+       1082,
+       1083,
+       1011
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [],
+      "exEquips": [
+       1002
+      ],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "曹植(1)对[司马懿(2)]使用牌[杀(1003)]",
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "targetsId": [
+      2
+     ],
+     "cards": [
+      1003
+     ],
+     "confirm": false,
+     "heroSkillUuid": 1121,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "曹植出牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "司马懿(2)确认, 使用牌[杀(1011)]",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "cards": [
+      1011
+     ],
+     "confirm": true,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "desc": "曹植(1)取消",
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "曹植响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "DrawCard",
+       "desc": "曹植抽到1张牌牌为[4056]，验证正确",
+       "attr": {
+        "Cards": "1019",
+        "Count": "1"
+       }
+      }
+     ]
+    },
+    {
+     "id": 4,
+     "desc": "曹植(1)等待1秒",
+     "robotIdx": 1,
+     "action": "Sleep",
+     "confirm": false,
+     "sleepTime": 1
+    }
+   ]
+  },
+  {
+   "case": "七步七哀2-6",
+   "desc": "狐鸣弃牌，触发技能",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1004,
+     1006,
+     2017,
+     1009,
+     1008,
+     1019,
+     1010,
+     1017,
+     1018,
+     1029,
+     1028
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10014,
+      "initCards": [
+       1003,
+       1044
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 2,
+      "heroId": 10006,
+      "initCards": [
+       1082,
+       1083,
+       1011
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [],
+      "exEquips": [
+       1002,
+       4009
+      ],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "曹植(1)使用牌[酒(1044)]",
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "cards": [
+      1044
+     ],
+     "confirm": false,
+     "sleepTime": 3,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "",
+       "attr": {}
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "曹植(1)确认",
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "confirm": true,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "曹植响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "desc": "曹植(1)断言",
+     "robotIdx": 1,
+     "action": "OnlyAsset",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "DrawCard",
+       "desc": "曹植抽到1张牌牌为[4056]，验证正确",
+       "attr": {
+        "Cards": "1009",
+        "Count": "1"
+       }
+      }
+     ]
+    },
+    {
+     "id": 4,
+     "desc": "曹植(1)等待1秒",
+     "robotIdx": 1,
+     "action": "Sleep",
+     "confirm": false,
+     "sleepTime": 2
+    }
+   ]
+  },
+  {
+   "case": "七步七哀2-7",
+   "desc": "白起歼灭弃牌 触发技能",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1004,
+     1006,
+     1084,
+     1026,
+     1019,
+     1008,
+     1009,
+     1010,
+     1017,
+     1018,
+     1029,
+     1028
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10014,
+      "initCards": [
+       1045
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1120
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 2,
+      "heroId": 10006,
+      "initCards": [
+       1011
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [
+       1039
+      ],
+      "delSkills": [],
+      "exEquips": [
+       1002
+      ],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "曹植(1)使用牌[先拔头筹(1045)]",
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "cards": [
+      1045
+     ],
+     "confirm": false,
+     "heroSkillUuid": 1121,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "曹植出牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "曹植(1)确认, 使用牌[丈八蛇矛(1026)]",
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "cards": [
+      1026
+     ],
+     "confirm": true,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "曹植响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "desc": "司马懿(2)确认对[曹植(1)]",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "targetsId": [
+      1
+     ],
+     "confirm": true,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "司马懿响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 4,
+     "desc": "司马懿(2)确认, 使用牌[青龙偃月刀(1004)]",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "cards": [
+      1004
+     ],
+     "confirm": true,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "司马懿响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 5,
+     "desc": "曹植(1)断言",
+     "robotIdx": 1,
+     "action": "OnlyAsset",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "DrawCard",
+       "desc": "曹植抽到1张牌牌为[1019]",
+       "attr": {
+        "Cards": "1019",
+        "Count": "1"
+       }
+      }
+     ]
+    },
+    {
+     "id": 6,
+     "desc": "曹植(1)等待1秒",
+     "robotIdx": 1,
+     "action": "Sleep",
+     "confirm": false,
+     "sleepTime": 1
+    }
+   ]
+  },
+  {
+   "case": "七步七哀2-8",
+   "desc": "开山斧弃牌 触发技能",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1004,
+     1006,
+     1019,
+     1008,
+     1009,
+     1010,
+     1017,
+     1018,
+     1029,
+     1028,
+     1026
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10014,
+      "initCards": [
+       1003
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1120
+      ],
+      "exEquips": [
+       3008
+      ],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 2,
+      "heroId": 10006,
+      "initCards": [
+       1082,
+       1083,
+       1011
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [],
+      "exEquips": [
+       1153,
+       1002
+      ],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "曹植(1)对[司马懿(2)]使用牌[杀(1003)]",
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "targetsId": [
+      2
+     ],
+     "cards": [
+      1003
+     ],
+     "confirm": false,
+     "heroSkillUuid": 1121,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "曹植出牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "曹植(1)确认, 使用牌[青龙偃月刀(1004)]",
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "cards": [
+      1004
+     ],
+     "confirm": true,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "曹植响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "DrawCard",
+       "desc": "曹植抽到1张牌牌为[1019]",
+       "attr": {
+        "Cards": "1019",
+        "Count": "1"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "desc": "曹植(1)等待1秒",
+     "robotIdx": 1,
+     "action": "Sleep",
+     "confirm": false,
+     "sleepTime": 1
+    }
+   ]
+  },
+  {
+   "case": "七步七哀2-9",
+   "desc": "铁索弃牌 触发技能",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1004,
+     1006,
+     1019,
+     1008,
+     1009,
+     1010,
+     1017,
+     1018,
+     1029,
+     1028,
+     1026
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10014,
+      "initCards": [
+       1007
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1120
+      ],
+      "exEquips": [
+       3008
+      ],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 2,
+      "heroId": 10006,
+      "initCards": [
+       1082,
+       1083,
+       1011
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [],
+      "exEquips": [
+       1153,
+       1002
+      ],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "曹植(1)使用牌[铁索连舟(1007)]",
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "cards": [
+      1007
+     ],
+     "confirm": false,
+     "heroSkillUuid": 1121,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "曹植出牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "曹植(1)确认, 使用牌[青龙偃月刀(1004)]",
+     "robotIdx": 1,
+     "action": "OnlyAsset",
+     "cards": [
+      1004
+     ],
+     "confirm": true,
+     "assets": [
+      {
+       "msgName": "DrawCard",
+       "desc": "曹植抽到1张牌牌为[1019]，验证正确",
+       "attr": {
+        "Cards": "1019",
+        "Count": "1"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "desc": "曹植(1)等待1秒",
+     "robotIdx": 1,
+     "action": "Sleep",
+     "confirm": false,
+     "sleepTime": 1
+    }
+   ]
+  },
+  {
+   "case": "七步七哀2-10",
+   "desc": "烈火弃牌 触发技能",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1004,
+     1006,
+     1019,
+     1008,
+     1009,
+     1010,
+     1017,
+     1018,
+     1029,
+     1028,
+     1026
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10014,
+      "initCards": [
+       1123
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1120
+      ],
+      "exEquips": [
+       3008
+      ],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 2,
+      "heroId": 10006,
+      "initCards": [
+       1082,
+       1083,
+       1011
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [],
+      "exEquips": [
+       1153,
+       1002
+      ],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "曹植(1)使用牌[铁索连舟(1007)]",
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "targetsId": [
+      2
+     ],
+     "cards": [
+      1123
+     ],
+     "confirm": false,
+     "heroSkillUuid": 1121,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "曹植出牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "曹植(1)使用牌[青龙偃月刀(1004)]",
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "cards": [
+      1004
+     ],
+     "confirm": true,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "曹植响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "DrawCard",
+       "desc": "曹植抽到1张牌牌为[1019]",
+       "attr": {
+        "Cards": "1019",
+        "Count": "1"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "desc": "曹植(1)等待1秒",
+     "robotIdx": 1,
+     "action": "Sleep",
+     "confirm": false,
+     "sleepTime": 1
+    }
+   ]
+  }
+ ]

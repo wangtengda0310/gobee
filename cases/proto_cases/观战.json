@@ -1,0 +1,51 @@
+{
+  "version": 1,
+  "recorded_at": "2026-07-01T12:14:10.571Z",
+  "server_addr": "10.254.114.204:18000",
+  "messages": [
+    {
+      "msg_id": 2254,
+      "msg_name": "NewGetRoomListReq",
+      "seq_id": 1,
+      "payload_json": {
+        "endPage": 2,
+        "isPC": true,
+        "mode": 1004,
+        "startPage": 1
+      }
+    },
+    {
+      "msg_id": 2043,
+      "msg_name": "RoomLookOnReq",
+      "seq_id": 2,
+      "payload_json": {
+        "beLookerID": 4294968168,
+        "roomID": 8
+      },
+      "field_values": {
+        "beLookerID": {
+          "range_value": {
+            "start": 0,
+            "step": 1,
+            "end": 10
+          },
+          "enum_value": [],
+          "combo_value": [],
+          "input_type": "variable",
+          "variable_name": "roomCreator"
+        },
+        "roomID": {
+          "range_value": {
+            "start": 0,
+            "step": 1,
+            "end": 10
+          },
+          "enum_value": [],
+          "combo_value": [],
+          "input_type": "variable",
+          "variable_name": "roomID"
+        }
+      }
+    }
+  ]
+}

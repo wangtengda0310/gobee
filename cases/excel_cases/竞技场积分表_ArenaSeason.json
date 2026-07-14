@@ -1,0 +1,164 @@
+{
+ "sheet": "竞技场积分表|ArenaSeason",
+ "managerList": {
+  "QA": [],
+  "Designer": [],
+  "Programmer": []
+ },
+ "rules": {
+  "BGFx": {
+   "PropName": "BGFx",
+   "PropType": "string",
+   "PropRules": []
+  },
+  "BGName": {
+   "PropName": "BGName",
+   "PropType": "string",
+   "PropRules": []
+  },
+  "CanUseHero": {
+   "PropName": "CanUseHero",
+   "PropType": "int[]",
+   "PropRules": []
+  },
+  "DailyScoreEndTime": {
+   "PropName": "DailyScoreEndTime",
+   "PropType": "int",
+   "PropRules": []
+  },
+  "DailyScoreStartTime": {
+   "PropName": "DailyScoreStartTime",
+   "PropType": "int",
+   "PropRules": []
+  },
+  "FontBGName": {
+   "PropName": "FontBGName",
+   "PropType": "string",
+   "PropRules": []
+  },
+  "FontBGPos": {
+   "PropName": "FontBGPos",
+   "PropType": "int[]",
+   "PropRules": []
+  },
+  "ForbidHero": {
+   "PropName": "ForbidHero",
+   "PropType": "int[]",
+   "PropRules": []
+  },
+  "Id": {
+   "PropName": "Id",
+   "PropType": "int",
+   "PropRules": []
+  },
+  "IsExtraDanAwardOpen": {
+   "PropName": "IsExtraDanAwardOpen",
+   "PropType": "bool",
+   "PropRules": []
+  },
+  "IsFullSpine": {
+   "PropName": "IsFullSpine",
+   "PropType": "bool",
+   "PropRules": []
+  },
+  "ModeName": {
+   "PropName": "ModeName",
+   "PropType": "string",
+   "PropRules": []
+  },
+  "PresetId": {
+   "PropName": "PresetId",
+   "PropType": "int",
+   "PropRules": []
+  },
+  "SeasonEndTime": {
+   "PropName": "SeasonEndTime",
+   "PropType": "string",
+   "PropRules": []
+  },
+  "SeasonName": {
+   "PropName": "SeasonName",
+   "PropType": "string",
+   "PropRules": []
+  },
+  "SeasonNum": {
+   "PropName": "SeasonNum",
+   "PropType": "string",
+   "PropRules": []
+  },
+  "SeasonStartTime": {
+   "PropName": "SeasonStartTime",
+   "PropType": "string",
+   "PropRules": []
+  },
+  "SeasonTips": {
+   "PropName": "SeasonTips",
+   "PropType": "string",
+   "PropRules": []
+  },
+  "SpRewardId": {
+   "PropName": "SpRewardId",
+   "PropType": "int",
+   "PropRules": []
+  },
+  "SpRewardScore": {
+   "PropName": "SpRewardScore",
+   "PropType": "int",
+   "PropRules": []
+  },
+  "SpRewardText": {
+   "PropName": "SpRewardText",
+   "PropType": "string",
+   "PropRules": []
+  },
+  "SpineName": {
+   "PropName": "SpineName",
+   "PropType": "string",
+   "PropRules": []
+  }
+ },
+ "tableRules": [
+  {
+   "type": "ARENA_SEASON_CHECK",
+   "displayName": "竞技场赛季不足",
+   "uuid": "61523d09-1ef1-47b8-b22e-280333456feb",
+   "description": "",
+   "params": {},
+   "enabled": true
+  },
+  {
+   "type": "COL_CONTINUOUS_CHECK",
+   "displayName": "列连续性检查",
+   "uuid": "09972d7a-224e-4c2a-b64e-ff4087eea269",
+   "description": "检查指定列的数据连续性或唯一性。支持6种模式：严格递增、单调递增、日期间隔一致、{id;count}格式ID递增、提取数字递增、拆分后全局唯一。支持排除行号、注释行跳过、空值跳过。",
+   "params": {
+    "allowCommit": "false",
+    "allowEmpty": "true",
+    "checkMode": "DATE_MONTHLY_PATTERN",
+    "excludeRows": "1",
+    "scope": "all",
+    "separator": ",",
+    "targetCol": "SeasonStartTime",
+    "tolerance": "1"
+   },
+   "enabled": true
+  },
+  {
+   "type": "COL_CONTINUOUS_CHECK",
+   "displayName": "列连续性检查",
+   "uuid": "e838e71c-a1c7-46c6-9143-83cf86d5d450",
+   "description": "检查指定列的数据连续性或唯一性。支持6种模式：严格递增、单调递增、日期间隔一致、{id;count}格式ID递增、提取数字递增、拆分后全局唯一。支持排除行号、注释行跳过、空值跳过。",
+   "params": {
+    "allowCommit": "false",
+    "allowEmpty": "true",
+    "checkMode": "DATE_MONTHLY_PATTERN",
+    "excludeRows": "1",
+    "scope": "all",
+    "separator": ",",
+    "targetCol": "SeasonEndTime",
+    "tolerance": "1"
+   },
+   "enabled": true
+  }
+ ]
+}

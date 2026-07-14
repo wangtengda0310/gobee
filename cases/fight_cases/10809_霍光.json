@@ -1,0 +1,5460 @@
+[
+  {
+   "case": "霍光_行举有常_1",
+   "desc": "技能触发测试_回合内_正常触发",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1082,
+     1015,
+     1083,
+     1001,
+     1002,
+     1003,
+     1004,
+     1005,
+     1006,
+     1007,
+     1008,
+     1009,
+     1010,
+     1011
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 13,
+      "color": 97,
+      "heroId": 10002,
+      "initCards": [
+       3001
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [
+       1400
+      ],
+      "delSkills": [
+       1004,
+       1005,
+       1006
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 13,
+      "color": 97,
+      "heroId": 10005,
+      "initCards": [],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1011,
+       1012
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "郭嘉(1)使用牌[箭雨齐射(3001)]",
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "cards": [
+      3001
+     ],
+     "confirm": false,
+     "timeout": 3,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "郭嘉出牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "DrawCard",
+       "desc": "郭嘉触发技能行举有常",
+       "attr": {
+        "Count": "1"
+       }
+      },
+      {
+       "msgName": "AttrChange",
+       "desc": "郭嘉, 最大生命: 5",
+       "attr": {
+        "MaxHp": "5"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "霍光_行举有常_2",
+   "desc": "技能触发测试_回合外_正常触发",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1082,
+     1015,
+     1083,
+     1001,
+     1002,
+     1003,
+     1004,
+     1005,
+     1006,
+     1007,
+     1008,
+     1009,
+     1010,
+     1011
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 13,
+      "color": 97,
+      "heroId": 10002,
+      "initCards": [
+       3001
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [
+       1021
+      ],
+      "delSkills": [
+       1004,
+       1005,
+       1006
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 13,
+      "color": 97,
+      "heroId": 10005,
+      "initCards": [],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [
+       1400,
+       1001
+      ],
+      "delSkills": [
+       1011,
+       1012
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "郭嘉(1)对[甄宓(2)], 使用技能[武圣义绝], 使用牌[箭雨齐射(3001)], 当作牌杀打出",
+     "robotIdx": 1,
+     "action": "UseHeroSkill",
+     "targetsId": [
+      2
+     ],
+     "cards": [
+      3001
+     ],
+     "confirm": false,
+     "heroSkillUuid": 1021,
+     "transCardSkill": 1,
+     "timeout": 3,
+     "assets": [
+      {
+       "msgName": "UseHeroSkillAck",
+       "desc": "郭嘉使用技能成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "甄宓(2)取消",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "甄宓响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "CommonHpChange",
+       "desc": "甄宓受到来自HarmNormal的伤害, 体力变化:-1, 当前体力: [3], 最大体力: [4]",
+       "attr": {
+        "ChangeHp": "-1",
+        "CurHp": "3",
+        "HpSrc": "HarmNormal",
+        "MaxHp": "4"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "desc": "郭嘉(1)确认, 使用牌[箭雨齐射(3001)]",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "cards": [
+      3001
+     ],
+     "confirm": true,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "甄宓响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "DrawCard",
+       "desc": "甄宓抽到1张牌",
+       "attr": {
+        "Count": "1"
+       }
+      },
+      {
+       "msgName": "AttrChange",
+       "desc": "甄宓, 最大生命: 5",
+       "attr": {
+        "MaxHp": "5"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "霍光_行举有常_3",
+   "desc": "技能触发测试_打出其他角色的牌_正常触发",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1082,
+     1015,
+     1083,
+     1001,
+     1002,
+     1003,
+     1004,
+     1005,
+     1006,
+     1007,
+     1008,
+     1009,
+     1010,
+     1011
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 13,
+      "color": 97,
+      "heroId": 10002,
+      "initCards": [
+       3001
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [
+       1623
+      ],
+      "delSkills": [
+       1004,
+       1005,
+       1006
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 13,
+      "color": 97,
+      "heroId": 10005,
+      "initCards": [],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [
+       1400
+      ],
+      "delSkills": [
+       1011,
+       1012
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "郭嘉(1)对[甄宓(2)], 使用技能[自荐枕席]",
+     "robotIdx": 1,
+     "action": "UseHeroSkill",
+     "targetsId": [
+      2
+     ],
+     "confirm": false,
+     "heroSkillUuid": 1623,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "UseHeroSkillAck",
+       "desc": "郭嘉使用技能成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "甄宓(2)使用牌[箭雨齐射(3001)]",
+     "robotIdx": 2,
+     "action": "PlayCard",
+     "cards": [
+      3001
+     ],
+     "confirm": true,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "甄宓出牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "DrawCard",
+       "desc": "甄宓抽到1张牌",
+       "attr": {
+        "Count": "1"
+       }
+      },
+      {
+       "msgName": "AttrChange",
+       "desc": "甄宓, 最大生命: 5",
+       "attr": {
+        "MaxHp": "5"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "霍光_行举有常_4",
+   "desc": "技能触发测试_替其他角色打出牌_正常触发",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1082,
+     1015,
+     1083,
+     1001,
+     1002,
+     1003,
+     1004,
+     1005,
+     1006,
+     1007,
+     1008,
+     1009,
+     1010,
+     1011
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 13,
+      "color": 97,
+      "heroId": 10002,
+      "initCards": [
+       1161,
+       1125
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [
+       1400
+      ],
+      "delSkills": [
+       1004,
+       1005,
+       1006
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 13,
+      "color": 97,
+      "heroId": 10005,
+      "initCards": [],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [
+       1330
+      ],
+      "delSkills": [
+       1011,
+       1012
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "郭嘉(1)使用牌[烽火狼烟(1125)]",
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "cards": [
+      1125
+     ],
+     "confirm": false,
+     "heroSkillUuid": 1623,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "郭嘉使用技能成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "郭嘉(1)确认, 使用牌[易(1161)]",
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "cards": [
+      1161
+     ],
+     "confirm": true,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "郭嘉响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "DrawCard",
+       "desc": "郭嘉抽到1张牌",
+       "attr": {
+        "Count": "1"
+       }
+      },
+      {
+       "msgName": "AttrChange",
+       "desc": "郭嘉, 最大生命: 5",
+       "attr": {
+        "MaxHp": "5"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "霍光_行举有常_5",
+   "desc": "技能触发测试_打出符水_不会触发",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     2001,
+     1082,
+     1015,
+     1083,
+     1001,
+     1002,
+     1003,
+     1004,
+     1005,
+     1006,
+     1007,
+     1008,
+     1009,
+     1010,
+     1011
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 13,
+      "color": 97,
+      "heroId": 10002,
+      "initCards": [
+       3001
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [
+       1400
+      ],
+      "delSkills": [
+       1004,
+       1005,
+       1006
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 13,
+      "color": 97,
+      "heroId": 10005,
+      "initCards": [],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1011,
+       1012
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "郭嘉(1)使用牌[箭雨齐射(3001)]",
+     "robotIdx": 1,
+     "action": "OnlyAsset",
+     "cards": [
+      3001
+     ],
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "DrawCard",
+       "desc": "郭嘉抽到2张牌牌为[2001,1082]",
+       "attr": {
+        "Cards": "2001 1082",
+        "Count": "2"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "郭嘉(1)使用牌[箭雨齐射(3001)]",
+     "robotIdx": 1,
+     "action": "OnlyAsset",
+     "cards": [
+      3001
+     ],
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "CommonHpChange",
+       "desc": "郭嘉受到来自LostHp的伤害, 体力变化:-1, 当前体力: [3], 最大体力: [4]",
+       "attr": {
+        "ChangeHp": "-1",
+        "CurHp": "3",
+        "HpSrc": "LostHp",
+        "MaxHp": "4"
+       }
+      },
+      {
+       "msgName": "DrawCard",
+       "desc": "成功：打出符水  不会触发",
+       "attr": {
+        "Count": "1",
+        "UnExpect": "true"
+       }
+      },
+      {
+       "msgName": "AttrChange",
+       "desc": "成功：打出符水  不会触发",
+       "attr": {
+        "MaxHp": "4",
+        "UnExpect": "false"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "霍光_行举有常_6",
+   "desc": "技能触发测试_交给牌_不会触发",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1082,
+     1015,
+     1083,
+     1001,
+     1002,
+     1003,
+     1004,
+     1005,
+     1006,
+     1007,
+     1008,
+     1009,
+     1010,
+     1011
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 13,
+      "color": 97,
+      "heroId": 10002,
+      "initCards": [
+       3001
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [
+       1400,
+       1015
+      ],
+      "delSkills": [
+       1004,
+       1005,
+       1006
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 13,
+      "color": 97,
+      "heroId": 10005,
+      "initCards": [],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1011,
+       1012
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "郭嘉(1)对[甄宓(2)], 使用技能[惟贤惟德], 使用牌[箭雨齐射(3001)]",
+     "robotIdx": 1,
+     "action": "UseHeroSkill",
+     "targetsId": [
+      2
+     ],
+     "cards": [
+      3001
+     ],
+     "confirm": false,
+     "heroSkillUuid": 1015,
+     "timeout": 3,
+     "assets": [
+      {
+       "msgName": "UseHeroSkillAck",
+       "desc": "郭嘉使用技能成功",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "DrawCard",
+       "desc": "成功：给牌不会触发",
+       "attr": {
+        "Count": "1",
+        "UnExpect": "true"
+       }
+      },
+      {
+       "msgName": "AttrChange",
+       "desc": "郭嘉, 最大生命: 4",
+       "attr": {
+        "MaxHp": "4",
+        "UnExpect": "false"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "霍光_行举有常_7",
+   "desc": "技能触发测试_弃置牌_不会触发",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1082,
+     1015,
+     1083,
+     1001,
+     1002,
+     1003,
+     1004,
+     1005,
+     1006,
+     1007,
+     1008,
+     1009,
+     1010,
+     1011
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 13,
+      "color": 97,
+      "heroId": 10002,
+      "initCards": [
+       3001,
+       1025,
+       1026,
+       1027
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [
+       1400,
+       1015
+      ],
+      "delSkills": [
+       1004,
+       1005,
+       1006
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 13,
+      "color": 97,
+      "heroId": 10005,
+      "initCards": [],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1011,
+       1012
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "郭嘉(1)对[甄宓(2)], 使用技能[惟贤惟德], 使用牌[箭雨齐射(3001)]",
+     "robotIdx": 1,
+     "action": "PlayCardOver",
+     "targetsId": [
+      2
+     ],
+     "cards": [
+      3001
+     ],
+     "confirm": false,
+     "heroSkillUuid": 1015,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "PlayCardOverAck",
+       "desc": "郭嘉结束打牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "郭嘉(1)弃牌[箭雨齐射(3001)]",
+     "robotIdx": 1,
+     "action": "DisCard",
+     "cards": [
+      3001
+     ],
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "DisCardAck",
+       "desc": "郭嘉弃牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "DrawCard",
+       "desc": "成功：弃置牌不触发",
+       "attr": {
+        "Count": "1",
+        "UnExpect": "true"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "霍光_行举有常_8",
+   "desc": "技能触发测试_当作xx牌打出_点数按照原牌点数",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1082,
+     1015,
+     1083,
+     1001,
+     1002,
+     1003,
+     1004,
+     1005,
+     1006,
+     1007,
+     1008,
+     1009,
+     1010,
+     1011
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 13,
+      "color": 97,
+      "heroId": 10002,
+      "initCards": [
+       3001
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [
+       1400,
+       1021
+      ],
+      "delSkills": [
+       1004,
+       1005,
+       1006
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 13,
+      "color": 97,
+      "heroId": 10005,
+      "initCards": [],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1011,
+       1012
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "郭嘉(1)对[甄宓(2)], 使用技能[武圣义绝], 使用牌[箭雨齐射(3001)], 当作牌杀打出",
+     "robotIdx": 1,
+     "action": "UseHeroSkill",
+     "targetsId": [
+      2
+     ],
+     "cards": [
+      3001
+     ],
+     "confirm": false,
+     "heroSkillUuid": 1021,
+     "transCardSkill": 1,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "UseHeroSkillAck",
+       "desc": "郭嘉结束打牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "DrawCard",
+       "desc": "成功：当作xx牌时  点数按照原牌点数",
+       "attr": {
+        "Count": "1"
+       }
+      },
+      {
+       "msgName": "AttrChange",
+       "desc": "郭嘉, 最大生命: 5",
+       "attr": {
+        "MaxHp": "5"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "霍光_行举有常_8.1",
+   "desc": "技能触发测试_背水一战打出所有手牌_算作无花色无点数",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1082,
+     1015,
+     3009,
+     3001,
+     1047,
+     1083,
+     1001,
+     1002,
+     1003,
+     1004,
+     1005,
+     1006,
+     1007,
+     1008,
+     1009,
+     1010,
+     1011
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 13,
+      "color": 97,
+      "heroId": 10002,
+      "initCards": [
+       4051
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1004,
+       1005,
+       1006
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 13,
+      "color": 97,
+      "heroId": 10005,
+      "initCards": [],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [
+       1320,
+       1400
+      ],
+      "delSkills": [
+       1011,
+       1012
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "郭嘉(1)结束打牌",
+     "robotIdx": 1,
+     "action": "PlayCardOver",
+     "targetsId": [
+      2
+     ],
+     "cards": [
+      3001
+     ],
+     "confirm": false,
+     "heroSkillUuid": 1021,
+     "transCardSkill": 1,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "PlayCardOverAck",
+       "desc": "郭嘉结束打牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "郭嘉(1)自动弃牌",
+     "robotIdx": 1,
+     "action": "DisCard",
+     "targetsId": [
+      2
+     ],
+     "confirm": false,
+     "heroSkillUuid": 1021,
+     "transCardSkill": 1,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "DisCardAck",
+       "desc": "郭嘉弃牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "desc": "甄宓(2)结束打牌",
+     "robotIdx": 2,
+     "action": "PlayCardOver",
+     "targetsId": [
+      2
+     ],
+     "cards": [
+      3001
+     ],
+     "confirm": false,
+     "heroSkillUuid": 1021,
+     "transCardSkill": 1,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "PlayCardOverAck",
+       "desc": "甄宓结束打牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 4,
+     "desc": "甄宓(2)自动弃牌",
+     "robotIdx": 2,
+     "action": "DisCard",
+     "targetsId": [
+      2
+     ],
+     "confirm": false,
+     "heroSkillUuid": 1021,
+     "transCardSkill": 1,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "DisCardAck",
+       "desc": "甄宓弃牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 5,
+     "desc": "郭嘉(1)对[甄宓(2)]使用牌[久旱(4051)]",
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "targetsId": [
+      2
+     ],
+     "cards": [
+      4051
+     ],
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "郭嘉出牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 6,
+     "desc": "郭嘉(1)结束打牌",
+     "robotIdx": 1,
+     "action": "PlayCardOver",
+     "targetsId": [
+      2
+     ],
+     "cards": [
+      3001
+     ],
+     "confirm": false,
+     "heroSkillUuid": 1021,
+     "transCardSkill": 1,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "PlayCardOverAck",
+       "desc": "郭嘉结束打牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 7,
+     "desc": "郭嘉(1)自动弃牌",
+     "robotIdx": 1,
+     "action": "DisCard",
+     "targetsId": [
+      2
+     ],
+     "confirm": false,
+     "heroSkillUuid": 1021,
+     "transCardSkill": 1,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "DisCardAck",
+       "desc": "郭嘉弃牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 8,
+     "desc": "甄宓(2)对[甄宓(2)], 使用技能[背水一战]",
+     "robotIdx": 2,
+     "action": "UseHeroSkill",
+     "targetsId": [
+      1
+     ],
+     "confirm": false,
+     "heroSkillUuid": 1320,
+     "assets": [
+      {
+       "msgName": "UseHeroSkillAck",
+       "desc": "甄宓使用技能成功",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "DrawCard",
+       "desc": "成功：背水一战  手牌数\u003e1  所有牌当杀打出时  按无花色无点数算",
+       "attr": {
+        "ActionType": "3",
+        "ActionValue": "1400",
+        "Count": "1",
+        "UnExpect": "true"
+       }
+      },
+      {
+       "msgName": "AttrChange",
+       "desc": "成功：背水一战  手牌数\u003e1  所有牌当杀打出时  按无花色无点数算",
+       "attr": {
+        "MaxHp": "4",
+        "UnExpect": "true"
+       }
+      }
+     ]
+    },
+    {
+     "id": 9,
+     "desc": "郭嘉(1)取消",
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "郭嘉响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 10,
+     "robotIdx": 2,
+     "action": "OnlyAsset",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "AttrChange",
+       "desc": "甄宓, 最大生命: 4",
+       "attr": {
+        "MaxHp": "4",
+        "ShaCount": "0"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "霍光_行举有常_9",
+   "desc": "技能效果测试_摸1张牌、+1点体力上限",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1082,
+     1015,
+     1083,
+     1001,
+     1002,
+     1003,
+     1004,
+     1005,
+     1006,
+     1007,
+     1008,
+     1009,
+     1010,
+     1011
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 13,
+      "color": 97,
+      "heroId": 10002,
+      "initCards": [
+       3001
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [
+       1400,
+       1021
+      ],
+      "delSkills": [
+       1004,
+       1005,
+       1006
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 13,
+      "color": 97,
+      "heroId": 10005,
+      "initCards": [],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1011,
+       1012
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "郭嘉(1)对[甄宓(2)], 使用技能[武圣义绝], 使用牌[箭雨齐射(3001)], 当作牌杀打出",
+     "robotIdx": 1,
+     "action": "UseHeroSkill",
+     "targetsId": [
+      2
+     ],
+     "cards": [
+      3001
+     ],
+     "confirm": false,
+     "heroSkillUuid": 1021,
+     "transCardSkill": 1,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "UseHeroSkillAck",
+       "desc": "郭嘉结束打牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "DrawCard",
+       "desc": "成功：技能发动摸1张牌",
+       "attr": {
+        "Count": "1"
+       }
+      },
+      {
+       "msgName": "AttrChange",
+       "desc": "成功：技能发动体力上限+1",
+       "attr": {
+        "MaxHp": "5"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "霍光_行举有常_10",
+   "desc": "技能效果测试_体力满的情况_加1点体力上限后  不会回复体力",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1082,
+     1015,
+     1083,
+     1001,
+     1002,
+     1003,
+     1004,
+     1005,
+     1006,
+     1007,
+     1008,
+     1009,
+     1010,
+     1011
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 13,
+      "color": 97,
+      "heroId": 10002,
+      "initCards": [
+       3001
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [
+       1400,
+       1021
+      ],
+      "delSkills": [
+       1004,
+       1005,
+       1006
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 13,
+      "color": 97,
+      "heroId": 10005,
+      "initCards": [],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1011,
+       1012
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "郭嘉(1)对[甄宓(2)], 使用技能[武圣义绝], 使用牌[箭雨齐射(3001)], 当作牌杀打出",
+     "robotIdx": 1,
+     "action": "UseHeroSkill",
+     "targetsId": [
+      2
+     ],
+     "cards": [
+      3001
+     ],
+     "confirm": false,
+     "heroSkillUuid": 1021,
+     "transCardSkill": 1,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "UseHeroSkillAck",
+       "desc": "郭嘉结束打牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "DrawCard",
+       "desc": "成功：技能发动摸1张牌",
+       "attr": {
+        "Count": "1"
+       }
+      },
+      {
+       "msgName": "AttrChange",
+       "desc": "成功：技能发动体力上限+1  不会回血",
+       "attr": {
+        "CurHp": "4",
+        "MaxHp": "5"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "霍光_行举有常_11",
+   "desc": "技能封禁测试_技能触发前封禁_打出当前轮数点数的牌不生效",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1082,
+     1015,
+     1083,
+     1001,
+     1002,
+     1003,
+     1004,
+     1005,
+     1006,
+     1007,
+     1008,
+     1010,
+     1011
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 13,
+      "color": 97,
+      "heroId": 10002,
+      "initCards": [
+       1012
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1004,
+       1005,
+       1006
+      ],
+      "exEquips": [
+       1009
+      ],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 13,
+      "color": 97,
+      "heroId": 10005,
+      "initCards": [
+       1033
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [
+       1400
+      ],
+      "delSkills": [
+       1011,
+       1012
+      ],
+      "exEquips": [
+       3134
+      ],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "郭嘉(1)对[甄宓(2)]使用牌[雷杀(1012)]",
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "targetsId": [
+      2
+     ],
+     "cards": [
+      1012
+     ],
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "郭嘉结束打牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "甄宓(2)确认, 使用牌[杀(1033)]",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "cards": [
+      1033
+     ],
+     "confirm": true,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "甄宓响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "DrawCard",
+       "desc": "成功：技能触发前技能被封禁  不会触发",
+       "attr": {
+        "Count": "1",
+        "UnExpect": "true"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "霍光_行举有常_12",
+   "desc": "技能封禁测试_技能发动期间被封禁_摸牌后技能被封禁",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1082,
+     1015,
+     1083,
+     1001,
+     1002,
+     1003,
+     1004,
+     1005,
+     1006,
+     1007,
+     1008,
+     1010,
+     1011
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 13,
+      "color": 97,
+      "heroId": 10002,
+      "initCards": [
+       1031,
+       1033
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [
+       1400
+      ],
+      "delSkills": [
+       1004,
+       1005,
+       1006
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 13,
+      "color": 97,
+      "heroId": 10005,
+      "initCards": [
+       1012
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [
+       1034
+      ],
+      "delSkills": [
+       1011,
+       1012
+      ],
+      "exEquips": [
+       1009
+      ],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "郭嘉(1)使用牌[铁索连舟(1031)]",
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "cards": [
+      1031
+     ],
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "郭嘉出牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "郭嘉(1)对[甄宓(2)]使用牌[杀(1033)]",
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "targetsId": [
+      2
+     ],
+     "cards": [
+      1033
+     ],
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "郭嘉出牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "DrawCard",
+       "desc": "郭嘉抽到1张牌",
+       "attr": {
+        "Count": "1"
+       }
+      },
+      {
+       "msgName": "AttrChange",
+       "desc": "成功：体力上限未生效",
+       "attr": {
+        "MaxHp": "5",
+        "UnExpect": "true"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "desc": "甄宓(2)确认对[郭嘉(1)], 使用牌[雷杀(1012)]",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "targetsId": [
+      1
+     ],
+     "cards": [
+      1012
+     ],
+     "confirm": true,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "甄宓响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 4,
+     "desc": "郭嘉(1)取消",
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "郭嘉响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "CommonHpChange",
+       "desc": "郭嘉受到来自HarmLei的伤害, 体力变化:-1, 当前体力: [3], 最大体力: [4]",
+       "attr": {
+        "ChangeHp": "-1",
+        "CurHp": "3",
+        "HpSrc": "HarmLei",
+        "MaxHp": "4"
+       }
+      }
+     ]
+    },
+    {
+     "id": 5,
+     "desc": "甄宓(2)取消",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "甄宓响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "CommonHpChange",
+       "desc": "甄宓受到来自HarmNormal的伤害, 体力变化:-1, 当前体力: [3], 最大体力: [4]",
+       "attr": {
+        "ChangeHp": "-1",
+        "CurHp": "3",
+        "HpSrc": "HarmNormal",
+        "MaxHp": "4"
+       }
+      }
+     ]
+    },
+    {
+     "id": 6,
+     "robotIdx": 1,
+     "action": "OnlyAsset",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "AttrChange",
+       "desc": "成功：体力上限未生效",
+       "attr": {
+        "MaxHp": "4",
+        "UnExpect": "false"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "霍光_行举有常_13",
+   "desc": "技能封禁测试_发动后被封禁_后续技能不生效",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1082,
+     1015,
+     1083,
+     1001,
+     1002,
+     1003,
+     1004,
+     1005,
+     1006,
+     1007,
+     1008,
+     1010,
+     1011
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 13,
+      "color": 97,
+      "heroId": 10002,
+      "initCards": [
+       1031,
+       1033,
+       3001
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [
+       1400
+      ],
+      "delSkills": [
+       1004,
+       1005,
+       1006
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 13,
+      "color": 97,
+      "heroId": 10005,
+      "initCards": [
+       1012
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [
+       1034
+      ],
+      "delSkills": [
+       1011,
+       1012
+      ],
+      "exEquips": [
+       1009
+      ],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "郭嘉(1)使用牌[箭雨齐射(3001)]",
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "cards": [
+      3001
+     ],
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "郭嘉出牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "DrawCard",
+       "desc": "技能触发郭嘉抽到1张牌",
+       "attr": {
+        "Count": "1"
+       }
+      },
+      {
+       "msgName": "AttrChange",
+       "desc": "技能触发郭嘉, 最大生命: 5",
+       "attr": {
+        "MaxHp": "5"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "甄宓(2)取消",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "甄宓响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "CommonHpChange",
+       "desc": "甄宓受到来自HarmNormal的伤害, 体力变化:-1, 当前体力: [3], 最大体力: [4]",
+       "attr": {
+        "ChangeHp": "-1",
+        "CurHp": "3",
+        "HpSrc": "HarmNormal",
+        "MaxHp": "4"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "desc": "郭嘉(1)对[甄宓(2)]使用牌[杀(1033)]",
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "targetsId": [
+      2
+     ],
+     "cards": [
+      1033
+     ],
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "郭嘉出牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "DrawCard",
+       "desc": "郭嘉抽到1张牌",
+       "attr": {
+        "Count": "1"
+       }
+      }
+     ]
+    },
+    {
+     "id": 4,
+     "desc": "甄宓(2)确认对[郭嘉(1)], 使用牌[雷杀(1012)]",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "targetsId": [
+      1
+     ],
+     "cards": [
+      1012
+     ],
+     "confirm": true,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "甄宓响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 5,
+     "desc": "郭嘉(1)取消",
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "郭嘉响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "CommonHpChange",
+       "desc": "郭嘉受到来自HarmLei的伤害, 体力变化:-1, 当前体力: [3], 最大体力: [4]",
+       "attr": {
+        "ChangeHp": "-1",
+        "CurHp": "3",
+        "HpSrc": "HarmLei",
+        "MaxHp": "5"
+       }
+      }
+     ]
+    },
+    {
+     "id": 6,
+     "desc": "甄宓(2)取消",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "甄宓响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "CommonHpChange",
+       "desc": "甄宓受到来自HarmNormal的伤害, 体力变化:-1, 当前体力: [3], 最大体力: [4]",
+       "attr": {
+        "ChangeHp": "-1",
+        "CurHp": "2",
+        "HpSrc": "HarmNormal",
+        "MaxHp": "4"
+       }
+      }
+     ]
+    },
+    {
+     "id": 7,
+     "robotIdx": 1,
+     "action": "OnlyAsset",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "AttrChange",
+       "desc": "成功：体力上限未生效",
+       "attr": {
+        "MaxHp": "5",
+        "UnExpect": "false"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "霍光_行举有常_14",
+   "desc": "技能触发测试_打出牌时濒死后救回_技能正常生效",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1042,
+     1082,
+     1015,
+     1083,
+     1001,
+     1002,
+     1003,
+     1004,
+     1005,
+     1006,
+     1007,
+     1008,
+     1010,
+     1011
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 13,
+      "color": 97,
+      "heroId": 10306,
+      "initCards": [
+       1033
+      ],
+      "initEquips": [],
+      "augurCards": [
+       4051
+      ],
+      "addSkills": [
+       1400
+      ],
+      "delSkills": [
+       1059,
+       1060,
+       1061
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 13,
+      "color": 97,
+      "heroId": 10005,
+      "initCards": [
+       1012,
+       1047
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [
+       1680
+      ],
+      "delSkills": [
+       1011,
+       1012
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "左慈(1)对[甄宓(2)]使用牌[杀(1033)]",
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "targetsId": [
+      2
+     ],
+     "cards": [
+      1033
+     ],
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "左慈出牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "甄宓(2)确认, 使用牌[雷杀(1012)]",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "cards": [
+      1012
+     ],
+     "confirm": true,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "甄宓响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "desc": "左慈(1)取消",
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "左慈响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "CommonHpChange",
+       "desc": "左慈受到来自HarmLei的伤害, 体力变化:-1, 最大体力: [1]",
+       "attr": {
+        "ChangeHp": "-1",
+        "CurHp": "0",
+        "HpSrc": "HarmLei",
+        "MaxHp": "1"
+       }
+      }
+     ]
+    },
+    {
+     "id": 4,
+     "desc": "甄宓(2)确认, 使用牌[桃(1047)]",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "cards": [
+      1047
+     ],
+     "confirm": true,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "甄宓响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 5,
+     "robotIdx": 1,
+     "action": "OnlyAsset",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "CommonHpChange",
+       "desc": "左慈受到来自CureHp的伤害, 体力变化:1, 当前体力: [1], 最大体力: [1]",
+       "attr": {
+        "ChangeHp": "1",
+        "CurHp": "1",
+        "HpSrc": "CureHp",
+        "MaxHp": "1"
+       }
+      },
+      {
+       "msgName": "AttrChange",
+       "desc": "成功：体力上限正常",
+       "attr": {
+        "CurHp": "1",
+        "MaxHp": "2",
+        "UnExpect": "false"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "霍光_行举有常_15",
+   "desc": "技能触发测试_打出牌时获得技能_技能不生效",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1042,
+     1082,
+     1015,
+     1083,
+     1001,
+     1002,
+     1003,
+     1004,
+     1005,
+     1006,
+     1007,
+     1008,
+     1010,
+     1011
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 13,
+      "color": 97,
+      "heroId": 10002,
+      "initCards": [
+       1033,
+       1129,
+       1047
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [
+       1680,
+       1365
+      ],
+      "delSkills": [
+       1004,
+       1005,
+       1006
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 13,
+      "color": 97,
+      "heroId": 10306,
+      "initCards": [
+       1084
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [
+       1400
+      ],
+      "delSkills": [
+       1059,
+       1060,
+       1061
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "郭嘉(1)对[左慈(2)]使用牌[杀(1033)]",
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "targetsId": [
+      2
+     ],
+     "cards": [
+      1033
+     ],
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "郭嘉出牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "左慈(2)确认, 使用牌[闪(1084)]",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "cards": [
+      1084
+     ],
+     "confirm": true,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "左慈响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "desc": "郭嘉(1)确认, 使用牌[火杀(1129)]",
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "cards": [
+      1129
+     ],
+     "confirm": true,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "郭嘉响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 4,
+     "desc": "左慈(2)取消",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "左慈响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 5,
+     "desc": "郭嘉(1)确认",
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "confirm": true,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "郭嘉响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 6,
+     "desc": "郭嘉(1)确认, 使用牌[3000002]",
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "cards": [
+      3000002
+     ],
+     "confirm": true,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "郭嘉响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 7,
+     "desc": "郭嘉(1)确认, 使用牌[桃(1047)]",
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "cards": [
+      1047
+     ],
+     "confirm": true,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "郭嘉响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "DrawCard",
+       "desc": "郭嘉抽到1张牌",
+       "attr": {
+        "ActionType": "3",
+        "ActionValue": "1400",
+        "Count": "1",
+        "UnExpect": "true"
+       }
+      },
+      {
+       "msgName": "AttrChange",
+       "desc": "郭嘉, 最大生命: 4, 当前生命: 4",
+       "attr": {
+        "CurHp": "4",
+        "MaxHp": "4"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "霍光_行举有常_16",
+   "desc": "技能删除测试_技能发动期间被删除_摸牌后技能被删除",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1082,
+     1015,
+     1083,
+     1001,
+     1002,
+     1003,
+     1004,
+     1005,
+     1006,
+     1007,
+     1008,
+     1010,
+     1011
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 13,
+      "color": 97,
+      "heroId": 10002,
+      "initCards": [
+       1031,
+       1033
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [
+       1400
+      ],
+      "delSkills": [
+       1004,
+       1005,
+       1006
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 13,
+      "color": 97,
+      "heroId": 10005,
+      "initCards": [
+       1124
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [
+       1034
+      ],
+      "delSkills": [
+       1011,
+       1012
+      ],
+      "exEquips": [
+       1147
+      ],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 13,
+      "color": 97,
+      "heroId": 10102,
+      "initCards": [],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [
+       1335
+      ],
+      "delSkills": [
+       1018,
+       1019
+      ],
+      "exEquips": [
+       1043,
+       3135
+      ],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "郭嘉(1)使用牌[铁索连舟(1031)]",
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "cards": [
+      1031
+     ],
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "郭嘉出牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "郭嘉(1)对[甄宓(2)]使用牌[杀(1033)]",
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "targetsId": [
+      2
+     ],
+     "cards": [
+      1033
+     ],
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "郭嘉出牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "DrawCard",
+       "desc": "郭嘉抽到1张牌",
+       "attr": {
+        "ActionType": "3",
+        "ActionValue": "1400",
+        "Count": "1"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "desc": "甄宓(2)确认对[诸葛亮(3)], 使用牌[火杀(1124)]",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "targetsId": [
+      3
+     ],
+     "cards": [
+      1124
+     ],
+     "confirm": true,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "甄宓响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 4,
+     "desc": "诸葛亮(3)取消",
+     "robotIdx": 3,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "诸葛亮响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "CommonHpChange",
+       "desc": "诸葛亮受到来自HarmLei的伤害, 体力变化:-4, 最大体力: [4]",
+       "attr": {
+        "ChangeHp": "-4",
+        "CurHp": "0",
+        "HpSrc": "HarmHuo",
+        "MaxHp": "4"
+       }
+      }
+     ]
+    },
+    {
+     "id": 5,
+     "desc": "甄宓(2)取消",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "甄宓响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 6,
+     "desc": "诸葛亮(3)取消",
+     "robotIdx": 3,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "诸葛亮响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 7,
+     "desc": "郭嘉(1)取消",
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "郭嘉响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 8,
+     "desc": "诸葛亮(3)确认对[郭嘉(1)]",
+     "robotIdx": 3,
+     "action": "OptRoomAction",
+     "targetsId": [
+      1
+     ],
+     "confirm": true,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "诸葛亮响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 9,
+     "desc": "诸葛亮(3)确认, 使用牌[1,3000000]",
+     "robotIdx": 3,
+     "action": "OptRoomAction",
+     "cards": [
+      1,
+      3000000
+     ],
+     "confirm": true,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "诸葛亮响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 10,
+     "desc": "甄宓(2)取消",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "甄宓响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 11,
+     "desc": "郭嘉(1)断言",
+     "robotIdx": 1,
+     "action": "OnlyAsset",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "AttrChange",
+       "desc": "成功：体力上限增加未生效",
+       "attr": {
+        "MaxHp": "4",
+        "UnExpect": "false"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "霍光_行举有常_17",
+   "desc": "技能转移测试_技能发动期间被转移_摸牌后技能被转移",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1082,
+     1015,
+     1083,
+     1001,
+     1002,
+     1003,
+     1004,
+     1005,
+     1006,
+     1007,
+     1008,
+     1010,
+     1011
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 13,
+      "color": 97,
+      "heroId": 10002,
+      "initCards": [
+       1031,
+       1033
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [
+       1400
+      ],
+      "delSkills": [
+       1004,
+       1005,
+       1006
+      ],
+      "exEquips": [
+       1043,
+       3135
+      ],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 13,
+      "color": 97,
+      "heroId": 10005,
+      "initCards": [
+       1124,
+       1047
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [
+       1034,
+       1365
+      ],
+      "delSkills": [
+       1011,
+       1012
+      ],
+      "exEquips": [
+       1147
+      ],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 13,
+      "color": 97,
+      "heroId": 10102,
+      "initCards": [],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [
+       1335
+      ],
+      "delSkills": [
+       1018,
+       1019
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "郭嘉(1)使用牌[铁索连舟(1031)]",
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "cards": [
+      1031
+     ],
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "郭嘉出牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "郭嘉(1)对[甄宓(2)]使用牌[杀(1033)]",
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "targetsId": [
+      2
+     ],
+     "cards": [
+      1033
+     ],
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "郭嘉出牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "DrawCard",
+       "desc": "郭嘉抽到1张牌",
+       "attr": {
+        "Count": "1"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "desc": "甄宓(2)确认对[郭嘉(1)], 使用牌[火杀(1124)]",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "targetsId": [
+      1
+     ],
+     "cards": [
+      1124
+     ],
+     "confirm": true,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "甄宓响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 4,
+     "desc": "郭嘉(1)取消",
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "郭嘉响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "CommonHpChange",
+       "desc": "郭嘉受到来自HarmHuo的伤害, 体力变化:-4, 最大体力: [4]",
+       "attr": {
+        "ChangeHp": "-4",
+        "CurHp": "0",
+        "HpSrc": "HarmHuo",
+        "MaxHp": "4"
+       }
+      }
+     ]
+    },
+    {
+     "id": 5,
+     "desc": "甄宓(2)确认",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "confirm": true,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "甄宓响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 6,
+     "desc": "甄宓(2)确认",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "cards": [
+      3000000
+     ],
+     "confirm": true,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "甄宓响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 7,
+     "desc": "甄宓(2)确认, 使用牌[桃(1047)]",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "cards": [
+      1047
+     ],
+     "confirm": true,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "甄宓响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 8,
+     "robotIdx": 1,
+     "action": "OnlyAsset",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "CommonHpChange",
+       "desc": "郭嘉受到来自CureHp的伤害, 体力变化:1, 当前体力: [1], 最大体力: [4]",
+       "attr": {
+        "ChangeHp": "1",
+        "CurHp": "1",
+        "HpSrc": "CureHp",
+        "MaxHp": "4"
+       }
+      },
+      {
+       "msgName": "AttrChange",
+       "desc": "成功：后续体力上限未生效",
+       "attr": {
+        "MaxHp": "4",
+        "UnExpect": "true"
+       }
+      }
+     ]
+    },
+    {
+     "id": 9,
+     "desc": "甄宓(2)取消",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "甄宓响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "CommonHpChange",
+       "desc": "甄宓受到来自HarmNormal的伤害, 体力变化:-1, 当前体力: [3], 最大体力: [4]",
+       "attr": {
+        "ChangeHp": "-1",
+        "CurHp": "3",
+        "HpSrc": "HarmNormal",
+        "MaxHp": "4"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "霍光_行举有常_18",
+   "desc": "技能重置测试_技能发动期间被重置_摸牌后技能被重置",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1082,
+     1015,
+     1083,
+     1001,
+     1002,
+     1003,
+     1004,
+     1005,
+     1006,
+     1007,
+     1008,
+     1010,
+     1011
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 13,
+      "color": 97,
+      "heroId": 10002,
+      "initCards": [
+       1031,
+       1033,
+       3001
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [
+       1400
+      ],
+      "delSkills": [
+       1004,
+       1005,
+       1006
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 13,
+      "color": 97,
+      "heroId": 10005,
+      "initCards": [
+       1124
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [
+       1034
+      ],
+      "delSkills": [
+       1011,
+       1012
+      ],
+      "exEquips": [
+       1147
+      ],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 13,
+      "color": 97,
+      "heroId": 10102,
+      "initCards": [],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [
+       1335
+      ],
+      "delSkills": [
+       1018,
+       1019
+      ],
+      "exEquips": [
+       1043,
+       3135
+      ],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "郭嘉(1)使用牌[铁索连舟(1031)]",
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "cards": [
+      1031
+     ],
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "郭嘉出牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "郭嘉(1)对[甄宓(2)]使用牌[杀(1033)]",
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "targetsId": [
+      2
+     ],
+     "cards": [
+      1033
+     ],
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "郭嘉出牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "DrawCard",
+       "desc": "郭嘉抽到1张牌",
+       "attr": {
+        "Count": "1"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "desc": "甄宓(2)确认对[诸葛亮(3)], 使用牌[火杀(1124)]",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "targetsId": [
+      3
+     ],
+     "cards": [
+      1124
+     ],
+     "confirm": true,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "甄宓响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 4,
+     "desc": "诸葛亮(3)取消",
+     "robotIdx": 3,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "诸葛亮响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "CommonHpChange",
+       "desc": "诸葛亮受到来自HarmLei的伤害, 体力变化:-4, 最大体力: [4]",
+       "attr": {
+        "ChangeHp": "-4",
+        "CurHp": "0",
+        "HpSrc": "HarmHuo",
+        "MaxHp": "4"
+       }
+      }
+     ]
+    },
+    {
+     "id": 5,
+     "desc": "甄宓(2)取消",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "甄宓响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 6,
+     "desc": "诸葛亮(3)取消",
+     "robotIdx": 3,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "诸葛亮响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 7,
+     "desc": "郭嘉(1)取消",
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "郭嘉响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 8,
+     "desc": "诸葛亮(3)确认对[郭嘉(1)]",
+     "robotIdx": 3,
+     "action": "OptRoomAction",
+     "targetsId": [
+      1
+     ],
+     "confirm": true,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "诸葛亮响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 9,
+     "desc": "诸葛亮(3)确认, 使用牌[1,3000000]",
+     "robotIdx": 3,
+     "action": "OptRoomAction",
+     "cards": [
+      2,
+      3000000
+     ],
+     "confirm": true,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "诸葛亮响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 10,
+     "robotIdx": 1,
+     "action": "OnlyAsset",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "AttrChange",
+       "desc": "成功：体力上限未生效",
+       "attr": {
+        "MaxHp": "4",
+        "UnExpect": "true"
+       }
+      }
+     ]
+    },
+    {
+     "id": 11,
+     "desc": "甄宓(2)取消",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "甄宓响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 12,
+     "desc": "郭嘉(1)使用牌[箭雨齐射(3001)]",
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "cards": [
+      3001
+     ],
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "郭嘉出牌成功",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "DrawCard",
+       "desc": "郭嘉抽到1张牌",
+       "attr": {
+        "ActionType": "3",
+        "ActionValue": "1400",
+        "Count": "1"
+       }
+      },
+      {
+       "msgName": "AttrChange",
+       "desc": "郭嘉, 最大生命: 4, 当前生命: 5",
+       "attr": {
+        "CurHp": "4",
+        "MaxHp": "5",
+        "UnExpect": "false"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "擅专废力_1",
+   "desc": "技能触发测试_本局游戏未发动过_正常可触发发动",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1082,
+     1015,
+     1083,
+     1001,
+     1002,
+     1003,
+     1004,
+     1005,
+     1006,
+     1007,
+     1008,
+     1010,
+     1011
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 13,
+      "color": 97,
+      "heroId": 10002,
+      "initCards": [],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [
+       1402
+      ],
+      "delSkills": [
+       1004,
+       1005,
+       1006
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 13,
+      "color": 97,
+      "heroId": 10005,
+      "initCards": [
+       1013
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1011,
+       1012
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 13,
+      "color": 97,
+      "heroId": 10102,
+      "initCards": [
+       1012
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1018,
+       1019
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "郭嘉(1)对[甄宓(2),诸葛亮(3)], 使用技能[擅专废立]",
+     "robotIdx": 1,
+     "action": "UseHeroSkill",
+     "targetsId": [
+      2,
+      3
+     ],
+     "confirm": false,
+     "heroSkillUuid": 1402,
+     "assets": [
+      {
+       "msgName": "UseHeroSkillAck",
+       "desc": "郭嘉使用技能成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "擅专废力_2",
+   "desc": "技能触发测试_本局游戏已发动过_不可触发发动",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1082,
+     1015,
+     1083,
+     1001,
+     1002,
+     1003,
+     1004,
+     1005,
+     1006,
+     1007,
+     1008,
+     1010,
+     1011
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 13,
+      "color": 97,
+      "heroId": 10002,
+      "initCards": [],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [
+       1402,
+       1301
+      ],
+      "delSkills": [
+       1004,
+       1005,
+       1006
+      ],
+      "exEquips": [
+       1145
+      ],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 13,
+      "color": 97,
+      "heroId": 10005,
+      "initCards": [
+       1013
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1011,
+       1012
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 13,
+      "color": 97,
+      "heroId": 10102,
+      "initCards": [
+       1012
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1018,
+       1019
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "郭嘉(1)对[甄宓(2),诸葛亮(3)], 使用技能[擅专废立]",
+     "robotIdx": 1,
+     "action": "UseHeroSkill",
+     "targetsId": [
+      2,
+      3
+     ],
+     "confirm": false,
+     "heroSkillUuid": 1402,
+     "assets": [
+      {
+       "msgName": "UseHeroSkillAck",
+       "desc": "郭嘉使用技能成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "郭嘉(1), 使用技能[破釜沉舟]",
+     "robotIdx": 1,
+     "action": "UseHeroSkill",
+     "confirm": false,
+     "heroSkillUuid": 1301,
+     "assets": [
+      {
+       "msgName": "UseHeroSkillAck",
+       "desc": "郭嘉使用技能成功",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "DrawCard",
+       "desc": "郭嘉抽到5张牌",
+       "attr": {
+        "ActionType": "3",
+        "ActionValue": "1301",
+        "Count": "5"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "desc": "郭嘉(1)对[甄宓(2),诸葛亮(3)], 使用技能[擅专废立]",
+     "robotIdx": 1,
+     "action": "UseHeroSkill",
+     "targetsId": [
+      2,
+      3
+     ],
+     "confirm": false,
+     "heroSkillUuid": 1402,
+     "assets": [
+      {
+       "msgName": "UseHeroSkillAck",
+       "desc": "成功：本局已发动过  不可再次发动",
+       "attr": {
+        "Result": "1561"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "擅专废力_3",
+   "desc": "技能触发测试_自己无手牌的情况_不可触发发动",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1042,
+     1082,
+     1015,
+     1083,
+     1001,
+     1002,
+     1003,
+     1004,
+     1005,
+     1006,
+     1007,
+     1008,
+     1010,
+     1011
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 13,
+      "color": 97,
+      "heroId": 10002,
+      "initCards": [],
+      "initEquips": [],
+      "augurCards": [
+       4051
+      ],
+      "addSkills": [
+       1402
+      ],
+      "delSkills": [
+       1004,
+       1005,
+       1006
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 13,
+      "color": 97,
+      "heroId": 10005,
+      "initCards": [
+       1013
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1011,
+       1012
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 13,
+      "color": 97,
+      "heroId": 10102,
+      "initCards": [
+       1012
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1018,
+       1019
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "郭嘉(1)对[甄宓(2),诸葛亮(3)], 使用技能[擅专废立]",
+     "robotIdx": 1,
+     "action": "UseHeroSkill",
+     "targetsId": [
+      2,
+      3
+     ],
+     "confirm": false,
+     "heroSkillUuid": 1402,
+     "assets": [
+      {
+       "msgName": "UseHeroSkillAck",
+       "desc": "郭嘉使用技能成功",
+       "attr": {
+        "Result": "1001"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "擅专废力_4",
+   "desc": "技能触发测试_仅存在技能牌区/卜卦区/装备区的牌_不可触发发动",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1042,
+     1082,
+     1015,
+     1083,
+     1001,
+     1002,
+     1003,
+     1004,
+     1005,
+     1006,
+     1007,
+     1008,
+     1010,
+     1011
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 13,
+      "color": 97,
+      "heroId": 10002,
+      "initCards": [],
+      "initEquips": [],
+      "augurCards": [
+       4051
+      ],
+      "addSkills": [
+       1402,
+       1051
+      ],
+      "delSkills": [
+       1004,
+       1005,
+       1006
+      ],
+      "exEquips": [
+       3004,
+       1120
+      ],
+      "skillCardsMap": {
+       "1051": [
+        1021,
+        1022,
+        1023
+       ]
+      }
+     },
+     {
+      "identity": 13,
+      "color": 97,
+      "heroId": 10005,
+      "initCards": [
+       1013
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1011,
+       1012
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 13,
+      "color": 97,
+      "heroId": 10102,
+      "initCards": [
+       1012
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1018,
+       1019
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "郭嘉(1)对[甄宓(2),诸葛亮(3)], 使用技能[擅专废立]",
+     "robotIdx": 1,
+     "action": "UseHeroSkill",
+     "targetsId": [
+      2,
+      3
+     ],
+     "confirm": false,
+     "heroSkillUuid": 1402,
+     "assets": [
+      {
+       "msgName": "UseHeroSkillAck",
+       "desc": "郭嘉使用技能成功",
+       "attr": {
+        "Result": "1001"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "擅专废力_5",
+   "desc": "技能效果测试_弃置所有手牌_正常先触发失去牌的时机点",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1042,
+     1082,
+     1015,
+     1083,
+     1001,
+     1002,
+     1003,
+     1004,
+     1005,
+     1006,
+     1007,
+     1008,
+     1010,
+     1011
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 13,
+      "color": 97,
+      "heroId": 10002,
+      "initCards": [],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [
+       1402
+      ],
+      "delSkills": [
+       1004,
+       1005,
+       1006
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 13,
+      "color": 97,
+      "heroId": 10005,
+      "initCards": [
+       1013
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1011,
+       1012
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 13,
+      "color": 97,
+      "heroId": 10102,
+      "initCards": [
+       1012
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [
+       1680
+      ],
+      "delSkills": [
+       1018,
+       1019
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "郭嘉(1)对[甄宓(2),诸葛亮(3)], 使用技能[擅专废立]",
+     "robotIdx": 1,
+     "action": "UseHeroSkill",
+     "targetsId": [
+      2,
+      3
+     ],
+     "confirm": false,
+     "heroSkillUuid": 1402,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "UseHeroSkillAck",
+       "desc": "郭嘉使用技能成功",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "DisCard",
+       "desc": "郭嘉弃掉2张牌",
+       "attr": {
+        "Count": "2"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "robotIdx": 3,
+     "action": "OnlyAsset",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "RoomGameActionAsset",
+       "desc": "成功：正常先触发失去牌的时机点",
+       "attr": {
+        "ActionType": "3",
+        "ActionValue": "1680"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "desc": "诸葛亮(3)取消",
+     "robotIdx": 3,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "诸葛亮响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 4,
+     "desc": "诸葛亮(3)断言",
+     "robotIdx": 3,
+     "action": "OnlyAsset",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "GiveCard",
+       "desc": "诸葛亮给1张牌牌为[1013]",
+       "attr": {
+        "Cards": "1013",
+        "Count": "1"
+       }
+      }
+     ]
+    },
+    {
+     "id": 5,
+     "robotIdx": 3,
+     "action": "OnlyAsset",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "RoomGameActionAsset",
+       "desc": "成功：目标1交换先触发失去牌的时机点",
+       "attr": {
+        "ActionType": "3",
+        "ActionValue": "1680"
+       }
+      }
+     ]
+    },
+    {
+     "id": 6,
+     "desc": "诸葛亮(3)取消",
+     "robotIdx": 3,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "诸葛亮响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 7,
+     "desc": "甄宓(2)断言",
+     "robotIdx": 2,
+     "action": "OnlyAsset",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "GiveCard",
+       "desc": "甄宓给1张牌牌为[1012]",
+       "attr": {
+        "Cards": "1012",
+        "Count": "1"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "擅专废力_6",
+   "desc": "技能效果测试_弃置所有手牌_不会弃置装备区的牌/技能牌区的牌",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1042,
+     1082,
+     1015,
+     1083,
+     1001,
+     1002,
+     1003,
+     1004,
+     1005,
+     1006,
+     1007,
+     1008,
+     1010,
+     1011
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 13,
+      "color": 97,
+      "heroId": 10002,
+      "initCards": [],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [
+       1402,
+       1051
+      ],
+      "delSkills": [
+       1004,
+       1005,
+       1006
+      ],
+      "exEquips": [
+       3004
+      ],
+      "skillCardsMap": {
+       "1051": [
+        1022,
+        1021
+       ]
+      }
+     },
+     {
+      "identity": 13,
+      "color": 97,
+      "heroId": 10005,
+      "initCards": [
+       1013
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1011,
+       1012
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 13,
+      "color": 97,
+      "heroId": 10102,
+      "initCards": [
+       1012
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [
+       1680
+      ],
+      "delSkills": [
+       1018,
+       1019
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "郭嘉(1)对[甄宓(2),诸葛亮(3)], 使用技能[擅专废立]",
+     "robotIdx": 1,
+     "action": "UseHeroSkill",
+     "targetsId": [
+      2,
+      3
+     ],
+     "confirm": false,
+     "heroSkillUuid": 1402,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "UseHeroSkillAck",
+       "desc": "郭嘉使用技能成功",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "DisCard",
+       "desc": "郭嘉弃掉2张牌",
+       "attr": {
+        "Cards": "1042 1082",
+        "Count": "2"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "robotIdx": 3,
+     "action": "OnlyAsset",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "RoomGameActionAsset",
+       "desc": "成功：正常先触发失去牌的时机点",
+       "attr": {
+        "ActionType": "3",
+        "ActionValue": "1680"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "desc": "诸葛亮(3)取消",
+     "robotIdx": 3,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "诸葛亮响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 4,
+     "desc": "诸葛亮(3)断言",
+     "robotIdx": 3,
+     "action": "OnlyAsset",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "GiveCard",
+       "desc": "诸葛亮给1张牌牌为[1013]",
+       "attr": {
+        "Cards": "1013",
+        "Count": "1"
+       }
+      }
+     ]
+    },
+    {
+     "id": 5,
+     "robotIdx": 3,
+     "action": "OnlyAsset",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "RoomGameActionAsset",
+       "desc": "成功：目标1交换先触发失去牌的时机点",
+       "attr": {
+        "ActionType": "3",
+        "ActionValue": "1680"
+       }
+      }
+     ]
+    },
+    {
+     "id": 6,
+     "desc": "诸葛亮(3)取消",
+     "robotIdx": 3,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "诸葛亮响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 7,
+     "desc": "甄宓(2)断言",
+     "robotIdx": 2,
+     "action": "OnlyAsset",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "GiveCard",
+       "desc": "甄宓给1张牌牌为[1012]",
+       "attr": {
+        "Cards": "1012",
+        "Count": "1"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "擅专废力_7",
+   "desc": "技能效果测试_体力上限和体力值交换_交换完后触发体力变化时机点（先A后B）",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1042,
+     1082,
+     1015,
+     1083,
+     1001,
+     1002,
+     1003,
+     1004,
+     1005,
+     1006,
+     1007,
+     1008,
+     1010,
+     1011
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 13,
+      "color": 97,
+      "heroId": 10002,
+      "initCards": [],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [
+       1402
+      ],
+      "delSkills": [
+       1004,
+       1005,
+       1006
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 13,
+      "color": 97,
+      "heroId": 10306,
+      "initCards": [
+       1013
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [
+       1352
+      ],
+      "delSkills": [
+       1059,
+       1060,
+       1061
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 13,
+      "color": 97,
+      "heroId": 10306,
+      "initCards": [],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [
+       1352
+      ],
+      "delSkills": [
+       1059,
+       1060,
+       1061
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "郭嘉(1)对[甄宓(2),诸葛亮(3)], 使用技能[擅专废立]",
+     "robotIdx": 1,
+     "action": "UseHeroSkill",
+     "targetsId": [
+      3,
+      2
+     ],
+     "confirm": false,
+     "heroSkillUuid": 1402,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "UseHeroSkillAck",
+       "desc": "郭嘉使用技能成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "左慈(2)断言",
+     "robotIdx": 2,
+     "action": "OnlyAsset",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "AttrChange",
+       "desc": "左慈, 最大生命: 1, 当前生命: 1",
+       "attr": {
+        "CurHp": "1",
+        "MaxHp": "1"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "desc": "左慈(3)断言",
+     "robotIdx": 3,
+     "action": "OnlyAsset",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "AttrChange",
+       "desc": "左慈, 最大生命: 1, 当前生命: 1",
+       "attr": {
+        "CurHp": "1",
+        "MaxHp": "1"
+       }
+      }
+     ]
+    },
+    {
+     "id": 4,
+     "desc": "左慈(3)断言",
+     "robotIdx": 3,
+     "action": "OnlyAsset",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "RoomGameActionAsset",
+       "desc": "成功：交换完后正常触发体力变化时机点（先A后B）",
+       "attr": {
+        "ActionType": "3",
+        "ActionValue": "1352"
+       }
+      }
+     ]
+    },
+    {
+     "id": 5,
+     "desc": "左慈(3)取消",
+     "robotIdx": 3,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "左慈响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 6,
+     "desc": "左慈(2)断言",
+     "robotIdx": 2,
+     "action": "OnlyAsset",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "RoomGameActionAsset",
+       "desc": "成功：交换完后正常触发体力变化时机点（先A后B）",
+       "attr": {
+        "ActionType": "3",
+        "ActionValue": "1352"
+       }
+      }
+     ]
+    },
+    {
+     "id": 7,
+     "desc": "左慈(2)取消",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "左慈响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "擅专废力_8",
+   "desc": "技能效果测试_体力上限和体力值交换_一步行为无法插入",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1042,
+     1082,
+     1015,
+     1083,
+     1001,
+     1002,
+     1003,
+     1004,
+     1005,
+     1006,
+     1007,
+     1008,
+     1010,
+     1011
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 13,
+      "color": 97,
+      "heroId": 10002,
+      "initCards": [],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [
+       1402
+      ],
+      "delSkills": [
+       1004,
+       1005,
+       1006
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 13,
+      "color": 97,
+      "heroId": 10005,
+      "initCards": [
+       1013
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [
+       1352
+      ],
+      "delSkills": [
+       1011,
+       1012
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 13,
+      "color": 97,
+      "heroId": 10306,
+      "initCards": [],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1059,
+       1060,
+       1061
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "郭嘉(1)对[甄宓(2),诸葛亮(3)], 使用技能[擅专废立]",
+     "robotIdx": 1,
+     "action": "UseHeroSkill",
+     "targetsId": [
+      3,
+      2
+     ],
+     "confirm": false,
+     "heroSkillUuid": 1402,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "UseHeroSkillAck",
+       "desc": "郭嘉使用技能成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "甄宓(2)断言",
+     "robotIdx": 2,
+     "action": "OnlyAsset",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "AttrChange",
+       "desc": "甄宓, 最大生命: 1, 当前生命: 1",
+       "attr": {
+        "CurHp": "1",
+        "MaxHp": "1"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "desc": "左慈(3)断言",
+     "robotIdx": 3,
+     "action": "OnlyAsset",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "AttrChange",
+       "desc": "左慈, 最大生命: 4, 当前生命: 4",
+       "attr": {
+        "CurHp": "4",
+        "MaxHp": "4"
+       }
+      }
+     ]
+    },
+    {
+     "id": 4,
+     "desc": "甄宓(2)断言",
+     "robotIdx": 2,
+     "action": "OnlyAsset",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "RoomGameActionAsset",
+       "desc": "成功：交换完后正常触发体力变化时机点",
+       "attr": {
+        "ActionType": "3",
+        "ActionValue": "1352"
+       }
+      }
+     ]
+    },
+    {
+     "id": 5,
+     "desc": "甄宓(2)取消",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "甄宓响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "擅专废力_9",
+   "desc": "技能效果测试_交换手牌区_不会触发主动交给效果",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1042,
+     1082,
+     1015,
+     1083,
+     1001,
+     1002,
+     1003,
+     1004,
+     1005,
+     1006,
+     1007,
+     1008,
+     1010,
+     1011
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 13,
+      "color": 97,
+      "heroId": 10002,
+      "initCards": [],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [
+       1402
+      ],
+      "delSkills": [
+       1004,
+       1005,
+       1006
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 13,
+      "color": 97,
+      "heroId": 10005,
+      "initCards": [
+       1013,
+       1021,
+       1020,
+       1019,
+       1022
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [
+       1388
+      ],
+      "delSkills": [
+       1011,
+       1012
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 13,
+      "color": 97,
+      "heroId": 10102,
+      "initCards": [
+       1029,
+       1028,
+       1027
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1018,
+       1019
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "郭嘉(1)对[诸葛亮(3),甄宓(2)], 使用技能[擅专废立]",
+     "robotIdx": 1,
+     "action": "UseHeroSkill",
+     "targetsId": [
+      3,
+      2
+     ],
+     "confirm": false,
+     "heroSkillUuid": 1402,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "UseHeroSkillAck",
+       "desc": "郭嘉使用技能成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "诸葛亮(3)断言",
+     "robotIdx": 3,
+     "action": "OnlyAsset",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "GiveCard",
+       "desc": "诸葛亮给5张牌",
+       "attr": {
+        "Count": "5"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "desc": "甄宓(2)断言",
+     "robotIdx": 2,
+     "action": "OnlyAsset",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "GiveCard",
+       "desc": "甄宓给3张牌",
+       "attr": {
+        "Count": "3"
+       }
+      }
+     ]
+    },
+    {
+     "id": 4,
+     "robotIdx": 2,
+     "action": "OnlyAsset",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "SkillTrigger",
+       "desc": "成功：不会触发主动交给牌效果",
+       "attr": {
+        "ActionValue": "1388",
+        "UnExpect": "true"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "擅专废力_10",
+   "desc": "技能效果测试_交换手牌区_交换过程中某些牌不存在 不影响后续效果",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1042,
+     1082,
+     1008,
+     1015,
+     1083,
+     1001,
+     1002,
+     1003,
+     1004,
+     1005,
+     1006,
+     1007,
+     1010,
+     1011
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 13,
+      "color": 97,
+      "heroId": 10002,
+      "initCards": [],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [
+       1402,
+       1021,
+       1680
+      ],
+      "delSkills": [
+       1004,
+       1005,
+       1006
+      ],
+      "exEquips": [
+       1018,
+       1017,
+       1025
+      ],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 13,
+      "color": 97,
+      "heroId": 10005,
+      "initCards": [
+       1013,
+       1021,
+       1020,
+       1019,
+       1022
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1011,
+       1012
+      ],
+      "exEquips": [
+       3004
+      ],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10102,
+      "initCards": [
+       1029,
+       1028,
+       1027
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1018,
+       1019
+      ],
+      "exEquips": [
+       1046
+      ],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "郭嘉(1)对[甄宓(2),诸葛亮(3)], 使用技能[擅专废立]",
+     "robotIdx": 1,
+     "action": "UseHeroSkill",
+     "targetsId": [
+      2,
+      3
+     ],
+     "confirm": false,
+     "heroSkillUuid": 1402,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "UseHeroSkillAck",
+       "desc": "郭嘉使用技能成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "甄宓(2)断言",
+     "robotIdx": 2,
+     "action": "OnlyAsset",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "AttrChange",
+       "desc": "甄宓, 最大生命: 5, 当前生命: 5",
+       "attr": {
+        "CurHp": "5",
+        "MaxHp": "5"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "desc": "诸葛亮(3)断言",
+     "robotIdx": 3,
+     "action": "OnlyAsset",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "AttrChange",
+       "desc": "诸葛亮, 最大生命: 4, 当前生命: 4",
+       "attr": {
+        "CurHp": "4",
+        "MaxHp": "4"
+       }
+      }
+     ]
+    },
+    {
+     "id": 4,
+     "desc": "郭嘉(1)确认, 使用牌[银狮盔(1025)], 当作牌杀打出",
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "cards": [
+      1025
+     ],
+     "confirm": true,
+     "heroSkillUuid": 1021,
+     "transCardSkill": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "郭嘉响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 5,
+     "desc": "郭嘉(1)确认对[诸葛亮(3)], 使用牌[干将莫邪(1018)]",
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "targetsId": [
+      3
+     ],
+     "cards": [
+      1018
+     ],
+     "confirm": true,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "郭嘉响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 6,
+     "desc": "甄宓(2)取消",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "甄宓响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 7,
+     "desc": "诸葛亮(3)取消",
+     "robotIdx": 3,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "诸葛亮响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "RoomGameActionAsset",
+       "desc": "的卢卜卦触发",
+       "attr": {
+        "ActionType": "8"
+       }
+      }
+     ]
+    },
+    {
+     "id": 8,
+     "desc": "郭嘉(1)取消",
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "郭嘉响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 9,
+     "desc": "郭嘉(1)断言",
+     "robotIdx": 1,
+     "action": "OnlyAsset",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "AttrChange",
+       "desc": "郭嘉, 最大生命: 3, 当前生命: 3",
+       "attr": {
+        "CurHp": "3",
+        "MaxHp": "3"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "擅专废力_11",
+   "desc": "技能效果测试_交换手牌区_A失去、B获得、B失去、A获得",
+   "manager": "",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1042,
+     1082,
+     1008,
+     1015,
+     1083,
+     1001,
+     1002,
+     1003,
+     1004,
+     1005,
+     1006,
+     1007,
+     1010,
+     1011
+    ],
+    "operateTimeMs": 30000,
+    "customHeroes": [
+     {
+      "identity": 13,
+      "color": 97,
+      "heroId": 10002,
+      "initCards": [],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [
+       1402,
+       1680,
+       1043,
+       1043
+      ],
+      "delSkills": [
+       1004,
+       1005,
+       1006
+      ],
+      "exEquips": [
+       1018,
+       1017,
+       1025
+      ],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 13,
+      "color": 97,
+      "heroId": 10005,
+      "initCards": [
+       1013,
+       1021,
+       1020,
+       1019,
+       1022
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1011,
+       1012
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10102,
+      "initCards": [
+       1029,
+       1028,
+       1027
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1018,
+       1019
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "郭嘉(1)确认对[甄宓(2)]",
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "targetsId": [
+      2
+     ],
+     "confirm": true,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "郭嘉响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "郭嘉(1)确认对[诸葛亮(3)]",
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "targetsId": [
+      3
+     ],
+     "confirm": true,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "郭嘉响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "desc": "郭嘉(1)对[甄宓(2),诸葛亮(3)], 使用技能[擅专废立]",
+     "robotIdx": 1,
+     "action": "UseHeroSkill",
+     "targetsId": [
+      2,
+      3
+     ],
+     "confirm": false,
+     "heroSkillUuid": 1402,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "UseHeroSkillAck",
+       "desc": "郭嘉使用技能成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 4,
+     "desc": "甄宓(2)断言",
+     "robotIdx": 2,
+     "action": "OnlyAsset",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "AttrChange",
+       "desc": "甄宓, 最大生命: 5, 当前生命: 5",
+       "attr": {
+        "CurHp": "5",
+        "MaxHp": "5"
+       }
+      }
+     ]
+    },
+    {
+     "id": 5,
+     "desc": "诸葛亮(3)断言",
+     "robotIdx": 3,
+     "action": "OnlyAsset",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "AttrChange",
+       "desc": "诸葛亮, 最大生命: 4, 当前生命: 4",
+       "attr": {
+        "CurHp": "4",
+        "MaxHp": "4"
+       }
+      },
+      {
+       "msgName": "GiveCard",
+       "desc": "诸葛亮获得5张牌",
+       "attr": {
+        "Count": "5"
+       }
+      }
+     ]
+    },
+    {
+     "id": 6,
+     "robotIdx": 1,
+     "action": "OnlyAsset",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "RoomGameActionAsset",
+       "desc": "A失去触发料敌合变",
+       "attr": {
+        "ActionType": "3",
+        "ActionValue": "1680"
+       }
+      }
+     ]
+    },
+    {
+     "id": 7,
+     "desc": "郭嘉(1)取消",
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "郭嘉响应成功",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "DrawCard",
+       "desc": "郭嘉抽到1张牌",
+       "attr": {
+        "ActionValue": "0",
+        "Count": "1"
+       }
+      }
+     ]
+    },
+    {
+     "id": 8,
+     "desc": "甄宓(2)断言",
+     "robotIdx": 2,
+     "action": "OnlyAsset",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "GiveCard",
+       "desc": "甄宓给3张牌",
+       "attr": {
+        "Count": "3"
+       }
+      }
+     ]
+    },
+    {
+     "id": 9,
+     "desc": "郭嘉(1)断言",
+     "robotIdx": 1,
+     "action": "OnlyAsset",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "DrawCard",
+       "desc": "郭嘉抽到1张牌",
+       "attr": {
+        "Count": "1"
+       }
+      }
+     ]
+    },
+    {
+     "id": 10,
+     "desc": "郭嘉(1)断言",
+     "robotIdx": 1,
+     "action": "OnlyAsset",
+     "confirm": false,
+     "assets": [
+      {
+       "msgName": "AttrChange",
+       "desc": "郭嘉, 最大生命: 3, 当前生命: 3",
+       "attr": {
+        "CurHp": "3",
+        "MaxHp": "3"
+       }
+      }
+     ]
+    }
+   ]
+  }
+ ]

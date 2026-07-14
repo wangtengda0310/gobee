@@ -1,0 +1,901 @@
+[
+  {
+   "case": "马超_西凉铁骑",
+   "desc": "[定制战斗] 创建房间 设置自定义身份 加入房间 ",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1047,
+     1048,
+     1055,
+     1056,
+     1057,
+     1062,
+     1064,
+     1072,
+     1073,
+     1078,
+     1069,
+     1122
+    ],
+    "operateTimeMs": 300000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10106,
+      "initCards": [
+       1003
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 9,
+      "color": 65,
+      "heroId": 10105,
+      "initCards": [
+       1010,
+       1082
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "空等待",
+     "robotIdx": 1,
+     "action": "OnlyAsset",
+     "targetsId": [
+      1
+     ],
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "DrawCard",
+       "desc": "马超西凉铁骑摸到白蹄乌成功",
+       "attr": {
+        "Cards": "1069",
+        "Count": "1"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "马超对赵云出杀",
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "targetsId": [
+      2
+     ],
+     "cards": [
+      1003
+     ],
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "马超出杀成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "desc": "赵云发动一身是胆，把杀当闪打出",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "targetsId": [
+      1
+     ],
+     "cards": [
+      1010
+     ],
+     "confirm": true,
+     "heroSkillUuid": 1027,
+     "transCardSkill": 2,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "赵云被封禁，无法发动一身是胆，把杀当闪打出",
+       "attr": {
+        "Result": "1527"
+       }
+      }
+     ]
+    },
+    {
+     "id": 4,
+     "desc": "赵云响应杀：不出闪",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "targetsId": [
+      0
+     ],
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "赵云响应杀：不出闪",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 5,
+     "desc": "马超回合结束",
+     "robotIdx": 1,
+     "action": "PlayCardOver",
+     "targetsId": [
+      0
+     ],
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "PlayCardOverAck",
+       "desc": "回合结束成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 6,
+     "desc": "马超回合结束弃牌",
+     "robotIdx": 1,
+     "action": "DisCard",
+     "targetsId": [
+      0
+     ],
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "DisCardAck",
+       "desc": "成功：马超回合结束弃牌",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 7,
+     "desc": "赵云发动枪出如龙，把闪当杀打出",
+     "robotIdx": 2,
+     "action": "UseHeroSkill",
+     "targetsId": [
+      1
+     ],
+     "cards": [
+      1082
+     ],
+     "confirm": false,
+     "heroSkillUuid": 1026,
+     "transCardSkill": 1,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "UseHeroSkillAck",
+       "desc": "成功：赵云发动枪出如龙，把闪当杀打出",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 8,
+     "desc": "马超响应杀：不出闪",
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "targetsId": [
+      0
+     ],
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "成功：马超响应杀：不出闪",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 9,
+     "desc": "赵云回合结束",
+     "robotIdx": 2,
+     "action": "PlayCardOver",
+     "targetsId": [
+      0
+     ],
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "PlayCardOverAck",
+       "desc": "赵云回合结束",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 10,
+     "desc": "赵云回合结束弃牌",
+     "robotIdx": 2,
+     "action": "DisCard",
+     "targetsId": [
+      0
+     ],
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "DisCardAck",
+       "desc": "赵云回合结束弃牌",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 11,
+     "desc": "空等待：回合开始马超发动西凉铁骑",
+     "robotIdx": 1,
+     "action": "OnlyAsset",
+     "targetsId": [
+      1
+     ],
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "DrawCard",
+       "desc": "成功：回合开始马超发动西凉铁骑，摸到一张杀",
+       "attr": {
+        "Cards": "1122",
+        "Count": "1"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "马超_锦狮子",
+   "desc": "[定制战斗] 创建房间 设置自定义身份 加入房间 ",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1122,
+     1124,
+     1126,
+     1127,
+     1128,
+     1129,
+     1130,
+     1132,
+     1135,
+     1136
+    ],
+    "operateTimeMs": 300000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10106,
+      "initCards": [
+       1003,
+       1019,
+       1010,
+       1011,
+       1082,
+       1069
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [],
+      "exEquips": [
+       1017
+      ],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 9,
+      "color": 65,
+      "heroId": 10105,
+      "initCards": [
+       1012
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 9,
+      "color": 65,
+      "heroId": 10108,
+      "initCards": [
+       1020
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "马超对赵云出杀",
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "targetsId": [
+      2
+     ],
+     "cards": [
+      1003
+     ],
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "马超出杀成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "马超响应方天画戟弃牌",
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "targetsId": [
+      3
+     ],
+     "cards": [
+      1082
+     ],
+     "confirm": true,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "成功：马超响应方天画戟弃牌",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "desc": "赵云响应杀，不出闪",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "targetsId": [
+      0
+     ],
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "成功：赵云响应杀，不出闪",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 4,
+     "desc": "孙尚香响应杀，不出闪",
+     "robotIdx": 3,
+     "action": "OptRoomAction",
+     "targetsId": [
+      0
+     ],
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "成功：孙尚香响应杀，不出闪",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 5,
+     "desc": "马超打出白蹄乌",
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "targetsId": [
+      1
+     ],
+     "cards": [
+      1069
+     ],
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "成功：马超打出白蹄乌",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 6,
+     "desc": "马超发动锦狮子，和2号位赵云换位",
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "targetsId": [
+      2
+     ],
+     "confirm": true,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "成功：马超发动锦狮子，和2号位赵云换位",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "AttrChange",
+       "desc": "马超出杀次数+2",
+       "attr": {
+        "ShaCount": "2"
+       }
+      }
+     ]
+    },
+    {
+     "id": 7,
+     "desc": "马超对赵云二次出杀",
+     "robotIdx": 2,
+     "action": "PlayCard",
+     "targetsId": [
+      1
+     ],
+     "cards": [
+      1010
+     ],
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "马超出杀成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 8,
+     "desc": "马超响应方天画戟,不弃牌",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "targetsId": [
+      0
+     ],
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "成功：超响应方天画戟,不弃牌",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 9,
+     "desc": "赵云二次响应杀，不出闪",
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "targetsId": [
+      0
+     ],
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "成功：赵云二次响应杀，不出闪",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 10,
+     "desc": "马超对赵云三次出杀",
+     "robotIdx": 2,
+     "action": "PlayCard",
+     "targetsId": [
+      1
+     ],
+     "cards": [
+      1011
+     ],
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "马超出杀成功",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 11,
+     "desc": "马超响应方天画戟,不弃牌",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "targetsId": [
+      0
+     ],
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "成功：超响应方天画戟,不弃牌",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 12,
+     "desc": "赵云三次响应杀，不出闪",
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "targetsId": [
+      0
+     ],
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "成功：赵云三次响应杀，不出闪",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 13,
+     "desc": "马超对赵云四次出杀",
+     "robotIdx": 2,
+     "action": "PlayCard",
+     "targetsId": [
+      1
+     ],
+     "cards": [
+      1019
+     ],
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "马超出杀失败",
+       "attr": {
+        "Result": "1519"
+       }
+      }
+     ]
+    },
+    {
+     "id": 14,
+     "desc": "马超回合结束",
+     "robotIdx": 2,
+     "action": "PlayCardOver",
+     "targetsId": [
+      0
+     ],
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "PlayCardOverAck",
+       "desc": "成功：马超回合结束",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 15,
+     "desc": "马超回合结束弃牌",
+     "robotIdx": 2,
+     "action": "DisCard",
+     "targetsId": [
+      0
+     ],
+     "cards": [
+      1124
+     ],
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "DisCardAck",
+       "desc": "成功：马超回合结束弃牌",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 16,
+     "desc": "赵云回合结束",
+     "robotIdx": 1,
+     "action": "PlayCardOver",
+     "targetsId": [
+      0
+     ],
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "PlayCardOverAck",
+       "desc": "成功：赵云回合结束",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 17,
+     "desc": "赵云回合结束弃牌",
+     "robotIdx": 1,
+     "action": "DisCard",
+     "targetsId": [
+      0
+     ],
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "DisCardAck",
+       "desc": "成功：赵云回合结束弃牌",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 18,
+     "desc": "孙尚香回合结束",
+     "robotIdx": 3,
+     "action": "PlayCardOver",
+     "targetsId": [
+      0
+     ],
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "PlayCardOverAck",
+       "desc": "成功：孙尚香回合结束",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 19,
+     "desc": "孙尚香回合结束弃牌",
+     "robotIdx": 3,
+     "action": "DisCard",
+     "targetsId": [
+      0
+     ],
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "DisCardAck",
+       "desc": "成功：孙尚香回合结束弃牌",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 20,
+     "desc": "赵云回合结束",
+     "robotIdx": 1,
+     "action": "PlayCardOver",
+     "targetsId": [
+      0
+     ],
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "PlayCardOverAck",
+       "desc": "成功：赵云回合结束",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 21,
+     "desc": "赵云回合结束弃牌",
+     "robotIdx": 1,
+     "action": "DisCard",
+     "targetsId": [
+      0
+     ],
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "DisCardAck",
+       "desc": "成功：赵云回合结束弃牌",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 22,
+     "desc": "马超对赵云出杀",
+     "robotIdx": 2,
+     "action": "PlayCard",
+     "targetsId": [
+      1
+     ],
+     "cards": [
+      1019
+     ],
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "成功：马超对赵云出杀",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 23,
+     "desc": "马超响应方天画戟,不弃牌",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "targetsId": [
+      0
+     ],
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "成功：超响应方天画戟,不弃牌",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 24,
+     "desc": "赵云响应杀，不出闪",
+     "robotIdx": 1,
+     "action": "OptRoomAction",
+     "targetsId": [
+      0
+     ],
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "成功：赵云响应杀，不出闪",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 25,
+     "desc": "马超对赵云二次出杀",
+     "robotIdx": 2,
+     "action": "PlayCard",
+     "targetsId": [
+      1
+     ],
+     "cards": [
+      1122
+     ],
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "失败：马超对赵云二次出杀",
+       "attr": {
+        "Result": "1519"
+       }
+      }
+     ]
+    }
+   ]
+  }
+ ]

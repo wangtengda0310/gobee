@@ -1,0 +1,672 @@
+[
+  {
+   "case": "黄忠_宝刀不老",
+   "desc": "[定制战斗] 创建房间 设置自定义身份 加入房间 ",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1044,
+     1052,
+     1054,
+     1060,
+     1067,
+     1068,
+     1071,
+     1075,
+     1076,
+     1161,
+     1162,
+     1047,
+     1002,
+     1025,
+     1061,
+     1122
+    ],
+    "operateTimeMs": 300000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10107,
+      "initCards": [],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [
+       1326
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 9,
+      "color": 65,
+      "heroId": 10105,
+      "initCards": [],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "空等待",
+     "robotIdx": 1,
+     "action": "OnlyAsset",
+     "targetsId": [
+      1
+     ],
+     "confirm": false,
+     "timeout": 2,
+     "assets": [
+      {
+       "msgName": "DrawCard",
+       "desc": "成功：黄忠发动宝刀未老，获得亮银枪",
+       "attr": {
+        "Cards": "1002",
+        "Count": "1"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "黄忠回合结束",
+     "robotIdx": 1,
+     "action": "PlayCardOver",
+     "targetsId": [
+      0
+     ],
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "PlayCardOverAck",
+       "desc": "成功：黄忠回合结束",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "desc": "黄忠回合结束弃牌",
+     "robotIdx": 1,
+     "action": "DisCard",
+     "targetsId": [
+      0
+     ],
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "DisCardAck",
+       "desc": "成功：黄忠回合结束弃牌",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 4,
+     "desc": "赵云回合结束",
+     "robotIdx": 2,
+     "action": "PlayCardOver",
+     "targetsId": [
+      0
+     ],
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "PlayCardOverAck",
+       "desc": "成功：赵云回合结束",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 5,
+     "desc": "赵云回合结束弃牌",
+     "robotIdx": 2,
+     "action": "DisCard",
+     "targetsId": [
+      0
+     ],
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "DisCardAck",
+       "desc": "成功：赵云回合结束弃牌",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 6,
+     "desc": "空等待",
+     "robotIdx": 1,
+     "action": "OnlyAsset",
+     "targetsId": [
+      1
+     ],
+     "confirm": false,
+     "timeout": 2,
+     "assets": [
+      {
+       "msgName": "DrawCard",
+       "desc": "成功：黄忠发动宝刀未老，获得杀",
+       "attr": {
+        "Cards": "1122",
+        "Count": "1"
+       }
+      }
+     ]
+    },
+    {
+     "id": 7,
+     "desc": "黄忠回合结束",
+     "robotIdx": 1,
+     "action": "PlayCardOver",
+     "targetsId": [
+      0
+     ],
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "PlayCardOverAck",
+       "desc": "成功：黄忠回合结束",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 8,
+     "desc": "黄忠回合结束弃3个牌",
+     "robotIdx": 1,
+     "action": "DisCard",
+     "targetsId": [
+      0
+     ],
+     "cards": [
+      1044,
+      1052,
+      1067
+     ],
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "DisCardAck",
+       "desc": "成功：黄忠回合结束弃3个牌",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 9,
+     "desc": "赵云回合结束",
+     "robotIdx": 2,
+     "action": "PlayCardOver",
+     "targetsId": [
+      0
+     ],
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "PlayCardOverAck",
+       "desc": "成功：赵云回合结束",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 10,
+     "desc": "赵云回合结束弃牌",
+     "robotIdx": 2,
+     "action": "DisCard",
+     "targetsId": [
+      0
+     ],
+     "cards": [
+      1054
+     ],
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "DisCardAck",
+       "desc": "成功：赵云回合结束弃牌",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 11,
+     "desc": "空等待",
+     "robotIdx": 1,
+     "action": "OnlyAsset",
+     "targetsId": [
+      1
+     ],
+     "confirm": false,
+     "timeout": 2,
+     "assets": [
+      {
+       "msgName": "DrawCard",
+       "desc": "没有宝刀未老抽空",
+       "attr": {
+        "Count": "0"
+       }
+      },
+      {
+       "msgName": "DrawCard",
+       "desc": "成功：回合开始，黄忠摸2个牌",
+       "attr": {
+        "Cards": "1076 1161",
+        "Count": "2"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case": "黄忠_百步穿杨",
+   "desc": "[定制战斗] 创建房间 设置自定义身份 加入房间 ",
+   "initYanWu": {
+    "presentId": 0,
+    "cardPile": 0,
+    "cards": [
+     1003,
+     1010,
+     1011,
+     1019,
+     1022,
+     1024,
+     1027,
+     1030,
+     1032,
+     1033
+    ],
+    "operateTimeMs": 300000,
+    "customHeroes": [
+     {
+      "identity": 1,
+      "color": 1,
+      "heroId": 10107,
+      "initCards": [
+       1009
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [
+       1024
+      ],
+      "delSkills": [
+       1066,
+       1326
+      ],
+      "exEquips": [],
+      "skillCardsMap": {}
+     },
+     {
+      "identity": 9,
+      "color": 65,
+      "heroId": 10105,
+      "initCards": [
+       1082,
+       1063
+      ],
+      "initEquips": [],
+      "augurCards": [],
+      "addSkills": [],
+      "delSkills": [],
+      "exEquips": [],
+      "skillCardsMap": {}
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": 1,
+     "desc": "黄忠打出轩辕剑",
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "targetsId": [
+      1
+     ],
+     "cards": [
+      1009
+     ],
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "成功：黄忠打出轩辕剑",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "desc": "黄忠对赵云打出杀",
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "targetsId": [
+      2
+     ],
+     "cards": [
+      1003
+     ],
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "成功：黄忠对赵云打出杀",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "desc": "赵云响应杀：不出闪",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "targetsId": [
+      0
+     ],
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "成功：赵云响应杀：不出闪",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "CommonHpChange",
+       "desc": "掉2点血",
+       "attr": {
+        "ChangeHp": "-2",
+        "CurHp": "4",
+        "HpSrc": "HarmNormal",
+        "MaxHp": "6"
+       }
+      }
+     ]
+    },
+    {
+     "id": 4,
+     "desc": "黄忠对赵云二次打出杀",
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "targetsId": [
+      2
+     ],
+     "cards": [
+      1010
+     ],
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "成功：黄忠对赵云二次打出杀",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 5,
+     "desc": "赵云响应杀：不出闪",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "targetsId": [
+      0
+     ],
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "成功：赵云响应杀：不出闪",
+       "attr": {
+        "Result": "0"
+       }
+      },
+      {
+       "msgName": "CommonHpChange",
+       "desc": "掉1点血",
+       "attr": {
+        "ChangeHp": "-1",
+        "CurHp": "3",
+        "HpSrc": "HarmNormal",
+        "MaxHp": "6"
+       }
+      }
+     ]
+    },
+    {
+     "id": 6,
+     "desc": "黄忠结束回合",
+     "robotIdx": 1,
+     "action": "PlayCardOver",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "PlayCardOverAck",
+       "desc": "成功：黄忠结束回合",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 7,
+     "desc": "黄忠弃牌结束",
+     "robotIdx": 1,
+     "action": "DisCard",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "DisCardAck",
+       "desc": "成功：黄忠弃牌结束",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 8,
+     "desc": "赵云打出飒露紫",
+     "robotIdx": 2,
+     "action": "PlayCard",
+     "targetsId": [
+      2
+     ],
+     "cards": [
+      1063
+     ],
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "成功：赵云打出飒露紫",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 9,
+     "desc": "赵云结束回合",
+     "robotIdx": 2,
+     "action": "PlayCardOver",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "PlayCardOverAck",
+       "desc": "成功：赵云结束回合",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 10,
+     "desc": "赵云弃牌结束",
+     "robotIdx": 2,
+     "action": "DisCard",
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "DisCardAck",
+       "desc": "成功：赵云弃牌结束",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 11,
+     "desc": "黄忠打出杀",
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "targetsId": [
+      2
+     ],
+     "cards": [
+      1022
+     ],
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "成功：黄忠打出杀",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 12,
+     "desc": "赵云空节点",
+     "robotIdx": 2,
+     "action": "OnlyAsset",
+     "confirm": false,
+     "timeout": 2,
+     "assets": [
+      {
+       "msgName": "CommonHpChange",
+       "desc": "赵云掉1点血",
+       "attr": {
+        "ChangeHp": "-1",
+        "CurHp": "2",
+        "HpSrc": "HarmNormal",
+        "MaxHp": "6"
+       }
+      }
+     ]
+    },
+    {
+     "id": 13,
+     "desc": "黄忠打出杀",
+     "robotIdx": 1,
+     "action": "PlayCard",
+     "targetsId": [
+      2
+     ],
+     "cards": [
+      1024
+     ],
+     "confirm": false,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "PlayCardAck",
+       "desc": "成功：黄忠打出杀",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 14,
+     "desc": "赵云响应杀：出闪",
+     "robotIdx": 2,
+     "action": "OptRoomAction",
+     "targetsId": [
+      0
+     ],
+     "cards": [
+      1082
+     ],
+     "confirm": true,
+     "timeout": 1,
+     "assets": [
+      {
+       "msgName": "OptRoomActionAck",
+       "desc": "成功：赵云响应杀：出闪",
+       "attr": {
+        "Result": "0"
+       }
+      }
+     ]
+    },
+    {
+     "id": 15,
+     "robotIdx": 1,
+     "action": "Sleep",
+     "confirm": false,
+     "timeout": 1
+    }
+   ]
+  }
+ ]

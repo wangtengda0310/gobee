@@ -1,0 +1,78 @@
+{
+ "sheet": "信件表|Mail",
+ "managerList": {
+  "QA": [],
+  "Designer": [],
+  "Programmer": []
+ },
+ "rules": {
+  "Body": {
+   "PropName": "Body",
+   "PropType": "string",
+   "PropRules": []
+  },
+  "Expire": {
+   "PropName": "Expire",
+   "PropType": "int",
+   "PropRules": []
+  },
+  "Id": {
+   "PropName": "Id",
+   "PropType": "int",
+   "PropRules": []
+  },
+  "Item": {
+   "PropName": "Item",
+   "PropType": "ItemCfg[]",
+   "PropRules": []
+  },
+  "Receiver": {
+   "PropName": "Receiver",
+   "PropType": "string",
+   "PropRules": []
+  },
+  "ReceiverType": {
+   "PropName": "ReceiverType",
+   "PropType": "EMailReceiverType",
+   "PropRules": []
+  },
+  "SendCond": {
+   "PropName": "SendCond",
+   "PropType": "string",
+   "PropRules": [
+    {
+     "Type": "STRING",
+     "Uuid": "uuid-cell-type-check-sendcond",
+     "DisplayName": "单元格应为字符串",
+     "Enabled": true,
+     "Params": {
+      "allowCommit": "true",
+      "allowEmpty": "true",
+      "breakLine": "3"
+     }
+    }
+   ]
+  },
+  "SendCondType": {
+   "PropName": "SendCondType",
+   "PropType": "EMailSendCondType",
+   "PropRules": []
+  },
+  "Sender": {
+   "PropName": "Sender",
+   "PropType": "string",
+   "PropRules": []
+  },
+  "SenderType": {
+   "PropName": "SenderType",
+   "PropType": "EMailSenderType",
+   "PropRules": []
+  },
+  "Title": {
+   "PropName": "Title",
+   "PropType": "string",
+   "PropRules": []
+  }
+ },
+ "tableRules": []
+}

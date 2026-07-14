@@ -1,0 +1,112 @@
+{
+ "sheet": "累充奖励表|AccumulatedRechargeReward",
+ "managerList": {
+  "QA": [],
+  "Designer": [],
+  "Programmer": []
+ },
+ "rules": {
+  "ActId": {
+   "PropName": "ActId",
+   "PropType": "EActivityId",
+   "PropRules": [
+    {
+     "Type": "ALL_BASE",
+     "Uuid": "d3eec90c-33aa-4135-9eab-38d603eb2862",
+     "DisplayName": "",
+     "Enabled": true,
+     "Params": {
+      "allowCommit": "true",
+      "allowEmpty": "false",
+      "breakLine": "3",
+      "chsOnly": "false",
+      "increase": "false",
+      "unique": "false"
+     }
+    }
+   ]
+  },
+  "Id": {
+   "PropName": "Id",
+   "PropType": "int",
+   "PropRules": [
+    {
+     "Type": "ALL_BASE",
+     "Uuid": "6a7dc8e2-df92-4912-9c83-c92091f206bb",
+     "DisplayName": "",
+     "Enabled": true,
+     "Params": {
+      "allowCommit": "true",
+      "allowEmpty": "false",
+      "breakLine": "3",
+      "chsOnly": "false",
+      "increase": "true",
+      "unique": "true"
+     }
+    }
+   ]
+  },
+  "RechargeNum": {
+   "PropName": "RechargeNum",
+   "PropType": "int",
+   "PropRules": [
+    {
+     "Type": "ALL_BASE",
+     "Uuid": "3b37fded-93e0-4813-8d3b-01cc8de70380",
+     "DisplayName": "",
+     "Enabled": true,
+     "Params": {
+      "allowCommit": "true",
+      "allowEmpty": "false",
+      "breakLine": "3",
+      "chsOnly": "false",
+      "increase": "false",
+      "unique": "false"
+     }
+    },
+    {
+     "Type": "NUMERIC",
+     "Uuid": "da7a9644-dea0-4664-8b20-ff5a97ceb7d0",
+     "DisplayName": "",
+     "Enabled": true,
+     "Params": {
+      "allowCommit": "true",
+      "allowEmpty": "false",
+      "breakLine": "3",
+      "chsOnly": "false",
+      "increase": "false",
+      "unique": "false"
+     }
+    }
+   ]
+  },
+  "Reward": {
+   "PropName": "Reward",
+   "PropType": "ItemCfg[]",
+   "PropRules": [
+    {
+     "Type": "CROSS_REFERENCE",
+     "Uuid": "ba60ee73-3fb0-46ee-bdcf-57b26491c242",
+     "DisplayName": "",
+     "Enabled": true,
+     "Params": {
+      "allowCommit": "true",
+      "allowEmpty": "false",
+      "breakLine": "3",
+      "chsOnly": "false",
+      "excepts": "",
+      "filterCol": "",
+      "filterVal": "",
+      "groups": "1",
+      "increase": "false",
+      "pattern": "{(\\d+);\\d+}",
+      "refCol": "Id",
+      "refSheet": "道具表|Item",
+      "unique": "false"
+     }
+    }
+   ]
+  }
+ },
+ "tableRules": []
+}

@@ -1,0 +1,86 @@
+{
+ "sheet": "礼包商店|GiftShop",
+ "managerList": {
+  "QA": [],
+  "Designer": [],
+  "Programmer": []
+ },
+ "rules": {
+  "#": {
+   "PropName": "#",
+   "PropType": "#",
+   "PropRules": []
+  },
+  "Discount": {
+   "PropName": "Discount",
+   "PropType": "float",
+   "PropRules": []
+  },
+  "DiscountIcon": {
+   "PropName": "DiscountIcon",
+   "PropType": "string",
+   "PropRules": []
+  },
+  "Duration": {
+   "PropName": "Duration",
+   "PropType": "int",
+   "PropRules": []
+  },
+  "EndTime": {
+   "PropName": "EndTime",
+   "PropType": "string",
+   "PropRules": []
+  },
+  "Id": {
+   "PropName": "Id",
+   "PropType": "int",
+   "PropRules": []
+  },
+  "MutexTime": {
+   "PropName": "MutexTime",
+   "PropType": "int",
+   "PropRules": []
+  },
+  "Name": {
+   "PropName": "Name",
+   "PropType": "string",
+   "PropRules": []
+  },
+  "PriceLevel": {
+   "PropName": "PriceLevel",
+   "PropType": "int",
+   "PropRules": []
+  },
+  "ShopType": {
+   "PropName": "ShopType",
+   "PropType": "EShopType",
+   "PropRules": []
+  },
+  "StartTime": {
+   "PropName": "StartTime",
+   "PropType": "string",
+   "PropRules": []
+  },
+  "TitleIcon": {
+   "PropName": "TitleIcon",
+   "PropType": "string",
+   "PropRules": []
+  },
+  "Trigger": {
+   "PropName": "Trigger",
+   "PropType": "int[]",
+   "PropRules": []
+  },
+  "Type": {
+   "PropName": "Type",
+   "PropType": "int",
+   "PropRules": []
+  },
+  "style": {
+   "PropName": "style",
+   "PropType": "int",
+   "PropRules": []
+  }
+ },
+ "tableRules": []
+}

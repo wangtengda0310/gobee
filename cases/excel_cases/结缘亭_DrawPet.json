@@ -1,0 +1,201 @@
+{
+ "sheet": "结缘亭|DrawPet",
+ "managerList": {
+  "QA": [],
+  "Designer": [],
+  "Programmer": []
+ },
+ "rules": {
+  "ActivityId": {
+   "PropName": "ActivityId",
+   "PropType": "int",
+   "PropRules": []
+  },
+  "BigAward": {
+   "PropName": "BigAward",
+   "PropType": "ItemCfg[]",
+   "PropRules": [
+    {
+     "Type": "CHAIN_REFERENCE",
+     "Uuid": "4204ac80-b19a-4b91-b0e6-90e40e4478c2",
+     "DisplayName": "",
+     "Enabled": true,
+     "Params": {
+      "allowCommit": "true",
+      "allowEmpty": "false",
+      "breakLine": "3",
+      "chainCompare": "verify_exists",
+      "chainMatchCompare": "verify_exists",
+      "chainSteps": "{\"left\":{\"steps\":[{\"sheet\":\"\",\"findCol\":\"\",\"findVal\":\"col\",\"srcCol\":\"\",\"extractCol\":\"OnceDropRule\",\"pattern\":\"\",\"groups\":\"\",\"filterCol\":\"\",\"filterVal\":\"\",\"nextCol\":\"OnceDropRule\",\"preCol\":\"\",\"isArray\":\"true\"},{\"sheet\":\"掉落规则表|DropRule\",\"findCol\":\"Id\",\"findVal\":\"col\",\"srcCol\":\"\",\"extractCol\":\"DropGroup\",\"pattern\":\"\",\"groups\":\"\",\"filterCol\":\"\",\"filterVal\":\"\",\"preCol\":\"Id\",\"nextCol\":\"DropGroup\",\"isArray\":\"true\"}],\"compareCol\":\"\"},\"right\":{\"steps\":[{\"sheet\":\"掉落道具表|DropItem\",\"findCol\":\"Item\",\"findVal\":\"col\",\"srcCol\":\"\",\"extractCol\":\"DropGroup\",\"pattern\":\"\",\"groups\":\"\",\"filterCol\":\"\",\"filterVal\":\"\",\"preCol\":\"Item\",\"nextCol\":\"DropGroup\"},{\"sheet\":\"掉落分组表|DropGroup\",\"findCol\":\"Id\",\"findVal\":\"col\",\"srcCol\":\"\",\"extractCol\":\"Name\",\"pattern\":\"\",\"groups\":\"\",\"filterCol\":\"\",\"filterVal\":\"\",\"nextCol\":\"Id\",\"preCol\":\"Id\"}],\"compareCol\":\"\"}}",
+      "chainWarnBefore": "0",
+      "chainWarnCol": "StartTime",
+      "chainWarnSheet": "结缘亭|DrawPet",
+      "excepts": ""
+     }
+    }
+   ]
+  },
+  "BigAwardCount": {
+   "PropName": "BigAwardCount",
+   "PropType": "int",
+   "PropRules": []
+  },
+  "BigAwardItemId": {
+   "PropName": "BigAwardItemId",
+   "PropType": "int",
+   "PropRules": []
+  },
+  "DailyLimit": {
+   "PropName": "DailyLimit",
+   "PropType": "int",
+   "PropRules": []
+  },
+  "DrawPetTabImage": {
+   "PropName": "DrawPetTabImage",
+   "PropType": "string",
+   "PropRules": []
+  },
+  "DrawPetTitleBg": {
+   "PropName": "DrawPetTitleBg",
+   "PropType": "string",
+   "PropRules": []
+  },
+  "DrawPetTitleDescBg": {
+   "PropName": "DrawPetTitleDescBg",
+   "PropType": "string",
+   "PropRules": []
+  },
+  "DrawPetTitleIcon": {
+   "PropName": "DrawPetTitleIcon",
+   "PropType": "string",
+   "PropRules": []
+  },
+  "DrawRuleContent": {
+   "PropName": "DrawRuleContent",
+   "PropType": "string",
+   "PropRules": []
+  },
+  "EndTime": {
+   "PropName": "EndTime",
+   "PropType": "string",
+   "PropRules": [
+    {
+     "Type": "CROSS_REFERENCE",
+     "Uuid": "830a0a37-ef73-47a4-b8b1-e553d58fcb4b",
+     "DisplayName": "",
+     "Enabled": true,
+     "Params": {
+      "allowCommit": "true",
+      "allowEmpty": "false",
+      "breakLine": "3",
+      "compareOp": "date_before_or_equal",
+      "excepts": "",
+      "filterCol": "",
+      "filterVal": "",
+      "groups": "",
+      "isArray": "false",
+      "matchCol": "ActivityId",
+      "matchRefCol": "Id",
+      "pattern": "",
+      "refCol": "EndTime",
+      "refSheet": "活动表|Activity"
+     }
+    }
+   ]
+  },
+  "EnsureCount": {
+   "PropName": "EnsureCount",
+   "PropType": "int",
+   "PropRules": []
+  },
+  "EnsureNewer": {
+   "PropName": "EnsureNewer",
+   "PropType": "int",
+   "PropRules": []
+  },
+  "FirstEnsureNewer": {
+   "PropName": "FirstEnsureNewer",
+   "PropType": "int",
+   "PropRules": []
+  },
+  "Id": {
+   "PropName": "Id",
+   "PropType": "int",
+   "PropRules": []
+  },
+  "Name": {
+   "PropName": "Name",
+   "PropType": "string",
+   "PropRules": []
+  },
+  "OnceDropRule": {
+   "PropName": "OnceDropRule",
+   "PropType": "int",
+   "PropRules": []
+  },
+  "OnceItemCost": {
+   "PropName": "OnceItemCost",
+   "PropType": "ItemCfg",
+   "PropRules": []
+  },
+  "PartnerItem": {
+   "PropName": "PartnerItem",
+   "PropType": "ItemCfg",
+   "PropRules": []
+  },
+  "ProbabilityContent": {
+   "PropName": "ProbabilityContent",
+   "PropType": "string[]",
+   "PropRules": []
+  },
+  "ProbabilityPercent": {
+   "PropName": "ProbabilityPercent",
+   "PropType": "float[]",
+   "PropRules": []
+  },
+  "StartTime": {
+   "PropName": "StartTime",
+   "PropType": "string",
+   "PropRules": [
+    {
+     "Type": "CROSS_REFERENCE",
+     "Uuid": "aeae6e69-bad7-44ac-b7fd-431468ee8306",
+     "DisplayName": "",
+     "Enabled": true,
+     "Params": {
+      "allowCommit": "true",
+      "allowEmpty": "false",
+      "breakLine": "3",
+      "compareOp": "date_after_or_equal",
+      "excepts": "",
+      "filterCol": "",
+      "filterVal": "",
+      "groups": "",
+      "isArray": "false",
+      "matchCol": "ActivityId",
+      "matchRefCol": "Id",
+      "pattern": "",
+      "refCol": "StartTime",
+      "refSheet": "活动表|Activity"
+     }
+    }
+   ]
+  },
+  "TenDropRule": {
+   "PropName": "TenDropRule",
+   "PropType": "int",
+   "PropRules": []
+  },
+  "TenItemCost": {
+   "PropName": "TenItemCost",
+   "PropType": "ItemCfg",
+   "PropRules": []
+  },
+  "byproduct": {
+   "PropName": "byproduct",
+   "PropType": "int[]",
+   "PropRules": []
+  }
+ },
+ "tableRules": []
+}

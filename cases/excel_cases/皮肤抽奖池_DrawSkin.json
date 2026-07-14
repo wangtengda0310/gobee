@@ -1,0 +1,59 @@
+{
+ "sheet": "皮肤抽奖池|DrawSkin",
+ "managerList": {
+  "QA": [],
+  "Designer": [],
+  "Programmer": []
+ },
+ "rules": {},
+ "tableRules": [
+  {
+   "type": "DRAWSKIN_DATA_VALIDITY_CHECK",
+   "displayName": "DrawSkin基础数据检查",
+   "uuid": "c4d5e6f7-a8b9-4c0d-1e2f-3a4b5c6d7e8f",
+   "description": "检查Id\u003e0且唯一、DailyLimit\u003e=0",
+   "params": {},
+   "enabled": true
+  },
+  {
+   "type": "DRAWSKIN_TIME_RANGE_CHECK",
+   "displayName": "DrawSkin时间范围检查",
+   "uuid": "d5e6f7a8-b9c0-4d1e-2f3a-4b5c6d7e8f9a",
+   "description": "检查StartTime/EndTime格式合法性、时间顺序、空值",
+   "params": {},
+   "enabled": true
+  },
+  {
+   "type": "DRAWSKIN_ONCE_ITEM_COST_CHECK",
+   "displayName": "DrawSkin单抽消耗检查",
+   "uuid": "e6f7a8b9-c0d1-4e2f-3a4b-5c6d7e8f9a0b",
+   "description": "检查OnceItemCost非空、ItemId在Item表中存在、ItemNum\u003e0",
+   "params": {},
+   "enabled": true
+  },
+  {
+   "type": "DRAWSKIN_TEN_COST_CHECK",
+   "displayName": "DrawSkin十连消耗检查",
+   "uuid": "f7a8b9c0-d1e2-4f3a-4b5c-6d7e8f9a0b1c",
+   "description": "检查TenDropRule\u003e0时TenItemCost应非空配置",
+   "params": {},
+   "enabled": true
+  },
+  {
+   "type": "ACTIVITY_DRAWSKIN_CROSS_REFERENCE_CHECK",
+   "displayName": "Activity与DrawSkin交叉引用检查",
+   "uuid": "a8b9c0d1-e2f3-4a4b-5c6d-7e8f9a0b1c2d",
+   "description": "检查ActivityId引用Activity表、双向引用一致性、丹青阁类型",
+   "params": {},
+   "enabled": true
+  },
+  {
+   "type": "ACTIVITY_DRAWSKIN_TIME_OVERLAP_CHECK",
+   "displayName": "Activity与DrawSkin时间交集检查",
+   "uuid": "b9c0d1e2-f3a4-4b5c-6d7e-8f9a0b1c2d3e",
+   "description": "检查Activity与DrawSkin时间范围交集",
+   "params": {},
+   "enabled": true
+  }
+ ]
+}

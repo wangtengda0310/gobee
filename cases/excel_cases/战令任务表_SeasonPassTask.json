@@ -1,0 +1,144 @@
+{
+ "sheet": "战令任务表|SeasonPassTask",
+ "managerList": {
+  "QA": [],
+  "Designer": [],
+  "Programmer": []
+ },
+ "rules": {
+  "AcceptCond": {
+   "PropName": "AcceptCond",
+   "PropType": "ETaskAcceptCond",
+   "PropRules": []
+  },
+  "AcceptCondParam": {
+   "PropName": "AcceptCondParam",
+   "PropType": "string",
+   "PropRules": []
+  },
+  "BeginDate": {
+   "PropName": "BeginDate",
+   "PropType": "string",
+   "PropRules": []
+  },
+  "Class": {
+   "PropName": "Class",
+   "PropType": "ETaskClass",
+   "PropRules": []
+  },
+  "CompleteCond": {
+   "PropName": "CompleteCond",
+   "PropType": "TaskCondCfg[]",
+   "PropRules": []
+  },
+  "EndDate": {
+   "PropName": "EndDate",
+   "PropType": "string",
+   "PropRules": []
+  },
+  "ExpireDate": {
+   "PropName": "ExpireDate",
+   "PropType": "string",
+   "PropRules": []
+  },
+  "Id": {
+   "PropName": "Id",
+   "PropType": "int",
+   "PropRules": []
+  },
+  "IgnoreExpLimit": {
+   "PropName": "IgnoreExpLimit",
+   "PropType": "bool",
+   "PropRules": []
+  },
+  "IsAutoAccept": {
+   "PropName": "IsAutoAccept",
+   "PropType": "bool",
+   "PropRules": []
+  },
+  "IsAutoSubmit": {
+   "PropName": "IsAutoSubmit",
+   "PropType": "bool",
+   "PropRules": []
+  },
+  "IsSpecial": {
+   "PropName": "IsSpecial",
+   "PropType": "bool",
+   "PropRules": []
+  },
+  "Name": {
+   "PropName": "Name",
+   "PropType": "string",
+   "PropRules": []
+  },
+  "PassExp": {
+   "PropName": "PassExp",
+   "PropType": "int",
+   "PropRules": []
+  },
+  "ResetType": {
+   "PropName": "ResetType",
+   "PropType": "int",
+   "PropRules": []
+  },
+  "Reward": {
+   "PropName": "Reward",
+   "PropType": "ItemCfg[]",
+   "PropRules": []
+  },
+  "SeasonPassId": {
+   "PropName": "SeasonPassId",
+   "PropType": "int",
+   "PropRules": [
+    {
+     "Type": "CROSS_REFERENCE",
+     "Uuid": "383367cc-1524-4871-b940-494ea11464e4",
+     "DisplayName": "",
+     "Enabled": true,
+     "Params": {
+      "allowCommit": "true",
+      "allowEmpty": "false",
+      "breakLine": "3",
+      "compareOp": "",
+      "excepts": "",
+      "filterCol": "",
+      "filterVal": "",
+      "groups": "",
+      "isArray": "false",
+      "matchCol": "",
+      "matchRefCol": "",
+      "pattern": "",
+      "refCol": "Id",
+      "refSheet": "赛季战令表|SeasonPass"
+     }
+    }
+   ]
+  },
+  "SendStatus": {
+   "PropName": "SendStatus",
+   "PropType": "int",
+   "PropRules": []
+  },
+  "ShowDate": {
+   "PropName": "ShowDate",
+   "PropType": "string",
+   "PropRules": []
+  },
+  "ShowPos": {
+   "PropName": "ShowPos",
+   "PropType": "int",
+   "PropRules": []
+  },
+  "ShowType": {
+   "PropName": "ShowType",
+   "PropType": "int",
+   "PropRules": []
+  },
+  "SubType": {
+   "PropName": "SubType",
+   "PropType": "ETaskSubClass",
+   "PropRules": []
+  }
+ },
+ "tableRules": []
+}

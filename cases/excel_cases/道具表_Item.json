@@ -1,0 +1,218 @@
+{
+ "sheet": "道具表|Item",
+ "managerList": {
+  "QA": [],
+  "Designer": [],
+  "Programmer": []
+ },
+ "rules": {
+  "BonusItemId": {
+   "PropName": "BonusItemId",
+   "PropType": "int",
+   "PropRules": []
+  },
+  "CurrencyIcon": {
+   "PropName": "CurrencyIcon",
+   "PropType": "string",
+   "PropRules": []
+  },
+  "Des": {
+   "PropName": "Des",
+   "PropType": "string",
+   "PropRules": []
+  },
+  "DesB": {
+   "PropName": "DesB",
+   "PropType": "string",
+   "PropRules": []
+  },
+  "DisplayIcon": {
+   "PropName": "DisplayIcon",
+   "PropType": "string",
+   "PropRules": []
+  },
+  "DropId": {
+   "PropName": "DropId",
+   "PropType": "int",
+   "PropRules": []
+  },
+  "EachUseMaxCount": {
+   "PropName": "EachUseMaxCount",
+   "PropType": "int",
+   "PropRules": []
+  },
+  "ExpireDate": {
+   "PropName": "ExpireDate",
+   "PropType": "string",
+   "PropRules": []
+  },
+  "HaveCheck": {
+   "PropName": "HaveCheck",
+   "PropType": "bool",
+   "PropRules": []
+  },
+  "Icon": {
+   "PropName": "Icon",
+   "PropType": "string",
+   "PropRules": []
+  },
+  "Id": {
+   "PropName": "Id",
+   "PropType": "int",
+   "PropRules": []
+  },
+  "IsCanBuy": {
+   "PropName": "IsCanBuy",
+   "PropType": "bool",
+   "PropRules": []
+  },
+  "IsCanDelete": {
+   "PropName": "IsCanDelete",
+   "PropType": "bool",
+   "PropRules": []
+  },
+  "IsCurrency": {
+   "PropName": "IsCurrency",
+   "PropType": "bool",
+   "PropRules": []
+  },
+  "IsGetHint": {
+   "PropName": "IsGetHint",
+   "PropType": "bool",
+   "PropRules": []
+  },
+  "IsHide": {
+   "PropName": "IsHide",
+   "PropType": "bool",
+   "PropRules": []
+  },
+  "IsResolve": {
+   "PropName": "IsResolve",
+   "PropType": "bool",
+   "PropRules": []
+  },
+  "IsStack": {
+   "PropName": "IsStack",
+   "PropType": "bool",
+   "PropRules": []
+  },
+  "IsSynthetic": {
+   "PropName": "IsSynthetic",
+   "PropType": "bool",
+   "PropRules": []
+  },
+  "IsTimeLimit": {
+   "PropName": "IsTimeLimit",
+   "PropType": "bool",
+   "PropRules": []
+  },
+  "IsUseable": {
+   "PropName": "IsUseable",
+   "PropType": "bool",
+   "PropRules": []
+  },
+  "IsUseableInBag": {
+   "PropName": "IsUseableInBag",
+   "PropType": "bool",
+   "PropRules": []
+  },
+  "ItemParam": {
+   "PropName": "ItemParam",
+   "PropType": "int[]",
+   "PropRules": [
+    {
+     "Type": "CROSS_REFERENCE",
+     "Uuid": "d17b39ff-c338-4c7e-9ed4-43d657a2e5be",
+     "DisplayName": "",
+     "Enabled": true,
+     "Params": {
+      "allowCommit": "true",
+      "allowEmpty": "true",
+      "breakLine": "3",
+      "chsOnly": "false",
+      "excepts": "",
+      "filterCol": "Type",
+      "filterVal": "Hero",
+      "groups": "",
+      "increase": "false",
+      "pattern": "",
+      "refCol": "Id",
+      "refSheet": "武将表|Hero",
+      "unique": "false"
+     }
+    }
+   ]
+  },
+  "ItemResolve": {
+   "PropName": "ItemResolve",
+   "PropType": "ItemCfg[]",
+   "PropRules": []
+  },
+  "JumpCond": {
+   "PropName": "JumpCond",
+   "PropType": "ETaskJumpType",
+   "PropRules": []
+  },
+  "LackCurrencyTip": {
+   "PropName": "LackCurrencyTip",
+   "PropType": "string",
+   "PropRules": []
+  },
+  "MaxStack": {
+   "PropName": "MaxStack",
+   "PropType": "int",
+   "PropRules": []
+  },
+  "Name": {
+   "PropName": "Name",
+   "PropType": "string",
+   "PropRules": []
+  },
+  "Quality": {
+   "PropName": "Quality",
+   "PropType": "EHeroQuality",
+   "PropRules": []
+  },
+  "Rarity": {
+   "PropName": "Rarity",
+   "PropType": "int",
+   "PropRules": []
+  },
+  "ShopCanBuyInItemNotEnough": {
+   "PropName": "ShopCanBuyInItemNotEnough",
+   "PropType": "int[]",
+   "PropRules": []
+  },
+  "SpecialMaterial": {
+   "PropName": "SpecialMaterial",
+   "PropType": "int",
+   "PropRules": []
+  },
+  "SyntheticCost": {
+   "PropName": "SyntheticCost",
+   "PropType": "ItemCfg[]",
+   "PropRules": []
+  },
+  "TimeLimitType": {
+   "PropName": "TimeLimitType",
+   "PropType": "ELimitTime",
+   "PropRules": []
+  },
+  "Type": {
+   "PropName": "Type",
+   "PropType": "EItemType",
+   "PropRules": []
+  },
+  "ValidDate": {
+   "PropName": "ValidDate",
+   "PropType": "string",
+   "PropRules": []
+  },
+  "ValidTimeSec": {
+   "PropName": "ValidTimeSec",
+   "PropType": "int",
+   "PropRules": []
+  }
+ },
+ "tableRules": []
+}
