@@ -1,5 +1,5 @@
 ---
-name: Mail-check
+name: Mail
 description: |
   校验名将杀 Mail.xlsx 邮件配置表。
   当用户提到 Mail.xlsx、邮件配置检查、邮件表校验、信件配置审核时使用此 skill。
@@ -7,7 +7,7 @@ description: |
   结构化规则由脚本校验；Title/Sender 人物匹配由 Agent LLM 分析。
 ---
 
-# Mail-check — 邮件配置表检查
+# Mail — 邮件配置表检查
 
 校验 `Mail.xlsx`。公共流程、依赖、CLI、issue 格式、汇报格式见上级 [Excel-check/SKILL.md](../SKILL.md)。
 
@@ -16,9 +16,9 @@ description: |
 ## 脚本
 
 ```bash
-python Mail-check/scripts/check_mail.py "<Mail.xlsx 路径>"
-python Mail-check/scripts/check_mail.py "<路径>" --json
-python Mail-check/scripts/check_mail.py "<路径>" --semantic-json
+python Mail/scripts/check_Mail.py "<Mail.xlsx 路径>"
+python Mail/scripts/check_Mail.py "<路径>" --json
+python Mail/scripts/check_Mail.py "<路径>" --semantic-json
 ```
 
 人物匹配**禁止**写进脚本对照表，一律阶段 2 LLM。
@@ -123,8 +123,8 @@ python Mail-check/scripts/check_mail.py "<路径>" --semantic-json
 ```
 用户: 检查一下 Mail.xlsx
 → 按 Excel-check 公共流程
-→ python Mail-check/scripts/check_mail.py "<路径>"
-→ python Mail-check/scripts/check_mail.py "<路径>" --semantic-json
+→ python Mail/scripts/check_Mail.py "<路径>"
+→ python Mail/scripts/check_Mail.py "<路径>" --semantic-json
 → 按本文件语义规则分析 Title/Sender
 → 合并输出完整报告
 ```

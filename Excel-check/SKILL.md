@@ -3,7 +3,7 @@ name: excel-check
 description: |
   名将杀 Excel 配置表检查 skill 的公共框架与写作规范。
   当用户要新增某张表的检查 skill、抽取/统一表校验流程、或询问 Excel-check 怎么写时使用。
-  具体某张表（如 Mail.xlsx）的字段规则不写在这里，写在对应子目录 skill（如 Mail-check）中。
+  具体某张表（如 Mail.xlsx）的字段规则不写在这里，写在对应子目录 skill（如 Mail/）中。
 ---
 
 # Excel-check — 配置表检查框架
@@ -13,8 +13,8 @@ description: |
 | 层级 | 路径 | 职责 |
 |------|------|------|
 | 公共 | `Excel-check/SKILL.md`（本文件） | 流程、脚本约定、汇报格式、如何写新表 skill |
-| 单表 | `Excel-check/<Table>-check/SKILL.md` | **仅**该表的字段规则、枚举、语义判断标准 |
-| 脚本 | `Excel-check/<Table>-check/scripts/check_*.py` | 该表的结构化硬规则实现 |
+| 单表 | `Excel-check/<Table>/SKILL.md` | **仅**该表的字段规则、枚举、语义判断标准 |
+| 脚本 | `Excel-check/<Table>/scripts/check_<ScriptId>.py` | 该表的结构化硬规则实现 |
 
 **原则**：能脚本化的进脚本；需要语境/人物/语义判断的交给 Agent（LLM），禁止在脚本里维护易变对照表。
 
@@ -25,13 +25,18 @@ description: |
 ```
 Excel-check/
 ├── SKILL.md                 # 本文件：公共框架
-└── <Table>-check/
+└── <Table>/                 # 文件夹名 = 表名（与 xlsx 主文件名一致，可含中文）
     ├── SKILL.md             # 仅表内检查规则
     └── scripts/
-        └── check_<Table>.py
+        └── check_<ScriptId>.py
 ```
 
-命名：表文件 `Foo.xlsx` → skill 名 `Foo-check`（与表名大小写一致，后缀 `-check`）。
+| 名称 | 规则 | 例 |
+|------|------|-----|
+| `<Table>`（文件夹） | = xlsx 主文件名，与表名完全一致（可含中文） | `Mail`、`ShopGoods_商品表` |
+| `<ScriptId>`（脚本） | **禁止中文**；英文段保留；中文段改成**无声调小写拼音**（词间可用 `_`） | `Mail` → `check_Mail.py`；`ShopGoods_商品表` → `check_ShopGoods_shangpinbiao.py` |
+
+纯英文表名时 `<ScriptId>` = `<Table>`。SKILL 正文里写的脚本路径必须与实际文件名一致。
 
 ---
 
@@ -86,12 +91,12 @@ pip install pandas openpyxl
 
 ## 脚本 CLI 约定
 
-统一参数与退出码，便于 Agent 编排：
+统一参数与退出码，便于 Agent 编排。路径含中文时请加引号：
 
 ```bash
-python <Table>-check/scripts/check_<Table>.py "<xlsx 路径>"
-python <Table>-check/scripts/check_<Table>.py "<路径>" --json
-python <Table>-check/scripts/check_<Table>.py "<路径>" --semantic-json
+python "<Table>/scripts/check_<ScriptId>.py" "<xlsx 路径>"
+python "<Table>/scripts/check_<ScriptId>.py" "<路径>" --json
+python "<Table>/scripts/check_<ScriptId>.py" "<路径>" --semantic-json
 ```
 
 | 命令 | 用途 |
@@ -125,7 +130,7 @@ Id=<Id> | Title=<Title> | <字段名> | <问题说明>
 
 ## Agent 执行流程（检查一张表时）
 
-1. **读该表 skill**：`Excel-check/<Table>-check/SKILL.md`（规则以它为准）
+1. **读该表 skill**：`Excel-check/<Table>/SKILL.md`（规则以它为准）
 2. **跑结构化脚本**（默认 + 需要时 `--semantic-json`）
 3. **若有语义阶段**：按单表 skill 标准分批分析（建议每批 ≤50 行），合并结果
 4. **最终汇报**（合并两阶段）：
@@ -144,18 +149,18 @@ Id=<Id> | Title=<Title> | <字段名> | <问题说明>
 
 ## 如何写一张新表的检查 skill
 
-复制并填写以下骨架到 `Excel-check/<Table>-check/SKILL.md`（`<Table>` 与 xlsx 文件名大小写一致）：
+复制并填写以下骨架到 `Excel-check/<Table>/SKILL.md`（`<Table>` = xlsx 主文件名，与文件夹同名；`<ScriptId>` 见上表，无中文）：
 
 ```markdown
 ---
-name: <Table>-check
+name: <Table>
 description: |
   校验名将杀 <Table>.xlsx。
   当用户提到 <Table>.xlsx、<中文名>配置检查、<中文名>表校验时使用。
   公共流程见 Excel-check/SKILL.md；本文件仅含本表规则。
 ---
 
-# <Table>-check — <中文名>配置表检查
+# <Table> — <中文名>配置表检查
 
 校验 `<Table>.xlsx`。公共流程、依赖、CLI、汇报格式见上级 [Excel-check/SKILL.md](../SKILL.md)。
 
@@ -164,8 +169,8 @@ description: |
 ## 脚本
 
 \`\`\`bash
-python <Table>-check/scripts/check_<Table>.py "<路径>"
-python <Table>-check/scripts/check_<Table>.py "<路径>" --semantic-json
+python "<Table>/scripts/check_<ScriptId>.py" "<路径>"
+python "<Table>/scripts/check_<ScriptId>.py" "<路径>" --semantic-json
 \`\`\`
 
 ## 结构化规则（脚本）
@@ -205,4 +210,4 @@ python <Table>-check/scripts/check_<Table>.py "<路径>" --semantic-json
 
 | Skill | 表 | 说明 |
 |-------|-----|------|
-| [Mail-check](Mail-check/SKILL.md) | `Mail.xlsx` | 邮件配置；结构化 + Title/Sender 人物语义 |
+| [Mail](Mail/SKILL.md) | `Mail.xlsx` | 邮件配置；结构化 + Title/Sender 人物语义 |
