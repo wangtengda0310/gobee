@@ -18,6 +18,7 @@ ITEM_PATTERN = re.compile(r"^(\{\d+;\d+\})(,\{\d+;\d+\})*$")
 SHANHE_TITLES = {"山河争锋守城将来信", "山河争锋攻城将来信"}
 MELT_TITLE = "熔炼武将道具返还"
 DATA_START_ROW = 5
+TYPE_ROW = 1
 HEADER_ROW = 2
 
 
@@ -197,11 +198,54 @@ def validate_send_cond(
         )
 
 
+def is_blank_id(raw_id: object) -> bool:
+    if pd.isna(raw_id):
+        return True
+    text = str(raw_id).strip()
+    return text in ("", "nan", "NaN", "None")
+
+
+def truncate_after_three_blank_ids(data: pd.DataFrame) -> pd.DataFrame:
+    """连续空 3 行后截断：Id 连续为空达 3 行时，截断其后内容（业务不用）。"""
+    if data.empty or "Id" not in data.columns:
+        return data
+    blank_run = 0
+    cut_at: int | None = None
+    for idx, raw_id in enumerate(data["Id"].tolist()):
+        if is_blank_id(raw_id):
+            blank_run += 1
+            if blank_run >= 3:
+                cut_at = idx - 2
+                break
+        else:
+            blank_run = 0
+    if cut_at is None:
+        return data
+    return data.iloc[: max(cut_at, 0)].copy()
+
+
+def select_checkable_columns(raw: pd.DataFrame) -> list[object]:
+    """第2行(类型)与第3行(字段名)皆空的列不检查。"""
+    types = raw.iloc[TYPE_ROW].tolist()
+    headers = raw.iloc[HEADER_ROW].tolist()
+    width = max(len(types), len(headers))
+    selected: list[object] = []
+    for i in range(width):
+        type_val = types[i] if i < len(types) else None
+        header_val = headers[i] if i < len(headers) else None
+        if is_empty(type_val) and is_empty(header_val):
+            continue
+        selected.append(header_val)
+    return selected
+
+
 def load_mail_rows(path: Path) -> pd.DataFrame:
     raw = pd.read_excel(path, header=None)
-    columns = raw.iloc[HEADER_ROW].tolist()
-    data = raw.iloc[DATA_START_ROW:].copy()
+    columns = select_checkable_columns(raw)
+    data = raw.iloc[DATA_START_ROW:, : len(columns)].copy()
     data.columns = columns
+    data = data.loc[:, [c for c in data.columns if not is_empty(c)]]
+    data = truncate_after_three_blank_ids(data)
     data = data[data["Id"].notna() & (data["Id"].astype(str) != "#")]
     return data.reset_index(drop=True)
 
