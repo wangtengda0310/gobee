@@ -559,7 +559,21 @@ def validate_structural(path: Path, map_path: Path | None = None) -> list[Issue]
                 )
             else:
                 on_ym = (int(on_m.group(1)), int(on_m.group(2)))
-                if (on_m.group(3), on_m.group(4), on_m.group(5)) != ("00", "00", "00"):
+                # S1 不校 00:00:00，仅禁止写成未来时间；S2+ 必须 15 日 00:00:00
+                if season_n == 1:
+                    try:
+                        on_dt = datetime.strptime(on_s, DATE_FMT)
+                        if on_dt > datetime.now():
+                            add(
+                                issues,
+                                row_id,
+                                name,
+                                "OnShelfTime",
+                                f"S1 赛季礼包 OnShelfTime 不能为未来时间，实际: {on_s}",
+                            )
+                    except ValueError:
+                        pass
+                elif (on_m.group(3), on_m.group(4), on_m.group(5)) != ("00", "00", "00"):
                     add(
                         issues,
                         row_id,

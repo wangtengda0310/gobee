@@ -26,6 +26,7 @@ python Mail/scripts/check_Mail.py "<路径>" --semantic-json
 人物匹配**禁止**写进脚本对照表，一律独有语义阶段。
 
 Issue 展示列用 `Title`：`Id=<Id> | Title=<Title> | <字段> | <说明>`
+Agent 向用户汇报时：原样列出脚本输出的每条 Issue 行；禁止用分类汇总表代替（细则见 [Excel-check/SKILL.md](../SKILL.md)「Agent 汇报硬性要求」）。
 
 ---
 
