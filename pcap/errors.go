@@ -24,4 +24,13 @@ var (
 
 	// ErrSourceNil 当传入的 Source 为 nil 时返回。
 	ErrSourceNil = errors.New("pcap: source is nil")
+
+	// ErrNoSources 当 NewMergedSource 未传入任何子 Source 时返回。
+	ErrNoSources = errors.New("pcap: at least one source required")
+
+	// ErrInconsistentLinkType 当 NewMergedSource 的子 Source 之间 LinkType 不一致时返回。
+	// 多网卡合并要求所有子源链路层类型相同（如都是 Ethernet），
+	// 否则 gopacket 无法用单一解码器解析所有包。
+	// 异构合并（per-packet LinkType）为后续 TODO，见 CLAUDE.md。
+	ErrInconsistentLinkType = errors.New("pcap: merged sources have inconsistent link types")
 )

@@ -94,10 +94,14 @@ pcap 是一个基于 [gopacket](https://github.com/gopacket/gopacket) 的网络�
 | `errors.go` | 哨兵错误 | 用 `errors.Is` 友好的命名错误 |
 | `capturer.go` | **核心实现** | 改动需重点 review 并发安全 |
 | `source.go` | 纯 Go：`pcapgo.Reader` → `Source` | 不依赖 cgo |
-| `source_live.go` | cgo：网卡实时抓包 → `Source` | `//go:build cgo && livecapture` |
+| `source_live.go` | cgo：网卡实时抓包 → `Source` + `ListInterfaces` + BPF 热重载 | `//go:build cgo && livecapture` |
+| `merge.go` | 纯 Go：`MergedSource` 多网卡 fan-in 合并 | 不依赖 cgo；要求子源 LinkType 一致 |
 | `itsnotfun_test.go` | ★ 验证 itsnot.fun HTTP 抓取 + 测试辅助（共享） | 含 `writePcap` / `collectHandler` |
+| `merge_test.go` | MergedSource fan-in 单测（纯 Go） | 改 merge.go 必改这里 |
 | `broadcast_test.go` | 并发安全 + 过载策略 + 动态增删测试 | 改 dispatch 必改这里 |
-| `cmd/pcaptest/main.go` | 实时抓包 CLI 示例 | `//go:build livecapture` |
+| `coverage_test.go` | 覆盖缺口补齐（OverflowBlock/BPF/Hooks/Close 等） | 详见各子测试 |
+| `live_integration_test.go` | 真实网卡集成测试 | `//go:build cgo && livecapture && integration` |
+| `cmd/pcaptest/main.go` | 实时抓包 CLI（`-list`/`-bpf`/`-out`/多 `-iface`） | `//go:build livecapture` |
 
 ## 核心设计决策（必读）
 
@@ -151,6 +155,29 @@ pcap 是一个基于 [gopacket](https://github.com/gopacket/gopacket) 的网络�
 - 离线 `readerSource` 不实现 BPF → 离线过滤只能用 `Target.Host`（用户态）。
 
 **原因**：BPF 是安全/性能关键，静默降级会让用户误以为过滤生效实则全量投递。
+
+### 决策 5：MergedSource 多网卡 fan-in（纯 Go）
+
+**实现**（`merge.go`）：
+- `NewMergedSource(sources ...Source)` 把多个 Source 合并为一个，`Capturer` 接口不变。
+- 每个 Source 一个转发 goroutine，把 `Packets()` 的包投到合并 channel；所有子源 EOF 后合并 channel 关闭。
+- **要求所有子源 `LinkType()` 一致**，否则返回 `ErrInconsistentLinkType`（gopacket 用单一解码器，异构会解码错乱）。
+
+**局限（TODO）**：合并后 `PacketEvent.Source` 统一为 `"merged:n"`，无法精确标识某包来自哪个子源（gopacket.Packet 不可变，附加上下文成本高）。handler 若需区分子源，靠包内容（IP/端口）。
+
+> **TODO（待后续评估）**：
+> - 支持**异构 LinkType** 合并：把 LinkType 从 Source 级移到 per-packet（`PacketEvent.LinkType` 已存在，但 `toEvent` 当前用 Source 的 LinkType 填充）。需要调整 `toEvent` + 解码逻辑，改动面较大。
+> - **per-packet 子源标记**：在合并时给每个包附上来源标识。可用 `gopacket.Packet` 的 metadata 或 wrapper，但会增加复杂度。
+
+### 决策 6：BPF 热重载的并发安全
+
+**实现**（`source_live.go` 的 `liveSource`）：
+- `liveSource.mu sync.RWMutex` 保护 `handle` / `bpf`。
+- `SetBPFFilter`（热重载）加写锁，底层 `pcap.SetBPFFilter` 通过 libpcap 的 `pcap_setfilter` **原子替换**内核 BPF 程序，不中断抓包。
+- `ValidateBPF` 加读锁，用 `CompileBPFFilter` 预编译校验（不应用）。
+- `BPFValidator` 接口与 `BPFCapable` 分离：校验与应用是两个能力，某些 Source 可能只支持其一。
+
+**推荐用法**：热重载前先 `ValidateBPF` 校验，通过后再 `SetBPFFilter` 应用，避免把非法 BPF 应用进去导致抓包异常。
 
 ## 并发安全契约
 
@@ -288,6 +315,8 @@ CGO_ENABLED=1 golangci-lint run --build-tags livecapture --enable errcheck,gocri
 - ❌ 在 dispatch 里丢弃 nil 哨兵（会破坏 flushAll，死锁）。
 - ❌ 移除过载策略测试（尤其 DropOldest 的回归测试）。
 - ❌ 改动 `Source` / `Capturer` / `PacketHandler` 接口签名而不更新测试与文档。
+- ❌ 假设 `MergedSource` 场景下 `PacketEvent.Source` 是具体子源名（实际为 `"merged:n"`）。
+- ❌ 对 `liveSource` 并发调用 `SetBPFFilter` 而不加锁（已由 `liveSource.mu` 保护，勿破坏）。
 
 ## 推荐的操作
 

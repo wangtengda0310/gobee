@@ -461,10 +461,23 @@ func toEvent(pkt gopacket.Packet, source Source) *PacketEvent {
 	return event
 }
 
-// BPFCapable 由支持 BPF 过滤的 Source 实现通常是实时网卡句柄）。
+// BPFCapable 由支持 BPF 过滤的 Source 实现（通常是实时网卡句柄）。
 // readerSource（离线 pcap）不实现该接口，因此对其使用 BPF 会返回 ErrBPFNotSupported。
 type BPFCapable interface {
 	SetBPFFilter(expr string) error
+}
+
+// BPFValidator 由能预校验 BPF 表达式的 Source 实现（通常是实时网卡句柄）。
+// 与 BPFCapable 分离：校验 BPF 和应用 BPF 是两个能力，某些 Source 可能只支持其一。
+// liveSource 同时实现两者：先用 ValidateBPF 检查表达式合法性，再 SetBPFFilter 应用。
+//
+// 用法：
+//
+//	if v, ok := src.(pcap.BPFValidator); ok {
+//	    if err := v.ValidateBPF(expr); err != nil { return err }
+//	}
+type BPFValidator interface {
+	ValidateBPF(expr string) error
 }
 
 // Ensure capturer satisfies Capturer at compile time.

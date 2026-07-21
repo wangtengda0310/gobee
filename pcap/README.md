@@ -18,15 +18,18 @@
 |---|---|---|
 | `NewCapturer` / `RegisterHandler` / `Capture` / `Stats` / `Close` | ❌ 不需要 | 核心库，纯 Go |
 | `NewReaderSource`（离线重放 pcap 文件） | ❌ 不需要 | 基于 `pcapgo`，纯 Go |
+| `NewMergedSource`（多网卡 fan-in 合并） | ❌ 不需要 | 纯 Go channel 合并 |
 | `PacketEvent` / 所有 `OverflowStrategy` / `Hooks` | ❌ 不需要 | 纯 Go 逻辑 |
 | `Target.Host`（用户态 host 过滤） | ❌ 不需要 | 纯 Go 字符串匹配 |
 | **单元测试**（`go test ./...`） | ❌ 不需要 | 全部纯 Go，CI 友好 |
 | `NewLiveSource`（实时打开网卡抓包） | ✅ **需要** | 调用 `pcap.OpenLive`（cgo） |
+| `ListInterfaces`（列出本机网卡） | ✅ **需要** | 调用 `pcap.FindAllDevs`（cgo） |
 | `Target.BPF` / `WithBPFFilter`（内核态 BPF 过滤） | ✅ **需要** | 调用 `pcap.SetBPFFilter`，且仅对 `liveSource` 生效 |
-| `cmd/pcaptest`（实时抓包 CLI） | ✅ **需要** | 依赖 `NewLiveSource` |
+| `SetBPFFilter` / `ValidateBPF`（BPF 热重载/校验） | ✅ **需要** | 仅 `liveSource` 实现 |
+| `cmd/pcaptest`（实时抓包 CLI） | ✅ **需要** | 依赖 `NewLiveSource` / `ListInterfaces` |
 | `go test -race`（并发安全检测） | ⚠️ 需要 **gcc**，但不需要 Npcap | race 依赖 cgo，但不链接 libpcap |
 
-**一句话总结**：只要不调用 `NewLiveSource` 和 BPF，就不需要 Npcap——包括所有离线分析、单元测试、核心 API。
+**一句话总结**：只要不调用 `NewLiveSource` / `ListInterfaces` / BPF，就不需要 Npcap——包括所有离线分析、多源合并、单元测试、核心 API。
 
 ```bash
 go get github.com/wangtengda0310/gobee/pcap
@@ -264,8 +267,33 @@ pcap.NewHandlerFunc("my-handler", func(ctx context.Context, e *pcap.PacketEvent)
 |---|---|---|
 | `NewReaderSource(ds, link, name)` | 离线重放 pcap 文件 / 任意 `PacketDataSource` | 纯 Go |
 | `NewLiveSource(iface, snaplen, promisc, bpf)` | 实时网卡抓包 | cgo + libpcap/Npcap + `-tags livecapture` |
+| `NewMergedSource(sources...)` | 多网卡 fan-in 合并（要求子源 LinkType 一致） | 纯 Go |
 
-自定义数据源：实现 `Source` 接口的三个方法 `Packets()` / `LinkType()` / `Close()` 即可。
+**实时抓包相关函数**（均需 `-tags livecapture`）：
+
+| 函数 | 用途 |
+|---|---|
+| `ListInterfaces()` | 列出本机网卡（`[]Interface{Name, Description, IPs}`） |
+| `Source.(BPFCapable).SetBPFFilter(expr)` | 运行期热重载 BPF（并发安全） |
+| `Source.(BPFValidator).ValidateBPF(expr)` | 预校验 BPF 表达式合法性（不应用） |
+
+自定义数据源：实现 `Source` 接口的四个方法 `Packets()` / `LinkType()` / `Close()` / `String()` 即可。
+
+#### 多网卡合并抓包
+
+```go
+// 打开多个网卡，合并成一个 Source 喂给同一个 Capturer。
+src1, _ := pcap.NewLiveSource("eth0", 65535, false, "tcp port 80")
+src2, _ := pcap.NewLiveSource("eth1", 65535, false, "tcp port 80")
+merged, err := pcap.NewMergedSource(src1, src2) // 要求 LinkType 一致
+if err != nil { panic(err) }
+defer merged.Close()
+
+capturer.Capture(ctx, merged, pcap.Target{Host: "itsnot.fun"})
+```
+
+> 合并后 `PacketEvent.Source` 统一为 `"merged:n"`，无法精确标识某个包来自哪个子源。
+> 若需区分子源，handler 可依据包的网络层信息（IP/端口）区分。
 
 ### 过滤目标 `Target`
 
@@ -404,9 +432,10 @@ A: 本库只读明文。抓 HTTPS 需配合 TLS 解密（如 SSLKEYLOGFILE + Wir
 ```bash
 cd pcap
 
-go test ./... -v            # 全部单元测试（纯 Go，无需 Npcap）
-go test ./... -race         # 并发安全检测（需 gcc/clang）
-go test -tags livecapture   # 需 Npcap + 真实网卡（CI 不跑）
+go test ./... -v                                    # 全部单元测试（纯 Go，无需 Npcap）
+go test ./... -race                                 # 并发安全检测（需 gcc/clang）
+go test -tags livecapture ./...                     # 含 cgo 实时代码（需 Npcap）
+go test -tags livecapture,integration -v ./...      # 集成测试（需 Npcap + 真实网卡 + 管理员权限）
 ```
 
 ## 相关文档
