@@ -2,8 +2,6 @@
 
 基于 [gopacket](https://github.com/gopacket/gopacket) 的网络抓包库，提供「数据源 → 抓包器 → 处理函数」的广播式抓包能力。
 
-> 维护者/开发指南请见 [CLAUDE.md](./CLAUDE.md)。
-
 ## 核心特性
 
 - **广播式分发**：一次抓包，多个处理函数并行消费，互不拖累。
@@ -12,16 +10,127 @@
 - **纯 Go 核心**：离线 pcap 重放与单元测试不依赖 cgo / Npcap，任意平台可运行。
 - **实时抓包可选**：基于 cgo 的网卡抓包用构建标签 `livecapture` 隔离。
 
-## 安装
+## 功能对 Npcap/libpcap 的依赖关系
+
+不是所有功能都需要 Npcap。下表帮你判断「我想做 X，要不要装 Npcap」：
+
+| 功能 / API | 是否需要 Npcap/libpcap | 说明 |
+|---|---|---|
+| `NewCapturer` / `RegisterHandler` / `Capture` / `Stats` / `Close` | ❌ 不需要 | 核心库，纯 Go |
+| `NewReaderSource`（离线重放 pcap 文件） | ❌ 不需要 | 基于 `pcapgo`，纯 Go |
+| `PacketEvent` / 所有 `OverflowStrategy` / `Hooks` | ❌ 不需要 | 纯 Go 逻辑 |
+| `Target.Host`（用户态 host 过滤） | ❌ 不需要 | 纯 Go 字符串匹配 |
+| **单元测试**（`go test ./...`） | ❌ 不需要 | 全部纯 Go，CI 友好 |
+| `NewLiveSource`（实时打开网卡抓包） | ✅ **需要** | 调用 `pcap.OpenLive`（cgo） |
+| `Target.BPF` / `WithBPFFilter`（内核态 BPF 过滤） | ✅ **需要** | 调用 `pcap.SetBPFFilter`，且仅对 `liveSource` 生效 |
+| `cmd/pcaptest`（实时抓包 CLI） | ✅ **需要** | 依赖 `NewLiveSource` |
+| `go test -race`（并发安全检测） | ⚠️ 需要 **gcc**，但不需要 Npcap | race 依赖 cgo，但不链接 libpcap |
+
+**一句话总结**：只要不调用 `NewLiveSource` 和 BPF，就不需要 Npcap——包括所有离线分析、单元测试、核心 API。
 
 ```bash
 go get github.com/wangtengda0310/gobee/pcap
 ```
 
-**实时抓包的额外要求**（仅当需要抓网卡流量时）：
-- Windows：安装 [Npcap](https://npcap.com/)（安装时勾选 "Install Npcap in WinPcap API-compatible Mode"）。
-- Linux/macOS：安装 libpcap（`apt install libpcap-dev` / `brew install libpcap`）。
-- 编译时带上 `CGO_ENABLED=1 -tags livecapture`。
+### 只用离线 pcap 重放（纯 Go，无需任何额外组件）
+
+不需要安装任何东西。核心库 + 单元测试在任意平台直接可用：
+
+```bash
+go build ./...          # 纯 Go
+go test ./...           # 纯 Go 测试
+```
+
+### 需要实时抓网卡（cgo + libpcap/Npcap）
+
+实时抓包走 `gopacket/pcap`（cgo 子包），编译时需要 C 编译器 + libpcap/Npcap 库，并带上 `-tags livecapture`。**按平台分别配置：**
+
+#### Linux / macOS
+
+```bash
+# 安装 libpcap 开发包
+sudo apt install libpcap-dev      # Debian/Ubuntu
+sudo yum install libpcap-devel    # RHEL/CentOS
+brew install libpcap              # macOS
+
+# 编译（gcc 通常系统自带）
+CGO_ENABLED=1 go build -tags livecapture ./...
+
+# 运行需要 CAP_NET_RAW 权限或 root
+sudo ./myapp
+# 或赋予权限：sudo setcap cap_net_raw=eip ./myapp
+```
+
+#### Windows（Npcap + MSYS2 gcc）
+
+Windows 上实时抓包需要三样东西：**Npcap 运行库** + **gcc（C 编译器）** + **Npcap SDK 头文件**。
+
+**第 1 步：安装 Npcap**
+
+1. 从 https://npcap.com/dist/ 下载 `npcap-x.x.x-installer.exe`。
+2. **以管理员身份运行**安装包。
+3. **务必勾选**：
+   - ✅ **Install Npcap in WinPcap API-compatible Mode**（关键！gopacket 链接的就是这个兼容层）
+   - ❌ 不要勾「Restrict Npcap driver's access to Administrators only」（否则非管理员抓不到包）
+4. 验证：`C:\Windows\System32\wpcap.dll` 和 `Packet.dll` 应存在。
+
+**第 2 步：安装 gcc（MSYS2 + mingw-w64）**
+
+1. 从 https://www.msys2.org/ 安装 MSYS2（路径建议 `C:\msys64`，不含空格/中文）。
+2. 打开「MSYS2 MINGW64」（绿色图标，不是 UCRT/MSYS），执行：
+   ```bash
+   pacman -Syu
+   pacman -S --needed mingw-w64-x86_64-gcc
+   gcc --version   # 应输出版本号
+   ```
+3. **把 `C:\msys64\mingw64\bin` 加入系统 PATH**（Win 键搜「环境变量」→ 编辑系统变量 `Path` → 新增此路径），然后**重开所有终端**。
+
+**第 3 步：准备 Npcap SDK 头文件**
+
+gopacket/pcap 编译时需要 `pcap.h` 等头文件。两种方式任选：
+
+- **方式 A（推荐，用源码包）**：从 https://github.com/nmap/nmap/tags 下载 Npcap 源码包（如 `npcap-1.88.zip`），解压到无空格路径（如 `D:\npcap-1.88`）。头文件在 `wpcap\libpcap\` 下，已自包含齐全。
+- **方式 B（用预编译 SDK）**：从 https://npcap.com/dist/ 下载 `npcap-sdk-x.x.x.zip`，解压后用其 `Include\` 目录。
+
+**第 4 步：生成 mingw 导入库（关键，否则 race/链接会失败）**
+
+mingw 的链接器需要 `.a` 导入库才能解析 `wpcap` 符号。System32 里的 `wpcap.dll` 不够，需手动生成（一次性操作）：
+
+```bash
+# 在 MSYS2 MINGW64 终端中：
+pacman -S --needed mingw-w64-x86_64-tools   # 提供 gendef
+
+mkdir /tmp/wpcaplib && cd /tmp/wpcaplib
+cp /c/Windows/System32/wpcap.dll .
+cp /c/Windows/System32/Packet.dll .
+gendef wpcap.dll
+gendef Packet.dll
+dlltool -d wpcap.def -l libwpcap.a -k
+dlltool -d Packet.def -l libPacket.a -k
+cp libwpcap.a libPacket.a /c/msys64/mingw64/x86_64-w64-mingw32/lib/
+```
+
+**第 5 步：配置 cgo 环境变量**
+
+设置以下**用户环境变量**（用 `setx` 或图形界面，**永久生效**）：
+
+```bash
+setx CGO_CFLAGS "-I D:\npcap-1.88\wpcap\libpcap"
+setx CGO_LDFLAGS "-l wpcap"
+# PATH 已在第 2 步加入 C:\msys64\mingw64\bin
+```
+
+> ⚠️ `setx` 只对**之后新开的终端**生效，当前终端需手动 `export` 或重开。
+
+**第 6 步：验证**（新开一个终端）
+
+```bash
+gcc --version                                          # 应输出版本
+CGO_ENABLED=1 go build -tags livecapture ./...        # 实时抓包代码编译
+go test ./... -race -tags livecapture -timeout 180s   # 完整链路（含 race）
+```
+
+> **Windows 实时抓包需管理员权限**：右键「以管理员身份运行」终端再执行抓包程序。
 
 ## 快速开始
 
@@ -82,11 +191,11 @@ c := pcap.NewCapturer(
 	pcap.WithOverflowStrategy(pcap.OverflowDrop), // 满即丢，不阻塞抓包
 )
 c.RegisterHandler(pcap.NewHandlerFunc("http", func(ctx context.Context, e *pcap.PacketEvent) error {
-	if app := e.Packet.ApplicationLayer(); app != nil {
-		fmt.Println(string(app.Payload()))
-	}
-	return nil
-}))
+    if app := e.Packet.ApplicationLayer(); app != nil {
+        fmt.Println(string(app.Payload()))
+    }
+    return nil
+})
 
 c.Capture(ctx, src, pcap.Target{Host: "itsnot.fun"}) // 用户态二次过滤
 ```
@@ -270,11 +379,17 @@ A: 测试用 `pcapgo` 在内存构造 pcap 文件（含 itsnot.fun HTTP 请求�
 
 ### Q: Windows 实时抓包报 "cgo: C compiler gcc not found"？
 
-A: 安装 MinGW-w64（如通过 MSYS2：`pacman -S mingw-w64-x86_64-gcc`），并确保 `gcc` 在 PATH。
+A: gcc 不在 PATH。按「安装 → Windows」章节装好 MSYS2 mingw-w64 gcc，并把 `C:\msys64\mingw64\bin` 加入系统 PATH，然后**重开终端**。用 `gcc --version` 验证。
 
-### Q: `go test -race` 报 cgo 错误？
+### Q: Windows 链接报 "cannot find -lwpcap"？
 
-A: race 检测依赖 cgo，需要 C 编译器（gcc/clang）。它**不会**链接 libpcap（race 不需要 `-tags livecapture`），只需 gcc 在 PATH。
+A: mingw 链接器缺少 wpcap 的导入库（`.a`）。按「安装 → Windows → 第 4 步」用 `gendef` + `dlltool` 生成 `libwpcap.a` 并复制到 `C:\msys64\mingw64\x86_64-w64-mingw32\lib\`。这是 Windows + cgo 抓包最容易卡住的一步。
+
+### Q: `go test -race` 报 cgo / 链接错误？
+
+A: race 检测依赖 cgo，需要 gcc 在 PATH。有两种情况：
+- **核心库 race**（不带 `-tags livecapture`）：只需 gcc；**不**需要 Npcap。若仍报 `cannot find -lwpcap`，是因为你全局设了 `CGO_LDFLAGS=-l wpcap` 但没生成导入库（见上一问）。生成导入库后即可解决。
+- **完整链路 race**（`-tags livecapture`）：需要 gcc + Npcap SDK 头文件（`CGO_CFLAGS`）+ 导入库。
 
 ### Q: 多个 handler 看到的包数量不一致？
 
@@ -296,5 +411,4 @@ go test -tags livecapture   # 需 Npcap + 真实网卡（CI 不跑）
 
 ## 相关文档
 
-- [CLAUDE.md](./CLAUDE.md) — 维护者/开发指南（架构、设计决策、扩展、陷阱）
 - [gopacket 文档](https://github.com/gopacket/gopacket) — 底层依赖

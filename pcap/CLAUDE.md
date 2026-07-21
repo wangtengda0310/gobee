@@ -50,7 +50,7 @@ pcap 是一个基于 [gopacket](https://github.com/gopacket/gopacket) 的网络�
 **关键性质**：
 - 抓包主 goroutine 只负责「读包 + 过滤 + 投递」，**不调用 HandlePacket**。
 - 每个 handler 独占一个 worker goroutine + 一条独立的有界 channel。慢 handler 只会填满自己的队列，不影响其他 handler，也不阻塞抓包。
-- `dispatch` 是过载保护的核心（见 `capturer.go:263`）：按 `OverflowStrategy` 决定投递行为。
+- `dispatch` 是过载保护的核心（见 `capturer.go` 的 `dispatch` 函数）：按 `OverflowStrategy` 决定投递行为。
 
 ### 构建模式（重要）
 
@@ -60,6 +60,22 @@ pcap 是一个基于 [gopacket](https://github.com/gopacket/gopacket) 的网络�
 |------|------|----------|------|
 | 纯 Go（默认） | `CGO_ENABLED=0 go build` | 除 `source_live.go` 外全部 | 离线重放、单元测试、CI |
 | 实时抓包 | `CGO_ENABLED=1 go build -tags livecapture` | 全部（含 `source_live.go`） | 网卡抓包（需 Npcap/libpcap） |
+
+#### Windows 开发环境配置（cgo 实时抓包）
+
+在 Windows 上开发/验证实时抓包功能，需要一次性配置（详见 README「安装 → Windows」）。本节列出维护者需要的**关键配置摘要**，便于新环境快速复刻：
+
+1. **gcc**：MSYS2 mingw-w64，`C:\msys64\mingw64\bin` 加入系统 PATH。
+2. **Npcap 运行库**：`C:\Windows\System32\wpcap.dll` + `Packet.dll`。
+3. **Npcap SDK 头文件**：用源码包的 `wpcap\libpcap\` 目录（如 `D:\npcap-1.88\wpcap\libpcap`），头文件自包含齐全。
+4. **mingw 导入库**（关键，否则 `-lwpcap` 失败）：用 `gendef`+`dlltool` 从 `wpcap.dll`/`Packet.dll` 生成 `libwpcap.a`/`libPacket.a`，复制到 `C:\msys64\mingw64\x86_64-w64-mingw32\lib\`。
+5. **cgo 环境变量**（用户级，`setx` 永久化）：
+   ```
+   CGO_CFLAGS  = -I D:\npcap-1.88\wpcap\libpcap
+   CGO_LDFLAGS = -l wpcap
+   ```
+
+**陷阱**：持久化 `CGO_LDFLAGS=-l wpcap` 后，**所有** cgo 构建（含不带 `livecapture` 的 race 测试）都会尝试链接 wpcap。只有生成了导入库（第 4 步）才能让 `-lwpcap` 永远成功，否则 race 测试会因 `cannot find -lwpcap` 失败。
 
 `source_live.go` 顶部的 `//go:build cgo && livecapture` 是**双重门槛**：
 - `cgo`：把「race 检测需要 cgo」与「链接 libpcap」解耦——`go test -race`（开启 cgo 但无 tag）不会拉入 libpcap。
@@ -129,7 +145,7 @@ pcap 是一个基于 [gopacket](https://github.com/gopacket/gopacket) 的网络�
 
 ### 决策 4：BPF 能力探测，不支持则显式失败
 
-**实现**（`capturer.go:180-196`, `:434`）：
+**实现**（`capturer.go` 的 `Capture` BPF 合并段 + `BPFCapable` 接口）：
 - `BPFCapable` 接口：只有 `liveSource` 实现（`SetBPFFilter`）。
 - `Capture` 时若指定了 BPF 但 Source 未实现 `BPFCapable`，返回 `ErrBPFNotSupported`，而非静默放过。
 - 离线 `readerSource` 不实现 BPF → 离线过滤只能用 `Target.Host`（用户态）。
@@ -189,6 +205,7 @@ if !sendSentinel(s) {
 | `broadcast_test.go::TestOverflowDrop_DoesNotBlockAndCountsDropped` | Drop 不阻塞抓包 + dropped 计数 | `received + dropped == captured`，耗时 < 串行 |
 | `broadcast_test.go::TestOverflowDropOldest_KeepsLatest` | DropOldest flush 哨兵不破坏（回归守卫） | 不死锁，dropped > 0 |
 | `broadcast_test.go::TestRegisterUnregister_DynamicAndErrors` | 动态增删 + 哨兵错误 | 运行期注册生效，`ErrHandlerExists`/`ErrHandlerNil`/`ErrEmptyName`/`ErrHandlerNotFound` |
+| `coverage_test.go` | 补齐覆盖缺口：OverflowBlock/BPF/Hooks/Close/LifeCycler/String/Option/hostMatches | 详见各子测试，覆盖率 80% → 96% |
 
 ### 测试数据策略（重要）
 
@@ -202,15 +219,22 @@ if !sendSentinel(s) {
 ```bash
 cd pcap
 
-# 1. 全量单元测试（纯 Go，CI 默认跑这个）
+# 1. 全量单元测试（纯 Go，CI 默认跑这个，覆盖率 ~96%）
 CGO_ENABLED=0 go test ./... -v
 
-# 2. 并发安全检测（需 gcc/clang，不链接 libpcap）
-go test ./... -race
+# 2. 并发安全检测（需 gcc/clang）
+#    核心库 race：只需 gcc，不链接 libpcap
+go test ./... -race -count=1
+#    完整链路 race（含 cgo 实时代码）：需 gcc + Npcap SDK + 导入库（见「构建模式 → Windows」）
+go test ./... -race -tags livecapture -count=1 -timeout 180s
 
 # 3. vet 两种模式都要过
 CGO_ENABLED=0 go vet ./...
 CGO_ENABLED=1 go vet -tags livecapture ./...
+
+# 4. lint 两种模式（可选，严格集）
+CGO_ENABLED=0 golangci-lint run --enable errcheck,gocritic,unparam,gosec ./...
+CGO_ENABLED=1 golangci-lint run --build-tags livecapture --enable errcheck,gocritic,unparam,gosec ./...
 ```
 
 ### 新增测试的检查清单
