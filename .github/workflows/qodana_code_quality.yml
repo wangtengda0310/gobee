@@ -23,4 +23,5 @@ jobs:
         env:
           QODANA_TOKEN: ${{ secrets.QODANA_TOKEN }}
         with:
+          linter: jetbrains/qodana-go:community
           args: --fail-threshold=0
