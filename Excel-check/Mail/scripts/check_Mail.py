@@ -12,6 +12,11 @@ from pathlib import Path
 
 import pandas as pd
 
+_LIB_DIR = Path(__file__).resolve().parents[2] / "_lib"
+if str(_LIB_DIR) not in sys.path:
+    sys.path.insert(0, str(_LIB_DIR))
+from type_check import collect_s12_field_errors, type_map_from_raw  # noqa: E402
+
 BODY_PREFIX = "<color=#FFFFFF00>占位</color>"
 BODY_PREFIX_LEN = 200
 ITEM_PATTERN = re.compile(r"^(\{\d+;\d+\})(,\{\d+;\d+\})*$")
@@ -276,6 +281,8 @@ def collect_semantic_rows(data: pd.DataFrame) -> list[SemanticRow]:
 
 def validate_structural(path: Path) -> tuple[list[MailIssue], pd.DataFrame]:
     data = load_mail_rows(path)
+    raw = pd.read_excel(path, header=None)
+    type_by_name = type_map_from_raw(raw, type_row=TYPE_ROW, header_row=HEADER_ROW, is_empty=is_empty)
     issues: list[MailIssue] = []
     ids: list[int] = []
 
@@ -309,6 +316,11 @@ def validate_structural(path: Path) -> tuple[list[MailIssue], pd.DataFrame]:
         except (TypeError, ValueError):
             issues.append(MailIssue(raw_id, title, "Id", "Id 必须是 int"))
             continue
+
+        for field, msg in collect_s12_field_errors(
+            row, type_by_name, pk_field="Id", is_empty=is_empty
+        ):
+            issues.append(MailIssue(row_id, title, field, msg))
 
         if not title:
             issues.append(MailIssue(row_id, title, "Title", "Title 必须是 string 且非空"))

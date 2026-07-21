@@ -10,22 +10,25 @@ description: |
 
 校验 `PveBossStage_龚行天罚.xlsx`（sheet：`龚行天罚表|PveBossStage`）。公共约定见 [Excel-check/SKILL.md](../SKILL.md)。
 
+**表结构**：A（经典行表）
+**主键列**：`Id`
 **运行时输入**：用户提供 `PveBossStage_龚行天罚.xlsx` 路径。默认不读外联表。
 
 **业务标识列**：`Name`。
 
-**读表补充**：类型行=1，字段名行=2，数据起始行（0-based）=`4`；连续空 3 行截断；第 2、3 行皆空列丢弃。
+**读表补充**：类型行=1，字段名行=2，数据起始行（0-based）=`4`；连续空 3 行截断；`#` 分区行跳过；第 2、3 行皆空列丢弃。
 
 ## 脚本
 
 ```bash
 python "PveBossStage_龚行天罚/scripts/check_PveBossStage_gongxingtianfa.py" "<路径>"
 python "PveBossStage_龚行天罚/scripts/check_PveBossStage_gongxingtianfa.py" "<路径>" --json
+python "PveBossStage_龚行天罚/scripts/check_PveBossStage_gongxingtianfa.py" "<路径>" --semantic-json
 ```
 
-Issue 展示列用 `Name`：`Id=<Id> | Name=<Name> | <字段> | <说明>`
+Issue：`Id=<Id> | Name=… | <字段> | <说明>`
 
-Agent 向用户汇报时：原样列出脚本输出的每条 Issue 行；禁止用分类汇总表代替（细则见 [Excel-check/SKILL.md](../SKILL.md)「Agent 汇报硬性要求」）。
+Agent 汇报：原样列出每条 Issue 行；禁止用分类汇总表代替。
 
 ---
 
@@ -33,30 +36,27 @@ Agent 向用户汇报时：原样列出脚本输出的每条 Issue 行；禁止�
 
 ### 结构化规则（脚本）
 
-适用公共类型（落到本表）：
-
 | 编号 | 适用? | 落到本表 |
 |------|-------|----------|
 | S1 | 是 | `Id` |
+| S12 | 是 | 有值字段按类型行（int/bool/string/E*/数组等） |
 | S2 | 部分 | 见字段细则 |
-| S3 | 否 | — |
-| S4 | 部分 | bool / 枚举有值时 |
-| S5–S8 | 否 | —（首轮未归纳） |
 | S9 | 部分 | 类型行为数组等时 |
-| S10 | 否 | — |
 | S11 | 部分 | 成对时间字段（若存在） |
+| L1 | 是 | `Name` / `BossName` / `Des` / `RankTip` / `ChatShareIcon` |
 
-主要字段：`Id`, `Name`, `Open`, `PveBossType`, `ConsumeItem`, `Property`, `Reward`, `RandDropID`, `RewardId`, `BossCardLib`, `InitCardLib`, `BossName`, `BossHeroId`, `BanHeroList`, `Des`, `BossImagePath`, `BossFullImagePath`, `ReviveItemId`, `SpinePath`, `SpineMaskPath`, `RoomSpinePath`, `RankTip`, `RankType`, `BossLevelBg`, `IsOpenMask` 等共 28 列
+主要字段：`Id`, `Name`, `Open`, `PveBossType`, `ConsumeItem`, `Property`, `Reward`, `RandDropID`, `RewardId`, `BossCardLib`, `InitCardLib`, `BossName`, `BossHeroId`, `BanHeroList`, `Des`, `BossImagePath`, `BossFullImagePath`, `ReviveItemId`, `SpinePath`, `SpineMaskPath` 等共 28 列
 
 #### 字段细则
 
 - **Id**：int，不重复（S1）
-- **Name**：非空（S2）
-- **IsOpenMask** 等：可空；有值须 bool 语义（S4）
+- 除主键外其余字段默认可空；有值时按类型行做格式校验（见脚本）
+- 若存在 `Name` / `Title` / `SkillName`：非空（S2）
 
 ### 语义规则
 
-无（首轮未归纳出需 LLM 的语义规则；后续可按样例增补）。
+- **L1 文案质量**：对非空 `Name`、`BossName`、`Des`、`RankTip`、`ChatShareIcon` 检查错字、漏字、病句、标点不规范（剥富文本标签后审）。
+- 检查时用 `--semantic-json` 取待审行，由 Agent（LLM）执行；脚本不维护错别字词表。
 
 ---
 
@@ -64,23 +64,23 @@ Agent 向用户汇报时：原样列出脚本输出的每条 Issue 行；禁止�
 
 ### 结构化规则（脚本）
 
-经归纳无（首轮仅落地通用结构校验；后续可按样例/业务增补）。
+经归纳无（首轮对照 Mail/Recharge 等写法后，本表样例未落成可执行独有硬规则；后续可增补）。
 
 ### 语义规则
 
-经归纳无。
+经归纳无（除公共 L1 外无额外玩法语义；后续可增补）。
 
 ---
 
 ## 补充规则时（必须）
 
-按用户要求为本表 **新增/修改规则**前：先对照本文件已有「通用规则」「独有规则」（及对应脚本实现）。
+按用户要求新增/修改规则前：对照本文件已有通用+独有及脚本。
 
 | 情况 | 处理 |
 |------|------|
-| 与现有规则实质重复 | 先反馈重复点，勿落盘；询问是否保留/合并/取消 |
-| 与现有规则冲突 | 先列出冲突双方，停止实现；询问以哪方为准 |
-| 无重复且无冲突 | 再写入本文件，并视需要改脚本 |
+| 实质重复 | 先反馈，勿落盘；问保留/合并/取消 |
+| 冲突 | 先列双方，停止实现；问以谁为准 |
+| 无重复无冲突 | 再写入，并视需要改脚本 |
 
 细则见 [Excel-check/SKILL.md](../SKILL.md)「使用者后续补充」。
 
@@ -91,5 +91,8 @@ Agent 向用户汇报时：原样列出脚本输出的每条 Issue 行；禁止�
 ```
 用户: 检查 PveBossStage_龚行天罚.xlsx
 → python "PveBossStage_龚行天罚/scripts/check_PveBossStage_gongxingtianfa.py" "<路径>"
-→ 按本文件通用/独有结构化规则输出报告（首轮无语义）
+→ 需要时 --semantic-json，按 L1（及独有语义）由 Agent 审
+→ 合并结构化 + 语义报告
 ```
+
+<!-- sync: 须含 L1：Name, BossName, Des, RankTip, ChatShareIcon -->

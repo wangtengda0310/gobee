@@ -10,6 +10,9 @@ description: |
 
 校验 `Hero.xlsx`（sheet：`武将表|Hero`）。公共约定见 [Excel-check/SKILL.md](../SKILL.md)。
 
+**表结构**：A（经典行表）
+**主键列**：`Id`
+
 **运行时输入**：用户提供 `Hero.xlsx` 路径。本表会读取同目录（或 `--skill`）下的 `Skill.xlsx`，校验武将 `Skill` 字段中的技能 Id 是否存在于技能表。
 
 **业务标识列**：`Name`（武将名）。独有规则主要围绕 `HeroType` 分叉。
@@ -40,6 +43,7 @@ Agent 向用户汇报时：原样列出脚本输出的每条 Issue 行；禁止�
 | 编号 | 适用? | 落到本表 |
 |------|-------|----------|
 | S1 | 是 | `Id` |
+| S12 | 是 | 有值字段按类型行（int/bool/string/E*/数组等） |
 | S2 | 是 | `Name`；`HeroType`（与 `E#EHeroType` 同空时可空） |
 | S3 | 否 | — |
 | S4 | 是 | `HeroType`, `Gender`, `Country`, `BelongExpansionPack`, `IsOpen` 等 |
@@ -66,6 +70,9 @@ Agent 向用户汇报时：原样列出脚本输出的每条 Issue 行；禁止�
 - **MeltName**：可空；有值须逗号分隔的非空片段（`string[]`）
 
 ### 语义规则
+
+- **L1 文案质量**：对非空 `Name`、`MeltName` 等展示名检查错字、漏字、病句、标点（专有名词吃不准标需人工确认）。
+- 下列玩法语义为**独有**（非公共 L*）：
 
 检查时 **必须** 读取 `--semantic-json`（或 `--json` 的 `semantic_rows`），对每行做下列判断。
 

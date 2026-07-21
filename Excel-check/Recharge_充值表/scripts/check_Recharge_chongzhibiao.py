@@ -13,6 +13,11 @@ from pathlib import Path
 
 import pandas as pd
 
+_LIB_DIR = Path(__file__).resolve().parents[2] / "_lib"
+if str(_LIB_DIR) not in sys.path:
+    sys.path.insert(0, str(_LIB_DIR))
+from type_check import collect_s12_field_errors, type_map_from_raw  # noqa: E402
+
 TYPE_ROW = 1
 HEADER_ROW = 2
 DATA_START_ROW = 5
@@ -278,6 +283,11 @@ def validate_structural(path: Path, map_path: Path | None = None) -> list[Issue]
                 f"读取映射表失败 ({resolved_map}): {exc}",
             )
 
+    raw_for_types = pd.read_excel(path, header=None, dtype=object)
+    type_by_name = type_map_from_raw(
+        raw_for_types, type_row=TYPE_ROW, header_row=HEADER_ROW, is_empty=is_empty
+    )
+
     for _, row in data.iterrows():
         raw_id = row.get("Id")
         name = "" if is_empty(row.get("Name")) else str(row.get("Name")).strip()
@@ -287,6 +297,15 @@ def validate_structural(path: Path, map_path: Path | None = None) -> list[Issue]
             add(issues, raw_id, name, "Id", f"Id 必须是 int，实际: {raw_id}")
             continue
         ids.append(row_id)
+
+        for field, msg in collect_s12_field_errors(
+            row,
+            type_by_name,
+            pk_field="Id",
+            is_empty=is_empty,
+            skip_fields={"_Section"},
+        ):
+            add(issues, row_id, name, field, msg)
 
         if not name:
             add(issues, row_id, name, "Name", "Name 必须是 string 且非空")

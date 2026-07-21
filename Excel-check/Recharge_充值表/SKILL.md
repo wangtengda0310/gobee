@@ -10,6 +10,9 @@ description: |
 
 校验 `Recharge_充值表.xlsx`。公共约定见 [Excel-check/SKILL.md](../SKILL.md)。
 
+**表结构**：A（经典行表）
+**主键列**：`Id`
+
 **运行时输入**：用户提供 `Recharge_充值表.xlsx` 路径。本表会读取同目录（或 `--map`）下的 `Recharge_映射表.xlsx`，校验充值 `Id` 是否在映射中按端对应。
 
 **业务标识列**：`Name`（商品）；`Platform`（端，同名可多行）。独有规则主要围绕 `Name`，并以 `BaseRelateId` 是否为空区分变体。
@@ -37,6 +40,7 @@ Agent 向用户汇报时：原样列出脚本输出的每条 Issue 行；禁止�
 | 编号 | 适用? | 落到本表 |
 |------|-------|----------|
 | S1 | 是 | `Id` |
+| S12 | 是 | 有值字段按类型行（int/bool/string/E*/数组等） |
 | S2 | 是 | `Name`, `RechargeType`, `RelateId`, `ProductId`, `Platform`, `Price` |
 | S3 | 否 | — |
 | S4 | 是 | `RechargeType`, `Platform`, `LimitType` |
@@ -66,7 +70,8 @@ Agent 向用户汇报时：原样列出脚本输出的每条 Issue 行；禁止�
 
 ### 语义规则
 
-无（不适用 L1–L3）。
+- **L1 文案质量**：对非空 `Name` 检查错字、漏字、病句、标点不规范。
+- 玩法独有语义：经归纳无（本表以结构化独有规则为主）。
 
 ---
 

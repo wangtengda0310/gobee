@@ -10,6 +10,9 @@ description: |
 
 校验 `SkillUI_技能表现表.xlsx`（sheet：`技能表现配置表|SkillUI`）。公共约定见 [Excel-check/SKILL.md](../SKILL.md)。
 
+**表结构**：A（经典行表）
+**主键列**：`Id`
+
 **运行时输入**：用户提供 `SkillUI_技能表现表.xlsx` 路径。本表会读取同目录（或 `--skill`）下的 `Skill.xlsx`，校验本表 `Id`（字符串技能标识）与 `RelatedSkill`（数值技能 Id）外联。
 
 **业务标识列**：`SkillName`（技能中文名）。`Id` 为字符串技能标识（如 `Sha`、`TaiPingYaoShu`）。
@@ -44,6 +47,7 @@ Agent 向用户汇报时：原样列出脚本输出的每条 Issue 行；禁止�
 | 编号 | 适用? | 落到本表 |
 |------|-------|----------|
 | S1 | 是 | `Id`（string，全表唯一） |
+| S12 | 是 | 有值字段按类型行（int/bool/string/E*/数组等） |
 | S2 | 是 | `SkillName`、`SkillText`、`ShortSkillText` |
 | S3 | 是 | `Allusion` / `DesignThought` 有值时须以 `<color=#FFFFFF00>占位</color>` 开头（见独有细化） |
 | S4 | 是 | `HasRelation` 有值时为 bool 语义 |
@@ -68,6 +72,8 @@ Agent 向用户汇报时：原样列出脚本输出的每条 Issue 行；禁止�
 - **SettlementDes / AuraButtonDes / BattleSkillStep**：可空；有值须非空白 string  
 
 ### 语义规则
+
+- **L1 文案质量**：覆盖 `SkillName`、`ShortSkillText`、`SkillText`、`SettlementDes`、`Allusion`、`DesignThought` 等文本列（错字/漏字/病句/标点）；细则与玩法对照见下列各节（含独有语义）。
 
 检查时 **必须** 读取 `--semantic-json`（或 `--json` 的 `semantic_rows`），对每行做下列判断。
 

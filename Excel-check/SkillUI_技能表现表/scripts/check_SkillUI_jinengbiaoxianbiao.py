@@ -12,6 +12,11 @@ from pathlib import Path
 
 import pandas as pd
 
+_LIB_DIR = Path(__file__).resolve().parents[2] / "_lib"
+if str(_LIB_DIR) not in sys.path:
+    sys.path.insert(0, str(_LIB_DIR))
+from type_check import collect_s12_field_errors, type_map_from_raw  # noqa: E402
+
 TYPE_ROW = 1
 HEADER_ROW = 2
 DATA_START_ROW = 4  # 本表仅 4 行元数据
@@ -141,7 +146,13 @@ def load_rows(path: Path) -> pd.DataFrame:
         for col_i, name in zip(keep_cols, col_names):
             row[name] = raw.iloc[r, col_i]
         records.append(row)
-    return pd.DataFrame.from_records(records)
+    df = pd.DataFrame.from_records(records)
+    type_by_name: dict[str, str] = {}
+    for col_i, name in zip(keep_cols, col_names):
+        t = types[col_i] if col_i < len(types) else None
+        type_by_name[name] = "" if is_empty(t) else str(t).strip()
+    df.attrs["type_by_name"] = type_by_name
+    return df
 
 
 def resolve_skill_table_path(ui_path: Path, skill_path: Path | None) -> Path:
@@ -228,6 +239,14 @@ def validate_structural(
         row_id = str(raw_id).strip()
         skill_name = "" if is_empty(row.get("SkillName")) else str(row.get("SkillName")).strip()
         seen_ids.append(row_id)
+
+        for field, msg in collect_s12_field_errors(
+            row,
+            data.attrs.get("type_by_name") or {},
+            pk_field="Id",
+            is_empty=is_empty,
+        ):
+            add(issues, row_id, skill_name, field, msg)
 
         if not ID_RE.match(row_id):
             add(
