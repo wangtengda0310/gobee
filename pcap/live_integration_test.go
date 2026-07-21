@@ -139,3 +139,39 @@ func TestIntegration_CaptureLoopbackBriefly(t *testing.T) {
 		t.Skip("2 秒内未在 loopback 上抓到包（可能无流量），跳过")
 	}
 }
+
+// TestLive_SourceCloseExitsQuickly 验证 liveSource.Close 能在有限时间内打断读取循环。
+// 这是对「Ctrl+C 无响应」根因（BlockForever）的回归守卫：
+// Close 后 Packets() channel 应在 liveReadTimeout（1秒）+缓冲内关闭。
+func TestLive_SourceCloseExitsQuickly(t *testing.T) {
+	dev := pickFirstUsableInterface(t)
+
+	src, err := NewLiveSource(dev.Name, 65535, false, "")
+	require.NoError(t, err)
+
+	// 启动读取（消费 Packets channel）。
+	ch := src.Packets()
+	consumed := make(chan struct{})
+	go func() {
+		for range ch {
+		}
+		close(consumed)
+	}()
+
+	// 给读取循环一点时间进入阻塞 ReadPacketData。
+	time.Sleep(300 * time.Millisecond)
+
+	// 关闭并计时——Close 应在 liveReadTimeout(1s) + 余量 内让 channel 关闭。
+	start := time.Now()
+	require.NoError(t, src.Close())
+
+	select {
+	case <-consumed:
+		elapsed := time.Since(start)
+		// liveReadTimeout=1s，加调度余量，应远小于 5 秒。
+		assert.Less(t, elapsed, 5*time.Second,
+			"Close 后 Packets channel 应在 5 秒内关闭，实际 %v", elapsed)
+	case <-time.After(10 * time.Second):
+		t.Fatal("Close 后 10 秒内 Packets channel 未关闭——liveSource 未正确响应中断")
+	}
+}

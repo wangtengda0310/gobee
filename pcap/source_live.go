@@ -14,25 +14,40 @@
 package pcap
 
 import (
+	"errors"
 	"fmt"
 	"net"
 	"sync"
+	"time"
 
 	"github.com/gopacket/gopacket"
 	"github.com/gopacket/gopacket/layers"
 	"github.com/gopacket/gopacket/pcap"
 )
 
+// liveReadTimeout 是 liveSource 读取循环的单次超时。
+// 不用 pcap.BlockForever——那样读取会永久阻塞，Close() / ctx 取消无法打断。
+// 用有限超时后，每次 ReadPacketData 在超时时返回 NextErrorTimeoutExpired，
+// 读取循环得以周期性地检查 stop 信号，使 Close 能在至多 liveReadTimeout 内退出。
+const liveReadTimeout = 1 * time.Second
+
 // liveSource 基于 gopacket/pcap（cgo）实现实时网卡抓包。
 //
 // 并发安全：handle 和 bpf 受 mu 保护，支持在 Capture 运行期从其它 goroutine
 // 调用 SetBPFFilter / ValidateBPF 热重载过滤器。
+//
+// 可中断：Packets() 的读取循环由 stop channel 控制，Close() 可在 liveReadTimeout 内
+// 打断读取，避免 Ctrl+C 无响应。
 type liveSource struct {
-	mu     sync.RWMutex // 保护 handle / bpf
+	mu     sync.RWMutex // 保护 handle / bpf / stop / out
 	handle *pcap.Handle
-	ps     *gopacket.PacketSource
 	iface  string
 	bpf    string
+
+	// stop 由 Close 关闭，通知读取 goroutine 退出。
+	stop chan struct{}
+	// stopOnce 保证 stop 只关闭一次。
+	stopOnce sync.Once
 }
 
 // NewLiveSource 打开指定网卡进行实时抓包。
@@ -43,8 +58,10 @@ type liveSource struct {
 //
 // 前置条件：本机已安装 Npcap（Windows）或 libpcap（Linux/macOS），且 CGO_ENABLED=1。
 // 否则编译期即报错（cgo 子包不可用）。
+//
+// 读取超时为固定的 liveReadTimeout（1秒），保证 Close 可在秒级内打断读取。
 func NewLiveSource(iface string, snaplen int32, promisc bool, bpf string) (Source, error) {
-	handle, err := pcap.OpenLive(iface, snaplen, promisc, pcap.BlockForever)
+	handle, err := pcap.OpenLive(iface, snaplen, promisc, liveReadTimeout)
 	if err != nil {
 		return nil, fmt.Errorf("pcap: open live %q: %w", iface, err)
 	}
@@ -54,12 +71,68 @@ func NewLiveSource(iface string, snaplen int32, promisc bool, bpf string) (Sourc
 			return nil, fmt.Errorf("pcap: set bpf %q on %q: %w", bpf, iface, err)
 		}
 	}
-	ps := gopacket.NewPacketSource(handle, handle.LinkType())
-	return &liveSource{handle: handle, ps: ps, iface: iface, bpf: bpf}, nil
+	return &liveSource{
+		handle: handle,
+		iface:  iface,
+		bpf:    bpf,
+		stop:   make(chan struct{}),
+	}, nil
 }
 
 // Packets 实现 Source。
-func (s *liveSource) Packets() chan gopacket.Packet { return s.ps.Packets() }
+//
+// 不使用 gopacket.PacketSource.Packets()——它内部用 BlockForever 读取时不响应取消。
+// 这里自己驱动读取循环：循环 ReadPacketData，超时则 continue，收到 stop 信号则退出。
+// 这样 Capture 的 ctx 取消 → Close 能在 liveReadTimeout 内打断读取。
+//
+// 注意：本方法启动的 goroutine 在 Close 后退出并关闭 out channel。
+func (s *liveSource) Packets() chan gopacket.Packet {
+	out := make(chan gopacket.Packet, 128)
+	go s.readLoop(out)
+	return out
+}
+
+// readLoop 驱动读取循环。
+// 每次 ReadPacketData 超时（NextErrorTimeoutExpired）则 continue；
+// 成功读到包则解码后投递到 out；
+// 收到 stop 信号或 handle 出错则关闭 out 并退出。
+func (s *liveSource) readLoop(out chan gopacket.Packet) {
+	defer close(out)
+	s.mu.RLock()
+	handle := s.handle
+	// LinkType 本身实现了 Decoder 接口，直接用即可（与 gopacket.NewPacketSource 的做法一致）。
+	// 不要用 DecodersByLayerName[name]——link type 的 String() 可能不在 map 里（如 loopback 的 Null/Raw）。
+	decoder := gopacket.Decoder(handle.LinkType())
+	s.mu.RUnlock()
+
+	for {
+		// 先检查 stop（在每次阻塞读取前），保证 Close 能及时退出。
+		select {
+		case <-s.stop:
+			return
+		default:
+		}
+
+		data, ci, err := handle.ReadPacketData()
+		if err != nil {
+			if errors.Is(err, pcap.NextErrorTimeoutExpired) {
+				// 读超时：正常，继续下一轮（会重新检查 stop）。
+				continue
+			}
+			// 其它错误（handle 关闭/设备移除等）：终止读取。
+			return
+		}
+
+		pkt := gopacket.NewPacket(data, decoder, gopacket.Default)
+		pkt.Metadata().CaptureInfo = ci
+
+		select {
+		case out <- pkt:
+		case <-s.stop:
+			return
+		}
+	}
+}
 
 // LinkType 实现 Source。
 // 注意：pcap.LinkType 与 layers.LinkType 底层都是 LinkType/int，
@@ -71,7 +144,12 @@ func (s *liveSource) LinkType() layers.LinkType {
 }
 
 // Close 实现 Source。幂等。
+// 先关闭 stop 通知读取 goroutine 退出（至多 liveReadTimeout 内生效），
+// 再关闭 pcap handle 释放底层资源。
 func (s *liveSource) Close() error {
+	s.stopOnce.Do(func() {
+		close(s.stop)
+	})
 	s.mu.Lock()
 	defer s.mu.Unlock()
 	if s.handle != nil {
