@@ -204,6 +204,37 @@ c.RegisterHandler(pcap.NewHandlerFunc("http", func(ctx context.Context, e *pcap.
 c.Capture(ctx, src, pcap.Target{Host: "itsnot.fun"}) // 用户态二次过滤
 ```
 
+### 场景 3：用 CLI 工具实时抓包 + HTTP 流重组
+
+本包自带 `cmd/pcaptest` 命令行工具，覆盖常用抓包场景：
+
+```bash
+# 列出可用网卡
+CGO_ENABLED=1 go run -tags livecapture ./cmd/pcaptest -list
+
+# 抓包并打印每个包摘要
+CGO_ENABLED=1 go run -tags livecapture ./cmd/pcaptest -iface <网卡名>
+
+# 多网卡合并 + BPF 过滤 + 输出到 pcap 文件
+CGO_ENABLED=1 go run -tags livecapture ./cmd/pcaptest -iface <网卡1>,<网卡2> -bpf "tcp port 80" -out dump.pcap
+
+# 启用 HTTP 流重组，打印重组后的完整请求（Method/URL/Headers）
+CGO_ENABLED=1 go run -tags livecapture ./cmd/pcaptest -iface <网卡名> -http
+```
+
+| Flag | 默认 | 说明 |
+|---|---|---|
+| `-list` | false | 列出本机网卡后退出 |
+| `-iface` | 必填 | 网卡名，多个用逗号分隔 |
+| `-bpf` | `tcp port 80` | BPF 过滤表达式 |
+| `-http` | false | 启用 HTTP/1.x 流重组，打印重组后的完整请求 |
+| `-out` | 空 | 输出到 pcap 文件 |
+| `-host` | 空 | 用户态 host 过滤 |
+| `-snaplen` | 65535 | 每包最大截获字节 |
+| `-promisc` | false | 混杂模式 |
+
+> Windows 抓包需管理员权限（右键以管理员运行终端）；Linux 需 root 或 `CAP_NET_RAW`。
+
 ## API 文档
 
 ### 核心类型

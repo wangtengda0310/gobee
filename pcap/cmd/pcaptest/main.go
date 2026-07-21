@@ -13,15 +13,19 @@
 //	# 多网卡合并抓包 + BPF 过滤 + 输出到文件
 //	CGO_ENABLED=1 go run -tags livecapture ./cmd/pcaptest -iface <网卡1>,<网卡2> -bpf "tcp port 80" -out dump.pcap
 //
+//	# 启用 HTTP 流重组，打印重组后的完整请求（Method/URL/Headers）
+//	CGO_ENABLED=1 go run -tags livecapture ./cmd/pcaptest -iface <网卡名> -http
+//
 // 说明：
 //   - 本文件带 //go:build livecapture 标签，默认不参与编译，避免在无 Npcap 的环境下链接失败。
-//   - 单元测试（itsnotfun_test.go / merge_test.go）已覆盖离线等价场景。
+//   - 单元测试（itsnotfun_test.go / merge_test.go / reassembly_test.go）已覆盖离线等价场景。
 package main
 
 import (
 	"context"
 	"flag"
 	"fmt"
+	"net/http"
 	"os"
 	"os/signal"
 	"strings"
@@ -49,6 +53,7 @@ func run() int {
 	bpf := flag.String("bpf", "tcp port 80", "BPF 过滤表达式（留空则不过滤）")
 	host := flag.String("host", "", "应用层 host 过滤（HTTP Host 头 / IP 子串，留空则不过滤）")
 	out := flag.String("out", "", "输出到 pcap 文件路径（留空则不落盘）")
+	httpMode := flag.Bool("http", false, "启用 HTTP/1.x 流重组，打印重组后的完整请求（Method/URL/Headers）")
 	flag.Parse()
 
 	// -list：列出网卡后退出。
@@ -104,6 +109,29 @@ func run() int {
 		return 1
 	}
 
+	// 可选：启用 HTTP 流重组，打印重组后的完整请求。
+	var httpHandler *pcap.HTTPRequestHandler
+	if *httpMode {
+		httpHandler = pcap.NewHTTPRequestHandler("http", func(flow pcap.FlowKey, req *http.Request) error {
+			fmt.Printf("\n=== HTTP 请求 [%s] ===\n", flow)
+			fmt.Printf("%s %s HTTP/%d.%d\n", req.Method, req.URL.RequestURI(), req.ProtoMajor, req.ProtoMinor)
+			fmt.Printf("Host: %s\n", req.Host)
+			for k, vs := range req.Header {
+				if k == "Host" {
+					continue
+				}
+				for _, v := range vs {
+					fmt.Printf("%s: %s\n", k, v)
+				}
+			}
+			return nil
+		})
+		if err := c.RegisterHandler(httpHandler); err != nil {
+			fmt.Fprintln(os.Stderr, "register http handler:", err)
+			return 1
+		}
+	}
+
 	// 可选：输出到 pcap 文件。
 	if *out != "" {
 		if err := registerFileWriter(c, *out, src.LinkType()); err != nil {
@@ -122,6 +150,13 @@ func run() int {
 	if err := c.Capture(ctx, src, target); err != nil {
 		fmt.Fprintln(os.Stderr, "capture:", err)
 		return 1
+	}
+
+	// Capture 返回后 flush HTTP 流重组的残留流（未 FIN 的请求会被 Close 触发出回调）。
+	if httpHandler != nil {
+		if err := httpHandler.Close(); err != nil {
+			fmt.Fprintln(os.Stderr, "close http handler:", err)
+		}
 	}
 
 	st := c.Stats()

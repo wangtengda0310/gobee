@@ -103,7 +103,7 @@ pcap 是一个基于 [gopacket](https://github.com/gopacket/gopacket) 的网络�
 | `coverage_test.go` | 覆盖缺口补齐（OverflowBlock/BPF/Hooks/Close 等） | 详见各子测试 |
 | `reassembly_test.go` | 流重组单测（含 `writeTCPStreamPcap` 构造多包 TCP 流） | 改 reassembly.go 必改这里 |
 | `live_integration_test.go` | 真实网卡集成测试 | `//go:build cgo && livecapture && integration` |
-| `cmd/pcaptest/main.go` | 实时抓包 CLI（`-list`/`-bpf`/`-out`/多 `-iface`） | `//go:build livecapture` |
+| `cmd/pcaptest/main.go` | 实时抓包 CLI（`-list`/`-bpf`/`-out`/多 `-iface`/`-http` 流重组） | `//go:build livecapture` |
 
 ## 核心设计决策（必读）
 
