@@ -23,6 +23,7 @@ package main
 
 import (
 	"context"
+	"errors"
 	"flag"
 	"fmt"
 	"net/http"
@@ -148,8 +149,14 @@ func run() int {
 	fmt.Printf("开始在 %s 上抓取（bpf=%q host=%q out=%q），Ctrl+C 退出...\n",
 		src, *bpf, *host, *out)
 	if err := c.Capture(ctx, src, target); err != nil {
-		fmt.Fprintln(os.Stderr, "capture:", err)
-		return 1
+		// 区分「被信号取消」（Ctrl+C，正常优雅退出）与「真实错误」。
+		// ctx 被 SIGINT/SIGTERM 取消时 Capture 返回 context.Canceled，视为正常退出。
+		if errors.Is(err, context.Canceled) {
+			fmt.Fprintln(os.Stderr, "\n收到退出信号，停止抓包。")
+		} else {
+			fmt.Fprintln(os.Stderr, "capture:", err)
+			return 1
+		}
 	}
 
 	// Capture 返回后 flush HTTP 流重组的残留流（未 FIN 的请求会被 Close 触发出回调）。
