@@ -19,6 +19,7 @@
 | `NewCapturer` / `RegisterHandler` / `Capture` / `Stats` / `Close` | ❌ 不需要 | 核心库，纯 Go |
 | `NewReaderSource`（离线重放 pcap 文件） | ❌ 不需要 | 基于 `pcapgo`，纯 Go |
 | `NewMergedSource`（多网卡 fan-in 合并） | ❌ 不需要 | 纯 Go channel 合并 |
+| `NewHTTPRequestHandler` / `NewHTTPResponseHandler`（流重组+HTTP 解析） | ❌ 不需要 | 基于 `tcpassembly` + 标准库 `net/http`，纯 Go |
 | `PacketEvent` / 所有 `OverflowStrategy` / `Hooks` | ❌ 不需要 | 纯 Go 逻辑 |
 | `Target.Host`（用户态 host 过滤） | ❌ 不需要 | 纯 Go 字符串匹配 |
 | **单元测试**（`go test ./...`） | ❌ 不需要 | 全部纯 Go，CI 友好 |
@@ -382,6 +383,41 @@ pcap.NewCapturer(pcap.WithHooks(pcap.Hooks{
 ```
 
 > 回调在抓包主 goroutine 中同步执行，请保持轻量；耗时操作转发到其他 goroutine。
+
+### 流重组 `HTTPRequestHandler` / `HTTPResponseHandler`
+
+普通 `PacketHandler` 看到的是**零散的 TCP 包**。若要拿到**重组后的完整 HTTP 请求/响应**，用这两个内置 handler——它们实现 `PacketHandler`，内部用 `tcpassembly` 做 TCP 重组 + 标准库 `net/http` 解析。
+
+```go
+// 重组并解析 HTTP 请求
+h := pcap.NewHTTPRequestHandler("http-req", func(flow pcap.FlowKey, req *http.Request) error {
+    fmt.Printf("[%s] %s %s Host=%s\n", flow, req.Method, req.URL.RequestURI(), req.Host)
+    return nil
+})
+capturer.RegisterHandler(h)
+// Capture 运行...
+defer h.Close() // flush 残留流 + 等待 per-flow goroutine 退出
+
+// HTTP 响应重组（对称）
+hr := pcap.NewHTTPResponseHandler("http-resp", func(flow pcap.FlowKey, resp *http.Response) error {
+    fmt.Printf("[%s] status=%d\n", flow, resp.StatusCode)
+    return nil
+})
+```
+
+| 类型 | 回调签名 | 解析内容 |
+|---|---|---|
+| `NewHTTPRequestHandler` | `func(flow FlowKey, req *http.Request) error` | Method / URL / Headers / Body |
+| `NewHTTPResponseHandler` | `func(flow FlowKey, resp *http.Response) error` | StatusCode / Headers / Body |
+
+**关键点**：
+- **HTTP/1.x only**：基于标准库 `net/http`，不支持 HTTP/2（记为 TODO）。
+- **明文 only**：不解密 TLS；抓 HTTPS 需先用 SSLKEYLOGFILE 预解密。
+- **回调中的 `req`/`resp` 复用底层缓冲**，返回后可能被改写；如需保留请深拷贝。
+- **必须 `Close()`**：Capture 返回后调用，确保缓冲中的不完整流被 flush（否则可能丢失最后一个未 FIN 的请求）。
+- **`FlowKey`** 标识 TCP 流（`NetworkFlow` + `TransportFlow`），便于区分请求来自哪个连接。
+
+> 这两个 handler 完全是纯 Go 实现，**不依赖 Npcap**——可离线重放 pcap 测试，也可接入实时抓包。
 
 ## 最佳实践
 

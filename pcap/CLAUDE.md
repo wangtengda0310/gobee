@@ -96,10 +96,12 @@ pcap 是一个基于 [gopacket](https://github.com/gopacket/gopacket) 的网络�
 | `source.go` | 纯 Go：`pcapgo.Reader` → `Source` | 不依赖 cgo |
 | `source_live.go` | cgo：网卡实时抓包 → `Source` + `ListInterfaces` + BPF 热重载 | `//go:build cgo && livecapture` |
 | `merge.go` | 纯 Go：`MergedSource` 多网卡 fan-in 合并 | 不依赖 cgo；要求子源 LinkType 一致 |
+| `reassembly.go` | 纯 Go：TCP 流重组 + HTTP/1.x 解析（`HTTPRequestHandler`/`HTTPResponseHandler`） | 基于 `tcpassembly`；实现 `PacketHandler`，串行约束由 worker 满足 |
 | `itsnotfun_test.go` | ★ 验证 itsnot.fun HTTP 抓取 + 测试辅助（共享） | 含 `writePcap` / `collectHandler` |
 | `merge_test.go` | MergedSource fan-in 单测（纯 Go） | 改 merge.go 必改这里 |
 | `broadcast_test.go` | 并发安全 + 过载策略 + 动态增删测试 | 改 dispatch 必改这里 |
 | `coverage_test.go` | 覆盖缺口补齐（OverflowBlock/BPF/Hooks/Close 等） | 详见各子测试 |
+| `reassembly_test.go` | 流重组单测（含 `writeTCPStreamPcap` 构造多包 TCP 流） | 改 reassembly.go 必改这里 |
 | `live_integration_test.go` | 真实网卡集成测试 | `//go:build cgo && livecapture && integration` |
 | `cmd/pcaptest/main.go` | 实时抓包 CLI（`-list`/`-bpf`/`-out`/多 `-iface`） | `//go:build livecapture` |
 
@@ -178,6 +180,33 @@ pcap 是一个基于 [gopacket](https://github.com/gopacket/gopacket) 的网络�
 - `BPFValidator` 接口与 `BPFCapable` 分离：校验与应用是两个能力，某些 Source 可能只支持其一。
 
 **推荐用法**：热重载前先 `ValidateBPF` 校验，通过后再 `SetBPFFilter` 应用，避免把非法 BPF 应用进去导致抓包异常。
+
+### 决策 7：流重组为何实现为 PacketHandler 而非新接口（Design B）
+
+**实现**（`reassembly.go`）：
+- `HTTPRequestHandler` / `HTTPResponseHandler` 都实现 `PacketHandler`，内部持有 `tcpassembly.Assembler` + `StreamPool`。
+- `HandlePacket` 提取 `*layers.TCP`，喂给 `Assembler.AssembleWithTimestamp`。
+- 每个 TCP 流在 `StreamFactory.New` 时启动一个 goroutine，drain `tcpreader.ReaderStream` 并用标准库 `net/http` 解析。
+- `Close()` 调 `asm.FlushAll()` 触发所有未完成流的 `ReassemblyComplete`，等待 per-flow goroutine 退出。
+
+**为什么不用新的 `StreamHandler` 接口（Design A）而用 `PacketHandler`（Design B）**：
+
+关键架构契合点——`tcpassembly.Assembler.Assemble()` **不是并发安全的**，必须串行调用。而现有 `capturer.runWorker`（per-handler 独占 worker goroutine）**已保证单个 handler 的 `HandlePacket` 串行执行**。把 Assembler 放进一个 `PacketHandler`：
+- 串行约束**自动满足**，零新锁。
+- `Capturer` 的 2 方法接口**不变**。
+- 复用现有 `OverflowStrategy`（包队列背压）和 `flushAll`（Capture 退出收尾）。
+
+**HTTP 解析路径**：gopacket v1.7.0 **没有** `layers.HTTP` 类型。HTTP 解析走标准库 `net/http.ReadRequest/ReadResponse`，喂给它 `tcpreader.ReaderStream`（既是 Stream 又是 io.Reader）。这与 gopacket 官方 `examples/httpassembly` 示例完全一致。
+
+**生命周期要点**：
+- per-flow goroutine 在 `StreamFactory.New` 启动（drain ReaderStream 是硬性要求，否则 `Reassembled` 阻塞）。
+- `Close()` 必须被调用：`FlushAll` 触发未完成流结束，否则缓冲中的不完整流会丢失，且 goroutine 泄漏。
+- `closed atomic.Bool` 阻止 Close 后新流创建；`factory.New` 在 closed 状态下返回空 ReaderStream（不启动 goroutine）。
+
+**局限（TODO）**：
+- **HTTP/2 不支持**：标准库 `net/http` 不解析 HTTP/2；如需支持需引入专门的 HTTP/2 解析器。
+- **TLS 不解密**：只读明文；HTTPS 需配合 SSLKEYLOGFILE 预解密。
+- **req/resp 缓冲复用**：回调返回后底层缓冲可能被改写，需保留时调用方需深拷贝。
 
 ## 并发安全契约
 
@@ -278,6 +307,15 @@ CGO_ENABLED=1 golangci-lint run --build-tags livecapture --enable errcheck,gocri
 2. 若支持 BPF，额外实现 `BPFCapable`（`SetBPFFilter`）。
 3. 纯 Go 源放 `source_xxx.go`；cgo 源放 `source_xxx_live.go` + `//go:build cgo && <tag>`。
 4. 加测试：用 mock 注入，验证它能被 `Capture` 正确消费。
+
+### 自定义流解析器（非 HTTP 协议）
+
+`reassembly.go` 已封装 HTTP/1.x。若要重组其他基于 TCP 的文本协议（如 Redis RESP、MySQL 协议）：
+
+1. 仿照 `NewHTTPRequestHandler`，调用内部的 `newHTTPReassembler`，但传入自定义的 `parse` 函数。
+2. `parse` 函数签名：`func(flow FlowKey, r io.Reader, wg *sync.WaitGroup)`——从 `r` 用 `bufio.NewReader` 循环读取并解析你的协议，每个完整消息触发回调，结束时 `wg.Done()`。
+3. 或者直接实现自己的 `tcpassembly.StreamFactory`，完全绕过 `httpReassembler`。
+4. 加测试：用 `reassembly_test.go` 的 `writeTCPStreamPcap` / `buildRequestStreamPcap` 构造多包 TCP 流。
 
 ### 添加新的过载策略
 
