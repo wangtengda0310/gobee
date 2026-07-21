@@ -1,0 +1,16 @@
+# Go 构建产物
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+
+# 测试与覆盖率
+*.out
+*.test
+*.prof
+
+# 编辑器/IDE
+.idea/
+.vscode/
+*.swp
