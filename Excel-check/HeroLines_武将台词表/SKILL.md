@@ -29,7 +29,7 @@ python "HeroLines_武将台词表/scripts/check_HeroLines_wujiangtaicibiao.py" "
 python "HeroLines_武将台词表/scripts/check_HeroLines_wujiangtaicibiao.py" "<路径>" --semantic-json
 ```
 
-Issue：`Id=<Id> | TabName=… | <字段> | <说明>`；若归属武将 `IsOpen=0`，说明末尾追加 `；武将还未开放（武将名）`。
+Issue：`Id=<Id> | TabName=… | <字段> | <说明>`；若归属武将 `IsOpen=0`，说明末尾追加 `；武将还未开放（武将名）`。未开放武将的「SkillLines 找不到 SkillId」输出为 `[警告]`，不计入结构化问题数量 / 退出码。
 
 Agent 汇报：原样列出每条 Issue 行；禁止用分类汇总表代替。L1 语义若 `--semantic-json` 行含 `hero_not_open`，汇报时同样追加。
 
@@ -56,7 +56,7 @@ Agent 汇报：原样列出每条 Issue 行；禁止用分类汇总表代替。L
 - **Id**：int，不重复（S1）
 - **TabName**：必填非空（S2 / 独有）
 - **Text**：必填非空（**年兽除外**，见独有）；全表非空 Text 不重复（S2 / 独有）
-- **AudioId**：必填非空；全表不重复；武将行须符合 `Vo_Hero_…` 命名（**年兽**为 `Vo_Boss_NianShou_…`，见独有）
+- **AudioId**：必填非空；全表不重复（不做 `Vo_Hero_…` 命名格式校验）
 - 其余字段默认可空；有值时按类型行做格式校验（S12）
 - 若存在 `Name` / `Title` / `SkillName`：非空（S2）
 
@@ -109,8 +109,8 @@ Agent 汇报：原样列出每条 Issue 行；禁止用分类汇总表代替。L
 
 | 情况 | 报错 |
 |------|------|
-| 对应 `SkillId` 在 SkillLines 中均不存在 | SkillLines 中找不到 SkillId=… |
-| 找到了但各 `Skill*Line` 均未包含本行 `Id` | Id 须出现在 SkillLines … Skill*Line 中 |
+| 对应 `SkillId` 在 SkillLines 中均不存在 | SkillLines 中找不到 SkillId=…；若归属武将全部 `IsOpen=0`，**降为警告**（仍输出，不计入阻断问题） |
+| 找到了但各 `Skill*Line` 均未包含本行 `Id` | Id 须出现在 SkillLines … Skill*Line 中（已开放武将仍为错误） |
 
 `SkillLines` 缺失则报错并跳过本条外联。`TabName` 已在第 3 条报「Skill 找不到」时，本条不再重复查拼音。
 
@@ -119,39 +119,11 @@ Agent 汇报：原样列出每条 Issue 行；禁止用分类汇总表代替。L
 - `Text` 不能为空（**年兽除外**，见下「年兽特殊」）
 - 全表所有非空 `Text`（去首尾空白后）不得重复；重复时报涉及的 `Id` 列表
 
-#### 6. AudioId 必填、唯一与命名格式
+#### 6. AudioId 必填与唯一
 
 - `AudioId` 不能为空
-- 全表所有非空 `AudioId`（去首尾空白后）不得重复；重复时报涉及的 `Id` 列表
-
-**格式**（武将行；段之间用 `_`）：
-
-`Vo_Hero_{武将拼音}[_{SkinN}]_{页签段}_{编号}_{台词首字母}`
-
-| 段 | 规则 |
-|----|------|
-| 前缀 | 固定 `Vo_Hero` |
-| 武将拼音 | 武将中文名逐字拼音，每字拼音**首字母大写**后拼接（如貂蝉→`DiaoChan`） |
-| SkinN | **可选**；皮肤台词为 `Skin`+数字（如 `Skin1`），无皮肤则省略 |
-| 页签段 | 见下表；技能类为 `JN1`/`JN2`/…（`JN`+正整数） |
-| 编号 | 两位数字（如 `01`、`02`） |
-| 台词首字母 | 取 `Text` 中前 **6** 个汉字（不足则有几个用几个；忽略标点/非汉字），按**词组**取拼音后取**首字母大写**拼接（多音字按词消歧，如「长枪」→`CQ` 而非 `ZQ`） |
-
-**TabName → 页签段：**
-
-| TabName | 页签段 |
-|---------|--------|
-| `登场` | `DC` |
-| `击杀` | `JS` |
-| `阵亡` | `ZW` |
-| `自选` | `ZX` |
-| `重伤` | `ZS` |
-| `退场` | `TC` |
-| 其它（技能名） | `JN`+序号（`JN1`、`JN2`…） |
-
-例：`Vo_Hero_DiaoChan_DC_01_TYYQZC`；带皮肤：`Vo_Hero_ZhaoYun_Skin1_DC_01_PMDQGC`。
-
-本表无独立武将名列时：脚本校验整段形态、页签段与 `TabName`/`Text` 的对应，以及 `AudioId` 非空/唯一；武将拼音是否与某张武将表一致不在本条强制外联（后续可增补）。
+- 全表所有非空 `AudioId`（去首尾空白后）**不得重复**；重复时报涉及的 `Id` 列表
+- **不做** `Vo_Hero_…` 命名格式 / 页签段 / 台词首字母等形态校验
 
 #### 7. 年兽特殊（无台词）
 
@@ -160,7 +132,7 @@ Agent 汇报：原样列出每条 Issue 行；禁止用分类汇总表代替。L
 | 项 | 处理 |
 |----|------|
 | `Text` | **可空**；不报「Text 不能为空」；空则不做 L1 Text |
-| `AudioId` | 仍须非空、全表唯一；**不做** `Vo_Hero_…` 格式 / 页签段 / 台词首字母校验 |
+| `AudioId` | 仍须非空、全表唯一 |
 | Skill / SkillLines 外联 | **不做**（Boss 技能 TabName 如 `烈焰噬心1` 不必出现在 `Skill.xlsx` / `SkillLines`） |
 | TabName / Type | 固定页签（登场/击杀/退场/重伤等）仍按第 2 条校验 |
 | Hero 开放态标注 | **不做**（无常规武将归属） |

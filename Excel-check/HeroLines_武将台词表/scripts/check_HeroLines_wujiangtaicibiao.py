@@ -40,11 +40,13 @@ class Issue:
     field: str
     message: str
     source: str = "structural"
+    warning: bool = False
 
     def format_line(self) -> str:
         label = DISPLAY_FIELD or "-"
+        prefix = "[警告] " if self.warning else ""
         return (
-            f"{PK_FIELD}={self.row_id if self.row_id != '' else '-'} | "
+            f"{prefix}{PK_FIELD}={self.row_id if self.row_id != '' else '-'} | "
             f"{label}={self.display or '-'} | {self.field} | {self.message}"
         )
 
@@ -150,41 +152,13 @@ SKILL_LINES_LINE_FIELDS = (
     "SkillThirdLine",
     "SkillForthLine",
 )
-TAB_AUDIO_SEG = {
-    "登场": "DC",
-    "击杀": "JS",
-    "阵亡": "ZW",
-    "自选": "ZX",
-    "重伤": "ZS",
-    "退场": "TC",
-}
-AUDIO_ID_RE = re.compile(
-    r"^Vo_Hero_([A-Za-z]+)(?:_(Skin\d+))?_(DC|JS|ZW|ZX|ZS|TC|JN\d+)_(\d{2})_([A-Z]{1,6})$"
-)
 
-
-# 年兽 Boss 行：AudioId 前缀；无台词文案，不适用 Vo_Hero 命名与 Skill 外联
+# 年兽 Boss 行：AudioId 前缀；无台词文案，不适用 Skill 外联
 NIANSHOU_AUDIO_PREFIX = "Vo_Boss_NianShou_"
 
 
 def is_nianshou_row(audio_id: str) -> bool:
     return bool(audio_id) and audio_id.startswith(NIANSHOU_AUDIO_PREFIX)
-
-
-def text_audio_initials(text: str, limit: int = 6) -> str:
-    """台词前 N 个汉字的拼音首字母大写拼接。
-
-    须整段送入 pypinyin（勿逐字），以便多音字按词组消歧，如「长枪」→ chang 而非 zhang。
-    """
-    try:
-        from pypinyin import Style, lazy_pinyin
-    except ImportError as exc:  # pragma: no cover
-        raise RuntimeError("校验 AudioId 需要 pypinyin，请先 pip install pypinyin") from exc
-    chars = [c for c in text if "\u4e00" <= c <= "\u9fff"][:limit]
-    if not chars:
-        return ""
-    return "".join(s.upper() for s in lazy_pinyin("".join(chars), style=Style.FIRST_LETTER))
-
 
 def resolve_skill_table_path(hero_lines_path: Path, skill_path: Path | None) -> Path:
     if skill_path is not None:
@@ -382,6 +356,11 @@ def closed_hero_note(heroes: list[HeroOwner]) -> str:
     return "武将还未开放（" + "、".join(uniq) + "）"
 
 
+def heroes_all_not_open(heroes: list[HeroOwner]) -> bool:
+    """有归属武将且全部 IsOpen=0。"""
+    return bool(heroes) and all(not h.is_open for h in heroes)
+
+
 def annotate_issues_with_hero_open(
     issues: list[Issue],
     row_heroes: dict[object, list[HeroOwner]],
@@ -396,6 +375,18 @@ def annotate_issues_with_hero_open(
         if "武将还未开放" in issue.message:
             continue
         issue.message = f"{issue.message}；{note}"
+
+
+def demote_skilllines_missing_for_closed_heroes(
+    issues: list[Issue],
+    row_heroes: dict[object, list[HeroOwner]],
+) -> None:
+    """未开放武将：SkillLines 找不到 SkillId 降为警告（不阻断）。"""
+    for issue in issues:
+        if "SkillLines 中找不到 SkillId=" not in issue.message:
+            continue
+        if heroes_all_not_open(row_heroes.get(issue.row_id, [])):
+            issue.warning = True
 
 
 def load_skill_lines_id_index(skill_lines_path: Path) -> dict[str, set[int]]:
@@ -654,65 +645,12 @@ def validate_structural(
         else:
             text_owners.setdefault(line_text, []).append((row_id, tab_name or disp or "-"))
 
-        # 独有：AudioId 必填 + 格式（年兽为 Vo_Boss_NianShou_*，不做 Vo_Hero 规则）
+        # 独有：AudioId 必填 + 全表唯一（不做 Vo_Hero 格式 / 页签段校验）
         display_key = tab_name or disp or "-"
         if not audio_id:
             issues.append(Issue(row_id, display_key, "AudioId", "AudioId 不能为空"))
         else:
             audio_owners.setdefault(audio_id, []).append((row_id, display_key))
-            if not nianshou:
-                m = AUDIO_ID_RE.match(audio_id)
-                if not m:
-                    issues.append(
-                        Issue(
-                            row_id,
-                            display_key,
-                            "AudioId",
-                            "AudioId 格式须为 Vo_Hero_{武将拼音}[_SkinN]_{页签段}_{两位编号}_{台词首字母}，"
-                            f"实际: {audio_id}",
-                        )
-                    )
-                else:
-                    # group1=hero, group2=SkinN|None, group3=seg, group4=num, group5=initials
-                    _hero, _skin, seg, _num, initials = (
-                        m.group(1),
-                        m.group(2),
-                        m.group(3),
-                        m.group(4),
-                        m.group(5),
-                    )
-                    expected_seg = TAB_AUDIO_SEG.get(tab_name) if tab_name else None
-                    if expected_seg is not None:
-                        if seg != expected_seg:
-                            issues.append(
-                                Issue(
-                                    row_id,
-                                    display_key,
-                                    "AudioId",
-                                    f"TabName={tab_name} 时页签段须为 {expected_seg}，实际: {seg}",
-                                )
-                            )
-                    elif tab_name:
-                        if not re.fullmatch(r"JN\d+", seg or ""):
-                            issues.append(
-                                Issue(
-                                    row_id,
-                                    display_key,
-                                    "AudioId",
-                                    f"TabName 为技能名时页签段须为 JN+序号（如 JN1），实际: {seg}",
-                                )
-                            )
-                    if line_text:
-                        expect_init = text_audio_initials(line_text)
-                        if expect_init and initials != expect_init:
-                            issues.append(
-                                Issue(
-                                    row_id,
-                                    display_key,
-                                    "AudioId",
-                                    f"台词首字母段须为 {expect_init}（由 Text 前6字得出），实际: {initials}",
-                                )
-                            )
 
         for field in data.columns:
             if field in (PK_FIELD, "__types__"):
@@ -766,6 +704,7 @@ def validate_structural(
             )
         )
     annotate_issues_with_hero_open(issues, row_heroes)
+    demote_skilllines_missing_for_closed_heroes(issues, row_heroes)
     return issues, data, row_heroes
 
 
@@ -834,6 +773,8 @@ def main() -> int:
         hero_path=hero_path,
     )
     sem = semantic_rows(data, row_heroes=row_heroes)
+    errors = [i for i in issues if not i.warning]
+    warnings = [i for i in issues if i.warning]
     if args.semantic_json:
         print(json.dumps({"file": str(path), "pk_field": PK_FIELD, "l1_fields": L1_FIELDS, "semantic_rows": sem}, ensure_ascii=False, indent=2))
         return 0
@@ -847,8 +788,10 @@ def main() -> int:
                     "hero_file": str(resolve_hero_table_path(path, hero_path)),
                     "pk_field": PK_FIELD,
                     "l1_fields": L1_FIELDS,
-                    "structural_issue_count": len(issues),
-                    "structural_issues": [asdict(i) for i in issues],
+                    "structural_issue_count": len(errors),
+                    "structural_warning_count": len(warnings),
+                    "structural_issues": [asdict(i) for i in errors],
+                    "structural_warnings": [asdict(i) for i in warnings],
                     "semantic_rows": sem,
                 },
                 ensure_ascii=False,
@@ -860,12 +803,19 @@ def main() -> int:
     print(f"技能表: {resolve_skill_table_path(path, skill_path)}")
     print(f"技能台词表: {resolve_skill_lines_path(path, skill_lines_path)}")
     print(f"武将表: {resolve_hero_table_path(path, hero_path)}")
-    print(f"表结构: {STRUCT_KIND} | 主键列: {PK_FIELD} | L1字段: {', '.join(L1_FIELDS) if L1_FIELDS else '无'}")
-    print(f"结构化问题数量: {len(issues)}")
-    for issue in issues:
+    print(
+        f"表结构: {STRUCT_KIND} | 主键列: {PK_FIELD} | "
+        f"L1字段: {', '.join(L1_FIELDS) if L1_FIELDS else '无'}"
+    )
+    print(f"结构化问题数量: {len(errors)} | 警告数量: {len(warnings)}")
+    for issue in errors:
         print(issue.format_line())
+    if warnings:
+        print("--- 警告（未开放武将等，不阻断）---")
+        for issue in warnings:
+            print(issue.format_line())
     print(f"待语义分析行数: {len(sem)}（L1 文案质量；由 Agent 审）")
-    return 1 if issues else 0
+    return 1 if errors else 0
 
 
 if __name__ == "__main__":
