@@ -18,8 +18,7 @@ jobs:
         with:
           ref: ${{ github.event.pull_request.head.sha }}
           fetch-depth: 0
-      - name: Qodana Scan
-        uses: JetBrains/qodana-action@v2025.1
+      - name: 'Qodana Scan'
+        uses: JetBrains/qodana-action@v2026.1
         with:
-          linter: jetbrains/qodana-go:community
-          args: --fail-threshold=0
+          args: --image jetbrains/qodana-go:community
