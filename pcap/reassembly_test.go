@@ -3,6 +3,8 @@ package pcap
 import (
 	"bytes"
 	"context"
+	"encoding/binary"
+	"io"
 	"net"
 	"net/http"
 	"sync"
@@ -361,4 +363,125 @@ func itoa(n int) string {
 		n /= 10
 	}
 	return string(b)
+}
+
+// =============================================================================
+// TCPStreamHandler 测试（通用 TCP 流重组，不限于 HTTP）。
+//
+// 用「4 字节大端长度前缀 + payload」的消息格式模拟典型二进制协议（如 protobuf over TCP），
+// 验证使用者能从 io.Reader 读出重组后的完整消息流。
+// =============================================================================
+
+// framedMessage 构造一条「4字节长度前缀 + payload」的消息。
+func framedMessage(payload string) []byte {
+	buf := make([]byte, 4+len(payload))
+	binary.BigEndian.PutUint32(buf[:4], uint32(len(payload))) //nolint:gosec // G115: 测试数据受控
+	copy(buf[4:], payload)
+	return buf
+}
+
+// TestTCPStreamHandler_FramedMessages：跨多包的「长度前缀+消息」被正确重组并读出。
+func TestTCPStreamHandler_FramedMessages(t *testing.T) {
+	// 3 条消息，拼接后拆成小段（每段 7 字节），验证跨包重组 + 多消息循环读取。
+	msgs := []string{"hello", "itsnot.fun", "protobuf works"}
+	var allBytes []byte
+	for _, m := range msgs {
+		allBytes = append(allBytes, framedMessage(m)...)
+	}
+	pcapData := buildRequestStreamPcap(t, allBytes, 7, false)
+
+	var (
+		mu      sync.Mutex
+		gotMsgs []string
+	)
+	h := NewTCPStreamHandler("framed", func(flow FlowKey, r io.Reader) error {
+		// 使用者的典型逻辑：循环读长度前缀 + 消息体。
+		for {
+			var lenBuf [4]byte
+			if _, err := io.ReadFull(r, lenBuf[:]); err != nil {
+				return err // EOF / 流结束
+			}
+			msgLen := binary.BigEndian.Uint32(lenBuf[:])
+			payload := make([]byte, msgLen)
+			if _, err := io.ReadFull(r, payload); err != nil {
+				return err
+			}
+			mu.Lock()
+			gotMsgs = append(gotMsgs, string(payload))
+			mu.Unlock()
+		}
+	})
+
+	src := newSourceFromBytes(t, "framed.pcap", pcapData)
+	feedHandler(t, src, h)
+	require.NoError(t, h.Close())
+
+	require.Len(t, gotMsgs, 3, "应读出 3 条消息")
+	assert.Equal(t, []string{"hello", "itsnot.fun", "protobuf works"}, gotMsgs)
+}
+
+// TestTCPStreamHandler_NonTCPPacket：UDP 包静默跳过。
+func TestTCPStreamHandler_NonTCPPacket(t *testing.T) {
+	eth := &layers.Ethernet{SrcMAC: []byte{1, 2, 3, 4, 5, 6}, DstMAC: []byte{6, 5, 4, 3, 2, 1}, EthernetType: layers.EthernetTypeIPv4}
+	ip := &layers.IPv4{Version: 4, IHL: 5, TTL: 64, Protocol: layers.IPProtocolUDP, SrcIP: net.ParseIP("10.0.0.2"), DstIP: net.ParseIP("10.0.0.3")}
+	udp := &layers.UDP{SrcPort: 5353, DstPort: 5353}
+	require.NoError(t, udp.SetNetworkLayerForChecksum(ip))
+	buf := gopacket.NewSerializeBuffer()
+	require.NoError(t, gopacket.SerializeLayers(buf, gopacket.SerializeOptions{FixLengths: true, ComputeChecksums: true}, eth, ip, udp, gopacket.Payload([]byte("dns"))))
+	pkt := gopacket.NewPacket(buf.Bytes(), layers.LayerTypeEthernet, gopacket.Default)
+
+	h := NewTCPStreamHandler("udp-test", func(flow FlowKey, r io.Reader) error {
+		t.Error("UDP 包不应触发流回调")
+		return nil
+	})
+	e := &PacketEvent{Packet: pkt}
+	require.NotPanics(t, func() { _ = h.HandlePacket(context.Background(), e) })
+	require.NoError(t, h.Close())
+}
+
+// TestTCPStreamHandler_CloseIdempotent：多次 Close 不 panic。
+func TestTCPStreamHandler_CloseIdempotent(t *testing.T) {
+	h := NewTCPStreamHandler("idem", func(flow FlowKey, r io.Reader) error { return nil })
+	require.NoError(t, h.Close())
+	require.NoError(t, h.Close())
+}
+
+// TestTCPStreamHandler_WithCapturer：端到端——经 Capturer 完整链路。
+func TestTCPStreamHandler_WithCapturer(t *testing.T) {
+	msgs := []string{"e2e-1", "e2e-2"}
+	var allBytes []byte
+	for _, m := range msgs {
+		allBytes = append(allBytes, framedMessage(m)...)
+	}
+	pcapData := buildRequestStreamPcap(t, allBytes, 6, false)
+	src := newSourceFromBytes(t, "e2e-framed.pcap", pcapData)
+
+	var (
+		mu      sync.Mutex
+		gotMsgs []string
+	)
+	h := NewTCPStreamHandler("e2e", func(flow FlowKey, r io.Reader) error {
+		for {
+			var lenBuf [4]byte
+			if _, err := io.ReadFull(r, lenBuf[:]); err != nil {
+				return err
+			}
+			payload := make([]byte, binary.BigEndian.Uint32(lenBuf[:]))
+			if _, err := io.ReadFull(r, payload); err != nil {
+				return err
+			}
+			mu.Lock()
+			gotMsgs = append(gotMsgs, string(payload))
+			mu.Unlock()
+		}
+	})
+
+	c := NewCapturer(WithBufferSize(64), WithOverflowStrategy(OverflowBlock))
+	defer c.(*capturer).Close()
+	require.NoError(t, c.RegisterHandler(h))
+
+	require.NoError(t, c.Capture(context.Background(), src, Target{}))
+	require.NoError(t, h.Close())
+
+	assert.Equal(t, []string{"e2e-1", "e2e-2"}, gotMsgs)
 }

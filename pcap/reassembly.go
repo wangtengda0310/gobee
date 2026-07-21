@@ -57,7 +57,7 @@ type FlowKey struct {
 //   - 非 TCP 包静默跳过。
 //   - Close 后不再产生新的回调。
 type HTTPRequestHandler struct {
-	ras *httpReassembler
+	ras *tcpStreamReassembler
 }
 
 // NewHTTPRequestHandler 创建一个 HTTP 请求重组处理函数。
@@ -67,8 +67,7 @@ type HTTPRequestHandler struct {
 //     不会中断重组（由 capturer 的 errors 计数吸收）。
 func NewHTTPRequestHandler(name string, onRequest func(flow FlowKey, req *http.Request) error) *HTTPRequestHandler {
 	return &HTTPRequestHandler{
-		ras: newHTTPReassembler(name, func(flow FlowKey, r io.Reader, wg *sync.WaitGroup) {
-			defer wg.Done()
+		ras: newTCPStreamReassembler(name, func(flow FlowKey, r io.Reader) {
 			buf := bufio.NewReader(r)
 			for {
 				req, err := http.ReadRequest(buf)
@@ -103,14 +102,13 @@ func (h *HTTPRequestHandler) Close() error { return h.ras.close() }
 //	    return nil
 //	})
 type HTTPResponseHandler struct {
-	ras *httpReassembler
+	ras *tcpStreamReassembler
 }
 
 // NewHTTPResponseHandler 创建一个 HTTP 响应重组处理函数。
 func NewHTTPResponseHandler(name string, onResponse func(flow FlowKey, resp *http.Response) error) *HTTPResponseHandler {
 	return &HTTPResponseHandler{
-		ras: newHTTPReassembler(name, func(flow FlowKey, r io.Reader, wg *sync.WaitGroup) {
-			defer wg.Done()
+		ras: newTCPStreamReassembler(name, func(flow FlowKey, r io.Reader) {
 			buf := bufio.NewReader(r)
 			for {
 				resp, err := http.ReadResponse(buf, nil)
@@ -134,22 +132,94 @@ func (h *HTTPResponseHandler) Name() string { return h.ras.name }
 // Close flush 并等待 per-flow goroutine 退出。幂等。
 func (h *HTTPResponseHandler) Close() error { return h.ras.close() }
 
+// TCPStreamHandler 重组 TCP 流，把重组后的字节流（io.Reader）交给使用者解析。
+//
+// 这是「通用 TCP 流重组」入口：HTTP 用 NewHTTPRequestHandler/NewHTTPResponseHandler
+// （内置 net/http 解析）；其它基于 TCP 的协议（protobuf、Redis RESP、自定义二进制等）
+// 用本 handler——你只需提供如何从字节流读出消息的逻辑。
+//
+// 用法（以 protobuf 为例）：
+//
+//	h := pcap.NewTCPStreamHandler("proto", func(flow pcap.FlowKey, r io.Reader) error {
+//	    // r 是重组后的完整字节流，按你的协议格式读消息。
+//	    // 常见模式：先读 4 字节长度前缀，再读对应长度的 protobuf 消息。
+//	    for {
+//	        var lenBuf [4]byte
+//	        if _, err := io.ReadFull(r, lenBuf[:]); err != nil {
+//	            return err // EOF / 流结束
+//	        }
+//	        msgLen := binary.BigEndian.Uint32(lenBuf[:])
+//	        payload := make([]byte, msgLen)
+//	        if _, err := io.ReadFull(r, payload); err != nil {
+//	            return err
+//	        }
+//	        msg := &yourpb.YourMessage{}
+//	        if err := proto.Unmarshal(payload, msg); err != nil {
+//	            continue // 不是合法 protobuf，跳过（可能是握手/其它协议）
+//	        }
+//	        fmt.Println(msg)
+//	    }
+//	})
+//	capturer.RegisterHandler(h)
+//	defer h.Close() // Capture 返回后 flush 残留流
+//
+// 注意：
+//   - r 在本流的整个生命周期内有效，直到流结束（FIN/RST/超时/Close）。
+//     Read 返回 io.EOF 表示本流结束，你的回调应直接返回。
+//   - 一个流可能含多条协议消息（keep-alive），回调内应循环读取。
+//   - 如果协议消息边界与 TCP 段不对齐，r 已帮你重组好，你按流式读取即可。
+//   - Close 后不再产生新的回调。
+type TCPStreamHandler struct {
+	ras *tcpStreamReassembler
+}
+
+// NewTCPStreamHandler 创建一个通用 TCP 流重组处理函数。
+//
+//   - name：handler 名称（实现 PacketHandler.Name）。
+//   - onStream：每个 TCP 流启动一个回调，r 是该流重组后的字节流。
+//     回调返回时本流的 goroutine 退出。返回 error 仅用于统计（capturer 的 errors）。
+//
+// onStream 的常见实现：循环从 r 读「长度前缀 + 消息体」，用 proto.Unmarshal 解析。
+func NewTCPStreamHandler(name string, onStream func(flow FlowKey, r io.Reader) error) *TCPStreamHandler {
+	return &TCPStreamHandler{
+		ras: newTCPStreamReassembler(name, func(flow FlowKey, r io.Reader) {
+			_ = onStream(flow, r) // error 由内部统计吸收，不中断其它流。
+		}),
+	}
+}
+
+// HandlePacket 实现 PacketHandler。提取 TCP 层喂给 Assembler；非 TCP 包跳过。
+func (h *TCPStreamHandler) HandlePacket(_ context.Context, e *PacketEvent) error {
+	return h.ras.handlePacket(e)
+}
+
+// Name 实现 PacketHandler。
+func (h *TCPStreamHandler) Name() string { return h.ras.name }
+
+// Close flush 剩余流并等待所有 per-flow goroutine 退出。幂等。
+// 建议在 Capture 返回后调用，确保缓冲中的不完整流也被处理。
+func (h *TCPStreamHandler) Close() error { return h.ras.close() }
+
 // -----------------------------------------------------------------------------
 // 内部实现
 // -----------------------------------------------------------------------------
 
-// httpReassembler 是 HTTPRequestHandler / HTTPResponseHandler 共用的核心。
-// 持有 tcpassembly.Assembler + StreamPool，管理 per-flow goroutine 生命周期。
-type httpReassembler struct {
+// tcpStreamReassembler 是 HTTPRequestHandler / HTTPResponseHandler /
+// TCPStreamHandler 共用的核心。持有 tcpassembly.Assembler + StreamPool，
+// 管理 per-flow goroutine 生命周期。
+//
+// 它是「TCP 流重组 + 自定义解析」的通用引擎：
+// 使用者只需提供一个 parse 函数，从重组后的 io.Reader 读出自己的协议消息。
+type tcpStreamReassembler struct {
 	name string
 
 	pool *tcpassembly.StreamPool
 	asm  *tcpassembly.Assembler
 
 	// parse 在每个流的首个包时启动（由 factory.New），负责 drain ReaderStream
-	// 并解析 HTTP。参数 wg 用于 Close 时等待所有 per-flow goroutine 退出。
-	// 注意：parse 必须在结束时 wg.Done()。
-	parse func(flow FlowKey, r io.Reader, wg *sync.WaitGroup)
+	// 并解析协议。返回时本 per-flow goroutine 退出（wg 由本结构内部管理，
+	// 使用者无需关心）。
+	parse func(flow FlowKey, r io.Reader)
 
 	// wg 跟踪所有活跃 per-flow goroutine。
 	wg sync.WaitGroup
@@ -161,16 +231,16 @@ type httpReassembler struct {
 	mu sync.Mutex
 }
 
-// newHTTPReassembler 构造核心，parse 参数决定解析请求还是响应。
-func newHTTPReassembler(name string, parse func(flow FlowKey, r io.Reader, wg *sync.WaitGroup)) *httpReassembler {
-	ras := &httpReassembler{name: name, parse: parse}
+// newTCPStreamReassembler 构造核心。parse 函数在每个流上运行，从 r 读出协议消息。
+func newTCPStreamReassembler(name string, parse func(flow FlowKey, r io.Reader)) *tcpStreamReassembler {
+	ras := &tcpStreamReassembler{name: name, parse: parse}
 	ras.pool = tcpassembly.NewStreamPool(ras) // ras 实现 StreamFactory
 	ras.asm = tcpassembly.NewAssembler(ras.pool)
 	return ras
 }
 
 // handlePacket 提取 TCP 层并喂给 Assembler。
-func (ras *httpReassembler) handlePacket(e *PacketEvent) error {
+func (ras *tcpStreamReassembler) handlePacket(e *PacketEvent) error {
 	if ras.closed.Load() {
 		return nil // 已 Close，静默丢弃。
 	}
@@ -192,7 +262,7 @@ func (ras *httpReassembler) handlePacket(e *PacketEvent) error {
 }
 
 // close flush 剩余流并等待所有 per-flow goroutine 退出。幂等。
-func (ras *httpReassembler) close() error {
+func (ras *tcpStreamReassembler) close() error {
 	ras.mu.Lock()
 	if !ras.closed.CompareAndSwap(false, true) {
 		ras.mu.Unlock()
@@ -211,8 +281,8 @@ func (ras *httpReassembler) close() error {
 // New 实现 tcpassembly.StreamFactory。每个新流首次出现时由 Assembler 调用。
 //
 // 这里启动 per-flow goroutine：drain ReaderStream（必须，否则 Reassembled 阻塞）
-// 并用 parse 函数解析 HTTP。
-func (ras *httpReassembler) New(netFlow, tcpFlow gopacket.Flow) tcpassembly.Stream {
+// 并用 parse 函数解析协议。wg 由本结构内部管理，parse 无需关心。
+func (ras *tcpStreamReassembler) New(netFlow, tcpFlow gopacket.Flow) tcpassembly.Stream {
 	ras.mu.Lock()
 	defer ras.mu.Unlock()
 	if ras.closed.Load() {
@@ -224,14 +294,16 @@ func (ras *httpReassembler) New(netFlow, tcpFlow gopacket.Flow) tcpassembly.Stre
 	ras.wg.Add(1)
 	r := tcpreader.NewReaderStream()
 	flow := FlowKey{NetworkFlow: netFlow, TransportFlow: tcpFlow}
-	// per-flow goroutine：drain + parse。
-	// parse 负责在结束时 wg.Done()。
-	go ras.parse(flow, &r, &ras.wg)
+	// per-flow goroutine：drain + parse。内部管 wg，parse 只管读协议。
+	go func() {
+		defer ras.wg.Done()
+		ras.parse(flow, &r)
+	}()
 	return &r
 }
 
 // 编译期保证实现 StreamFactory。
-var _ tcpassembly.StreamFactory = (*httpReassembler)(nil)
+var _ tcpassembly.StreamFactory = (*tcpStreamReassembler)(nil)
 
 // 编译期保证两个 Handler 实现 PacketHandler。
 var (

@@ -20,6 +20,7 @@
 | `NewReaderSource`（离线重放 pcap 文件） | ❌ 不需要 | 基于 `pcapgo`，纯 Go |
 | `NewMergedSource`（多网卡 fan-in 合并） | ❌ 不需要 | 纯 Go channel 合并 |
 | `NewHTTPRequestHandler` / `NewHTTPResponseHandler`（流重组+HTTP 解析） | ❌ 不需要 | 基于 `tcpassembly` + 标准库 `net/http`，纯 Go |
+| `NewTCPStreamHandler`（通用 TCP 流重组，protobuf/自定义协议） | ❌ 不需要 | 基于 `tcpassembly`，使用者提供解析逻辑，纯 Go |
 | `PacketEvent` / 所有 `OverflowStrategy` / `Hooks` | ❌ 不需要 | 纯 Go 逻辑 |
 | `Target.Host`（用户态 host 过滤） | ❌ 不需要 | 纯 Go 字符串匹配 |
 | **单元测试**（`go test ./...`） | ❌ 不需要 | 全部纯 Go，CI 友好 |
@@ -449,6 +450,46 @@ hr := pcap.NewHTTPResponseHandler("http-resp", func(flow pcap.FlowKey, resp *htt
 - **`FlowKey`** 标识 TCP 流（`NetworkFlow` + `TransportFlow`），便于区分请求来自哪个连接。
 
 > 这两个 handler 完全是纯 Go 实现，**不依赖 Npcap**——可离线重放 pcap 测试，也可接入实时抓包。
+
+### 通用 TCP 流重组 `TCPStreamHandler`（protobuf / 自定义二进制协议）
+
+`HTTPRequestHandler` 内置了 HTTP 解析。若你要重组**其它基于 TCP 的协议**（protobuf、Redis、自定义二进制等），用 `NewTCPStreamHandler`——它把重组后的字节流（`io.Reader`）交给你，你自己解析消息。
+
+**protobuf 示例**（假设协议是「4字节大端长度前缀 + protobuf 消息」）：
+
+```go
+h := pcap.NewTCPStreamHandler("proto", func(flow pcap.FlowKey, r io.Reader) error {
+    for {
+        // 1. 读 4 字节长度前缀
+        var lenBuf [4]byte
+        if _, err := io.ReadFull(r, lenBuf[:]); err != nil {
+            return err // EOF / 流结束
+        }
+        msgLen := binary.BigEndian.Uint32(lenBuf[:])
+
+        // 2. 读对应长度的消息体
+        payload := make([]byte, msgLen)
+        if _, err := io.ReadFull(r, payload); err != nil {
+            return err
+        }
+
+        // 3. 用 proto.Unmarshal 解析（yourpb 是你从 .proto 生成的包）
+        msg := &yourpb.YourMessage{}
+        if err := proto.Unmarshal(payload, msg); err != nil {
+            continue // 不是合法 protobuf，跳过（可能是握手/其它帧）
+        }
+        fmt.Printf("[%s] %s\n", flow, proto.CompactTextString(msg))
+    }
+})
+capturer.RegisterHandler(h)
+defer h.Close() // Capture 返回后 flush 残留流
+```
+
+**关键点**：
+- `r` 是**重组后的完整字节流**——TCP 层的拆包/乱序已被处理，你按协议格式流式读取即可。
+- 一个 TCP 流可能含**多条协议消息**（keep-alive），回调内应**循环读取**直到 `io.EOF`。
+- 消息边界格式（长度前缀？分隔符？）取决于你的协议，需你自己实现读取逻辑。
+- 同样不依赖 Npcap（纯 Go，基于 tcpassembly）。
 
 ## 最佳实践
 

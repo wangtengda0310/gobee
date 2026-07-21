@@ -96,7 +96,7 @@ pcap 是一个基于 [gopacket](https://github.com/gopacket/gopacket) 的网络�
 | `source.go` | 纯 Go：`pcapgo.Reader` → `Source` | 不依赖 cgo |
 | `source_live.go` | cgo：网卡实时抓包 → `Source` + `ListInterfaces` + BPF 热重载 | `//go:build cgo && livecapture` |
 | `merge.go` | 纯 Go：`MergedSource` 多网卡 fan-in 合并 | 不依赖 cgo；要求子源 LinkType 一致 |
-| `reassembly.go` | 纯 Go：TCP 流重组 + HTTP/1.x 解析（`HTTPRequestHandler`/`HTTPResponseHandler`） | 基于 `tcpassembly`；实现 `PacketHandler`，串行约束由 worker 满足 |
+| `reassembly.go` | 纯 Go：TCP 流重组 + HTTP/通用协议解析（`HTTPRequestHandler`/`HTTPResponseHandler`/`TCPStreamHandler`） | 基于 `tcpassembly`；实现 `PacketHandler`，串行约束由 worker 满足 |
 | `itsnotfun_test.go` | ★ 验证 itsnot.fun HTTP 抓取 + 测试辅助（共享） | 含 `writePcap` / `collectHandler` |
 | `merge_test.go` | MergedSource fan-in 单测（纯 Go） | 改 merge.go 必改这里 |
 | `broadcast_test.go` | 并发安全 + 过载策略 + 动态增删测试 | 改 dispatch 必改这里 |
@@ -310,12 +310,22 @@ CGO_ENABLED=1 golangci-lint run --build-tags livecapture --enable errcheck,gocri
 
 ### 自定义流解析器（非 HTTP 协议）
 
-`reassembly.go` 已封装 HTTP/1.x。若要重组其他基于 TCP 的文本协议（如 Redis RESP、MySQL 协议）：
+`reassembly.go` 已封装 HTTP/1.x（`NewHTTPRequestHandler`/`NewHTTPResponseHandler`）。
+对于其它基于 TCP 的协议（protobuf、Redis RESP、自定义二进制），直接用 **`NewTCPStreamHandler`**：
 
-1. 仿照 `NewHTTPRequestHandler`，调用内部的 `newHTTPReassembler`，但传入自定义的 `parse` 函数。
-2. `parse` 函数签名：`func(flow FlowKey, r io.Reader, wg *sync.WaitGroup)`——从 `r` 用 `bufio.NewReader` 循环读取并解析你的协议，每个完整消息触发回调，结束时 `wg.Done()`。
-3. 或者直接实现自己的 `tcpassembly.StreamFactory`，完全绕过 `httpReassembler`。
-4. 加测试：用 `reassembly_test.go` 的 `writeTCPStreamPcap` / `buildRequestStreamPcap` 构造多包 TCP 流。
+```go
+pcap.NewTCPStreamHandler("proto", func(flow pcap.FlowKey, r io.Reader) error {
+    // r 是重组后的字节流，按你的协议格式读消息（如长度前缀 + protobuf）
+    // 循环读取直到 io.EOF（流结束）。详见 README 的 protobuf 示例。
+})
+```
+
+内部实现：`TCPStreamHandler` 与 HTTP handler 共用 `tcpStreamReassembler`
+（持 `tcpassembly.Assembler` + `StreamPool`）。`onStream` 回调在 per-flow goroutine 中运行，
+wg 由内部管理，使用者无需关心。
+
+若需要更底层的控制（如自定义 StreamFactory、Accept gating、方向标记），
+可直接基于 `github.com/gopacket/gopacket/tcpassembly` 自己实现，完全绕过本包的封装。
 
 ### 添加新的过载策略
 
