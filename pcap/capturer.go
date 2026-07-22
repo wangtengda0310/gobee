@@ -276,10 +276,7 @@ func (c *capturer) broadcast(ctx context.Context, event *PacketEvent) {
 	//
 	// 代价：多一次微小内存分配（拷指针，handler 通常个位数）。相比持锁阻塞的风险，完全值得。
 	c.mu.RLock()
-	slots := make([]*handlerSlot, 0, len(c.handlers))
-	for _, s := range c.handlers {
-		slots = append(slots, s)
-	}
+	slots := c.snapshotSlots()
 	c.mu.RUnlock()
 
 	for _, s := range slots {
@@ -350,10 +347,7 @@ func (c *capturer) flushAll() {
 	// 快照模式：同 broadcast（读锁内拷指针 → 锁外操作）。
 	// 投递哨兵可能阻塞（等队列空位），不能持锁。
 	c.mu.RLock()
-	slots := make([]*handlerSlot, 0, len(c.handlers))
-	for _, s := range c.handlers {
-		slots = append(slots, s)
-	}
+	slots := c.snapshotSlots()
 	c.mu.RUnlock()
 
 	for _, s := range slots {
@@ -390,6 +384,7 @@ func sendSentinel(s *handlerSlot) (sent bool) {
 // 可被多次调用。
 func (c *capturer) Close() {
 	// 快照模式（同 broadcast/flushAll），但用写锁：边拷指针边从 map 删除。
+	// 不用 snapshotSlots()——它只拷不删；Close 需要同时清空 map，这里手动遍历。
 	// close(s.ch) 在锁外做——close 后 worker 会退出并可能访问 slot，无需持锁保护。
 	c.mu.Lock()
 	slots := make([]*handlerSlot, 0, len(c.handlers))
@@ -403,6 +398,17 @@ func (c *capturer) Close() {
 		close(s.ch)
 		s.workerWG.Wait()
 	}
+}
+
+// snapshotSlots 拷贝当前所有 handlerSlot 的指针到切片。
+// 调用方必须已持有对应的锁（RLock 或 Lock），保证遍历期间 map 不被并发修改。
+// 返回快照后调用方应立刻释放锁，在锁外遍历切片做耗时操作（见 broadcast 的注释）。
+func (c *capturer) snapshotSlots() []*handlerSlot {
+	slots := make([]*handlerSlot, 0, len(c.handlers))
+	for _, s := range c.handlers {
+		slots = append(slots, s)
+	}
+	return slots
 }
 
 // Stats 实现 Capturer。
