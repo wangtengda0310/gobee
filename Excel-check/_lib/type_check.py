@@ -8,6 +8,8 @@ from typing import Callable
 INT_RE = re.compile(r"^-?\d+(\.0+)?$")
 FLOAT_RE = re.compile(r"^-?\d+(\.\d+)?([eE][+-]?\d+)?$")
 INT_ARRAY_RE = re.compile(r"^-?\d+(\.0+)?(,-?\d+(\.0+)?)*$")
+# 兼容配置里常见的 [1,2,3] 写法
+INT_ARRAY_BRACKET_RE = re.compile(r"^\[-?\d+(\.0+)?(,-?\d+(\.0+)?)*\]$")
 ID_STR_RE = re.compile(r"^[A-Za-z][A-Za-z0-9_]*$")
 BOOL_TRUE = {"1", "1.0", "true", "yes", "y"}
 BOOL_FALSE = {"0", "0.0", "false", "no", "n"}
@@ -180,10 +182,10 @@ def check_value_against_type(
         if not compact:
             return f"类型为 {declared}，不能为空白"
 
-        # int[] / long[] …
+        # int[] / long[] …（允许 1,2,3 或 [1,2,3]）
         if base_l in INT_TYPE_NAMES or base_l == "int":
-            if not INT_ARRAY_RE.match(compact):
-                return f"类型为 {declared}，应为 int 或逗号分隔 int 列表，实际: {value}"
+            if not (INT_ARRAY_RE.match(compact) or INT_ARRAY_BRACKET_RE.match(compact)):
+                return f"类型为 {declared}，应为 int 或逗号分隔 int 列表（可带[]），实际: {value}"
             return None
 
         # string[]

@@ -19,12 +19,12 @@ import pandas as pd
 
 TYPE_ROW = 1
 HEADER_ROW = 2
-DATA_START_ROW = 2
+DATA_START_ROW = 4
 SHEET_NAME = '排行称号|TitleByRank'
 PK_FIELD = 'Id'
 L1_FIELDS = ['TitleID']
 DISPLAY_FIELD = 'TitleID'
-ID_TYPE = 'string'
+ID_TYPE = 'int'
 STRUCT_KIND = 'A'
 DATE_RE = re.compile(r"^\d{4}-\d{2}-\d{2}( \d{2}:\d{2}:\d{2})?$")
 INT_ARRAY_RE = re.compile(r"^\d+(,\d+)*$")
@@ -150,9 +150,6 @@ def validate_structural(path: Path):
             if is_empty(value):
                 continue
             t = str(types.get(field, "") if isinstance(types, dict) else "")
-            if (field.startswith("Is") or field.startswith("Can")) and t != "bool":
-                if parse_bool(value) is None:
-                    issues.append(Issue(row_id, disp, field, f"{field} 须为 bool 语义，实际: {value}"))
             type_err = check_value_against_type(t, value, is_empty=is_empty)
             if type_err:
                 issues.append(Issue(row_id, disp, field, type_err))

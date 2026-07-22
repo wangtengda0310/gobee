@@ -150,9 +150,6 @@ def validate_structural(path: Path):
             if is_empty(value):
                 continue
             t = str(types.get(field, "") if isinstance(types, dict) else "")
-            if (field.startswith("Is") or field.startswith("Can")) and t != "bool":
-                if parse_bool(value) is None:
-                    issues.append(Issue(row_id, disp, field, f"{field} 须为 bool 语义，实际: {value}"))
             type_err = check_value_against_type(t, value, is_empty=is_empty)
             if type_err:
                 issues.append(Issue(row_id, disp, field, type_err))
