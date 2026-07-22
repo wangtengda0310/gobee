@@ -166,7 +166,7 @@ func main() {
 
 	// 创建抓包器，配置每个 handler 的队列容量。
 	c := pcap.NewCapturer(pcap.WithBufferSize(2048))
-	if lc, ok := c.(pcap.LifeCycler); ok { defer lc.Close() }
+	defer c.Close() // 关闭所有 worker
 
 	// 注册处理函数。
 	c.RegisterHandler(pcap.NewHandlerFunc("printer", func(ctx context.Context, e *pcap.PacketEvent) error {
@@ -263,14 +263,13 @@ type Capturer interface {
 }
 ```
 
-#### `LifeCycler` 接口（可选扩展）
+#### 生命周期 `Close()`
 
-`NewCapturer` 的返回值同时实现 `LifeCycler`，用于显式关闭所有 worker：
+`Close()` 是 `Capturer` 接口的方法，关闭所有处理函数的 worker 并清空注册表。建议 `defer` 调用：
 
 ```go
-if lc, ok := capturer.(pcap.LifeCycler); ok {
-    defer lc.Close()
-}
+c := pcap.NewCapturer(...)
+defer c.Close()
 ```
 
 ### 处理函数
@@ -499,7 +498,7 @@ defer h.Close() // Capture 返回后 flush 残留流
 - **优先用 BPF 过滤**：在内核态过滤远比用户态高效，是降低投递压力最有效的手段。
 - **handler 保持轻量**：把 IO（写库/网络）异步化，或只做采集、用单独的消费者处理。
 - **按 `Dropped` 调参**：监控统计，丢包多时调大 `BufferSize` 或拆分 handler。
-- **用 `LifeCycler.Close()` 收尾**：长跑服务退出前关闭 worker，避免 goroutine 泄漏。
+- **用 `c.Close()` 收尾**：长跑服务退出前关闭 worker，避免 goroutine 泄漏。
 
 ### ❌ 避免
 

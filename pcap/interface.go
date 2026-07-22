@@ -112,16 +112,17 @@ type Capturer interface {
 
 	// Stats 返回当前抓包器与各处理函数的运行时统计，并发安全。
 	Stats() *CaptureStats
-}
 
-// LifeCycler 是 Capturer 的可选扩展，用于显式终结抓包器生命周期。
-// capturer（NewCapturer 的返回值）同时实现 Capturer 和 LifeCycler；
-// 调用方可通过类型断言或直接断言到本接口来调用 Close。
-// 不把 Close 放进 Capturer 是为了让接口保持最小（题目只要求两个核心方法）。
-type LifeCycler interface {
 	// Close 关闭所有处理函数的 worker 并清空注册表，释放资源。可被多次调用。
+	// 建议在 Capture 返回后（或服务退出前）调用 defer c.Close()。
 	Close()
 }
+
+// LifeCycler 已废弃：Close 现已直接包含在 Capturer 接口中。
+// 保留此类型别名仅为向后兼容，新代码请直接用 Capturer.Close()。
+//
+// Deprecated: 使用 Capturer.Close() 代替。
+type LifeCycler = Capturer
 
 // String 返回 Target 的可读表示。
 func (t Target) String() string {

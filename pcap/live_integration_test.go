@@ -116,7 +116,7 @@ func TestIntegration_CaptureLoopbackBriefly(t *testing.T) {
 	defer src.Close()
 
 	c := NewCapturer(WithBufferSize(64), WithOverflowStrategy(OverflowDrop))
-	defer c.(*capturer).Close()
+	defer c.Close()
 
 	got := make(chan struct{}, 1)
 	require.NoError(t, c.RegisterHandler(NewHandlerFunc("any", func(ctx context.Context, e *PacketEvent) error {

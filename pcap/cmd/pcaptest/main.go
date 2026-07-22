@@ -91,10 +91,7 @@ func run() int {
 		pcap.WithOverflowStrategy(pcap.OverflowDrop),
 		pcap.WithBPFFilter(*bpf),
 	)
-	// NewCapturer 返回的 capturer 同时实现 LifeCycler；显式关闭 worker。
-	if lc, ok := c.(pcap.LifeCycler); ok {
-		defer lc.Close()
-	}
+	defer c.Close() // 显式关闭所有 worker，释放资源。
 
 	// 注册打印型 handler（始终启用）。
 	if err := c.RegisterHandler(pcap.NewHandlerFunc("printer", func(ctx context.Context, e *pcap.PacketEvent) error {
@@ -244,7 +241,7 @@ func registerFileWriter(c pcap.Capturer, path string, linkType layers.LinkType) 
 		return writer.WritePacket(ci, e.Packet.Data())
 	}))
 	// 注意：f 不在此关闭——handler 生命周期与 Capture 一致，Capture 结束后进程通常退出。
-	// 长跑场景若需优雅关闭文件，应改用 LifeCycler 钩子（当前简化处理）。
+	// 长跑场景若需优雅关闭文件，应改用 capturer.Close() 钩子（当前简化处理）。
 }
 
 // firstLine 返回 payload 的第一行，便于单行打印 HTTP 请求行。

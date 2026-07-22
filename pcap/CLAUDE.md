@@ -139,7 +139,7 @@ pcap 是一个基于 [gopacket](https://github.com/gopacket/gopacket) 的网络�
 | 文件 | 职责 | 维护要点 |
 |------|------|---------|
 | `doc.go` | 包文档概览 | 改动对外行为时同步更新 |
-| `interface.go` | `Capturer` / `PacketHandler` / `Source` / `Target` / `LifeCycler` 接口 | 接口变更 = 破坏性改动，需谨慎 |
+| `interface.go` | `Capturer` / `PacketHandler` / `Source` / `Target` 接口 | 接口变更 = 破坏性改动，需谨慎 |
 | `types.go` | `PacketEvent` / `Stats` / `Config` / `Hooks` / `OverflowStrategy` | 统计字段必须 atomic |
 | `options.go` | functional options | 新增配置项时加 `WithXxx` |
 | `errors.go` | 哨兵错误 | 用 `errors.Is` 友好的命名错误 |
@@ -196,7 +196,7 @@ pcap 是一个基于 [gopacket](https://github.com/gopacket/gopacket) 的网络�
 **修正**：
 - `Capture` 退出只调用 `flushAll`（等在途包，**不动 handler 注册**）。
 - worker 在 `RegisterHandler` 时启动，持续运行，直到 `UnregisterHandler` 或 `Close()`。
-- 真正关闭 worker 由 `Close()`（`LifeCycler` 接口）负责。
+- 真正关闭 worker 由 `Close()`（`Capturer` 接口方法）负责。
 
 > 改动生命周期逻辑时，确认这三件事的边界：`Capture` = 喂包 + flush；`UnregisterHandler` = 单个注销；`Close` = 全部关闭。
 
@@ -312,7 +312,7 @@ if !sendSentinel(s) {
 | `broadcast_test.go::TestOverflowDrop_DoesNotBlockAndCountsDropped` | Drop 不阻塞抓包 + dropped 计数 | `received + dropped == captured`，耗时 < 串行 |
 | `broadcast_test.go::TestOverflowDropOldest_KeepsLatest` | DropOldest flush 哨兵不破坏（回归守卫） | 不死锁，dropped > 0 |
 | `broadcast_test.go::TestRegisterUnregister_DynamicAndErrors` | 动态增删 + 哨兵错误 | 运行期注册生效，`ErrHandlerExists`/`ErrHandlerNil`/`ErrEmptyName`/`ErrHandlerNotFound` |
-| `coverage_test.go` | 补齐覆盖缺口：OverflowBlock/BPF/Hooks/Close/LifeCycler/String/Option/hostMatches | 详见各子测试，覆盖率 80% → 96% |
+| `coverage_test.go` | 补齐覆盖缺口：OverflowBlock/BPF/Hooks/Close/String/Option/hostMatches | 详见各子测试，覆盖率 80% → 96% |
 
 ### 测试数据策略（重要）
 

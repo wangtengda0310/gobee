@@ -65,7 +65,7 @@ func TestBroadcast_AllHandlersReceiveAll(t *testing.T) {
 	src := &mockSource{pkts: makeFakePackets(N), name: "broadcast"}
 
 	c := NewCapturer(WithBufferSize(N+8), WithOverflowStrategy(OverflowBlock))
-	defer c.(*capturer).Close()
+	defer c.Close()
 
 	h1 := newCollectHandler("h1")
 	h2 := newCollectHandler("h2")
@@ -107,7 +107,7 @@ func TestOverflowDrop_DoesNotBlockAndCountsDropped(t *testing.T) {
 
 	// 小 buffer + Drop 策略。
 	c := NewCapturer(WithBufferSize(4), WithOverflowStrategy(OverflowDrop))
-	defer c.(*capturer).Close()
+	defer c.Close()
 	require.NoError(t, c.RegisterHandler(slow))
 
 	done := make(chan error, 1)
@@ -150,7 +150,7 @@ func TestOverflowDropOldest_KeepsLatest(t *testing.T) {
 	})
 
 	c := NewCapturer(WithBufferSize(buf), WithOverflowStrategy(OverflowDropOldest))
-	defer c.(*capturer).Close()
+	defer c.Close()
 	require.NoError(t, c.RegisterHandler(slow))
 
 	err := c.Capture(context.Background(), src, Target{})
@@ -191,7 +191,7 @@ func TestRegisterUnregister_DynamicAndErrors(t *testing.T) {
 	}()
 
 	c := NewCapturer(WithBufferSize(16), WithOverflowStrategy(OverflowDrop))
-	defer c.(*capturer).Close()
+	defer c.Close()
 
 	// 重名注册错误。
 	h := newCollectHandler("dyn")

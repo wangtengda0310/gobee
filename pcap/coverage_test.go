@@ -23,7 +23,7 @@ import (
 //   - OverflowBlock 策略
 //   - BPFCapable / ErrBPFNotSupported 分支
 //   - Hooks（OnStart/OnPacket/OnError/OnStop）
-//   - Close / LifeCycler
+//   - Close（Capturer 接口方法）
 //   - fireError / Target.String / OverflowStrategy.String / WithBPFFilter
 //   - hostMatches 边界 / readerSource.Close
 // =============================================================================
@@ -43,7 +43,7 @@ func TestOverflowBlock_NoDropWhenSlow(t *testing.T) {
 	})
 
 	c := NewCapturer(WithBufferSize(8), WithOverflowStrategy(OverflowBlock))
-	defer c.(*capturer).Close()
+	defer c.Close()
 	require.NoError(t, c.RegisterHandler(slow))
 
 	require.NoError(t, c.Capture(context.Background(), src, Target{}))
@@ -86,7 +86,7 @@ func TestOverflowBlock_RespectsCtxCancel(t *testing.T) {
 	})
 
 	c := NewCapturer(WithBufferSize(4), WithOverflowStrategy(OverflowBlock))
-	defer c.(*capturer).Close()
+	defer c.Close()
 	require.NoError(t, c.RegisterHandler(slow))
 
 	ctx, cancel := context.WithCancel(context.Background())
@@ -128,7 +128,7 @@ func TestBPF_SourceNotCapable_ReturnsErrBPFNotSupported(t *testing.T) {
 	// 普通 mockSource 未实现 BPFCapable，指定 BPF 应返回 ErrBPFNotSupported。
 	src := &mockSource{pkts: makeFakePackets(1), name: "nobpf"}
 	c := NewCapturer()
-	defer c.(*capturer).Close()
+	defer c.Close()
 
 	err := c.Capture(context.Background(), src, Target{BPF: "tcp port 80"})
 	require.ErrorIs(t, err, ErrBPFNotSupported)
@@ -138,7 +138,7 @@ func TestBPF_GlobalFilterFromWithBPFFilter(t *testing.T) {
 	// WithBPFFilter 设置全局 BPF，Capture 时 target.BPF 为空也应回退到全局。
 	src := &bpfMockSource{mockSource: mockSource{pkts: makeFakePackets(0), name: "bpf"}}
 	c := NewCapturer(WithBPFFilter("tcp port 443"))
-	defer c.(*capturer).Close()
+	defer c.Close()
 
 	require.NoError(t, c.Capture(context.Background(), src, Target{}))
 	assert.True(t, src.bpfCalled, "应调用 SetBPFFilter")
@@ -149,7 +149,7 @@ func TestBPF_TargetOverridesGlobal(t *testing.T) {
 	// target.BPF 优先于全局 WithBPFFilter。
 	src := &bpfMockSource{mockSource: mockSource{pkts: makeFakePackets(0), name: "bpf"}}
 	c := NewCapturer(WithBPFFilter("tcp port 443"))
-	defer c.(*capturer).Close()
+	defer c.Close()
 
 	require.NoError(t, c.Capture(context.Background(), src, Target{BPF: "udp port 53"}))
 	assert.Equal(t, "udp port 53", src.bpfArg, "target.BPF 应覆盖全局")
@@ -162,7 +162,7 @@ func TestBPF_SetBPFFilterError_Propagated(t *testing.T) {
 		setBPFErr:  errors.New("invalid filter"),
 	}
 	c := NewCapturer()
-	defer c.(*capturer).Close()
+	defer c.Close()
 
 	err := c.Capture(context.Background(), src, Target{BPF: "bogus"})
 	require.Error(t, err)
@@ -209,7 +209,7 @@ func TestHooks_AllFired(t *testing.T) {
 			mu.Unlock()
 		},
 	}))
-	defer c.(*capturer).Close()
+	defer c.Close()
 
 	// 一个普通 handler，确保 OnPacket 被触发。
 	require.NoError(t, c.RegisterHandler(NewHandlerFunc("noop", func(ctx context.Context, e *PacketEvent) error {
@@ -234,7 +234,7 @@ func TestHooks_OnError_WhenHandlerReturnsError(t *testing.T) {
 	c := NewCapturer(WithHooks(Hooks{
 		OnError: func(err error) { errs = append(errs, err) },
 	}))
-	defer c.(*capturer).Close()
+	defer c.Close()
 
 	boomer := errors.New("boom")
 	require.NoError(t, c.RegisterHandler(NewHandlerFunc("bad", func(ctx context.Context, e *PacketEvent) error {
@@ -261,7 +261,7 @@ func TestHooks_OnError_WhenDecodeError(t *testing.T) {
 	c := NewCapturer(WithHooks(Hooks{
 		OnError: func(err error) { gotErr = append(gotErr, err.Error()) },
 	}))
-	defer c.(*capturer).Close()
+	defer c.Close()
 	require.NoError(t, c.RegisterHandler(NewHandlerFunc("noop", func(ctx context.Context, e *PacketEvent) error { return nil })))
 
 	// 解析错误不应导致 Capture 返回错误（非致命）。
@@ -292,12 +292,10 @@ func TestClose_ReleasesAllWorkers(t *testing.T) {
 	assert.NotPanics(t, func() { cap.Close() })
 }
 
-func TestLifeCycler_TypeAssertion(t *testing.T) {
+func TestCapturer_Close(t *testing.T) {
+	// Close 现在直接在 Capturer 接口上，无需类型断言。
 	c := NewCapturer()
-	// NewCapturer 返回值应同时实现 LifeCycler。
-	lc, ok := c.(LifeCycler)
-	require.True(t, ok, "capturer 应实现 LifeCycler")
-	require.NotPanics(t, func() { lc.Close() })
+	require.NotPanics(t, func() { c.Close() })
 }
 
 func TestClose_AfterCapture_StillWorks(t *testing.T) {
@@ -307,8 +305,7 @@ func TestClose_AfterCapture_StillWorks(t *testing.T) {
 	require.NoError(t, c.RegisterHandler(newCollectHandler("h")))
 	require.NoError(t, c.Capture(context.Background(), src, Target{}))
 
-	lc := c.(LifeCycler)
-	require.NotPanics(t, func() { lc.Close() })
+	require.NotPanics(t, func() { c.Close() })
 }
 
 // -----------------------------------------------------------------------------
@@ -358,7 +355,7 @@ func TestWithBufferSize_ActuallyApplied(t *testing.T) {
 	// 大量包灌入应触发丢弃（说明 buffer 生效了）。
 	src := &mockSource{pkts: makeFakePackets(1000), name: "buf"}
 	c := NewCapturer(WithBufferSize(1), WithOverflowStrategy(OverflowDrop))
-	defer c.(*capturer).Close()
+	defer c.Close()
 	// 慢 handler 确保队列会满。
 	require.NoError(t, c.RegisterHandler(NewHandlerFunc("slow", func(ctx context.Context, e *PacketEvent) error {
 		time.Sleep(time.Millisecond)

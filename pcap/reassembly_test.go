@@ -311,7 +311,7 @@ func TestReassembly_WithCapturer(t *testing.T) {
 	})
 
 	c := NewCapturer(WithBufferSize(64), WithOverflowStrategy(OverflowBlock))
-	defer c.(*capturer).Close()
+	defer c.Close()
 	require.NoError(t, c.RegisterHandler(h))
 
 	// Capture 会消费完所有包后返回；之后 Close handler flush 残留流。
@@ -477,7 +477,7 @@ func TestTCPStreamHandler_WithCapturer(t *testing.T) {
 	})
 
 	c := NewCapturer(WithBufferSize(64), WithOverflowStrategy(OverflowBlock))
-	defer c.(*capturer).Close()
+	defer c.Close()
 	require.NoError(t, c.RegisterHandler(h))
 
 	require.NoError(t, c.Capture(context.Background(), src, Target{}))

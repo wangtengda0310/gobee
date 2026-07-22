@@ -144,7 +144,7 @@ func TestMergedSource_WithCapturer(t *testing.T) {
 	defer merged.Close()
 
 	c := NewCapturer(WithBufferSize(64), WithOverflowStrategy(OverflowBlock))
-	defer c.(*capturer).Close()
+	defer c.Close()
 
 	var count atomic.Int64
 	require.NoError(t, c.RegisterHandler(NewHandlerFunc("counter", func(ctx context.Context, e *PacketEvent) error {
