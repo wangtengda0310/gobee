@@ -66,19 +66,20 @@ type HTTPRequestHandler struct {
 //   - onRequest：每解析出一个完整 HTTP 请求时调用。返回 error 仅用于统计，
 //     不会中断重组（由 capturer 的 errors 计数吸收）。
 func NewHTTPRequestHandler(name string, onRequest func(flow FlowKey, req *http.Request) error) *HTTPRequestHandler {
-	return &HTTPRequestHandler{
-		ras: newTCPStreamReassembler(name, func(flow FlowKey, r io.Reader) {
-			buf := bufio.NewReader(r)
-			for {
-				req, err := http.ReadRequest(buf)
-				if err != nil {
-					// io.EOF / 连接关闭 / 解析错误：本流结束。
-					return
-				}
-				_ = onRequest(flow, req)
+	h := &HTTPRequestHandler{}
+	h.ras = newTCPStreamReassembler(name, func(flow FlowKey, r io.Reader) {
+		buf := bufio.NewReader(r)
+		for {
+			req, err := http.ReadRequest(buf)
+			if err != nil {
+				return
 			}
-		}),
-	}
+			if err := onRequest(flow, req); err != nil {
+				h.ras.errors.Add(1)
+			}
+		}
+	})
+	return h
 }
 
 // HandlePacket 实现 PacketHandler。提取 TCP 层喂给 Assembler；非 TCP 包跳过。
@@ -88,6 +89,9 @@ func (h *HTTPRequestHandler) HandlePacket(_ context.Context, e *PacketEvent) err
 
 // Name 实现 PacketHandler。
 func (h *HTTPRequestHandler) Name() string { return h.ras.name }
+
+// Errors 返回回调累计返回错误的次数。
+func (h *HTTPRequestHandler) Errors() int64 { return h.ras.errors.Load() }
 
 // Close flush 剩余流并等待所有 per-flow goroutine 退出。幂等。
 // 建议在 Capture 返回后调用，确保缓冲中的不完整流也被处理。
@@ -107,18 +111,20 @@ type HTTPResponseHandler struct {
 
 // NewHTTPResponseHandler 创建一个 HTTP 响应重组处理函数。
 func NewHTTPResponseHandler(name string, onResponse func(flow FlowKey, resp *http.Response) error) *HTTPResponseHandler {
-	return &HTTPResponseHandler{
-		ras: newTCPStreamReassembler(name, func(flow FlowKey, r io.Reader) {
-			buf := bufio.NewReader(r)
-			for {
-				resp, err := http.ReadResponse(buf, nil)
-				if err != nil {
-					return
-				}
-				_ = onResponse(flow, resp)
+	h := &HTTPResponseHandler{}
+	h.ras = newTCPStreamReassembler(name, func(flow FlowKey, r io.Reader) {
+		buf := bufio.NewReader(r)
+		for {
+			resp, err := http.ReadResponse(buf, nil)
+			if err != nil {
+				return
 			}
-		}),
-	}
+			if err := onResponse(flow, resp); err != nil {
+				h.ras.errors.Add(1)
+			}
+		}
+	})
+	return h
 }
 
 // HandlePacket 实现 PacketHandler。
@@ -128,6 +134,9 @@ func (h *HTTPResponseHandler) HandlePacket(_ context.Context, e *PacketEvent) er
 
 // Name 实现 PacketHandler。
 func (h *HTTPResponseHandler) Name() string { return h.ras.name }
+
+// Errors 返回回调累计返回错误的次数。
+func (h *HTTPResponseHandler) Errors() int64 { return h.ras.errors.Load() }
 
 // Close flush 并等待 per-flow goroutine 退出。幂等。
 func (h *HTTPResponseHandler) Close() error { return h.ras.close() }
@@ -181,11 +190,13 @@ type TCPStreamHandler struct {
 //
 // onStream 的常见实现：循环从 r 读「长度前缀 + 消息体」，用 proto.Unmarshal 解析。
 func NewTCPStreamHandler(name string, onStream func(flow FlowKey, r io.Reader) error) *TCPStreamHandler {
-	return &TCPStreamHandler{
-		ras: newTCPStreamReassembler(name, func(flow FlowKey, r io.Reader) {
-			_ = onStream(flow, r) // error 由内部统计吸收，不中断其它流。
-		}),
-	}
+	h := &TCPStreamHandler{}
+	h.ras = newTCPStreamReassembler(name, func(flow FlowKey, r io.Reader) {
+		if err := onStream(flow, r); err != nil {
+			h.ras.errors.Add(1)
+		}
+	})
+	return h
 }
 
 // HandlePacket 实现 PacketHandler。提取 TCP 层喂给 Assembler；非 TCP 包跳过。
@@ -195,6 +206,9 @@ func (h *TCPStreamHandler) HandlePacket(_ context.Context, e *PacketEvent) error
 
 // Name 实现 PacketHandler。
 func (h *TCPStreamHandler) Name() string { return h.ras.name }
+
+// Errors 返回回调累计返回错误的次数。
+func (h *TCPStreamHandler) Errors() int64 { return h.ras.errors.Load() }
 
 // Close flush 剩余流并等待所有 per-flow goroutine 退出。幂等。
 // 建议在 Capture 返回后调用，确保缓冲中的不完整流也被处理。
@@ -226,6 +240,9 @@ type tcpStreamReassembler struct {
 
 	// closed 标记 Close 已调用，阻止新流创建（factory.New 检查）。
 	closed atomic.Bool
+
+	// errors 统计回调返回错误的次数（此前被 _ = 吞掉，现修复为真正计数）。
+	errors atomic.Int64
 
 	// mu 保护 factory.New 与 Close 的竞争（Close 设 closed 后不再 Add）。
 	mu sync.Mutex

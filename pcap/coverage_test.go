@@ -253,22 +253,26 @@ func TestHooks_OnError_WhenHandlerReturnsError(t *testing.T) {
 }
 
 func TestHooks_OnError_WhenDecodeError(t *testing.T) {
-	// 构造一个带 ErrorLayer 的包，验证 Capture 的 decode-error 分支会触发 OnError。
-	badPkt := gopacket.NewPacket([]byte("garbage"), layers.LayerTypeEthernet, gopacket.Default)
+	// 构造一个截断的 Ethernet 帧（3 字节），gopacket 会产生 DecodeFailure ErrorLayer。
+	badPkt := gopacket.NewPacket([]byte{0x00, 0x01, 0x02}, layers.LayerTypeEthernet, gopacket.Default)
+	if badPkt.ErrorLayer() == nil {
+		t.Skip("构造的包未产生 ErrorLayer（gopacket 版本行为差异）")
+	}
+
 	src := &mockSource{pkts: []gopacket.Packet{badPkt}, name: "decode"}
 
-	var gotErr []string
+	var gotErr []error
 	c := NewCapturer(WithHooks(Hooks{
-		OnError: func(err error) { gotErr = append(gotErr, err.Error()) },
+		OnError: func(err error) { gotErr = append(gotErr, err) },
 	}))
 	defer c.Close()
 	require.NoError(t, c.RegisterHandler(NewHandlerFunc("noop", func(ctx context.Context, e *PacketEvent) error { return nil })))
 
 	// 解析错误不应导致 Capture 返回错误（非致命）。
 	require.NoError(t, c.Capture(context.Background(), src, Target{}))
-	// 是否产生 decode error 取决于 gopacket 对 "garbage" 的解析；
-	// 这里不强制断言（解析器可能把它当成合法 payload），但 Capture 必须不崩溃、正常返回。
-	_ = gotErr
+	// 核心断言：decode error 应触发 OnError。
+	require.NotEmpty(t, gotErr, "截断帧应产生 decode error 并触发 OnError")
+	assert.Contains(t, gotErr[0].Error(), "decode error", "error 消息应含 'decode error'")
 }
 
 // -----------------------------------------------------------------------------

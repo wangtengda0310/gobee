@@ -203,21 +203,24 @@ func TestReassembly_SingleHTTPRequest(t *testing.T) {
 	assert.Equal(t, "test/1.0", r.UserAgent)
 }
 
-// TestReassembly_OutOfOrder：乱序数据段仍能正确重组。
+// TestReassembly_OutOfOrder：乱序数据段仍能正确重组（含 body 完整性验证）。
 func TestReassembly_OutOfOrder(t *testing.T) {
 	payload := []byte("POST /api HTTP/1.1\r\nHost: itsnot.fun\r\nContent-Length: 5\r\n\r\nhello")
 	pcapData := buildRequestStreamPcap(t, payload, 8, true) // 乱序
 
 	var (
-		mu  sync.Mutex
-		got []collectedReq
+		mu       sync.Mutex
+		got      []collectedReq
+		gotBody  string
 	)
 	h := NewHTTPRequestHandler("ooo", func(flow FlowKey, req *http.Request) error {
 		mu.Lock()
 		defer mu.Unlock()
 		got = append(got, collectedReq{Method: req.Method, RequestURI: req.URL.RequestURI(), Host: req.Host})
-		// 读 body 验证完整性
+		// 读取 body 验证跨包重组的内容完整性（此前只 Close 未读，审查发现）。
 		if req.Body != nil {
+			body, _ := io.ReadAll(req.Body)
+			gotBody = string(body)
 			_ = req.Body.Close()
 		}
 		return nil
@@ -228,9 +231,10 @@ func TestReassembly_OutOfOrder(t *testing.T) {
 	require.NoError(t, h.Close())
 
 	require.Len(t, got, 1, "乱序下仍应解析出 1 个请求")
-	assert.Equal(t, "POST", got[0].Method)
-	assert.Equal(t, "/api", got[0].RequestURI)
-	assert.Equal(t, "itsnot.fun", got[0].Host)
+	assert.Equal(t, "POST", got[0].Method, "应解析出 POST 方法")
+	assert.Equal(t, "/api", got[0].RequestURI, "应解析出 /api 路径")
+	assert.Equal(t, "itsnot.fun", got[0].Host, "应解析出 Host 头")
+	assert.Equal(t, "hello", gotBody, "body 应被正确重组（跨包乱序后仍完整）")
 }
 
 // TestReassembly_CloseFlush：不发 FIN，直接 Close，残留流应被 flush（回调仍触发）。
