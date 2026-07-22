@@ -1,21 +1,23 @@
 // 命令 xcards：pcap 抓包 + Unity 游戏协议解析（完整示例）。
 //
-// 演示如何用 pcap 包的 TCPStreamHandler + 自定义 Layer 解析
-// go-service 的游戏消息格式（4字节包头 + msgID + seqID + body）。
+// 演示如何用 pcap 包解析 go-service 的游戏消息格式（4字节包头 + msgID + seqID + body）。
 //
 // 构建 & 运行（需 Npcap + livecapture）：
 //
-//	CGO_ENABLED=1 go run -tags livecapture ./test/xcards -iface <网卡名>
+//	# 流重组模式（需在 Unity 连接前启动，完整重组）
+//	CGO_ENABLED=1 go run -tags livecapture ./test/xcards -iface <网卡名> -port 18000
 //
-// 注意：本文件带 //go:build livecapture 标签（依赖 NewLiveSource）。
-// 如用离线 pcap 重放，去掉标签并改用 NewReaderSource。
+//	# 逐包模式（支持先连接后抓包，不依赖 SYN，但大消息可能解析不全）
+//	CGO_ENABLED=1 go run -tags livecapture ./test/xcards -iface <网卡名> -port 18000 -raw
 //
 //go:build livecapture
 
 package main
 
 import (
+	"bytes"
 	"context"
+	"flag"
 	"fmt"
 	"io"
 	"os"
@@ -24,36 +26,28 @@ import (
 
 	"github.com/wangtengda0310/gobee/pcap"
 	"github.com/wangtengda0310/gobee/pcap/test/xcards/gameproto"
-	// 你的 protobuf 生成包（如果有，取消注释并替换路径）
-	// pb "yourmodule/protos"
 )
 
-func main() {
-	os.Exit(run())
-}
+func main() { os.Exit(run()) }
 
 func run() int {
-	// 参数：网卡名（必填）、端口（默认 20144）。
-	iface := ""
-	port := 20144
-	args := os.Args[1:]
-	if len(args) > 0 {
-		iface = args[0]
-	}
-	if iface == "" {
-		fmt.Fprintln(os.Stderr, "用法: xcards <网卡名> [端口]")
-		fmt.Fprintln(os.Stderr, "示例: xcards \"\\Device\\NPF_{FDEA18E5-...}\" 20144")
+	iface := flag.String("iface", "", "网卡名")
+	port := flag.Int("port", 18000, "游戏服务器端口（0=不过滤端口）")
+	rawMode := flag.Bool("raw", false, "逐包模式：不依赖 TCP 流重组，支持先连接后抓包")
+	flag.Parse()
+
+	if *iface == "" {
+		fmt.Fprintln(os.Stderr, "必须指定 -iface")
+		flag.Usage()
 		return 2
 	}
-	if len(args) > 1 {
-		fmt.Sscanf(args[1], "%d", &port)
+
+	bpf := fmt.Sprintf("tcp port %d", *port)
+	if *port == 0 {
+		bpf = "tcp"
 	}
 
-	// 打开网卡抓包。
-	src, err := pcap.NewLiveSource(
-		iface, 65535, false,
-		fmt.Sprintf("tcp port %d", port), // BPF 过滤游戏服务器端口
-	)
+	src, err := pcap.NewLiveSource(*iface, 65535, false, bpf)
 	if err != nil {
 		fmt.Fprintln(os.Stderr, "open source:", err)
 		return 1
@@ -66,57 +60,17 @@ func run() int {
 	)
 	defer c.Close()
 
-	// ★ 核心：用 TCPStreamHandler + 自定义 Layer 解析游戏消息（含解密）。
-	gameHandler := pcap.NewTCPStreamHandler("game-proto", func(flow pcap.FlowKey, r io.Reader) error {
-		// 判断流方向：源端口小于目标端口 → 客户端→服务端（用 decryptKey）。
-		// 反之 → 服务端→客户端（用 encryptKey）。
-		srcPort := flow.TransportFlow.Src().String()
-		dstPort := flow.TransportFlow.Dst().String()
-		fromClient := srcPort < dstPort
-
-		dir := "客户端→服务端"
-		if !fromClient {
-			dir = "服务端→客户端"
-		}
-		fmt.Printf("\n=== 新 TCP 流 [%s] (%s) ===\n", flow, dir)
-
-		// 用 FrameReader 从重组后的字节流逐条切分消息（自动解密/解压）。
-		reader := gameproto.NewFrameReader(r, fromClient)
-		for {
-			msgID, seqID, body, err := reader.ReadMessage()
-			if err != nil {
-				// io.EOF = 流结束；其它 error = 格式错误
-				return err
-			}
-
-			// msgID 对应你的 proto 消息号，body 是 protobuf 字节流。
-			// 用 proto.Unmarshal 解析具体的消息体：
-			//
-			//   switch msgID {
-			//   case 1001: // 假设 1001 是 AuthLogin
-			//       msg := &pb.AuthLogin{}
-			//       if err := proto.Unmarshal(body, msg); err == nil {
-			//           fmt.Printf("  AuthLogin: %+v\n", msg)
-			//       }
-			//   case 1002:
-			//       msg := &pb.Move{}
-			//       ...
-			//   }
-
-			fmt.Printf("  消息 ID=%d, Seq=%d, BodyLen=%d, Body=%x\n",
-				msgID, seqID, len(body), body[:min(len(body), 32)])
-		}
-	})
-	if err := c.RegisterHandler(gameHandler); err != nil {
-		fmt.Fprintln(os.Stderr, "register handler:", err)
-		return 1
+	if *rawMode {
+		registerRawHandler(c)
+	} else {
+		registerStreamHandler(c)
 	}
 
-	// 信号监听，优雅退出。
 	ctx, cancel := signal.NotifyContext(context.Background(), syscall.SIGINT, syscall.SIGTERM)
 	defer cancel()
 
-	fmt.Printf("开始抓包（端口 %d），Ctrl+C 退出...\n", port)
+	fmt.Printf("开始抓包（端口 %d, 模式=%s），Ctrl+C 退出...\n",
+		*port, modeName(*rawMode))
 	if err := c.Capture(ctx, src, pcap.Target{}); err != nil {
 		if ctx.Err() != nil {
 			fmt.Fprintln(os.Stderr, "\n收到退出信号，停止抓包。")
@@ -126,8 +80,13 @@ func run() int {
 		}
 	}
 
-	// Capture 返回后 flush 残留流。
-	gameHandler.Close()
+	// flush 流重组的残留流（raw 模式无此需要）。
+	if !*rawMode {
+		if h, ok := c.(interface{ Close() }); ok {
+			_ = h
+		}
+		gameHandler.Close()
+	}
 
 	st := c.Stats()
 	fmt.Printf("结束。captured=%d\n", st.Captured)
@@ -138,9 +97,96 @@ func run() int {
 	return 0
 }
 
-func min(a, b int) int {
-	if a < b {
-		return a
+func modeName(raw bool) string {
+	if raw {
+		return "逐包(-raw)"
 	}
-	return b
+	return "流重组"
+}
+
+// gameHandler 是流重组模式的全局 handler（用于 Close）。
+var gameHandler *pcap.TCPStreamHandler
+
+// registerStreamHandler 注册 TCP 流重组 handler（需要从连接建立时开始抓包）。
+func registerStreamHandler(c pcap.Capturer) {
+	gameHandler = pcap.NewTCPStreamHandler("game-stream", func(flow pcap.FlowKey, r io.Reader) error {
+		fromClient, dir := detectDirection(flow)
+		fmt.Printf("\n=== 新 TCP 流 [%s] (%s) ===\n", flow, dir)
+
+		reader := gameproto.NewFrameReader(r, fromClient)
+		for {
+			msgID, seqID, body, err := reader.ReadMessage()
+			if err != nil {
+				fmt.Printf("  [%s] 流结束: %v\n", dir, err)
+				return err
+			}
+			printMessage(dir, msgID, seqID, body)
+		}
+	})
+	c.RegisterHandler(gameHandler)
+}
+
+// registerRawHandler 注册逐包 handler（支持先连接后抓包，不依赖 SYN）。
+// 直接从每个 TCP 包的应用层 payload 解析消息——大多数游戏消息在单个 TCP 段内完整。
+func registerRawHandler(c pcap.Capturer) {
+	c.RegisterHandler(pcap.NewHandlerFunc("game-raw", func(ctx context.Context, e *pcap.PacketEvent) error {
+		app := e.Packet.ApplicationLayer()
+		if app == nil {
+			return nil
+		}
+		data := app.Payload()
+		if len(data) == 0 {
+			return nil
+		}
+
+		fromClient, dir := detectDirectionFromEvent(e)
+		// 从 payload 逐条切分消息（一个 TCP 包可能含多条消息）。
+		buf := bytes.NewReader(data)
+		reader := gameproto.NewFrameReader(buf, fromClient)
+		for {
+			msgID, seqID, body, err := reader.ReadMessage()
+			if err != nil {
+				return nil // 一个包里的剩余字节不够一条消息，正常跳过
+			}
+			printMessage(dir, msgID, seqID, body)
+		}
+	}))
+}
+
+// detectDirection 根据 TCP 端口判断方向。
+// 客户端用临时高端口，服务端用固定端口（如 18000）。
+func detectDirection(flow pcap.FlowKey) (fromClient bool, dir string) {
+	srcPort := flow.TransportFlow.Src().String()
+	dstPort := flow.TransportFlow.Dst().String()
+	fromClient = srcPort > dstPort
+	if fromClient {
+		dir = "客户端→服务端"
+	} else {
+		dir = "服务端→客户端"
+	}
+	return
+}
+
+// printMessage 打印解析出的游戏消息。
+func printMessage(dir string, msgID uint16, seqID uint32, body []byte) {
+	name := gameproto.MsgName(msgID)
+	fmt.Printf("  [%s] %s ID=%d Seq=%d BodyLen=%d\n", dir, name, msgID, seqID, len(body))
+	// 框架消息（ID<1000）的 body 不是 protobuf（如 Pong 是原始时间戳），跳过解析。
+	// 游戏消息（ID>=1000）的 body 是 protobuf，用 protowire 解析（类似 protoc --decode_raw）。
+	if msgID >= 1000 && len(body) > 0 {
+		fmt.Print(gameproto.DumpProtobufRaw(body))
+	}
+}
+
+// detectDirectionFromEvent 从 PacketEvent 的 TransportFlow 判断方向（raw 模式用）。
+func detectDirectionFromEvent(e *pcap.PacketEvent) (fromClient bool, dir string) {
+	srcPort := e.TransportFlow.Src().String()
+	dstPort := e.TransportFlow.Dst().String()
+	fromClient = srcPort > dstPort
+	if fromClient {
+		dir = "客户端→服务端"
+	} else {
+		dir = "服务端→客户端"
+	}
+	return
 }

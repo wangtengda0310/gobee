@@ -22,6 +22,7 @@ import (
 
 	"github.com/golang/snappy"
 	"github.com/gopacket/gopacket"
+	"google.golang.org/protobuf/encoding/protowire"
 )
 
 const (
@@ -239,4 +240,136 @@ func encryptData(buf []byte, key []byte) []byte {
 		buf[i] = b ^ key[i%keylen]
 	}
 	return buf
+}
+
+// MsgName 返回消息 ID 的可读名称（框架消息）。
+// 消息 ID < 1000 是框架消息（LoginReq/Ping/Pong 等），
+// >= 1000 是游戏消息（需要使用者的 proto 注册表映射）。
+func MsgName(msgID uint16) string {
+	switch msgID {
+	case 1:
+		return "LoginReq"
+	case 2:
+		return "LoginResp"
+	case 3:
+		return "Ping"
+	case 4:
+		return "Pong"
+	case 10:
+		return "KickOut"
+	default:
+		if msgID >= 1000 {
+			return fmt.Sprintf("GameMsg(%d)", msgID)
+		}
+		return fmt.Sprintf("Unknown(%d)", msgID)
+	}
+}
+
+// DumpProtobufRaw 将 protobuf 字节流解析为可读的字段列表（类似 protoc --decode_raw）。
+// 不依赖任何 .pb.go 文件——直接解析 wire format，适用于调试/监控场景。
+//
+// 返回多行文本，每行一个字段：fieldNumber:type:value
+func DumpProtobufRaw(data []byte) string {
+	if len(data) == 0 {
+		return "(empty)"
+	}
+	var result string
+	for len(data) > 0 {
+		num, wireType, n := protowire.ConsumeField(data)
+		if n < 0 {
+			result += fmt.Sprintf("  (decode error at %d bytes)\n", len(data))
+			break
+		}
+		fieldData := data[:n]
+		data = data[n:]
+
+		typeName := wireTypeName(wireType)
+		value := decodeFieldValue(fieldData, wireType, num)
+		result += fmt.Sprintf("  field %d (%s): %s\n", num, typeName, value)
+	}
+	return result
+}
+
+// wireTypeName 返回 wire type 的可读名称。
+func wireTypeName(wt protowire.Type) string {
+	switch wt {
+	case 0:
+		return "varint"
+	case 1:
+		return "64bit"
+	case 2:
+		return "bytes"
+	case 5:
+		return "32bit"
+	default:
+		return fmt.Sprintf("wire%d", wt)
+	}
+}
+
+// decodeFieldValue 尝试将字段值解码为可读形式。
+func decodeFieldValue(data []byte, wt protowire.Type, num protowire.Number) string {
+	switch wt {
+	case 0: // varint
+		v, _ := protowire.ConsumeVarint(data)
+		return fmt.Sprintf("%d", v)
+	case 1: // 64bit
+		v, _ := protowire.ConsumeFixed64(data)
+		return fmt.Sprintf("0x%016x", v)
+	case 2: // bytes（可能是 string 或嵌套 message）
+		b, _ := protowire.ConsumeBytes(data)
+		// 尝试判断是 string 还是嵌套 message
+		if isPrintable(b) {
+			return fmt.Sprintf("%q", string(b))
+		}
+		// 尝试当作嵌套 message 解析
+		nested := DumpProtobufRaw(b)
+		return fmt.Sprintf("{\n%s  }", indent(nested))
+	case 5: // 32bit
+		v, _ := protowire.ConsumeFixed32(data)
+		return fmt.Sprintf("0x%08x", v)
+	default:
+		return fmt.Sprintf("%x", data)
+	}
+}
+
+// isPrintable 判断字节是否全是可打印 ASCII（用于区分 string vs 二进制）。
+func isPrintable(b []byte) bool {
+	if len(b) == 0 {
+		return false
+	}
+	for _, c := range b {
+		if c < 0x20 || c > 0x7e {
+			return false
+		}
+	}
+	return true
+}
+
+// indent 给多行文本每行加两个空格缩进。
+func indent(s string) string {
+	var result string
+	for _, line := range splitLines(s) {
+		result += "  " + line + "\n"
+	}
+	return result
+}
+
+// splitLines 按换行分割（兼容 \n 和 \r\n）。
+func splitLines(s string) []string {
+	var lines []string
+	start := 0
+	for i, c := range s {
+		if c == '\n' {
+			line := s[start:i]
+			if len(line) > 0 && line[len(line)-1] == '\r' {
+				line = line[:len(line)-1]
+			}
+			lines = append(lines, line)
+			start = i + 1
+		}
+	}
+	if start < len(s) {
+		lines = append(lines, s[start:])
+	}
+	return lines
 }
