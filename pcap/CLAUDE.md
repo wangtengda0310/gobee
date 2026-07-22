@@ -4,7 +4,7 @@
 > 使用者文档见 [README.md](./README.md)。
 
 ## First of all
-- 对gopacket的调用需要使用注释标注是否需要安装npcap
+- 代码中对gopacket的调用需要使用注释标注是否需要安装npcap
 
 ## 项目定位
 
@@ -85,6 +85,54 @@ pcap 是一个基于 [gopacket](https://github.com/gopacket/gopacket) 的网络�
 - `livecapture`：用户必须显式带上才链接本机抓包库。
 
 > 改动 `source_live.go` 时，确保它在默认构建下完全不参与编译。
+
+### gopacket 子包依赖矩阵（Npcap / cgo / gcc）
+
+本包依赖 gopacket 的多个子包。下表列出每个子包的依赖要求，**改 import 前必查**——
+误把需要 Npcap 的子包引入纯 Go 文件，会破坏「默认构建零 C 依赖」的不变量。
+
+#### 子包级别
+
+| gopacket 子包 | 用途 | 需要 Npcap? | 需要 cgo? | 需要 gcc? | 本包用到它的文件 |
+|---|---|---|---|---|---|
+| `gopacket`（核心） | `Packet` / `Flow` / `NewPacket` / `SerializeLayers` / `Decoder` / `PacketDataSource` | ❌ | ❌ | ❌ | 几乎全部（capturer/interface/types/source/merge/reassembly + 测试） |
+| `gopacket/layers` | `Ethernet` / `IPv4` / `TCP` / `UDP` / `LinkType` / 协议常量 | ❌ | ❌ | ❌ | interface/types/source/merge/reassembly + 测试 |
+| `gopacket/pcapgo` | `.pcap` 文件读写（`Reader` / `Writer`） | ❌ | ❌ | ❌ | itsnotfun_test / reassembly_test / cmd/pcaptest |
+| `gopacket/tcpassembly` | TCP 流重组（`Assembler` / `StreamPool` / `Stream` / `StreamFactory`） | ❌ | ❌ | ❌ | reassembly |
+| `gopacket/tcpassembly/tcpreader` | `ReaderStream`（既是 Stream 又是 io.Reader） | ❌ | ❌ | ❌ | reassembly |
+| `gopacket/pcap` | 实时抓包（`OpenLive` / `Handle` / `SetBPFFilter` / `FindAllDevs` / `CompileBPFFilter`） | ✅ **是** | ✅ **是** | ✅ **是** | **仅 `source_live.go`**（`//go:build cgo && livecapture`） |
+
+> **一句话**：只有 `gopacket/pcap` 需要 Npcap/cgo/gcc，且它被隔离在唯一的 `source_live.go` 里。
+> 其余 5 个子包全是纯 Go，任意平台可编译。
+
+#### 关键方法级别（`gopacket/pcap` 内，仅 `source_live.go` 使用）
+
+这些方法都在 `//go:build cgo && livecapture` 保护下，**全部需要 Npcap 运行库 + gcc + cgo**：
+
+| 方法 | 位置 | 用途 | 运行时需要 |
+|---|---|---|---|
+| `pcap.OpenLive(iface, snaplen, promisc, timeout)` | `NewLiveSource` | 打开网卡实时抓包 | Npcap 驱动 + `wpcap.dll` |
+| `(*pcap.Handle).ReadPacketData()` | `liveSource.readLoop` | 读取下一个包（cgo 调用） | Npcap 驱动 |
+| `(*pcap.Handle).SetBPFFilter(expr)` | `liveSource.SetBPFFilter` | 设置/热重载内核 BPF 过滤 | Npcap 驱动 |
+| `(*pcap.Handle).CompileBPFFilter(expr)` | `liveSource.ValidateBPF` | 预校验 BPF 表达式（不应用） | Npcap 驱动 |
+| `(*pcap.Handle).LinkType()` | `liveSource.LinkType` | 获取网卡链路层类型 | Npcap 驱动 |
+| `(*pcap.Handle).Close()` | `liveSource.Close` | 关闭网卡句柄 | Npcap 驱动 |
+| `pcap.FindAllDevs()` | `ListInterfaces` | 列举本机网卡 | Npcap 驱动 + `wpcap.dll` |
+| `pcap.NextErrorTimeoutExpired` | `liveSource.readLoop` | 读超时错误判断（常量） | 无（纯常量比较） |
+
+#### 「需要 gcc」 vs 「需要 Npcap」的区别
+
+这两个概念经常混淆，厘清：
+
+| 依赖 | 何时需要 | 为什么 |
+|---|---|---|
+| **gcc**（C 编译器） | **编译时**，任何 `CGO_ENABLED=1` 的构建 | cgo 需要调用 C 编译器编译胶水代码。`go test -race` 也需要（race 依赖 cgo）。**但 race 不需要 Npcap**——race 开启 cgo 但不带 `livecapture` tag，不链接 libpcap。 |
+| **Npcap SDK**（头文件 `pcap.h` + 导入库 `libwpcap.a`） | **编译时**，仅 `-tags livecapture` | cgo 编译 `source_live.go` 时需要解析 `pcap.*` 符号。头文件从 Npcap 源码包或 SDK 获取，导入库需用 `gendef`+`dlltool` 从 `wpcap.dll` 生成。 |
+| **Npcap 运行库**（`wpcap.dll` / `Packet.dll` / `npcap.sys`） | **运行时**，仅调用了 `NewLiveSource` / `ListInterfaces` / BPF 的程序 | exe 启动时 Windows 加载器加载 `wpcap.dll`；抓包时通过它调用内核里的 `npcap.sys` 驱动。 |
+
+> **构建机**需要：gcc + Npcap SDK（头文件+导入库）。Npcap 运行库通常一并装了，但不强制（SDK 单独够编译）。
+> **运行机**需要：Npcap 运行库（`wpcap.dll`）。不需要 gcc、不需要 SDK。
+> **`go test -race`**（不带 livecapture）：只需 gcc，不需要 Npcap。
 
 ## 文件职责
 
