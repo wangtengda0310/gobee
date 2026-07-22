@@ -45,6 +45,11 @@ type handlerSlot struct {
 	handler PacketHandler
 	ch      chan *PacketEvent
 
+	// closed 标记 channel 已被关闭（UnregisterHandler/Close）。
+	// dispatch/sendSentinel 在发送前检查此标志，避免 send-on-closed-channel panic（BUG-F2 修复）。
+	// 与 recover 兜底配合：closed 是快速路径（避免大多数 panic），recover 是最后防线（覆盖 TOCTOU 窗口）。
+	closed atomic.Bool
+
 	// workerWG 用于等待该 slot 的 worker 退出。
 	// 注册时启动 worker；UnregisterHandler / Close 时关闭 channel 触发退出。
 	workerWG sync.WaitGroup
@@ -151,7 +156,8 @@ func (c *capturer) UnregisterHandler(name string) error {
 	delete(c.handlers, name)
 	c.mu.Unlock()
 
-	// 关闭队列触发 worker 退出；等待在途包处理完。
+	// 先标记 closed（让 dispatch/flushAll 快速跳过），再关闭 channel 触发 worker 退出。
+	slot.closed.Store(true)
 	close(slot.ch)
 	slot.workerWG.Wait()
 	return nil
@@ -287,6 +293,17 @@ func (c *capturer) broadcast(ctx context.Context, event *PacketEvent) {
 // dispatch 按 OverflowStrategy 把包投递到单个 slot 的队列。
 // 这是过载保护的核心。统计上只区分 received（成功入队）与 dropped（被丢）。
 func (c *capturer) dispatch(ctx context.Context, s *handlerSlot, event *PacketEvent) {
+	// 快速路径：已关闭的 slot 直接跳过（避免 send-on-closed panic，BUG-F2 修复）。
+	if s.closed.Load() {
+		return
+	}
+	// recover 兜底：closed.Load() 与实际 close 之间有 TOCTOU 窗口，
+	// 用 recover 捕获极端竞态下的 send-on-closed panic。
+	defer func() {
+		if r := recover(); r != nil {
+			s.dropped.Add(1)
+		}
+	}()
 	switch c.opts.Overflow {
 	case OverflowBlock:
 		// 阻塞投递，但仍然响应 ctx 取消，避免无法退出。
@@ -366,12 +383,16 @@ func (c *capturer) flushAll() {
 
 // sendSentinel 向 slot 的队列投递一个 nil 哨兵包。
 // 返回 true 表示投递成功（worker 将消费它并 Done flushWG）；
-// 返回 false 表示 channel 已关闭（slot 已被 UnregisterHandler 注销），
+// 返回 false 表示 channel 已关闭（slot 已被 UnregisterHandler/Close 注销），
 // 此时调用方必须手动 Done flushWG 以平衡前置的 Add。
 func sendSentinel(s *handlerSlot) (sent bool) {
+	// 快速检查 closed 标志（避免大多数 send-on-closed 场景）。
+	if s.closed.Load() {
+		return false
+	}
+	// recover 兜底：closed.Load() 与实际 close 之间有 TOCTOU 窗口。
 	defer func() {
 		if r := recover(); r != nil {
-			// send on closed channel：worker 已退出。
 			sent = false
 		}
 	}()
@@ -395,6 +416,7 @@ func (c *capturer) Close() {
 	c.mu.Unlock()
 
 	for _, s := range slots {
+		s.closed.Store(true)
 		close(s.ch)
 		s.workerWG.Wait()
 	}
@@ -484,10 +506,9 @@ func toEvent(pkt gopacket.Packet, source Source) *PacketEvent {
 		Source:   source.String(),
 		LinkType: source.LinkType(),
 	}
-	if ci := pkt.Metadata().CaptureInfo; true {
-		event.Timestamp = ci.Timestamp
-		event.Length = ci.Length
-	}
+	ci := pkt.Metadata().CaptureInfo
+	event.Timestamp = ci.Timestamp
+	event.Length = ci.Length
 	if net := pkt.NetworkLayer(); net != nil {
 		event.NetworkFlow = net.NetworkFlow()
 	}

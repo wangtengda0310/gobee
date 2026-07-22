@@ -3,7 +3,6 @@ package pcap
 import (
 	"bytes"
 	"context"
-	"io"
 	"net"
 	"sync"
 	"testing"
@@ -233,5 +232,3 @@ func TestCapture_ItsNotFunHTTPRequest(t *testing.T) {
 }
 
 // Ensure the Source/io interfaces we rely on are wired correctly at compile time.
-var _ io.Closer = (io.Closer)(nil)
-var _ gopacket.PacketDataSource = (gopacket.PacketDataSource)(nil)

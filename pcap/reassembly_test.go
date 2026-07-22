@@ -7,6 +7,7 @@ import (
 	"io"
 	"net"
 	"net/http"
+	"strconv"
 	"sync"
 	"testing"
 	"time"
@@ -327,7 +328,7 @@ func TestReassembly_WithCapturer(t *testing.T) {
 func TestReassembly_HTTPResponse(t *testing.T) {
 	// 构造一个 HTTP 响应流。
 	body := "hello world"
-	respPayload := []byte("HTTP/1.1 200 OK\r\nContent-Length: " + itoa(len(body)) + "\r\nContent-Type: text/plain\r\n\r\n" + body)
+	respPayload := []byte("HTTP/1.1 200 OK\r\nContent-Length: " + strconv.Itoa(len(body)) + "\r\nContent-Type: text/plain\r\n\r\n" + body)
 	pcapData := buildRequestStreamPcap(t, respPayload, 9, false) // 复用构造（方向无所谓，只测重组）
 
 	var (
@@ -350,19 +351,6 @@ func TestReassembly_HTTPResponse(t *testing.T) {
 
 	require.Len(t, statuses, 1, "应解析出 1 个响应")
 	assert.Equal(t, 200, statuses[0])
-}
-
-// itoa 是避免引入 strconv 的简易整数转字符串。
-func itoa(n int) string {
-	if n == 0 {
-		return "0"
-	}
-	var b []byte
-	for n > 0 {
-		b = append([]byte{byte('0' + n%10)}, b...)
-		n /= 10
-	}
-	return string(b)
 }
 
 // =============================================================================

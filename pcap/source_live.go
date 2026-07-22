@@ -37,9 +37,9 @@ const liveReadTimeout = 1 * time.Second
 // 调用 SetBPFFilter / ValidateBPF 热重载过滤器。
 //
 // 可中断：Packets() 的读取循环由 stop channel 控制，Close() 可在 liveReadTimeout 内
-// 打断读取，避免 Ctrl+C 无响应。
+// 打断读取，避免 Ctrl+C 无响应。Close 会等 readLoop 退出后再关 handle（BUG-F1 修复）。
 type liveSource struct {
-	mu     sync.RWMutex // 保护 handle / bpf / stop / out
+	mu     sync.RWMutex // 保护 handle / bpf
 	handle *pcap.Handle
 	iface  string
 	bpf    string
@@ -48,6 +48,8 @@ type liveSource struct {
 	stop chan struct{}
 	// stopOnce 保证 stop 只关闭一次。
 	stopOnce sync.Once
+	// readWG 跟踪 readLoop goroutine，Close 时等它退出后再关 handle（避免 cgo use-after-close）。
+	readWG sync.WaitGroup
 }
 
 // NewLiveSource 打开指定网卡进行实时抓包。
@@ -88,6 +90,7 @@ func NewLiveSource(iface string, snaplen int32, promisc bool, bpf string) (Sourc
 // 注意：本方法启动的 goroutine 在 Close 后退出并关闭 out channel。
 func (s *liveSource) Packets() chan gopacket.Packet {
 	out := make(chan gopacket.Packet, 128)
+	s.readWG.Add(1)
 	go s.readLoop(out)
 	return out
 }
@@ -97,6 +100,7 @@ func (s *liveSource) Packets() chan gopacket.Packet {
 // 成功读到包则解码后投递到 out；
 // 收到 stop 信号或 handle 出错则关闭 out 并退出。
 func (s *liveSource) readLoop(out chan gopacket.Packet) {
+	defer s.readWG.Done()
 	defer close(out)
 	s.mu.RLock()
 	handle := s.handle
@@ -144,12 +148,13 @@ func (s *liveSource) LinkType() layers.LinkType {
 }
 
 // Close 实现 Source。幂等。
-// 先关闭 stop 通知读取 goroutine 退出（至多 liveReadTimeout 内生效），
-// 再关闭 pcap handle 释放底层资源。
+// 先关闭 stop 通知读取 goroutine 退出，等它退出后再关 handle（避免 cgo use-after-close，BUG-F1 修复）。
 func (s *liveSource) Close() error {
 	s.stopOnce.Do(func() {
 		close(s.stop)
 	})
+	// 等 readLoop 退出——确保没有 goroutine 还在调 handle.ReadPacketData()。
+	s.readWG.Wait()
 	s.mu.Lock()
 	defer s.mu.Unlock()
 	if s.handle != nil {

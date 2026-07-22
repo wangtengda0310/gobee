@@ -309,6 +309,7 @@ var _ tcpassembly.StreamFactory = (*tcpStreamReassembler)(nil)
 var (
 	_ PacketHandler = (*HTTPRequestHandler)(nil)
 	_ PacketHandler = (*HTTPResponseHandler)(nil)
+	_ PacketHandler = (*TCPStreamHandler)(nil)
 )
 
 // String 用于日志/调试，返回 "src:sport->dst:dport" 形式。

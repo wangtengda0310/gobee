@@ -24,6 +24,9 @@ import (
 //     无法精确标识某个包来自哪个子源（gopacket.Packet 不可变，附加上下文成本高）。
 //     若需区分子源，handler 可依据包自身的网络层信息（IP/端口）区分。
 //     精细的 per-packet 子源标记为后续 TODO。
+
+// mergedSourceBufferPerSource 是每个子源在合并 channel 中的预缓冲系数。
+const mergedSourceBufferPerSource = 16
 // =============================================================================
 
 // mergedSource 把多个 Source 合并为一个。
@@ -38,6 +41,10 @@ type mergedSource struct {
 
 	// closeOnce 保证 Close 幂等。
 	closeOnce sync.Once
+
+	// stop 由 Close 关闭，通知所有 forward goroutine 退出。
+	// 解决「消费者停止后 forward 阻塞在 m.out <- pkt」的泄漏问题（BUG-F4）。
+	stop chan struct{}
 
 	// wg 跟踪所有转发 goroutine，用于 Close 时等待它们退出。
 	wg sync.WaitGroup
@@ -62,11 +69,14 @@ func NewMergedSource(sources ...Source) (Source, error) {
 	if len(sources) == 0 {
 		return nil, ErrNoSources
 	}
-	link := sources[0].LinkType()
+	// 先校验 nil，再取 LinkType（避免 sources[0] 为 nil 时 panic）。
 	for i, s := range sources {
 		if s == nil {
 			return nil, fmt.Errorf("%w: source at index %d is nil", ErrSourceNil, i)
 		}
+	}
+	link := sources[0].LinkType()
+	for i, s := range sources {
 		if lt := s.LinkType(); lt != link {
 			return nil, fmt.Errorf("%w: source[%d]=%v source[0]=%v",
 				ErrInconsistentLinkType, i, lt, link)
@@ -75,7 +85,8 @@ func NewMergedSource(sources ...Source) (Source, error) {
 	return &mergedSource{
 		sources: sources,
 		link:    link,
-		out:     make(chan gopacket.Packet, len(sources)*16), // 合理预缓冲，降低转发竞争
+		out:     make(chan gopacket.Packet, len(sources)*mergedSourceBufferPerSource),
+		stop:    make(chan struct{}),
 	}, nil
 }
 
@@ -103,23 +114,30 @@ func (m *mergedSource) start() {
 }
 
 // forward 把单个子 Source 的 packet 转投到合并 channel。
+// 用 select 监听 stop，避免消费者停止后阻塞在 m.out <- pkt（BUG-F4 修复）。
 func (m *mergedSource) forward(src Source) {
 	defer m.wg.Done()
 	for pkt := range src.Packets() {
-		m.out <- pkt
+		select {
+		case m.out <- pkt:
+		case <-m.stop:
+			return
+		}
 	}
 }
 
 // LinkType 实现 Source。返回所有子源统一的链路层类型（构造时校验过）。
 func (m *mergedSource) LinkType() layers.LinkType { return m.link }
 
-// Close 实现 Source。关闭所有子 Source，幂等。
-// 注意：不会等待转发 goroutine 退出（它们会在子源 channel 关闭后自然退出）。
+// Close 实现 Source。关闭所有子 Source 并等待转发 goroutine 退出，幂等。
+// 关闭 stop channel 让阻塞在 m.out <- pkt 的 forward 退出（BUG-F4 修复）。
 func (m *mergedSource) Close() error {
 	m.closeOnce.Do(func() {
+		close(m.stop)      // 通知 forward 退出（即使消费者已停止，forward 也能退出）
 		for _, s := range m.sources {
-			_ = s.Close()
+			_ = s.Close() // 关闭子源，让 range 退出
 		}
+		m.wg.Wait()         // 等所有 forward 退出 → start 的协调 goroutine 随后 close(m.out)
 	})
 	return nil
 }

@@ -118,12 +118,6 @@ type Capturer interface {
 	Close()
 }
 
-// LifeCycler 已废弃：Close 现已直接包含在 Capturer 接口中。
-// 保留此类型别名仅为向后兼容，新代码请直接用 Capturer.Close()。
-//
-// Deprecated: 使用 Capturer.Close() 代替。
-type LifeCycler = Capturer
-
 // String 返回 Target 的可读表示。
 func (t Target) String() string {
 	if t.BPF == "" && t.Host == "" {

@@ -30,7 +30,12 @@
 //	    fmt.Println(e.Timestamp, e.NetworkFlow)
 //	    return nil
 //	}))
-//	src, _ := pcap.NewLiveSource("eth0", 65535, false, "") // 需要 cgo + libpcap
+//	// 离线重放（纯 Go，任意平台可编译）：
+//	f, _ := os.Open("dump.pcap")
+//	r, _ := pcapgo.NewReader(f)
+//	src := pcap.NewReaderSource(r, r.LinkType(), "dump.pcap")
+//	// 实时抓包（需 cgo + libpcap + -tags livecapture）：
+//	// src, _ := pcap.NewLiveSource("eth0", 65535, false, "")
 //	c.Capture(context.Background(), src, pcap.Target{Host: "itsnot.fun"})
 //
 // # 单元测试
