@@ -29,8 +29,12 @@ STRUCT_KIND = 'A'
 DATE_RE = re.compile(r"^\d{4}-\d{2}-\d{2}( \d{2}:\d{2}:\d{2})?$")
 INT_ARRAY_RE = re.compile(r"^\d+(,\d+)*$")
 ID_STR_RE = re.compile(r"^[A-Za-z][A-Za-z0-9_]*$")
-BOOL_TRUE = {"1", "true", "yes", "y"}
-BOOL_FALSE = {"0", "false", "no", "n"}
+BOOL_TRUE = {"1", "1.0", "true", "yes", "y"}
+BOOL_FALSE = {"0", "0.0", "false", "no", "n"}
+ITEM_SHEET = "道具表|Item"
+ITEM_DATA_START = 4
+ITEM_TYPE_ROW = 1
+ITEM_HEADER_ROW = 2
 
 
 @dataclass
@@ -64,12 +68,74 @@ def parse_int(value: object):
 def parse_bool(value: object):
     if is_empty(value):
         return None
+    if isinstance(value, bool):
+        return value
+    if isinstance(value, (int, float)) and not isinstance(value, bool):
+        if value == 1 or value == 1.0:
+            return True
+        if value == 0 or value == 0.0:
+            return False
+        return None
     t = str(value).strip().lower()
     if t in BOOL_TRUE:
         return True
     if t in BOOL_FALSE:
         return False
+    try:
+        f = float(t)
+        if f == 1.0:
+            return True
+        if f == 0.0:
+            return False
+    except (TypeError, ValueError):
+        pass
     return None
+
+
+def resolve_item_path(frame_path: Path, item_path: Path | None) -> Path:
+    if item_path is not None:
+        return item_path
+    return frame_path.parent / "Item.xlsx"
+
+
+def load_item_id_name(path: Path) -> dict[int, str]:
+    """Item.xlsx Id → Name。"""
+    raw = pd.read_excel(path, sheet_name=ITEM_SHEET, header=None, dtype=object)
+    headers = raw.iloc[ITEM_HEADER_ROW].tolist()
+    types = raw.iloc[ITEM_TYPE_ROW].tolist()
+    width = max(len(types), len(headers), len(raw.columns))
+    keep_cols, col_names = [], []
+    for i in range(width):
+        hv = headers[i] if i < len(headers) else None
+        tv = types[i] if i < len(types) else None
+        if is_empty(tv) and is_empty(hv):
+            continue
+        if is_empty(hv):
+            continue
+        keep_cols.append(i)
+        col_names.append(str(hv).strip())
+    if "Id" not in col_names or "Name" not in col_names:
+        raise ValueError("Item.xlsx 缺少 Id 或 Name 列")
+    id_i = keep_cols[col_names.index("Id")]
+    name_i = keep_cols[col_names.index("Name")]
+    out: dict[int, str] = {}
+    blank_run = 0
+    for r in range(ITEM_DATA_START, len(raw)):
+        raw_id = raw.iloc[r, id_i]
+        if is_empty(raw_id):
+            blank_run += 1
+            if blank_run >= 3:
+                break
+            continue
+        blank_run = 0
+        if str(raw_id).strip().startswith("#"):
+            continue
+        iid = parse_int(raw_id)
+        if iid is None:
+            continue
+        name = "" if is_empty(raw.iloc[r, name_i]) else str(raw.iloc[r, name_i]).strip()
+        out[iid] = name
+    return out
 
 
 def load_rows(path: Path) -> pd.DataFrame:
@@ -121,9 +187,24 @@ def display_of(row) -> str:
     return ""
 
 
-def validate_structural(path: Path):
+def validate_structural(path: Path, item_path: Path | None = None):
     data = load_rows(path)
     issues, seen = [], []
+
+    resolved_item = resolve_item_path(path, item_path)
+    item_names: dict[int, str] | None = None
+    if not resolved_item.is_file():
+        issues.append(
+            Issue("", "", "Item", f"缺少 Item.xlsx，无法校验道具外联: {resolved_item}")
+        )
+    else:
+        try:
+            item_names = load_item_id_name(resolved_item)
+        except Exception as exc:  # noqa: BLE001
+            issues.append(
+                Issue("", "", "Item", f"读取 Item.xlsx 失败 ({resolved_item}): {exc}")
+            )
+
     for _, row in data.iterrows():
         raw_id = row.get(PK_FIELD)
         disp = display_of(row)
@@ -161,10 +242,28 @@ def validate_structural(path: Path):
             if a in data.columns and b in data.columns:
                 if is_empty(row.get(a)) != is_empty(row.get(b)):
                     issues.append(Issue(row_id, disp, a, f"{a}/{b} 须同空或同有"))
+
+        if item_names is not None and isinstance(row_id, int):
+            if row_id not in item_names:
+                issues.append(
+                    Issue(row_id, disp, "Id", f"Id={row_id} 不在 Item.xlsx 的 Id 中")
+                )
+            else:
+                frame_name = "" if is_empty(row.get("Name")) else str(row.get("Name")).strip()
+                item_name = item_names[row_id]
+                if frame_name != item_name:
+                    issues.append(
+                        Issue(
+                            row_id,
+                            disp,
+                            "Name",
+                            f"Name 与 Item.xlsx 同 Id 行不一致: 本表={frame_name!r}，Item={item_name!r}",
+                        )
+                    )
     for dup, n in Counter(seen).items():
         if n > 1:
             issues.append(Issue(dup, "", PK_FIELD, f"{PK_FIELD} 重复出现 {n} 次"))
-    return issues, data
+    return issues, data, resolved_item
 
 
 def semantic_rows(data: pd.DataFrame):
@@ -187,6 +286,7 @@ def semantic_rows(data: pd.DataFrame):
 def main() -> int:
     parser = argparse.ArgumentParser(description="校验 ItemFrame_边框道具表.xlsx")
     parser.add_argument("path")
+    parser.add_argument("--item", type=Path, default=None, help="Item.xlsx 路径（默认与本表同目录）")
     parser.add_argument("--json", action="store_true")
     parser.add_argument("--semantic-json", action="store_true")
     args = parser.parse_args()
@@ -194,7 +294,7 @@ def main() -> int:
     if not path.is_file():
         print(f"文件不存在: {path}", file=sys.stderr)
         return 2
-    issues, data = validate_structural(path)
+    issues, data, item_resolved = validate_structural(path, item_path=args.item)
     sem = semantic_rows(data)
     if args.semantic_json:
         print(json.dumps({"file": str(path), "pk_field": PK_FIELD, "l1_fields": L1_FIELDS, "semantic_rows": sem}, ensure_ascii=False, indent=2))
@@ -203,6 +303,7 @@ def main() -> int:
         print(json.dumps({"file": str(path), "pk_field": PK_FIELD, "l1_fields": L1_FIELDS, "structural_issue_count": len(issues), "structural_issues": [asdict(i) for i in issues], "semantic_rows": sem}, ensure_ascii=False, indent=2))
         return 0
     print(f"检查文件: {path}")
+    print(f"道具表: {item_resolved}")
     print(f"表结构: {STRUCT_KIND} | 主键列: {PK_FIELD} | L1字段: {', '.join(L1_FIELDS) if L1_FIELDS else '无'}")
     print(f"结构化问题数量: {len(issues)}")
     for issue in issues:
