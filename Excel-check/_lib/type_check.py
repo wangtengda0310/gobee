@@ -9,8 +9,8 @@ INT_RE = re.compile(r"^-?\d+(\.0+)?$")
 FLOAT_RE = re.compile(r"^-?\d+(\.\d+)?([eE][+-]?\d+)?$")
 INT_ARRAY_RE = re.compile(r"^-?\d+(\.0+)?(,-?\d+(\.0+)?)*$")
 ID_STR_RE = re.compile(r"^[A-Za-z][A-Za-z0-9_]*$")
-BOOL_TRUE = {"1", "true", "yes", "y"}
-BOOL_FALSE = {"0", "false", "no", "n"}
+BOOL_TRUE = {"1", "1.0", "true", "yes", "y"}
+BOOL_FALSE = {"0", "0.0", "false", "no", "n"}
 
 INT_TYPE_NAMES = {
     "int",
@@ -92,11 +92,29 @@ def _as_text(value: object) -> str:
 
 
 def _parse_bool(value: object) -> bool | None:
+    """接受 true/false/0/1 及 Excel 读出的 0.0/1.0。"""
+    if isinstance(value, bool):
+        return value
+    if isinstance(value, (int, float)) and not isinstance(value, bool):
+        if value == 1 or value == 1.0:
+            return True
+        if value == 0 or value == 0.0:
+            return False
+        return None
     t = _as_text(value).lower()
     if t in BOOL_TRUE:
         return True
     if t in BOOL_FALSE:
         return False
+    # 兼容 "1.00" 等整值浮点字符串
+    try:
+        f = float(t)
+        if f == 1.0:
+            return True
+        if f == 0.0:
+            return False
+    except (TypeError, ValueError):
+        pass
     return None
 
 

@@ -29,8 +29,8 @@ STRUCT_KIND = 'A'
 DATE_RE = re.compile(r"^\d{4}-\d{2}-\d{2}( \d{2}:\d{2}:\d{2})?$")
 INT_ARRAY_RE = re.compile(r"^\d+(,\d+)*$")
 ID_STR_RE = re.compile(r"^[A-Za-z][A-Za-z0-9_]*$")
-BOOL_TRUE = {"1", "true", "yes", "y"}
-BOOL_FALSE = {"0", "false", "no", "n"}
+BOOL_TRUE = {"1", "1.0", "true", "yes", "y"}
+BOOL_FALSE = {"0", "0.0", "false", "no", "n"}
 
 
 @dataclass
@@ -64,12 +64,37 @@ def parse_int(value: object):
 def parse_bool(value: object):
     if is_empty(value):
         return None
+    if isinstance(value, bool):
+        return value
+    if isinstance(value, (int, float)) and not isinstance(value, bool):
+        if value == 1 or value == 1.0:
+            return True
+        if value == 0 or value == 0.0:
+            return False
+        return None
     t = str(value).strip().lower()
     if t in BOOL_TRUE:
         return True
     if t in BOOL_FALSE:
         return False
+    try:
+        f = float(t)
+        if f == 1.0:
+            return True
+        if f == 0.0:
+            return False
+    except (TypeError, ValueError):
+        pass
     return None
+
+
+def is_date_like_field(field: str) -> bool:
+    """日期/时刻字段；排除 ValidTimeSec 等时长秒数。"""
+    if field.endswith(("Sec", "Ms", "Millis", "Seconds")):
+        return False
+    if field.endswith("Type") and "Time" in field:
+        return False
+    return "Time" in field or field.endswith("Date")
 
 
 def load_rows(path: Path) -> pd.DataFrame:
@@ -156,10 +181,36 @@ def validate_structural(path: Path):
             type_err = check_value_against_type(t, value, is_empty=is_empty)
             if type_err:
                 issues.append(Issue(row_id, disp, field, type_err))
-            if "Time" in field or field.endswith("Date"):
+            if is_date_like_field(field):
                 text = str(value).strip()
                 if not DATE_RE.match(text) and re.search(r"\d{4}", text):
                     issues.append(Issue(row_id, disp, field, f"{field} 时间格式应为 YYYY-MM-DD[ HH:MM:SS]，实际: {value}"))
+            if field == "ValidTimeSec":
+                # 须为整小时/整天：非负整数秒，且为 3600 的倍数（禁止 35244 这类零散秒）
+                sec = None
+                try:
+                    f = float(str(value).strip())
+                    if f == int(f) and f == f:  # 非 NaN 且无小数部分
+                        sec = int(f)
+                except (TypeError, ValueError):
+                    sec = None
+                if sec is None:
+                    issues.append(
+                        Issue(row_id, disp, field, f"ValidTimeSec 须为整数秒，实际: {value}")
+                    )
+                elif sec < 0:
+                    issues.append(
+                        Issue(row_id, disp, field, f"ValidTimeSec 须为非负整数秒，实际: {value}")
+                    )
+                elif sec % 3600 != 0:
+                    issues.append(
+                        Issue(
+                            row_id,
+                            disp,
+                            field,
+                            f"ValidTimeSec 须为整小时或整天（3600 的倍数），实际: {value}",
+                        )
+                    )
         for a, b in (("OnShelfTime", "OffShelfTime"), ("StartTime", "EndTime"), ("BeginTime", "EndTime")):
             if a in data.columns and b in data.columns:
                 if is_empty(row.get(a)) != is_empty(row.get(b)):
