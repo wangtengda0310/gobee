@@ -242,6 +242,70 @@ func encryptData(buf []byte, key []byte) []byte {
 	return buf
 }
 
+// readByteStreamString 从 ByteStream 中读取一个 [2B len][string] 字段。
+func readByteStreamString(data []byte) (string, []byte) {
+	if len(data) < 2 {
+		return "", data
+	}
+	strLen := int(data[0]) | int(data[1])<<8
+	if strLen > len(data)-2 {
+		return fmt.Sprintf("(len=%d, but only %d bytes left)", strLen, len(data)-2), data[2:]
+	}
+	return string(data[2 : 2+strLen]), data[2+strLen:]
+}
+
+// DumpLoginReq 解析 LoginReq 的 ByteStream 格式。
+// 格式: [2B len][Account][2B len][Token][8B uint64][2B len][Version]...
+func DumpLoginReq(data []byte) string {
+	var result string
+	remaining := data
+
+	account, remaining := readByteStreamString(remaining)
+	result += fmt.Sprintf("  Account: %q\n", account)
+
+	token, remaining := readByteStreamString(remaining)
+	if len(token) > 16 {
+		token = token[:16] + "..."
+	}
+	result += fmt.Sprintf("  Token: %q\n", token)
+
+	if len(remaining) >= 8 {
+		platform := binary.LittleEndian.Uint64(remaining[:8])
+		result += fmt.Sprintf("  Platform/Flags: %d\n", platform)
+		remaining = remaining[8:]
+	}
+
+	version, remaining := readByteStreamString(remaining)
+	result += fmt.Sprintf("  Version: %q\n", version)
+
+	return result
+}
+
+// DumpLoginResp 解析 LoginResp 的 ByteStream 格式。
+// 格式: [8B UID][4B Result][2B len][Version]...
+func DumpLoginResp(data []byte) string {
+	var result string
+	if len(data) >= 12 {
+		uid := binary.LittleEndian.Uint64(data[:8])
+		resultCode := binary.LittleEndian.Uint32(data[8:12])
+		result += fmt.Sprintf("  UID: %d\n", uid)
+		result += fmt.Sprintf("  Result: %d (%s)\n", resultCode, loginResultText(resultCode))
+		data = data[12:]
+	}
+	version, data := readByteStreamString(data)
+	if version != "" {
+		result += fmt.Sprintf("  Version: %q\n", version)
+	}
+	return result
+}
+
+func loginResultText(code uint32) string {
+	if code == 0 {
+		return "成功"
+	}
+	return fmt.Sprintf("失败(%d)", code)
+}
+
 // MsgName 返回消息 ID 的可读名称（框架消息）。
 // 消息 ID < 1000 是框架消息（LoginReq/Ping/Pong 等），
 // >= 1000 是游戏消息（需要使用者的 proto 注册表映射）。

@@ -171,10 +171,37 @@ func detectDirection(flow pcap.FlowKey) (fromClient bool, dir string) {
 func printMessage(dir string, msgID uint16, seqID uint32, body []byte) {
 	name := gameproto.MsgName(msgID)
 	fmt.Printf("  [%s] %s ID=%d Seq=%d BodyLen=%d\n", dir, name, msgID, seqID, len(body))
-	// 框架消息（ID<1000）的 body 不是 protobuf（如 Pong 是原始时间戳），跳过解析。
-	// 游戏消息（ID>=1000）的 body 是 protobuf，用 protowire 解析（类似 protoc --decode_raw）。
-	if msgID >= 1000 && len(body) > 0 {
-		fmt.Print(gameproto.DumpProtobufRaw(body))
+	if len(body) == 0 {
+		return
+	}
+
+	// body 格式因消息类型而异：
+	switch {
+	case msgID == 1:
+		// LoginReq: 自定义 ByteStream [2B len][Account][2B len][Token][8B uint64][version]...
+		fmt.Print(gameproto.DumpLoginReq(body))
+	case msgID == 2:
+		// LoginResp: 自定义 ByteStream [8B UID][4B Result][2B len][Version]...
+		fmt.Print(gameproto.DumpLoginResp(body))
+	case msgID == 3:
+		// Ping: body 为空（已跳过）
+	case msgID == 4:
+		// Pong: body 是原始时间戳（非 protobuf）
+		fmt.Printf("         (timestamp: %x)\n", body)
+	case msgID >= 1000:
+		// 游戏消息: [2字节长度LE][protobuf数据]（子信封）
+		protoData := body
+		if len(body) >= 2 {
+			dataLen := int(body[0]) | int(body[1])<<8
+			if dataLen <= len(body)-2 && dataLen > 0 {
+				protoData = body[2 : 2+dataLen]
+			}
+		}
+		if len(protoData) > 0 {
+			fmt.Print(gameproto.DumpProtobufRaw(protoData))
+		}
+	default:
+		fmt.Printf("         (raw: %x)\n", body)
 	}
 }
 
