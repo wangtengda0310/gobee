@@ -66,16 +66,26 @@ func run() int {
 	)
 	defer c.Close()
 
-	// ★ 核心：用 TCPStreamHandler + 自定义 Layer 解析游戏消息。
+	// ★ 核心：用 TCPStreamHandler + 自定义 Layer 解析游戏消息（含解密）。
 	gameHandler := pcap.NewTCPStreamHandler("game-proto", func(flow pcap.FlowKey, r io.Reader) error {
-		fmt.Printf("\n=== 新 TCP 流 [%s] ===\n", flow)
+		// 判断流方向：源端口小于目标端口 → 客户端→服务端（用 decryptKey）。
+		// 反之 → 服务端→客户端（用 encryptKey）。
+		srcPort := flow.TransportFlow.Src().String()
+		dstPort := flow.TransportFlow.Dst().String()
+		fromClient := srcPort < dstPort
 
-		// 用 FrameReader 从重组后的字节流逐条切分消息。
-		reader := gameproto.NewFrameReader(r)
+		dir := "客户端→服务端"
+		if !fromClient {
+			dir = "服务端→客户端"
+		}
+		fmt.Printf("\n=== 新 TCP 流 [%s] (%s) ===\n", flow, dir)
+
+		// 用 FrameReader 从重组后的字节流逐条切分消息（自动解密/解压）。
+		reader := gameproto.NewFrameReader(r, fromClient)
 		for {
 			msgID, seqID, body, err := reader.ReadMessage()
 			if err != nil {
-				// io.EOF / 连接关闭 / 消息格式错误 / 加密消息（跳过）
+				// io.EOF = 流结束；其它 error = 格式错误
 				return err
 			}
 

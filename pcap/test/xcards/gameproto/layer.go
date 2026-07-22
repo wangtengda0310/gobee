@@ -20,6 +20,7 @@ import (
 	"fmt"
 	"io"
 
+	"github.com/golang/snappy"
 	"github.com/gopacket/gopacket"
 )
 
@@ -122,18 +123,25 @@ func decodeGameMessage(data []byte, p gopacket.PacketBuilder) error {
 
 // FrameReader 从 io.Reader 中按游戏协议格式逐条切分消息。
 // 使用者把它放在 pcap.TCPStreamHandler 的回调里。
+//
+// fromClient 标识流的方向，决定解密时用哪个密钥：
+//   - true: 客户端→服务端的流（客户端用 decryptKey 加密，抓包侧也用 decryptKey 解密）
+//   - false: 服务端→客户端的流（服务端用 encryptKey 加密，抓包侧也用 encryptKey 解密）
 type FrameReader struct {
-	r io.Reader
+	r          io.Reader
+	fromClient bool
 }
 
 // NewFrameReader 创建一个帧读取器。
-func NewFrameReader(r io.Reader) *FrameReader {
-	return &FrameReader{r: r}
+//   - r: 重组后的字节流（来自 pcap.TCPStreamHandler 的 io.Reader 回调）。
+//   - fromClient: 流方向（客户端→服务端=true，服务端→客户端=false），决定解密密钥。
+func NewFrameReader(r io.Reader, fromClient bool) *FrameReader {
+	return &FrameReader{r: r, fromClient: fromClient}
 }
 
 // ReadMessage 读取一条完整消息。
 // 返回 msgID, seqID, body, error。
-// 对应 msg_reader.go 的 readARQMsg 逻辑（不含解密/解压——抓包监控场景只读明文）。
+// 对应 msg_reader.go 的 readARQMsg 逻辑，含解密（异或+循环移位）和解压（snappy）。
 func (fr *FrameReader) ReadMessage() (msgID uint16, seqID uint32, body []byte, err error) {
 	// 1. 读 4 字节包头。
 	var head [MsgHeadSize]byte
@@ -154,19 +162,81 @@ func (fr *FrameReader) ReadMessage() (msgID uint16, seqID uint32, body []byte, e
 		return 0, 0, nil, err
 	}
 
-	// 3. 注意：如果消息加密/压缩了，这里拿到的是密文/压缩数据。
-	//    抓包监控场景通常只关心明文消息。
-	//    如需解密，需要密钥（超出 pcap 包职责）。
-	encrypted := flag&0x2 != 0
-	compressed := flag&0x1 != 0
-	if encrypted || compressed {
-		return 0, 0, nil, fmt.Errorf("消息已加密(%v)/压缩(%v)，无法在抓包层解析", encrypted, compressed)
+	// 3. 解密（如 flag bit1 置位）。
+	//    加密算法与 go-service crypt.DecryptData 相同：异或 + 循环右移。
+	//    密钥方向：客户端→服务端用 decryptKey，服务端→客户端用 encryptKey。
+	if flag&0x2 != 0 {
+		key := encryptKey
+		if fr.fromClient {
+			key = decryptKey // 客户端发的，客户端用 decryptKey 加密
+		}
+		msgData = decryptData(msgData, key)
 	}
 
-	// 4. 解析 msgID + seqID + body。
+	// 4. 解压（如 flag bit0 置位）。
+	//    go-service 用 snappy 压缩。
+	if flag&0x1 == 0 {
+		// 未压缩，直接解析。
+	} else {
+		msgData, err = snappy.Decode(nil, msgData)
+		if err != nil {
+			return 0, 0, nil, fmt.Errorf("snappy 解压失败: %w", err)
+		}
+	}
+
+	// 5. 解析 msgID + seqID + body。
+	if len(msgData) < MsgIDSize+SeqSize {
+		return 0, 0, nil, fmt.Errorf("解密/解压后数据过短: %d bytes", len(msgData))
+	}
 	msgID = binary.LittleEndian.Uint16(msgData[0:2])
 	seqID = binary.LittleEndian.Uint32(msgData[2:6])
 	body = msgData[6:]
 
 	return msgID, seqID, body, nil
+}
+
+// =============================================================================
+// 加密/解密（移植自 go-service/framework/net/internal/internal/crypt）
+//
+// 算法：逐字节「异或 + 循环移位」，密钥 8 字节、硬编码。
+//
+// 加密（EncryptData）：左移 n 位 → 异或 key
+// 解密（DecryptData）：异或 key → 右移 n 位（加密的逆操作）
+//
+// 密钥方向（与 go-service 一致）：
+//   - encryptKey：服务端加密（发→客户端），客户端解密也用它
+//   - decryptKey：客户端加密（发→服务端），服务端解密也用它
+//
+// 抓包侧解密：根据流方向选密钥即可（密钥和算法完全公开）。
+// =============================================================================
+
+var (
+	// 服务端→客户端方向的密钥。
+	encryptKey = []byte{253, 1, 56, 52, 62, 176, 42, 138}
+	// 客户端→服务端方向的密钥。
+	decryptKey = []byte{41, 247, 6, 255, 138, 78, 197, 129}
+)
+
+// decryptData 解密数据（对应 go-service crypt.DecryptData）。
+// 逐字节：先异或 key，再循环右移 n 位（n = i%7+1）。
+func decryptData(buf []byte, key []byte) []byte {
+	keylen := len(key)
+	for i := 0; i < len(buf); i++ {
+		b := buf[i] ^ key[i%keylen]
+		n := byte(i%7 + 1)
+		buf[i] = (b >> n) | (b << (8 - n))
+	}
+	return buf
+}
+
+// encryptData 加密数据（对应 go-service crypt.EncryptData）。
+// 逐字节：先循环左移 n 位，再异或 key（decryptData 的逆操作）。
+func encryptData(buf []byte, key []byte) []byte {
+	keylen := len(key)
+	for i := 0; i < len(buf); i++ {
+		n := byte(i%7 + 1)
+		b := (buf[i] << n) | (buf[i] >> (8 - n))
+		buf[i] = b ^ key[i%keylen]
+	}
+	return buf
 }
