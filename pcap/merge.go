@@ -27,6 +27,7 @@ import (
 
 // mergedSourceBufferPerSource 是每个子源在合并 channel 中的预缓冲系数。
 const mergedSourceBufferPerSource = 16
+
 // =============================================================================
 
 // mergedSource 把多个 Source 合并为一个。
@@ -133,11 +134,11 @@ func (m *mergedSource) LinkType() layers.LinkType { return m.link }
 // 关闭 stop channel 让阻塞在 m.out <- pkt 的 forward 退出（BUG-F4 修复）。
 func (m *mergedSource) Close() error {
 	m.closeOnce.Do(func() {
-		close(m.stop)      // 通知 forward 退出（即使消费者已停止，forward 也能退出）
+		close(m.stop) // 通知 forward 退出（即使消费者已停止，forward 也能退出）
 		for _, s := range m.sources {
 			_ = s.Close() // 关闭子源，让 range 退出
 		}
-		m.wg.Wait()         // 等所有 forward 退出 → start 的协调 goroutine 随后 close(m.out)
+		m.wg.Wait() // 等所有 forward 退出 → start 的协调 goroutine 随后 close(m.out)
 	})
 	return nil
 }

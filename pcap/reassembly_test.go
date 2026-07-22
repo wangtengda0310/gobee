@@ -209,9 +209,9 @@ func TestReassembly_OutOfOrder(t *testing.T) {
 	pcapData := buildRequestStreamPcap(t, payload, 8, true) // 乱序
 
 	var (
-		mu       sync.Mutex
-		got      []collectedReq
-		gotBody  string
+		mu      sync.Mutex
+		got     []collectedReq
+		gotBody string
 	)
 	h := NewHTTPRequestHandler("ooo", func(flow FlowKey, req *http.Request) error {
 		mu.Lock()

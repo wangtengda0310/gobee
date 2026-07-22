@@ -11,6 +11,12 @@
 pcap 是一个基于 [gopacket](https://github.com/gopacket/gopacket) 的网络抓包库，
 提供「数据源（Source）→ 抓包器（Capturer）→ 处理函数（PacketHandler）」的广播式抓包能力。
 
+**设计哲学：协议无关的基础设施**——本包只提供抓包与流重组的基础设施，
+不绑定任何具体应用层协议。抓到的原始包通过 `gopacket.Packet` 透传给使用者，
+使用者用 gopacket 的 Layer/Decoder 机制或自定义逻辑解析。内置的 HTTP 重组
+（`HTTPRequestHandler`）是便利封装，不是协议绑定——使用者可通过
+`TCPStreamHandler` 接入任何 TCP 协议（protobuf、Redis、自定义二进制等）。
+
 **核心价值**：
 - 广播解耦（一次抓包，多 handler 并行消费，互不拖累）
 - 过载保护（抓包热路径绝不阻塞；三种可配置背压策略）

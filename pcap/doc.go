@@ -1,5 +1,13 @@
 // Package pcap 提供基于 gopacket 的网络抓包能力。
 //
+// # 设计哲学：协议无关的基础设施
+//
+// 本包**只提供抓包与流重组的基础设施，不绑定任何具体应用层协议**。
+// 抓到的原始包通过 gopacket.Packet 透传给使用者，由使用者自行用 gopacket 的
+// Layer/Decoder 机制或自定义解析逻辑处理。内置的 HTTP 重组（HTTPRequestHandler）
+// 是便利封装，不是协议绑定的证据——它基于标准库 net/http，使用者可自由替换为
+// 任何 TCP 协议解析器（通过 TCPStreamHandler 的 io.Reader 回调）。
+//
 // # 设计概览
 //
 // 本包把抓包流程拆成三部分：数据源（Source）、抓包器（Capturer）、处理函数（PacketHandler）。

@@ -481,6 +481,7 @@ func (c *capturer) matchTarget(event *PacketEvent, target Target) bool {
 //   - Host:"1.2" 会命中 IP "10.1.2.3"（"1.2" 是其子串）
 //   - Host:"." 会匹配任何含点的 IP
 //   - 应用层 payload 里的任意子串也会命中（如 JSON body 里的 URL）
+//
 // 这是 BPF 不可用时的降级方案，需要精确匹配请用 Target.BPF。
 func hostMatches(event *PacketEvent, host string) bool {
 	if event == nil || event.Packet == nil {
