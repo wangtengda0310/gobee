@@ -338,6 +338,8 @@ type Target struct {
 
 二者可组合：BPF 在内核态先过滤，Host 在用户态二次过滤。留空表示不过滤。
 
+> ⚠️ **Host 子串匹配局限**：`Target.Host` 使用 `strings.Contains` 子串匹配，可能产生误匹配——如 `Host:"1.2"` 会命中 IP `10.1.2.3`（"1.2" 是其子串），或匹配到 payload 里的任意子串。这是 BPF 不可用时的降级方案，需要精确匹配请用 `Target.BPF`。
+
 > **BPF 限制**：仅 `liveSource`（实时抓包）支持 BPF。离线 `readerSource` 不支持，指定 BPF 会返回 `ErrBPFNotSupported`。离线过滤请用 `Target.Host`。
 
 ### 配置选项（functional options）
@@ -347,6 +349,8 @@ type Target struct {
 | `WithBufferSize(n)` | `1024` | 每个 handler 的有界队列容量 |
 | `WithOverflowStrategy(s)` | `OverflowDrop` | 队列满时的背压策略 |
 | `WithBPFFilter(expr)` | 空 | 全局 BPF 过滤（与 `Target.BPF` 二选一，后者优先） |
+
+> ⚠️ **BPF 三入口覆盖语义**：BPF 有 3 个设置入口——`NewLiveSource(bpf)`（构造时）、`WithBPFFilter`（全局选项）、`Target.BPF`（每次 Capture）。三者同时设置时是**覆盖**而非合并，优先级：`Target.BPF` > `WithBPFFilter` > `NewLiveSource(bpf)`。即 Target.BPF 非空时完全忽略其它两者。
 | `WithHooks(h)` | 空 | 生命周期回调 |
 
 ### 过载策略 `OverflowStrategy`
@@ -445,6 +449,7 @@ hr := pcap.NewHTTPResponseHandler("http-resp", func(flow pcap.FlowKey, resp *htt
 - **HTTP/1.x only**：基于标准库 `net/http`，不支持 HTTP/2（记为 TODO）。
 - **明文 only**：不解密 TLS；抓 HTTPS 需先用 SSLKEYLOGFILE 预解密。
 - **回调中的 `req`/`resp` 复用底层缓冲**，返回后可能被改写；如需保留请深拷贝。
+- **⚠️ 必须手动 `Close()`**：这三个 handler 内部持有 `tcpassembly.Assembler` 和 per-flow goroutine，**`c.Close()` 不会替你关闭它们**。必须在 Capture 返回后调用 `defer h.Close()`，否则：(1) goroutine 泄漏；(2) 最后一个未 FIN 的流永远 flush 不出来（数据丢失）。
 - **必须 `Close()`**：Capture 返回后调用，确保缓冲中的不完整流被 flush（否则可能丢失最后一个未 FIN 的请求）。
 - **`FlowKey`** 标识 TCP 流（`NetworkFlow` + `TransportFlow`），便于区分请求来自哪个连接。
 

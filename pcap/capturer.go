@@ -203,6 +203,9 @@ func (c *capturer) Capture(ctx context.Context, source Source, target Target) er
 	}
 
 	// 合并全局 BPF 与 target.BPF（target 优先，若为空则回退全局）。
+	// 注意 [S7]：这是"覆盖"而非"合并"——target.BPF 非空时完全忽略 opts.BPFFilter。
+	// 另外，若 NewLiveSource 构造时也设了 bpf，这里的 SetBPFFilter 会覆盖构造时的值。
+	// 三者同时设置时的优先级：Target.BPF > WithBPFFilter > NewLiveSource(bpf)。
 	bpf := target.BPF
 	if bpf == "" {
 		bpf = c.opts.BPFFilter
@@ -471,6 +474,14 @@ func (c *capturer) matchTarget(event *PacketEvent, target Target) bool {
 // 用于在 BPF 不可用时（如读已抓好的 pcap 文件）做内容过滤。
 // 说明：这里有意只做「payload 字面子串匹配」，不强行依赖 layers.HTTP 解码器，
 // 这样对未被 gopacket 解析为结构化 HTTP 的明文 payload 同样有效，过滤更稳健。
+// hostMatches 检查包的应用层（明文 HTTP Host 头）或网络层 IP 是否包含目标 host。
+// 用于在 BPF 不可用时（如读已抓好的 pcap 文件）做内容过滤。
+//
+// ⚠️ 已知局限 [S6]：使用 strings.Contains 子串匹配，会产生误匹配：
+//   - Host:"1.2" 会命中 IP "10.1.2.3"（"1.2" 是其子串）
+//   - Host:"." 会匹配任何含点的 IP
+//   - 应用层 payload 里的任意子串也会命中（如 JSON body 里的 URL）
+// 这是 BPF 不可用时的降级方案，需要精确匹配请用 Target.BPF。
 func hostMatches(event *PacketEvent, host string) bool {
 	if event == nil || event.Packet == nil {
 		return false

@@ -50,7 +50,10 @@ func (s *readerSource) Packets() chan gopacket.Packet {
 // LinkType 实现 Source。
 func (s *readerSource) LinkType() layers.LinkType { return s.link }
 
-// Close 实现 Source。可被多次调用。
+// Close 实现 Source。
+// ⚠️ 已知局限 [S9]：本方法转发给底层 closer，不保证幂等——若底层 closer
+//（如 os.File）的 Close 第二次返回 "already closed" error，本方法也会返回该 error。
+// 未来可用 sync.Once 包装以实现真正的幂等。
 func (s *readerSource) Close() error {
 	if s.closer != nil {
 		return s.closer.Close()

@@ -406,6 +406,22 @@ wg 由内部管理，使用者无需关心。
 - **修改 `source_live.go` 却忘了构建标签**：会导致默认构建拉入 libpcap，CI（无 Npcap）编译失败。
 - **`doc.go` / `source.go` 注释里的构建标签表述**：保持与 `source_live.go` 实际 tag 一致（`cgo && livecapture`）。
 
+### 无法自动化测试的已知限制（人工 review 防护）
+
+以下问题因「触发条件依赖设计语义/人工行为」或「测试本身会死锁/无法断言」而**无法用单元测试或集成测试自动复现**，只能靠代码注释 + 文档 + review 守护。改动相关代码时必须人工确认。
+
+| 编号 | 限制 | 原因 | 防护方式 |
+|---|---|---|---|
+| **F3** | `OverflowBlock` + handler 永久阻塞 → `flushAll` 死锁，Capture 永不返回 | 测试本身会挂起（`-timeout` 超时而非断言失败），且这是设计上的已知限制（handler 必须响应 ctx） | `coverage_test.go` 注释已声明；本表记录；handler 文档强调 |
+| **S4** | 流重组 handler（`HTTPRequestHandler`/`HTTPResponseHandler`/`TCPStreamHandler`）必须手动 `Close()`，`c.Close()` 不会替你做 | 是 API 设计约束，非运行时缺陷。测试无法强制「用户记得调 Close」 | reassembly.go 每个构造函数的 doc comment 强调；README 警告框 |
+| **S6** | `Target.Host` 用 `strings.Contains` 子串匹配，会产生误匹配（如 `Host:"1.2"` 命中 IP `10.1.2.3`） | 当前测试用 `assert.True` 固化了行为，但"误匹配"本身是设计选择（BPF 不可用时的降级），无法通过测试判定对错 | `hostMatches` 代码注释说明；README FAQ 警告 |
+| **S7** | BPF 三入口（`NewLiveSource(bpf)` / `WithBPFFilter` / `Target.BPF`）同时设置时是"覆盖"而非"合并" | 是设计语义，非 bug。测试验证了覆盖行为，但"用户期望合并还是覆盖"无法通过测试判定 | `capturer.go` Capture BPF 合并段注释；README 说明 |
+| **S9** | `readerSource.Close()` 重复调用底层 closer 可能返回 error（非幂等） | 依赖底层 closer 的实现（`os.File` 第二次 Close 报 "already closed"），但 `Source` 接口契约说"可被多次调用" | `source.go` Close 注释说明；未来可用 `sync.Once` 修复 |
+| **并发 Capture** | 同一个 `Capturer` 并发调用 `Capture` 会导致 `captureCtx` 互相覆盖 | 代码未强制禁止（无 guard），但文档约定 Capture 是阻塞单次调用 | 本表记录；未来可加 `capturing atomic.Bool` guard |
+| **UnregisterHandler 与 dispatch 的 channel race** | 运行期 `UnregisterHandler` 的 `close(slot.ch)` 与 `dispatch` 的 `s.ch <- event` 并发时，race 检测器会报告 channel 内部状态竞争 | 是 channel 生命周期的固有行为，由 `closed atomic.Bool`（快速路径）+ `recover`（兜底）防护。非 race 检测器报告 = 非真 bug（类似 `sync.Pool` 的可接受 race） | `capturer.go` dispatch 注释；本表记录 |
+| **reassembly `handlePacket` 与 `Close` 并发** | worker 未停时调用 `h.Close()`，`tcpassembly.Assembler` 非并发安全可能数据竞争 | 依赖用户调用顺序（先停 Capture 再 Close handler），代码的 `closed.Load()` 快速路径可缓解但非完全互斥 | reassembly.go 注释；文档要求 Close 顺序 |
+| **`LifeCycler` 已删除** | 曾经的类型别名，现不存在 | 历史问题，无残留代码 | 已在 git 历史中 |
+
 ## 禁止的操作
 
 - ❌ 让核心库（除 `source_live.go`）依赖 cgo / libpcap / Npcap。
