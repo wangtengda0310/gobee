@@ -486,7 +486,7 @@ def main() -> int:
     semantic_count = len(collect_semantic_rows(data))
     print(
         f"待语义分析行数: {semantic_count}"
-        f"（见 skill：SkillName↔Id、ShortSkillText、SkillText、SettlementDes、Allusion、DesignThought）"
+        f"（见 skill：SkillName↔Id、ShortSkillText、SkillText（含色标用途）、SettlementDes、Allusion、DesignThought）"
     )
     return 1 if issues else 0
 
