@@ -81,6 +81,11 @@ type capturer struct {
 	mu       sync.RWMutex
 	handlers map[string]*handlerSlot
 
+	// captureCtx 持有当前 Capture 的 ctx，供 worker 传给 HandlePacket。
+	// Capture 开始时 set，结束时 clear（nil 时 worker 用 context.Background()）。
+	// 用 atomic.Pointer 保证 worker 无锁读取。
+	captureCtx atomic.Pointer[context.Context]
+
 	// captured 记录本次/历次 Capture 累计分发数（跨多次 Capture 累加）。
 	captured atomic.Int64
 	// startedAt 记录最近一次 Capture 开始时间。
@@ -164,7 +169,13 @@ func (c *capturer) runWorker(slot *handlerSlot) {
 			slot.flushWG.Done()
 			continue
 		}
-		if err := slot.handler.HandlePacket(context.Background(), pkt); err != nil {
+		// 取出当前 Capture 的 ctx 传给 handler，使 handler 能感知取消。
+		// 若不在 Capture 期间（如 Unregister 排空），回退到 context.Background()。
+		ctx := context.Background()
+		if captured := c.captureCtx.Load(); captured != nil {
+			ctx = *captured
+		}
+		if err := slot.handler.HandlePacket(ctx, pkt); err != nil {
 			slot.errors.Add(1)
 			c.fireError(fmt.Errorf("handler %q: %w", slot.handler.Name(), err))
 		}
@@ -203,6 +214,11 @@ func (c *capturer) Capture(ctx context.Context, source Source, target Target) er
 
 	c.captured.Store(0)
 	c.startedAt.Store(time.Now())
+
+	// 把本次 Capture 的 ctx 暴露给 worker，使 HandlePacket 能感知取消。
+	// Capture 返回后清空，避免旧 ctx 泄漏到后续 Capture 或非 Capture 期间的调用。
+	c.captureCtx.Store(&ctx)
+	defer c.captureCtx.Store(nil)
 
 	if c.opts.Hooks.OnStart != nil {
 		c.opts.Hooks.OnStart(ctx)
