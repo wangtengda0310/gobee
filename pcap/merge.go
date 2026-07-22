@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"sync"
 
-	"github.com/gopacket/gopacket"
-	"github.com/gopacket/gopacket/layers"
+	"github.com/gopacket/gopacket"        // 纯 Go（Packet），不需 Npcap
+	"github.com/gopacket/gopacket/layers" // 纯 Go（LinkType），不需 Npcap
 )
 
 // =============================================================================

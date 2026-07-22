@@ -6,8 +6,8 @@ import (
 	"testing"
 	"time"
 
-	"github.com/gopacket/gopacket"
-	"github.com/gopacket/gopacket/layers"
+	"github.com/gopacket/gopacket"        // 纯 Go（Packet/NewPacket），不需 Npcap
+	"github.com/gopacket/gopacket/layers" // 纯 Go（LinkTypeEthernet），不需 Npcap
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 )

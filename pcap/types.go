@@ -4,8 +4,8 @@ import (
 	"context"
 	"time"
 
-	"github.com/gopacket/gopacket"
-	"github.com/gopacket/gopacket/layers"
+	"github.com/gopacket/gopacket"        // 纯 Go（Packet/Flow），不需 Npcap
+	"github.com/gopacket/gopacket/layers" // 纯 Go（LinkType），不需 Npcap
 )
 
 // OverflowStrategy 定义当某个处理函数的缓冲队列已满（背压）时的应对策略。

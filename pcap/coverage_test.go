@@ -8,8 +8,8 @@ import (
 	"testing"
 	"time"
 
-	"github.com/gopacket/gopacket"
-	"github.com/gopacket/gopacket/layers"
+	"github.com/gopacket/gopacket"        // 纯 Go（NewPacket/SerializeLayers/CaptureInfo），不需 Npcap
+	"github.com/gopacket/gopacket/layers" // 纯 Go（Ethernet/IPv4/LinkType），不需 Npcap
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 )

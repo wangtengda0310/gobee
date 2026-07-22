@@ -9,9 +9,9 @@ import (
 	"testing"
 	"time"
 
-	"github.com/gopacket/gopacket"
-	"github.com/gopacket/gopacket/layers"
-	"github.com/gopacket/gopacket/pcapgo"
+	"github.com/gopacket/gopacket"        // 纯 Go（SerializeLayers/CaptureInfo），不需 Npcap
+	"github.com/gopacket/gopacket/layers" // 纯 Go（Ethernet/IPv4/TCP），不需 Npcap
+	"github.com/gopacket/gopacket/pcapgo" // 纯 Go（pcap 文件读写），不需 Npcap
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 )

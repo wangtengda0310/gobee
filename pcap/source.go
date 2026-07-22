@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"io"
 
-	"github.com/gopacket/gopacket"
-	"github.com/gopacket/gopacket/layers"
+	"github.com/gopacket/gopacket"        // 纯 Go（PacketSource/PacketDataSource），不需 Npcap
+	"github.com/gopacket/gopacket/layers" // 纯 Go（LinkType），不需 Npcap
 )
 
 // 本文件提供 Source 接口的纯 Go 实现，不依赖任何 cgo / Npcap。

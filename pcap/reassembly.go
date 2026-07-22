@@ -9,10 +9,10 @@ import (
 	"sync"
 	"sync/atomic"
 
-	"github.com/gopacket/gopacket"
-	"github.com/gopacket/gopacket/layers"
-	"github.com/gopacket/gopacket/tcpassembly"
-	"github.com/gopacket/gopacket/tcpassembly/tcpreader"
+	"github.com/gopacket/gopacket"                       // 纯 Go（Flow），不需 Npcap
+	"github.com/gopacket/gopacket/layers"                // 纯 Go（LayerTypeTCP/TCP），不需 Npcap
+	"github.com/gopacket/gopacket/tcpassembly"           // 纯 Go（Assembler/StreamPool/Stream），不需 Npcap
+	"github.com/gopacket/gopacket/tcpassembly/tcpreader" // 纯 Go（ReaderStream），不需 Npcap
 )
 
 // =============================================================================

@@ -8,7 +8,7 @@ import (
 	"sync/atomic"
 	"time"
 
-	"github.com/gopacket/gopacket"
+	"github.com/gopacket/gopacket" // 纯 Go（Packet/Layer/Flow），不需 Npcap
 )
 
 // =============================================================================

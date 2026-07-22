@@ -33,9 +33,11 @@ import (
 	"syscall"
 	"time"
 
-	"github.com/gopacket/gopacket/layers"
-	"github.com/gopacket/gopacket/pcapgo"
+	"github.com/gopacket/gopacket/layers" // 纯 Go（LinkType），本身不需 Npcap
+	"github.com/gopacket/gopacket/pcapgo" // 纯 Go（pcap 文件读写），本身不需 Npcap
 	"github.com/wangtengda0310/gobee/pcap"
+	// ⚠️ 本文件整体需要 Npcap：通过本地 pcap 包的 NewLiveSource/ListInterfaces
+	//    传递依赖 gopacket/pcap（cgo）。故带 //go:build livecapture 标签。
 )
 
 func main() {

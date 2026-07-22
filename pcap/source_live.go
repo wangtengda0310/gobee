@@ -20,9 +20,9 @@ import (
 	"sync"
 	"time"
 
-	"github.com/gopacket/gopacket"
-	"github.com/gopacket/gopacket/layers"
-	"github.com/gopacket/gopacket/pcap"
+	"github.com/gopacket/gopacket"        // 纯 Go（Packet/NewPacket/Decoder），不需 Npcap
+	"github.com/gopacket/gopacket/layers" // 纯 Go（LinkType），不需 Npcap
+	"github.com/gopacket/gopacket/pcap"   // ⚠️ 需要 Npcap/libpcap（cgo）：OpenLive/Handle/SetBPFFilter/FindAllDevs
 )
 
 // liveReadTimeout 是 liveSource 读取循环的单次超时。

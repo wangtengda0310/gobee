@@ -3,6 +3,9 @@
 > 本文档指导 AI 助手与人类维护者进行 pcap 模块的开发和维护。
 > 使用者文档见 [README.md](./README.md)。
 
+## First of all
+- 对gopacket的调用需要使用注释标注是否需要安装npcap
+
 ## 项目定位
 
 pcap 是一个基于 [gopacket](https://github.com/gopacket/gopacket) 的网络抓包库，

@@ -4,8 +4,8 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/gopacket/gopacket"
-	"github.com/gopacket/gopacket/layers"
+	"github.com/gopacket/gopacket"        // 纯 Go（Packet/Flow），不需 Npcap
+	"github.com/gopacket/gopacket/layers" // 纯 Go（LinkType），不需 Npcap
 )
 
 // PacketHandler 处理抓到的单个数据包。
