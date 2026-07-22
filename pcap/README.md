@@ -236,6 +236,42 @@ CGO_ENABLED=1 go run -tags livecapture ./cmd/pcaptest -iface <网卡名> -http
 
 > Windows 抓包需管理员权限（右键以管理员运行终端）；Linux 需 root 或 `CAP_NET_RAW`。
 
+### 场景 4：UDP 抓包（DNS / QUIC / 自定义协议）
+
+pcap 包同样支持 UDP 抓包。UDP 与 TCP 的区别在于**不需要流重组**——每个 UDP 包就是一条完整的消息，直接从 `PacketHandler` 的 payload 读取即可。
+
+```go
+src, _ := pcap.NewLiveSource(`\Device\Npcap_{xxxx}`, 65535, false, "udp port 53")
+c := pcap.NewCapturer()
+defer c.Close()
+
+// UDP 不需要 TCPStreamHandler，直接用 PacketHandler 处理每个包。
+c.RegisterHandler(pcap.NewHandlerFunc("dns", func(ctx context.Context, e *pcap.PacketEvent) error {
+    udpLayer := e.Packet.Layer(layers.LayerTypeUDP)
+    if udpLayer == nil {
+        return nil // 非 UDP 包跳过
+    }
+    udp := udpLayer.(*layers.UDP)
+    fmt.Printf("UDP %d→%d len=%d payload=%x\n",
+        udp.SrcPort, udp.DstPort, len(udp.Payload), udp.Payload[:min(len(udp.Payload), 32)])
+    return nil
+}))
+
+c.Capture(ctx, src, pcap.Target{})
+```
+
+**UDP vs TCP 在 pcap 包中的区别**：
+
+| | TCP | UDP |
+|---|---|---|
+| 抓包 | ✅ `NewLiveSource` | ✅ `NewLiveSource` |
+| BPF 过滤 | `"tcp port 80"` | `"udp port 53"` |
+| 处理方式 | `TCPStreamHandler`（流重组后切分消息） | `PacketHandler`（每个包直接是完整消息） |
+| 需要流重组吗 | ✅ 需要（TCP 是流式，有粘包/拆包） | ❌ 不需要（UDP 是数据报，每个包独立） |
+| 获取 payload | 从重组后的 `io.Reader` 读取 | 从 `udp.Payload` 直接读取 |
+
+> UDP 不需要流重组是因为它是无连接的数据报协议——每个 UDP 包已经包含完整的消息边界，没有序列号、重传、乱序的问题。
+
 ## API 文档
 
 ### 核心类型
@@ -538,6 +574,10 @@ A: 正常。每个 handler 有独立队列与过载统计，慢的 handler 在 `
 ### Q: 如何抓 HTTPS（加密流量）？
 
 A: 本库只读明文。抓 HTTPS 需配合 TLS 解密（如 SSLKEYLOGFILE + Wireshark 导出的解密 pcap），用离线重放方式读解密后的 pcap。
+
+### Q: 支持 UDP 抓包吗？为什么没有 UDP 流重组？
+
+A: 完全支持。用 `PacketHandler` 直接处理每个 UDP 包的 `udp.Payload` 即可，不需要 `TCPStreamHandler`。UDP 是无连接的数据报协议——每个包就是一条完整的消息，没有 TCP 的粘包/拆包问题，所以不需要流重组。BPF 用 `"udp port 53"` 过滤。详见「场景 4」。
 
 ## 测试
 
