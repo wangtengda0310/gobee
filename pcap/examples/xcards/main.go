@@ -5,10 +5,10 @@
 // 构建 & 运行（需 Npcap + livecapture）：
 //
 //	# 流重组模式（需在 Unity 连接前启动，完整重组）
-//	CGO_ENABLED=1 go run -tags livecapture ./test/xcards -iface <网卡名> -port 18000
+//	CGO_ENABLED=1 go run -tags livecapture ./examples/xcards -iface <网卡名> -port 18000
 //
 //	# 逐包模式（支持先连接后抓包，不依赖 SYN，但大消息可能解析不全）
-//	CGO_ENABLED=1 go run -tags livecapture ./test/xcards -iface <网卡名> -port 18000 -raw
+//	CGO_ENABLED=1 go run -tags livecapture ./examples/xcards -iface <网卡名> -port 18000 -raw
 //
 //go:build livecapture
 
@@ -25,7 +25,7 @@ import (
 	"syscall"
 
 	"github.com/wangtengda0310/gobee/pcap"
-	"github.com/wangtengda0310/gobee/pcap/test/xcards/gameproto"
+	"github.com/wangtengda0310/gobee/pcap/examples/xcards/gameproto"
 )
 
 func main() { os.Exit(run()) }
