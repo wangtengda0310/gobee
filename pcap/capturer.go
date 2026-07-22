@@ -265,6 +265,16 @@ func (c *capturer) Capture(ctx context.Context, source Source, target Target) er
 // 使用读锁拷贝快照，避免长持锁阻塞 Register/Unregister。
 // 投递本身按 c.opts.Overflow 策略进行，保证抓包循环不因慢 handler 阻塞（除 OverflowBlock 外）。
 func (c *capturer) broadcast(ctx context.Context, event *PacketEvent) {
+	// 「快照 + 锁外处理」模式（sync.Map.Range 同款思路）：
+	// 先在读锁内把 handlers 的指针拷到切片（纳秒级），立刻释放锁，再在无锁状态下遍历投递。
+	//
+	// 为什么不合并成一次持锁遍历（for + dispatch）？
+	//   1. dispatch 可能阻塞（OverflowBlock 等队列空位），持锁期间阻塞会卡死
+	//      RegisterHandler/UnregisterHandler（它们需要写锁），导致整个 capturer 僵死。
+	//   2. dispatch 间接调用 HandlePacket，若 handler 内部回调 capturer（如 Stats），
+	//      会因重入锁而死锁。
+	//
+	// 代价：多一次微小内存分配（拷指针，handler 通常个位数）。相比持锁阻塞的风险，完全值得。
 	c.mu.RLock()
 	slots := make([]*handlerSlot, 0, len(c.handlers))
 	for _, s := range c.handlers {
@@ -337,6 +347,8 @@ func (c *capturer) dispatch(ctx context.Context, s *handlerSlot, event *PacketEv
 //   - 它不注销 handler，worker 不退出，handler 可跨多次 Capture 复用。
 //   - 真正关闭 worker 由 UnregisterHandler / Close 负责。
 func (c *capturer) flushAll() {
+	// 快照模式：同 broadcast（读锁内拷指针 → 锁外操作）。
+	// 投递哨兵可能阻塞（等队列空位），不能持锁。
 	c.mu.RLock()
 	slots := make([]*handlerSlot, 0, len(c.handlers))
 	for _, s := range c.handlers {
@@ -377,6 +389,8 @@ func sendSentinel(s *handlerSlot) (sent bool) {
 // 这是对 Capturer 接口的扩展方法（接口未包含），用于 capturer 生命周期终结时释放资源。
 // 可被多次调用。
 func (c *capturer) Close() {
+	// 快照模式（同 broadcast/flushAll），但用写锁：边拷指针边从 map 删除。
+	// close(s.ch) 在锁外做——close 后 worker 会退出并可能访问 slot，无需持锁保护。
 	c.mu.Lock()
 	slots := make([]*handlerSlot, 0, len(c.handlers))
 	for name, s := range c.handlers {
