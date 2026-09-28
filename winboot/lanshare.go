@@ -14,6 +14,7 @@ import (
 	"archive/zip"
 	"bytes"
 	"crypto/sha256"
+	"encoding/base64"
 	"encoding/hex"
 	"encoding/json"
 	"fmt"
@@ -28,6 +29,7 @@ import (
 	"strings"
 	"sync"
 	"time"
+	"unicode/utf16"
 )
 
 const (
@@ -72,6 +74,7 @@ type lanManifest struct {
 	Files      []fileEntry `json:"files"`                 // 必须初始化为空切片: null 会让 Python 端迭代崩溃
 	Tool       *toolEntry  `json:"tool,omitempty"`        // 工具本体宣告 (自治更新/镜像)
 	UpdateBase string      `json:"update_base,omitempty"` // 本机知晓的更新中心地址 (转发给发现方)
+	Flavor     string      `json:"flavor,omitempty"`      // 栈身份 (异构 peer 互不采纳为更新源)
 }
 
 type anomalyMsg struct {
@@ -188,6 +191,7 @@ func buildManifest(port int, updateBase string) lanManifest {
 		Host: hostname(), Port: port,
 		Files:      []fileEntry{},
 		UpdateBase: updateBase,
+		Flavor:     TOOL_FLAVOR,
 	}
 	for _, s := range shareable {
 		p := lanSharePath(s.Name)
@@ -234,6 +238,10 @@ type LanProvider struct {
 	udpConn  *net.UDPConn
 	stopCh   chan struct{}
 	wg       sync.WaitGroup
+
+	// mu 保护 udpConn/stopped: 重试接管 goroutine 与 Stop 并发访问
+	mu     sync.Mutex
+	stopped bool
 }
 
 func NewLanProvider(onAnomaly func(anomalyMsg), guiLogFn func() string, updateBase string) *LanProvider {
@@ -251,7 +259,11 @@ func (p *LanProvider) BaseURL() string {
 	return fmt.Sprintf("http://%s:%d", localIP(), p.httpPort)
 }
 
-// Start 启动服务; 端口被占/无可共享内容时返回错误 (调用方静默处理).
+// Start 启动服务; HTTP 端口被占/无可共享内容时返回错误 (调用方静默处理).
+//
+// UDP 58765 被占不视为失败 (部署机同时跑着 winserve 的应答器是常态):
+// 降级为 HTTP-only 继续服务, 后台每 15s 重试接管 —— 对端检测到本机 8765
+// 有 provider 后会主动让出.
 func (p *LanProvider) Start() error {
 	m := buildManifest(p.httpPort, p.updateBase)
 	if len(m.Files) == 0 && m.Tool == nil {
@@ -270,26 +282,56 @@ func (p *LanProvider) Start() error {
 		_ = http.Serve(ln, mux)
 	}()
 
-	addr := &net.UDPAddr{Port: p.udpPort}
-	conn, err := net.ListenUDP("udp4", addr)
+	if !p.tryBindUDP() {
+		go p.udpRetryLoop()
+	}
+	return nil
+}
+
+// tryBindUDP 绑定 UDP 发现端口; 失败返回 false.
+func (p *LanProvider) tryBindUDP() bool {
+	p.mu.Lock()
+	defer p.mu.Unlock()
+	if p.udpConn != nil || p.stopped {
+		return p.udpConn != nil
+	}
+	conn, err := net.ListenUDP("udp4", &net.UDPAddr{Port: p.udpPort})
 	if err != nil {
-		ln.Close()
-		p.listener = nil
-		return fmt.Errorf("UDP 端口 %d 绑定失败: %w", p.udpPort, err)
+		return false
 	}
 	p.udpConn = conn
 	p.wg.Add(1)
 	go p.udpLoop()
-	return nil
+	return true
+}
+
+// udpRetryLoop UDP 被占时的后台接管循环 (对端让出后本方最终持有).
+func (p *LanProvider) udpRetryLoop() {
+	for {
+		time.Sleep(15 * time.Second)
+		p.mu.Lock()
+		stopped := p.stopped
+		hasUDP := p.udpConn != nil
+		p.mu.Unlock()
+		if stopped || hasUDP {
+			return
+		}
+		p.tryBindUDP()
+	}
 }
 
 func (p *LanProvider) Stop() {
 	close(p.stopCh)
+	p.mu.Lock()
+	p.stopped = true
 	if p.listener != nil {
 		p.listener.Close()
 	}
-	if p.udpConn != nil {
-		p.udpConn.Close()
+	udp := p.udpConn
+	p.udpConn = nil
+	p.mu.Unlock()
+	if udp != nil {
+		udp.Close()
 	}
 	p.wg.Wait()
 }
@@ -298,14 +340,20 @@ func (p *LanProvider) udpLoop() {
 	defer p.wg.Done()
 	buf := make([]byte, 2048)
 	for {
-		n, addr, err := p.udpConn.ReadFromUDP(buf)
+		p.mu.Lock()
+		conn := p.udpConn
+		p.mu.Unlock()
+		if conn == nil {
+			return
+		}
+		n, addr, err := conn.ReadFromUDP(buf)
 		if err != nil {
 			return // Stop() 关闭了连接
 		}
 		msg := bytes.TrimSpace(buf[:n])
 		if string(msg) == lanDiscoverTx {
 			reply, _ := json.Marshal(buildManifest(p.httpPort, p.updateBase))
-			_, _ = p.udpConn.WriteToUDP(reply, addr) // 单播回应
+			_, _ = conn.WriteToUDP(reply, addr) // 单播回应
 			continue
 		}
 		// 其余: 异常广播 —— 只处理合法 JSON 且非自己的
@@ -408,6 +456,7 @@ type providerInfo struct {
 	Files      []fileEntry `json:"files"`
 	Tool       *toolEntry  `json:"tool"`
 	UpdateBase string      `json:"update_base,omitempty"`
+	Flavor     string      `json:"flavor,omitempty"`
 	lastSeen   time.Time
 }
 
@@ -513,6 +562,7 @@ func (d *LanDiscovery) onReply(data []byte, ip string) {
 		Files:      files,
 		Tool:       m.Tool,
 		UpdateBase: updateBase,
+		Flavor:     m.Flavor,
 		lastSeen:   time.Now(),
 	}
 	d.mu.Unlock()
@@ -564,10 +614,14 @@ func PickInstallSource(providers []providerInfo) *providerInfo {
 	return nil
 }
 
-// NewestToolPeer 局域网里工具版本最新的提供方 (中心失联时的自治更新源).
+// NewestToolPeer 局域网里工具版本最新的【同 flavor】提供方 (中心失联时的自治更新源).
+// 异构栈 (无 flavor 字段) 不采纳 —— 防跨栈蚕食.
 func NewestToolPeer(providers []providerInfo) *providerInfo {
 	var best *providerInfo
 	for i := range providers {
+		if providers[i].Flavor != TOOL_FLAVOR {
+			continue
+		}
 		t := providers[i].Tool
 		if t == nil {
 			continue
@@ -579,9 +633,12 @@ func NewestToolPeer(providers []providerInfo) *providerInfo {
 	return best
 }
 
-// FindToolMirror 找能提供指定 version(+sha 一致) 工具本体的局域网镜像.
+// FindToolMirror 找能提供指定 version(+sha 一致) 工具本体的【同 flavor】局域网镜像.
 func FindToolMirror(providers []providerInfo, version, sha256 string) *providerInfo {
 	for i := range providers {
+		if providers[i].Flavor != TOOL_FLAVOR {
+			continue
+		}
 		t := providers[i].Tool
 		if t == nil || t.Version != version {
 			continue
@@ -594,10 +651,11 @@ func FindToolMirror(providers []providerInfo, version, sha256 string) *providerI
 	return nil
 }
 
-// DiscoveredUpdateBase 从发现结果里学更新中心地址 (应答方带的 update_base; 部署机/同事实例).
+// DiscoveredUpdateBase 从发现结果里学更新中心地址 —— 仅信任【同 flavor】应答方
+// (异构部署中心会发来别栈的 exe).
 func DiscoveredUpdateBase(providers []providerInfo) string {
 	for i := range providers {
-		if providers[i].UpdateBase != "" {
+		if providers[i].Flavor == TOOL_FLAVOR && providers[i].UpdateBase != "" {
 			return providers[i].UpdateBase
 		}
 	}
@@ -856,4 +914,64 @@ func min(a, b int) int {
 		return a
 	}
 	return b
+}
+
+// ---------------------------------------------------------------------------
+// 防火墙放行: provider 的入站需要程序级 allow 规则 (Profile Any ——
+// 公司网常被 Windows 归类为公用, 限定专用/域的规则实测不生效).
+// ---------------------------------------------------------------------------
+
+const fwRuleName = "winboot 局域网共享"
+
+// fwRuleExists 按程序路径查规则 (标准用户即可查询).
+// PS 5.1 大坑 (实测): Get-NetFirewallRule -Enabled True 会静默过滤掉所有规则,
+// 必须走程序过滤且不用 -Enabled 参数.
+func fwRuleExists(exe string) bool {
+	q := "if (Get-NetFirewallRule -ErrorAction SilentlyContinue | Where-Object { " +
+		"(Get-NetFirewallApplicationFilter -AssociatedNetFirewallRule $_).Program -eq '" + exe + "' }) " +
+		"{ exit 0 } else { exit 1 }"
+	cmd := exec.Command("powershell.exe", "-NoProfile", "-Command", q)
+	cmd.SysProcAttr = hideWindow()
+	return cmd.Run() == nil
+}
+
+// utf16leBytes PowerShell -EncodedCommand 要求 base64(UTF-16LE).
+func utf16leBytes(s string) []byte {
+	u16 := utf16.Encode([]rune(s))
+	out := make([]byte, len(u16)*2)
+	for i, v := range u16 {
+		out[i*2] = byte(v)
+		out[i*2+1] = byte(v >> 8)
+	}
+	return out
+}
+
+// ensureFirewallRule 缺规则则弹一次 UAC 添加; 异常处理: UAC 取消 -> 日志说明
+// 可重试, 组策略/EDR 拦截 -> 手动路径指引.
+func ensureFirewallRule(log func(string)) {
+	exe, err := os.Executable()
+	if err != nil {
+		return
+	}
+	if fwRuleExists(exe) {
+		return
+	}
+	inner := "$ErrorActionPreference='Stop'; New-NetFirewallRule -DisplayName '" + fwRuleName +
+		"' -Direction Inbound -Action Allow -Program '" + exe + "' -Profile Any | Out-Null"
+	encoded := base64.StdEncoding.EncodeToString(utf16leBytes(inner))
+	outer := "$p = Start-Process powershell -Verb RunAs -Wait -PassThru -ArgumentList " +
+		"'-NoProfile','-EncodedCommand','" + encoded + "'; exit $p.ExitCode"
+	cmd := exec.Command("powershell.exe", "-NoProfile", "-Command", outer)
+	cmd.SysProcAttr = hideWindow()
+	out, err := cmd.CombinedOutput()
+	if err == nil && fwRuleExists(exe) {
+		log("防火墙已放行 (winboot 入站, 全部 profile): 局域网共享/排查/镜像就绪")
+		return
+	}
+	text := string(out)
+	if strings.Contains(text, "取消") {
+		log("未放行防火墙 (UAC 被取消): 本机入站不可用 —— 别人拉不了你的日志/缓存; 重开程序会再给一次机会")
+	} else {
+		log("防火墙规则添加失败 (可能被组策略/EDR 拦截): 手动放行 = Windows 安全中心 > 防火墙和网络保护 > 允许应用通过防火墙 > 勾选 winboot")
+	}
 }

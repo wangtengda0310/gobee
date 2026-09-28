@@ -55,6 +55,7 @@ type Hub struct {
 	prefetchAttempted map[string]bool
 	prefetchBusy      bool
 	anomalyLast  map[string]time.Time // 异常广播冷却
+	fwAttempted  bool                 // 防火墙放行只试一次/会话
 }
 
 var hub = &Hub{
@@ -64,6 +65,7 @@ var hub = &Hub{
 
 func (h *Hub) Start() {
 	h.startProvider()
+	h.checkScriptVersion()
 	h.discovery = NewLanDiscovery(h.onProviders)
 	h.discovery.Start()
 	go h.updateWorker()
@@ -75,6 +77,28 @@ func (h *Hub) Stop() {
 	}
 	if h.provider != nil {
 		h.provider.Stop()
+	}
+}
+
+// checkScriptVersion 脚本版本门: exe 与仓库脚本版本漂移时提前提示
+// ("exe 自动更新而仓库脚本只能 git pull"已多次引发排障困难).
+func (h *Hub) checkScriptVersion() {
+	script, err := bootScriptPath()
+	if err != nil {
+		return // 后续命令会各自报错, 这里不重复
+	}
+	if strings.HasPrefix(script, winbootHome()) {
+		emitLog(">>> 独立运行: 使用内置脚本 (" + script + ")")
+	}
+	ver := scriptVersionOfPath(script)
+	if ver == "" {
+		return
+	}
+	if VersionGt(TOOL_VERSION, ver) {
+		emitLog("⚠ 脚本版本落后: 仓库脚本 v" + ver + " < 程序 v" + TOOL_VERSION +
+			", 部分命令可能失败 —— 请在仓库目录执行 git pull 后重启程序")
+	} else if VersionGt(ver, TOOL_VERSION) {
+		emitLog(">>> 仓库脚本 v" + ver + " 比程序 v" + TOOL_VERSION + " 新 (不影响使用)")
 	}
 }
 
@@ -95,6 +119,14 @@ func (h *Hub) startProvider() {
 		files = "无缓存"
 	}
 	emitLog("已开启局域网共享: " + p.BaseURL() + " [" + files + "]; 排查入口: " + p.BaseURL() + "/logs (浏览器直开)")
+	// 防火墙放行 (缺规则时弹一次 UAC; UAC 取消/组策略拦截均降级为日志指引)
+	h.mu.Lock()
+	fwNeeded := !h.fwAttempted
+	h.fwAttempted = true
+	h.mu.Unlock()
+	if fwNeeded {
+		go ensureFirewallRule(emitLog)
+	}
 }
 
 // onProviders 发现结果 (discovery goroutine 回调): 状态只记变更 + 调度预取.
@@ -228,18 +260,24 @@ func (h *Hub) updateWorker() {
 		}
 	}
 	var target *updateInfo
+	adoptedPeerURL := ""
 	if central != nil {
 		target = central
 	} else {
+		// central 为 nil 不一定是"不可达" (也可能是"已是最新"),
+		// 是否采纳局域网源要等版本比较之后才知道 —— 日志也到那时再发
 		peer := NewestToolPeer(h.discovery.Snapshot())
 		if peer == nil || peer.Tool == nil {
-			return // 中心失联且局域网无同类: 静默
+			return // 中心无更新且局域网无同类: 静默
 		}
 		target = &updateInfo{Version: peer.Tool.Version, SHA256: peer.Tool.SHA256, Size: peer.Tool.Size}
-		emitLog("更新中心不可达, 采用局域网源 v" + target.Version + " (" + peer.URL + ")")
+		adoptedPeerURL = peer.URL
 	}
 	if !VersionGt(target.Version, TOOL_VERSION) {
 		return // 不比当前新 (含不回滚)
+	}
+	if adoptedPeerURL != "" {
+		emitLog("更新中心不可用, 采用局域网源 v" + target.Version + " (" + adoptedPeerURL + ")")
 	}
 	var sources []*updateInfo
 	if m := FindToolMirror(h.discovery.Snapshot(), target.Version, target.SHA256); m != nil {

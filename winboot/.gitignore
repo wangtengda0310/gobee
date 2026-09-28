@@ -6,3 +6,4 @@ logs/
 *.syso
 .task/
 /winboot.exe
+winserve.exe

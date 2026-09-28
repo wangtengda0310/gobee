@@ -64,6 +64,10 @@ func (g *CmdService) Exec(name string, args []string) string {
 	full := append([]string{"-NoProfile", "-ExecutionPolicy", "Bypass", "-File", script, name}, args...)
 	cmd := exec.Command("powershell.exe", full...)
 	cmd.SysProcAttr = hideWindow() // 不闪黑窗 (跨平台经 build-tag 隔离)
+	// 注入自身路径: install 的提权 helper 顺带放行防火墙 (经 -WinbootExe 穿透)
+	if exe, err := os.Executable(); err == nil {
+		cmd.Env = append(os.Environ(), "WINBOOT_EXE="+exe)
+	}
 
 	// stdout+stderr 双路: 实时推事件 + 攒完整输出
 	var combined bytes.Buffer

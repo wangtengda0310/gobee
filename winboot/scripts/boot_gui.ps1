@@ -20,7 +20,7 @@
 #>
 
 param(
-    [string]$UpdateBase = 'http://10.68.115.208:8760',
+    [string]$UpdateBase = '''',
     [switch]$NoLaunch,
     [switch]$Force
 )

@@ -1,9 +1,12 @@
 package main
 
 import (
+	"embed"
 	"fmt"
+	"io/fs"
 	"os"
 	"path/filepath"
+	"regexp"
 )
 
 // 本文件的职责: 让所有路径定位不依赖"程序从哪个目录启动".
@@ -48,13 +51,22 @@ func fileExists(p string) bool {
 // bootScriptPath 定位 scripts\boot.ps1 (调度器入口).
 // exe 在 bin\ / build\bin\ 等任意深度, 或 dev 时 cwd 在 winboot 项目根, 均可命中.
 func bootScriptPath() (string, error) {
-	return walkUp(func(dir string) string {
-		script := filepath.Join(dir, "scripts", "boot.ps1")
-		if fileExists(script) {
-			return script
+	// 优先 repo walk-up (开发特性: 改脚本无需重发 exe)
+	script, err := walkUp(func(dir string) string {
+		s := filepath.Join(dir, "scripts", "boot.ps1")
+		if fileExists(s) {
+			return s
 		}
 		return ""
 	})
+	if err == nil {
+		return script, nil
+	}
+	// 独立运行兜底: 内置 scripts 解压到 %LOCALAPPDATA%\winboot\scripts
+	if deployed, derr := ensureBundledScripts(); derr == nil {
+		return deployed, nil
+	}
+	return "", fmt.Errorf("repo 内未找到 scripts/boot.ps1, 且内置脚本解压失败: %w", err)
 }
 
 // serverRootPath 定位 server\ 目录 (win_boot.ps1 / .server_id / compose 的根).
@@ -89,4 +101,80 @@ func winbootLogsDir() string {
 		return dir
 	}
 	return ""
+}
+
+// ---------------------------------------------------------------------------
+// 独立运行支持: scripts 经 go:embed 内置进 exe;
+// repo 找不到脚本时解压到 %LOCALAPPDATA%\winboot\scripts (按版本刷新).
+// ---------------------------------------------------------------------------
+
+//go:embed all:scripts
+var scriptsFS embed.FS
+
+func winbootHome() string {
+	base := os.Getenv("LOCALAPPDATA")
+	if base == "" {
+		base = os.Getenv("TEMP")
+	}
+	// 与 PyQt 参考版分开: 两栈版本号各自独立, 共用目录会互相覆盖解压脚本
+	// 并触发对方的脚本版本门误报 (实测踩坑)
+	return filepath.Join(base, "winboot-wails")
+}
+
+// scriptVersionOfPath 读 boot.ps1 的 $ScriptVersion 行 (缺失返回 "").
+func scriptVersionOfPath(path string) string {
+	b, err := os.ReadFile(path)
+	if err != nil {
+		return ""
+	}
+	return scriptVersionOfBytes(b)
+}
+
+func scriptVersionOfBytes(b []byte) string {
+	m := scriptVersionRe.FindSubmatch(b)
+	if m == nil {
+		return ""
+	}
+	return string(m[1])
+}
+
+var scriptVersionRe = regexp.MustCompile(`(?m)^\s*\$ScriptVersion\s*=\s*'([^']+)'`)
+
+// ensureBundledScripts 把内置 scripts 解压到 %LOCALAPPDATA%\winboot\scripts
+// (版本不同才刷新), 返回部署后的 boot.ps1 路径.
+func ensureBundledScripts() (string, error) {
+	srcBoot, err := scriptsFS.ReadFile("scripts/boot.ps1")
+	if err != nil {
+		return "", err
+	}
+	srcVersion := scriptVersionOfBytes(srcBoot)
+	deploy := filepath.Join(winbootHome(), "scripts")
+	dstBoot := filepath.Join(deploy, "boot.ps1")
+	if scriptVersionOfPath(dstBoot) != srcVersion {
+		if err := os.MkdirAll(deploy, 0o755); err != nil {
+			return "", err
+		}
+		err := fs.WalkDir(scriptsFS, "scripts", func(path string, d fs.DirEntry, err error) error {
+			if err != nil || d.IsDir() {
+				return err
+			}
+			data, err := scriptsFS.ReadFile(path)
+			if err != nil {
+				return err
+			}
+			rel, _ := filepath.Rel("scripts", path)
+			dst := filepath.Join(deploy, rel)
+			if err := os.MkdirAll(filepath.Dir(dst), 0o755); err != nil {
+				return err
+			}
+			return os.WriteFile(dst, data, 0o644)
+		})
+		if err != nil {
+			return "", err
+		}
+	}
+	if _, err := os.Stat(dstBoot); err != nil {
+		return "", err
+	}
+	return dstBoot, nil
 }

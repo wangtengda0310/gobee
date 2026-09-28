@@ -37,10 +37,30 @@ $ErrorActionPreference = 'Stop'
 # 组件注册表 (唯一事实源): 缺省全套 / uninstall-all 别名 / 组件名校验均取自此处
 . (Join-Path $PSScriptRoot 'lib\components.ps1')
 
-# 脚本位于 server\tools\winboot\scripts\, 项目 server 根在三级向上
-# (compose 挂载 / .server_id / win_boot.ps1 都以 server\ 为根)
-$serverRoot = (Resolve-Path (Join-Path $PSScriptRoot '..\..\..')).Path
-Set-Location -Path $serverRoot
+# 脚本层版本: 与 version.py 的 TOOL_VERSION 同步 bump (build.py 会校验一致性).
+# GUI 启动时比对: exe 自动更新而仓库脚本只能 git pull, 落后会红字提示
+# (版本漂移已多次引发"exe 新脚本旧"的排障困难).
+$ScriptVersion = '0.3.1'
+
+# server 根 (win_boot.ps1 / .server_id / compose 的根, 仅 up 需要):
+# 环境变量显式指定优先 -> 从脚本位置逐级向上探测 <dir> 与 <dir>\server.
+# 独立运行形态 (脚本解压在 %LOCALAPPDATA%\winboot\scripts) 通常没有 -> up 会明确报错,
+# 不能再硬编码三级向上 (实测: 算出 C:\Users\<u>\AppData\win_boot.ps1 -> CommandNotFoundException)
+$serverRoot = $null
+if ($env:WINBOOT_SERVER_DIR -and (Test-Path (Join-Path $env:WINBOOT_SERVER_DIR 'win_boot.ps1'))) {
+    $serverRoot = $env:WINBOOT_SERVER_DIR
+} else {
+    $probe = $PSScriptRoot
+    while ($probe) {
+        foreach ($cand in @($probe, (Join-Path $probe 'server'))) {
+            if (Test-Path (Join-Path $cand 'win_boot.ps1')) { $serverRoot = $cand; break }
+        }
+        if ($serverRoot) { break }
+        $parent = Split-Path $probe -Parent
+        if (-not $parent -or $parent -eq $probe) { break }
+        $probe = $parent
+    }
+}
 
 # $Rest (字符串数组) 统一解析: 位置参数 = 组件名, '-Xxx' = flag (转 hashtable splat 才能绑定命名参数).
 # 关键坑 (2026-09-28 跨机实测): 带 value 的 flag (-LanBase <url> / -ServerId <id> / -Mode 1) 的
@@ -82,6 +102,13 @@ switch ($Command) {
     }
     'up' {
         # 透传 GUI 参数: -Detach(后台 up) / -Mode 1/2/3(免交互选模式) / -NoPause / -ServerId <id>
+        if (-not $serverRoot) {
+            Write-Host "up 需要服务端仓库 (win_boot.ps1 / compose / .server_id), 当前为独立运行形态." -ForegroundColor Red
+            Write-Host "  方案一: 在仓库内运行 (exe 放回 server\tools\winboot\release\)" -ForegroundColor Yellow
+            Write-Host "  方案二: setx WINBOOT_SERVER_DIR <server 目录绝对路径> 后重启程序" -ForegroundColor Yellow
+            exit 1
+        }
+        Set-Location -Path $serverRoot   # win_boot.ps1 的 compose 挂载以 server\ 为根
         & (Join-Path $serverRoot 'win_boot.ps1') @restFlags
     }
     'stop' {

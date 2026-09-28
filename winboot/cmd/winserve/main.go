@@ -48,7 +48,7 @@ func hostname() string {
 }
 
 // buildPeerManifest 构造发现应答 (与 winboot 实例的 manifest 同 schema).
-func buildPeerManifest(dir string, httpPort int) map[string]interface{} {
+func buildPeerManifest(dir string, httpPort int, flavor string) map[string]interface{} {
 	m := map[string]interface{}{
 		"app":         "winboot",
 		"proto":       1,
@@ -56,6 +56,9 @@ func buildPeerManifest(dir string, httpPort int) map[string]interface{} {
 		"port":        httpPort,
 		"files":       []interface{}{},
 		"update_base": fmt.Sprintf("http://%s:%d", lanIP(), httpPort),
+	}
+	if flavor != "" {
+		m["flavor"] = flavor // 客户端只采纳同 flavor 的更新源
 	}
 	// tool: 读部署清单 (version/sha256/size)
 	if b, err := os.ReadFile(filepath.Join(dir, "winboot-manifest.json")); err == nil {
@@ -87,7 +90,7 @@ func buildPeerManifest(dir string, httpPort int) map[string]interface{} {
 	return m
 }
 
-func udpResponder(dir string, httpPort, udpPort int) {
+func udpResponder(dir string, httpPort, udpPort int, flavor string) {
 	conn, err := net.ListenUDP("udp4", &net.UDPAddr{Port: udpPort})
 	if err != nil {
 		fmt.Printf("UDP %d 被占, 跳过发现应答 (本机跑着 winboot 实例时会由它转发中心地址)\n", udpPort)
@@ -96,17 +99,46 @@ func udpResponder(dir string, httpPort, udpPort int) {
 	defer conn.Close()
 	fmt.Printf("UDP 发现应答已开启 (%d)\n", udpPort)
 	buf := make([]byte, 2048)
+	lastYieldCheck := time.Now()
+	_ = conn.SetReadDeadline(time.Now().Add(time.Second))
 	for {
 		n, addr, err := conn.ReadFromUDP(buf)
 		if err != nil {
-			return
+			if ne, ok := err.(net.Error); !ok || !ne.Timeout() {
+				return // 真错误 (socket 被关)
+			}
+			// 读超时: 清 deadline 后继续
+			_ = conn.SetReadDeadline(time.Now().Add(time.Second))
+			n = 0
 		}
-		if strings.TrimSpace(string(buf[:n])) != discoverMsg {
+		// 每 30s 让出检查 (墙钟时间: 发现广播流量频繁, 空闲计数法永远不触发):
+		// 本机出现 winboot provider 时主动交出 58765 (它的应答器是本服务的超集,
+		// 且会每 15s 重试接管)
+		if time.Since(lastYieldCheck) >= 30*time.Second {
+			lastYieldCheck = time.Now()
+			if localWinbootProviderUp() {
+				fmt.Printf("检测到本机 winboot provider, 让出 UDP %d (它接管发现应答)\n", udpPort)
+				return
+			}
+		}
+		if n == 0 || strings.TrimSpace(string(buf[:n])) != discoverMsg {
 			continue
 		}
-		reply, _ := json.Marshal(buildPeerManifest(dir, httpPort))
+		reply, _ := json.Marshal(buildPeerManifest(dir, httpPort, flavor))
 		_, _ = conn.WriteToUDP(reply, addr) // 单播回应: 消费方防火墙有状态放行
 	}
+}
+
+// localWinbootProviderUp 本机 8765 是否有 winboot provider 在监听
+// (它持有 UDP 时功能更全, 且同样会转发 update_base).
+func localWinbootProviderUp() bool {
+	client := &http.Client{Timeout: 2 * time.Second}
+	resp, err := client.Get("http://127.0.0.1:8765/")
+	if err != nil {
+		return false
+	}
+	resp.Body.Close()
+	return true // 404 也算: 有监听者
 }
 
 // noCache 静态文件 + 禁缓存头 (更新检查必须拿到新鲜清单).
@@ -122,6 +154,7 @@ func main() {
 	httpPort := flag.Int("http", 8760, "HTTP 服务端口")
 	udpPort := flag.Int("udp", 58765, "UDP 发现应答端口 (被占则静默跳过)")
 	dir := flag.String("dir", ".", "服务目录 (放 winboot.exe + winboot-manifest.json)")
+	flavor := flag.String("flavor", "", "栈身份 (如 wails; 客户端只采纳同 flavor 的更新源, 留空则客户端忽略本服务的 update_base)")
 	flag.Parse()
 
 	abs, err := filepath.Abs(*dir)
@@ -129,7 +162,7 @@ func main() {
 		fmt.Println("目录解析失败:", err)
 		os.Exit(1)
 	}
-	go udpResponder(abs, *httpPort, *udpPort)
+	go udpResponder(abs, *httpPort, *udpPort, *flavor)
 	fmt.Printf("更新服务: http://<本机IP>:%d  (目录: %s)\nCtrl+C 停止\n", *httpPort, abs)
 	server := &http.Server{
 		Addr:              fmt.Sprintf("0.0.0.0:%d", *httpPort),

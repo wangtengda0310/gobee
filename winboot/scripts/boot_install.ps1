@@ -39,6 +39,9 @@ param(
     # 组件列表 (位置参数, GUI 点选/预设套装透传); 缺省全套.
     # 校验在运行时对 lib/components.ps1 注册表做 (ValidateSet 必须字面量, 无法引用注册表)
     [string[]]$Components = @('wsl', 'docker'),
+    # 内部参数: GUI exe 路径 (经 WINBOOT_EXE 环境变量来, 穿透提权 helper 后
+    # 在已有管理员上下文里顺带放行防火墙, 零新增 UAC)
+    [string]$WinbootExe = '',
     # 内部参数: 提权 helper 阶段标记 (只做 WSL+VMP, 不对外)
     [switch]$ElevatedWslPhase
 )
@@ -135,6 +138,23 @@ if ($unknown.Count -gt 0) {
     Stop-AndExit 1
 }
 
+# 防火墙放行 (只在已有管理员上下文里调用 —— 提权 helper 末尾/管理员直装路径;
+# GUI 侧 lanshare.ensure_firewall_rule 用同名规则, 两处显示名必须一致).
+# 程序级规则 (-Program) + Any profile: 公司网常被 Windows 归类为公用,
+# 限定专用/域的规则在实测环境里不生效.
+function Enable-WinbootFirewall {
+    if (-not $WinbootExe -or -not (Test-Path $WinbootExe)) { return }
+    # 注意: -Enabled True 参数在 PS5.1 会静默过滤掉所有规则 (实测), 用属性过滤
+    if (Get-NetFirewallRule -DisplayName 'winboot 局域网共享' -ErrorAction SilentlyContinue | Where-Object { $_.Enabled -eq 'True' }) { return }
+    try {
+        New-NetFirewallRule -DisplayName 'winboot 局域网共享' -Direction Inbound -Action Allow `
+            -Program $WinbootExe -Profile Any | Out-Null
+        Write-Host '  已顺带放行防火墙 (winboot 入站, 全部 profile, 零新增 UAC)' -ForegroundColor Green
+    } catch {
+        Write-Host "  防火墙放行失败 (可能组策略/EDR 拦截; GUI 启动后还会再试并给手动指引): $($_.Exception.Message)" -ForegroundColor Yellow
+    }
+}
+
 # 通用文件获取组件 (三级: 缓存 -> 局域网 -> 兜底); 新软件在此之上各定义一个获取条目
 . (Join-Path $PSScriptRoot 'lib\acquire.ps1')
 # 局域网源覆盖 (GUI 广播发现后传入; 必须在点源之后, 否则被 acquire.ps1 内置值盖回)
@@ -220,6 +240,7 @@ if ($ElevatedWslPhase) {
     if (-not (Test-Admin)) { Write-Host "helper 未获得管理员权限, 异常退出." -ForegroundColor Red; Stop-AndExit 1 }
     Write-Host "[提权 helper] 安装 WSL / 启用特性..."
     if (Install-WslIfNeeded) {
+        Enable-WinbootFirewall   # 顺带放行 (同一次 UAC 内, 零新增弹窗)
         Write-Host "[提权 helper] 完成." -ForegroundColor Green
         Stop-AndExit 0
     } else {
@@ -250,6 +271,7 @@ if ($Components -notcontains 'wsl') {
         if (-not (Install-WslIfNeeded)) { Stop-AndExit 1 }
         if ((Invoke-Native 'wsl' @('--version')) -ne 0) { Write-Host "  WSL 安装后校验失败." -ForegroundColor Red; Stop-AndExit 1 }
         Wait-WslSettled
+        Enable-WinbootFirewall   # 已是管理员上下文, 顺带放行
         Write-Host "  WSL 安装完成." -ForegroundColor Green
     } else {
         # 提权范围最小化: 只为 WSL/VMP 阶段弹一次 UAC, 主流程保持普通权限
@@ -257,9 +279,10 @@ if ($Components -notcontains 'wsl') {
         # helper 输出在其 transcript (logs\install_wsladmin_*.log) 里, 不依赖窗口驻留.
         Write-Host "  WSL/VMP 缺失, 派提权 helper 安装 (仅此阶段需要 UAC, 完成后自动继续)..." -ForegroundColor Yellow
         try {
-            # -LanBase 穿透给 helper: WSL 安装包的获取 (缓存/局域网) 发生在 helper 阶段
+            # -LanBase / -WinbootExe 穿透给 helper: WSL 获取在其阶段; 防火墙放行要 exe 路径
             $helperArgs = "-NoProfile -ExecutionPolicy Bypass -File `"$PSCommandPath`" -ElevatedWslPhase -NoPause"
             if ($LanBase) { $helperArgs += " -LanBase `"$LanBase`"" }
+            if ($env:WINBOOT_EXE) { $helperArgs += " -WinbootExe `"$($env:WINBOOT_EXE)`"" }
             Start-Process powershell.exe -Verb RunAs -Wait -ArgumentList $helperArgs
         } catch {
             Write-Host "  UAC 被取消或 helper 启动失败: $_" -ForegroundColor Red
