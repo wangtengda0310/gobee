@@ -3,7 +3,7 @@ package main
 import "strings"
 
 // TOOL_VERSION 工具版本号 (自动更新比对基准).
-const TOOL_VERSION = "0.1.0"
+const TOOL_VERSION = "0.2.0"
 
 // VersionGt 语义化版本比较 a > b ('1.10.0' > '1.9.1'); 非数字段按 0 兜底.
 func VersionGt(a, b string) bool {

@@ -79,13 +79,13 @@ func (h *Hub) Stop() {
 }
 
 func (h *Hub) startProvider() {
-	p := NewLanProvider(h.onAnomaly, guiLogSnapshot)
+	p := NewLanProvider(h.onAnomaly, guiLogSnapshot, ConfiguredBase())
 	if err := p.Start(); err != nil {
 		emitLog("未开启局域网共享: " + err.Error())
 		return
 	}
 	h.provider = p
-	m := buildManifest(p.httpPort)
+	m := buildManifest(p.httpPort, p.updateBase)
 	names := make([]string, 0, len(m.Files))
 	for _, f := range m.Files {
 		names = append(names, fmt.Sprintf("%s (%dMB)", f.Name, f.Size>>20))
@@ -214,7 +214,19 @@ func (h *Hub) maybePrefetch(source *providerInfo) {
 // 中心失联时局域网自治 (同类中版本最新者, 信任=局域网).
 func (h *Hub) updateWorker() {
 	time.Sleep(8 * time.Second) // 等第一轮发现
-	central := CheckUpdate()
+	central := CheckUpdate("")
+	centralBase := ConfiguredBase()
+	if central == nil {
+		// 本机配置缺失/失效 (如 DHCP 换网段): 用发现协议学到的中心地址再试一次.
+		// 信任级别 = 局域网 (与失联自治同级); 代码内配置仍是首选锚点.
+		if learned := DiscoveredUpdateBase(h.discovery.Snapshot()); learned != "" && learned != centralBase {
+			central = CheckUpdate(learned)
+			if central != nil {
+				centralBase = learned
+				emitLog("(更新中心地址经局域网发现: " + learned + ")")
+			}
+		}
+	}
 	var target *updateInfo
 	if central != nil {
 		target = central
@@ -235,7 +247,13 @@ func (h *Hub) updateWorker() {
 			URL: m.URL + "/" + lanToolFile, SHA256: target.SHA256, Size: target.Size})
 	}
 	if central != nil {
-		sources = append(sources, central)
+		c := *central
+		// 相对 url 在此绝对化: 中心地址可能来自"发现学到的 base",
+		// 而 DownloadUpdate 的缺省 base 是本机配置 (两者可能不同)
+		if c.URL != "" && !strings.Contains(c.URL, "://") {
+			c.URL = centralBase + "/" + c.URL
+		}
+		sources = append(sources, &c)
 	}
 	if len(sources) == 0 {
 		return

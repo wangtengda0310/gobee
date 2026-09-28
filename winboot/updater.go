@@ -40,9 +40,15 @@ func updateBaseURL() string {
 	return updateBase
 }
 
+// ConfiguredBase 本机配置的更新中心地址 (环境变量 > 代码内配置; 空串 = 未配置).
+func ConfiguredBase() string { return updateBaseURL() }
+
 // CheckUpdate 有新版返回 manifest 信息, 无新版/出错返回 nil (静默).
-func CheckUpdate() *updateInfo {
-	base := updateBaseURL()
+// base 为空时用本机配置 (env > 代码内).
+func CheckUpdate(base string) *updateInfo {
+	if base == "" {
+		base = updateBaseURL()
+	}
 	if base == "" {
 		return nil
 	}

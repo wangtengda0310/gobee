@@ -65,12 +65,13 @@ type toolEntry struct {
 }
 
 type lanManifest struct {
-	App   string      `json:"app"`
-	Proto int         `json:"proto"`
-	Host  string      `json:"host"`
-	Port  int         `json:"port"`
-	Files []fileEntry `json:"files"` // 必须初始化为空切片: null 会让 Python 端迭代崩溃
-	Tool  *toolEntry  `json:"tool,omitempty"`
+	App        string      `json:"app"`
+	Proto      int         `json:"proto"`
+	Host       string      `json:"host"`
+	Port       int         `json:"port"`
+	Files      []fileEntry `json:"files"`                 // 必须初始化为空切片: null 会让 Python 端迭代崩溃
+	Tool       *toolEntry  `json:"tool,omitempty"`        // 工具本体宣告 (自治更新/镜像)
+	UpdateBase string      `json:"update_base,omitempty"` // 本机知晓的更新中心地址 (转发给发现方)
 }
 
 type anomalyMsg struct {
@@ -180,11 +181,13 @@ func resolveShared(name string) string {
 }
 
 // buildManifest 当前可共享清单 (files 必为非 nil 数组, 见 lanManifest 注释).
-func buildManifest(port int) lanManifest {
+// updateBase 非空时随应答转发: 消费方在自身配置失效/缺失时经此学到中心地址 (DHCP 自愈).
+func buildManifest(port int, updateBase string) lanManifest {
 	m := lanManifest{
 		App: lanAppID, Proto: lanProto,
 		Host: hostname(), Port: port,
-		Files: []fileEntry{},
+		Files:      []fileEntry{},
+		UpdateBase: updateBase,
 	}
 	for _, s := range shareable {
 		p := lanSharePath(s.Name)
@@ -221,24 +224,26 @@ func hostname() string {
 // ---------------------------------------------------------------------------
 
 type LanProvider struct {
-	httpPort int
-	udpPort  int
-	onAnomaly func(anomalyMsg) // 收到他人异常广播 (UDP goroutine 回调, 须自行投递回 UI 线程)
-	guiLogFn  func() string    // GUI 日志快照 (供 /logs 报告)
+	httpPort   int
+	udpPort    int
+	onAnomaly  func(anomalyMsg) // 收到他人异常广播 (UDP goroutine 回调, 须自行投递回 UI 线程)
+	guiLogFn   func() string    // GUI 日志快照 (供 /logs 报告)
+	updateBase string           // 本机知晓的更新中心地址 (非空则随应答转发)
 
-	listener  net.Listener
-	udpConn   *net.UDPConn
-	stopCh    chan struct{}
-	wg        sync.WaitGroup
+	listener net.Listener
+	udpConn  *net.UDPConn
+	stopCh   chan struct{}
+	wg       sync.WaitGroup
 }
 
-func NewLanProvider(onAnomaly func(anomalyMsg), guiLogFn func() string) *LanProvider {
+func NewLanProvider(onAnomaly func(anomalyMsg), guiLogFn func() string, updateBase string) *LanProvider {
 	return &LanProvider{
-		httpPort:  lanHTTPPort,
-		udpPort:   lanUDPPort,
-		onAnomaly: onAnomaly,
-		guiLogFn:  guiLogFn,
-		stopCh:    make(chan struct{}),
+		httpPort:   lanHTTPPort,
+		udpPort:    lanUDPPort,
+		onAnomaly:  onAnomaly,
+		guiLogFn:   guiLogFn,
+		updateBase: updateBase,
+		stopCh:     make(chan struct{}),
 	}
 }
 
@@ -248,7 +253,7 @@ func (p *LanProvider) BaseURL() string {
 
 // Start 启动服务; 端口被占/无可共享内容时返回错误 (调用方静默处理).
 func (p *LanProvider) Start() error {
-	m := buildManifest(p.httpPort)
+	m := buildManifest(p.httpPort, p.updateBase)
 	if len(m.Files) == 0 && m.Tool == nil {
 		return fmt.Errorf("本地无可共享内容 (检查 %%TEMP%% 缓存)")
 	}
@@ -299,7 +304,7 @@ func (p *LanProvider) udpLoop() {
 		}
 		msg := bytes.TrimSpace(buf[:n])
 		if string(msg) == lanDiscoverTx {
-			reply, _ := json.Marshal(buildManifest(p.httpPort))
+			reply, _ := json.Marshal(buildManifest(p.httpPort, p.updateBase))
 			_, _ = p.udpConn.WriteToUDP(reply, addr) // 单播回应
 			continue
 		}
@@ -398,11 +403,12 @@ func truncateStr(s string, n int) string {
 // ---------------------------------------------------------------------------
 
 type providerInfo struct {
-	URL      string      `json:"url"`
-	Host     string      `json:"host"`
-	Files    []fileEntry `json:"files"`
-	Tool     *toolEntry  `json:"tool"`
-	lastSeen time.Time
+	URL        string      `json:"url"`
+	Host       string      `json:"host"`
+	Files      []fileEntry `json:"files"`
+	Tool       *toolEntry  `json:"tool"`
+	UpdateBase string      `json:"update_base,omitempty"`
+	lastSeen   time.Time
 }
 
 type LanDiscovery struct {
@@ -496,13 +502,18 @@ func (d *LanDiscovery) onReply(data []byte, ip string) {
 	if port == 0 {
 		port = lanHTTPPort
 	}
+	updateBase := m.UpdateBase
+	if !strings.HasPrefix(updateBase, "http") {
+		updateBase = "" // 非法地址丢弃 (防注入)
+	}
 	d.mu.Lock()
 	d.providers[ip] = &providerInfo{
-		URL:      fmt.Sprintf("http://%s:%d", ip, port),
-		Host:     m.Host,
-		Files:    files,
-		Tool:     m.Tool,
-		lastSeen: time.Now(),
+		URL:        fmt.Sprintf("http://%s:%d", ip, port),
+		Host:       m.Host,
+		Files:      files,
+		Tool:       m.Tool,
+		UpdateBase: updateBase,
+		lastSeen:   time.Now(),
 	}
 	d.mu.Unlock()
 }
@@ -581,6 +592,16 @@ func FindToolMirror(providers []providerInfo, version, sha256 string) *providerI
 		return &providers[i]
 	}
 	return nil
+}
+
+// DiscoveredUpdateBase 从发现结果里学更新中心地址 (应答方带的 update_base; 部署机/同事实例).
+func DiscoveredUpdateBase(providers []providerInfo) string {
+	for i := range providers {
+		if providers[i].UpdateBase != "" {
+			return providers[i].UpdateBase
+		}
+	}
+	return ""
 }
 
 // ---------------------------------------------------------------------------
