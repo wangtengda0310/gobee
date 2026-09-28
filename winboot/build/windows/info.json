@@ -1,0 +1,15 @@
+{
+	"fixed": {
+		"file_version": "0.0.1"
+	},
+	"info": {
+		"0000": {
+			"ProductVersion": "0.0.1",
+			"CompanyName": "字节",
+			"FileDescription": "支持环境的自动安装、卸载以及服务端进程的维护",
+			"LegalCopyright": "© 2026, My Company",
+			"ProductName": "winboot",
+			"Comments": "Windows下的服务端进程辅助工具"
+		}
+	}
+}

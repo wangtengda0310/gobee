@@ -1,0 +1,8 @@
+bin/
+frontend/node_modules/
+frontend/dist/
+frontend/bindings/
+logs/
+*.syso
+.task/
+/winboot.exe

@@ -1,0 +1,13 @@
+[Desktop Entry]
+Version=1.0
+Name=winboot
+Comment=支持环境的自动安装、卸载以及服务端进程的维护
+# The Exec line includes %u to pass the URL to the application
+Exec=/usr/local/bin/winboot.exe %u
+Terminal=false
+Type=Application
+Icon=winboot.exe
+Categories=Utility;
+StartupWMClass=winboot.exe
+
+ 
