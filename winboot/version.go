@@ -3,7 +3,7 @@ package main
 import "strings"
 
 // TOOL_VERSION 工具版本号 (自动更新比对基准).
-const TOOL_VERSION = "0.3.1"
+const TOOL_VERSION = "0.4.0"
 
 // TOOL_FLAVOR 栈身份: 自动更新与局域网互更新只接受同 flavor 的源.
 // 防跨栈蚕食 (实测: wails 实例经发现协议学到 pyqt 部署中心的地址后,

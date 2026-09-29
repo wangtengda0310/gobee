@@ -75,6 +75,8 @@ type lanManifest struct {
 	Tool       *toolEntry  `json:"tool,omitempty"`        // 工具本体宣告 (自治更新/镜像)
 	UpdateBase string      `json:"update_base,omitempty"` // 本机知晓的更新中心地址 (转发给发现方)
 	Flavor     string      `json:"flavor,omitempty"`      // 栈身份 (异构 peer 互不采纳为更新源)
+	ToolURL    string      `json:"tool_url,omitempty"`    // TOS 门票: 工具本体的预签名直读 URL (TTL 900s, 现场签发)
+	ToolHost   string      `json:"tool_host,omitempty"`   // 门票下载必带的 Host 头值 (网关按 Host 路由)
 }
 
 type anomalyMsg struct {
@@ -211,6 +213,12 @@ func buildManifest(port int, updateBase string) lanManifest {
 			}
 			m.Tool = &t
 		}
+	}
+	// TOS 门票 (引导场景 "首份 exe" 获取链的中继级): 本机持有 TOS 凭证时随应答
+	// 现场签发短时效直读 URL —— 凭证零传播, 消费方 (引导脚本) 只做一个带 Host
+	// 头的 GET. 应答是逐请求构造的, 门票始终新鲜; 未配置 TOS 渠道则字段留空.
+	if u, h := TOSPresignURL(lanToolFile, 900*time.Second); u != "" {
+		m.ToolURL, m.ToolHost = u, h
 	}
 	return m
 }

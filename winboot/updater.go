@@ -2,8 +2,10 @@ package main
 
 // updater.go: 自动更新 (参考 PyQt 实现移植).
 //
+// 两条清单渠道 (优先级见 hub.updateWorker): TOS 对象存储 (tos.go, env 配置启用,
+// 清单须带本栈 flavor) 与部署中心 HTTP (下方 UPDATE_BASE).
 // 部署侧两个静态文件: <UPDATE_BASE>/winboot-manifest.json {"version","url","sha256","size"}
-//                    <UPDATE_BASE>/winboot.exe (url 指向它, 可相对)
+//                    <UPDATE_BASE>/winboot.exe (url 指向它, 可相对; TOS 渠道则为 "tos:<file>" 伪协议)
 // 热替换: 运行中的 exe 不能覆写但可以改名 -> 自己改名 .old 让路 -> 新文件就位
 //        -> 拉起新进程 -> 旧进程退出; 新进程启动时清 .old.
 // 注意: UPDATE_BASE 留空 = 关闭 (默认关; 部署自己的更新服务后填写).
@@ -31,6 +33,7 @@ type updateInfo struct {
 	URL     string `json:"url"`
 	SHA256  string `json:"sha256"`
 	Size    int64  `json:"size"`
+	Flavor  string `json:"flavor,omitempty"` // 栈身份 (TOS 清单采纳的门禁; 部署中心清单不校验)
 }
 
 func updateBaseURL() string {
@@ -69,19 +72,43 @@ func CheckUpdate(base string) *updateInfo {
 }
 
 // DownloadUpdate 按清单下载并校验 sha256/size; 成功返回本地临时路径.
+// "tos:<file>" 伪协议走 TOS 渠道 (对象位于发布前缀下, bust 用内容 sha 前 16 位
+// 破 CDN 缓存), 其余按部署中心 HTTP 下载.
 func DownloadUpdate(info *updateInfo, log func(string)) (string, error) {
-	base := updateBaseURL()
-	url := info.URL
-	if url != "" && !strings.Contains(url, "://") {
-		url = base + "/" + url
-	}
-	client := &http.Client{Timeout: 10 * time.Minute}
-	resp, err := client.Get(url)
-	if err != nil {
-		return "", err
-	}
-	defer resp.Body.Close()
 	dest := filepath.Join(os.TempDir(), fmt.Sprintf("winboot_update_%s.exe", info.Version))
+	var body io.ReadCloser
+	if file := strings.TrimPrefix(info.URL, "tos:"); strings.HasPrefix(info.URL, "tos:") && file != "" {
+		c := tosConfigured()
+		if c == nil {
+			return "", fmt.Errorf("TOS 渠道未配置")
+		}
+		bust := ""
+		if len(info.SHA256) >= 16 {
+			bust = strings.ToLower(info.SHA256[:16])
+		}
+		resp, err := tosOpen(c, &http.Client{Timeout: 10 * time.Minute}, c.prefix+file, bust)
+		if err != nil {
+			return "", err
+		}
+		body = resp.Body
+	} else {
+		base := updateBaseURL()
+		url := info.URL
+		if url != "" && !strings.Contains(url, "://") {
+			url = base + "/" + url
+		}
+		resp, err := (&http.Client{Timeout: 10 * time.Minute}).Get(url)
+		if err != nil {
+			return "", err
+		}
+		body = resp.Body
+	}
+	defer body.Close()
+	return saveVerified(body, dest, info, log)
+}
+
+// saveVerified 流式落盘 + 进度日志 + sha256/size 校验 (两个渠道共用).
+func saveVerified(body io.Reader, dest string, info *updateInfo, log func(string)) (string, error) {
 	f, err := os.Create(dest)
 	if err != nil {
 		return "", err
@@ -89,9 +116,9 @@ func DownloadUpdate(info *updateInfo, log func(string)) (string, error) {
 	h := sha256.New()
 	var total int64
 	nextLog := int64(50 << 20)
-	buf := make([]byte, 1 << 20)
+	buf := make([]byte, 1<<20)
 	for {
-		n, rerr := resp.Body.Read(buf)
+		n, rerr := body.Read(buf)
 		if n > 0 {
 			if _, werr := f.Write(buf[:n]); werr != nil {
 				f.Close()

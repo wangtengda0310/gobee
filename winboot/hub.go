@@ -242,11 +242,16 @@ func (h *Hub) maybePrefetch(source *providerInfo) {
 }
 
 // updateWorker 后台检查+下载新版本; 热替换后重启.
-// 源策略: 中心清单 (UPDATE_BASE) 是权威; 局域网同类作镜像 (命中同 version+sha 才用);
-// 中心失联时局域网自治 (同类中版本最新者, 信任=局域网).
+// 源策略: TOS 对象存储清单 (env 配置且同 flavor 才启用) -> 中心清单 (UPDATE_BASE)
+// 是权威; 局域网同类作镜像 (命中同 version+sha 才用); 中心失联时局域网自治
+// (同类中版本最新者, 信任=局域网).
 func (h *Hub) updateWorker() {
 	time.Sleep(8 * time.Second) // 等第一轮发现
-	central := CheckUpdate("")
+	central := TOSCheckUpdate()
+	centralFromTOS := central != nil
+	if !centralFromTOS {
+		central = CheckUpdate("")
+	}
 	centralBase := ConfiguredBase()
 	if central == nil {
 		// 本机配置缺失/失效 (如 DHCP 换网段): 用发现协议学到的中心地址再试一次.
@@ -279,6 +284,9 @@ func (h *Hub) updateWorker() {
 	if adoptedPeerURL != "" {
 		emitLog("更新中心不可用, 采用局域网源 v" + target.Version + " (" + adoptedPeerURL + ")")
 	}
+	if centralFromTOS {
+		emitLog("(新版本清单来自 TOS 对象存储)")
+	}
 	var sources []*updateInfo
 	if m := FindToolMirror(h.discovery.Snapshot(), target.Version, target.SHA256); m != nil {
 		sources = append(sources, &updateInfo{Version: target.Version,
@@ -287,8 +295,9 @@ func (h *Hub) updateWorker() {
 	if central != nil {
 		c := *central
 		// 相对 url 在此绝对化: 中心地址可能来自"发现学到的 base",
-		// 而 DownloadUpdate 的缺省 base 是本机配置 (两者可能不同)
-		if c.URL != "" && !strings.Contains(c.URL, "://") {
+		// 而 DownloadUpdate 的缺省 base 是本机配置 (两者可能不同).
+		// "tos:" 伪协议不是相对地址 (TOS 渠道自带目标), 不能拼 base.
+		if c.URL != "" && !strings.Contains(c.URL, "://") && !strings.HasPrefix(c.URL, "tos:") {
 			c.URL = centralBase + "/" + c.URL
 		}
 		sources = append(sources, &c)

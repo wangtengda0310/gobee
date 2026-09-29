@@ -40,7 +40,7 @@ $ErrorActionPreference = 'Stop'
 # 脚本层版本: 与 version.py 的 TOOL_VERSION 同步 bump (build.py 会校验一致性).
 # GUI 启动时比对: exe 自动更新而仓库脚本只能 git pull, 落后会红字提示
 # (版本漂移已多次引发"exe 新脚本旧"的排障困难).
-$ScriptVersion = '0.3.1'
+$ScriptVersion = '0.4.0'
 
 # server 根 (win_boot.ps1 / .server_id / compose 的根, 仅 up 需要):
 # 环境变量显式指定优先 -> 从脚本位置逐级向上探测 <dir> 与 <dir>\server.
