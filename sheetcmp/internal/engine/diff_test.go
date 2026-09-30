@@ -45,7 +45,7 @@ func TestCompare_CellModified(t *testing.T) {
 	require.NoError(t, err)
 	require.Len(t, d.Diffs, 1)
 	diff := d.Diffs[0]
-	assert.Equal(t, 1, diff.Col)          // 第 2 列 (0-based=1)
+	assert.Equal(t, 1, diff.Col) // 第 2 列 (0-based=1)
 	assert.Equal(t, DiffModified, diff.Kind)
 	assert.Equal(t, "x", diff.Left)
 	assert.Equal(t, "y", diff.Right)
