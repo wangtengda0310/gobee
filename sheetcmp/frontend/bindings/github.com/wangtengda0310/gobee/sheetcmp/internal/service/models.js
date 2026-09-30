@@ -11,6 +11,55 @@ import { Create as $Create } from "@wailsio/runtime";
 import * as engine$0 from "../engine/models.js";
 
 /**
+ * ApplyRequest 批量写回请求: Edits 全部落向同一个目标文件。
+ */
+export class ApplyRequest {
+    /**
+     * Creates a new ApplyRequest instance.
+     * @param {Partial<ApplyRequest>} [$$source = {}] - The source object to create the ApplyRequest.
+     */
+    constructor($$source = {}) {
+        if (!("targetPath" in $$source)) {
+            /**
+             * @member
+             * @type {string}
+             */
+            this["targetPath"] = "";
+        }
+        if (!("sheetName" in $$source)) {
+            /**
+             * @member
+             * @type {string}
+             */
+            this["sheetName"] = "";
+        }
+        if (!("edits" in $$source)) {
+            /**
+             * @member
+             * @type {EditOp[]}
+             */
+            this["edits"] = [];
+        }
+
+        Object.assign(this, $$source);
+    }
+
+    /**
+     * Creates a new ApplyRequest instance from a string or object.
+     * @param {any} [$$source = {}]
+     * @returns {ApplyRequest}
+     */
+    static createFrom($$source = {}) {
+        const $$createField2_0 = $$createType1;
+        let $$parsedSource = typeof $$source === 'string' ? JSON.parse($$source) : $$source;
+        if ("edits" in $$parsedSource) {
+            $$parsedSource["edits"] = $$createField2_0($$parsedSource["edits"]);
+        }
+        return new ApplyRequest(/** @type {Partial<ApplyRequest>} */($$parsedSource));
+    }
+}
+
+/**
  * CellView 差异格视图。Kind: "modified" | "left" | "right"。
  */
 export class CellView {
@@ -104,7 +153,7 @@ export class CompareRequest {
      * @returns {CompareRequest}
      */
     static createFrom($$source = {}) {
-        const $$createField2_0 = $$createType0;
+        const $$createField2_0 = $$createType2;
         let $$parsedSource = typeof $$source === 'string' ? JSON.parse($$source) : $$source;
         if ("keyColumns" in $$parsedSource) {
             $$parsedSource["keyColumns"] = $$createField2_0($$parsedSource["keyColumns"]);
@@ -183,10 +232,10 @@ export class CompareResult {
      * @returns {CompareResult}
      */
     static createFrom($$source = {}) {
-        const $$createField1_0 = $$createType1;
-        const $$createField2_0 = $$createType2;
-        const $$createField3_0 = $$createType4;
-        const $$createField4_0 = $$createType6;
+        const $$createField1_0 = $$createType3;
+        const $$createField2_0 = $$createType4;
+        const $$createField3_0 = $$createType6;
+        const $$createField4_0 = $$createType8;
         let $$parsedSource = typeof $$source === 'string' ? JSON.parse($$source) : $$source;
         if ("headers" in $$parsedSource) {
             $$parsedSource["headers"] = $$createField1_0($$parsedSource["headers"]);
@@ -201,6 +250,67 @@ export class CompareResult {
             $$parsedSource["lines"] = $$createField4_0($$parsedSource["lines"]);
         }
         return new CompareResult(/** @type {Partial<CompareResult>} */($$parsedSource));
+    }
+}
+
+/**
+ * EditOp 一次单元格同步编辑 (前端攒批后经 Apply 一次性写回)。
+ * Row/Col 为目标文件中的 1-based 绝对行列号; 三种互斥形态与 xlsx.CellEdit 一致:
+ * Formula 非空写公式, ClearFormula=true 清公式, 其余写值。
+ */
+export class EditOp {
+    /**
+     * Creates a new EditOp instance.
+     * @param {Partial<EditOp>} [$$source = {}] - The source object to create the EditOp.
+     */
+    constructor($$source = {}) {
+        if (!("row" in $$source)) {
+            /**
+             * @member
+             * @type {number}
+             */
+            this["row"] = 0;
+        }
+        if (!("col" in $$source)) {
+            /**
+             * @member
+             * @type {number}
+             */
+            this["col"] = 0;
+        }
+        if (!("value" in $$source)) {
+            /**
+             * @member
+             * @type {string}
+             */
+            this["value"] = "";
+        }
+        if (!("formula" in $$source)) {
+            /**
+             * @member
+             * @type {string}
+             */
+            this["formula"] = "";
+        }
+        if (!("clearFormula" in $$source)) {
+            /**
+             * @member
+             * @type {boolean}
+             */
+            this["clearFormula"] = false;
+        }
+
+        Object.assign(this, $$source);
+    }
+
+    /**
+     * Creates a new EditOp instance from a string or object.
+     * @param {any} [$$source = {}]
+     * @returns {EditOp}
+     */
+    static createFrom($$source = {}) {
+        let $$parsedSource = typeof $$source === 'string' ? JSON.parse($$source) : $$source;
+        return new EditOp(/** @type {Partial<EditOp>} */($$parsedSource));
     }
 }
 
@@ -258,7 +368,8 @@ export class LineView {
 
 /**
  * RowView 一对对齐行的视图: LeftRow/RightRow 为源表行号 (0=该侧独有),
- * Left/Right 为单元格显示值数组, Diffs 为该行的差异格 (前端高亮用)。
+ * Left/Right 为单元格显示值数组, Diffs 为该行的差异格 (前端高亮用),
+ * LeftFormulas/RightFormulas 为与值数组平行的公式数组 (空串=非公式格, 行同步写公式用)。
  */
 export class RowView {
     /**
@@ -294,6 +405,20 @@ export class RowView {
              */
             this["right"] = [];
         }
+        if (!("leftFormulas" in $$source)) {
+            /**
+             * @member
+             * @type {string[]}
+             */
+            this["leftFormulas"] = [];
+        }
+        if (!("rightFormulas" in $$source)) {
+            /**
+             * @member
+             * @type {string[]}
+             */
+            this["rightFormulas"] = [];
+        }
         if (!("diffs" in $$source)) {
             /**
              * @member
@@ -311,9 +436,11 @@ export class RowView {
      * @returns {RowView}
      */
     static createFrom($$source = {}) {
-        const $$createField2_0 = $$createType1;
-        const $$createField3_0 = $$createType1;
-        const $$createField4_0 = $$createType8;
+        const $$createField2_0 = $$createType3;
+        const $$createField3_0 = $$createType3;
+        const $$createField4_0 = $$createType3;
+        const $$createField5_0 = $$createType3;
+        const $$createField6_0 = $$createType10;
         let $$parsedSource = typeof $$source === 'string' ? JSON.parse($$source) : $$source;
         if ("left" in $$parsedSource) {
             $$parsedSource["left"] = $$createField2_0($$parsedSource["left"]);
@@ -321,20 +448,28 @@ export class RowView {
         if ("right" in $$parsedSource) {
             $$parsedSource["right"] = $$createField3_0($$parsedSource["right"]);
         }
+        if ("leftFormulas" in $$parsedSource) {
+            $$parsedSource["leftFormulas"] = $$createField4_0($$parsedSource["leftFormulas"]);
+        }
+        if ("rightFormulas" in $$parsedSource) {
+            $$parsedSource["rightFormulas"] = $$createField5_0($$parsedSource["rightFormulas"]);
+        }
         if ("diffs" in $$parsedSource) {
-            $$parsedSource["diffs"] = $$createField4_0($$parsedSource["diffs"]);
+            $$parsedSource["diffs"] = $$createField6_0($$parsedSource["diffs"]);
         }
         return new RowView(/** @type {Partial<RowView>} */($$parsedSource));
     }
 }
 
 // Private type creation functions
-const $$createType0 = $Create.Array($Create.Any);
-const $$createType1 = $Create.Array($Create.Any);
-const $$createType2 = engine$0.DiffStats.createFrom;
-const $$createType3 = RowView.createFrom;
-const $$createType4 = $Create.Array($$createType3);
-const $$createType5 = LineView.createFrom;
+const $$createType0 = EditOp.createFrom;
+const $$createType1 = $Create.Array($$createType0);
+const $$createType2 = $Create.Array($Create.Any);
+const $$createType3 = $Create.Array($Create.Any);
+const $$createType4 = engine$0.DiffStats.createFrom;
+const $$createType5 = RowView.createFrom;
 const $$createType6 = $Create.Array($$createType5);
-const $$createType7 = CellView.createFrom;
+const $$createType7 = LineView.createFrom;
 const $$createType8 = $Create.Array($$createType7);
+const $$createType9 = CellView.createFrom;
+const $$createType10 = $Create.Array($$createType9);

@@ -6,6 +6,7 @@ import (
 
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
+	"github.com/xuri/excelize/v2"
 
 	"github.com/wangtengda0310/gobee/sheetcmp/internal/engine"
 	"github.com/wangtengda0310/gobee/sheetcmp/internal/textdiff"
@@ -108,4 +109,62 @@ func TestCompare_MissingPath(t *testing.T) {
 	s := &CompareService{}
 	_, err := s.Compare(CompareRequest{LeftPath: "x"})
 	assert.Error(t, err)
+}
+
+// ---------- Apply (写回) ----------
+
+func TestApply_EndToEnd(t *testing.T) {
+	// 写回端到端: excelize 造夹具 → Apply 改一格 → Compare 确认差异消除
+	dir := t.TempDir()
+	lf, rf := dir+"/l.xlsx", dir+"/r.xlsx"
+	mkXlsx := func(path, b2 string) {
+		f := excelize.NewFile()
+		sh := f.GetSheetName(0)
+		require.NoError(t, f.SetCellValue(sh, "A1", "ID"))
+		require.NoError(t, f.SetCellValue(sh, "B1", "V"))
+		require.NoError(t, f.SetCellValue(sh, "A2", "a"))
+		require.NoError(t, f.SetCellValue(sh, "B2", b2))
+		require.NoError(t, f.SaveAs(path))
+	}
+	mkXlsx(lf, "x")
+	mkXlsx(rf, "y")
+
+	s := &CompareService{}
+	res, err := s.Compare(CompareRequest{LeftPath: lf, RightPath: rf})
+	require.NoError(t, err)
+	require.Equal(t, 1, res.Stats.ModifiedCells)
+
+	// 同步: 左文件 B2 取右侧值 y
+	require.NoError(t, s.Apply(ApplyRequest{
+		TargetPath: lf,
+		Edits:      []EditOp{{Row: 2, Col: 2, Value: "y"}},
+	}))
+	res2, err := s.Compare(CompareRequest{LeftPath: lf, RightPath: rf})
+	require.NoError(t, err)
+	assert.Zero(t, res2.Stats.ModifiedCells)
+}
+
+func TestApply_Guards(t *testing.T) {
+	// 守卫: 缺目标报错 / 空编辑直接成功 / CSV 与非表格目标拒绝
+	s := &CompareService{}
+	assert.Error(t, s.Apply(ApplyRequest{}))
+	assert.NoError(t, s.Apply(ApplyRequest{TargetPath: "a.xlsx"}))
+	assert.Error(t, s.Apply(ApplyRequest{TargetPath: "a.csv", Edits: []EditOp{{Row: 1, Col: 1}}}))
+	assert.Error(t, s.Apply(ApplyRequest{TargetPath: "a.txt", Edits: []EditOp{{Row: 1, Col: 1}}}))
+}
+
+func TestFromSheetDiff_FormulasCarried(t *testing.T) {
+	// 公式数组随 RowView 透传 (行同步写公式依赖)
+	left := &engine.Sheet{Rows: []engine.Row{
+		{Index: 2, Cells: []engine.Cell{{Value: "a"}, {Value: "1", Formula: "=SUM(1)"}}},
+	}}
+	right := &engine.Sheet{Rows: []engine.Row{
+		{Index: 2, Cells: []engine.Cell{{Value: "a"}, {Value: "1"}}},
+	}}
+	d, err := engine.CompareSheets(left, right, engine.AlignOptions{})
+	require.NoError(t, err)
+	res := FromSheetDiff(d, left)
+	require.Len(t, res.Rows, 1)
+	assert.Equal(t, []string{"", "=SUM(1)"}, res.Rows[0].LeftFormulas)
+	assert.Equal(t, []string{"", ""}, res.Rows[0].RightFormulas)
 }

@@ -1,17 +1,22 @@
 <script setup>
 import { ref, computed } from "vue";
 import { Dialogs } from "@wailsio/runtime";
-import { Compare } from "../bindings/github.com/wangtengda0310/gobee/sheetcmp/internal/service/compareservice.js";
+import { Compare, Apply } from "../bindings/github.com/wangtengda0310/gobee/sheetcmp/internal/service/compareservice.js";
+import DiffTable from "./components/DiffTable.vue";
 
-// ---------- 状态 ----------
+// ---------- 比对状态 ----------
 const leftPath = ref("");
 const rightPath = ref("");
-const keyColsText = ref(""); // 关键列输入, 逗号分隔 (0-based)
+const keyColsText = ref("");
 const result = ref(null);
 const error = ref("");
 const busy = ref(false);
 
-// 关键列文本 → 索引数组
+// ---------- 同步编辑状态机 (攒批 + 撤销/重做, 保存时一次性写回) ----------
+const pendingEdits = ref([]); // 待写回: {target,row,col,value,formula,clearFormula}
+const undone = ref([]); // redo 栈
+const onlyDiff = ref(false);
+
 const keyColumns = computed(() =>
   keyColsText.value
     .split(",")
@@ -19,11 +24,21 @@ const keyColumns = computed(() =>
     .filter((n) => !Number.isNaN(n))
 );
 
-// 表格模式: 每行的差异格索引 (col → kind), 供模板 O(1) 查询
-function diffMap(row) {
-  const m = {};
-  for (const d of row.diffs || []) m[d.col] = d;
-  return m;
+// 只看差异: 差异格行 + 单侧独有行
+const filteredRows = computed(() => {
+  if (!result.value || !onlyDiff.value) return result.value?.rows || [];
+  return result.value.rows.filter((r) => (r.diffs && r.diffs.length) || !r.leftRow || !r.rightRow);
+});
+
+// 各侧待写回格键集 (Set<"rowIdx:colIdx">)
+const pendingLeft = computed(() => pendingKeys("left"));
+const pendingRight = computed(() => pendingKeys("right"));
+function pendingKeys(side) {
+  const s = new Set();
+  for (const e of pendingEdits.value) {
+    if (e.target === side) s.add(e.row + ":" + e.col);
+  }
+  return s;
 }
 
 // ---------- 动作 ----------
@@ -52,6 +67,8 @@ async function runCompare() {
       keyColumns: keyColumns.value,
       sheetName: "",
     });
+    pendingEdits.value = []; // 新比对丢弃未保存编辑 (写回后才会走到这里)
+    undone.value = [];
   } catch (e) {
     error.value = String(e);
     result.value = null;
@@ -60,12 +77,60 @@ async function runCompare() {
   }
 }
 
-// 表格模式列数 (取左右最大)
-function cellCount(row) {
-  return Math.max(row.left?.length || 0, row.right?.length || 0);
+// 点击差异格: 目标侧此格取对侧值 (只写目标侧, 原版语义)
+function onSyncCell(side, row, col) {
+  const other = side === "left" ? "right" : "left";
+  const otherVals = row[other] || [];
+  const otherFormulas = row[other === "left" ? "leftFormulas" : "rightFormulas"] || [];
+  const edit = {
+    target: side,
+    row: side === "left" ? row.leftRow : row.rightRow,
+    col: col + 1, // DTO 用 1-based 列号
+    value: otherVals[col] ?? "",
+    formula: otherFormulas[col] || "",
+    clearFormula: false,
+  };
+  // 对侧无公式而目标侧有 → 清除目标公式 (对齐 xlsx 测试固化的语义)
+  const myFormulas = side === "left" ? row.leftFormulas : row.rightFormulas;
+  if (!edit.formula && myFormulas && myFormulas[col]) edit.clearFormula = true;
+
+  pendingEdits.value.push(edit);
+  undone.value = []; // 新操作清空 redo 栈
 }
-function cellAt(arr, i) {
-  return arr && i < arr.length ? arr[i] : "";
+
+function undo() {
+  const e = pendingEdits.value.pop();
+  if (e) undone.value.push(e);
+}
+function redo() {
+  const e = undone.value.pop();
+  if (e) pendingEdits.value.push(e);
+}
+
+// 保存: 按目标文件分组一次性写回, 成功后重新比对刷新视图
+async function saveAll() {
+  if (!pendingEdits.value.length) return;
+  busy.value = true;
+  error.value = "";
+  try {
+    const groups = { left: [], right: [] };
+    for (const e of pendingEdits.value) groups[e.target].push(e);
+    for (const [target, edits] of Object.entries(groups)) {
+      if (!edits.length) continue;
+      await Apply({
+        targetPath: target === "left" ? leftPath.value : rightPath.value,
+        sheetName: "",
+        edits: edits.map((e) => ({
+          row: e.row, col: e.col, value: e.value, formula: e.formula, clearFormula: e.clearFormula,
+        })),
+      });
+    }
+    await runCompare();
+  } catch (e) {
+    error.value = "写回失败: " + String(e);
+  } finally {
+    busy.value = false;
+  }
 }
 </script>
 
@@ -78,11 +143,17 @@ function cellAt(arr, i) {
     <input
       type="text"
       v-model="keyColsText"
-      placeholder="关键列(0-based, 逗号分隔; 留空按行号配对)"
-      style="min-width: 220px"
+      placeholder="关键列(0-based, 逗号分隔)"
+      style="min-width: 180px"
     />
     <button @click="runCompare" :disabled="busy || !leftPath || !rightPath">
-      {{ busy ? "比对中…" : "比对" }}
+      {{ busy ? "处理中…" : "比对" }}
+    </button>
+    <label class="hint"><input type="checkbox" v-model="onlyDiff" /> 只看差异</label>
+    <button @click="undo" :disabled="!pendingEdits.length">撤销</button>
+    <button @click="redo" :disabled="!undone.length">重做</button>
+    <button @click="saveAll" :disabled="busy || !pendingEdits.length" class="primary">
+      保存写回 ({{ pendingEdits.length }})
     </button>
   </div>
 
@@ -96,11 +167,13 @@ function cellAt(arr, i) {
       <b>{{ result.stats.modifiedCells }}</b> ｜ 左独格
       <b>{{ result.stats.leftOnlyCells }}</b> ｜ 右独格
       <b>{{ result.stats.rightOnlyCells }}</b>
+      <span class="hint">　点击差异格 = 此格取对侧值; 保存后写回原文件</span>
     </template>
     <template v-else>
       相同行 <b>{{ result.stats.matchedRows }}</b> ｜ 左独有(删)
       <b>{{ result.stats.leftOnlyRows }}</b> ｜ 右独有(增)
       <b>{{ result.stats.rightOnlyRows }}</b>
+      <span class="hint">　文本模式仅比对, 不支持写回</span>
     </template>
   </div>
 
@@ -108,65 +181,11 @@ function cellAt(arr, i) {
   <div v-if="result?.kind === 'sheet'" class="panes">
     <div class="pane">
       <h3>◀ {{ result.leftName }}</h3>
-      <table>
-        <thead>
-          <tr>
-            <th class="rownum">#</th>
-            <th v-for="(h, i) in result.headers" :key="i">{{ h || "C" + (i + 1) }}</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr
-            v-for="(row, ri) in result.rows"
-            :key="ri"
-            :class="{ 'row-left-only': row.leftRow && !row.rightRow, 'row-right-only': !row.leftRow && row.rightRow }"
-          >
-            <td class="rownum">{{ row.leftRow || "—" }}</td>
-            <td
-              v-for="c in cellCount(row)"
-              :key="c"
-              :class="{
-                'cell-modified': diffMap(row)[c - 1]?.kind === 'modified',
-                'cell-left': diffMap(row)[c - 1]?.kind === 'left',
-                'cell-formula': diffMap(row)[c - 1]?.formulaDiffers,
-              }"
-            >
-              {{ cellAt(row.left, c - 1) }}
-            </td>
-          </tr>
-        </tbody>
-      </table>
+      <DiffTable :result="result" side="left" :rows="filteredRows" :pending="pendingLeft" @sync-cell="(row, col) => onSyncCell('left', row, col)" />
     </div>
     <div class="pane">
       <h3>{{ result.rightName }} ▶</h3>
-      <table>
-        <thead>
-          <tr>
-            <th class="rownum">#</th>
-            <th v-for="(h, i) in result.headers" :key="i">{{ h || "C" + (i + 1) }}</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr
-            v-for="(row, ri) in result.rows"
-            :key="ri"
-            :class="{ 'row-left-only': row.leftRow && !row.rightRow, 'row-right-only': !row.leftRow && row.rightRow }"
-          >
-            <td class="rownum">{{ row.rightRow || "—" }}</td>
-            <td
-              v-for="c in cellCount(row)"
-              :key="c"
-              :class="{
-                'cell-modified': diffMap(row)[c - 1]?.kind === 'modified',
-                'cell-right': diffMap(row)[c - 1]?.kind === 'right',
-                'cell-formula': diffMap(row)[c - 1]?.formulaDiffers,
-              }"
-            >
-              {{ cellAt(row.right, c - 1) }}
-            </td>
-          </tr>
-        </tbody>
-      </table>
+      <DiffTable :result="result" side="right" :rows="filteredRows" :pending="pendingRight" @sync-cell="(row, col) => onSyncCell('right', row, col)" />
     </div>
   </div>
 
@@ -175,8 +194,7 @@ function cellAt(arr, i) {
     <div class="pane">
       <h3>◀ {{ result.leftName }}</h3>
       <pre class="linelist"><span
-        v-for="(ln, i) in result.lines"
-        :key="i"
+        v-for="(ln, i) in result.lines" :key="i"
         :class="{ 'line-left': ln.kind === 'left' }"
       ><span class="rownum">{{ ln.leftIdx || "" }}</span> {{ ln.text }}
 </span></pre>
@@ -184,8 +202,7 @@ function cellAt(arr, i) {
     <div class="pane">
       <h3>{{ result.rightName }} ▶</h3>
       <pre class="linelist"><span
-        v-for="(ln, i) in result.lines"
-        :key="i"
+        v-for="(ln, i) in result.lines" :key="i"
         :class="{ 'line-right': ln.kind === 'right' }"
       ><span class="rownum">{{ ln.rightIdx || "" }}</span> {{ ln.text }}
 </span></pre>

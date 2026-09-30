@@ -123,6 +123,31 @@ td.cell-formula {
   outline: 2px solid #e06c75;
 }
 
+/* 待写回标记 (点击同步后 ✓) */
+td.cell-pending {
+  outline: 2px dashed #61afef;
+}
+.cell-pending .pend-mark {
+  color: #61afef;
+  margin-left: 4px;
+}
+td.cell-syncable {
+  cursor: pointer;
+}
+td.cell-syncable:hover {
+  filter: brightness(1.35);
+}
+
+/* 提示文字 */
+.hint {
+  color: #565a66;
+  font-size: 12px;
+  user-select: none;
+}
+.toolbar .primary {
+  background: #3f7a4e;
+}
+
 /* 文本模式 */
 .line-equal {
   color: #9aa0ac;

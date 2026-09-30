@@ -8,9 +8,11 @@ export {
 };
 
 export {
+    ApplyRequest,
     CellView,
     CompareRequest,
     CompareResult,
+    EditOp,
     LineView,
     RowView
 } from "./models.js";

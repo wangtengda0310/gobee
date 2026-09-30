@@ -16,6 +16,16 @@ import { Call as $Call, CancellablePromise as $CancellablePromise, Create as $Cr
 import * as $models from "./models.js";
 
 /**
+ * Apply 把前端累积的同步编辑原位写回目标文件 (GUI"保存"调用)。
+ * 只支持 xlsx 目标 (CSV 为只读比对); 空编辑列表直接返回。
+ * @param {$models.ApplyRequest} req
+ * @returns {$CancellablePromise<void>}
+ */
+export function Apply(req) {
+    return $Call.ByID(590522699, req);
+}
+
+/**
  * Compare 执行比对: 按左文件扩展名分流 → 表格模式 (xlsx.Load/LoadCSV + engine)
  * 或文本模式 (readLines + textdiff) → 转视图 DTO。
  * @param {$models.CompareRequest} req
