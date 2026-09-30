@@ -1,0 +1,148 @@
+/* sheetcmp 全局样式: 深色主题, 双栏对比界面 */
+* {
+  box-sizing: border-box;
+}
+html,
+body,
+#app {
+  margin: 0;
+  height: 100%;
+  font-family: "Segoe UI", "Microsoft YaHei", sans-serif;
+  font-size: 13px;
+  background: #16171d;
+  color: #d7dae0;
+}
+
+/* 工具栏 */
+.toolbar {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  padding: 8px 12px;
+  border-bottom: 1px solid #2a2c35;
+  flex-wrap: wrap;
+}
+.toolbar input[type="text"] {
+  background: #1f2129;
+  border: 1px solid #33363f;
+  color: #d7dae0;
+  border-radius: 4px;
+  padding: 4px 8px;
+  min-width: 260px;
+}
+.toolbar button {
+  background: #2d5b88;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  padding: 5px 14px;
+  cursor: pointer;
+}
+.toolbar button:disabled {
+  background: #33363f;
+  cursor: not-allowed;
+}
+
+/* 统计栏 */
+.stats {
+  padding: 4px 12px;
+  border-bottom: 1px solid #2a2c35;
+  color: #9aa0ac;
+}
+.stats b {
+  color: #e6b450;
+  font-weight: 600;
+}
+
+/* 主体: 双栏单滚动容器 (天然同步滚动) */
+.panes {
+  display: flex;
+  height: calc(100% - 76px);
+  overflow: auto;
+}
+.pane {
+  flex: 1;
+  min-width: 0;
+}
+.pane + .pane {
+  border-left: 1px solid #2a2c35;
+}
+.pane h3 {
+  margin: 0;
+  padding: 6px 10px;
+  font-size: 12px;
+  color: #9aa0ac;
+  background: #1b1d24;
+  position: sticky;
+  top: 0;
+}
+
+/* 表格 */
+table {
+  border-collapse: collapse;
+  width: 100%;
+}
+th,
+td {
+  border: 1px solid #262932;
+  padding: 3px 8px;
+  white-space: nowrap;
+  text-align: left;
+}
+th {
+  background: #1b1d24;
+  position: sticky;
+  top: 30px;
+  color: #9aa0ac;
+  font-weight: 500;
+}
+.rownum {
+  color: #565a66;
+  font-size: 11px;
+  user-select: none;
+}
+
+/* 差异高亮 */
+tr.row-left-only td {
+  background: #3a2230;
+}
+tr.row-right-only td {
+  background: #1e3326;
+}
+td.cell-modified {
+  background: #4a3a1a;
+  color: #ffd479;
+}
+td.cell-left {
+  background: #4a2233;
+}
+td.cell-right {
+  background: #1e4a30;
+}
+td.cell-formula {
+  outline: 2px solid #e06c75;
+}
+
+/* 文本模式 */
+.line-equal {
+  color: #9aa0ac;
+}
+.line-left {
+  background: #3a2230;
+  display: block;
+}
+.line-right {
+  background: #1e3326;
+  display: block;
+}
+pre.linelist {
+  margin: 0;
+  padding: 8px 12px;
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.error {
+  color: #e06c75;
+  padding: 8px 12px;
+}

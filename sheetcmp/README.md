@@ -45,6 +45,25 @@ merge tool 形态（GUI 解决冲突后写回）待桌面版完成后接入。
 1. [x] engine：行对齐 + 单元格 diff（18 用例）
 2. [x] xlsx 读写层（excelize：Load/ApplyCellEdits 原位写回/LoadCSV，9 用例）
 3. [x] textdiff 行 diff（go-diff，6 用例）+ sheetcmp-merge CLI
-4. [ ] Wails v3 + Vue3 双栏界面（同步滚动/差异高亮/关键列选择）
+4. [x] Wails v3 + Vue3 双栏界面（单滚动容器同步滚动/差异高亮/公式差异红框/文本模式）
 5. [ ] 行同步 / 撤销重做 / 只看差异（缓存复用）
 6. [ ] merge GUI 形态 + Git/UGit 接入
+
+## 开发说明
+
+```bash
+# GUI 本机构建
+cd frontend && npm install && npm run build && cd ..
+go build -o bin/sheetcmp.exe ./cmd/sheetcmp
+
+# 服务方法变更后重新生成前端 bindings
+# ⚠ -d 必须指向 frontend/bindings 子目录: -clean 会清空整个 -d 目录,
+#   误写 -d frontend 会把 node_modules/package.json 全部清掉 (实测踩坑)
+wails3 generate bindings -clean -d frontend/bindings ./cmd/sheetcmp
+
+# 前端开发热更 (先起 vite 再跑 go, 或用 wails3 dev)
+cd frontend && npm run dev
+```
+
+架构注：根包 sheetcmp 集中 go:embed（README + frontend/dist），
+GUI 主程序在 cmd/sheetcmp、CLI 在 cmd/sheetcmp-merge，二者共用根包资源与服务层。
