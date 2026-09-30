@@ -28,10 +28,23 @@ GUI、CLI、merge 工具三种形态共用同一 engine。
   仅左 = left-only，仅右 = right-only。
 - **行同步**：只写目标侧，不动源侧（与界面上"左右"的语义解耦）。
 
+## CLI (sheetcmp-merge)
+
+```bash
+go run ./cmd/sheetcmp-merge -key 0 left.xlsx right.xlsx   # 表格模式, ID 列作关键列
+go run ./cmd/sheetcmp-merge a.txt b.txt                   # 文本模式 (行 diff)
+go run ./cmd/sheetcmp-merge -doc                          # 查看本 README
+```
+
+文件按扩展名分流（.xlsx/.xlsm/.csv → 表格模式；其余 → 文本行 diff）。
+退出码：0=无差异，1=有差异，2=用法/错误——可直接作 git difftool 使用；
+merge tool 形态（GUI 解决冲突后写回）待桌面版完成后接入。
+
 ## 开发阶段
 
-1. [进行中] engine 测试用例 → 审核后实现
-2. xlsx 读写层（excelize）
-3. Wails v3 + Vue3 双栏界面
-4. 行同步 / 撤销重做 / 只看差异（缓存复用）
-5. merge CLI + Git/UGit 接入
+1. [x] engine：行对齐 + 单元格 diff（18 用例）
+2. [x] xlsx 读写层（excelize：Load/ApplyCellEdits 原位写回/LoadCSV，9 用例）
+3. [x] textdiff 行 diff（go-diff，6 用例）+ sheetcmp-merge CLI
+4. [ ] Wails v3 + Vue3 双栏界面（同步滚动/差异高亮/关键列选择）
+5. [ ] 行同步 / 撤销重做 / 只看差异（缓存复用）
+6. [ ] merge GUI 形态 + Git/UGit 接入
