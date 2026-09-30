@@ -15,7 +15,33 @@ import (
 )
 
 // CompareService 比对服务 (wails 绑定: 方法被前端直接调用)。
-type CompareService struct{}
+// Startup 由 main 注入 (merge 模式启动信息); QuitFn 由 main 注入 (带退出码退出应用)。
+type CompareService struct {
+	Startup *StartupInfo
+	QuitFn  func(code int)
+}
+
+// StartupInfo 启动模式信息: merge 模式携带预载文件, 前端 mount 时经 GetStartup 拉取。
+type StartupInfo struct {
+	Mode      string `json:"mode"` // "merge" | "normal"
+	LeftPath  string `json:"leftPath"`
+	RightPath string `json:"rightPath"`
+}
+
+// GetStartup 返回启动模式信息 (前端 mount 时调用一次)。
+func (s *CompareService) GetStartup() *StartupInfo {
+	if s.Startup == nil {
+		return &StartupInfo{Mode: "normal"}
+	}
+	return s.Startup
+}
+
+// Quit 以指定退出码退出应用 (merge 模式: 0=已解决, 1=放弃; 由 main 注入实现)。
+func (s *CompareService) Quit(code int) {
+	if s.QuitFn != nil {
+		s.QuitFn(code)
+	}
+}
 
 // CompareRequest 前端比对请求。文件类型按左文件扩展名分流 (与 CLI 一致)。
 type CompareRequest struct {

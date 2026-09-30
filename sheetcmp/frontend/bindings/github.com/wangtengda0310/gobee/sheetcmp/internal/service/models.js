@@ -461,6 +461,52 @@ export class RowView {
     }
 }
 
+/**
+ * StartupInfo 启动模式信息: merge 模式携带预载文件, 前端 mount 时经 GetStartup 拉取。
+ */
+export class StartupInfo {
+    /**
+     * Creates a new StartupInfo instance.
+     * @param {Partial<StartupInfo>} [$$source = {}] - The source object to create the StartupInfo.
+     */
+    constructor($$source = {}) {
+        if (!("mode" in $$source)) {
+            /**
+             * "merge" | "normal"
+             * @member
+             * @type {string}
+             */
+            this["mode"] = "";
+        }
+        if (!("leftPath" in $$source)) {
+            /**
+             * @member
+             * @type {string}
+             */
+            this["leftPath"] = "";
+        }
+        if (!("rightPath" in $$source)) {
+            /**
+             * @member
+             * @type {string}
+             */
+            this["rightPath"] = "";
+        }
+
+        Object.assign(this, $$source);
+    }
+
+    /**
+     * Creates a new StartupInfo instance from a string or object.
+     * @param {any} [$$source = {}]
+     * @returns {StartupInfo}
+     */
+    static createFrom($$source = {}) {
+        let $$parsedSource = typeof $$source === 'string' ? JSON.parse($$source) : $$source;
+        return new StartupInfo(/** @type {Partial<StartupInfo>} */($$parsedSource));
+    }
+}
+
 // Private type creation functions
 const $$createType0 = EditOp.createFrom;
 const $$createType1 = $Create.Array($$createType0);

@@ -14,5 +14,6 @@ export {
     CompareResult,
     EditOp,
     LineView,
-    RowView
+    RowView,
+    StartupInfo
 } from "./models.js";

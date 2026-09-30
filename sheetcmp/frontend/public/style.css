@@ -148,6 +148,18 @@ td.cell-syncable:hover {
   background: #3f7a4e;
 }
 
+/* 合并模式 */
+.merge-banner {
+  background: #4a3a1a;
+  color: #ffd479;
+  padding: 6px 12px;
+  border-bottom: 1px solid #2a2c35;
+  font-size: 12px;
+}
+.toolbar .finish {
+  background: #7a4e3f;
+}
+
 /* 文本模式 */
 .line-equal {
   color: #9aa0ac;

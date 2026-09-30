@@ -168,3 +168,31 @@ func TestFromSheetDiff_FormulasCarried(t *testing.T) {
 	assert.Equal(t, []string{"", "=SUM(1)"}, res.Rows[0].LeftFormulas)
 	assert.Equal(t, []string{"", ""}, res.Rows[0].RightFormulas)
 }
+
+// ---------- 启动模式与受控退出 ----------
+
+func TestGetStartup(t *testing.T) {
+	// 无注入 → normal; merge 注入 → 原样返回 (前端 mount 拉取)
+	s := &CompareService{}
+	assert.Equal(t, "normal", s.GetStartup().Mode)
+
+	s2 := &CompareService{Startup: &StartupInfo{
+		Mode: "merge", LeftPath: "remote.xlsx", RightPath: "merged.xlsx",
+	}}
+	got := s2.GetStartup()
+	assert.Equal(t, "merge", got.Mode)
+	assert.Equal(t, "remote.xlsx", got.LeftPath)
+	assert.Equal(t, "merged.xlsx", got.RightPath)
+}
+
+func TestQuit(t *testing.T) {
+	// 受控退出: QuitFn 被调用并携带退出码; 未注入时安全空操作
+	codes := []int{}
+	s := &CompareService{QuitFn: func(c int) { codes = append(codes, c) }}
+	s.Quit(0)
+	s.Quit(1)
+	assert.Equal(t, []int{0, 1}, codes)
+
+	s2 := &CompareService{} // 无 QuitFn 不 panic
+	s2.Quit(0)
+}

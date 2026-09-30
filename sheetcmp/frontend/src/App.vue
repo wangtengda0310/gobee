@@ -1,7 +1,7 @@
 <script setup>
-import { ref, computed } from "vue";
+import { ref, computed, onMounted } from "vue";
 import { Dialogs } from "@wailsio/runtime";
-import { Compare, Apply } from "../bindings/github.com/wangtengda0310/gobee/sheetcmp/internal/service/compareservice.js";
+import { Compare, Apply, GetStartup, Quit } from "../bindings/github.com/wangtengda0310/gobee/sheetcmp/internal/service/compareservice.js";
 import DiffTable from "./components/DiffTable.vue";
 
 // ---------- 比对状态 ----------
@@ -11,6 +11,7 @@ const keyColsText = ref("");
 const result = ref(null);
 const error = ref("");
 const busy = ref(false);
+const mergeMode = ref(false); // -MergeTool 启动: 完成=退出码0, 关窗=退出码1
 
 // ---------- 同步编辑状态机 (攒批 + 撤销/重做, 保存时一次性写回) ----------
 const pendingEdits = ref([]); // 待写回: {target,row,col,value,formula,clearFormula}
@@ -132,9 +133,40 @@ async function saveAll() {
     busy.value = false;
   }
 }
+
+// 完成合并: 先保存全部待写编辑, 成功后以退出码 0 退出 (git trustExitCode)
+async function finishMerge() {
+  try {
+    if (pendingEdits.value.length) await saveAll();
+    Quit(0);
+  } catch (e) {
+    error.value = "完成合并失败: " + String(e);
+  }
+}
+
+// 启动模式: merge 形态 (-MergeTool) 预载文件并自动比对
+onMounted(async () => {
+  try {
+    const st = await GetStartup();
+    if (st && st.mode === "merge") {
+      mergeMode.value = true;
+      leftPath.value = st.leftPath;
+      rightPath.value = st.rightPath;
+      await runCompare();
+    }
+  } catch (e) {
+    error.value = String(e);
+  }
+});
 </script>
 
 <template>
+  <!-- 合并模式横幅: 左=REMOTE(对方改动), 右=MERGED(本地副本, 写回目标) -->
+  <div v-if="mergeMode" class="merge-banner">
+    合并模式: 左为对方改动 (REMOTE), 右为本地副本 (MERGED)。解决冲突后点「完成合并」；
+    直接关窗 = 放弃 (git 保留冲突状态)。
+  </div>
+
   <div class="toolbar">
     <button @click="pick('left')">打开左…</button>
     <input type="text" v-model="leftPath" placeholder="左文件路径" />
@@ -154,6 +186,9 @@ async function saveAll() {
     <button @click="redo" :disabled="!undone.length">重做</button>
     <button @click="saveAll" :disabled="busy || !pendingEdits.length" class="primary">
       保存写回 ({{ pendingEdits.length }})
+    </button>
+    <button v-if="mergeMode" @click="finishMerge" :disabled="busy" class="finish">
+      ✓ 完成合并
     </button>
   </div>
 

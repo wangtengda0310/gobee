@@ -47,7 +47,26 @@ merge tool 形态（GUI 解决冲突后写回）待桌面版完成后接入。
 3. [x] textdiff 行 diff（go-diff，6 用例）+ sheetcmp-merge CLI
 4. [x] Wails v3 + Vue3 双栏界面（单滚动容器同步滚动/差异高亮/公式差异红框/文本模式）
 5. [x] 行同步（点击差异格取对侧值, 攒批）/ 撤销重做 / 只看差异
-6. [ ] merge GUI 形态 + Git/UGit 接入
+6. [x] merge GUI 形态 + Git/UGit 接入
+
+## Git / UGit 接入
+
+```powershell
+# 一键配置当前用户的差异/合并工具 (需先构建 bin/sheetcmp.exe)
+powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\configure-git.ps1
+```
+
+写入的配置（信任退出码，UGit/GitGUI 生效，已打开的 UGit 需重启）：
+
+```ini
+[difftool "sheetcmp"]   cmd = "<exe>" "$LOCAL" "$REMOTE"
+[mergetool "sheetcmp"]  cmd = "<exe>" -MergeTool "$REMOTE" "$MERGED"
+                       trustExitCode = true
+diff.guitool = sheetcmp ; merge.guitool = sheetcmp
+```
+
+合并模式语义：左=REMOTE（对方改动）、右=MERGED（本地副本，写回目标）；
+「✓ 完成合并」= 保存全部待写编辑 + 退出码 0；直接关窗 = 放弃（退出码 1，git 保留冲突状态）。
 
 ## 同步语义
 

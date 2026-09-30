@@ -4,6 +4,7 @@
 
 /**
  * CompareService 比对服务 (wails 绑定: 方法被前端直接调用)。
+ * Startup 由 main 注入 (merge 模式启动信息); QuitFn 由 main 注入 (带退出码退出应用)。
  * @module
  */
 
@@ -37,6 +38,27 @@ export function Compare(req) {
     }));
 }
 
+/**
+ * GetStartup 返回启动模式信息 (前端 mount 时调用一次)。
+ * @returns {$CancellablePromise<$models.StartupInfo | null>}
+ */
+export function GetStartup() {
+    return $Call.ByID(1970733096).then(/** @type {($result: any) => any} */(($result) => {
+        return $$createType3($result);
+    }));
+}
+
+/**
+ * Quit 以指定退出码退出应用 (merge 模式: 0=已解决, 1=放弃; 由 main 注入实现)。
+ * @param {number} code
+ * @returns {$CancellablePromise<void>}
+ */
+export function Quit(code) {
+    return $Call.ByID(1331850278, code);
+}
+
 // Private type creation functions
 const $$createType0 = $models.CompareResult.createFrom;
 const $$createType1 = $Create.Nullable($$createType0);
+const $$createType2 = $models.StartupInfo.createFrom;
+const $$createType3 = $Create.Nullable($$createType2);
