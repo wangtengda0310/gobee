@@ -8,7 +8,7 @@ require (
 )
 
 require (
-	github.com/gopacket/gopacket v1.7.0 // indirect
+	github.com/gopacket/gopacket v1.7.2 // indirect
 	golang.org/x/sys v0.47.0 // indirect
 )
 
